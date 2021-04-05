@@ -1,23 +1,33 @@
 import React from 'react';
-import makeStyles from '@babel/core'
-import grey from '@babel/core'
-import useTheme from '@babel/core'
-import AppBar from '@babel/core'
-import Divider from '@babel/core'
-import Drawer from '@babel/core'
-import ListItem from '@babel/core'
-import ListItemIcon from '@babel/core'
-import List from '@babel/core'
-import HomeIcon from '@babel/core'
-import SettingsApplicationsIcon from '@babel/core'
-import DriveEtaIcon from '@babel/core'
-import VehicleEntryBack from '@babel/core'
-import CssBaseline from '@babel/core'
-import clsx from '@babel/core'
-import Toolbar from '@babel/core'
-import IconButton from '@babel/core'
-import MenuIcon from '@babel/core'
-import Typography from '@babel/core'
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DriveEtaIcon from '@material-ui/icons/DriveEta';
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import { red , grey} from '@material-ui/core/colors';
+// import DashboardBtns from './DashboardBtns';
+import { withRouter } from 'react-router';
+import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+// import VehicleEntryBack from '../../../images/copy.JPG';
+import LoginImg from '../../images/loginBack.jpg';
+import { Typography } from '@material-ui/core';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+
 
 const drawerWidth = 240;
 
@@ -123,8 +133,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const SideNav = () => {
+const SideNav = (props) => {
     const { history, children, title } = props;
+    console.log(history);
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -139,7 +150,7 @@ const SideNav = () => {
 
     return (
         <div className={classes.root}
-            style={{ backgroundImage: `url(${VehicleEntryBack})`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
+            style={{ backgroundImage: `url(${LoginImg})`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
             <CssBaseline />
             <AppBar
                 position="fixed"
@@ -245,4 +256,4 @@ const SideNav = () => {
 }
 
 
-export default SideNav
+export default (SideNav)

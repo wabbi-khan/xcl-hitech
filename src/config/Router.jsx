@@ -5,13 +5,16 @@ import {
     Route,
     Link
   } from "react-router-dom";
+import Sidenav from '../dashboard/SideNav/Sidenav';
+import Login from '../login/Login';
 
 
 const Router = () => {
     return (
         <BrowserRouter>
             <Router>
-                <Router exact path="/" />
+                <Router exact path="/" component={Login}/>
+                <Router exact path="/sidenav" component={Sidenav}/>
             </Router>
         </BrowserRouter>
     )
