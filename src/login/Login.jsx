@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     loginBox: {
         marginLeft: 'auto',
         marginRight: 'auto',
+        paddingTop: 20,
         top: '18%',
         position: 'relative',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -82,7 +83,8 @@ const Login = (props) => {
         // <Router>
             <div style={{ backgroundImage: `url(${LoginImg})`, backgroundAttachment: 'fixed', backgroundSize: 'cover', width: 'auto', height: '815px' }}>
                 <div className={classes.loginBox}>
-                    <img src={Logo} alt="" width="70" height="70" style={{ marginTop: 40, }} />
+                    {/* <img src={Logo} alt="" width="70" height="70" style={{ marginTop: 40, }} /> */}
+                    <h2 style={{ color: 'whitesmoke',}}>HI-TECH</h2>
                     <form className={classes.root} noValidate autoComplete="off">
                         <div className={classes.input1}>
                             <CssTextField
