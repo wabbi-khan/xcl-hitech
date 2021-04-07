@@ -456,7 +456,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import HomeIcon from '@material-ui/icons/Home';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -467,6 +466,7 @@ import Collapse from '@material-ui/core/Collapse';
 import LabelIcon from '@material-ui/icons/Label';
 import StoreIcon from '@material-ui/icons/Store';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { withRouter } from 'react-router-dom';
 
 const drawerWidth = 270;
 
@@ -541,8 +541,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Sidenav(props) {
-    const { title, children } = props;
+ function Sidenav(props) {
+    const { title, history,  children } = props;
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -556,9 +556,9 @@ export default function Sidenav(props) {
         setOpen(false);
     };
 
-    function handleDropdown1() {
-        setOpen1(!open1)
-      }
+    // function handleDropdown1() {
+    //     setOpen1(!open1);
+    // }
 
     return (
         <div className={classes.root}>
@@ -611,18 +611,33 @@ export default function Sidenav(props) {
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
                                 {index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText
+                                primary={text}
+                                onClick={() => {
+                                    history.push('/dashboard')
+                                }} 
+                            />
                         </ListItem>
                     ))}
                 </List>
                 <Divider />
                 <List>
                     {['Purchase'].map((text, index) => (
-                        <ListItem button key={text} onClick={handleDropdown1}>
+                        <ListItem
+                            button key={text}
+                            onClick={() => {
+                                setOpen1(!open1)            
+                            }}
+                        >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
                                 {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText
+                                primary={text}
+                                onClick={() => {
+                                    history.push('/purchasedashboard')                            
+                                }}
+                            />
                             {open1 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
 
@@ -630,8 +645,13 @@ export default function Sidenav(props) {
                     <Collapse in={open1} timeout="auto" unmountOnExit>
                         <Divider />
                         <List component="div" disablePadding>
-                            <ListItem button className={classes.menuItem}>
-                                <ListItemText inset primary="Material" />
+                            <ListItem button
+                                      className={classes.menuItem}
+                                      onClick={() => {
+                                        history.push('/purchase/material')
+                                      }}
+                            >
+                            <ListItemText inset primary="Material" />
                             </ListItem>
                             <ListItem button className={classes.menuItem}>
                                 <ListItemText inset primary="Vendors" />
@@ -704,3 +724,4 @@ export default function Sidenav(props) {
         </div>
     );
 }
+export default withRouter(Sidenav);

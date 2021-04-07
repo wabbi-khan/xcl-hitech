@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import LoginImg from '../images/loginBack.jpg';
-import Logo from '../images/logo.png';
 import Button from '@material-ui/core/Button';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { BrowserRouter as Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -119,16 +118,14 @@ const Login = (props) => {
                             />
                         </div>
                         <Button variant="outlined" className={classes.loginBtn}
-                            // onClick={
-                                //     () => {
-                                    //         history.push('/sidenav')
-                            //     }
-                            // }
+                            onClick={
+                                    () => {
+                                            history.push('/dashboard')
+                                }
+                            }
                         >
-                                <Link to="/sidenav" exact>
                             Login
                                 
-                                </Link>
                         </Button>
                         {/* <div className={classes.loginButtonBox}>
                     </div> */}
@@ -139,4 +136,4 @@ const Login = (props) => {
     )
 }
 
-export default (Login)
+export default withRouter(Login)
