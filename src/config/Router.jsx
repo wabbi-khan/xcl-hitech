@@ -5,6 +5,7 @@ import {
     Route,
     Link
   } from "react-router-dom";
+import PurchaseDashboard from '../dashboard/purchase/PurchaseDashboard';
 import Sidenav from '../dashboard/SideNav/Sidenav';
 import Login from '../login/Login';
 
@@ -15,6 +16,7 @@ const Router = () => {
             <Router>
                 <Router exact path="/" component={Login}/>
                 <Router exact path="/sidenav" component={Sidenav}/>
+                <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>
             </Router>
         </BrowserRouter>
     )

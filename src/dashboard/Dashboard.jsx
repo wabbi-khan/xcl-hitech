@@ -12,6 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import DashboardImg1 from '../images/1.PNG'
 import DashboardImg2 from '../images/2.PNG'
 import DashboardImg3 from '../images/3.PNG'
+import DashboardImg4 from '../images/4.PNG'
+import DashboardImg5 from '../images/5.PNG'
+import DashboardImg6 from '../images/6.PNG'
+import DashboardImg7 from '../images/7.PNG'
 import Sidenav from './SideNav/Sidenav';
 
 const useStyles = makeStyles({
@@ -23,8 +27,6 @@ const useStyles = makeStyles({
     // },
     root: {
         flexGrow: 1,
-        marginRight: 300,
-        
     },
     paper: {
         // padding: theme.spacing(2),
@@ -37,36 +39,44 @@ const Dashboard = () => {
     const classes = useStyles();
 
     return (
-        <Sidenav>
-        <div>
-            <div className={classes.root}>
-                <Grid container spacing={7}>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <img src={DashboardImg1} alt=""/>
+        <Sidenav title={ 'Dashboard' }>
+            <div>
+                <div className={classes.root}>
+                    <Grid container spacing={3} style={{ marginTop: 10,}}>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg4} alt="" />
+                        </Grid>
+                        
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg5} alt="" />
+                        </Grid>
+                        
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg6} alt="" />
+                        </Grid>
+                        
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg7} alt="" />
+                        </Grid>
                     </Grid>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <img src={DashboardImg2} alt=""/>
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <img src={DashboardImg3} alt=""/>
+                    <Grid container spacing={3} style={{ marginTop: 70,}}>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg1} alt="" />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg2} alt="" />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg3} alt="" />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <img src={DashboardImg2} alt="" />
+                        </Grid>
                     </Grid>
                     
-                </Grid>
-                <Grid container spacing={7}>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <img src={DashboardImg1} alt=""/>
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <img src={DashboardImg2} alt=""/>
-                    </Grid>
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <img src={DashboardImg3} alt=""/>
-                    </Grid>
-                    
-                </Grid>
-            </div>
-            {/* <h1>saheeer</h1> */}
-            {/* <Card className={classes.root}>
+                </div>
+                {/* <h1>saheeer</h1> */}
+                {/* <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia
                         component="img"
@@ -94,7 +104,7 @@ const Dashboard = () => {
                     </Button>
                 </CardActions>
             </Card> */}
-        </div>
+            </div>
         </Sidenav>
     )
 }
