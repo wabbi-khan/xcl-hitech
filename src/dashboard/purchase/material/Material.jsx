@@ -36,7 +36,7 @@ function createData(No, name, Action) {
 
 const rows = [
     createData(1, 'Item1'),
-   
+
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +62,11 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     table: {
-        minWidth: 700,
+        minWidth: 600,
+    },
+    dataTable: {
+        marginTop: 40,
+
     },
 }));
 
@@ -86,28 +90,101 @@ const Material = () => {
                         </Button>
                     </div>
                 </Container>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>No</StyledTableCell>
-                                <StyledTableCell align="center">Material Name</StyledTableCell>
-                                <StyledTableCell align="center">Action</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow key={row.name}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {row.No}
+                <div className={classes.dataTable}>
+                    <TableContainer className={classes.tableContainer}>
+                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                            <TableHead>
+                                <TableRow hover role="checkbox">
+                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                    <StyledTableCell align="center">Material Name</StyledTableCell>
+                                    <StyledTableCell align="center">Action</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody >
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Item 1</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                onClick={() => {
+
+                                                }}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.name}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.Action}</StyledTableCell>
                                 </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Item 2</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                onClick={() => {
+
+                                                }}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Item 3</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                onClick={() => {
+
+                                                }}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">4.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Item 4</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                onClick={() => {
+
+                                                }}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
             </div>
         </Sidenav>
     )

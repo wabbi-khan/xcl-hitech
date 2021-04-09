@@ -10,9 +10,7 @@ import Login from './login/Login';
 import PurchaseDashboard from './dashboard/purchase/PurchaseDashboard';
 import Material from './dashboard/purchase/material/Material';
 import Dashboard from './dashboard/Dashboard';
-
-
-
+import Vendors from './dashboard/purchase/vendors/Vendors';
 
 
 function App() {
@@ -22,6 +20,7 @@ function App() {
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/purchasedashboard" component={PurchaseDashboard} />
       <Route exact path="/purchase/material" component={Material} />
+      <Route exact path="/purchase/vendors" component={Vendors} />
     </BrowserRouter>
   );
 }

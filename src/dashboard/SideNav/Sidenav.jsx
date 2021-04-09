@@ -653,7 +653,12 @@ const useStyles = makeStyles((theme) => ({
                             >
                             <ListItemText inset primary="Material" />
                             </ListItem>
-                            <ListItem button className={classes.menuItem}>
+                            <ListItem button 
+                                      className={classes.menuItem}
+                                      onClick={() => {
+                                          history.push('/purchase/vendors')
+                                      }}
+                            >
                                 <ListItemText inset primary="Vendors" />
                             </ListItem>
                             <ListItem button className={classes.menuItem}>

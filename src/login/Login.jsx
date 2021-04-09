@@ -16,46 +16,53 @@ const useStyles = makeStyles((theme) => ({
             width: '25ch',
         },
     },
+    backImg: {
+        width: 'auto',
+        [theme.breakpoints.up('md')]: {
+            height: 800,
+        },
+        [theme.breakpoints.down('sm')]: {
+            height: 820,
+        },
+    },
     loginBox: {
         marginLeft: 'auto',
         marginRight: 'auto',
-        paddingTop: 20,
-        top: '18%',
+        top: '20%',
         position: 'relative',
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
         [theme.breakpoints.up('md')]: {
             width: '35%',
         },
         [theme.breakpoints.down('sm')]: {
-            width: '100%',
+            width: '90%',
         },
     },
     input1: {
         marginTop: 40,
-        marginLeft: 'auto',
-        marginRight: 'auto',
+
     },
     input2: {
         marginTop: 20,
-        marginLeft: 'auto',
-        marginRight: 'auto',
     },
     loginButtonBox: {
     },
     loginBtn: {
         backgroundColor: '#22A19A',
         margin: 20,
-        marginLeft: 'auto',
-        marginRight: 'auto',
         fontWeight: 'bold',
         color: 'whitesmoke',
-        [theme.breakpoints.down('sm')]: {
-            width: '50%',
-        },
+        
         '&:hover': {
             backgroundColor: '#22A19A',
             opacity: 0.9,
         }
+    },
+    inputField: {
+        width: 350,
+        [theme.breakpoints.down('sm')]: {
+            width: '90%',
+        },
     },
 
 }));
@@ -80,13 +87,63 @@ const Login = (props) => {
 
     return (
         // <Router>
-            <div style={{ backgroundImage: `url(${LoginImg})`, backgroundAttachment: 'fixed', backgroundSize: 'cover', width: 'auto', height: '815px' }}>
-                <div className={classes.loginBox}>
-                    {/* <img src={Logo} alt="" width="70" height="70" style={{ marginTop: 40, }} /> */}
-                    <h2 style={{ color: 'whitesmoke',}}>HI-TECH</h2>
+        <div style={{ backgroundImage: `url(${LoginImg} )`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }} className={classes.backImg}>
+            <div className={classes.loginBox}>
+                <h3 style={{ color: 'whitesmoke', textAlign: 'center', paddingTop: 30, fontWeight: 'bold', }}>HI-TECH</h3>
+                <div className="text-center mt-5">
+                    <CssTextField
+                        className={classes.inputField}
+                        id="outlined-basic" label="Enter Username" variant="outlined"
+                        autoComplete="off"
+                        type="text"
+                        InputLabelProps={{
+                            style: { color: '#fff' },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                            },
+                        }}
+                        onChange={(e) => {
+                            setUsername(e.target.value)
+                        }}
+                    />
+                </div>
+                <div className="text-center mt-3">
+                    <CssTextField
+                        className={classes.inputField}
+                        id="outlined-basic" label="Enter Password" variant="outlined"
+                        autoComplete="off" type="password"
+                        InputLabelProps={{
+                            style: { color: '#fff' },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                            },
+                        }}
+                    />
+                </div>
+                <div className="text-center mt-2">
+                    <Button variant="outlined" className={classes.loginBtn}
+                        onClick={
+                            () => {
+                                history.push('/dashboard')
+                            }
+                        }
+                    >
+                        Login
+                    </Button>
+                </div>
+            </div>
+            {/* <div className={classes.loginBox}>
+                    <img src={Logo} alt="" width="70" height="70" style={{ marginTop: 40, }} />
+                    <h2 style={{ color: 'whitesmoke', textAlign: 'center' }}>HI-TECH</h2>
                     <form className={classes.root} noValidate autoComplete="off">
-                        <div className={classes.input1}>
+                        <div className="ml-auto mr-auto">
+                        <div className={classes.input1} >
                             <CssTextField
+                                className={classes.inputField}
                                 id="outlined-basic" label="Enter Username" variant="outlined"
                                 autoComplete="off"
                                 type="text"
@@ -105,6 +162,7 @@ const Login = (props) => {
                         </div>
                         <div className={classes.input2}>
                             <CssTextField
+                                className={classes.inputField}
                                 id="outlined-basic" label="Enter Password" variant="outlined"
                                 autoComplete="off" type="password"
                                 InputLabelProps={{
@@ -125,13 +183,13 @@ const Login = (props) => {
                             }
                         >
                             Login
-                                
                         </Button>
                         {/* <div className={classes.loginButtonBox}>
                     </div> */}
+            {/* </div>
                     </form>
-                </div>
-            </div>
+                </div> */}
+        </div>
         // </Router>
     )
 }
