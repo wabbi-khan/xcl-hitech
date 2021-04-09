@@ -68,7 +68,34 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 40,
 
     },
+    inputFieldStyle: {
+        [theme.breakpoints.up('md')]: {
+            width: 400,
+
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
+
+        },
+    },
 }));
+
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: 'black',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'black',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'black',
+            },
+        },
+    },
+
+})(TextField);
 
 const Material = () => {
     const classes = useStyles();
@@ -77,10 +104,11 @@ const Material = () => {
         <Sidenav title={'Material'}>
             <div>
                 <Container className={classes.mainContainer}>
-                    <TextField id="outlined-basic"
+                    <CssTextField id="outlined-basic"
                         label="Enter Material Name"
                         variant="outlined"
                         type="text"
+                        className={classes.inputFieldStyle}
                     />
                     <div>
                         <Button variant="outlined" color="primary"
