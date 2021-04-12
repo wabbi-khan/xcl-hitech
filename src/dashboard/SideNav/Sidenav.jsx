@@ -669,13 +669,28 @@ const useStyles = makeStyles((theme) => ({
                             >
                                 <ListItemText inset primary="Supplier Evaluation Form" />
                             </ListItem>
-                            <ListItem button className={classes.menuItem}>
+                            <ListItem button 
+                                      className={classes.menuItem}
+                                      onClick={() => {
+                                          history.push('/purchase/approved_supplier_list')
+                                      }}          
+                            >
                                 <ListItemText inset primary="Approved Supplier List" />
                             </ListItem>
-                            <ListItem button className={classes.menuItem}>
+                            <ListItem button 
+                                      className={classes.menuItem}
+                                      onClick={() => {
+                                          history.push('/purchase/purchase_order')
+                                      }}          
+                            >
                                 <ListItemText inset primary="Purchase Order" />
                             </ListItem>
-                            <ListItem button className={classes.menuItem}>
+                            <ListItem button 
+                                      className={classes.menuItem}
+                                      onClick={() => {
+                                          history.push('/purchase/purchase_order_list')
+                                      }}          
+                            >
                                 <ListItemText inset primary="Purchase Order List" />
                             </ListItem>
                         </List>
