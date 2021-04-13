@@ -106,7 +106,8 @@ const useStyles = makeStyles((theme) => ({
             width: 400,
         },
         [theme.breakpoints.down('sm')]: {
-            width: 200,
+            width: 250,
+            marginLeft: 15,
         },
     },
     inputFieldStyle1: {
@@ -115,7 +116,27 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: 50,
         },
         [theme.breakpoints.down('sm')]: {
-            width: 200,
+            width: 250,
+            marginLeft: 15,
+        },
+    },
+    inputFieldStyle2: {
+        [theme.breakpoints.up('md')]: {
+            width: 100,
+            marginLeft: -70,
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 250,
+            marginLeft: 10,
+        },
+    },
+    questinOne: {
+        [theme.breakpoints.up('md')]: {
+            marginLeft: 30,
+            marginTop: 15,
+        },
+        [theme.breakpoints.down('sm')]: {
+
         },
     },
     select: {
@@ -191,7 +212,7 @@ const SupplierEvalForm = () => {
             <div>
                 <h5 className="text-center">Section-A (Company Data)</h5>
                 <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15,}} >
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Select Vendor Name"
@@ -232,7 +253,7 @@ const SupplierEvalForm = () => {
                     </Grid>
                 </Container>
                 <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15,}} >
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Address"
@@ -254,52 +275,189 @@ const SupplierEvalForm = () => {
                 </Container>
                 <h5 className="text-center mt-5">Section-B (Quality System)</h5>
                 <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15,}} >
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Select Vendor Name"
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>1. Are you registered to ISO 9001/ API?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle}
+                                className={classes.inputFieldStyle2}
                                 select
                                 required
                             >
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Asad</MenuItem>
-                                <MenuItem value={20}>Aneeq</MenuItem>
-                                <MenuItem value={30}>Sagheer</MenuItem>
-                                <MenuItem value={30}>Arsalan</MenuItem>
+                                <MenuItem value={10}>Yes</MenuItem>
+                                <MenuItem value={20}>No</MenuItem>
                             </CssTextField>
                         </Grid>
-                        <Grid item lg={1} md={1}></Grid>
+                    </Grid>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Contact No."
+                        </Grid>
+                        <Grid item lg={7} md={7} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>2. Do you have Quality Management / Quality Assurance System?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle1}
-                            />
-                        </Grid>
-                        <Grid item lg={1}></Grid>
-                        <Grid item lg={1} md={1}></Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                className={classes.inputFieldStyle}
-                                label="Contact Person"
-                                variant="outlined"
-                                type="text"
-                            />
+                                className={classes.inputFieldStyle2}
+                                select
+                                required
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Yes</MenuItem>
+                                <MenuItem value={20}>No</MenuItem>
+                            </CssTextField>
                         </Grid>
                     </Grid>
-                    <div>
-                        <Button variant="outlined" color="primary"
-                            className={classes.addButton}
-                        >
-                            Add Vendor
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>3. Do you perform inspection and testing it?</h5>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>a. Incoming stage?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
+                                variant="outlined"
+                                type="email"
+                                className={classes.inputFieldStyle2}
+                                select
+                                required
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Yes</MenuItem>
+                                <MenuItem value={20}>No</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>b. In process state?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
+                                variant="outlined"
+                                type="email"
+                                className={classes.inputFieldStyle2}
+                                select
+                                required
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Yes</MenuItem>
+                                <MenuItem value={20}>No</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>c. Final state?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
+                                variant="outlined"
+                                type="email"
+                                className={classes.inputFieldStyle2}
+                                select
+                                required
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Yes</MenuItem>
+                                <MenuItem value={20}>No</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>4. How do you control Non-Confirming products?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
+                                variant="outlined"
+                                type="email"
+                                className={classes.inputFieldStyle2}
+                                required
+                            >
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                        </Grid>
+                        <Grid item lg={7} md={3} sm={12} xs={12}>
+                            <h5 className={classes.questinOne}>5. How do you rate the skills and training of your personnel?</h5>
+                        </Grid>
+                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                            <CssTextField
+                                id="outlined-basic"
+                                label="Ans"
+                                variant="outlined"
+                                type="email"
+                                className={classes.inputFieldStyle2}
+                                select
+                                required
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Low</MenuItem>
+                                <MenuItem value={20}>Medium</MenuItem>
+                                <MenuItem value={20}>High</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
+                        <Grid item lg={6} md={3} sm={4} xs={4}>
+                        </Grid>
+                        <Grid item lg={6} md={3} sm={3} xs={3}>
+                            <Button variant="outlined" color="primary"
+                                className={classes.addButton}
+                            // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                            >
+                                Submit
                         </Button>
-                    </div>
+
+                        </Grid>
+                    </Grid>
                 </Container>
             </div>
         </Sidenav >
