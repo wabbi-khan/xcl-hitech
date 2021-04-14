@@ -698,7 +698,7 @@ const useStyles = makeStyles((theme) => ({
                 </List>
                 <Divider />
                 <List>
-                    {['Marketing'].map((text, index) => (
+                    {['Marketing/Sales'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}
                             >
@@ -736,6 +736,16 @@ const useStyles = makeStyles((theme) => ({
                         <ListItem button key={text}>
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
                                 {index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
+                <List>
+                    {['Accounts'].map((text, index) => (
+                        <ListItem button key={text}>
+                            <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
+                                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
                             </ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>

@@ -19,13 +19,13 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 const GreenCheckbox = withStyles({
     root: {
-    //   color: black[400],
-      '&$checked': {
-        // color: green[600],
-      },
+        //   color: black[400],
+        '&$checked': {
+            // color: green[600],
+        },
     },
     checked: {},
-  })((props) => <Checkbox color="default" {...props} />);
+})((props) => <Checkbox color="default" {...props} />);
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -135,11 +135,11 @@ const Vendors = () => {
         checkedB: true,
         checkedF: true,
         checkedG: true,
-      });
-    
-      const handleChange = (event) => {
+    });
+
+    const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
-      };
+    };
 
 
     return (
@@ -155,7 +155,7 @@ const Vendors = () => {
                                 variant="outlined"
                                 type="text"
                                 required
-                                />
+                            />
                         </Grid>
                         <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -164,7 +164,7 @@ const Vendors = () => {
                                 variant="outlined"
                                 type="email"
                                 className={classes.inputFieldStyle}
-                                />
+                            />
                         </Grid>
                         <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -174,7 +174,7 @@ const Vendors = () => {
                                 variant="outlined"
                                 type="text"
                                 required
-                                />
+                            />
                         </Grid>
                     </Grid>
                     <Grid container spacing={1} style={{ marginTop: 15 }}>
@@ -192,9 +192,10 @@ const Vendors = () => {
                         <Grid item lg={6} md={6} sm={12} xs={12} className={classes.ckeckBox}>
                             <FormControlLabel
                                 control={
-                                    <GreenCheckbox checked={state.checkedG} onChange={handleChange} name="checkedG"
-                                                    icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                                    checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                    <Checkbox
+                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                        name="checkedI"
                                     />
                                 }
                                 label="Material 1"
