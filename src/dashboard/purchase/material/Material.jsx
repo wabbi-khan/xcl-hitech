@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -78,6 +78,17 @@ const useStyles = makeStyles((theme) => ({
 
         },
     },
+    inputFieldStyle1: {
+        [theme.breakpoints.up('md')]: {
+            width: 400,
+            marginLeft: 10,
+
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
+            marginTop: 10,
+        },
+    },
 }));
 
 const CssTextField = withStyles({
@@ -105,10 +116,25 @@ const Material = () => {
             <div>
                 <Container className={classes.mainContainer}>
                     <CssTextField id="outlined-basic"
+                        className={classes.inputFieldStyle}
+                        label="Select Category"
+                        variant="outlined"
+                        type="text"
+                        autocomplete="off"
+                        select
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Inventory</MenuItem>
+                        <MenuItem value={20}>Raw Material</MenuItem>
+                    </CssTextField>
+                    <CssTextField id="outlined-basic"
                         label="Enter Material Name"
                         variant="outlined"
                         type="text"
-                        className={classes.inputFieldStyle}
+                        autocomplete="off"
+                        className={classes.inputFieldStyle1}
                     />
                     <div>
                         <Button variant="outlined" color="primary"
@@ -124,6 +150,7 @@ const Material = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                    <StyledTableCell align="center">Category</StyledTableCell>
                                     <StyledTableCell align="center">Material Name</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
@@ -131,6 +158,7 @@ const Material = () => {
                             <TableBody >
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Inventory</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Item 1</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"
@@ -151,6 +179,7 @@ const Material = () => {
                                 </StyledTableRow>
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Inventory</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Item 2</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"
@@ -171,6 +200,7 @@ const Material = () => {
                                 </StyledTableRow>
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Inventory</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Item 3</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"
@@ -189,26 +219,7 @@ const Material = () => {
                                             </Button></>
                                     </StyledTableCell>
                                 </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">4.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Item 4</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                
                             </TableBody>
                         </Table>
                     </TableContainer>

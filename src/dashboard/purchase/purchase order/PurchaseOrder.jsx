@@ -198,15 +198,46 @@ export const PurchaseOrder = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 className={classes.inputFieldStyle}
-                                // label="Select Date"
+                                label="Payment Terms"
                                 variant="outlined"
-                                type="date"
+                                type="text"
                             />
                         </Grid>
                     </Grid>
                 </Container>
-                <div style={{ marginTop: 30, marginBottom: 30,}}>
-                    <hr/>
+                <Container className={classes.mainContainer}>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Payment Subject To"
+                                variant="outlined"
+                                type="text"
+                                className={classes.inputFieldStyle}
+                            />
+                        </Grid>
+                        <Grid item lg={1} md={1}></Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                // label="Delivery Schedule"
+                                variant="outlined"
+                                type="date"
+                                className={classes.inputFieldStyle1}
+                            />
+                        </Grid>
+                        {/* <Grid item lg={1}></Grid>
+                        <Grid item lg={1} md={1}></Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                className={classes.inputFieldStyle}
+                                // label="Select Date"
+                                variant="outlined"
+                                type="date"
+                            />
+                        </Grid> */}
+                    </Grid>
+                </Container>
+                <div style={{ marginTop: 30, marginBottom: 30, }}>
+                    <hr />
                 </div>
                 <Container className={classes.mainContainer}>
                     <h4 className="text-left">Items</h4>
@@ -228,7 +259,7 @@ export const PurchaseOrder = () => {
                                 <MenuItem value={10}>Material 01</MenuItem>
                                 <MenuItem value={20}>Material 02</MenuItem>
                             </CssTextField>
-                            
+
                         </Grid>
                         <Grid item lg={1} md={1}>
 
@@ -251,7 +282,7 @@ export const PurchaseOrder = () => {
                                 type="text"
                                 className={classes.inputFieldStyle2}
                             />
-                            
+
                         </Grid>
                         <Grid item lg={1} md={1}>
 
@@ -263,11 +294,11 @@ export const PurchaseOrder = () => {
                                 type="text"
                                 className={classes.inputFieldStyle2}
                             />
-                            
+
                         </Grid>
                     </Grid>
                     <Grid container spacing={1} >
-                        <Grid item lg={3} md={3} sm={3} xs={3}>
+                        <Grid item lg={3} md={3} sm={10} xs={11}>
                             <Button variant="outlined" color="primary"
                                 className={classes.addButton}
                             // style={{ marginLeft: 'auto', marginRight: 'auto' }}
