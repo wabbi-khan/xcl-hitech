@@ -179,7 +179,7 @@ const Material = () => {
                                 </StyledTableRow>
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Inventory</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Item 2</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"

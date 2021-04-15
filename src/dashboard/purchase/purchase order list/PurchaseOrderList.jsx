@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -17,6 +18,7 @@ const StyledTableCell = withStyles((theme) => ({
     body: {
         fontSize: 14,
     },
+    
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -47,11 +49,10 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     table: {
-        minWidth: 600,
-    },
-    dataTable: {
-
-    },
+        minWidth: 700,
+        border: '1px solid grey',
+      },
+    
 }));
 
 export const PurchaseOrderList = () => {
@@ -61,8 +62,8 @@ export const PurchaseOrderList = () => {
         <Sidenav title={'Purchase Order List'}>
             <div>
                 <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                    <TableContainer className={classes.tableContainer} >
+                        <Table stickyHeader className={classes.table} style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>

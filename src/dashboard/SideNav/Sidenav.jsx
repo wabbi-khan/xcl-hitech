@@ -541,12 +541,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
- function Sidenav(props) {
-    const { title, history,  children } = props;
+function Sidenav(props) {
+    const { title, history, children } = props;
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false)
+    const [open2, setOpen2] = React.useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -615,7 +616,7 @@ const useStyles = makeStyles((theme) => ({
                                 primary={text}
                                 onClick={() => {
                                     history.push('/dashboard')
-                                }} 
+                                }}
                             />
                         </ListItem>
                     ))}
@@ -626,7 +627,7 @@ const useStyles = makeStyles((theme) => ({
                         <ListItem
                             button key={text}
                             onClick={() => {
-                                setOpen1(!open1)            
+                                setOpen1(!open1)
                             }}
                         >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
@@ -635,7 +636,7 @@ const useStyles = makeStyles((theme) => ({
                             <ListItemText
                                 primary={text}
                                 onClick={() => {
-                                    history.push('/purchasedashboard')                            
+                                    history.push('/purchasedashboard')
                                 }}
                             />
                             {open1 ? <IconExpandLess /> : <IconExpandMore />}
@@ -646,50 +647,50 @@ const useStyles = makeStyles((theme) => ({
                         <Divider />
                         <List component="div" disablePadding>
                             <ListItem button
-                                      className={classes.menuItem}
-                                      onClick={() => {
-                                        history.push('/purchase/material')
-                                      }}
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/material')
+                                }}
                             >
-                            <ListItemText inset primary="Material" />
+                                <ListItemText inset primary="Material" />
                             </ListItem>
-                            <ListItem button 
-                                      className={classes.menuItem}
-                                      onClick={() => {
-                                          history.push('/purchase/vendors')
-                                      }}
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/vendors')
+                                }}
                             >
                                 <ListItemText inset primary="Vendors" />
                             </ListItem>
-                            <ListItem button 
-                                      className={classes.menuItem}
-                                      onClick={() => {
-                                          history.push('/purchase/supplier_evaluation_form')
-                                      }}          
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/supplier_evaluation_form')
+                                }}
                             >
                                 <ListItemText inset primary="Supplier Evaluation Form" />
                             </ListItem>
-                            <ListItem button 
-                                      className={classes.menuItem}
-                                      onClick={() => {
-                                          history.push('/purchase/approved_supplier_list')
-                                      }}          
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/approved_supplier_list')
+                                }}
                             >
                                 <ListItemText inset primary="Approved Supplier List" />
                             </ListItem>
-                            <ListItem button 
-                                      className={classes.menuItem}
-                                      onClick={() => {
-                                          history.push('/purchase/purchase_order')
-                                      }}          
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/purchase_order')
+                                }}
                             >
                                 <ListItemText inset primary="Purchase Order" />
                             </ListItem>
-                            <ListItem button 
-                                      className={classes.menuItem}
-                                      onClick={() => {
-                                          history.push('/purchase/purchase_order_list')
-                                      }}          
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/purchase_order_list')
+                                }}
                             >
                                 <ListItemText inset primary="Purchase Order List" />
                             </ListItem>
@@ -722,13 +723,78 @@ const useStyles = makeStyles((theme) => ({
                 <Divider />
                 <List>
                     {['Store'].map((text, index) => (
-                        <ListItem button key={text}>
+                        <ListItem
+                            button key={text}
+                            onClick={() => {
+                                setOpen2(!open2)
+                            }}
+                        >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
-                                {index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
+                                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText
+                                primary={text}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            />
+                            {open2 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
+
                     ))}
+                    <Collapse in={open2} timeout="auto" unmountOnExit>
+                        <Divider />
+                        <List component="div" disablePadding>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Material" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Vendors" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Supplier Evaluation Form" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Approved Supplier List" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Purchase Order" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Purchase Order List" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
                 </List>
                 <Divider />
                 <List>

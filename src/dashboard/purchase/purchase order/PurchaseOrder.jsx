@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -129,6 +129,13 @@ const CssTextField = withStyles({
 
 export const PurchaseOrder = () => {
     const classes = useStyles();
+    const count = ['1'];
+    const [ItemCounter, setItemCounter] = useState(['1.'])
+
+    const addMoreFunc = () => {
+        console.log('working');
+        setItemCounter(['1.', '2.'])
+    }
 
     return (
         <Sidenav title={'Purchase Order'}>
@@ -241,66 +248,72 @@ export const PurchaseOrder = () => {
                 </div>
                 <Container className={classes.mainContainer}>
                     <h4 className="text-left">Items</h4>
-                    <Grid container spacing={1} style={{ marginTop: 15, }} >
-                        <Grid item lg={1} md={1}>
-                            <h5 className={classes.itemHeading}>1. </h5>
-                        </Grid>
-                        <Grid item lg={2} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Select Item"
-                                variant="outlined"
-                                type="text"
-                                select
-                                className={classes.inputFieldStyle2}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Material 01</MenuItem>
-                                <MenuItem value={20}>Material 02</MenuItem>
-                            </CssTextField>
+                    {
+                        ItemCounter.map((i) => (
+                            <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
+                                <Grid item lg={1} md={1}>
+                                    <h5 className={classes.itemHeading}>{i}</h5>
+                                </Grid>
+                                <Grid item lg={2} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Select Item"
+                                        variant="outlined"
+                                        type="text"
+                                        select
+                                        className={classes.inputFieldStyle2}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={10}>Material 01</MenuItem>
+                                        <MenuItem value={20}>Material 02</MenuItem>
+                                    </CssTextField>
 
-                        </Grid>
-                        <Grid item lg={1} md={1}>
+                                </Grid>
+                                <Grid item lg={1} md={1}>
 
-                        </Grid>
-                        <Grid item lg={2} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Quantity"
-                                variant="outlined"
-                                type="text"
-                                className={classes.inputFieldStyle2}
-                            />
-                        </Grid>
-                        <Grid item lg={1} md={1}>
+                                </Grid>
+                                <Grid item lg={2} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Quantity"
+                                        variant="outlined"
+                                        type="text"
+                                        className={classes.inputFieldStyle2}
+                                    />
+                                </Grid>
+                                <Grid item lg={1} md={1}>
 
-                        </Grid>
-                        <Grid item lg={2} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Unit Value"
-                                variant="outlined"
-                                type="text"
-                                className={classes.inputFieldStyle2}
-                            />
+                                </Grid>
+                                <Grid item lg={2} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Unit Value"
+                                        variant="outlined"
+                                        type="text"
+                                        className={classes.inputFieldStyle2}
+                                    />
 
-                        </Grid>
-                        <Grid item lg={1} md={1}>
+                                </Grid>
+                                <Grid item lg={1} md={1}>
 
-                        </Grid>
-                        <Grid item lg={2} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Remarks"
-                                variant="outlined"
-                                type="text"
-                                className={classes.inputFieldStyle2}
-                            />
+                                </Grid>
+                                <Grid item lg={2} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Remarks"
+                                        variant="outlined"
+                                        type="text"
+                                        className={classes.inputFieldStyle2}
+                                    />
 
-                        </Grid>
-                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                        ))
+                    }
                     <Grid container spacing={1} >
                         <Grid item lg={3} md={3} sm={10} xs={11}>
                             <Button variant="outlined" color="primary"
                                 className={classes.addButton}
+                                onClick={addMoreFunc}
                             // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                             >
                                 Add More
