@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
-            width: 400,
+            width: 330,
 
         },
         [theme.breakpoints.down('sm')]: {
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFieldStyle1: {
         [theme.breakpoints.up('md')]: {
-            width: 400,
+            width: 330,
             marginLeft: 10,
 
         },
@@ -116,12 +116,15 @@ const Material = () => {
             <div>
                 <Container className={classes.mainContainer}>
                     <CssTextField id="outlined-basic"
-                        className={classes.inputFieldStyle}
                         label="Select Category"
                         variant="outlined"
                         type="text"
                         autocomplete="off"
+                        size="small"
                         select
+                        className={classes.inputFieldStyle}
+                        inputProps={{ style: { fontSize: 14 } }}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                     >
                         <MenuItem value="">
                             <em>None</em>
@@ -134,7 +137,10 @@ const Material = () => {
                         variant="outlined"
                         type="text"
                         autocomplete="off"
+                        size="small"
                         className={classes.inputFieldStyle1}
+                        inputProps={{ style: { fontSize: 14 } }}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
                     />
                     <div>
                         <Button variant="outlined" color="primary"
@@ -219,7 +225,7 @@ const Material = () => {
                                             </Button></>
                                     </StyledTableCell>
                                 </StyledTableRow>
-                                
+
                             </TableBody>
                         </Table>
                     </TableContainer>

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     images: {
         [theme.breakpoints.up('md')]: {
-            marginLeft: 30,
+            marginTop: 5,
         },
         [theme.breakpoints.down('sm')]: {
             marginLeft: -10,
@@ -55,21 +55,21 @@ const Dashboard = () => {
         <Sidenav title={ 'Dashboard' }>
             <div>
                 <div className={classes.root}>
-                    <Grid container spacing={3}>
-                        <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images}>
-                            <img src={DashboardImg4} alt="" width="240" height="170"/>
+                    <Grid container spacing={1}>
+                        <Grid item lg={3} md={2} sm={12} xs={12} className={classes.images}>
+                            <img src={DashboardImg4} alt="" width="290" height="210"/>
                         </Grid>
                         
-                        <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images}>
-                            <img src={DashboardImg5} alt="" width="240" height="170" />
+                        <Grid item lg={3} md={2} sm={12} xs={12} className={classes.images}>
+                            <img src={DashboardImg5} alt="" width="290" height="210" />
                         </Grid>
                         
-                        <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images}>
-                            <img src={DashboardImg6} alt="" width="240" height="170" />
+                        <Grid item lg={3} md={2} sm={12} xs={12} className={classes.images}>
+                            <img src={DashboardImg6} alt="" width="290" height="210" />
                         </Grid>
                         
-                        <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images}>
-                            <img src={DashboardImg7} alt="" width="240" height="170" />
+                        <Grid item lg={3} md={2} sm={12} xs={12} className={classes.images}>
+                            <img src={DashboardImg7} alt="" width="290" height="210" />
                         </Grid>
                     </Grid>
                     <Grid container spacing={3}>

@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-
+import MenuItem from '@material-ui/core/MenuItem';
 
 const GreenCheckbox = withStyles({
     root: {
@@ -91,17 +91,17 @@ const useStyles = makeStyles((theme) => ({
     },
     ckeckBox: {
         [theme.breakpoints.up('md')]: {
-            marginLeft: 25,
+            marginLeft: 7,
         },
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
         },
     },
     inputFieldStyle: {
-        boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-        borderRadius: 5,
+        // boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
+        // borderRadius: 5,
         [theme.breakpoints.up('md')]: {
-            width: 400,
+            width: 250,
 
         },
         [theme.breakpoints.down('sm')]: {
@@ -147,49 +147,79 @@ const Vendors = () => {
             <div>
                 <Container className={classes.mainContainer}>
                     <Grid container spacing={1}>
-                        <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                className={classes.inputFieldStyle}
                                 label="Enter Vendor Name"
                                 variant="outlined"
                                 type="text"
+                                size="small"
+                                autocomplete="off"
                                 required
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                        <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Email (Optional)"
                                 variant="outlined"
                                 type="email"
+                                autocomplete="off"
+                                size="small"
                                 className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                        <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                className={classes.inputFieldStyle}
                                 label="Phone No."
                                 variant="outlined"
                                 type="text"
+                                autocomplete="off"
+                                size="small"
                                 required
-                            />
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                />
                         </Grid>
-                    </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 15 }}>
-                        <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                className={classes.inputFieldStyle}
                                 label="Address"
                                 variant="outlined"
                                 type="text"
+                                size="small"
+                                autocomplete="off"
                                 required
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                        <Grid item lg={1} md={1}></Grid>
-                        <Grid item lg={6} md={6} sm={12} xs={12} className={classes.ckeckBox}>
+                    </Grid>
+                    <Grid container spacing={1} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Select Category"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                select
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Inventory</MenuItem>
+                                <MenuItem value={20}>Raw Material</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -229,66 +259,6 @@ const Vendors = () => {
                                     />
                                 }
                                 label="Material 4"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 5"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 1"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 2"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 3"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 4"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 5"
                             />
                         </Grid>
                     </Grid>

@@ -103,20 +103,19 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
-            width: 400,
+            width: 250,
         },
         [theme.breakpoints.down('sm')]: {
-            width: 250,
+            width: 200,
             marginLeft: 15,
         },
     },
     inputFieldStyle1: {
         [theme.breakpoints.up('md')]: {
-            width: 400,
-            marginLeft: 50,
+            width: 250,
         },
         [theme.breakpoints.down('sm')]: {
-            width: 250,
+            width: 200,
             marginLeft: 15,
         },
     },
@@ -126,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: -70,
         },
         [theme.breakpoints.down('sm')]: {
-            width: 250,
+            width: 200,
             marginLeft: 10,
         },
     },
@@ -218,9 +217,12 @@ const SupplierEvalForm = () => {
                                 label="Select Vendor Name"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
@@ -231,44 +233,52 @@ const SupplierEvalForm = () => {
                                 <MenuItem value={30}>Arsalan</MenuItem>
                             </CssTextField>
                         </Grid>
-                        <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Contact No."
                                 variant="outlined"
                                 type="email"
+                                size="small"
                                 className={classes.inputFieldStyle1}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                        <Grid item lg={1}></Grid>
-                        <Grid item lg={1} md={1}></Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                className={classes.inputFieldStyle}
                                 label="Contact Person"
                                 variant="outlined"
                                 type="text"
+                                size="small"
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                    </Grid>
-                </Container>
-                <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Address"
                                 variant="outlined"
                                 type="email"
+                                size="small"
                                 className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                        <Grid item lg={1} md={1}></Grid>
+                    </Grid>
+                </Container>
+                <Container className={classes.mainContainer}>
+                    <Grid container spacing={1} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                className={classes.inputFieldStyle1}
                                 label="Products/Services"
                                 variant="outlined"
                                 type="text"
+                                size="small"
+                                className={classes.inputFieldStyle1}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
                     </Grid>
@@ -279,7 +289,7 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>1. Are you registered to ISO 9001/ API?</h5>
+                            <h6 className={classes.questinOne}>1. Are you registered to ISO 9001/ API?</h6>
                         </Grid>
                         <Grid item lg={2} md={3} sm={12} xs={12}>
                             <CssTextField
@@ -287,9 +297,12 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
@@ -303,7 +316,7 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={7} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>2. Do you have Quality Management / Quality Assurance System?</h5>
+                            <h6 className={classes.questinOne}>2. Do you have Quality Management / Quality Assurance System?</h6>
                         </Grid>
                         <Grid item lg={2} md={2} sm={12} xs={12}>
                             <CssTextField
@@ -311,9 +324,12 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
@@ -327,14 +343,14 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>3. Do you perform inspection and testing it?</h5>
+                            <h6 className={classes.questinOne}>3. Do you perform inspection and testing it?</h6>
                         </Grid>
                     </Grid>
                     <Grid container spacing={1} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>a. Incoming stage?</h5>
+                            <h6 className={classes.questinOne}>a. Incoming stage?</h6>
                         </Grid>
                         <Grid item lg={2} md={3} sm={12} xs={12}>
                             <CssTextField
@@ -342,9 +358,12 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
@@ -358,7 +377,7 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>b. In process state?</h5>
+                            <h6 className={classes.questinOne}>b. In process state?</h6>
                         </Grid>
                         <Grid item lg={2} md={3} sm={12} xs={12}>
                             <CssTextField
@@ -366,9 +385,12 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
@@ -382,7 +404,7 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>c. Final state?</h5>
+                            <h6 className={classes.questinOne}>c. Final state?</h6>
                         </Grid>
                         <Grid item lg={2} md={3} sm={12} xs={12}>
                             <CssTextField
@@ -390,9 +412,12 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
@@ -406,7 +431,7 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>4. How do you control Non-Confirming products?</h5>
+                            <h6 className={classes.questinOne}>4. How do you control Non-Confirming products?</h6>
                         </Grid>
                         <Grid item lg={2} md={3} sm={12} xs={12}>
                             <CssTextField
@@ -414,8 +439,11 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                             </CssTextField>
                         </Grid>
@@ -424,7 +452,7 @@ const SupplierEvalForm = () => {
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                         </Grid>
                         <Grid item lg={7} md={3} sm={12} xs={12}>
-                            <h5 className={classes.questinOne}>5. How do you rate the skills and training of your personnel?</h5>
+                            <h6 className={classes.questinOne}>5. How do you rate the skills and training of your personnel?</h6>
                         </Grid>
                         <Grid item lg={2} md={3} sm={12} xs={12}>
                             <CssTextField
@@ -432,9 +460,12 @@ const SupplierEvalForm = () => {
                                 label="Ans"
                                 variant="outlined"
                                 type="email"
-                                className={classes.inputFieldStyle2}
+                                size="small"
                                 select
                                 required
+                                className={classes.inputFieldStyle2}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
                             >
                                 <MenuItem value="">
                                     <em>None</em>
