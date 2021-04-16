@@ -8,6 +8,9 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+// import id from 'crypto-random-string'
+import cryptoRandomString from 'crypto-random-string';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -138,14 +141,14 @@ const useStyles = makeStyles((theme) => ({
     },
     delete: {
         color: 'red',
+        fontSize: 38,
         [theme.breakpoints.up('md')]: {
-            fontSize: 38,
-            marginLeft: 60,
-            marginTop: -6,
+            marginLeft: 50,
+            marginTop: -7,
 
         },
         [theme.breakpoints.down('sm')]: {
-
+            marginTop: -10,
         },
     },
 
@@ -170,10 +173,11 @@ const CssTextField = withStyles({
 
 export const PurchaseOrder = () => {
     const classes = useStyles();
-    const [ItemCounter, setItemCounter] = useState(['1.'])
+    const [ItemCounter, setItemCounter] = useState([{id: 'text'}])
 
     const addMoreFunc = () => {
-        const addNew = [...ItemCounter, ['txt']]
+        const randomString = cryptoRandomString({ length: 10 });
+        const addNew = [...ItemCounter, { id: randomString}]
         setItemCounter(addNew)
         // console.log('working');
         // setItemCounter(['1.', '2.'])
@@ -181,8 +185,8 @@ export const PurchaseOrder = () => {
 
     const deleteItem = (index) => {
         // const deleteRow = ItemCounter.splice(index, 1)
-        setItemCounter(ItemCounter.splice(index, 1))
-        // console.log(props);
+        setItemCounter(ItemCounter.filter(item => item.id !== index))
+        // console.log(index);
     }
 
     return (
@@ -371,7 +375,7 @@ export const PurchaseOrder = () => {
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                     </Grid>
                                     <Grid item lg={1} md={3} sm={12} xs={12}>
-                                        <Button onClick={() => deleteItem(i)}>
+                                        <Button onClick={() => deleteItem(value.id)}>
                                         <DeleteOutlineIcon className={classes.delete}/>
                                         </Button>
                                     </Grid>
