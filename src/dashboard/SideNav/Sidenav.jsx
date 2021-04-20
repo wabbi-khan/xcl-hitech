@@ -751,7 +751,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Material" />
+                                <ListItemText inset primary="Products" />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -759,7 +759,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Vendors" />
+                                <ListItemText inset primary="Goods Received(GRIN)" />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -767,7 +767,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Supplier Evaluation Form" />
+                                <ListItemText inset primary="Products Bin Card" />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -775,7 +775,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Approved Supplier List" />
+                                <ListItemText inset primary="Grouped Bin Card" />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -783,7 +783,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Purchase Order" />
+                                <ListItemText inset primary="Vehicles" />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -791,7 +791,79 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Purchase Order List" />
+                                <ListItemText inset primary="Vehicles Inspection Checklist" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Delivery Order" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Delivery Chalan" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Daily Inwards Report" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Daily Consumption Report" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Dept Wise Consumption Report" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Dept Wise Store Inventory" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Material Issue Requisition" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Outward Gate Pass" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Stock Assessment Report" />
                             </ListItem>
                         </List>
                     </Collapse>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux' 
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
+import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -110,6 +112,11 @@ const CssTextField = withStyles({
 
 const Material = () => {
     const classes = useStyles();
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getMaterialAction())
+    }, [])
 
     return (
         <Sidenav title={'Material'}>
