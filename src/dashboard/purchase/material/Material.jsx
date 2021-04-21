@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux' 
+import { useDispatch, useSelector } from 'react-redux'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +13,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import MaterialError from './MaterialError';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -114,9 +116,15 @@ const Material = () => {
     const classes = useStyles();
 
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(getMaterialAction())
     }, [])
+
+    const { loading, materials, error } = useSelector(state => state.materials)
+    // console.log(loading);
+    // console.log(materials);
+    // console.log(error);
 
     return (
         <Sidenav title={'Material'}>
@@ -169,70 +177,42 @@ const Material = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Inventory</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Item 1</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
+                                {
+                                    loading ? (
+                                        <h3>loading</h3>
+                                    ) :
+                                        error ? (
+                                            <MaterialError/>
+                                        ) :
+                                            (
+                                                materials.length ?
+                                                    materials.map((material, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i+1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() => {
 
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
+                                                                    }}
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
+                                                            </Button>
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() => {
 
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Item 2</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
+                                                                        }}
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
+                                                            </Button></>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
 
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Inventory</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Item 3</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-
+                                                    ))
+                                                : <h5>not found</h5>    
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

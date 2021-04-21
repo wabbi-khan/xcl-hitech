@@ -17,7 +17,7 @@ export const getMaterialAction = () => async (dispatch) => {
         
         dispatch({
             type: MATERIAL_FETCH_SUCCESS,
-            payload: data,
+            payload: data.material,
         })
 
         // console.log(fetchApiData.data.material);

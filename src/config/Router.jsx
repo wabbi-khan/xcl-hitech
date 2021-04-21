@@ -14,6 +14,11 @@ import SupplierEvalForm from '../dashboard/purchase/supplier eval form/SupplierE
 import AppSupplier from '../dashboard/purchase/approve supplier list/AppSupplier';
 import { PurchaseOrder } from '../dashboard/purchase/purchase order/PurchaseOrder';
 import { PurchaseOrderList } from '../dashboard/purchase/purchase order list/PurchaseOrderList';
+import Store from '../dashboard/store/Store';
+import Products from '../dashboard/store/products/Products';
+import GoodReceived from '../dashboard/store/good rec and inspection rep/GoodReceived';
+import ProductsBinCard from '../dashboard/store/productsBinCard/ProductsBinCard';
+import Vehicles from '../dashboard/store/vehicles/Vehicles';
 
 
 const Router = () => {
@@ -29,6 +34,11 @@ const Router = () => {
                 <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>
+                <Router exact path="/storedashboard" component={Store}/>
+                <Router exact path="/storedashboard/products" component={Products}/>
+                <Router exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived}/>
+                <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard}/>
+                <Router exact path="/storedashboard/vehicles" component={Vehicles}/>
             </Router>
         </BrowserRouter>
     )

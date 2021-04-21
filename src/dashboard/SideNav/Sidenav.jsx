@@ -735,7 +735,7 @@ function Sidenav(props) {
                             <ListItemText
                                 primary={text}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard')
                                 }}
                             />
                             {open2 ? <IconExpandLess /> : <IconExpandMore />}
@@ -748,7 +748,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/products')
                                 }}
                             >
                                 <ListItemText inset primary="Products" />
@@ -756,7 +756,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/good_received_and_inspection_report')
                                 }}
                             >
                                 <ListItemText inset primary="Goods Received(GRIN)" />
@@ -764,7 +764,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/products_bin_card')
                                 }}
                             >
                                 <ListItemText inset primary="Products Bin Card" />
@@ -780,7 +780,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/vehicles')
                                 }}
                             >
                                 <ListItemText inset primary="Vehicles" />
@@ -791,7 +791,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Vehicles Inspection Checklist" />
+                                <ListItemText inset primary="Vehicles Inspection..." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -823,7 +823,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Daily Consumption Report" />
+                                <ListItemText inset primary="Daily Consumption..." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -831,7 +831,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Dept Wise Consumption Report" />
+                                <ListItemText inset primary="Dept Wise Consump..." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -839,7 +839,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Dept Wise Store Inventory" />
+                                <ListItemText inset primary="Dept Wise Store Inv..." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -847,7 +847,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Material Issue Requisition" />
+                                <ListItemText inset primary="Material Issue Req..." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -863,7 +863,7 @@ function Sidenav(props) {
                                     history.push('')
                                 }}
                             >
-                                <ListItemText inset primary="Stock Assessment Report" />
+                                <ListItemText inset primary="Stock Assessment Rep..." />
                             </ListItem>
                         </List>
                     </Collapse>
