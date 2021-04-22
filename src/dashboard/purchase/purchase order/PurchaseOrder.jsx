@@ -173,11 +173,11 @@ const CssTextField = withStyles({
 
 export const PurchaseOrder = () => {
     const classes = useStyles();
-    const [ItemCounter, setItemCounter] = useState([{id: 'text'}])
+    const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
 
     const addMoreFunc = () => {
         const randomString = cryptoRandomString({ length: 10 });
-        const addNew = [...ItemCounter, { id: randomString}]
+        const addNew = [...ItemCounter, { id: randomString }]
         setItemCounter(addNew)
         // console.log('working');
         // setItemCounter(['1.', '2.'])
@@ -248,7 +248,7 @@ export const PurchaseOrder = () => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                       
+
                     </Grid>
                 </Container>
                 <Container className={classes.mainContainer}>
@@ -299,7 +299,7 @@ export const PurchaseOrder = () => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                       
+
                     </Grid>
                 </Container>
                 <div style={{ marginTop: 30, marginBottom: 30, }}>
@@ -376,7 +376,7 @@ export const PurchaseOrder = () => {
                                     </Grid>
                                     <Grid item lg={1} md={3} sm={12} xs={12}>
                                         <Button onClick={() => deleteItem(value.id)}>
-                                        <DeleteOutlineIcon className={classes.delete}/>
+                                            <DeleteOutlineIcon className={classes.delete} />
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -394,8 +394,20 @@ export const PurchaseOrder = () => {
                             // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                             >
                                 Add More
-                        </Button>
-
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} >
+                        <Grid item lg={5} md={5} sm={10} xs={11}>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={10} xs={11}>
+                            <Button variant="outlined" color="primary"
+                                className={classes.addButton}
+                                // onClick={addMoreFunc}
+                            // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                            >
+                                Submit
+                            </Button>
                         </Grid>
                     </Grid>
                 </Container>

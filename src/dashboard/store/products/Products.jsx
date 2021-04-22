@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#22A19A',
         borderColor: '#22A19A',
         fontWeight: 'bold',
+        width: '10%',
         '&:hover': {
             border: 'none',
             backgroundColor: '#22A19A',
@@ -119,28 +120,20 @@ const Products = () => {
                 <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Select Vendor Name"
+                                label="Product Name"
                                 variant="outlined"
                                 type="email"
                                 size="small"
-                                select
                                 required
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Asad</MenuItem>
-                                <MenuItem value={20}>Aneeq</MenuItem>
-                                <MenuItem value={30}>Sagheer</MenuItem>
-                                <MenuItem value={30}>Arsalan</MenuItem>
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="P.O. No."
+                                label="Product Code"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -151,7 +144,7 @@ const Products = () => {
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Address"
+                                label="Min. Inventory Level"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -162,7 +155,7 @@ const Products = () => {
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Your Reference"
+                                label="Remarks"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -187,8 +180,8 @@ const Products = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Code</StyledTableCell>
                                     <StyledTableCell align="center">Product Name</StyledTableCell>
+                                    <StyledTableCell align="center">Product Code</StyledTableCell>
                                     <StyledTableCell align="center">Min Inventory Level</StyledTableCell>
                                     <StyledTableCell align="center">Remarks</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
@@ -197,8 +190,8 @@ const Products = () => {
                             <TableBody >
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
@@ -220,8 +213,8 @@ const Products = () => {
                                 </StyledTableRow>
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
@@ -231,7 +224,7 @@ const Products = () => {
                                             }}
                                             style={{ marginTop: 2 }} >
                                             Edit
-                                                        </Button>
+                                            </Button>
                                             <Button variant="contained" color="secondary" size="small"
                                                 onClick={() => {
 

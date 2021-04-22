@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: -5,
         },
     },
-    addButton: {
+    submitButton: {
         marginTop: 20,
         color: '#22A19A',
         borderColor: '#22A19A',
@@ -84,7 +84,13 @@ const useStyles = makeStyles((theme) => ({
             border: 'none',
             backgroundColor: '#22A19A',
             color: 'whitesmoke',
-        }
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '25%',
+        },
+        // [theme.breakpoints.down('sm')]: {
+        //     width: '40%',
+        // },
     },
     table: {
         minWidth: 600,
@@ -481,7 +487,7 @@ const SupplierEvalForm = () => {
                         </Grid>
                         <Grid item lg={6} md={3} sm={3} xs={3}>
                             <Button variant="outlined" color="primary"
-                                className={classes.addButton}
+                                className={classes.submitButton}
                             // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                             >
                                 Submit

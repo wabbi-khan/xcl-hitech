@@ -63,7 +63,13 @@ const useStyles = makeStyles((theme) => ({
             border: 'none',
             backgroundColor: '#22A19A',
             color: 'whitesmoke',
-        }
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '15%',
+        },
+        [theme.breakpoints.down('sm')]: {
+            // width: '12%',
+        },
     },
     table: {
         minWidth: 600,
@@ -75,11 +81,9 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
             width: 330,
-
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
-
         },
     },
     inputFieldStyle1: {

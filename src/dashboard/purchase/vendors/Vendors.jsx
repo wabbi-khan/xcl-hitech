@@ -80,7 +80,15 @@ const useStyles = makeStyles((theme) => ({
             border: 'none',
             backgroundColor: '#22A19A',
             color: 'whitesmoke',
-        }
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '15%',
+            
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: '30%',
+            
+        },
     },
     table: {
         minWidth: 600,
@@ -199,7 +207,7 @@ const Vendors = () => {
                             />
                         </Grid>
                     </Grid>
-                    <Grid container spacing={1} >
+                    <Grid container spacing={1} style={{ marginTop: 8, }}>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Select Category"
