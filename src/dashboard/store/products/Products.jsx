@@ -124,6 +124,7 @@ const Products = () => {
                                 variant="outlined"
                                 type="email"
                                 size="small"
+                                autoComplete="off"
                                 required
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
@@ -137,6 +138,7 @@ const Products = () => {
                                 variant="outlined"
                                 type="text"
                                 size="small"
+                                autoComplete="off"
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -148,6 +150,7 @@ const Products = () => {
                                 variant="outlined"
                                 type="text"
                                 size="small"
+                                autoComplete="off"
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -159,6 +162,7 @@ const Products = () => {
                                 variant="outlined"
                                 type="text"
                                 size="small"
+                                autoComplete="off"
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
