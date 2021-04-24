@@ -226,20 +226,24 @@ const GoodReceived = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Product Name</StyledTableCell>
-                                    <StyledTableCell align="center">Product Code</StyledTableCell>
-                                    <StyledTableCell align="center">Min Inventory Level</StyledTableCell>
-                                    <StyledTableCell align="center">Remarks</StyledTableCell>
+                                    <StyledTableCell align="center">Date/Time</StyledTableCell>
+                                    <StyledTableCell align="center">Received From</StyledTableCell>
+                                    <StyledTableCell align="center">C.H. No.</StyledTableCell>
+                                    <StyledTableCell align="center">Order No.</StyledTableCell>
+                                    <StyledTableCell align="center">By Manager</StyledTableCell>
+                                    <StyledTableCell align="center">Vehicle No.</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">33DL32</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"
                                             onClick={() => {
@@ -258,11 +262,13 @@ const GoodReceived = () => {
                                     </StyledTableCell>
                                 </StyledTableRow>
                                 <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">33DL32</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"
                                             onClick={() => {
@@ -270,7 +276,32 @@ const GoodReceived = () => {
                                             }}
                                             style={{ marginTop: 2 }} >
                                             Edit
-                                            </Button>
+                                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                onClick={() => {
+
+                                                }}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">33DL32</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                                        </Button>
                                             <Button variant="contained" color="secondary" size="small"
                                                 onClick={() => {
 
