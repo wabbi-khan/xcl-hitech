@@ -19,6 +19,7 @@ import Products from '../dashboard/store/products/Products';
 import GoodReceived from '../dashboard/store/good rec and inspection rep/GoodReceived';
 import ProductsBinCard from '../dashboard/store/productsBinCard/ProductsBinCard';
 import Vehicles from '../dashboard/store/vehicles/Vehicles';
+import VehicleInspectChecklist from '../dashboard/store/vehicleInsCheck/VehicleInspectChecklist';
 
 
 const Router = () => {
@@ -39,6 +40,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived}/>
                 <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard}/>
                 <Router exact path="/storedashboard/vehicles" component={Vehicles}/>
+                <Router exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist}/>
             </Router>
         </BrowserRouter>
     )
