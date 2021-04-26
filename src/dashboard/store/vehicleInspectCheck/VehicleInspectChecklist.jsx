@@ -129,7 +129,7 @@ const VehicleInspectChecklist = () => {
             <div>
                 <Container className={classes.mainContainer}>
                     <Grid container spacing={1} style={{ marginTop: 15, }} >
-                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <Grid item lg={12} md={12} sm={2} xs={2}>
                             <CssTextField id="outlined-basic"
                                 label="Select Vehicle"
                                 variant="outlined"
@@ -166,7 +166,7 @@ const VehicleInspectChecklist = () => {
                                     <StyledTableCell align="center">Valid Vehicle Ins</StyledTableCell>
                                     <StyledTableCell align="center">Driver's Valid License</StyledTableCell>
                                     <StyledTableCell align="center">Visual Check of Vehicle</StyledTableCell>
-                                    <StyledTableCell align="center">Tyre/Spare</StyledTableCell>
+                                    <StyledTableCell align="center">Tyre/<br/>Spare</StyledTableCell>
                                     <StyledTableCell align="center">Appropriate Jack</StyledTableCell>
                                     <StyledTableCell align="center">Enough Fuel in the Tank</StyledTableCell>
                                     <StyledTableCell align="center">Sign of Inspector</StyledTableCell>
