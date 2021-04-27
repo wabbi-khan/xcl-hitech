@@ -27,6 +27,7 @@ import DailyConsumptionReport from '../dashboard/store/dailyConsReport/DailyCons
 import DeptWiseConsReport from '../dashboard/store/deptwiseConsReport/DeptWiseConsReport';
 import DeptWiseStoreInventory from '../dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
 import MaterialIssueReq from '../dashboard/store/materialIssueReq/MaterialIssueReq';
+import OrderDetails from '../dashboard/store/deliveryOrder/OrderDetails';
 
 
 
@@ -56,6 +57,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport}/>
                 <Router exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory}/>
                 <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq}/>
+                <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails}/>
             </Router>
         </BrowserRouter>
     )

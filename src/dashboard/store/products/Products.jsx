@@ -74,11 +74,11 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
             width: 250,
-            
+
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
-            
+
         },
     },
     inputFieldStyle1: {
@@ -117,7 +117,27 @@ const Products = () => {
         <Sidenav title={'Products'}>
             <div>
                 <Container className={classes.mainContainer}>
-                <Grid container spacing={1} style={{ marginTop: 15, }} >
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Select Category"
+                                variant="outlined"
+                                type="email"
+                                size="small"
+                                autoComplete="off"
+                                // required
+                                select
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}></MenuItem>
+                                <MenuItem value={10}>Heavy Truck</MenuItem>
+                            </CssTextField>
+                        </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Product Name"
@@ -125,7 +145,7 @@ const Products = () => {
                                 type="email"
                                 size="small"
                                 autoComplete="off"
-                                required
+                                // required
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -156,6 +176,10 @@ const Products = () => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
+                    </Grid>
+                </Container>
+                <Container className={classes.mainContainer}>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Remarks"
@@ -168,7 +192,7 @@ const Products = () => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-                       
+
                     </Grid>
                     <div>
                         <Button variant="outlined" color="primary"

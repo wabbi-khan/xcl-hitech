@@ -29,6 +29,7 @@ import DailyConsumptionReport from './dashboard/store/dailyConsReport/DailyConsu
 import DeptWiseConsReport from './dashboard/store/deptwiseConsReport/DeptWiseConsReport';
 import DeptWiseStoreInventory from './dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
 import MaterialIssueReq from './dashboard/store/materialIssueReq/MaterialIssueReq';
+import OrderDetails from './dashboard/store/deliveryOrder/OrderDetails';
 
 
 const theme = createMuiTheme({
@@ -67,6 +68,7 @@ function App() {
       <Route exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport} />
       <Route exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory} />
       <Route exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq} />
+      <Route exact path="/storedashboard/delivery_order/order_details" component={OrderDetails} />
     </BrowserRouter>
   );
 }
