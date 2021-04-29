@@ -152,7 +152,12 @@ const useStyles = makeStyles((theme) => ({
             marginTop: -10,
         },
     },
-
+    deleteRowBtn: {
+        '&:hover': {
+            border: 'none',
+            background: 'none',
+        }
+    }
 }));
 
 const CssTextField = withStyles({
@@ -249,7 +254,6 @@ const PurchaseOrder = ( { history } ) => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-
                     </Grid>
                 </Container>
                 <Container className={classes.mainContainer}>
@@ -300,7 +304,6 @@ const PurchaseOrder = ( { history } ) => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </Grid>
-
                     </Grid>
                 </Container>
                 <div style={{ marginTop: 30, marginBottom: 30, }}>
@@ -335,7 +338,6 @@ const PurchaseOrder = ( { history } ) => {
                                         </CssTextField>
 
                                     </Grid>
-
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
                                             label="Quantity"
@@ -347,7 +349,6 @@ const PurchaseOrder = ( { history } ) => {
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
                                     </Grid>
-
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
                                             label="Unit Value"
@@ -360,7 +361,6 @@ const PurchaseOrder = ( { history } ) => {
                                         />
 
                                     </Grid>
-
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
                                             label="Remarks"
@@ -371,12 +371,11 @@ const PurchaseOrder = ( { history } ) => {
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
-
                                     </Grid>
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                     </Grid>
                                     <Grid item lg={1} md={3} sm={12} xs={12}>
-                                        <Button onClick={() => deleteItem(value.id)}>
+                                        <Button onClick={() => deleteItem(value.id)} className={classes.deleteRowBtn}>
                                             <DeleteOutlineIcon className={classes.delete} />
                                         </Button>
                                     </Grid>
@@ -415,7 +414,6 @@ const PurchaseOrder = ( { history } ) => {
                         </Grid>
                     </Grid>
                 </Container>
-
             </div>
         </Sidenav>
     )
