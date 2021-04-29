@@ -14,7 +14,7 @@ import Vendors from './dashboard/purchase/vendors/Vendors';
 import { createMuiTheme } from '@material-ui/core/styles';
 import SupplierEvalForm from './dashboard/purchase/supplier eval form/SupplierEvalForm';
 import AppSupplier from './dashboard/purchase/approve supplier list/AppSupplier';
-import { PurchaseOrder } from './dashboard/purchase/purchase order/PurchaseOrder';
+import PurchaseOrder from './dashboard/purchase/purchase order/PurchaseOrder';
 import { PurchaseOrderList } from './dashboard/purchase/purchase order list/PurchaseOrderList';
 import Store from './dashboard/store/Store';
 import Products from './dashboard/store/products/Products';
@@ -30,6 +30,8 @@ import DeptWiseConsReport from './dashboard/store/deptwiseConsReport/DeptWiseCon
 import DeptWiseStoreInventory from './dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
 import MaterialIssueReq from './dashboard/store/materialIssueReq/MaterialIssueReq';
 import OrderDetails from './dashboard/store/deliveryOrder/OrderDetails';
+import PrintPurchaseOrder from './dashboard/purchase/purchase order/PrintPurchaseOrder';
+import PurchaseRequisition from './dashboard/purchase/purchaseReq/PurchaseRequisition';
 
 
 const theme = createMuiTheme({
@@ -54,7 +56,9 @@ function App() {
       <Route exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm} />
       <Route exact path="/purchase/approved_supplier_list" component={AppSupplier} />
       <Route exact path="/purchase/purchase_order" component={PurchaseOrder} />
+      <Route exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder} />
       <Route exact path="/purchase/purchase_order_list" component={PurchaseOrderList} />
+      <Route exact path="/purchase/purchase_requisition" component={PurchaseRequisition} />
       <Route exact path="/storedashboard" component={Store} />
       <Route exact path="/storedashboard/products" component={Products} />
       <Route exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived} />

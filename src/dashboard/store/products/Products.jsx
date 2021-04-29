@@ -134,8 +134,9 @@ const Products = () => {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}></MenuItem>
-                                <MenuItem value={10}>Heavy Truck</MenuItem>
+                                <MenuItem value={10}>Finished</MenuItem>
+                                <MenuItem value={10}>Unfinished</MenuItem>
+                                <MenuItem value={10}>Raw Material</MenuItem>
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -208,6 +209,7 @@ const Products = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                    <StyledTableCell align="center">Product Category</StyledTableCell>
                                     <StyledTableCell align="center">Product Name</StyledTableCell>
                                     <StyledTableCell align="center">Product Code</StyledTableCell>
                                     <StyledTableCell align="center">Min Inventory Level</StyledTableCell>
@@ -218,6 +220,7 @@ const Products = () => {
                             <TableBody >
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Finished</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
@@ -240,7 +243,8 @@ const Products = () => {
                                     </StyledTableCell>
                                 </StyledTableRow>
                                 <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Unfinished</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
@@ -252,7 +256,31 @@ const Products = () => {
                                             }}
                                             style={{ marginTop: 2 }} >
                                             Edit
-                                            </Button>
+                                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                onClick={() => {
+
+                                                }}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Raw Material</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                                        </Button>
                                             <Button variant="contained" color="secondary" size="small"
                                                 onClick={() => {
 

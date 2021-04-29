@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 // import id from 'crypto-random-string'
 import cryptoRandomString from 'crypto-random-string';
+import { withRouter } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -171,7 +172,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-export const PurchaseOrder = () => {
+const PurchaseOrder = ( { history } ) => {
     const classes = useStyles();
     const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
 
@@ -401,9 +402,12 @@ export const PurchaseOrder = () => {
                         <Grid item lg={5} md={5} sm={10} xs={11}>
                         </Grid>
                         <Grid item lg={3} md={3} sm={10} xs={11}>
-                            <Button variant="outlined" color="primary"
+                            <Button 
+                                variant="outlined" color="primary"
                                 className={classes.addButton}
-                                // onClick={addMoreFunc}
+                                onClick={() => {
+                                    history.push('/purchase/purchase_order/print_order')
+                                }}
                             // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                             >
                                 Submit
@@ -416,3 +420,5 @@ export const PurchaseOrder = () => {
         </Sidenav>
     )
 }
+
+export default PurchaseOrder

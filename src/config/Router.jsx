@@ -28,6 +28,8 @@ import DeptWiseConsReport from '../dashboard/store/deptwiseConsReport/DeptWiseCo
 import DeptWiseStoreInventory from '../dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
 import MaterialIssueReq from '../dashboard/store/materialIssueReq/MaterialIssueReq';
 import OrderDetails from '../dashboard/store/deliveryOrder/OrderDetails';
+import PrintPurchaseOrder from '../dashboard/purchase/purchase order/PrintPurchaseOrder';
+import PurchaseRequisition from '../dashboard/purchase/purchaseReq/PurchaseRequisition';
 
 
 
@@ -43,7 +45,9 @@ const Router = () => {
                 <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>
                 <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
+                <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>
+                <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
                 <Router exact path="/storedashboard" component={Store}/>
                 <Router exact path="/storedashboard/products" component={Products}/>
                 <Router exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived}/>
