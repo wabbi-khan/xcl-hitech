@@ -6,8 +6,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -53,8 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
-const PurchaseReqPrint = () => {
+const GoodReceivedPrint = () => {
     const classes = useStyles();
 
     return (
@@ -64,21 +61,10 @@ const PurchaseReqPrint = () => {
                 <h4>Hi-Tech Pipe & Engineering Industries</h4>
                 <h6>Plot No X-22, Site Area Kotri</h6>
                 <p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-                <h5 className="mt-5">PURCHASE REQUISITION</h5>
+                <h5 className="mt-5">Goods Received and Inspection Report</h5>
             </div>
             <div className="container-fluid">
-                <div className="row text-center">
-                    <div className="col-lg-6 col-md-6 mt-4">
-                        <div className="row no-gutters mt-2">
-                            <div className="col-lg-4 col-md-4" align="right">
-                                <p>Department</p>
-                            </div>
-                            <div className="col-lg-4 col-md-4 ml-3">
-                                <p>Purchase</p>
-                                <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-                            </div>
-                        </div>
-                    </div>
+                <div className="row">
                     <div className="col-lg-6 col-md-6 mt-4">
                         <div className="row no-gutters mt-2">
                             <div className="col-lg-4 col-md-4" align="right">
@@ -93,24 +79,36 @@ const PurchaseReqPrint = () => {
                 </div>
             </div>
             <div className={classes.table}>
-                <div className="table ml-auto mr-auto mt-4" style={{ marginTop: 'auto', marginBottom: 'auto', }}>
+                <div className="table ml-auto mr-auto mt-4">
                     <TableContainer>
                         <Table>
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell className="text-dark bg-light" align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">DESCRIPTION</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">Quantity</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Date/Time</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">P.R. No.</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">P.O. No.</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Received From</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Description</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Department</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Unit</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Qty</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Signature of Inspection</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Justification/Remarks</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
                                 <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At fugit consequatur
-                                    </StyledTableCell>
+                                <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis modi atque dolorem</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">23</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">240</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Accepted</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>
@@ -149,4 +147,4 @@ const PurchaseReqPrint = () => {
     )
 }
 
-export default PurchaseReqPrint
+export default GoodReceivedPrint

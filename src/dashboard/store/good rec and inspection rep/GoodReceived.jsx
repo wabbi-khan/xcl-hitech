@@ -109,7 +109,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const GoodReceived = () => {
+const GoodReceived = ( { history } ) => {
     const classes = useStyles();
 
     return (
@@ -133,12 +133,37 @@ const GoodReceived = () => {
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Received From"
+                                label="P.R. No."
                                 variant="outlined"
                                 type="text"
                                 size="small"
                                 autoComplete="off"
+                                className={classes.inputFieldStyle1}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="P.O. No."
+                                variant="outlined"
+                                type="text"
+                                size="small"
+                                autoComplete="off"
+                                className={classes.inputFieldStyle1}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            />
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Received From"
+                                variant="outlined"
+                                type="text"
+                                size="small"
                                 select
+                                autoComplete="off"
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -151,9 +176,13 @@ const GoodReceived = () => {
                                 <MenuItem value={20}>Aneeq</MenuItem>
                             </CssTextField>
                         </Grid>
+                    </Grid>
+                </Container>
+                <Container className={classes.mainContainer}>
+                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="CH. No."
+                                label="Description"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -165,7 +194,38 @@ const GoodReceived = () => {
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Order No."
+                                label="Department"
+                                variant="outlined"
+                                type="text"
+                                size="small"
+                                select
+                                autoComplete="off"
+                                className={classes.inputFieldStyle1}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Purchase</MenuItem>
+                                <MenuItem value={20}>Sales</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Unit"
+                                variant="outlined"
+                                type="text"
+                                size="small"
+                                autoComplete="off"
+                                className={classes.inputFieldStyle1}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            />
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Quantity"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -181,12 +241,12 @@ const GoodReceived = () => {
                     <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="By Manager"
+                                label="Status of Inspection"
                                 variant="outlined"
                                 type="text"
                                 size="small"
-                                autoComplete="off"
                                 select
+                                autoComplete="off"
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -194,14 +254,14 @@ const GoodReceived = () => {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Arsalan</MenuItem>
-                                <MenuItem value={20}>Sagheer</MenuItem>
-                                <MenuItem value={20}>Aneeq</MenuItem>
+                                <MenuItem value={10}>Accepted</MenuItem>
+                                <MenuItem value={20}>Rejected</MenuItem>
+                                <MenuItem value={20}>Signature</MenuItem>
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Vehicle No."
+                                label="Remarks"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -214,7 +274,10 @@ const GoodReceived = () => {
                     </Grid>
                     <div>
                         <Button variant="outlined" color="primary"
-                            className={classes.addButton}
+                                className={classes.addButton}
+                                onClick={() => {
+                                    history.push('/storedashboard/good_received_and_inspection_report/good_rec_inspection_print')
+                                }}
                         >
                             Add
                         </Button>
@@ -227,11 +290,15 @@ const GoodReceived = () => {
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
                                     <StyledTableCell align="center">Date/Time</StyledTableCell>
+                                    <StyledTableCell align="center">P.R. No.</StyledTableCell>
+                                    <StyledTableCell align="center">P.O. No.</StyledTableCell>
                                     <StyledTableCell align="center">Received From</StyledTableCell>
-                                    <StyledTableCell align="center">C.H. No.</StyledTableCell>
-                                    <StyledTableCell align="center">Order No.</StyledTableCell>
-                                    <StyledTableCell align="center">By Manager</StyledTableCell>
-                                    <StyledTableCell align="center">Vehicle No.</StyledTableCell>
+                                    <StyledTableCell align="center">Description</StyledTableCell>
+                                    <StyledTableCell align="center">Department</StyledTableCell>
+                                    <StyledTableCell align="center">Unit</StyledTableCell>
+                                    <StyledTableCell align="center">Qty</StyledTableCell>
+                                    <StyledTableCell align="center">Status of Inspection</StyledTableCell>
+                                    <StyledTableCell align="center">Remarks</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -239,61 +306,15 @@ const GoodReceived = () => {
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">33DL32</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">33DL32</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">33DL32</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis modi atque dolorem</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">23</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">240</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Accepted</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <><Button variant="contained" className="bg-dark text-light" size="small"
                                             onClick={() => {

@@ -33,6 +33,7 @@ import OrderDetails from './dashboard/store/deliveryOrder/OrderDetails';
 import PrintPurchaseOrder from './dashboard/purchase/purchase order/PrintPurchaseOrder';
 import PurchaseRequisition from './dashboard/purchase/purchaseReq/PurchaseRequisition';
 import PurchaseReqPrint from './dashboard/purchase/purchaseReq/PurchaseReqPrint';
+import GoodReceivedPrint from './dashboard/store/good rec and inspection rep/GoodReceivedPrint';
 
 
 const theme = createMuiTheme({
@@ -64,6 +65,7 @@ function App() {
       <Route exact path="/storedashboard" component={Store} />
       <Route exact path="/storedashboard/products" component={Products} />
       <Route exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived} />
+      <Route exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print" component={GoodReceivedPrint} />
       <Route exact path="/storedashboard/products_bin_card" component={ProductsBinCard} />
       <Route exact path="/storedashboard/vehicles" component={Vehicles} />
       <Route exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist} />
