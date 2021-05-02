@@ -129,17 +129,13 @@ const GoodReceivedPrint = () => {
             </div>
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-2 col-md-2">
+                    <div className="col-lg-3 col-md-3">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10 }}>Initiated By</p>
+                        <p style={{ marginTop: -10 }}>Store Incharge</p>
                     </div>
-                    <div className="offset-lg-3 offset-md-3 col-lg-2 col-md-2">
+                    <div className="offset-lg-6 offset-md-6 col-lg-3 col-md-3">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10 }}>Department Head</p>
-                    </div>
-                    <div className="offset-lg-3 offset-md-3 col-lg-2 col-md-2">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10 }}>Approved By</p>
+                        <p style={{ marginTop: -10 }}>Q.A Dept</p>
                     </div>
                 </div>
             </div>
