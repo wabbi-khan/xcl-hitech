@@ -99,7 +99,7 @@ const GoodReceivedPrint = () => {
                             </TableHead>
                             <TableBody >
                                 <StyledTableRow >
-                                <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>

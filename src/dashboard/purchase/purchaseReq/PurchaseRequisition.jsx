@@ -88,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle3: {
         [theme.breakpoints.up('md')]: {
             width: 250,
+            marginLeft: -30
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -97,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle4: {
         [theme.breakpoints.up('md')]: {
             width: 250,
-            marginLeft: 70,
+            marginLeft: 40,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -107,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle5: {
         [theme.breakpoints.up('md')]: {
             width: 250,
-            marginLeft: 140,
+            marginLeft: 110,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -140,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'red',
         fontSize: 38,
         [theme.breakpoints.up('md')]: {
-            marginLeft: 50,
+            marginLeft: 170,
             marginTop: -7,
 
         },
@@ -244,7 +245,26 @@ const PurchaseRequisition = ({ history }) => {
                                     </Grid>
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
-                                            label="Description"
+                                            label="Select Item"
+                                            variant="outlined"
+                                            type="text"
+                                            size="small"
+                                            select
+                                            className={classes.inputFieldStyle2}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            <MenuItem value={10}>Material 01</MenuItem>
+                                            <MenuItem value={20}>Material 02</MenuItem>
+                                        </CssTextField>
+                                    </Grid>
+                                    <Grid item lg={1} md={3} sm={12} xs={12}></Grid>
+                                    <Grid item lg={2} md={3} sm={12} xs={12}>
+                                        <CssTextField id="outlined-basic"
+                                            label="Quantity"
                                             variant="outlined"
                                             type="text"
                                             size="small"
@@ -253,10 +273,9 @@ const PurchaseRequisition = ({ history }) => {
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
                                     </Grid>
-
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
-                                            label="Quantity"
+                                            label="Unit Value"
                                             variant="outlined"
                                             type="text"
                                             size="small"
@@ -268,7 +287,7 @@ const PurchaseRequisition = ({ history }) => {
                                     </Grid>
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
-                                            label="Justification/Remarks"
+                                            label="Remarks"
                                             variant="outlined"
                                             type="text"
                                             size="small"
@@ -277,16 +296,13 @@ const PurchaseRequisition = ({ history }) => {
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
                                     </Grid>
-                                    {/* <Grid item lg={2} md={3} sm={12} xs={12}></Grid> */}
-                                    <Grid item lg={4} md={3} sm={12} xs={12}>
+                                    <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <Button onClick={() => deleteItem(value.id)} className={classes.deleteRowBtn}>
                                             <DeleteOutlineIcon className={classes.delete} />
                                         </Button>
                                     </Grid>
                                 </Grid>
-
                             )
-
                         }
                         )
                     }

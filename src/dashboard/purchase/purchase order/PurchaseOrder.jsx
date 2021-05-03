@@ -380,7 +380,6 @@ const PurchaseOrder = ( { history } ) => {
                                         </Button>
                                     </Grid>
                                 </Grid>
-
                             )
 
                         }
