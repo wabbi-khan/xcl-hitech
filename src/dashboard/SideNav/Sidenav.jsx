@@ -860,7 +860,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/outward_gatepass')
                                 }}
                             >
                                 <ListItemText inset primary="Outward Gate Pass" />
@@ -868,7 +868,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/stock_assessment_report')
                                 }}
                             >
                                 <ListItemText inset primary="Stock Assessment Rep..." />

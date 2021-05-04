@@ -32,6 +32,8 @@ import PrintPurchaseOrder from '../dashboard/purchase/purchase order/PrintPurcha
 import PurchaseRequisition from '../dashboard/purchase/purchaseReq/PurchaseRequisition';
 import PurchaseReqPrint from '../dashboard/purchase/purchaseReq/PurchaseReqPrint';
 import GoodReceivedPrint from '../dashboard/store/good rec and inspection rep/GoodReceivedPrint';
+import OutwardGatePass from '../dashboard/store/outward gate pass/OutwardGatePass';
+import StockAssessReport from '../dashboard/store/stock assessment report/StockAssessReport';
 
 
 
@@ -66,6 +68,8 @@ const Router = () => {
                 <Router exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory}/>
                 <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq}/>
                 <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails}/>
+                <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
+                <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
             </Router>
         </BrowserRouter>
     )

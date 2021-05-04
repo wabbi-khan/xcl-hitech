@@ -106,7 +106,8 @@ const MaterialIssueReq = () => {
                                     <StyledTableCell align="center">Department</StyledTableCell>
                                     <StyledTableCell align="center">Purpose</StyledTableCell>
                                     <StyledTableCell align="center">Req. Date</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
+                                    <StyledTableCell align="center">Unit Value</StyledTableCell>
+                                    <StyledTableCell align="center">Remarks</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
@@ -116,7 +117,9 @@ const MaterialIssueReq = () => {
                                     <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Manufacturing</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">3-3-21</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
+                                    <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                    {/* <StyledTableCell className="text-dark" align="center">
                                         <Button variant="contained" size="small"
                                                 onClick={() => {
 
@@ -124,7 +127,16 @@ const MaterialIssueReq = () => {
                                                 style={{ backgroundColor: '#239690', color: 'whitesmoke',}} >
                                             View Requisition
                                         </Button>
-                                    </StyledTableCell>
+                                    </StyledTableCell> */}
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Item1, Item2, Item3</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Manufacturing</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">3-3-21</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>
                         </Table>

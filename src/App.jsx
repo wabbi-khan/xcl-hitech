@@ -34,6 +34,8 @@ import PrintPurchaseOrder from './dashboard/purchase/purchase order/PrintPurchas
 import PurchaseRequisition from './dashboard/purchase/purchaseReq/PurchaseRequisition';
 import PurchaseReqPrint from './dashboard/purchase/purchaseReq/PurchaseReqPrint';
 import GoodReceivedPrint from './dashboard/store/good rec and inspection rep/GoodReceivedPrint';
+import OutwardGatePass from './dashboard/store/outward gate pass/OutwardGatePass';
+import StockAssessReport from './dashboard/store/stock assessment report/StockAssessReport';
 
 
 const theme = createMuiTheme({
@@ -77,6 +79,8 @@ function App() {
       <Route exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory} />
       <Route exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq} />
       <Route exact path="/storedashboard/delivery_order/order_details" component={OrderDetails} />
+      <Route exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
+      <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
     </BrowserRouter>
   );
 }
