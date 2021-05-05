@@ -777,14 +777,14 @@ function Sidenav(props) {
                             >
                                 <ListItemText inset primary="Products Bin Card" />
                             </ListItem>
-                            <ListItem button
+                            {/* <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('')
                                 }}
                             >
                                 <ListItemText inset primary="Grouped Bin Card" />
-                            </ListItem>
+                            </ListItem> */}
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {

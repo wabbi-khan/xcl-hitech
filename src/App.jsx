@@ -36,6 +36,7 @@ import PurchaseReqPrint from './dashboard/purchase/purchaseReq/PurchaseReqPrint'
 import GoodReceivedPrint from './dashboard/store/good rec and inspection rep/GoodReceivedPrint';
 import OutwardGatePass from './dashboard/store/outward gate pass/OutwardGatePass';
 import StockAssessReport from './dashboard/store/stock assessment report/StockAssessReport';
+import OutGatePassPrint from './dashboard/store/outward gate pass/OutGatePassPrint';
 
 
 const theme = createMuiTheme({
@@ -80,6 +81,7 @@ function App() {
       <Route exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq} />
       <Route exact path="/storedashboard/delivery_order/order_details" component={OrderDetails} />
       <Route exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
+      <Route exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
       <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
     </BrowserRouter>
   );

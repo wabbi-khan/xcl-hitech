@@ -401,7 +401,7 @@ const OutwardGatePass = ({ history }) => {
                                 variant="outlined" color="primary"
                                 className={classes.addButton}
                                 onClick={() => {
-                                    history.push('/purchase/purchase_order/print_order')
+                                    history.push('/storedashboard/outward_gatepass/print_outward_gatepass')
                                 }}
                             // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                             >

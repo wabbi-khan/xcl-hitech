@@ -34,6 +34,7 @@ import PurchaseReqPrint from '../dashboard/purchase/purchaseReq/PurchaseReqPrint
 import GoodReceivedPrint from '../dashboard/store/good rec and inspection rep/GoodReceivedPrint';
 import OutwardGatePass from '../dashboard/store/outward gate pass/OutwardGatePass';
 import StockAssessReport from '../dashboard/store/stock assessment report/StockAssessReport';
+import OutGatePassPrint from '../dashboard/store/outward gate pass/OutGatePassPrint';
 
 
 
@@ -69,6 +70,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq}/>
                 <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails}/>
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
+                <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
             </Router>
         </BrowserRouter>
