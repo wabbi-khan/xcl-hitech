@@ -104,6 +104,7 @@ const DeliveryOrder = ({ history }) => {
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
                                     <StyledTableCell align="center">Customer Name</StyledTableCell>
+                                    <StyledTableCell align="center">Address</StyledTableCell>
                                     <StyledTableCell align="center">Order Date</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
@@ -112,6 +113,7 @@ const DeliveryOrder = ({ history }) => {
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Muhammad Ali</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Zeal Pak, Hyderabad</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">23-4-20</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
                                         <Button variant="contained" size="small"

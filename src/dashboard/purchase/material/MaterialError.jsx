@@ -2,10 +2,10 @@ import React from 'react'
 
 const MaterialError = () => {
     return (
-        <div className="text-center">
-            <div className="bg-dark text-light">
+        <div className="text-center bg-dark text-light">
+            <h5 className="">
                 No Data Found
-            </div>
+            </h5>
         </div>
     )
 }
