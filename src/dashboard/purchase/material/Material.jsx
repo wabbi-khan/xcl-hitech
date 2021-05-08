@@ -135,7 +135,7 @@ const Material = () => {
 
     const onSubmitDate = async (props) => {
         try {
-            await axios.post('http://192.168.1.162:8000/api/material', props)
+            await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
             // console.log('try');
             window.location.reload()
         }
@@ -159,7 +159,7 @@ const Material = () => {
 
     const deleteMaterial = async (params) => {
         try {
-            await axios.delete(`http://192.168.1.162:8000/api/material/${params}`)
+            await axios.delete(`${process.env.REACT_APP_API_URL}/material/${params}`)
             window.location.reload()
         }
         catch (error) {

@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        height: 300
+        height: 300,
+        width: 500
     },
     mainContainer: {
         textAlign: 'center',
@@ -103,7 +104,7 @@ const EditMaterial = (props) => {
     const onSubmit = async (data) => {
         
         try {
-            await axios.patch(`http://192.168.1.162:8000/api/material/${materialId}`, data )
+            await axios.patch(`${process.env.REACT_APP_API_URL}/material/${materialId}`, data )
             window.location.reload()
         }
         catch (error) {

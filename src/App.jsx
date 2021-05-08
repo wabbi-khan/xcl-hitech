@@ -37,7 +37,8 @@ import GoodReceivedPrint from './dashboard/store/good rec and inspection rep/Goo
 import OutwardGatePass from './dashboard/store/outward gate pass/OutwardGatePass';
 import StockAssessReport from './dashboard/store/stock assessment report/StockAssessReport';
 import OutGatePassPrint from './dashboard/store/outward gate pass/OutGatePassPrint';
-
+import dotenv from 'dotenv'
+dotenv.config()
 
 const theme = createMuiTheme({
   palette: {

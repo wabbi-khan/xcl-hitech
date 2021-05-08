@@ -7,7 +7,7 @@ export const getMaterialCategoryAction = () => async (dispatch) => {
     })
     
     try {
-        const { data } = await axios.get('http://192.168.1.162:8000/api/category')
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/category`)
         console.log(data);
 
         dispatch({

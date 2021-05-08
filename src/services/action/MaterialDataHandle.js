@@ -13,7 +13,7 @@ export const getMaterialAction = () => async (dispatch) => {
     })
     
     try {
-        const { data } = await axios.get('http://192.168.1.162:8000/api/material')
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/material`)
         
         dispatch({
             type: MATERIAL_FETCH_SUCCESS,
