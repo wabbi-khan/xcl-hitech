@@ -18,6 +18,7 @@ import MaterialError from './MaterialError';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Loading from './Loading';
+import EditMaterial from './EditMaterial';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -121,8 +122,12 @@ const CssTextField = withStyles({
 })(TextField);
 
 const Material = () => {
-    const [MaterialCategory, setMaterialCategory] = useState()
-    const [MaterialName, setMaterialName] = useState()
+    // For Add and Delete
+    const [MaterialCategory, setMaterialCategory] = useState('')
+    const [MaterialName, setMaterialName] = useState('')
+    const [IsUpdate, setIsUpdate] = useState(false)
+    const [MaterialId, setMaterialId] = useState('')
+
     const classes = useStyles();
     const { register, handleSubmit } = useForm()
 
@@ -132,56 +137,49 @@ const Material = () => {
         try {
             await axios.post('http://192.168.1.162:8000/api/material', props)
             // console.log('try');
+            window.location.reload()
         }
         catch (error) {
             console.log(error);
             console.log('catch');
         }
-        window.location.reload()
-        
     }
-    
+
     useEffect(async () => {
         await dispatch(getMaterialAction())
         await dispatch(getMaterialCategoryAction())
-    }, [ dispatch ])
-    
-    
+    }, [dispatch])
+
+
     const { loading, materials, error } = useSelector(state => state.materials)
     const fetchMatCategory = useSelector(state => state.categories)
     // console.log(loading);
     // console.log(materials);
     // console.log(error);
-    
+
     const deleteMaterial = async (params) => {
         try {
             await axios.delete(`http://192.168.1.162:8000/api/material/${params}`)
-            // console.log('try');
+            window.location.reload()
         }
         catch (error) {
             console.log(error);
             console.log('catch');
         }
-        window.location.reload()
-        
+
     }
 
-    const editMaterial = async (materialInfo) => {
-        const { _id, name, category } = materialInfo
-        // try {
-        //     await axios.delete(`http://192.168.1.162:8000/api/material/${params}`)
-        //     // console.log('try');
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     console.log('catch');
-        // }
-        // window.location.reload()
-        console.log(_id);
-        console.log(name);
-        console.log(category);
-    }
+    const [open, setOpen] = useState(false);
 
+    const handleOpen = async (material) => {
+
+        const { _id, name, category } = material
+        setMaterialId(_id)
+        setMaterialName(name)
+        setMaterialCategory(category._id)
+        setIsUpdate(true)
+        setOpen(true);
+    };
 
     return (
         <Sidenav title={'Material'}>
@@ -195,24 +193,20 @@ const Material = () => {
                             autocomplete="off"
                             size="small"
                             select
-                            onChange={(e) =>
-                                setMaterialCategory(e.target.value)
-                            }
+                            // onChange={(e) =>
+                            //     setMaterialCategory(e.target.value)
+                            // }
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("category", { required: true })}
-                            >
+                        >
                             {
-                                !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Not Found</p> :
-                                fetchMatCategory.categories.map(category => (
-                                    <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
+                                !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
+                                    fetchMatCategory.categories.map(category => (
+                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
                                     ))
-                                }
-                            {/* <MenuItem value="">
-                            <em>None</em>
-                            </MenuItem>
-                        <MenuItem value={20}>Raw Material</MenuItem> */}
+                            }
                         </CssTextField>
                         <CssTextField id="outlined-basic"
                             label="Enter Material Name"
@@ -221,9 +215,6 @@ const Material = () => {
                             autocomplete="off"
                             size="small"
                             autoComplete="off"
-                            onChange={(e) =>
-                                setMaterialName(e.target.value)
-                            }
                             className={classes.inputFieldStyle1}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
@@ -239,6 +230,7 @@ const Material = () => {
                         </div>
                     </form>
                 </Container>
+                <EditMaterial show={open} fetchMatCategory={fetchMatCategory} materialId={MaterialId} materialName={MaterialName} materialCategory={MaterialCategory} />
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
@@ -267,12 +259,14 @@ const Material = () => {
                                                             <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => editMaterial(material) }
+                                                                    onClick={() =>
+                                                                        handleOpen(material)
+                                                                    }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteMaterial(material._id) }
+                                                                        onClick={() => deleteMaterial(material._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
                                                                 </Button></>

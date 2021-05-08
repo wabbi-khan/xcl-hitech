@@ -2,8 +2,8 @@ import React from 'react'
 
 const MaterialError = () => {
     return (
-        <div className="text-center bg-dark text-light">
-            <h5 className="">
+        <div className="">
+            <h5 className="text-center bg-dark text-light m-0 p-2">
                 No Data Found
             </h5>
         </div>

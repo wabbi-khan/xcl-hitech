@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -92,6 +92,17 @@ const useStyles = makeStyles((theme) => ({
 
 const MaterialIssueReq = () => {
     const classes = useStyles();
+    const [switchButton, setSwitchButton] = useState('Incomplete')
+
+    function handleClick() {
+        if (switchButton === "Incomplete") {
+            setSwitchButton("Complete")
+            
+        } 
+        else {
+            setSwitchButton("Incomplete")
+        }
+    }
 
     return (
         <Sidenav title={'Material Issue Requisition'}>
@@ -108,6 +119,7 @@ const MaterialIssueReq = () => {
                                     <StyledTableCell align="center">Req. Date</StyledTableCell>
                                     <StyledTableCell align="center">Unit Value</StyledTableCell>
                                     <StyledTableCell align="center">Remarks</StyledTableCell>
+                                    <StyledTableCell align="center">Status</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
@@ -119,24 +131,33 @@ const MaterialIssueReq = () => {
                                     <StyledTableCell className="text-dark" align="center">3-3-21</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
+                                    <StyledTableCell className="text-dark" align="center">
                                         <Button variant="contained" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ backgroundColor: '#239690', color: 'whitesmoke',}} >
-                                            View Requisition
+                                            onClick={() => 
+                                                handleClick()
+                                            }
+                                            style={{ backgroundColor: 'red', color: 'whitesmoke', }} >
+                                            {switchButton}
                                         </Button>
-                                    </StyledTableCell> */}
+                                    </StyledTableCell>
                                 </StyledTableRow>
                                 <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Item1, Item2, Item3</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Item1, Item2</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Manufacturing</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">3-3-21</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">
+                                        <Button variant="contained" size="small"
+                                            onClick={() => 
+                                                handleClick()
+                                            }
+                                            style={{ backgroundColor: 'red', color: 'whitesmoke', }} >
+                                            {switchButton}
+                                        </Button>
+                                    </StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>
                         </Table>
