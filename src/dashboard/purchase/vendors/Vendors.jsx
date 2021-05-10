@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,7 +17,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import MenuItem from '@material-ui/core/MenuItem';
-import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
+import { getVendorAction } from '../../../services/action/VendorAction';
+import MaterialError from '../material/MaterialError';
+import Loading from '../material/Loading';
+import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction'
+import { getSpecCatMatAction } from '../../../services/action/MaterialDataHandle'
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 
 const GreenCheckbox = withStyles({
@@ -140,145 +146,191 @@ const CssTextField = withStyles({
 })(TextField);
 
 const Vendors = () => {
+    const [MaterialId, setMaterialId] = useState('')
+
     const classes = useStyles();
 
     const dispatch = useDispatch()
 
+    const { register, handleSubmit, formState: { errors } } = useForm()
+
     const fetchMatCategory = useSelector(state => state.categories)
 
     useEffect(async () => {
-        // await dispatch(getMaterialAction())
+        await dispatch(getVendorAction())
         await dispatch(getMaterialCategoryAction())
+        await dispatch(getSpecCatMatAction())
+
     }, [dispatch])
+
+    const { loading, vendors, error } = useSelector(state => state.vendors)
+    // const fetchMatCategory = useSelector(state => state.categories)
+
+    const onSubmitDate = async (props) => {
+        try {
+            // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
+            console.log(props);
+            console.log('try');
+            // window.location.reload()
+            // setAddMatError(false)
+        }
+        catch (error) {
+            // setAddMatError(true)
+            // // setAddMatErrMsg(error.error)
+            // console.log(error);
+            console.log('catch');
+
+        }
+    }
+
+    const getAndSetCatId = (props) => {
+        console.log(props);
+    }
+
 
     return (
         <Sidenav title={'Vendors'}>
             <div>
                 <Container className={classes.mainContainer}>
-                    <Grid container spacing={1}>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Enter Vendor Name"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autocomplete="off"
-                                required
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
+                    <form action="" onSubmit={handleSubmit(onSubmitDate)}>
+                        <Grid container spacing={1}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Enter Vendor Name"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autocomplete="off"
+                                    required
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("name", { required: true, minLength: 1, maxLength: 30 })}
+                                />
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Email (Optional)"
+                                    variant="outlined"
+                                    type="email"
+                                    autocomplete="off"
+                                    size="small"
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("email", { required: true, })}
+                                />
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Phone No."
+                                    variant="outlined"
+                                    type="text"
+                                    autocomplete="off"
+                                    size="small"
+                                    required
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("phone", { required: true, })}
+
+                                />
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Address"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autocomplete="off"
+                                    required
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("address", { required: true, })}
+
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Email (Optional)"
-                                variant="outlined"
-                                type="email"
-                                autocomplete="off"
-                                size="small"
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
+                        <Grid container spacing={1} style={{ marginTop: 8, }}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Select Category"
+                                    variant="outlined"
+                                    type="text"
+                                    autocomplete="off"
+                                    size="small"
+                                    select
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("category", { required: true, })}
+
+                                >
+                                    {
+                                        !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
+                                            fetchMatCategory.categories.map(category => (
+                                                <MenuItem value={category._id}
+                                                onChange={(e) => {
+                                                    console.log('asd')
+                                                }}
+                                                    key={category._id}>{category.name}</MenuItem>
+                                            ))
+                                    }
+                                </CssTextField>
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                            name="checkedI"
+                                        />
+                                    }
+                                    label="Material 1"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                            name="checkedI"
+                                        />
+                                    }
+                                    label="Material 2"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                            name="checkedI"
+                                        />
+                                    }
+                                    label="Material 3"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                            name="checkedI"
+                                        />
+                                    }
+                                    label="Material 4"
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Phone No."
-                                variant="outlined"
-                                type="text"
-                                autocomplete="off"
-                                size="small"
-                                required
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Address"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autocomplete="off"
-                                required
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 8, }}>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Select Category"
-                                variant="outlined"
-                                type="text"
-                                autocomplete="off"
-                                size="small"
-                                select
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
+                        <div>
+                            <Button variant="outlined" color="primary"
+                                type="submit"
+                                className={classes.addButton}
                             >
-                                {
-                                    !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
-                                        fetchMatCategory.categories.map(category => (
-                                            <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                        ))
-                                }
-                            </CssTextField>
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 1"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 2"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 3"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                        name="checkedI"
-                                    />
-                                }
-                                label="Material 4"
-                            />
-                        </Grid>
-                    </Grid>
-                    <div>
-                        <Button variant="outlined" color="primary"
-                            className={classes.addButton}
-                        >
-                            Add Vendor
+                                Add Vendor
                         </Button>
-                    </div>
+                        </div>
+                    </form>
                 </Container>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
@@ -289,103 +341,56 @@ const Vendors = () => {
                                     <StyledTableCell align="center">Vendor Name</StyledTableCell>
                                     <StyledTableCell align="center">Phone No.</StyledTableCell>
                                     <StyledTableCell align="center">Address</StyledTableCell>
+                                    <StyledTableCell align="center">Category</StyledTableCell>
                                     <StyledTableCell align="center">Items</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Asad</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-3030303</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Kotri Site Area, Hyderabad.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material 1, Material 3, Material 4</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                !vendors || !vendors.length ? <p>Not Found</p> :
+                                                    vendors.map((vendor, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
+                                                                        vendor.material.map((value, i) => (
+                                                                            <span key={i}>{value.name}</span>
+                                                                        ))
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() => {
 
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
+                                                                    }}
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
+                                                                </Button>
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() => {
 
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Aneeq</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-3030303</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Kotri Site Area, Hyderabad.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material 1, Material 2, Material 3</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Sagheer</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-3030303</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Kotri Site Area, Hyderabad.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material 2, Material 3, Material 4</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">4.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-3030303</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Kotri Site Area, Hyderabad.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material 1, Material 3, Material 4</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                                                        }}
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
+                                                                    </Button></>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

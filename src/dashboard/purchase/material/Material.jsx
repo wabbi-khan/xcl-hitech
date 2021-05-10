@@ -293,7 +293,6 @@ const Material = () => {
                                                                 </Button></>
                                                             </StyledTableCell>
                                                         </StyledTableRow>
-
                                                     ))
                                                     : <h5>not found</h5>
                                             )
