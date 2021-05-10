@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux'
@@ -146,7 +146,6 @@ const CssTextField = withStyles({
 })(TextField);
 
 const Vendors = () => {
-    const [MaterialId, setMaterialId] = useState('')
 
     const classes = useStyles();
 
@@ -159,12 +158,14 @@ const Vendors = () => {
     useEffect(async () => {
         await dispatch(getVendorAction())
         await dispatch(getMaterialCategoryAction())
-        await dispatch(getSpecCatMatAction())
-
     }, [dispatch])
 
     const { loading, vendors, error } = useSelector(state => state.vendors)
-    // const fetchMatCategory = useSelector(state => state.categories)
+    const fetchMaterial = useSelector(state => state.materials)
+
+    const fetchMaterials = async (id) => {
+        await dispatch(getSpecCatMatAction(id))
+    }
 
     const onSubmitDate = async (props) => {
         try {
@@ -181,10 +182,6 @@ const Vendors = () => {
             console.log('catch');
 
         }
-    }
-
-    const getAndSetCatId = (props) => {
-        console.log(props);
     }
 
 
@@ -254,11 +251,12 @@ const Vendors = () => {
                         </Grid>
                         <Grid container spacing={1} style={{ marginTop: 8, }}>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
+                                <CssTextField
+                                    id="outlined-basic"
                                     label="Select Category"
                                     variant="outlined"
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     size="small"
                                     select
                                     className={classes.inputFieldStyle}
@@ -269,57 +267,37 @@ const Vendors = () => {
                                 >
                                     {
                                         !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
-                                            fetchMatCategory.categories.map(category => (
-                                                <MenuItem value={category._id}
-                                                onChange={(e) => {
-                                                    console.log('asd')
-                                                }}
-                                                    key={category._id}>{category.name}</MenuItem>
+                                            fetchMatCategory.categories.map((category, i) => (
+                                                <MenuItem
+                                                    value={category._id}
+                                                    onClick={(e) => fetchMaterials(category._id)}
+                                                    key={i}
+                                                >
+                                                    {category.name}
+                                                </MenuItem>
                                             ))
                                     }
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                            name="checkedI"
-                                        />
-                                    }
-                                    label="Material 1"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                            name="checkedI"
-                                        />
-                                    }
-                                    label="Material 2"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                            name="checkedI"
-                                        />
-                                    }
-                                    label="Material 3"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                            name="checkedI"
-                                        />
-                                    }
-                                    label="Material 4"
-                                />
+                                {
+                                    !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Materials Not Found</p> :
+                                        fetchMaterial.materials.map((material, i) => (
+                                            <FormControlLabel
+                                                key={i}
+                                                control={
+                                                    <Checkbox
+                                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                                        name="checkedI"
+                                                    />
+                                                }
+                                                label={material.name}
+                                            />
+                                        ))
+                                }
+
+
                             </Grid>
                         </Grid>
                         <div>
