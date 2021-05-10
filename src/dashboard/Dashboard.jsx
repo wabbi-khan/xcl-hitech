@@ -10,6 +10,7 @@ import DashboardImg6 from '../images/6.PNG'
 import DashboardImg7 from '../images/7.PNG'
 import Sidenav from './SideNav/Sidenav';
 import { withRouter } from 'react-router-dom';
+import './dashboard.css';
 // import { ThemeProvider } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: 10,
         },
     },
+    
 }));
 
 const Dashboard = () => {
@@ -56,9 +58,9 @@ const Dashboard = () => {
             <div>
                 <div className={classes.root}>
                     <Grid container spacing={1}>
-                        <div className="container">
+                        <div className="container-fluid">
                             <div className="row">
-                                <div className="col-md-4 col-xl-3">
+                                <div className="col-lg-3 col-md-4 col-xl-3">
                                     <div className="card bg-c-blue order-card">
                                         <div className="card-block">
                                             <h6 className="m-b-20">Orders Received</h6>
@@ -68,7 +70,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-4 col-xl-3">
+                                <div className="col-lg-3 col-md-4 col-xl-3">
                                     <div className="card bg-c-green order-card">
                                         <div className="card-block">
                                             <h6 className="m-b-20">Orders Received</h6>
@@ -78,7 +80,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-4 col-xl-3">
+                                <div className="col-lg-3 col-md-4 col-xl-3">
                                     <div className="card bg-c-yellow order-card">
                                         <div className="card-block">
                                             <h6 className="m-b-20">Orders Received</h6>
@@ -88,7 +90,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="col-md-4 col-xl-3">
+                                <div className="col-lg-3 col-md-4 col-xl-3">
                                     <div className="card bg-c-pink order-card">
                                         <div className="card-block">
                                             <h6 className="m-b-20">Orders Received</h6>

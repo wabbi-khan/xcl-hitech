@@ -127,9 +127,11 @@ const Material = () => {
     const [MaterialName, setMaterialName] = useState('')
     const [IsUpdate, setIsUpdate] = useState(false)
     const [MaterialId, setMaterialId] = useState('')
+    const [AddMatError, setAddMatError] = useState(false)
+    const [AddMatErrMsg, setAddMatErrMsg] = useState('internal server error')
 
     const classes = useStyles();
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
@@ -138,10 +140,14 @@ const Material = () => {
             await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
             // console.log('try');
             window.location.reload()
+            setAddMatError(false)
         }
         catch (error) {
+            setAddMatError(true)
+            // setAddMatErrMsg(error.error)
             console.log(error);
-            console.log('catch');
+            // console.log('catch');
+
         }
     }
 
@@ -218,8 +224,23 @@ const Material = () => {
                             className={classes.inputFieldStyle1}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                            {...register("name", { required: true })}
+                            {...register("name", { required: true, minLength: 1, maxLength: 30 })}
                         />
+                        <br />
+                        {
+                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p> 
+                        }
+                        <br />
+                        {
+                            errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
+                        }
+                        <br />
+                        {
+                            errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
+                        }
+                        {/* {
+                            AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p>  : null
+                        } */}
                         <div>
                             <Button variant="outlined" color="primary"
                                 type="submit"

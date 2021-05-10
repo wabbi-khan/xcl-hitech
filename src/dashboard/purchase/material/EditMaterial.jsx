@@ -73,7 +73,7 @@ const EditMaterial = (props) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
     useEffect(() => {
         setOpen(show)
@@ -102,9 +102,9 @@ const EditMaterial = (props) => {
     })(TextField);
 
     const onSubmit = async (data) => {
-        
+
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/material/${materialId}`, data )
+            await axios.patch(`${process.env.REACT_APP_API_URL}/material/${materialId}`, data)
             window.location.reload()
         }
         catch (error) {
@@ -132,7 +132,7 @@ const EditMaterial = (props) => {
                         <h5 className="text-center mt-4">Update</h5>
                         <Container className={classes.mainContainer}>
                             {/* Form */}
-                            <form onSubmit={ handleSubmit(onSubmit) }>
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <Grid container spacing={1}>
                                     <Grid lg={12} md={12} sm={12}>
                                         <CssTextField id="outlined-basic"
@@ -146,7 +146,7 @@ const EditMaterial = (props) => {
                                             className={classes.inputFieldStyle}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
-                                            {...register("category", { required: true })}
+                                            {...register("category")}
                                         >
                                             {
                                                 !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
@@ -168,14 +168,25 @@ const EditMaterial = (props) => {
                                             className={classes.inputFieldStyle1}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
-                                            {...register("name", { required: true })}
+                                            {...register("name", { minLength: 1, maxLength: 30 })}
                                         />
+                                        {
+                                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
+                                        }
+                                        <br />
+                                        {
+                                            errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
+                                        }
+                                        <br />
+                                        {
+                                            errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
+                                        }
                                     </Grid>
                                 </Grid>
                                 <div>
                                     <Button variant="outlined" color="primary"
                                         className={classes.addButton}
-                                        type="submit"                    
+                                        type="submit"
                                     >
                                         Update
                                     </Button>

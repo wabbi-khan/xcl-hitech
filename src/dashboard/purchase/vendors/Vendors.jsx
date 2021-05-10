@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux'
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -16,6 +17,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import MenuItem from '@material-ui/core/MenuItem';
+import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
+
 
 const GreenCheckbox = withStyles({
     root: {
@@ -83,11 +86,11 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.up('md')]: {
             width: '15%',
-            
+
         },
         [theme.breakpoints.down('sm')]: {
             width: '30%',
-            
+
         },
     },
     table: {
@@ -138,17 +141,15 @@ const CssTextField = withStyles({
 
 const Vendors = () => {
     const classes = useStyles();
-    const [state, setState] = React.useState({
-        checkedA: true,
-        checkedB: true,
-        checkedF: true,
-        checkedG: true,
-    });
 
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
+    const dispatch = useDispatch()
 
+    const fetchMatCategory = useSelector(state => state.categories)
+
+    useEffect(async () => {
+        // await dispatch(getMaterialAction())
+        await dispatch(getMaterialCategoryAction())
+    }, [dispatch])
 
     return (
         <Sidenav title={'Vendors'}>
@@ -191,7 +192,7 @@ const Vendors = () => {
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                                />
+                            />
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
@@ -220,11 +221,12 @@ const Vendors = () => {
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Inventory</MenuItem>
-                                <MenuItem value={20}>Raw Material</MenuItem>
+                                {
+                                    !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
+                                        fetchMatCategory.categories.map(category => (
+                                            <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
+                                        ))
+                                }
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
