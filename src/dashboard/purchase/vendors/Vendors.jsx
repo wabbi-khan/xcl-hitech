@@ -167,21 +167,9 @@ const Vendors = () => {
         await dispatch(getSpecCatMatAction(id))
     }
 
-    const onSubmitDate = async (props) => {
-        try {
-            // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-            console.log(props);
-            console.log('try');
-            // window.location.reload()
-            // setAddMatError(false)
-        }
-        catch (error) {
-            // setAddMatError(true)
-            // // setAddMatErrMsg(error.error)
-            // console.log(error);
-            console.log('catch');
-
-        }
+    const onSubmitData = async (data) => {
+        console.log('onSubmitDate');
+        console.log(data);
     }
 
 
@@ -189,7 +177,7 @@ const Vendors = () => {
         <Sidenav title={'Vendors'}>
             <div>
                 <Container className={classes.mainContainer}>
-                    <form action="" onSubmit={handleSubmit(onSubmitDate)}>
+                    <form onSubmit={handleSubmit(onSubmitData)}>
                         <Grid container spacing={1}>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -289,17 +277,21 @@ const Vendors = () => {
                                                     <Checkbox
                                                         icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                                                         checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                                        name="checkedI"
                                                     />
                                                 }
+                                                name={material.name}
+                                                value={material.name}
                                                 label={material.name}
+                                                {...register("material")}
                                             />
                                         ))
                                 }
                             </Grid>
                         </Grid>
                         <div>
-                            <Button variant="outlined" color="primary"
+                            <Button
+                                variant="outlined"
+                                color="primary"
                                 type="submit"
                                 className={classes.addButton}
                             >
