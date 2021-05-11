@@ -748,7 +748,6 @@ function Sidenav(props) {
                             />
                             {open2 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
-
                     ))}
                     <Collapse in={open2} timeout="auto" unmountOnExit>
                         <Divider />
@@ -883,7 +882,13 @@ function Sidenav(props) {
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
                                 {index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText
+                                primary={text}
+                                onClick={() => {
+                                    history.push('/storedashboard')
+                                }}
+                            />
+                            {open3 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
                     ))}
                 </List>

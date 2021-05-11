@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,6 +24,7 @@ import { getMaterialCategoryAction } from '../../../services/action/MatCategoryA
 import { getSpecCatMatAction } from '../../../services/action/MaterialDataHandle'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import FormGroup from '@material-ui/core/FormGroup';
 
 
 const GreenCheckbox = withStyles({
@@ -149,6 +150,8 @@ const Vendors = () => {
 
     const classes = useStyles();
 
+    const [Materials, setMaterials] = useState([])
+
     const dispatch = useDispatch()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -169,9 +172,34 @@ const Vendors = () => {
 
     const onSubmitData = async (data) => {
         console.log('onSubmitDate');
-        console.log(data);
+        console.log(Materials);
     }
 
+    const getMaterials = async (event) => {
+        // console.log(event.target.checked);
+        if (event.target.checked) {
+            setMaterials([...Materials, event.target.value])
+        }
+        if (event.target.checked === false) {
+            var filtered = Materials.filter(function(value, index, arr){ 
+                return value = event.target.value;
+            });
+            console.log(filtered);
+            
+        }
+    }
+
+    const deleteMaterial = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+            console.log('catch');
+        }
+
+    }
 
     return (
         <Sidenav title={'Vendors'}>
@@ -268,24 +296,33 @@ const Vendors = () => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
+                                <FormGroup row>
                                 {
                                     !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
                                         fetchMaterial.materials.map((material, i) => (
+                                            // <Checkbox
+                                            //     // checked={checked}
+                                            //     // onChange={handleChange}
+                                            //     inputProps={{ 'aria-label': 'primary checkbox' }}
+                                            // />
                                             <FormControlLabel
-                                                key={i}
-                                                control={
-                                                    <Checkbox
-                                                        icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                                        checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                                    />
-                                                }
-                                                name={material.name}
-                                                value={material.name}
-                                                label={material.name}
-                                                {...register("material")}
+                                            key={i}
+                                            control={
+                                                <Checkbox
+                                                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                                checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                                onClick={(e) => getMaterials(e)}
+                                                />
+                                            }
+                                            name={material.name}
+                                            value={material.name}
+                                            label={material.name}
+                                            {...register("material")}
+
                                             />
                                         ))
                                 }
+                                </FormGroup>
                             </Grid>
                         </Grid>
                         <div>
@@ -348,9 +385,7 @@ const Vendors = () => {
                                                                     Edit
                                                                 </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => {
-
-                                                                        }}
+                                                                        onClick={() => deleteMaterial(vendor._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
                                                                     </Button></>
