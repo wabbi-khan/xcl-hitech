@@ -41,15 +41,12 @@ export const getSpecCatMatAction = (_id) => async (dispatch) => {
     
     try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/material/${_id}`)
-
-        console.log(data);
         
         dispatch({
             type: SPEC_CAT_MATERIAL_FETCH_SUCCESS,
             payload: data.materials,
         })
 
-        // console.log(fetchApiData.data.material);
     }
     
     catch (err) {

@@ -8,7 +8,6 @@ export const getMaterialCategoryAction = () => async (dispatch) => {
     
     try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/category`)
-        console.log(data);
 
         dispatch({
             type: CATEGORY_FETCH_SUCCESS,
