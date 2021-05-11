@@ -281,7 +281,7 @@ const Vendors = () => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
                                 {
-                                    !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Materials Not Found</p> :
+                                    !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
                                         fetchMaterial.materials.map((material, i) => (
                                             <FormControlLabel
                                                 key={i}
@@ -296,8 +296,6 @@ const Vendors = () => {
                                             />
                                         ))
                                 }
-
-
                             </Grid>
                         </Grid>
                         <div>

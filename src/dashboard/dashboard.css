@@ -45,3 +45,16 @@
 .f-right {
     float: right;
 }
+
+
+
+.white_card_body {
+    height: 286px;
+}
+
+#bar {
+    display: block; 
+    height: 251px; 
+    width: 277px;
+}
+

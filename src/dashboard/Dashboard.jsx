@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
             marginTop: 10,
         },
     },
-    
+
 }));
 
 const Dashboard = () => {
@@ -118,12 +118,56 @@ const Dashboard = () => {
                         </Grid> */}
                     </Grid>
                     <Grid container spacing={3}>
-                        <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images1}>
-                            <img src={DashboardImg1} alt="" width="240" height="200" />
+                        <Grid item lg={3} md={2} sm={12} xs={12} className={classes.images1}>
+                            <div class="card">
+                                <div class="card-header white">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p class="text-uppercase small mb-2"><strong>Sales</strong></p>
+                                            <h5 class="font-weight-bold mb-0">
+                                                $4567
+                                            <small class="text-success ml-2">
+                                                    <i class="fas fa-arrow-up fa-sm pr-1"></i>
+                                                13,48%
+                                            </small>
+                                            </h5>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <button type="button" class="btn btn-primary btn-sm mt-2">Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="lineChart"></canvas>
+                                </div>
+                                <div class="card-footer white">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="d-flex flex-wrap">
+                                                <div class="select-outline position-relative w-100">
+                                                    <select class="mdb-select md-form md-outline">
+                                                        <option value="1">Today</option>
+                                                        <option value="2">Yesterday</option>
+                                                        <option value="3" selected>Last 7 days</option>
+                                                        <option value="4">Last 28 days</option>
+                                                        <option value="5">Last 90 days</option>
+                                                    </select>
+                                                    <label>Example label</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="md-form md-outline">
+                                                <input placeholder="Custom date" type="text" id="date-picker-example" class="form-control datepicker" />
+                                                <label for="date-picker-example">Unselected</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </Grid>
-
                         <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images1}>
-                            <img src={DashboardImg2} alt="" width="240" height="200" />
+
                         </Grid>
 
                         <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images1}>
@@ -135,6 +179,31 @@ const Dashboard = () => {
                         </Grid>
                     </Grid>
 
+                    {/* <div className="row">
+                        <div className="col-lg-8">
+                            <div className="bar-chart-example card">
+                                <div className="card-close">
+                                    <div className="dropdown">
+                                        <button type="button" id="closeCard6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="dropdown-toggle">
+                                            <i className="fa fa-ellipsis-v"></i>
+                                        </button>
+                                        <div aria-labelledby="closeCard6" class="dropdown-menu dropdown-menu-right has-shadow">
+                                            <a href="#" className="dropdown-item edit">
+                                                <i className="fa fa-gear"></i>
+                                                Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-header d-flex align-items-center">
+                                    <h3 className="h4">Bar Chart Example</h3>
+                                </div>
+                                <div className="card-body">
+                                    <canvas id="barChartExample"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div> */}
                 </div>
                 {/* <h1>saheeer</h1> */}
                 {/* <Card className={classes.root}>
