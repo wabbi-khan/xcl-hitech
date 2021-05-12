@@ -548,6 +548,7 @@ function Sidenav(props) {
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false)
     const [open2, setOpen2] = React.useState(false)
+    const [open3, setOpen3] = React.useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -878,19 +879,141 @@ function Sidenav(props) {
                 <Divider />
                 <List>
                     {['HR'].map((text, index) => (
-                        <ListItem button key={text}>
+                        <ListItem button
+                            key={text}
+                            onClick={() => {
+                                setOpen3(!open3)
+                            }}
+                        >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
                                 {index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
                             </ListItemIcon>
                             <ListItemText
                                 primary={text}
                                 onClick={() => {
-                                    history.push('/storedashboard')
+                                    history.push('/hr_dashboard')
                                 }}
                             />
                             {open3 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
                     ))}
+                    <Collapse in={open3} timeout="auto" unmountOnExit>
+                        <Divider />
+                        <List component="div" disablePadding>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/products')
+                                }}
+                            >
+                                <ListItemText inset primary="Competence Criteria" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/good_received_and_inspection_report')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/products_bin_card')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees Salaries" />
+                            </ListItem>
+                            {/* <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('')
+                                }}
+                            >
+                                <ListItemText inset primary="Grouped Bin Card" />
+                            </ListItem> */}
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/vehicles')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees Leave" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/vehicle_inspect_checklist')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees Attendence" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/delivery_order')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees Perform..." />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/delivery_chalan')
+                                }}
+                            >
+                                <ListItemText inset primary="Trainings" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/daily_inwards_report')
+                                }}
+                            >
+                                <ListItemText inset primary="Training Need..." />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/daily_consumption_report')
+                                }}
+                            >
+                                <ListItemText inset primary="Training PLan" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/department_wise_consumption_report')
+                                }}
+                            >
+                                <ListItemText inset primary="Training Attendence" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/department_wise_store_inventory')
+                                }}
+                            >
+                                <ListItemText inset primary="Training Record" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/material_issue_requisition')
+                                }}
+                            >
+                                <ListItemText inset primary="Job Description" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/storedashboard/outward_gatepass')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees Promotion" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
                 </List>
                 <List>
                     {['Accounts'].map((text, index) => (

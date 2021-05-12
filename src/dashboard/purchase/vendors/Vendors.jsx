@@ -372,7 +372,7 @@ const Vendors = () => {
                                                                 {
                                                                     !vendor.material || !vendor.material.length ? <p>Not Found</p> :
                                                                         vendor.material.map((value, i) => (
-                                                                            <span key={i}>{value.name}</span>
+                                                                            <span key={i} className="ml-1">{value.name},</span>
                                                                         ))
                                                                 }
                                                             </StyledTableCell>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -19,6 +19,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import { useDispatch, useSelector } from 'react-redux'
+import { getVendorAction } from '../../../services/action/VendorAction';
 
 
 const GreenCheckbox = withStyles({
@@ -200,17 +202,19 @@ const select = withStyles({
 
 const SupplierEvalForm = () => {
     const classes = useStyles();
-    const [state, setState] = React.useState({
-        checkedA: true,
-        checkedB: true,
-        checkedF: true,
-        checkedG: true,
-    });
+    const [VendorId, setVendorId] = useState('')
+    const [VendorContact, setVendorContact] = useState('')
+    const [VendorAddress, setVendorAddress] = useState('')
+    const [VendorMaterials, setVendorMaterials] = useState('')
 
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
+    const dispatch = useDispatch()
 
+    useEffect(async () => {
+        await dispatch(getVendorAction())
+    }, [dispatch])
+
+    const { loading, vendors, error } = useSelector(state => state.vendors)
+    // console.log(vendors);
 
     return (
         <Sidenav title={'Supplier Evaluation Form'}>
@@ -230,13 +234,21 @@ const SupplierEvalForm = () => {
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Asad</MenuItem>
-                                <MenuItem value={20}>Aneeq</MenuItem>
-                                <MenuItem value={30}>Sagheer</MenuItem>
-                                <MenuItem value={30}>Arsalan</MenuItem>
+                                {
+                                    !vendors || !vendors.length ? <p>Data Not Found</p> :
+                                    vendors.map(vendor => (
+                                        <MenuItem value={vendor._id} key={vendor._id} 
+                                                    onClick={() => {
+                                                        setVendorId(vendor._id)
+                                                        setVendorContact(vendor.phone)
+                                                        setVendorAddress(vendor.location)
+                                                        setVendorMaterials(vendor.material)
+                                                    }}
+                                        >
+                                            {vendor.name}
+                                        </MenuItem>
+                                    ))
+                                }
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -245,6 +257,8 @@ const SupplierEvalForm = () => {
                                 variant="outlined"
                                 type="email"
                                 size="small"
+                                disabled
+                                value={VendorContact}
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -274,6 +288,8 @@ const SupplierEvalForm = () => {
                                 variant="outlined"
                                 type="email"
                                 size="small"
+                                disabled
+                                value={VendorAddress}
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -289,6 +305,8 @@ const SupplierEvalForm = () => {
                                 variant="outlined"
                                 type="text"
                                 size="small"
+                                disabled
+                                value={VendorMaterials}
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}

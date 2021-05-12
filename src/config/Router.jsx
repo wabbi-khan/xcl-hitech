@@ -35,6 +35,7 @@ import GoodReceivedPrint from '../dashboard/store/good rec and inspection rep/Go
 import OutwardGatePass from '../dashboard/store/outward gate pass/OutwardGatePass';
 import StockAssessReport from '../dashboard/store/stock assessment report/StockAssessReport';
 import OutGatePassPrint from '../dashboard/store/outward gate pass/OutGatePassPrint';
+import HR from '../dashboard/hr/HR';
 
 
 
@@ -72,6 +73,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
+                <Router exact path="/hr_dashboard" component={HR}/>
             </Router>
         </BrowserRouter>
     )
