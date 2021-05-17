@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
 import { getVendorAction } from '../../../services/action/VendorAction';
 import { fetchPersonAction } from '../../../services/action/PersonAction';
+import axios from 'axios';
 
 
 const GreenCheckbox = withStyles({
@@ -213,8 +214,15 @@ const SupplierEvalForm = () => {
     const { loading, vendors, error } = useSelector(state => state.vendors)
     const personsData = useSelector(state => state.persons)
 
-    const onAdd = (data) => {
-        console.log(data);
+    const onAdd = async (data) => {
+        // console.log(data);
+        try {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/vendor/evaluation/${VendorId}`, data)
+
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -222,7 +230,7 @@ const SupplierEvalForm = () => {
         <Sidenav title={'Supplier Evaluation Form'}>
             <div>
                 <h5 className="text-center">Section-A (Company Data)</h5>
-                <form onSubmit={handleSubmit( onAdd )}>
+                <form onSubmit={handleSubmit(onAdd)}>
                     <Container className={classes.mainContainer}>
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -273,11 +281,12 @@ const SupplierEvalForm = () => {
                                     variant="outlined"
                                     type="text"
                                     size="small"
-                                    {...register("contactPerson")}
                                     select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("contactPerson", { required: true })}
+
                                 >
                                     {
                                         !personsData.persons || !personsData.persons.length ? <p>Data Not Found</p> :
@@ -344,7 +353,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("register")}
+                                    {...register("registered")}
 
                                 >
                                     <MenuItem value="">
@@ -402,19 +411,20 @@ const SupplierEvalForm = () => {
                                     id="outlined-basic"
                                     label="Ans"
                                     variant="outlined"
-                                    type="email"
+                                    type="text"
                                     size="small"
                                     select
                                     required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("testingIncoming")}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Yes</MenuItem>
-                                    <MenuItem value={20}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -429,19 +439,20 @@ const SupplierEvalForm = () => {
                                     id="outlined-basic"
                                     label="Ans"
                                     variant="outlined"
-                                    type="email"
+                                    type="text"
                                     size="small"
                                     select
                                     required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("testingProcess")}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Yes</MenuItem>
-                                    <MenuItem value={20}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -456,19 +467,20 @@ const SupplierEvalForm = () => {
                                     id="outlined-basic"
                                     label="Ans"
                                     variant="outlined"
-                                    type="email"
+                                    type="text"
                                     size="small"
                                     select
                                     required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("testingFinal")}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Yes</MenuItem>
-                                    <MenuItem value={20}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -489,7 +501,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("question")}
+                                    {...register("question", { required: true })}
 
                                 >
                                 </CssTextField>
@@ -534,10 +546,14 @@ const SupplierEvalForm = () => {
                                     type="submit"
                                 >
                                     Submit
-                        </Button>
+                                </Button>
 
                             </Grid>
                         </Grid>
+                        <br />
+                        {
+                            errors.contactPerson?.type === 'required' && <p className="mt-3 text-danger">Ans must be required</p> 
+                        }
                     </Container>
                 </form>
             </div>

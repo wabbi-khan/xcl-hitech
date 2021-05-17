@@ -145,8 +145,6 @@ const Material = () => {
         catch (error) {
             setAddMatError(true)
             // setAddMatErrMsg(error.error)
-            console.log(error);
-            // console.log('catch');
 
         }
     }
