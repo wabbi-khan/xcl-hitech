@@ -213,12 +213,16 @@ const SupplierEvalForm = () => {
     const { loading, vendors, error } = useSelector(state => state.vendors)
     const personsData = useSelector(state => state.persons)
 
+    const onAdd = (data) => {
+        console.log(data);
+    }
+
 
     return (
         <Sidenav title={'Supplier Evaluation Form'}>
             <div>
                 <h5 className="text-center">Section-A (Company Data)</h5>
-                <form action="">
+                <form onSubmit={handleSubmit( onAdd )}>
                     <Container className={classes.mainContainer}>
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -269,6 +273,7 @@ const SupplierEvalForm = () => {
                                     variant="outlined"
                                     type="text"
                                     size="small"
+                                    {...register("contactPerson")}
                                     select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
@@ -339,12 +344,14 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("register")}
+
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Yes</MenuItem>
-                                    <MenuItem value={20}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -366,12 +373,14 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("quality")}
+
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Yes</MenuItem>
-                                    <MenuItem value={20}>No</MenuItem>
+                                    <MenuItem value={true}>Yes</MenuItem>
+                                    <MenuItem value={false}>No</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -474,12 +483,14 @@ const SupplierEvalForm = () => {
                                     id="outlined-basic"
                                     label="Ans"
                                     variant="outlined"
-                                    type="email"
+                                    type="text"
                                     size="small"
                                     required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("question")}
+
                                 >
                                 </CssTextField>
                             </Grid>
@@ -495,20 +506,22 @@ const SupplierEvalForm = () => {
                                     id="outlined-basic"
                                     label="Ans"
                                     variant="outlined"
-                                    type="email"
+                                    type="text"
                                     size="small"
                                     select
                                     required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("rating")}
+
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={10}>Low</MenuItem>
-                                    <MenuItem value={20}>Medium</MenuItem>
-                                    <MenuItem value={20}>High</MenuItem>
+                                    <MenuItem value={1}>Low</MenuItem>
+                                    <MenuItem value={2}>Medium</MenuItem>
+                                    <MenuItem value={3}>High</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -518,7 +531,7 @@ const SupplierEvalForm = () => {
                             <Grid item lg={6} md={3} sm={3} xs={3}>
                                 <Button variant="outlined" color="primary"
                                     className={classes.submitButton}
-                                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                                    type="submit"
                                 >
                                     Submit
                         </Button>
