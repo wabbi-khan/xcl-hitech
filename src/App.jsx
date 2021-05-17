@@ -39,6 +39,10 @@ import StockAssessReport from './dashboard/store/stock assessment report/StockAs
 import OutGatePassPrint from './dashboard/store/outward gate pass/OutGatePassPrint';
 import dotenv from 'dotenv'
 import HR from './dashboard/hr/HR';
+import CompetenceCriteria from './dashboard/hr/competence criteria/CompetenceCriteria';
+import Employees from './dashboard/hr/employees/Employees';
+import EmpSalaries from './dashboard/hr/employees salary/EmpSalaries';
+import EmpLeave from './dashboard/hr/employees leave/EmpLeave';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -86,6 +90,10 @@ function App() {
       <Route exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
       <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
       <Route exact path="/hr_dashboard" component={HR} />
+      <Route exact path="/hr/competence_criteria" component={CompetenceCriteria} />
+      <Route exact path="/hr/employees" component={Employees} />
+      <Route exact path="/hr/employees_salaries" component={EmpSalaries} />
+      <Route exact path="/hr/employees_leave" component={EmpLeave} />
     </BrowserRouter>
   );
 }

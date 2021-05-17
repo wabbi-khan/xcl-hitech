@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
 import { getVendorAction } from '../../../services/action/VendorAction';
 import { fetchPersonAction } from '../../../services/action/PersonAction';
+import { appSuppListAction } from '../../../services/action/AppSuppListDataHandle';
 import axios from 'axios';
 
 
@@ -209,6 +210,7 @@ const SupplierEvalForm = () => {
     useEffect(async () => {
         await dispatch(getVendorAction())
         await dispatch(fetchPersonAction())
+        await dispatch(appSuppListAction())
     }, [dispatch])
 
     const { vendors } = useSelector(state => state.vendors)
@@ -341,6 +343,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>1. Are you registered to ISO 9001/ API?</h6>
+                                {
+                                    errors.registered?.type === 'required' && <p className="mt-3 text-danger">ISO Certification must be required</p>
+                                }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -353,7 +358,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("registered")}
+                                    {...register("registered", { required: true })}
 
                                 >
                                     <MenuItem value="">
@@ -369,6 +374,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={7} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>2. Do you have Quality Management / Quality Assurance System?</h6>
+                                {
+                                    errors.quality?.type === 'required' && <p className="mt-3 text-danger">Quality Assurance must be required</p>
+                                }
                             </Grid>
                             <Grid item lg={2} md={2} sm={12} xs={12}>
                                 <CssTextField
@@ -381,7 +389,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("quality")}
+                                    {...register("quality", { required: true })}
 
                                 >
                                     <MenuItem value="">
@@ -404,6 +412,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>a. Incoming stage?</h6>
+                                {/* {
+                                    errors.testingIncoming?.type === 'required' && <p className="mt-3 text-danger">Incoming stage must be required</p>
+                                } */}
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -413,10 +424,11 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
+                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("testingIncoming")}
+                                    // {...register("testingIncoming", { required: true })}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -431,6 +443,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>b. In process state?</h6>
+                                {/* {
+                                    errors.testingProcess?.type === 'required' && <p className="mt-3 text-danger">Incoming stage must be required</p>
+                                } */}
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -440,10 +455,11 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
+                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("testingProcess")}
+                                    // {...register("testingProcess", { required: true })}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -458,6 +474,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>c. Final state?</h6>
+                                {/* {
+                                    errors.testingFinal?.type === 'required' && <p className="mt-3 text-danger">Incoming stage must be required</p>
+                                } */}
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -467,10 +486,11 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
+                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("testingFinal")}
+                                    // {...register("testingFinal", { required: true })}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -488,6 +508,12 @@ const SupplierEvalForm = () => {
                                 {
                                     errors.question?.type === 'required' && <p className="mt-3 text-danger">Ans must be required</p>
                                 }
+                                {
+                                    errors.question?.type === 'maxLength' && <p className="mt-3 text-danger">Ans must be less than or equal to 100</p>
+                                }
+                                {
+                                    errors.question?.type === 'minLength' && <p className="mt-3 text-danger">Ans must be min 5 letters</p>
+                                }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -499,7 +525,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("question", { required: true })}
+                                    {...register("question", { required: true, minLength: 5, maxLength: 100 })}
 
                                 >
                                 </CssTextField>

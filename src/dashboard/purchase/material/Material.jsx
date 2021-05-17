@@ -292,7 +292,7 @@ const Material = () => {
                                                             </StyledTableCell>
                                                         </StyledTableRow>
                                                     ))
-                                                    : <h5>not found</h5>
+                                                    : <h5>Not Found</h5>
                                             )
                                 }
                             </TableBody>

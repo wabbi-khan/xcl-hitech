@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { useDispatch, useSelector } from 'react-redux'
+import { appSuppListAction } from '../../../services/action/AppSuppListDataHandle';
+import Loading from '../material/Loading';
+import MaterialError from '../material/MaterialError';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -59,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
 const AppSupplier = () => {
     const classes = useStyles();
 
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(appSuppListAction())
+    }, [dispatch])
+
+    const { loading, materials, error } = useSelector(state => state.materials)
+
+
     return (
         <Sidenav title={'Approved Supplier List'}>
             <div>
@@ -77,42 +88,29 @@ const AppSupplier = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Ali</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-2020202</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Itm1, Item2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-2020202</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Ali</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Itm1, Item2, Item3</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Excellent</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Osama Khan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-2020202</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Sagheer</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Itm1, Item2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">4.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Aneeq</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">0303-2020202</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Kamran</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Itm1, Item2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                materials.length ?
+                                                    materials.map((material, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">M. Ali</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">0303-2020202</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

@@ -36,6 +36,10 @@ import OutwardGatePass from '../dashboard/store/outward gate pass/OutwardGatePas
 import StockAssessReport from '../dashboard/store/stock assessment report/StockAssessReport';
 import OutGatePassPrint from '../dashboard/store/outward gate pass/OutGatePassPrint';
 import HR from '../dashboard/hr/HR';
+import CompetenceCriteria from '../dashboard/hr/competence criteria/CompetenceCriteria';
+import Employees from '../dashboard/hr/employees/Employees';
+import EmpSalaries from '../dashboard/hr/employees salary/EmpSalaries';
+import EmpLeave from '../dashboard/hr/employees leave/EmpLeave';
 
 
 
@@ -74,6 +78,10 @@ const Router = () => {
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
                 <Router exact path="/hr_dashboard" component={HR}/>
+                <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
+                <Router exact path="/hr/employees" component={Employees}/>
+                <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
+                <Router exact path="/hr/employees_leave" component={EmpLeave}/>
             </Router>
         </BrowserRouter>
     )

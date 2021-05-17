@@ -34,6 +34,8 @@ export const getMaterialAction = () => async (dispatch) => {
 
     }
 }
+
+
 export const getSpecCatMatAction = (_id) => async (dispatch) => {
     dispatch({
         type: SPEC_CAT_MATERIAL_FETCH_REQUEST
