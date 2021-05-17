@@ -211,14 +211,14 @@ const SupplierEvalForm = () => {
         await dispatch(fetchPersonAction())
     }, [dispatch])
 
-    const { loading, vendors, error } = useSelector(state => state.vendors)
+    const { vendors } = useSelector(state => state.vendors)
     const personsData = useSelector(state => state.persons)
 
     const onAdd = async (data) => {
         // console.log(data);
         try {
             await axios.patch(`${process.env.REACT_APP_API_URL}/vendor/evaluation/${VendorId}`, data)
-
+            window.location.reload()
         }
         catch (error) {
             console.log(error);
@@ -240,7 +240,6 @@ const SupplierEvalForm = () => {
                                     type="email"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -291,14 +290,15 @@ const SupplierEvalForm = () => {
                                     {
                                         !personsData.persons || !personsData.persons.length ? <p>Data Not Found</p> :
                                             personsData.persons.map(person => (
-                                                <MenuItem value={person._id} key={person._id}
-
-                                                >
+                                                <MenuItem value={person._id} key={person._id}>
                                                     {person.name}
                                                 </MenuItem>
                                             ))
                                     }
                                 </CssTextField>
+                                {
+                                    errors.contactPerson?.type === 'required' && <p className="mt-3 text-danger">Please Select Contact Person</p>
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -332,6 +332,7 @@ const SupplierEvalForm = () => {
                                 }
                             </Grid>
                         </Grid>
+
                     </Container>
                     <h5 className="text-center mt-5">Section-B (Quality System)</h5>
                     <Container className={classes.mainContainer}>
@@ -349,7 +350,6 @@ const SupplierEvalForm = () => {
                                     type="email"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -378,7 +378,6 @@ const SupplierEvalForm = () => {
                                     type="email"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -414,7 +413,6 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -442,7 +440,6 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -470,7 +467,6 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -489,6 +485,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>4. How do you control Non-Confirming products?</h6>
+                                {
+                                    errors.question?.type === 'required' && <p className="mt-3 text-danger">Ans must be required</p>
+                                }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -497,7 +496,6 @@ const SupplierEvalForm = () => {
                                     variant="outlined"
                                     type="text"
                                     size="small"
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -512,6 +510,9 @@ const SupplierEvalForm = () => {
                             </Grid>
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>5. How do you rate the skills and training of your personnel?</h6>
+                                {
+                                    errors.rating?.type === 'required' && <p className="mt-3 text-danger">rating must be required</p>
+                                }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
                                 <CssTextField
@@ -521,11 +522,10 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("rating")}
+                                    {...register("rating", { required: true })}
 
                                 >
                                     <MenuItem value="">
@@ -537,6 +537,7 @@ const SupplierEvalForm = () => {
                                 </CssTextField>
                             </Grid>
                         </Grid>
+
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={6} md={3} sm={4} xs={4}>
                             </Grid>
@@ -551,9 +552,6 @@ const SupplierEvalForm = () => {
                             </Grid>
                         </Grid>
                         <br />
-                        {
-                            errors.contactPerson?.type === 'required' && <p className="mt-3 text-danger">Ans must be required</p> 
-                        }
                     </Container>
                 </form>
             </div>
