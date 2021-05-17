@@ -305,7 +305,7 @@ const SupplierEvalForm = () => {
                         <Grid container spacing={1} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 {
-                                    !VendorMaterials || !VendorMaterials.length ? <p>Data Not Found</p> : (
+                                    !VendorMaterials || !VendorMaterials.length ? <p>Please select any vendor</p> : (
                                         VendorMaterials.map(vendorMat => (
                                             <FormControlLabel
                                                 disabled label={vendorMat.name}
