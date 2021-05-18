@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
-import { getVendorAction } from '../../../services/action/VendorAction';
+import { getVendorAction, getNonVerifiedVendorAction } from '../../../services/action/VendorAction';
 import { fetchPersonAction } from '../../../services/action/PersonAction';
 import { appSuppListAction } from '../../../services/action/AppSuppListDataHandle';
 import axios from 'axios';
@@ -202,29 +202,35 @@ const SupplierEvalForm = () => {
     const [VendorContact, setVendorContact] = useState('')
     const [VendorAddress, setVendorAddress] = useState('')
     const [VendorMaterials, setVendorMaterials] = useState('')
+    const [EvalSuccess, setEvalSuccess] = useState(false)
+    const [EvalError, setEvalError] = useState(false)
+    const [EvalMsg, setEvalMsg] = useState('')
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(getVendorAction())
+        await dispatch(getNonVerifiedVendorAction())
         await dispatch(fetchPersonAction())
         await dispatch(appSuppListAction())
     }, [dispatch])
 
-    const { vendors } = useSelector(state => state.vendors)
+    const { vendors } = useSelector(state => state.nonVerifiedVendors)
     const personsData = useSelector(state => state.persons)
 
     const onAdd = async (data) => {
         // console.log(data);
         try {
             await axios.patch(`${process.env.REACT_APP_API_URL}/vendor/evaluation/${VendorId}`, data)
-            window.location.reload()
+            setEvalSuccess(true);
+            setEvalMsg("Evaluation has been done")
         }
         catch (error) {
+            setEvalError(true)
             console.log(error);
         }
+        // window.location.reload()
     }
 
 
@@ -428,7 +434,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    // {...register("testingIncoming", { required: true })}
+                                    {...register("testingIncoming")}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -459,7 +465,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    // {...register("testingProcess", { required: true })}
+                                    {...register("testingProcess")}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -490,7 +496,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    // {...register("testingFinal", { required: true })}
+                                    {...register("testingFinal")}
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -563,7 +569,17 @@ const SupplierEvalForm = () => {
                                 </CssTextField>
                             </Grid>
                         </Grid>
-
+                        <Grid container spacing={1} style={{ marginTop: 15, }} >
+                            <Grid item lg={6} md={3} sm={4} xs={4}>
+                                {
+                                    EvalSuccess ? (         
+                                        <span>{EvalMsg}</span>
+                                    )  : EvalError ? (
+                                        <span>{EvalMsg}</span>
+                                    ) : null
+                                }
+                            </Grid>
+                        </Grid>    
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={6} md={3} sm={4} xs={4}>
                             </Grid>

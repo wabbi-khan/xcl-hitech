@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 // import id from 'crypto-random-string'
 import cryptoRandomString from 'crypto-random-string';
-import { withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -194,6 +194,12 @@ const PurchaseOrder = ( { history } ) => {
         setItemCounter(ItemCounter.filter(item => item.id !== index))
         // console.log(index);
     }
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(appSuppListAction())
+    }, [dispatch])
 
     return (
         <Sidenav title={'Purchase Order'}>
