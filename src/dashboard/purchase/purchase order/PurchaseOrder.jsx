@@ -198,7 +198,7 @@ const PurchaseOrder = ( { history } ) => {
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(appSuppListAction())
+        // await dispatch(appSuppListAction())
     }, [dispatch])
 
     return (
