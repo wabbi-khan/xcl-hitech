@@ -49,6 +49,7 @@ import TrainingAttendance from '../dashboard/hr/training attendance/TrainingAtte
 import TrainingRecord from '../dashboard/hr/training record/TrainingRecord';
 import JobDescription from '../dashboard/hr/job description/JobDescription';
 import EmployeePromotion from '../dashboard/hr/employees promotion/EmployeePromotion';
+import CompetenceCriteriaPrint from '../dashboard/hr/competence criteria/CompetenceCriteriaPrint';
 
 
 
@@ -88,6 +89,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
                 <Router exact path="/hr_dashboard" component={HR}/>
                 <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
+                <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
                 <Router exact path="/hr/employees" component={Employees}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>

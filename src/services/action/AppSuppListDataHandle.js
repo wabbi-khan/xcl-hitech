@@ -13,11 +13,11 @@ export const appSuppListAction = () => async (dispatch) => {
     })
     
     try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/material`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/vendor/verified`)
         
         dispatch({
             type: APPSUPPLIST_FETCH_SUCCESS,
-            payload: data.material,
+            payload: data.vendor,
         })
     }
     

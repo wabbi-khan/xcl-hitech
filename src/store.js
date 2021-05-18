@@ -13,7 +13,7 @@ const reducer = combineReducers({
     categories: fetchCategoryReducer,
     vendors: fetchVendorReducer,
     persons: fetchPersonsReducer,
-    materials: fetchAppSuppListReducer
+    verifiedVendors: fetchAppSuppListReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

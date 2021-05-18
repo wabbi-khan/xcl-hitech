@@ -52,6 +52,7 @@ import TrainingAttendance from './dashboard/hr/training attendance/TrainingAtten
 import TrainingRecord from './dashboard/hr/training record/TrainingRecord';
 import JobDescription from './dashboard/hr/job description/JobDescription';
 import EmployeePromotion from './dashboard/hr/employees promotion/EmployeePromotion';
+import CompetenceCriteriaPrint from './dashboard/hr/competence criteria/CompetenceCriteriaPrint';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -100,6 +101,7 @@ function App() {
       <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
       <Route exact path="/hr_dashboard" component={HR} />
       <Route exact path="/hr/competence_criteria" component={CompetenceCriteria} />
+      <Route exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint} />
       <Route exact path="/hr/employees" component={Employees} />
       <Route exact path="/hr/employees_salaries" component={EmpSalaries} />
       <Route exact path="/hr/employees_leave" component={EmpLeave} />

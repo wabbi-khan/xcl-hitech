@@ -67,8 +67,8 @@ const AppSupplier = () => {
         await dispatch(appSuppListAction())
     }, [dispatch])
 
-    const { loading, materials, error } = useSelector(state => state.materials)
-
+    const { loading, verifiedVendors, error } = useSelector(state => state.verifiedVendors)
+    console.log(verifiedVendors);
 
     return (
         <Sidenav title={'Approved Supplier List'}>
@@ -96,19 +96,42 @@ const AppSupplier = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                materials.length ?
-                                                    materials.map((material, i) => (
+                                                !verifiedVendors || !verifiedVendors.length ? <h5>Not Found</h5> :
+                                                    verifiedVendors.map((verifiedVendor, i) => (
                                                         <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">M. Ali</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">0303-2020202</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{verifiedVendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{verifiedVendor.phone}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {verifiedVendor.contactPerson.name}
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !verifiedVendor.material.length ? <span>Not Found</span> : 
+                                                                    (
+                                                                        verifiedVendor.material.map((material, i) => (
+                                                                            <span key={i} >{material.name}, </span>
+                                                                        ))
+                                                                    )
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    verifiedVendor.approveDate
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    verifiedVendor.rating == 3 ? <span>High</span> : 
+                                                                    verifiedVendor.rating == 2 ? <span>Medium</span> :
+                                                                    verifiedVendor.rating == 1 ? <span>Low</span> :
+                                                                    verifiedVendor.rating == 0 ? <span>Bad</span> :
+                                                                    <span>None of these</span>
+                                                                }
+                                                            </StyledTableCell>
                                                         </StyledTableRow>
                                                     ))
-                                                    : <h5>Not Found</h5>
+                                                   
                                             )
                                 }
                             </TableBody>

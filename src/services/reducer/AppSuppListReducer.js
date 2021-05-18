@@ -1,7 +1,7 @@
 import { APPSUPPLIST_FETCH_FAIL, APPSUPPLIST_FETCH_REQUEST, APPSUPPLIST_FETCH_SUCCESS } from "../constants/AppSuppListConst";
 
 export const fetchAppSuppListReducer = (
-    state = { materials: [] },
+    state = { verifiedVendors: [] },
     action
 ) => {
     switch (action.type) {
@@ -12,7 +12,7 @@ export const fetchAppSuppListReducer = (
         case APPSUPPLIST_FETCH_SUCCESS:
             return { 
                 loading: false,
-                materials: action.payload
+                verifiedVendors: action.payload
             }
         case APPSUPPLIST_FETCH_FAIL:
             return { 
