@@ -935,7 +935,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/vehicle_inspect_checklist')
+                                    history.push('/hr/employees_attendance')
                                 }}
                             >
                                 <ListItemText inset primary="Employees Attendence" />
@@ -943,7 +943,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/delivery_order')
+                                    history.push('/hr/employees_performance_assessment')
                                 }}
                             >
                                 <ListItemText inset primary="Employees Perform..." />
@@ -951,7 +951,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/delivery_chalan')
+                                    history.push('/hr/trainings')
                                 }}
                             >
                                 <ListItemText inset primary="Trainings" />
@@ -959,7 +959,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/daily_inwards_report')
+                                    history.push('/hr/training_need_identification')
                                 }}
                             >
                                 <ListItemText inset primary="Training Need..." />
@@ -967,7 +967,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/daily_consumption_report')
+                                    history.push('/hr/training_plan')
                                 }}
                             >
                                 <ListItemText inset primary="Training Plan" />
@@ -975,7 +975,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/department_wise_consumption_report')
+                                    history.push('/hr/training_attendance')
                                 }}
                             >
                                 <ListItemText inset primary="Training Attendence" />
@@ -983,7 +983,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/department_wise_store_inventory')
+                                    history.push('/hr/training_record')
                                 }}
                             >
                                 <ListItemText inset primary="Training Record" />
@@ -991,7 +991,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/material_issue_requisition')
+                                    history.push('/hr/job_description')
                                 }}
                             >
                                 <ListItemText inset primary="Job Description" />
@@ -999,7 +999,7 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/storedashboard/outward_gatepass')
+                                    history.push('/hr/employees_promotion')
                                 }}
                             >
                                 <ListItemText inset primary="Employees Promotion" />

@@ -40,6 +40,15 @@ import CompetenceCriteria from '../dashboard/hr/competence criteria/CompetenceCr
 import Employees from '../dashboard/hr/employees/Employees';
 import EmpSalaries from '../dashboard/hr/employees salary/EmpSalaries';
 import EmpLeave from '../dashboard/hr/employees leave/EmpLeave';
+import EmpAttendance from '../dashboard/hr/employees attendence/EmpAttendance';
+import EmployeePerformance from '../dashboard/hr/employees performance/EmployeePerformance';
+import Trainings from '../dashboard/hr/trainings/Trainings';
+import TrainingNeed from '../dashboard/hr/training need/TrainingNeed';
+import TrainingPlan from '../dashboard/hr/training plan/TrainingPlan';
+import TrainingAttendance from '../dashboard/hr/training attendance/TrainingAttendance';
+import TrainingRecord from '../dashboard/hr/training record/TrainingRecord';
+import JobDescription from '../dashboard/hr/job description/JobDescription';
+import EmployeePromotion from '../dashboard/hr/employees promotion/EmployeePromotion';
 
 
 
@@ -82,6 +91,15 @@ const Router = () => {
                 <Router exact path="/hr/employees" component={Employees}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>
+                <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>
+                <Router exact path="/hr/employees_performance_assessment" component={EmployeePerformance}/>
+                <Router exact path="/hr/trainings" component={Trainings}/>
+                <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>
+                <Router exact path="/hr/training_plan" component={TrainingPlan}/>
+                <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>
+                <Router exact path="/hr/training_record" component={TrainingRecord}/>
+                <Router exact path="/hr/job_description" component={JobDescription}/>
+                <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
             </Router>
         </BrowserRouter>
     )

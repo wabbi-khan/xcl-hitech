@@ -43,6 +43,15 @@ import CompetenceCriteria from './dashboard/hr/competence criteria/CompetenceCri
 import Employees from './dashboard/hr/employees/Employees';
 import EmpSalaries from './dashboard/hr/employees salary/EmpSalaries';
 import EmpLeave from './dashboard/hr/employees leave/EmpLeave';
+import EmpAttendance from './dashboard/hr/employees attendence/EmpAttendance';
+import EmployeePerformance from './dashboard/hr/employees performance/EmployeePerformance';
+import Trainings from './dashboard/hr/trainings/Trainings';
+import TrainingNeed from './dashboard/hr/training need/TrainingNeed';
+import TrainingPlan from './dashboard/hr/training plan/TrainingPlan';
+import TrainingAttendance from './dashboard/hr/training attendance/TrainingAttendance';
+import TrainingRecord from './dashboard/hr/training record/TrainingRecord';
+import JobDescription from './dashboard/hr/job description/JobDescription';
+import EmployeePromotion from './dashboard/hr/employees promotion/EmployeePromotion';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -94,6 +103,15 @@ function App() {
       <Route exact path="/hr/employees" component={Employees} />
       <Route exact path="/hr/employees_salaries" component={EmpSalaries} />
       <Route exact path="/hr/employees_leave" component={EmpLeave} />
+      <Route exact path="/hr/employees_attendance" component={EmpAttendance} />
+      <Route exact path="/hr/employees_performance_assessment" component={EmployeePerformance} />
+      <Route exact path="/hr/trainings" component={Trainings} />
+      <Route exact path="/hr/training_need_identification" component={TrainingNeed} />
+      <Route exact path="/hr/training_plan" component={TrainingPlan} />
+      <Route exact path="/hr/training_attendance" component={TrainingAttendance} />
+      <Route exact path="/hr/training_record" component={TrainingRecord} />
+      <Route exact path="/hr/job_description" component={JobDescription} />
+      <Route exact path="/hr/employees_promotion" component={EmployeePromotion} />
     </BrowserRouter>
   );
 }
