@@ -13,10 +13,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
-import { getVendorAction, getNonVerifiedVendorAction } from '../../../services/action/VendorAction';
+import { getVendorAction, getNonVerifiedVendorAction, appSuppListAction } from '../../../services/action/VendorAction';
 import { fetchPersonAction } from '../../../services/action/PersonAction';
-import { appSuppListAction } from '../../../services/action/AppSuppListDataHandle';
-import axios from 'axios';
+import axios from 'axios';                 
 
 
 const GreenCheckbox = withStyles({
@@ -224,10 +223,11 @@ const SupplierEvalForm = () => {
         try {
             await axios.patch(`${process.env.REACT_APP_API_URL}/vendor/evaluation/${VendorId}`, data)
             setEvalSuccess(true);
-            setEvalMsg("Evaluation has been done")
+            setEvalMsg("Evaluation form has been submitted successfully")
         }
         catch (error) {
             setEvalError(true)
+            setEvalMsg("Something went wrong")
             console.log(error);
         }
         // window.location.reload()

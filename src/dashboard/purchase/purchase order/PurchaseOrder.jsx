@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +10,9 @@ import Select from '@material-ui/core/Select';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 // import id from 'crypto-random-string'
 import cryptoRandomString from 'crypto-random-string';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { appSuppListAction } from '../../../services/action/VendorAction';
+import axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -177,9 +179,11 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const PurchaseOrder = ( { history } ) => {
+const PurchaseOrder = ({ history }) => {
     const classes = useStyles();
     const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
+    const [VendorId, setVendorId] = useState('')
+    const [VendorAddress, setVendorAddress] = useState('')
 
     const addMoreFunc = () => {
         const randomString = cryptoRandomString({ length: 10 });
@@ -198,8 +202,11 @@ const PurchaseOrder = ( { history } ) => {
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        // await dispatch(appSuppListAction())
+        await dispatch(appSuppListAction())
     }, [dispatch])
+
+    const { verifiedVendors } = useSelector(state => state.verifiedVendors)
+    // console.log(verifiedVendors);
 
     return (
         <Sidenav title={'Purchase Order'}>
@@ -218,13 +225,19 @@ const PurchaseOrder = ( { history } ) => {
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Asad</MenuItem>
-                                <MenuItem value={20}>Aneeq</MenuItem>
-                                <MenuItem value={30}>Sagheer</MenuItem>
-                                <MenuItem value={30}>Arsalan</MenuItem>
+                                {
+                                    !verifiedVendors || !verifiedVendors.length ? <p>Data Not Found</p> :
+                                        verifiedVendors.map(verifiedVendor => (
+                                            <MenuItem value={verifiedVendor._id} key={verifiedVendor._id}
+                                                onClick={() => {
+                                                    setVendorId(verifiedVendor._id)
+                                                    setVendorAddress(verifiedVendor.location)
+                                                }}
+                                            >
+                                                {verifiedVendor.name}
+                                            </MenuItem>
+                                        ))
+                                }
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -244,6 +257,8 @@ const PurchaseOrder = ( { history } ) => {
                                 variant="outlined"
                                 type="text"
                                 size="small"
+                                disabled
+                                value={VendorAddress}
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -336,11 +351,17 @@ const PurchaseOrder = ( { history } ) => {
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value={10}>Material 01</MenuItem>
-                                            <MenuItem value={20}>Material 02</MenuItem>
+                                            {/* {
+                                                !verifiedVendors || !verifiedVendors.length ? null : (
+                                                //     verifiedVendors.material || verifiedVendors.material.length ? <p>Data Not Found</p> : (
+                                                        verifiedVendors.material.map((material, i) => (
+                                                            <MenuItem value={material.name} key={i}>
+                                                                {material.name}
+                                                            </MenuItem>
+                                                        ))
+                                                //     )
+                                                )
+                                            } */}
                                         </CssTextField>
 
                                     </Grid>
@@ -406,7 +427,7 @@ const PurchaseOrder = ( { history } ) => {
                         <Grid item lg={5} md={5} sm={10} xs={11}>
                         </Grid>
                         <Grid item lg={3} md={3} sm={10} xs={11}>
-                            <Button 
+                            <Button
                                 variant="outlined" color="primary"
                                 className={classes.addButton}
                                 onClick={() => {

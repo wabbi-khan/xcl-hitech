@@ -20,7 +20,6 @@ export const appSuppListAction = () => async (dispatch) => {
             payload: data.vendor,
         })
     }
-    
     catch (err) {
         dispatch({
             type: APPSUPPLIST_FETCH_FAIL,
