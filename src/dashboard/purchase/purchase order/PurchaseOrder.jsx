@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -180,33 +180,31 @@ const CssTextField = withStyles({
 })(TextField);
 
 const PurchaseOrder = ({ history }) => {
+
     const classes = useStyles();
+    const dispatch = useDispatch()
+
     const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
     const [VendorId, setVendorId] = useState('')
     const [VendorAddress, setVendorAddress] = useState('')
+    const [vendorMaterial, setVendorMaterial] = useState([])
 
-    const addMoreFunc = () => {
-        const randomString = cryptoRandomString({ length: 10 });
-        const addNew = [...ItemCounter, { id: randomString }]
-        setItemCounter(addNew)
-        // console.log('working');
-        // setItemCounter(['1.', '2.'])
-    }
-
-    const deleteItem = (index) => {
-        // const deleteRow = ItemCounter.splice(index, 1)
-        setItemCounter(ItemCounter.filter(item => item.id !== index))
-        // console.log(index);
-    }
-
-    const dispatch = useDispatch()
 
     useEffect(async () => {
         await dispatch(appSuppListAction())
     }, [dispatch])
 
     const { verifiedVendors } = useSelector(state => state.verifiedVendors)
-    // console.log(verifiedVendors);
+
+    const addMoreFunc = () => {
+        const randomString = cryptoRandomString({ length: 10 });
+        const addNew = [...ItemCounter, { id: randomString }]
+        setItemCounter(addNew)
+    }
+
+    const deleteItem = (index) => {
+        setItemCounter(ItemCounter.filter(item => item.id !== index))
+    }
 
     return (
         <Sidenav title={'Purchase Order'}>
@@ -232,6 +230,7 @@ const PurchaseOrder = ({ history }) => {
                                                 onClick={() => {
                                                     setVendorId(verifiedVendor._id)
                                                     setVendorAddress(verifiedVendor.location)
+                                                    setVendorMaterial(verifiedVendor.material)
                                                 }}
                                             >
                                                 {verifiedVendor.name}
@@ -351,17 +350,15 @@ const PurchaseOrder = ({ history }) => {
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         >
-                                            {/* {
-                                                !verifiedVendors || !verifiedVendors.length ? null : (
-                                                //     verifiedVendors.material || verifiedVendors.material.length ? <p>Data Not Found</p> : (
-                                                        verifiedVendors.material.map((material, i) => (
-                                                            <MenuItem value={material.name} key={i}>
-                                                                {material.name}
-                                                            </MenuItem>
-                                                        ))
-                                                //     )
+                                            {
+                                                !vendorMaterial || !vendorMaterial.length ? <p>Select vendor</p> : (
+                                                    vendorMaterial.map((material, i) => (
+                                                        <MenuItem value={material.name} key={i}>
+                                                            {material.name}
+                                                        </MenuItem>
+                                                    ))
                                                 )
-                                            } */}
+                                            }
                                         </CssTextField>
 
                                     </Grid>
