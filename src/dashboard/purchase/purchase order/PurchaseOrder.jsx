@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -6,13 +6,11 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 // import id from 'crypto-random-string'
 import cryptoRandomString from 'crypto-random-string';
 import { useDispatch, useSelector } from 'react-redux'
 import { appSuppListAction } from '../../../services/action/VendorAction';
-import axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -202,8 +200,8 @@ const PurchaseOrder = ({ history }) => {
         setItemCounter(addNew)
     }
 
-    const deleteItem = (index) => {
-        setItemCounter(ItemCounter.filter(item => item.id !== index))
+    const deleteItem = (id) => {
+        setItemCounter(ItemCounter.filter(item => item.id !== id))
     }
 
     return (
@@ -337,7 +335,7 @@ const PurchaseOrder = ({ history }) => {
                             return (
                                 <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
                                     <Grid item lg={1} md={1}>
-                                        <h5 className={classes.itemHeading}>{no}</h5>
+                                        <h5 className={classes.itemHeading}>{value.id}</h5>
                                     </Grid>
                                     <Grid item lg={2} md={3} sm={12} xs={12}>
                                         <CssTextField id="outlined-basic"
