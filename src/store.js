@@ -4,6 +4,7 @@ import { fetchMaterialReducer } from './services/reducer/MaterialReducer'
 import { fetchCategoryReducer } from './services/reducer/MatCategoryReducer'
 import { fetchNonVerifiedVendorReducer, fetchVendorReducer, fetchAppSuppListReducer } from './services/reducer/VendorReducer'
 import { fetchPersonsReducer } from './services/reducer/PersonReducer'
+import { fetchPurchaseOrderReducer, fetchSinglePurchaseOrderReducer } from './services/reducer/OrdersReducer';
 
 const initialState = {}
 
@@ -14,6 +15,9 @@ const reducer = combineReducers({
     verifiedVendors: fetchAppSuppListReducer,
     nonVerifiedVendors: fetchNonVerifiedVendorReducer,
     persons: fetchPersonsReducer,
+    orders: fetchPurchaseOrderReducer,
+    order: fetchSinglePurchaseOrderReducer,
+
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

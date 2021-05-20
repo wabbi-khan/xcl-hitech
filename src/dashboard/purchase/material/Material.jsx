@@ -176,7 +176,6 @@ const Material = () => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = async (material) => {
-
         const { _id, name, category } = material
         setMaterialId(_id)
         setMaterialName(name)

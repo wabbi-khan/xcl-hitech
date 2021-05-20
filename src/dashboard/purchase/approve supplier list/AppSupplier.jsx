@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux'
-import { appSuppListAction } from '../../../services/action/AppSuppListDataHandle';
+import { appSuppListAction } from '../../../services/action/VendorAction';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 
@@ -68,7 +68,6 @@ const AppSupplier = () => {
     }, [dispatch])
 
     const { loading, verifiedVendors, error } = useSelector(state => state.verifiedVendors)
-    console.log(verifiedVendors);
 
     return (
         <Sidenav title={'Approved Supplier List'}>

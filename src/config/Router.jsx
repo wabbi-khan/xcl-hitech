@@ -50,6 +50,7 @@ import TrainingRecord from '../dashboard/hr/training record/TrainingRecord';
 import JobDescription from '../dashboard/hr/job description/JobDescription';
 import EmployeePromotion from '../dashboard/hr/employees promotion/EmployeePromotion';
 import CompetenceCriteriaPrint from '../dashboard/hr/competence criteria/CompetenceCriteriaPrint';
+import FullOrderDetails from '../dashboard/purchase/purchase order list/FullOrderDetails';
 
 
 
@@ -67,6 +68,7 @@ const Router = () => {
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>
+                <Router exact path="/purchase/purchase_order_list/order_details" component={FullOrderDetails}/>
                 <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
                 <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
                 <Router exact path="/storedashboard" component={Store}/>

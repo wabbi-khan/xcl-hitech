@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +9,10 @@ import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPurchaseOrderAction } from '../../../services/action/OrdersAction';
+import Loading from '../material/Loading';
+import MaterialError from '../material/MaterialError';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -18,7 +22,7 @@ const StyledTableCell = withStyles((theme) => ({
     body: {
         fontSize: 14,
     },
-    
+
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -51,12 +55,20 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 700,
         border: '1px solid grey',
-      },
-    
+    },
+
 }));
 
-export const PurchaseOrderList = () => {
+export const PurchaseOrderList = ({ history }) => {
     const classes = useStyles();
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchPurchaseOrderAction())
+    }, [dispatch])
+
+    const { orders, loading, error } = useSelector(state => state.orders)
+    console.log(orders);
 
     return (
         <Sidenav title={'Purchase Order List'}>
@@ -76,59 +88,47 @@ export const PurchaseOrderList = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material1, Material2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <Button className="btn bg-dark text-light">
-                                            View Details
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material1, Material2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <Button className="btn bg-dark text-light">
-                                            View Details
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material1, Material2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <Button className="btn bg-dark text-light">
-                                            View Details
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">M. Rizwan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Material1, Material2</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">20</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <Button className="btn bg-dark text-light">
-                                            View Details
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                !orders || !orders.length ? <h5>Not Found</h5> :
+                                                    orders.map((order, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !order.materials.length ? <span>Not Found</span> :
+                                                                        (
+                                                                            order.materials.map((material, i) => (
+                                                                                <span key={i} >{material.material.name}, </span>
+                                                                            ))
+                                                                        )
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.totalQuantity}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <Button 
+                                                                    className="btn bg-dark text-light"
+                                                                    onClick={() => {
+                                                                        history.push('/purchase/purchase_order_list/order_details')
+                                                                    }}
+                                                                >
+                                                                    View Details
+                                                                </Button>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
