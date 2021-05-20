@@ -53,6 +53,13 @@ const useStyles = makeStyles((theme) => ({
 
 const CompetenceCriteriaPrint = () => {
     const classes = useStyles();
+    
+    // const printPage = () => {
+    //     window.print()
+    //     var printBtn = document.getElementById('printBtn')
+    //     printBtn.style.display = 'none'
+        
+    // }
 
     return (
         <div className="text-center">
@@ -76,6 +83,15 @@ const CompetenceCriteriaPrint = () => {
                             </div>
                         </div>
                     </div>
+                    {/* <div className="offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4">
+                        <button className="btn btn-dark" id="printBtn"
+                                onClick={() => {
+                                    printPage()
+                                }}
+                        >
+                            Print
+                        </button>                        
+                    </div> */}
                 </div>
             </div>
             <div className={classes.table}>

@@ -292,7 +292,7 @@ const SupplierEvalForm = () => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("contactPerson", { required: true })}
+                                    {...register("contactPerson", { required: true })}  
 
                                 >
                                     {
