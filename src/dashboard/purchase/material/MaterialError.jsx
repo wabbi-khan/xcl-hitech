@@ -4,7 +4,7 @@ const MaterialError = () => {
     return (
         <div className="">
             <h5 className="text-center bg-dark text-light m-0 p-2">
-                No Data Found
+                Internal Server Error
             </h5>
         </div>
     )
