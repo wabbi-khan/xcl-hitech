@@ -149,7 +149,9 @@ const CssTextField = withStyles({
 const Vendors = () => {
 
     const classes = useStyles();
-    const [Materials, setMaterials] = useState([])
+    const [materials, setMaterials] = useState([])
+    const [addVendorSuccess, setAddVendorSuccess] = useState(false)
+    const [addVendorFail, setAddVendorFail] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -169,25 +171,6 @@ const Vendors = () => {
         await dispatch(getSpecCatMatAction(id))
     }
 
-    const onSubmitData = async (data) => {
-        console.log('onSubmitDate');
-        console.log(Materials);
-    }
-
-    const getMaterials = async (event) => {
-        // console.log(event.target.checked);
-        if (event.target.checked) {
-            setMaterials([...Materials, event.target.value])
-        }
-        if (event.target.checked === false) {
-            var filtered = Materials.filter(function(value, index, arr){ 
-                return value = event.target.value;
-            });
-            console.log(filtered);
-            
-        }
-    }
-
     const deleteMaterial = async (params) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
@@ -200,12 +183,46 @@ const Vendors = () => {
 
     }
 
+    const onSubmitData = async (data) => {
+
+        try {
+            await axios.post('https://hi-tech-backend.herokuapp.com/api/vendor', {
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                location: data.address,
+                material: materials,
+                category: data.category
+            })
+            setAddVendorSuccess(true)
+        } catch (error) {
+            setAddVendorFail(true)
+        }
+    }
+
+    const getMaterials = async (event) => {
+        const value = event.target.value
+        const checked = event.target.checked
+        if (checked) {
+            console.log("checked");
+            setMaterials([...materials, value])
+        }
+        if (!checked) {
+            console.log("unChecked");
+            console.log(value);
+        }
+    }
+    console.log(materials);
+
+
     return (
         <Sidenav title={'Vendors'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
                         <Grid container spacing={1}>
+
+                            {/* ============Vendor Name======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Enter Vendor Name"
@@ -217,9 +234,11 @@ const Vendors = () => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("name", { required: true, minLength: 1, maxLength: 30 })}
+                                    {...register("name")}
                                 />
                             </Grid>
+
+                            {/* ============Vendor email======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Email (Optional)"
@@ -233,6 +252,8 @@ const Vendors = () => {
                                     {...register("email", { required: true, })}
                                 />
                             </Grid>
+
+                            {/* ============Vendor phone======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Phone No."
@@ -248,6 +269,8 @@ const Vendors = () => {
 
                                 />
                             </Grid>
+
+                            {/* ============Vendor location======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Address"
@@ -263,8 +286,11 @@ const Vendors = () => {
 
                                 />
                             </Grid>
+
                         </Grid>
                         <Grid container spacing={1} style={{ marginTop: 8, }}>
+
+                            {/* ============Vendor category======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id="outlined-basic"
@@ -294,36 +320,39 @@ const Vendors = () => {
                                     }
                                 </CssTextField>
                             </Grid>
+
+                            {/* ============Vendor category material======================== */}
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
                                 <FormGroup row>
-                                {
-                                    !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
-                                        fetchMaterial.materials.map((material, i) => (
-                                            // <Checkbox
-                                            //     // checked={checked}
-                                            //     // onChange={handleChange}
-                                            //     inputProps={{ 'aria-label': 'primary checkbox' }}
-                                            // />
-                                            <FormControlLabel
-                                            key={i}
-                                            control={
-                                                <Checkbox
-                                                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                                checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                                onClick={(e) => getMaterials(e)}
+                                    {
+                                        !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
+                                            fetchMaterial.materials.map((material, i) => (
+                                                <FormControlLabel
+                                                    key={i}
+                                                    control={
+                                                        <Checkbox
+                                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                                            onClick={(e) => getMaterials(e)}
+                                                        />
+                                                    }
+                                                    name={material.name}
+                                                    value={material._id}
+                                                    label={material.name}
                                                 />
-                                            }
-                                            name={material.name}
-                                            value={material.name}
-                                            label={material.name}
-                                            {...register("material")}
-
-                                            />
-                                        ))
-                                }
+                                            ))
+                                    }
                                 </FormGroup>
                             </Grid>
                         </Grid>
+
+                        {/* ============All msg show here about add vendor succsese / fail========= */}
+                        {
+                            addVendorSuccess ? <span>Vendor Add Successfully</span> : null
+                        }
+                        {
+                            addVendorFail ? <span>Vendor Add Fail</span> : null
+                        }
                         <div>
                             <Button
                                 variant="outlined"
