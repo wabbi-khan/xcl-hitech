@@ -1,12 +1,39 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
+import Loading from '../material/Loading';
+import MaterialError from '../material/MaterialError';
 
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+    },
+}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -90,240 +117,187 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const FullOrderDetails = () => {
+const FullOrderDetails = (props) => {
+    const id = props.match.params.id
     const classes = useStyles();
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(fetchSinglePurchaseOrderAction())
+        await dispatch(fetchSinglePurchaseOrderAction(id))
     }, [dispatch])
 
-    const { orders, loading, error } = useSelector(state => state.orders)
+    const { order, loading, error } = useSelector(state => state.order)
+    console.log(order);
 
     return (
         <Sidenav title={'Order Details'}>
             <div>
                 <Container className={classes.mainContainer}>
-                        <Grid container spacing={1}>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Vendor Name"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="P.O. No"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="P.R. No."
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Payment Terms"
-                                    variant="outlined"
-                                    type="email"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
+                    <Grid container spacing={1}>
+                            {
+                                loading ? (
+                                    <Loading />
+                                ) :
+                                    error ? (
+                                        <MaterialError />
+                                    ) :
+                                        (
+                                            !order ? <h5>Not Found</h5> :
+                                             (
+                                                <span>asd</span>
+                                             )   
+                                        )
+                            }
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Vendor Name"
+                                variant="outlined"
+                                type="text"
+                                size="small"
+                                autocomplete="off"
+                                disabled
+                                // value={order.vendor.name}
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            />
                         </Grid>
-                        <Grid container spacing={1} className="mt-3">
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Payment Subject"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Reference"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Date"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="P.O. No"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                disabled
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
                         </Grid>
-                        <Grid container spacing={1} className="mt-3">
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Material Name"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Quantity"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Unit Value"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Remarks"
-                                    variant="outlined"
-                                    type="email"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="P.R. No."
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                disabled
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
                         </Grid>
-                        <Grid container spacing={1} className="mt-3">
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Material Name"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Quantity"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Unit Value"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Remarks"
-                                    variant="outlined"
-                                    type="email"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                >
-                                </CssTextField>
-                            </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Payment Terms"
+                                variant="outlined"
+                                type="email"
+                                autocomplete="off"
+                                size="small"
+                                disabled
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
                         </Grid>
-                        {/* <div>
+                    </Grid>
+                    <Grid container spacing={1} className="mt-3">
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Payment Subject"
+                                variant="outlined"
+                                type="text"
+                                size="small"
+                                autocomplete="off"
+                                disabled
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Reference"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                disabled
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Date"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                disabled
+                                className={classes.inputFieldStyle}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    <div className={classes.dataTable}>
+                        <TableContainer className={classes.tableContainer} >
+                            <Table stickyHeader className={classes.table} style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                                <TableHead>
+                                    <TableRow hover role="checkbox">
+                                        <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                        <StyledTableCell align="center">Material Name</StyledTableCell>
+                                        <StyledTableCell align="center">Quantity</StyledTableCell>
+                                        <StyledTableCell align="center">Unit Value</StyledTableCell>
+                                        <StyledTableCell align="center">Remarks</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody >
+                                    {/* {
+                                        loading ? (
+                                            <Loading />
+                                        ) :
+                                            error ? (
+                                                <MaterialError />
+                                            ) :
+                                                (
+                                                    !orders || !orders.length ? <h5>Not Found</h5> :
+                                                        orders.map((order, i) => (
+                                                            <StyledTableRow key={i}>
+                                                                <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                                                <StyledTableCell className="text-dark" align="center"></StyledTableCell>
+                                                                <StyledTableCell className="text-dark" align="center"></StyledTableCell>
+                                                                <StyledTableCell className="text-dark" align="center">
+                                                                    {
+                                                                        !order.materials.length ? <span>Not Found</span> :
+                                                                            (
+                                                                                order.materials.map((material, i) => (
+                                                                                    <span key={i} >{material.material.name}, </span>
+                                                                                ))
+                                                                            )
+                                                                    }
+                                                                </StyledTableCell>
+                                                                <StyledTableCell className="text-dark" align="center"></StyledTableCell>
+                                                            </StyledTableRow>
+                                                        ))
+
+                                                )
+                                    } */}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                    {/* <div>
                             <Button
                                 variant="outlined"
                                 color="primary"
@@ -337,7 +311,7 @@ const FullOrderDetails = () => {
                             </Button>
                         </div> */}
                 </Container>
-                
+
             </div>
         </Sidenav>
     )

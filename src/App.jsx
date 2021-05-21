@@ -80,7 +80,7 @@ function App() {
       <Route exact path="/purchase/purchase_order" component={PurchaseOrder} />
       <Route exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder} />
       <Route exact path="/purchase/purchase_order_list" component={PurchaseOrderList} />
-      <Route exact path="/purchase/purchase_order_list/order_details" component={FullOrderDetails} />
+      <Route exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails} />
       <Route exact path="/purchase/purchase_requisition" component={PurchaseRequisition} />
       <Route exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint} />
       <Route exact path="/storedashboard" component={Store} />

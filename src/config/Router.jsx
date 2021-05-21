@@ -68,7 +68,7 @@ const Router = () => {
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>
-                <Router exact path="/purchase/purchase_order_list/order_details" component={FullOrderDetails}/>
+                <Router exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails}/>
                 <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
                 <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
                 <Router exact path="/storedashboard" component={Store}/>

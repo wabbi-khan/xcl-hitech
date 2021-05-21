@@ -45,7 +45,7 @@ export const fetchSinglePurchaseOrderReducer = (
         case SINGLE_PURCHASE_ORDER_FETCH_SUCCESS:
             return { 
                 loading: false,
-                orders: action.payload
+                order: action.payload
             }
         case SINGLE_PURCHASE_ORDER_FETCH_FAIL:
             return { 

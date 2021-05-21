@@ -118,7 +118,7 @@ export const PurchaseOrderList = ({ history }) => {
                                                                 <Button 
                                                                     className="btn bg-dark text-light"
                                                                     onClick={() => {
-                                                                        history.push('/purchase/purchase_order_list/order_details')
+                                                                        history.push(`/purchase/purchase_order_list/order_details/${order._id}`)
                                                                     }}
                                                                 >
                                                                     View Details
