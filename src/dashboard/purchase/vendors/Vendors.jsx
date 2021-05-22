@@ -169,23 +169,20 @@ const Vendors = () => {
         await dispatch(getSpecCatMatAction(id))
     }
 
-    const onSubmitData = async (data) => {
-        console.log('onSubmitDate');
-        console.log(Materials);
-    }
 
     const getMaterials = async (event) => {
-        // console.log(event.target.checked);
+        // console.log(event.target);
         if (event.target.checked) {
             setMaterials([...Materials, event.target.value])
         }
         if (event.target.checked === false) {
-            var filtered = Materials.filter(function(value, index, arr){ 
-                return value = event.target.value;
-            });
-            console.log(filtered);
-            
+            setMaterials(Materials.filter((value) => value !== event.target.value));
         }
+    }
+
+    const onSubmitData = async (data) => {
+        data.material = Materials
+        console.log(data);
     }
 
     const deleteMaterial = async (params) => {
@@ -200,6 +197,11 @@ const Vendors = () => {
 
     }
 
+    useEffect(() => {
+        console.log(Materials);
+
+    }, [Materials])
+
     return (
         <Sidenav title={'Vendors'}>
             <div>
@@ -213,11 +215,10 @@ const Vendors = () => {
                                     type="text"
                                     size="small"
                                     autocomplete="off"
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("name", { required: true, minLength: 1, maxLength: 30 })}
+                                    {...register("name", { required: true })}
                                 />
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -240,7 +241,6 @@ const Vendors = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -255,7 +255,6 @@ const Vendors = () => {
                                     type="text"
                                     size="small"
                                     autocomplete="off"
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -290,37 +289,33 @@ const Vendors = () => {
                                                 >
                                                     {category.name}
                                                 </MenuItem>
-                                            ))
+                                            )
+                                            )
                                     }
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
                                 <FormGroup row>
-                                {
-                                    !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
-                                        fetchMaterial.materials.map((material, i) => (
-                                            // <Checkbox
-                                            //     // checked={checked}
-                                            //     // onChange={handleChange}
-                                            //     inputProps={{ 'aria-label': 'primary checkbox' }}
-                                            // />
-                                            <FormControlLabel
-                                            key={i}
-                                            control={
-                                                <Checkbox
-                                                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                                                checkedIcon={<CheckBoxIcon fontSize="small" />}
-                                                onClick={(e) => getMaterials(e)}
-                                                />
-                                            }
-                                            name={material.name}
-                                            value={material.name}
-                                            label={material.name}
-                                            {...register("material")}
+                                    {
+                                        !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
+                                            fetchMaterial.materials.map((material, i) => (
+                                                <FormControlLabel
+                                                    key={i}
+                                                    control={
+                                                        <Checkbox
+                                                            icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                                            checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                                            onChange={(e) => getMaterials(e)}
+                                                        />
+                                                    }
+                                                    name={material.name}
+                                                    value={material.name}
+                                                    label={material.name}
+                                                    {...register("material")}
 
-                                            />
-                                        ))
-                                }
+                                                />
+                                            ))
+                                    }
                                 </FormGroup>
                             </Grid>
                         </Grid>
@@ -332,7 +327,7 @@ const Vendors = () => {
                                 className={classes.addButton}
                             >
                                 Add Vendor
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>

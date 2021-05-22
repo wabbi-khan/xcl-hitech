@@ -3,34 +3,8 @@ import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -114,17 +88,11 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const Employees = ({ history }) => {
+const ViewEmpDetails = () => {
     const classes = useStyles();
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
-
-    const onSubmitData = () => {
-        console.log('data submit');
-    }
-
     return (
-        <Sidenav title={'Employees'}>
+        <Sidenav title={'Employee Details'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
@@ -231,7 +199,7 @@ const Employees = ({ history }) => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Hiring Date"
+                                    // label="Hiring Date"
                                     variant="outlined"
                                     type="date"
                                     autocomplete="off"
@@ -252,11 +220,24 @@ const Employees = ({ history }) => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem value="0">
+                                        PHD
+                                    </MenuItem>
+                                    <MenuItem value="1">
+                                        Masters
+                                    </MenuItem>
+                                    <MenuItem value="2">
+                                        Bachelors
+                                    </MenuItem>
+                                    <MenuItem value="3">
+                                        Diploma
+                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -266,11 +247,18 @@ const Employees = ({ history }) => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem value="0">
+                                        Accounting
+                                    </MenuItem>
+                                    <MenuItem value="1">
+                                        Sales Expert
+                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -280,11 +268,30 @@ const Employees = ({ history }) => {
                                     type="email"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem value="0">
+                                        Fresher
+                                    </MenuItem>
+                                    <MenuItem value="1">
+                                        0-2 years
+                                    </MenuItem>
+                                    <MenuItem value="2">
+                                        2-4 years
+                                    </MenuItem>
+                                    <MenuItem value="3">
+                                        4-6 years
+                                    </MenuItem>
+                                    <MenuItem value="4">
+                                        6-8 years
+                                    </MenuItem>
+                                    <MenuItem value="5">
+                                        8-10 years
+                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -294,11 +301,18 @@ const Employees = ({ history }) => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem value="0">
+                                        Purchase
+                                    </MenuItem>
+                                    <MenuItem value="1" >
+                                        Sales
+                                    </MenuItem>
                                 </CssTextField>
                                 {/* {
                                         !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
@@ -317,7 +331,7 @@ const Employees = ({ history }) => {
                         <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Designation"
+                                    label="Select Designation"
                                     variant="outlined"
                                     type="text"
                                     size="small"
@@ -328,6 +342,19 @@ const Employees = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
+                                    <MenuItem value="0"
+                                    // value={category._id}
+                                    // onClick={(e) => fetchMaterials(category._id)}
+                                    // key={i}
+                                    >
+                                        Manager
+                                    </MenuItem>
+                                    <MenuItem value="1" >
+                                        Assistant Manager
+                                    </MenuItem>
+                                    <MenuItem value="2" >
+                                        Head of Department
+                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
 
@@ -350,91 +377,9 @@ const Employees = ({ history }) => {
                         </div>
                     </form>
                 </Container>
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Employee Name</StyledTableCell>
-                                    <StyledTableCell align="center">Department</StyledTableCell>
-                                    <StyledTableCell align="center">Designation</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Sales</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Assistant Manager</StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
-                                        {
-                                            !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                vendor.material.map((value, i) => (
-                                                    <span key={i} className="ml-1">{value.name},</span>
-                                                ))
-                                        }
-                                    </StyledTableCell> */}
-                                    <StyledTableCell className="text-light" align="center">
-                                        <Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-                                                history.push('/hr/employees/view_emp_details')
-                                            }}
-                                        >
-                                            View Report
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                {/* {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                !vendors || !vendors.length ? <p>Not Found</p> :
-                                                    vendors.map((vendor, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteMaterial(vendor._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                    </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                            )
-                                } */}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
             </div>
         </Sidenav>
     )
 }
 
-export default Employees
+export default ViewEmpDetails
