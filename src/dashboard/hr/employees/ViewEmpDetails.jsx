@@ -4,6 +4,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import { useForm } from 'react-hook-form';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -91,11 +92,13 @@ const CssTextField = withStyles({
 const ViewEmpDetails = () => {
     const classes = useStyles();
 
+    const { register, handleSubmit, formState: { errors } } = useForm()
+
     return (
         <Sidenav title={'Employee Details'}>
             <div>
                 <Container className={classes.mainContainer}>
-                    <form onSubmit={handleSubmit(onSubmitData)}>
+                    <form>
                         <Grid container spacing={1}>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -199,7 +202,7 @@ const ViewEmpDetails = () => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    // label="Hiring Date"
+                                    label="Hiring Date"
                                     variant="outlined"
                                     type="date"
                                     autocomplete="off"
@@ -220,24 +223,11 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
-                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        PHD
-                                    </MenuItem>
-                                    <MenuItem value="1">
-                                        Masters
-                                    </MenuItem>
-                                    <MenuItem value="2">
-                                        Bachelors
-                                    </MenuItem>
-                                    <MenuItem value="3">
-                                        Diploma
-                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -247,18 +237,11 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
-                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        Accounting
-                                    </MenuItem>
-                                    <MenuItem value="1">
-                                        Sales Expert
-                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -268,30 +251,11 @@ const ViewEmpDetails = () => {
                                     type="email"
                                     autocomplete="off"
                                     size="small"
-                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        Fresher
-                                    </MenuItem>
-                                    <MenuItem value="1">
-                                        0-2 years
-                                    </MenuItem>
-                                    <MenuItem value="2">
-                                        2-4 years
-                                    </MenuItem>
-                                    <MenuItem value="3">
-                                        4-6 years
-                                    </MenuItem>
-                                    <MenuItem value="4">
-                                        6-8 years
-                                    </MenuItem>
-                                    <MenuItem value="5">
-                                        8-10 years
-                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -301,18 +265,11 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
-                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        Purchase
-                                    </MenuItem>
-                                    <MenuItem value="1" >
-                                        Sales
-                                    </MenuItem>
                                 </CssTextField>
                                 {/* {
                                         !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
@@ -336,45 +293,14 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     size="small"
                                     autocomplete="off"
-                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
-                                    <MenuItem value="0"
-                                    // value={category._id}
-                                    // onClick={(e) => fetchMaterials(category._id)}
-                                    // key={i}
-                                    >
-                                        Manager
-                                    </MenuItem>
-                                    <MenuItem value="1" >
-                                        Assistant Manager
-                                    </MenuItem>
-                                    <MenuItem value="2" >
-                                        Head of Department
-                                    </MenuItem>
                                 </CssTextField>
                             </Grid>
-
-                            <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-
-                            </Grid>
                         </Grid>
-                        <div>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                                onClick={() => {
-                                    // history.push('')
-                                }}
-                            >
-                                Add
-                        </Button>
-                        </div>
                     </form>
                 </Container>
             </div>
