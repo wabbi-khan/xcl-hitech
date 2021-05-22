@@ -171,6 +171,25 @@ const Vendors = () => {
         await dispatch(getSpecCatMatAction(id))
     }
 
+<<<<<<< HEAD
+=======
+
+    const getMaterials = async (event) => {
+        // console.log(event.target);
+        if (event.target.checked) {
+            setMaterials([...Materials, event.target.value])
+        }
+        if (event.target.checked === false) {
+            setMaterials(Materials.filter((value) => value !== event.target.value));
+        }
+    }
+
+    const onSubmitData = async (data) => {
+        data.material = Materials
+        console.log(data);
+    }
+
+>>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
     const deleteMaterial = async (params) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
@@ -183,6 +202,7 @@ const Vendors = () => {
 
     }
 
+<<<<<<< HEAD
     const onSubmitData = async (data) => {
 
         try {
@@ -214,6 +234,12 @@ const Vendors = () => {
     }
     console.log(materials);
 
+=======
+    useEffect(() => {
+        console.log(Materials);
+
+    }, [Materials])
+>>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
 
     return (
         <Sidenav title={'Vendors'}>
@@ -230,11 +256,14 @@ const Vendors = () => {
                                     type="text"
                                     size="small"
                                     autocomplete="off"
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+<<<<<<< HEAD
                                     {...register("name")}
+=======
+                                    {...register("name", { required: true })}
+>>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
                                 />
                             </Grid>
 
@@ -261,7 +290,6 @@ const Vendors = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -278,7 +306,6 @@ const Vendors = () => {
                                     type="text"
                                     size="small"
                                     autocomplete="off"
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -316,7 +343,8 @@ const Vendors = () => {
                                                 >
                                                     {category.name}
                                                 </MenuItem>
-                                            ))
+                                            )
+                                            )
                                     }
                                 </CssTextField>
                             </Grid>
@@ -333,12 +361,23 @@ const Vendors = () => {
                                                         <Checkbox
                                                             icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                                                             checkedIcon={<CheckBoxIcon fontSize="small" />}
+<<<<<<< HEAD
                                                             onClick={(e) => getMaterials(e)}
                                                         />
                                                     }
                                                     name={material.name}
                                                     value={material._id}
                                                     label={material.name}
+=======
+                                                            onChange={(e) => getMaterials(e)}
+                                                        />
+                                                    }
+                                                    name={material.name}
+                                                    value={material.name}
+                                                    label={material.name}
+                                                    {...register("material")}
+
+>>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
                                                 />
                                             ))
                                     }
@@ -361,7 +400,7 @@ const Vendors = () => {
                                 className={classes.addButton}
                             >
                                 Add Vendor
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>

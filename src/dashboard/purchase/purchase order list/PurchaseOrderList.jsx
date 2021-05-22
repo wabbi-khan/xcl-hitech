@@ -99,7 +99,7 @@ export const PurchaseOrderList = ({ history }) => {
                                                 !orders || !orders.length ? <h5>Not Found</h5> :
                                                     orders.map((order, i) => (
                                                         <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{i+1}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
@@ -113,7 +113,7 @@ export const PurchaseOrderList = ({ history }) => {
                                                                 }
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.totalQuantity}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">2-1-2020</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.date}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <Button 
                                                                     className="btn bg-dark text-light"

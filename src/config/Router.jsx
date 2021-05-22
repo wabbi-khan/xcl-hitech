@@ -51,6 +51,7 @@ import JobDescription from '../dashboard/hr/job description/JobDescription';
 import EmployeePromotion from '../dashboard/hr/employees promotion/EmployeePromotion';
 import CompetenceCriteriaPrint from '../dashboard/hr/competence criteria/CompetenceCriteriaPrint';
 import FullOrderDetails from '../dashboard/purchase/purchase order list/FullOrderDetails';
+import ViewEmpDetails from '../dashboard/hr/employees/ViewEmpDetails';
 
 
 
@@ -93,6 +94,7 @@ const Router = () => {
                 <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
                 <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
                 <Router exact path="/hr/employees" component={Employees}/>
+                <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>
                 <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>

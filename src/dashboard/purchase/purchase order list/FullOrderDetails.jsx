@@ -255,8 +255,22 @@ const FullOrderDetails = (props) => {
                                                         >
                                                         </CssTextField>
                                                     </Grid>
+                                                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                                                        <CssTextField id="outlined-basic"
+                                                            label="Total Quantity"
+                                                            variant="outlined"
+                                                            type="text"
+                                                            autocomplete="off"
+                                                            size="small"
+                                                            disabled
+                                                            className={classes.inputFieldStyle}
+                                                            value={order.totalQuantity}
+                                                            inputProps={{ style: { fontSize: 14 } }}
+                                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                                        >
+                                                        </CssTextField>
+                                                    </Grid>
                                                 </Grid>
-
                                                 {/* ===========================Order Materials Table======================== */}
                                                 <div className={classes.dataTable}>
                                                     <TableContainer className={classes.tableContainer} >
@@ -275,7 +289,7 @@ const FullOrderDetails = (props) => {
                                                                     !order.materials || !order.materials.length ? <span>Material Not Found</span> : (
                                                                         order.materials.map((material, i) => (
                                                                             <StyledTableRow key={i}>
-                                                                                <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                                                                <StyledTableCell className="text-dark" align="center">{i+1}</StyledTableCell>
                                                                                 <StyledTableCell className="text-dark" align="center">{material.material.name}</StyledTableCell>
                                                                                 <StyledTableCell className="text-dark" align="center">{material.quantity}</StyledTableCell>
                                                                                 <StyledTableCell className="text-dark" align="center">{material.unitValue}</StyledTableCell>
