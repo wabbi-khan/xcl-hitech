@@ -154,7 +154,7 @@ const Material = () => {
 
 
     const { loading, materials, error } = useSelector(state => state.materials)
-    const fetchMatCategory = useSelector(state => state.categories)
+    const { categories } = useSelector(state => state.categories)
 
     const deleteMaterial = async (params) => {
         try {
@@ -186,10 +186,17 @@ const Material = () => {
     return (
         <Sidenav title={'Material'}>
             <div>
+                {/* ============edit material form component */}
+                <EditMaterial
+                    show={open}
+                    handler={handleClose}
+                    categories={categories}
+                />
+                {/* ============edit material form component */}
                 {/* ===============ADD material form======================================= */}
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
-
+                        {/* Material category selector */}
                         <CssTextField id="outlined-basic"
                             label="Select Category"
                             variant="outlined"
@@ -203,13 +210,13 @@ const Material = () => {
                             {...register("category", { required: true })}
                         >
                             {
-                                !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
-                                    fetchMatCategory.categories.map(category => (
+                                !categories || !categories.length ? <p>Data Not Found</p> :
+                                    categories.map(category => (
                                         <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
                                     ))
                             }
                         </CssTextField>
-
+                        {/* Material Name */}
                         <CssTextField id="outlined-basic"
                             label="Enter Material Name"
                             variant="outlined"
@@ -220,7 +227,7 @@ const Material = () => {
                             className={classes.inputFieldStyle1}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                            {...register("name", { required: true, minLength: 1, maxLength: 30 })}
+                            {...register("name", { required: true, maxLength: 30 })}
                         />
                         <br />
                         {
@@ -247,16 +254,6 @@ const Material = () => {
                         </div>
                     </form>
                 </Container>
-                {/* ============edit material form component */}
-                <EditMaterial
-                    show={open}
-                    handler={handleClose}
-                    fetchMatCategory={fetchMatCategory}
-                    materialId={MaterialId}
-                    materialName={MaterialName}
-                    materialCategory={MaterialCategory}
-                />
-                {/* ============edit material form component */}
 
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>

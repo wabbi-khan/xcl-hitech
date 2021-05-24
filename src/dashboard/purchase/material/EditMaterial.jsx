@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditMaterial = (props) => {
-    const { show, handler, fetchMatCategory, materialId, materialName, materialCategory } = props
+    const { show, handler, categories, materialId, materialName, materialCategory } = props
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -169,8 +169,8 @@ const EditMaterial = (props) => {
                                             {...register("category")}
                                         >
                                             {
-                                                !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
-                                                    fetchMatCategory.categories.map(category => (
+                                                !categories || !categories.length ? <p>Data Not Found</p> :
+                                                    categories.map(category => (
                                                         <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
                                                     ))
                                             }
