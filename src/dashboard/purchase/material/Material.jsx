@@ -138,13 +138,11 @@ const Material = () => {
     const onSubmitDate = async (props) => {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-            // console.log('try');
             window.location.reload()
             setAddMatError(false)
         }
         catch (error) {
             setAddMatError(true)
-            // setAddMatErrMsg(error.error)
 
         }
     }
@@ -157,9 +155,6 @@ const Material = () => {
 
     const { loading, materials, error } = useSelector(state => state.materials)
     const fetchMatCategory = useSelector(state => state.categories)
-    // console.log(loading);
-    // console.log(materials);
-    // console.log(error);
 
     const deleteMaterial = async (params) => {
         try {
@@ -175,6 +170,10 @@ const Material = () => {
 
     const [open, setOpen] = useState(false);
 
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
     const handleOpen = async (material) => {
         const { _id, name, category } = material
         setMaterialId(_id)
@@ -182,13 +181,15 @@ const Material = () => {
         setMaterialCategory(category._id)
         setIsUpdate(true)
         setOpen(true);
-    };
+    }
 
     return (
         <Sidenav title={'Material'}>
             <div>
+                {/* ===============ADD material form======================================= */}
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
+
                         <CssTextField id="outlined-basic"
                             label="Select Category"
                             variant="outlined"
@@ -196,9 +197,6 @@ const Material = () => {
                             autocomplete="off"
                             size="small"
                             select
-                            // onChange={(e) =>
-                            //     setMaterialCategory(e.target.value)
-                            // }
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
@@ -211,6 +209,7 @@ const Material = () => {
                                     ))
                             }
                         </CssTextField>
+
                         <CssTextField id="outlined-basic"
                             label="Enter Material Name"
                             variant="outlined"
@@ -225,7 +224,7 @@ const Material = () => {
                         />
                         <br />
                         {
-                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p> 
+                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
                         }
                         <br />
                         {
@@ -248,7 +247,17 @@ const Material = () => {
                         </div>
                     </form>
                 </Container>
-                <EditMaterial show={open} fetchMatCategory={fetchMatCategory} materialId={MaterialId} materialName={MaterialName} materialCategory={MaterialCategory} />
+                {/* ============edit material form component */}
+                <EditMaterial
+                    show={open}
+                    handler={handleClose}
+                    fetchMatCategory={fetchMatCategory}
+                    materialId={MaterialId}
+                    materialName={MaterialName}
+                    materialCategory={MaterialCategory}
+                />
+                {/* ============edit material form component */}
+
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
