@@ -88,12 +88,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditMaterial = (props) => {
-<<<<<<< HEAD
-=======
     const { show, handler, fetchMatCategory, materialId, materialName, materialCategory } = props
->>>>>>> f2d15b296d97e1768d60c054c49961dbb5860984
     const classes = useStyles();
-    const { show, fetchMatCategory, materialId, materialName, materialCategory } = props
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
 
