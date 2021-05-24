@@ -32,12 +32,31 @@ const useStyles = makeStyles((theme) => ({
     },
     addButton: {
         marginTop: 20,
+        marginRight: 10,
         color: '#22A19A',
         borderColor: '#22A19A',
         fontWeight: 'bold',
         '&:hover': {
             border: 'none',
             backgroundColor: '#22A19A',
+            color: 'whitesmoke',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '15%',
+        },
+        [theme.breakpoints.down('sm')]: {
+            // width: '12%',
+        },
+    },
+    closeButton: {
+        marginTop: 20,
+        marginRight: 10,
+        color: '#e74c3c',
+        borderColor: '#e74c3c',
+        fontWeight: 'bold',
+        '&:hover': {
+            border: 'none',
+            backgroundColor: '#e74c3c',
             color: 'whitesmoke',
         },
         [theme.breakpoints.up('md')]: {
@@ -69,19 +88,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditMaterial = (props) => {
+<<<<<<< HEAD
+=======
+    const { show, handler, fetchMatCategory, materialId, materialName, materialCategory } = props
+>>>>>>> f2d15b296d97e1768d60c054c49961dbb5860984
     const classes = useStyles();
     const { show, fetchMatCategory, materialId, materialName, materialCategory } = props
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
 
+
     useEffect(() => {
         setOpen(show)
     }, [show])
 
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const CssTextField = withStyles({
         root: {
@@ -112,14 +132,18 @@ const EditMaterial = (props) => {
         }
     }
 
+    const handleClose = () => {
+        handler(false)
+    }
+
     return (
         <div>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
                 open={open}
-                onClose={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
@@ -188,6 +212,12 @@ const EditMaterial = (props) => {
                                         type="submit"
                                     >
                                         Update
+                                    </Button>
+                                    <Button variant="outlined" color="primary"
+                                        className={classes.closeButton}
+                                        onClick={handleClose}
+                                    >
+                                        close
                                     </Button>
                                 </div>
                             </form>
