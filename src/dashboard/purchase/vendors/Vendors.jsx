@@ -149,7 +149,7 @@ const CssTextField = withStyles({
 const Vendors = () => {
 
     const classes = useStyles();
-    const [materials, setMaterials] = useState([])
+    const [Materials, setMaterials] = useState([])
     const [addVendorSuccess, setAddVendorSuccess] = useState(false)
     const [addVendorFail, setAddVendorFail] = useState(false)
 
@@ -168,11 +168,10 @@ const Vendors = () => {
     const fetchMaterial = useSelector(state => state.materials)
 
     const fetchMaterials = async (id) => {
+        setMaterials([])
         await dispatch(getSpecCatMatAction(id))
     }
 
-<<<<<<< HEAD
-=======
 
     const getMaterials = async (event) => {
         // console.log(event.target);
@@ -180,16 +179,29 @@ const Vendors = () => {
             setMaterials([...Materials, event.target.value])
         }
         if (event.target.checked === false) {
-            setMaterials(Materials.filter((value) => value !== event.target.value));
+            setMaterials(Materials.filter((value) => value !== event.target.value))
         }
     }
 
     const onSubmitData = async (data) => {
         data.material = Materials
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/vendor`, data)
+            setAddVendorSuccess(true)
+        } catch (error) {
+            setAddVendorFail(true)
+        }
         console.log(data);
+        //     "name": "aamir",
+        // "email": "aamir.dev@gmal.com",
+        // "phone": "03123343258",
+        // "location": "Hyderabad",
+        // "material": [
+        //     "60967de642ab87001586f002"
+        // ],
+        // "category": "6096776fa520c776d2bc8b63"
     }
 
->>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
     const deleteMaterial = async (params) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
@@ -202,44 +214,10 @@ const Vendors = () => {
 
     }
 
-<<<<<<< HEAD
-    const onSubmitData = async (data) => {
-
-        try {
-            await axios.post('https://hi-tech-backend.herokuapp.com/api/vendor', {
-                name: data.name,
-                email: data.email,
-                phone: data.phone,
-                location: data.address,
-                material: materials,
-                category: data.category
-            })
-            setAddVendorSuccess(true)
-        } catch (error) {
-            setAddVendorFail(true)
-        }
-    }
-
-    const getMaterials = async (event) => {
-        const value = event.target.value
-        const checked = event.target.checked
-        if (checked) {
-            console.log("checked");
-            setMaterials([...materials, value])
-        }
-        if (!checked) {
-            console.log("unChecked");
-            console.log(value);
-        }
-    }
-    console.log(materials);
-
-=======
     useEffect(() => {
         console.log(Materials);
 
     }, [Materials])
->>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
 
     return (
         <Sidenav title={'Vendors'}>
@@ -259,11 +237,7 @@ const Vendors = () => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-<<<<<<< HEAD
-                                    {...register("name")}
-=======
                                     {...register("name", { required: true })}
->>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
                                 />
                             </Grid>
 
@@ -309,7 +283,7 @@ const Vendors = () => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("address", { required: true, })}
+                                    {...register("location", { required: true, })}
 
                                 />
                             </Grid>
@@ -361,23 +335,14 @@ const Vendors = () => {
                                                         <Checkbox
                                                             icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                                                             checkedIcon={<CheckBoxIcon fontSize="small" />}
-<<<<<<< HEAD
-                                                            onClick={(e) => getMaterials(e)}
+                                                            onChange={(e) => getMaterials(e)}
                                                         />
                                                     }
                                                     name={material.name}
                                                     value={material._id}
                                                     label={material.name}
-=======
-                                                            onChange={(e) => getMaterials(e)}
-                                                        />
-                                                    }
-                                                    name={material.name}
-                                                    value={material.name}
-                                                    label={material.name}
                                                     {...register("material")}
 
->>>>>>> 50c4d7cadce4df3b33f390a18a54b18930cdfb16
                                                 />
                                             ))
                                     }
