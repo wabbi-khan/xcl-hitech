@@ -107,6 +107,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     size="small"
                                     disabled
+                                    autoComplete="off"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}

@@ -69,10 +69,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditMaterial = (props) => {
-    const { show, fetchMatCategory, materialId, materialName, materialCategory } = props
     const classes = useStyles();
+    const { show, fetchMatCategory, materialId, materialName, materialCategory } = props
     const [open, setOpen] = useState(false);
-
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     useEffect(() => {

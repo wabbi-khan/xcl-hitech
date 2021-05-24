@@ -152,6 +152,12 @@ const Vendors = () => {
     const [Materials, setMaterials] = useState([])
     const [addVendorSuccess, setAddVendorSuccess] = useState(false)
     const [addVendorFail, setAddVendorFail] = useState(false)
+    const [VendorName, setVendorName] = useState('')
+    const [VendorEmail, setVendorEmail] = useState('')
+    const [VendorPhone, setVendorPhone] = useState('')
+    const [VendorAddress, setVendorAddress] = useState('')
+    const [VendorCategory, setVendorCategory] = useState('')
+    const [VendorMaterial, setVendorMaterial] = useState('')
 
     const dispatch = useDispatch()
 
@@ -218,6 +224,20 @@ const Vendors = () => {
         console.log(Materials);
 
     }, [Materials])
+
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = async (vendor) => {
+        const { _id, name, email, phone, location, category, material } = vendor
+        setVendorName(_id)
+        setVendorEmail(name)
+        setVendorEmail(email)
+        setVendorPhone(phone)
+        setVendorAddress(location)
+        setVendorCategory(category)
+        setVendorMaterial(material)
+        setOpen(true);
+    };
 
     return (
         <Sidenav title={'Vendors'}>
@@ -410,9 +430,9 @@ const Vendors = () => {
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
+                                                                    onClick={() =>
+                                                                        handleOpen(vendor)
+                                                                    }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
