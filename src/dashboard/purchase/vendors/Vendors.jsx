@@ -150,6 +150,8 @@ const Vendors = () => {
 
     const classes = useStyles();
     const [Materials, setMaterials] = useState([])
+    const [addVendorSuccess, setAddVendorSuccess] = useState(false)
+    const [addVendorFail, setAddVendorFail] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -166,6 +168,7 @@ const Vendors = () => {
     const fetchMaterial = useSelector(state => state.materials)
 
     const fetchMaterials = async (id) => {
+        setMaterials([])
         await dispatch(getSpecCatMatAction(id))
     }
 
@@ -176,13 +179,27 @@ const Vendors = () => {
             setMaterials([...Materials, event.target.value])
         }
         if (event.target.checked === false) {
-            setMaterials(Materials.filter((value) => value !== event.target.value));
+            setMaterials(Materials.filter((value) => value !== event.target.value))
         }
     }
 
     const onSubmitData = async (data) => {
         data.material = Materials
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/vendor`, data)
+            setAddVendorSuccess(true)
+        } catch (error) {
+            setAddVendorFail(true)
+        }
         console.log(data);
+        //     "name": "aamir",
+        // "email": "aamir.dev@gmal.com",
+        // "phone": "03123343258",
+        // "location": "Hyderabad",
+        // "material": [
+        //     "60967de642ab87001586f002"
+        // ],
+        // "category": "6096776fa520c776d2bc8b63"
     }
 
     const deleteMaterial = async (params) => {
@@ -208,6 +225,8 @@ const Vendors = () => {
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
                         <Grid container spacing={1}>
+
+                            {/* ============Vendor Name======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Enter Vendor Name"
@@ -221,6 +240,8 @@ const Vendors = () => {
                                     {...register("name", { required: true })}
                                 />
                             </Grid>
+
+                            {/* ============Vendor email======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Email (Optional)"
@@ -234,6 +255,8 @@ const Vendors = () => {
                                     {...register("email", { required: true, })}
                                 />
                             </Grid>
+
+                            {/* ============Vendor phone======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Phone No."
@@ -248,6 +271,8 @@ const Vendors = () => {
 
                                 />
                             </Grid>
+
+                            {/* ============Vendor location======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Address"
@@ -258,12 +283,15 @@ const Vendors = () => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("address", { required: true, })}
+                                    {...register("location", { required: true, })}
 
                                 />
                             </Grid>
+
                         </Grid>
                         <Grid container spacing={1} style={{ marginTop: 8, }}>
+
+                            {/* ============Vendor category======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id="outlined-basic"
@@ -294,6 +322,8 @@ const Vendors = () => {
                                     }
                                 </CssTextField>
                             </Grid>
+
+                            {/* ============Vendor category material======================== */}
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
                                 <FormGroup row>
                                     {
@@ -309,7 +339,7 @@ const Vendors = () => {
                                                         />
                                                     }
                                                     name={material.name}
-                                                    value={material.name}
+                                                    value={material._id}
                                                     label={material.name}
                                                     {...register("material")}
 
@@ -319,6 +349,14 @@ const Vendors = () => {
                                 </FormGroup>
                             </Grid>
                         </Grid>
+
+                        {/* ============All msg show here about add vendor succsese / fail========= */}
+                        {
+                            addVendorSuccess ? <span>Vendor Add Successfully</span> : null
+                        }
+                        {
+                            addVendorFail ? <span>Vendor Add Fail</span> : null
+                        }
                         <div>
                             <Button
                                 variant="outlined"
