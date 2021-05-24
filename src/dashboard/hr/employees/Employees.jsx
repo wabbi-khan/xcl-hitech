@@ -231,7 +231,7 @@ const Employees = ({ history }) => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Hiring Date"
+                                    // label="Hiring Date"
                                     variant="outlined"
                                     type="date"
                                     autocomplete="off"

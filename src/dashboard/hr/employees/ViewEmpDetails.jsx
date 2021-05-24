@@ -106,7 +106,8 @@ const ViewEmpDetails = () => {
                                     variant="outlined"
                                     type="text"
                                     size="small"
-                                    autocomplete="off"
+                                    disabled
+                                    autoComplete="off"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -121,6 +122,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -135,6 +137,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -149,6 +152,7 @@ const ViewEmpDetails = () => {
                                     type="email"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -164,6 +168,7 @@ const ViewEmpDetails = () => {
                                     variant="outlined"
                                     type="email"
                                     size="small"
+                                    disabled
                                     autocomplete="off"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
@@ -179,6 +184,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -193,6 +199,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -202,11 +209,12 @@ const ViewEmpDetails = () => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Hiring Date"
+                                    // label="Hiring Date" 
                                     variant="outlined"
                                     type="date"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -223,6 +231,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -237,6 +246,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -251,6 +261,7 @@ const ViewEmpDetails = () => {
                                     type="email"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -265,6 +276,7 @@ const ViewEmpDetails = () => {
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    disabled
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -292,6 +304,7 @@ const ViewEmpDetails = () => {
                                     variant="outlined"
                                     type="text"
                                     size="small"
+                                    disabled
                                     autocomplete="off"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}

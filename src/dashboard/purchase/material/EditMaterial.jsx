@@ -91,7 +91,6 @@ const EditMaterial = (props) => {
     const { show, handler, categories, materialId, materialName, materialCategory } = props
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-
     const { register, handleSubmit, formState: { errors } } = useForm()
 
 
