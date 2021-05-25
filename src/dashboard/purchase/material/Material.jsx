@@ -123,12 +123,10 @@ const CssTextField = withStyles({
 
 const Material = () => {
     // For Add and Delete
-    const [MaterialCategory, setMaterialCategory] = useState('')
-    const [MaterialName, setMaterialName] = useState('')
     const [IsUpdate, setIsUpdate] = useState(false)
-    const [MaterialId, setMaterialId] = useState('')
     const [AddMatError, setAddMatError] = useState(false)
     const [AddMatErrMsg, setAddMatErrMsg] = useState('internal server error')
+    const [material, setMaterial] = useState()
 
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -175,24 +173,21 @@ const Material = () => {
     }
 
     const handleOpen = async (material) => {
-        const { _id, name, category } = material
-        setMaterialId(_id)
-        setMaterialName(name)
-        setMaterialCategory(category._id)
-        setIsUpdate(true)
+        setMaterial(material)
         setOpen(true);
     }
 
     return (
         <Sidenav title={'Material'}>
+            {/* ============edit material form component */}
+            <EditMaterial
+                show={open}
+                handler={handleClose}
+                categories={categories}
+                material={material}
+            />
+            {/* ============edit material form component */}
             <div>
-                {/* ============edit material form component */}
-                <EditMaterial
-                    show={open}
-                    handler={handleClose}
-                    categories={categories}
-                />
-                {/* ============edit material form component */}
                 {/* ===============ADD material form======================================= */}
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>

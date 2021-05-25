@@ -289,7 +289,6 @@ const MaterialAddRow = ({ materials }) => {
         )
     }
 
-    console.log(vendorMaterials);
 
     return (
         <Container className={classes.mainContainer}>

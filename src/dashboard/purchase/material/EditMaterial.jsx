@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        height: 300,
+        height: 'auto',
         width: 500
     },
     mainContainer: {
@@ -87,44 +87,47 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: 'black',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'black',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'black',
+            },
+        },
+    },
+
+})(TextField);
+
 const EditMaterial = (props) => {
-    const { show, handler, categories, materialId, materialName, materialCategory } = props
+
+    const { show, handler, categories, material } = props
+    // const { _id, name, category } = material
+
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
 
+    const [open, setOpen] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false)
+    const [isError, setIsError] = useState(false)
 
     useEffect(() => {
         setOpen(show)
     }, [show])
 
 
-    const CssTextField = withStyles({
-        root: {
-            '& label.Mui-focused': {
-                color: 'black',
-            },
-            '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                    borderColor: 'black',
-                },
-                '&.Mui-focused fieldset': {
-                    borderColor: 'black',
-                },
-            },
-        },
-
-    })(TextField);
-
     const onSubmit = async (data) => {
-
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/material/${materialId}`, data)
-            window.location.reload()
+            await axios.patch(`${process.env.REACT_APP_API_URL}/material/${material._id}`, data)
+            setIsUpdate(true)
         }
         catch (error) {
-            console.log(error);
-            console.log('catch');
+            setIsError(true)
         }
     }
 
@@ -133,95 +136,101 @@ const EditMaterial = (props) => {
     }
 
     return (
-        <div>
-
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <h5 className="text-center mt-4">Update</h5>
-                        <Container className={classes.mainContainer}>
-                            {/* Form */}
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <Grid container spacing={1}>
-                                    <Grid lg={12} md={12} sm={12}>
-                                        <CssTextField id="outlined-basic"
-                                            label="Select Category"
-                                            variant="outlined"
-                                            type="text"
-                                            autocomplete="off"
-                                            size="small"
-                                            defaultValue={materialCategory}
-                                            select
-                                            className={classes.inputFieldStyle}
-                                            inputProps={{ style: { fontSize: 14 } }}
-                                            InputLabelProps={{ style: { fontSize: 14 } }}
-                                            {...register("category")}
-                                        >
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={open}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+                timeout: 500,
+            }}
+        >
+            <Fade in={open}>
+                <div className={classes.paper}>
+                    <h5 className="text-center mt-4">Update</h5>
+                    <Container className={classes.mainContainer}>
+                        {/* Form */}
+                        {
+                            material ? (
+                                <form onSubmit={handleSubmit(onSubmit)}>
+                                    <Grid container spacing={1}>
+                                        <Grid lg={12} md={12} sm={12}>
+                                            <CssTextField id="outlined-basic"
+                                                label="Select Category"
+                                                variant="outlined"
+                                                type="text"
+                                                autocomplete="off"
+                                                size="small"
+                                                select
+                                                className={classes.inputFieldStyle}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                                defaultValue={material.category._id}
+                                                {...register("category", { required: true })}
+                                            >
+                                                {
+                                                    !categories || !categories.length ? <p>Data Not Found</p> :
+                                                        categories.map(category => (
+                                                            <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
+                                                        ))
+                                                }
+                                            </CssTextField>
+                                        </Grid>
+                                        <Grid lg={12} md={12} sm={12}>
+                                            <CssTextField id="outlined-basic"
+                                                label="Enter Material Name"
+                                                variant="outlined"
+                                                type="text"
+                                                autocomplete="off"
+                                                size="small"
+                                                autoComplete="off"
+                                                defaultValue={material.name}
+                                                className={classes.inputFieldStyle1}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                                {...register("name", { required: true, maxLength: 30 })}
+                                            />
                                             {
-                                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                                    categories.map(category => (
-                                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                                    ))
+                                                errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
                                             }
-                                        </CssTextField>
+                                            <br />
+                                            {
+                                                errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
+                                            }
+                                            <br />
+                                            {
+                                                errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
+                                            }
+                                            {
+                                                isUpdate ? <p className="text-success">Material Edit Success</p> : (
+                                                    isError ? <p className="text-danger">Material Edit Fail Internal Server Error</p> : null
+                                                )
+                                            }
+                                        </Grid>
                                     </Grid>
-                                    <Grid lg={12} md={12} sm={12}>
-                                        <CssTextField id="outlined-basic"
-                                            label="Enter Material Name"
-                                            variant="outlined"
-                                            type="text"
-                                            autocomplete="off"
-                                            size="small"
-                                            autoComplete="off"
-                                            defaultValue={materialName}
-                                            className={classes.inputFieldStyle1}
-                                            inputProps={{ style: { fontSize: 14 } }}
-                                            InputLabelProps={{ style: { fontSize: 14 } }}
-                                            {...register("name", { minLength: 1, maxLength: 30 })}
-                                        />
-                                        {
-                                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
-                                        }
-                                        <br />
-                                        {
-                                            errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
-                                        }
-                                        <br />
-                                        {
-                                            errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
-                                        }
-                                    </Grid>
-                                </Grid>
-                                <div>
-                                    <Button variant="outlined" color="primary"
-                                        className={classes.addButton}
-                                        type="submit"
-                                    >
-                                        Update
+                                    <div>
+                                        <Button variant="outlined" color="primary"
+                                            className={classes.addButton}
+                                            type="submit"
+                                        >
+                                            Update
                                     </Button>
-                                    <Button variant="outlined" color="primary"
-                                        className={classes.closeButton}
-                                        onClick={handleClose}
-                                    >
-                                        close
+                                        <Button variant="outlined" color="primary"
+                                            className={classes.closeButton}
+                                            onClick={handleClose}
+                                        >
+                                            close
                                     </Button>
-                                </div>
-                            </form>
-                        </Container>
-                    </div>
-                </Fade>
-            </Modal>
-        </div>
+                                    </div>
+                                </form>
+                            ) : null
+                        }
+                    </Container>
+                </div>
+            </Fade>
+        </Modal>
     )
 }
 
