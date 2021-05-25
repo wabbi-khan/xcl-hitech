@@ -87,6 +87,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: 'black',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'black',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'black',
+            },
+        },
+    },
+
+})(TextField);
+
 const EditMaterial = (props) => {
     const { show, handler, fetchMatCategory, materialId, materialName, materialCategory } = props
     const classes = useStyles();
@@ -98,23 +115,6 @@ const EditMaterial = (props) => {
         setOpen(show)
     }, [show])
 
-
-    const CssTextField = withStyles({
-        root: {
-            '& label.Mui-focused': {
-                color: 'black',
-            },
-            '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                    borderColor: 'black',
-                },
-                '&.Mui-focused fieldset': {
-                    borderColor: 'black',
-                },
-            },
-        },
-
-    })(TextField);
 
     const onSubmit = async (data) => {
 
@@ -134,7 +134,6 @@ const EditMaterial = (props) => {
 
     return (
         <div>
-
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

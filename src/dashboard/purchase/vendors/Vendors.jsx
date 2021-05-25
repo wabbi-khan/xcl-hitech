@@ -25,6 +25,7 @@ import { getSpecCatMatAction } from '../../../services/action/MaterialDataHandle
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import FormGroup from '@material-ui/core/FormGroup';
+import EditVendor from './EditVendor';
 
 
 const GreenCheckbox = withStyles({
@@ -227,15 +228,13 @@ const Vendors = () => {
 
     const [open, setOpen] = useState(false);
 
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
     const handleOpen = async (vendor) => {
         const { _id, name, email, phone, location, category, material } = vendor
-        setVendorName(_id)
-        setVendorEmail(name)
-        setVendorEmail(email)
-        setVendorPhone(phone)
-        setVendorAddress(location)
-        setVendorCategory(category)
-        setVendorMaterial(material)
+        // setVendorId(_id)
         setOpen(true);
     };
 
@@ -389,6 +388,18 @@ const Vendors = () => {
                         </div>
                     </form>
                 </Container>
+                {/* ============edit vendor form component */}
+                <EditVendor
+                    show={open}
+                    handler={handleClose}
+                    // setVendorName={name}
+                    // setVendorEmail={email}
+                    // setVendorPhone={phone}
+                    // setVendorAddress={location}
+                    // setVendorCategory={category}
+                    // setVendorMaterial={materialId}
+                />
+                {/* ============edit vendor form component */}
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
