@@ -1,4 +1,4 @@
-import React, { useState, useeffect }from 'react'
+import React, { useState, useEffect } from 'react'
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -68,10 +68,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: 'black',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'black',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'black',
+            },
+        },
+    },
+
+})(TextField);
+
 const EditVendor = (props) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    // const { show } = props
+    const { show, handler } = props
     console.log(props);
 
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -80,31 +97,167 @@ const EditVendor = (props) => {
         setOpen(show)
     }, [show])
 
-
     const handleClose = () => {
-        setOpen(false);
-    };
+        handler(false)
+    }
 
-    const CssTextField = withStyles({
-        root: {
-            '& label.Mui-focused': {
-                color: 'black',
-            },
-            '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                    borderColor: 'black',
-                },
-                '&.Mui-focused fieldset': {
-                    borderColor: 'black',
-                },
-            },
-        },
-
-    })(TextField);
     return (
         <div>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <div className={classes.paper}>
+                        <h5 className="text-center mt-4">Edit Vendor</h5>
+                        <Container className={classes.mainContainer}>
+                            {/* Form */}
+                            {/* <form onSubmit={handleSubmit(onSubmitData)}>
+                                <Grid container spacing={1}>
+                                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                                        <CssTextField id="outlined-basic"
+                                            label="Enter Vendor Name"
+                                            variant="outlined"
+                                            type="text"
+                                            size="small"
+                                            autocomplete="off"
+                                            className={classes.inputFieldStyle}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                            {...register("name", { required: true })}
+                                        />
+                                    </Grid>
 
-            
+                                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                                        <CssTextField id="outlined-basic"
+                                            label="Email (Optional)"
+                                            variant="outlined"
+                                            type="email"
+                                            autocomplete="off"
+                                            size="small"
+                                            className={classes.inputFieldStyle}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                            {...register("email", { required: true, })}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                                        <CssTextField id="outlined-basic"
+                                            label="Phone No."
+                                            variant="outlined"
+                                            type="text"
+                                            autocomplete="off"
+                                            size="small"
+                                            className={classes.inputFieldStyle}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                            {...register("phone", { required: true, })}
+
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                                        <CssTextField id="outlined-basic"
+                                            label="Address"
+                                            variant="outlined"
+                                            type="text"
+                                            size="small"
+                                            autocomplete="off"
+                                            className={classes.inputFieldStyle}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                            {...register("location", { required: true, })}
+
+                                        />
+                                    </Grid>
+
+                                </Grid>
+                                <Grid container spacing={1} style={{ marginTop: 8, }}>
+                                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                                        <CssTextField
+                                            id="outlined-basic"
+                                            label="Select Category"
+                                            variant="outlined"
+                                            type="text"
+                                            autoComplete="off"
+                                            size="small"
+                                            select
+                                            className={classes.inputFieldStyle}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                            {...register("category", { required: true, })}
+
+                                        >
+                                            {
+                                                !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
+                                                    fetchMatCategory.categories.map((category, i) => (
+                                                        <MenuItem
+                                                            value={category._id}
+                                                            onClick={(e) => fetchMaterials(category._id)}
+                                                            key={i}
+                                                        >
+                                                            {category.name}
+                                                        </MenuItem>
+                                                    )
+                                                    )
+                                            }
+                                        </CssTextField>
+                                    </Grid>
+                                    <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
+                                        <FormGroup row>
+                                            {
+                                                !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
+                                                    fetchMaterial.materials.map((material, i) => (
+                                                        <FormControlLabel
+                                                            key={i}
+                                                            control={
+                                                                <Checkbox
+                                                                    icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+                                                                    checkedIcon={<CheckBoxIcon fontSize="small" />}
+                                                                    onChange={(e) => getMaterials(e)}
+                                                                />
+                                                            }
+                                                            name={material.name}
+                                                            value={material._id}
+                                                            label={material.name}
+                                                            {...register("material")}
+
+                                                        />
+                                                    ))
+                                            }
+                                        </FormGroup>
+                                    </Grid>
+                                </Grid>
+                                {
+                                    addVendorSuccess ? <span>Vendor Add Successfully</span> : null
+                                }
+                                {
+                                    addVendorFail ? <span>Vendor Add Fail</span> : null
+                                }
+                            </form> */}
+                            <div>
+                                <Button className="bg-warning text-light">
+                                    Update
+                                </Button>
+                                <Button className="bg-danger text-light ml-1"
+                                    onClick={handleClose}
+                                >
+                                    Close
+                                </Button>
+                            </div>
+
+                        </Container>
+                    </div>
+                </Fade>
+            </Modal>
         </div>
     )
 }
