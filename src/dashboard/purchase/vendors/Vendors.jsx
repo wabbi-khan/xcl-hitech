@@ -237,7 +237,7 @@ const Vendors = () => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 />
-                                <br/>
+                                <br />
                                 {
                                     errors.name?.type === 'required' && <p className="text-danger mt-2">Vendor name is required</p>
                                 }
@@ -248,14 +248,28 @@ const Vendors = () => {
                                 <CssTextField id="outlined-basic"
                                     label="Email (Optional)"
                                     variant="outlined"
-                                    // type="email"
+                                    type="email"
                                     autocomplete="off"
                                     size="small"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("email")}
+                                    {...register("email", {
+                                        required: true,
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                            message: "Enter a valid e-mail address",
+                                        },
+                                    })}
                                 />
+                                <br />
+                                {
+                                    errors?.email && <span className="text-danger mt-2" >{errors.email.message}</span>
+                                }
+                                <br />
+                                {
+                                    errors.email?.type === 'required' && <p className="text-danger mt-2">Vendor email is required</p>
+                                }
                             </Grid>
 
                             {/* ============Vendor phone======================== */}
@@ -271,7 +285,7 @@ const Vendors = () => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("phone", { required: true, })}
                                 />
-                                <br/>
+                                <br />
                                 {
                                     errors.phone?.type === 'required' && <p className="text-danger mt-2">Phone No is required</p>
                                 }
@@ -290,7 +304,7 @@ const Vendors = () => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("location", { required: true, })}
                                 />
-                                <br/>
+                                <br />
                                 {
                                     errors.location?.type === 'required' && <p className="text-danger mt-2">Address is required</p>
                                 }
@@ -329,6 +343,9 @@ const Vendors = () => {
                                             )
                                     }
                                 </CssTextField>
+                                {
+                                    errors.category?.type === 'required' && <p className="text-danger mt-2">Please select category</p>
+                                }
                             </Grid>
 
                             {/* ============Vendor category material======================== */}
