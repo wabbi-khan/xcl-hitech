@@ -153,24 +153,19 @@ const Vendors = () => {
     const [Materials, setMaterials] = useState([])
     const [addVendorSuccess, setAddVendorSuccess] = useState(false)
     const [addVendorFail, setAddVendorFail] = useState(false)
-    const [VendorName, setVendorName] = useState('')
-    const [VendorEmail, setVendorEmail] = useState('')
-    const [VendorPhone, setVendorPhone] = useState('')
-    const [VendorAddress, setVendorAddress] = useState('')
-    const [VendorCategory, setVendorCategory] = useState('')
-    const [VendorMaterial, setVendorMaterial] = useState('')
+    const [vendor, setVendor] = useState()
 
     const dispatch = useDispatch()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
-    const fetchMatCategory = useSelector(state => state.categories)
-
+    
     useEffect(async () => {
         await dispatch(getVendorAction())
         await dispatch(getMaterialCategoryAction())
     }, [dispatch])
-
+    
+    const fetchMatCategory = useSelector(state => state.categories)
     const { loading, vendors, error } = useSelector(state => state.vendors)
     const fetchMaterial = useSelector(state => state.materials)
 
@@ -198,15 +193,6 @@ const Vendors = () => {
         } catch (error) {
             setAddVendorFail(true)
         }
-        console.log(data);
-        //     "name": "aamir",
-        // "email": "aamir.dev@gmal.com",
-        // "phone": "03123343258",
-        // "location": "Hyderabad",
-        // "material": [
-        //     "60967de642ab87001586f002"
-        // ],
-        // "category": "6096776fa520c776d2bc8b63"
     }
 
     const deleteMaterial = async (params) => {
@@ -221,11 +207,6 @@ const Vendors = () => {
 
     }
 
-    useEffect(() => {
-        console.log(Materials);
-
-    }, [Materials])
-
     const [open, setOpen] = useState(false);
 
     const handleClose = (props) => {
@@ -233,9 +214,8 @@ const Vendors = () => {
     }
 
     const handleOpen = async (vendor) => {
-        const { _id, name, email, phone, location, category, material } = vendor
-        // setVendorId(_id)
         setOpen(true);
+        setVendor(vendor)
     };
 
     return (
@@ -392,12 +372,9 @@ const Vendors = () => {
                 <EditVendor
                     show={open}
                     handler={handleClose}
-                    // setVendorName={name}
-                    // setVendorEmail={email}
-                    // setVendorPhone={phone}
-                    // setVendorAddress={location}
-                    // setVendorCategory={category}
-                    // setVendorMaterial={materialId}
+                    vendor={vendor}
+                    categories={fetchMatCategory.categories}
+                    materials={fetchMaterial.materials}
                 />
                 {/* ============edit vendor form component */}
                 <div className={classes.dataTable}>
@@ -440,18 +417,20 @@ const Vendors = () => {
                                                                 }
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(vendor)
-                                                                    }
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
+                                                                <>
+                                                                    <Button variant="contained" className="bg-dark text-light" size="small"
+                                                                        onClick={() =>
+                                                                            handleOpen(vendor)
+                                                                        }
+                                                                        style={{ marginTop: 2 }} >
+                                                                        Edit
+                                                                    </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
                                                                         onClick={() => deleteMaterial(vendor._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
-                                                                    </Button></>
+                                                                    </Button>
+                                                                </>
                                                             </StyledTableCell>
                                                         </StyledTableRow>
                                                     ))
