@@ -159,12 +159,12 @@ const Vendors = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
-    
+
     useEffect(async () => {
         await dispatch(getVendorAction())
         await dispatch(getMaterialCategoryAction())
     }, [dispatch])
-    
+
     const fetchMatCategory = useSelector(state => state.categories)
     const { loading, vendors, error } = useSelector(state => state.vendors)
     const fetchMaterial = useSelector(state => state.materials)
@@ -224,7 +224,6 @@ const Vendors = () => {
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
                         <Grid container spacing={1}>
-
                             {/* ============Vendor Name======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -238,6 +237,10 @@ const Vendors = () => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 />
+                                <br/>
+                                {
+                                    errors.name?.type === 'required' && <p className="text-danger mt-2">Vendor name is required</p>
+                                }
                             </Grid>
 
                             {/* ============Vendor email======================== */}
@@ -245,13 +248,13 @@ const Vendors = () => {
                                 <CssTextField id="outlined-basic"
                                     label="Email (Optional)"
                                     variant="outlined"
-                                    type="email"
+                                    // type="email"
                                     autocomplete="off"
                                     size="small"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("email", { required: true, })}
+                                    {...register("email")}
                                 />
                             </Grid>
 
@@ -267,8 +270,11 @@ const Vendors = () => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("phone", { required: true, })}
-
                                 />
+                                <br/>
+                                {
+                                    errors.phone?.type === 'required' && <p className="text-danger mt-2">Phone No is required</p>
+                                }
                             </Grid>
 
                             {/* ============Vendor location======================== */}
@@ -283,8 +289,11 @@ const Vendors = () => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("location", { required: true, })}
-
                                 />
+                                <br/>
+                                {
+                                    errors.location?.type === 'required' && <p className="text-danger mt-2">Address is required</p>
+                                }
                             </Grid>
 
                         </Grid>
@@ -351,10 +360,10 @@ const Vendors = () => {
 
                         {/* ============All msg show here about add vendor succsese / fail========= */}
                         {
-                            addVendorSuccess ? <span>Vendor Add Successfully</span> : null
+                            addVendorSuccess ? <span>Vendor Added Successfully</span> : null
                         }
                         {
-                            addVendorFail ? <span>Vendor Add Fail</span> : null
+                            addVendorFail ? <span>Vendor Added Failed</span> : null
                         }
                         <div>
                             <Button

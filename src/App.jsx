@@ -55,6 +55,7 @@ import EmployeePromotion from './dashboard/hr/employees promotion/EmployeePromot
 import CompetenceCriteriaPrint from './dashboard/hr/competence criteria/CompetenceCriteriaPrint';
 import FullOrderDetails from './dashboard/purchase/purchase order list/FullOrderDetails';
 import ViewEmpDetails from './dashboard/hr/employees/ViewEmpDetails';
+import AddEmpAttendance from './dashboard/hr/emp attendance new/AddEmpAttendance';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -110,6 +111,7 @@ function App() {
       <Route exact path="/hr/employees_salaries" component={EmpSalaries} />
       <Route exact path="/hr/employees_leave" component={EmpLeave} />
       <Route exact path="/hr/employees_attendance" component={EmpAttendance} />
+      <Route exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance} />
       <Route exact path="/hr/employees_performance_assessment" component={EmployeePerformance} />
       <Route exact path="/hr/trainings" component={Trainings} />
       <Route exact path="/hr/training_need_identification" component={TrainingNeed} />

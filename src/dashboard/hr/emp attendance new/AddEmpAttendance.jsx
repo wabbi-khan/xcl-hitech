@@ -67,10 +67,11 @@ const useStyles = makeStyles((theme) => ({
             width: '10%',
         },
     },
-    addNewBtn: {
+    submitBtn: {
         color: '#22A19A',
         borderColor: '#22A19A',
         fontWeight: 'bold',
+        marginTop: 20,
         '&:hover': {
             border: 'none',
             backgroundColor: '#22A19A',
@@ -78,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.up('md')]: {
             width: '30%',
-            marginLeft: 300,
         },
         [theme.breakpoints.down('sm')]: {
             width: '10%',
@@ -130,7 +130,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const EmpAttendance = ({ history }) => {
+const AddEmpAttendance = () => {
     const classes = useStyles();
 
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -140,26 +140,10 @@ const EmpAttendance = ({ history }) => {
     }
 
     return (
-        <Sidenav title={'Employees Attendance'}>
+        <Sidenav title={'Add Employees Attendance'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
-                        <Grid container spacing={1}>
-                            <Grid item lg={8} md={8} sm={12} xs={12}></Grid>
-                            <Grid item lg={4} md={4} sm={12} xs={12}>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    type="submit"
-                                    className={classes.addNewBtn}
-                                    onClick={() => {
-                                        history.push('/hr/employees_attendance/add_new_attendance')
-                                    }}
-                                >
-                                    Add New
-                                </Button>
-                            </Grid>
-                        </Grid>
                         <Grid container spacing={1}>
                             <Grid item lg={4} md={4} sm={12} xs={12}></Grid>
                             <Grid item lg={4} md={4} sm={12} xs={12}>
@@ -190,25 +174,23 @@ const EmpAttendance = ({ history }) => {
                                 Go
                             </Button>
                         </div>
-                    </form>
-                </Container>
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Employee Name</StyledTableCell>
-                                    <StyledTableCell align="center">Date</StyledTableCell>
-                                    <StyledTableCell align="center">Present/Absent</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">12-5-21</StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
+                        <div className={classes.dataTable}>
+                            <TableContainer className={classes.tableContainer}>
+                                <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                                    <TableHead>
+                                        <TableRow hover role="checkbox">
+                                            <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                            <StyledTableCell align="center">Employee Name</StyledTableCell>
+                                            <StyledTableCell align="center">Date</StyledTableCell>
+                                            <StyledTableCell align="center">Present/Absent</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody >
+                                        <StyledTableRow >
+                                            <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
+                                            <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                            <StyledTableCell className="text-dark" align="center">24-5-21</StyledTableCell>
+                                            {/* <StyledTableCell className="text-dark" align="center">
                                         {
                                             !vendor.material || !vendor.material.length ? <p>Not Found</p> :
                                                 vendor.material.map((value, i) => (
@@ -216,17 +198,28 @@ const EmpAttendance = ({ history }) => {
                                                 ))
                                         }
                                     </StyledTableCell> */}
-                                    <StyledTableCell className="text-light" align="center">
-                                        <Button 
-                                            disabled
-                                            variant="contained" size="small"
-                                            className="bg-light text-dark"
-                                        >
-                                            Absent
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                {/* {
+                                            <StyledTableCell className="text-light" align="center">
+                                                <><Button 
+                                                    variant="contained" 
+                                                    className="bg-danger text-light" size="small"
+                                                    onClick={() => {
+
+                                                    }}
+                                                >
+                                                    Present
+                                                </Button>
+                                                <Button 
+                                                    variant="contained" 
+                                                    className="bg-light text-dark ml-1" size="small"
+                                                    onClick={() => {
+
+                                                    }}
+                                                >
+                                                    Absent
+                                                </Button></>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                        {/* {
                                     loading ? (
                                         <Loading />
                                     ) :
@@ -268,13 +261,31 @@ const EmpAttendance = ({ history }) => {
                                                     ))
                                             )
                                 } */}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                        <Grid container spacing={1}>
+                            <Grid item lg={4} md={4} sm={12} xs={12}></Grid>
+                            <Grid item lg={4} md={4} sm={12} xs={12}>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    type="submit"
+                                    className={classes.submitBtn}
+                                    onClick={() => {
+                                        
+                                    }}
+                                >
+                                    Finished
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </Container>
             </div>
         </Sidenav>
     )
 }
 
-export default EmpAttendance
+export default AddEmpAttendance
