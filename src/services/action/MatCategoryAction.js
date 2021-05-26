@@ -14,7 +14,7 @@ export const getMaterialCategoryAction = () => async (dispatch) => {
             payload: data.category,
         })
 
-        // console.log(fetchApiData.data.material);
+        // console.log(data);
     }
     
     catch (err) {

@@ -56,6 +56,7 @@ import CompetenceCriteriaPrint from './dashboard/hr/competence criteria/Competen
 import FullOrderDetails from './dashboard/purchase/purchase order list/FullOrderDetails';
 import ViewEmpDetails from './dashboard/hr/employees/ViewEmpDetails';
 import AddEmpAttendance from './dashboard/hr/emp attendance new/AddEmpAttendance';
+import Category from './dashboard/purchase/category/Category';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -74,7 +75,7 @@ function App() {
       <Route exact path="/" component={Login} />
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/purchasedashboard" component={PurchaseDashboard} />
-      <Route exact path="/purchasedashboard" component={PurchaseDashboard} />
+      <Route exact path="/purchase/category" component={Category} />
       <Route exact path="/purchase/material" component={Material} />
       <Route exact path="/purchase/vendors" component={Vendors} />
       <Route exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm} />

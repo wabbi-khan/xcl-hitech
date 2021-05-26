@@ -246,7 +246,7 @@ const Vendors = () => {
                             {/* ============Vendor email======================== */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Email (Optional)"
+                                    label="Email"
                                     variant="outlined"
                                     type="email"
                                     autocomplete="off"
@@ -258,7 +258,7 @@ const Vendors = () => {
                                         required: true,
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                            message: "Enter a valid e-mail address",
+                                            message: "Enter a valid Email Address",
                                         },
                                     })}
                                 />

@@ -53,6 +53,7 @@ import CompetenceCriteriaPrint from '../dashboard/hr/competence criteria/Compete
 import FullOrderDetails from '../dashboard/purchase/purchase order list/FullOrderDetails';
 import ViewEmpDetails from '../dashboard/hr/employees/ViewEmpDetails';
 import AddEmpAttendance from '../dashboard/hr/emp attendance new/AddEmpAttendance';
+import Category from '../dashboard/purchase/category/Category';
 
 
 
@@ -63,6 +64,7 @@ const Router = () => {
                 <Router exact path="/" component={Login}/>
                 <Router exact path="/sidenav" component={Sidenav}/>
                 <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>
+                <Router exact path="/purchase/category" component={Category}/>
                 <Router exact path="/purchase/material" component={Material}/>
                 <Router exact path="/purchase/vendors" component={Vendors}/>
                 <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>

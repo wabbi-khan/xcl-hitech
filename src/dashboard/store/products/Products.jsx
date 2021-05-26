@@ -146,11 +146,16 @@ const Products = () => {
                                 type="email"
                                 size="small"
                                 autoComplete="off"
-                                // required
+                                select
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Screw</MenuItem>
+                                <MenuItem value={10}>New Screw</MenuItem>
                             </CssTextField>
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
