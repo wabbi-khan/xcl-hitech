@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +12,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProductsAction } from '../../../services/action/ProductsAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+import axios from 'axios';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -111,52 +116,78 @@ const CssTextField = withStyles({
 })(TextField);
 
 const Products = () => {
+    const [Product, setProduct] = useState('')
+
     const classes = useStyles();
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchProductsAction())
+    }, [dispatch])
+
+    const { loading, products, error } = useSelector(state => state.products)
+    
+    const deleteProduct = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/product/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
+    const handleOpen = async (product) => {
+        setProduct(product)
+        setOpen(true);
+    }
 
     return (
         <Sidenav title={'Products'}>
+            {/* ============products form component */}
+            {/* <EditMaterial
+                show={open}
+                handler={handleClose}
+                categories={categories}
+                material={material}
+            /> */}
+            {/* ============products form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                label="Select Category"
+                                label="Category"
                                 variant="outlined"
                                 type="email"
                                 size="small"
                                 autoComplete="off"
-                                // required
-                                select
+                                value="Finished"
+                                disabled
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Finished</MenuItem>
-                                <MenuItem value={10}>Unfinished</MenuItem>
-                                <MenuItem value={10}>Raw Material</MenuItem>
-                            </CssTextField>
+                            />
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Product Name"
                                 variant="outlined"
-                                type="email"
+                                type="text"
                                 size="small"
                                 autoComplete="off"
-                                select
                                 className={classes.inputFieldStyle}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Screw</MenuItem>
-                                <MenuItem value={10}>New Screw</MenuItem>
-                            </CssTextField>
+                            />
                         </Grid>
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
@@ -223,78 +254,46 @@ const Products = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Finished</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Unfinished</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Raw Material</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                products.length ?
+                                                    products.map((product, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                Finished
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{product.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{product.productCode}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{product.minInventoryLevel}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{product.remarks}</StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() =>
+                                                                        handleOpen(product)
+                                                                    }
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
+                                                                </Button>
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() => 
+                                                                            deleteProduct(product._id)
+                                                                        }
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
+                                                                </Button></>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

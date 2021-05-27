@@ -6,6 +6,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import './style.css'
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -45,9 +47,10 @@ const useStyles = makeStyles((theme) => ({
     mainContainer: {
         textAlign: 'center',
     },
-    table: {
+    table1: {
         marginBottom: 300
     },
+    
 
 }));
 
@@ -76,6 +79,14 @@ const GoodReceivedPrint = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4" id="printBtn">
+                        <Button variant="contained" size="small"
+                                className="bg-dark text-light"
+                                onClick={() => window.print()}        
+                        >
+                            Print
+                        </Button>
+                    </div>
                 </div>
             </div>
             <div className={classes.table}>
@@ -90,9 +101,6 @@ const GoodReceivedPrint = () => {
                                     <StyledTableCell className="text-dark bg-light" align="center">P.O. No.</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Received From</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Description</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">Department</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">Unit</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">Qty</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Signature of Inspection</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Justification/Remarks</StyledTableCell>
                                 </TableRow>
@@ -105,11 +113,46 @@ const GoodReceivedPrint = () => {
                                     <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis modi atque dolorem</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">240</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Accepted</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
+                                </StyledTableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    {/* <thead class="thead-dark">
+                    <tr>
+                    <th>S.No.</th>
+                    <td colspan="5">
+                    <th>DESCRIPTION</th>
+                    </td>
+                    <th>Quantity</th>
+                    <th>Unit Value</th>
+                    <th>Remarks</th>
+                    </tr>
+                </thead> */}
+                </div>
+            </div>
+            <div className={classes.table1}>
+                <div className="table ml-auto mr-auto mt-4">
+                    <h6>Purchase Inspection Materials</h6>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow hover role="checkbox">
+                                    <StyledTableCell className="text-dark bg-light" align="center">Sr.No</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Material Name</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Quantity</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Unit Value</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Remarks</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody >
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">New Screw</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">15</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">12</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">good</StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>
                         </Table>

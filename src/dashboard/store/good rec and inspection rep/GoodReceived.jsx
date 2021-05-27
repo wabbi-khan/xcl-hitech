@@ -119,20 +119,6 @@ const GoodReceived = ( { history } ) => {
                     <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
-                                // label="Product Name"
-                                variant="outlined"
-                                type="datetime-local"
-                                size="small"
-                                autoComplete="off"
-                                required
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            >
-                            </CssTextField>
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
                                 label="P.R. No."
                                 variant="outlined"
                                 type="text"
@@ -162,70 +148,15 @@ const GoodReceived = ( { history } ) => {
                                 variant="outlined"
                                 type="text"
                                 size="small"
-                                select
                                 autoComplete="off"
                                 className={classes.inputFieldStyle1}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Arsalan</MenuItem>
-                                <MenuItem value={20}>Sagheer</MenuItem>
-                                <MenuItem value={20}>Aneeq</MenuItem>
-                            </CssTextField>
+                            />
                         </Grid>
-                    </Grid>
-                </Container>
-                <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15, }} >
                         <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField id="outlined-basic"
                                 label="Description"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                className={classes.inputFieldStyle1}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Department"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                select
-                                autoComplete="off"
-                                className={classes.inputFieldStyle1}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Purchase</MenuItem>
-                                <MenuItem value={20}>Sales</MenuItem>
-                            </CssTextField>
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Unit"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                className={classes.inputFieldStyle1}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Quantity"
                                 variant="outlined"
                                 type="text"
                                 size="small"
@@ -276,7 +207,7 @@ const GoodReceived = ( { history } ) => {
                         <Button variant="outlined" color="primary"
                                 className={classes.addButton}
                                 onClick={() => {
-                                    history.push('/storedashboard/good_received_and_inspection_report/good_rec_inspection_print')
+                                    
                                 }}
                         >
                             Add
@@ -294,9 +225,6 @@ const GoodReceived = ( { history } ) => {
                                     <StyledTableCell align="center">P.O. No.</StyledTableCell>
                                     <StyledTableCell align="center">Received From</StyledTableCell>
                                     <StyledTableCell align="center">Description</StyledTableCell>
-                                    <StyledTableCell align="center">Department</StyledTableCell>
-                                    <StyledTableCell align="center">Unit</StyledTableCell>
-                                    <StyledTableCell align="center">Qty</StyledTableCell>
                                     <StyledTableCell align="center">Status of Inspection</StyledTableCell>
                                     <StyledTableCell align="center">Remarks</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
@@ -310,26 +238,16 @@ const GoodReceived = ( { history } ) => {
                                     <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis modi atque dolorem</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">240</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Accepted</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
                                     <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                        <Button variant="contained" className="bg-dark text-light" size="small"
                                             onClick={() => {
-
+                                                history.push('/storedashboard/good_received_and_inspection_report/good_rec_inspection_print')
                                             }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
-
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
+                                        >
+                                            View Report
+                                        </Button>
                                     </StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>

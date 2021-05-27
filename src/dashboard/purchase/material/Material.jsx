@@ -152,6 +152,7 @@ const Material = () => {
 
 
     const { loading, materials, error } = useSelector(state => state.materials)
+    // console.log(materials);
     const { categories } = useSelector(state => state.categories)
 
     const deleteMaterial = async (params) => {
@@ -274,7 +275,11 @@ const Material = () => {
                                                     materials.map((material, i) => (
                                                         <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{material.category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    material.category ? material.category.name : <span className="text-danger">Not Found</span>
+                                                                }
+                                                            </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"

@@ -173,15 +173,14 @@ const Category = () => {
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                            {...register("category", { required: true })}
-                        >
+                            {...register("name", { required: true })}
+                        />
                             {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
                                         <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
                                     ))
                             } */}
-                        </CssTextField>
                         <div>
                             <Button variant="outlined" color="primary"
                                 type="submit"
