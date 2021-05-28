@@ -213,11 +213,23 @@ const PurchaseOrder = ({ history }) => {
         console.log(data);
     }
 
+    const onSubmitDate = async (props) => {
+        try {
+            // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
+            // window.location.reload()
+            // setAddMatError(false)
+        }
+        catch (error) {
+            // setAddMatError(true)
+
+        }
+    }
 
     return (
         <Sidenav title={'Purchase Order'}>
             <div>
                 {/* <form onSubmit={handleSubmit(onAdd)}> */}
+                <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                     <Container className={classes.mainContainer}>
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -342,31 +354,32 @@ const PurchaseOrder = ({ history }) => {
                             </Grid>
                         </Grid>
                     </Container>
-                    <div style={{ marginTop: 30, marginBottom: 30, }}>
-                        <hr />
-                    </div>
-                    {/* ========================================================== */}
-                    <MaterialAddRow 
-                        materials={vendorMaterial}
-                    />
-                    {/* ========================================================== */}
-                    <Grid container spacing={1} >
-                        <Grid item lg={5} md={5} sm={10} xs={11}>
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={10} xs={11}>
-                            <Button
-                                variant="outlined" color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                            // onClick={() => {
-                            //     history.push('/purchase/purchase_order/print_order')
-                            // }}
-                            // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                            >
-                                Submit
-                            </Button>
-                        </Grid>
+                </form>
+                <div style={{ marginTop: 30, marginBottom: 30, }}>
+                    <hr />
+                </div>
+                {/* ========================================================== */}
+                <MaterialAddRow
+                    materials={vendorMaterial}
+                />
+                {/* ========================================================== */}
+                <Grid container spacing={1} >
+                    <Grid item lg={5} md={5} sm={10} xs={11}>
                     </Grid>
+                    <Grid item lg={3} md={3} sm={10} xs={11}>
+                        <Button
+                            variant="outlined" color="primary"
+                            type="submit"
+                            className={classes.addButton}
+                        // onClick={() => {
+                        //     history.push('/purchase/purchase_order/print_order')
+                        // }}
+                        // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                        >
+                            Submit
+                            </Button>
+                    </Grid>
+                </Grid>
                 {/* </form> */}
             </div>
         </Sidenav>

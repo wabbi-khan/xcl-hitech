@@ -62,16 +62,21 @@ const GoodReceivedPrint = (props) => {
     const classes = useStyles();
 
     const id = props.match.params.id
-
-
+    
     const dispatch = useDispatch()
 
     useEffect(async () => {
         await dispatch(fetchSinglePurchaseOrderAction(id))
     }, [dispatch])
 
-    const { order, loading, error } = useSelector(state => state.order)
-    
+    const { order, loading, error } = useSelector(state => state.order) 
+
+    const date = new Date()
+    const currDate = date.getDate()
+    const months = date.getMonth() + 1
+    const years = date.getFullYear()
+    const fullDate = `${currDate} / ${months} / ${years}`
+    // console.log(currDate +" "+ months + " "+ years);
 
     return (
         <div className="text-center">
@@ -90,7 +95,7 @@ const GoodReceivedPrint = (props) => {
                                 <p>Date</p>
                             </div>
                             <div className="col-lg-4 col-md-4 ml-3">
-                                <p>26-4-21</p>
+                                <p>{ fullDate }</p>
                                 <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
                             </div>
                         </div>
@@ -137,7 +142,11 @@ const GoodReceivedPrint = (props) => {
                                                             <StyledTableCell className="text-dark" align="center">{order.inspectionDate}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.prNum}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    order.vendor ? order.vendor.name : null
+                                                                }
+                                                            </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.description}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.inspectionStatus}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.remarks}</StyledTableCell>
@@ -184,7 +193,7 @@ const GoodReceivedPrint = (props) => {
                                             <span>Error</span>
                                         ) :
                                             (
-                                                order.materials.length ?
+                                                !order.materials || !order.materials.length ? <span>Not Found</span> :
                                                     order.materials.map((material, i) => (
                                                         <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
@@ -194,7 +203,6 @@ const GoodReceivedPrint = (props) => {
                                                             <StyledTableCell className="text-dark" align="center">{material.remarks}</StyledTableCell>
                                                         </StyledTableRow>
                                                     ))
-                                                    : <h5>Not Found</h5>
                                             )
                                 }
                             </TableBody>

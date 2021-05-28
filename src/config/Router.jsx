@@ -54,6 +54,7 @@ import FullOrderDetails from '../dashboard/purchase/purchase order list/FullOrde
 import ViewEmpDetails from '../dashboard/hr/employees/ViewEmpDetails';
 import AddEmpAttendance from '../dashboard/hr/emp attendance new/AddEmpAttendance';
 import Category from '../dashboard/purchase/category/Category';
+import InspectionForm from '../dashboard/store/good rec and inspection rep/InspectionForm';
 
 
 
@@ -77,7 +78,8 @@ const Router = () => {
                 <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
                 <Router exact path="/storedashboard" component={Store}/>
                 <Router exact path="/storedashboard/products" component={Products}/>
-                <Router exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived}/>
+                <Router exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm}/>
+                <Router exact path="/storedashboard/good_received_and_inspection_report/:id" component={GoodReceived}/>
                 <Router exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint}/>
                 <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard}/>
                 <Router exact path="/storedashboard/vehicles" component={Vehicles}/>

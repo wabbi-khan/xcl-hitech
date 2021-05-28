@@ -57,6 +57,7 @@ import FullOrderDetails from './dashboard/purchase/purchase order list/FullOrder
 import ViewEmpDetails from './dashboard/hr/employees/ViewEmpDetails';
 import AddEmpAttendance from './dashboard/hr/emp attendance new/AddEmpAttendance';
 import Category from './dashboard/purchase/category/Category';
+import InspectionForm from './dashboard/store/good rec and inspection rep/InspectionForm';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -88,7 +89,8 @@ function App() {
       <Route exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint} />
       <Route exact path="/storedashboard" component={Store} />
       <Route exact path="/storedashboard/products" component={Products} />
-      <Route exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived} />
+      <Route exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm} />
+      <Route exact path="/storedashboard/good_received_and_inspection_report/:id" component={GoodReceived} />
       <Route exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint} />
       <Route exact path="/storedashboard/products_bin_card" component={ProductsBinCard} />
       <Route exact path="/storedashboard/vehicles" component={Vehicles} />

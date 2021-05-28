@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState }from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,8 +10,9 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchPurchaseOrderAction } from '../../../services/action/OrdersAction';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export const PurchaseOrderList = ({ history }) => {
+const InspectionForm = ({ history }) => {
     const classes = useStyles();
     const dispatch = useDispatch()
 
@@ -67,12 +68,11 @@ export const PurchaseOrderList = ({ history }) => {
     }, [dispatch])
 
     const { orders, loading, error } = useSelector(state => state.orders)
-    console.log(orders);
 
     return (
-        <Sidenav title={'Purchase Order List'}>
+        <Sidenav title={'Good Received and Inspection Form'}>
             <div>
-                <div className={classes.dataTable}>
+            <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer} >
                         <Table stickyHeader className={classes.table} style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -117,10 +117,10 @@ export const PurchaseOrderList = ({ history }) => {
                                                                 <Button 
                                                                     className="btn bg-dark text-light"
                                                                     onClick={() => {
-                                                                        history.push(`/purchase/purchase_order_list/order_details/${order._id}`)
+                                                                        history.push(`/storedashboard/good_received_and_inspection_report/${order._id}`)
                                                                     }}
                                                                 >
-                                                                    View Details
+                                                                    Inspection
                                                                 </Button>
                                                             </StyledTableCell>
                                                         </StyledTableRow>
@@ -136,3 +136,5 @@ export const PurchaseOrderList = ({ history }) => {
         </Sidenav>
     )
 }
+
+export default InspectionForm
