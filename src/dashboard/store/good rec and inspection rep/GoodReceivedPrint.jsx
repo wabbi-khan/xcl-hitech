@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,7 +7,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from 'react-redux'
 import './style.css'
+import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
+import Loading from '../../purchase/material/Loading';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -50,12 +54,24 @@ const useStyles = makeStyles((theme) => ({
     table1: {
         marginBottom: 300
     },
-    
+
 
 }));
 
-const GoodReceivedPrint = () => {
+const GoodReceivedPrint = (props) => {
     const classes = useStyles();
+
+    const id = props.match.params.id
+
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchSinglePurchaseOrderAction(id))
+    }, [dispatch])
+
+    const { order, loading, error } = useSelector(state => state.order)
+    
 
     return (
         <div className="text-center">
@@ -81,8 +97,8 @@ const GoodReceivedPrint = () => {
                     </div>
                     <div className="offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4" id="printBtn">
                         <Button variant="contained" size="small"
-                                className="bg-dark text-light"
-                                onClick={() => window.print()}        
+                            className="bg-dark text-light"
+                            onClick={() => window.print()}
                         >
                             Print
                         </Button>
@@ -106,16 +122,29 @@ const GoodReceivedPrint = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis modi atque dolorem</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Accepted</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <span>Error</span>
+                                        ) :
+                                            (
+                                                !order ? <h5>Not Found</h5> :
+                                                    (
+                                                        <StyledTableRow >
+                                                            <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.inspectionDate}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.prNum}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.description}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.inspectionStatus}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.remarks}</StyledTableCell>
+                                                        </StyledTableRow>
+                                                    )
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -147,13 +176,27 @@ const GoodReceivedPrint = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">New Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">15</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">12</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">good</StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <span>Error</span>
+                                        ) :
+                                            (
+                                                order.materials.length ?
+                                                    order.materials.map((material, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.material.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.quantity}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.unitValue}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.remarks}</StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

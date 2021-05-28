@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +12,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchInspectedOrderAction } from '../../../services/action/OrdersAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -109,8 +114,16 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const GoodReceived = ( { history } ) => {
+const GoodReceived = ({ history }) => {
     const classes = useStyles();
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchInspectedOrderAction())
+    }, [dispatch])
+
+    const { loading, orders, error } = useSelector(state => state.orders)
 
     return (
         <Sidenav title={'Good Received and Inspection Report'}>
@@ -205,10 +218,10 @@ const GoodReceived = ( { history } ) => {
                     </Grid>
                     <div>
                         <Button variant="outlined" color="primary"
-                                className={classes.addButton}
-                                onClick={() => {
-                                    
-                                }}
+                            className={classes.addButton}
+                            onClick={() => {
+
+                            }}
                         >
                             Add
                         </Button>
@@ -231,25 +244,39 @@ const GoodReceived = ( { history } ) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30232</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis modi atque dolorem</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Accepted</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Good</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-                                                history.push('/storedashboard/good_received_and_inspection_report/good_rec_inspection_print')
-                                            }}
-                                        >
-                                            View Report
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                orders.length ?
+                                                    orders.map((order, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.inspectionDate}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.prNum}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.description}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.inspectionStatus}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{order.remarks}</StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() => {
+                                                                        history.push(`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order._id}`)
+                                                                    }}
+                                                                >
+                                                                    View Report
+                                                                </Button>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

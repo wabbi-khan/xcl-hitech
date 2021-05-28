@@ -1,4 +1,4 @@
-import { PURCHASE_ORDER_FETCH_FAIL, 
+import { INSPECTED_ORDER_FETCH_FAIL, INSPECTED_ORDER_FETCH_REQUEST, INSPECTED_ORDER_FETCH_SUCCESS, PURCHASE_ORDER_FETCH_FAIL, 
     PURCHASE_ORDER_FETCH_REQUEST, 
     PURCHASE_ORDER_FETCH_SUCCESS, 
     SINGLE_PURCHASE_ORDER_FETCH_FAIL, 
@@ -23,6 +23,20 @@ export const fetchPurchaseOrderReducer = (
                 orders: action.payload
             }
         case PURCHASE_ORDER_FETCH_FAIL:
+            return { 
+                loading: false,
+                error: action.payload
+            }
+        case INSPECTED_ORDER_FETCH_REQUEST:
+            return { 
+                loading: true,
+            }
+        case INSPECTED_ORDER_FETCH_SUCCESS:
+            return { 
+                loading: false,
+                orders: action.payload
+            }
+        case INSPECTED_ORDER_FETCH_FAIL:
             return { 
                 loading: false,
                 error: action.payload

@@ -17,6 +17,8 @@ import { fetchProductsAction } from '../../../services/action/ProductsAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import axios from 'axios';
+import EditProducts from './EditProducts';
+import { useForm } from 'react-hook-form';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -116,9 +118,11 @@ const CssTextField = withStyles({
 })(TextField);
 
 const Products = () => {
-    const [Product, setProduct] = useState('')
+    const [product, setproduct] = useState('')
 
     const classes = useStyles();
+
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
@@ -127,7 +131,18 @@ const Products = () => {
     }, [dispatch])
 
     const { loading, products, error } = useSelector(state => state.products)
-    
+
+    const onSubmitDate = async (props) => {
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/product`, props)
+            window.location.reload()
+            console.log('submit');
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     const deleteProduct = async (params) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_URL}/product/${params}`)
@@ -146,99 +161,109 @@ const Products = () => {
     }
 
     const handleOpen = async (product) => {
-        setProduct(product)
+        setproduct(product)
         setOpen(true);
     }
 
     return (
         <Sidenav title={'Products'}>
             {/* ============products form component */}
-            {/* <EditMaterial
+            <EditProducts
                 show={open}
                 handler={handleClose}
-                categories={categories}
-                material={material}
-            /> */}
+                product={product}
+            />
             {/* ============products form component */}
             <div>
-                <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15, }} >
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Category"
-                                variant="outlined"
-                                type="email"
-                                size="small"
-                                autoComplete="off"
-                                value="Finished"
-                                disabled
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Product Name"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Product Code"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                className={classes.inputFieldStyle1}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Min. Inventory Level"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                className={classes.inputFieldStyle1}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
-                    </Grid>
-                </Container>
-                <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15, }} >
-                        <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
-                                label="Remarks"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                className={classes.inputFieldStyle1}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            />
-                        </Grid>
+                <form action="" onSubmit={handleSubmit(onSubmitDate)}>
+                    <Container className={classes.mainContainer}>
+                        <Grid container spacing={1} style={{ marginTop: 15, }} >
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Category"
+                                    variant="outlined"
+                                    type="email"
+                                    size="small"
+                                    autoComplete="off"
+                                    value="Finished"
+                                    disabled
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                />
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Product Name"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autoComplete="off"
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("name", { required: true })}
 
-                    </Grid>
-                    <div>
-                        <Button variant="outlined" color="primary"
-                            className={classes.addButton}
-                        >
-                            Add
+                                />
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Product Code"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autoComplete="off"
+                                    className={classes.inputFieldStyle1}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("productCode", { required: true })}
+
+                                />
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Min. Inventory Level"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autoComplete="off"
+                                    className={classes.inputFieldStyle1}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("minInventoryLevel", { required: true })}
+
+                                />
+                            </Grid>
+                        </Grid>
+                    </Container>
+                    <Container className={classes.mainContainer}>
+                        <Grid container spacing={1} style={{ marginTop: 15, }} >
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Remarks"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autoComplete="off"
+                                    className={classes.inputFieldStyle1}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("remarks", { required: true })}
+
+                                />
+                            </Grid>
+
+                        </Grid>
+                        <div>
+                            <Button variant="outlined" color="primary"
+                                type="submit"
+                                className={classes.addButton}
+                            >
+                                Add
                         </Button>
-                    </div>
-                </Container>
+                        </div>
+                    </Container>
+                </form>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
@@ -282,7 +307,7 @@ const Products = () => {
                                                                     Edit
                                                                 </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => 
+                                                                        onClick={() =>
                                                                             deleteProduct(product._id)
                                                                         }
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>

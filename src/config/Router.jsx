@@ -78,7 +78,7 @@ const Router = () => {
                 <Router exact path="/storedashboard" component={Store}/>
                 <Router exact path="/storedashboard/products" component={Products}/>
                 <Router exact path="/storedashboard/good_received_and_inspection_report" component={GoodReceived}/>
-                <Router exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print" component={GoodReceivedPrint}/>
+                <Router exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint}/>
                 <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard}/>
                 <Router exact path="/storedashboard/vehicles" component={Vehicles}/>
                 <Router exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist}/>
