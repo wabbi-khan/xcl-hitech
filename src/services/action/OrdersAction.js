@@ -40,7 +40,7 @@ export const fetchSinglePurchaseOrderAction = (_id) => async (dispatch) => {
     
     try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/order/id/${_id}`)
-        
+
         dispatch({
             type: SINGLE_PURCHASE_ORDER_FETCH_SUCCESS,
             payload: data.order

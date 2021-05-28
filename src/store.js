@@ -6,6 +6,7 @@ import { fetchNonVerifiedVendorReducer, fetchVendorReducer, fetchAppSuppListRedu
 import { fetchPersonsReducer } from './services/reducer/PersonReducer'
 import { fetchPurchaseOrderReducer, fetchSinglePurchaseOrderReducer } from './services/reducer/OrdersReducer';
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
+import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
 
 const initialState = {}
 
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     orders: fetchPurchaseOrderReducer,
     order: fetchSinglePurchaseOrderReducer,
     products: fetchProductsReducer,
+    vehicles: fetchVehiclesReducer,
 
 })
 
