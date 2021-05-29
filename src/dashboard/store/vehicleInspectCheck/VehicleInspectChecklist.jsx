@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -14,16 +14,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUnInspectedVehiclesAction } from '../../../services/action/VehiclesAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
 
 const GreenCheckbox = withStyles({
     root: {
-      color: 'black',
-      '&$checked': {
-        color: 'red',
-      },
+        color: 'black',
+        '&$checked': {
+            color: 'red',
+        },
     },
     checked: {},
-  })((props) => <Checkbox color="default" {...props} />);
+})((props) => <Checkbox color="default" {...props} />);
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -122,36 +126,30 @@ const CssTextField = withStyles({
 })(TextField);
 
 const VehicleInspectChecklist = () => {
+    const [fitnessCert, setfitnessCert] = useState(false)
+    const [regDoc, setregDoc] = useState(false)
+    const [RoadTaxPaid, setRoadTaxPaid] = useState(false)
+    const [validVehicleInsp, setvalidVehicleInsp] = useState(false)
+    const [driverValidLins, setdriverValidLins] = useState(false)
+    const [visualCheckVehicle, setvisualCheckVehicle] = useState(false)
+    const [spareTyre, setspareTyre] = useState(false)
+    const [appropriateJack, setappropriateJack] = useState(false)
+    const [enoughFuel, setenoughFuel] = useState(false)
+    const [signOfInspector, setsignOfInspector] = useState(false)
+
     const classes = useStyles();
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchUnInspectedVehiclesAction())
+    }, [dispatch])
+
+    const { loading, vehicles, error } = useSelector(state => state.vehicles)
 
     return (
         <Sidenav title={'Vehicle Inspection Checklist'}>
             <div>
-                <Container className={classes.mainContainer}>
-                    <Grid container spacing={1} style={{ marginTop: 15, }} >
-                        <Grid item lg={12} md={12} sm={2} xs={2}>
-                            <CssTextField id="outlined-basic"
-                                label="Select Vehicle"
-                                variant="outlined"
-                                type="text"
-                                size="small"
-                                autoComplete="off"
-                                required
-                                select
-                                className={classes.inputFieldStyle}
-                                inputProps={{ style: { fontSize: 14 } }}
-                                InputLabelProps={{ style: { fontSize: 14 } }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>ABC-123</MenuItem>
-                                <MenuItem value={10}>XYZ-242</MenuItem>
-                                <MenuItem value={10}>ASD-442</MenuItem>
-                            </CssTextField>
-                        </Grid>
-                    </Grid>
-                </Container>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
@@ -166,7 +164,7 @@ const VehicleInspectChecklist = () => {
                                     <StyledTableCell align="center">Valid Vehicle Ins</StyledTableCell>
                                     <StyledTableCell align="center">Driver's Valid License</StyledTableCell>
                                     <StyledTableCell align="center">Visual Check of Vehicle</StyledTableCell>
-                                    <StyledTableCell align="center">Tyre/<br/>Spare</StyledTableCell>
+                                    <StyledTableCell align="center">Tyre/<br />Spare</StyledTableCell>
                                     <StyledTableCell align="center">Appropriate Jack</StyledTableCell>
                                     <StyledTableCell align="center">Enough Fuel in the Tank</StyledTableCell>
                                     <StyledTableCell align="center">Sign of Inspector</StyledTableCell>
@@ -174,131 +172,145 @@ const VehicleInspectChecklist = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">ABC-123</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan Khan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">
-                                        <FormControlLabel
-                                            style={{ marginTop: -6 }}
-                                            label="Yes"
-                                            control={<GreenCheckbox
-                                                        name="checkedG" 
-                                                        // checked={state.checkedG} 
-                                                        // onChange={handleChange} 
-                                                    />}
-                                        />
-                                    </StyledTableCell>
-                                   
-                                    <StyledTableCell className="text-light" align="center">
-                                        <Button variant="contained" color="secondary" size="small"
-                                                onClick={() => {
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                vehicles.length ?
+                                                    vehicles.map((vehicle, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{vehicle.number}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{vehicle.driverName}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange}
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                <FormControlLabel
+                                                                    style={{ marginTop: -6 }}
+                                                                    label="Yes"
+                                                                    control={<GreenCheckbox
+                                                                        name="checkedG"
+                                                                    // checked={state.checkedG} 
+                                                                    // onChange={handleChange} 
+                                                                    />}
+                                                                />
+                                                            </StyledTableCell>
 
-                                                }}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Finish
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <Button variant="contained" color="secondary" size="small"
+                                                                    onClick={() => {
+
+                                                                    }}
+                                                                    style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                    Finish
+                                                                </Button>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
