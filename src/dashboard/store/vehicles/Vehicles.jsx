@@ -298,6 +298,7 @@ const Vehicles = () => {
                                     <StyledTableCell align="center">Driver Name</StyledTableCell>
                                     <StyledTableCell align="center">Phn No.</StyledTableCell>
                                     <StyledTableCell align="center">CNIC No.</StyledTableCell>
+                                    <StyledTableCell align="center">Inspected/Un-Inspected</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -319,6 +320,15 @@ const Vehicles = () => {
                                                             <StyledTableCell className="text-dark" align="center">{vehicle.driverName}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{vehicle.phoneNum}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{vehicle.cnicNum}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    vehicle.RoadTaxPaid && vehicle.appropriateJack && vehicle.driverValidLins &&
+                                                                    vehicle.enoughFuel && vehicle.fitnessCert && vehicle.regDoc && vehicle.signOfInspector &&
+                                                                    vehicle.spareTyre && vehicle.validVehicleInsp && vehicle.visualCheckVehicle ? 
+                                                                    <span className="text-success">Inspected</span> : 
+                                                                    <span className="text-danger">Un-Inspected</span>
+                                                                }
+                                                            </StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import LoginImg from '../images/loginBack.jpg';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
-import { BrowserRouter as Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     cssLabel: {
@@ -82,7 +81,6 @@ const Login = (props) => {
     const classes = useStyles();
     const { history } = props;
     const [Username, setUsername] = useState()
-    const [Password, setPassword] = useState()
 
 
     return (

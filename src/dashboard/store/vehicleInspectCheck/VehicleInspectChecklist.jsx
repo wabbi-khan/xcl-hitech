@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchUnInspectedVehiclesAction } from '../../../services/action/VehiclesAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
+import axios from 'axios';
+
 
 const GreenCheckbox = withStyles({
     root: {
@@ -147,6 +149,26 @@ const VehicleInspectChecklist = () => {
 
     const { loading, vehicles, error } = useSelector(state => state.vehicles)
 
+    const getCheckedValues = async (_id) => {
+        if (fitnessCert && regDoc && RoadTaxPaid && validVehicleInsp && driverValidLins &&
+            visualCheckVehicle && spareTyre && appropriateJack && enoughFuel && signOfInspector ) {
+                await axios.patch(`${process.env.REACT_APP_API_URL}/vehicle/inspection/${_id}`, {
+                    fitnessCert,
+                    regDoc,
+                    RoadTaxPaid,
+                    validVehicleInsp,
+                    driverValidLins,
+                    visualCheckVehicle,
+                    spareTyre,
+                    appropriateJack,
+                    enoughFuel,
+                    signOfInspector
+                })
+        }
+        else{
+            console.log('error');
+        }
+    }
     return (
         <Sidenav title={'Vehicle Inspection Checklist'}>
             <div>
@@ -209,107 +231,177 @@ const VehicleInspectChecklist = () => {
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setRegDoc(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setRegDoc(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setRoadTaxPaid(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setRoadTaxPaid(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setValidVehicleInsp(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setValidVehicleInsp(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setDriverValidLins(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setDriverValidLins(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setVisualCheckVehicle(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setVisualCheckVehicle(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setSpareTyre(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setSpareTyre(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setAppropriateJack(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setAppropriateJack(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setEnoughFuel(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setEnoughFuel(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange} 
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setSignOfInspector(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setSignOfInspector(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
 
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <Button variant="contained" color="secondary" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
+                                                                    onClick={() => getCheckedValues(vehicle._id)}
                                                                     style={{ marginLeft: 2, marginTop: 2 }}>
                                                                     Finish
                                                                 </Button>

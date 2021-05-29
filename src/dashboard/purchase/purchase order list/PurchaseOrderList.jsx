@@ -73,6 +73,7 @@ export const PurchaseOrderList = ({ history }) => {
         <Sidenav title={'Purchase Order List'}>
             <div>
                 <div className={classes.dataTable}>
+                    <h4>UnInspected Orders List</h4>
                     <TableContainer className={classes.tableContainer} >
                         <Table stickyHeader className={classes.table} style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
