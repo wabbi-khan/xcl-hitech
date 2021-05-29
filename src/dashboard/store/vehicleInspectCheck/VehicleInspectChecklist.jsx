@@ -126,16 +126,16 @@ const CssTextField = withStyles({
 })(TextField);
 
 const VehicleInspectChecklist = () => {
-    const [fitnessCert, setfitnessCert] = useState(false)
-    const [regDoc, setregDoc] = useState(false)
+    const [fitnessCert, setFitnessCert] = useState(false)
+    const [regDoc, setRegDoc] = useState(false)
     const [RoadTaxPaid, setRoadTaxPaid] = useState(false)
-    const [validVehicleInsp, setvalidVehicleInsp] = useState(false)
-    const [driverValidLins, setdriverValidLins] = useState(false)
-    const [visualCheckVehicle, setvisualCheckVehicle] = useState(false)
-    const [spareTyre, setspareTyre] = useState(false)
-    const [appropriateJack, setappropriateJack] = useState(false)
-    const [enoughFuel, setenoughFuel] = useState(false)
-    const [signOfInspector, setsignOfInspector] = useState(false)
+    const [validVehicleInsp, setValidVehicleInsp] = useState(false)
+    const [driverValidLins, setDriverValidLins] = useState(false)
+    const [visualCheckVehicle, setVisualCheckVehicle] = useState(false)
+    const [spareTyre, setSpareTyre] = useState(false)
+    const [appropriateJack, setAppropriateJack] = useState(false)
+    const [enoughFuel, setEnoughFuel] = useState(false)
+    const [signOfInspector, setSignOfInspector] = useState(false)
 
     const classes = useStyles();
 
@@ -190,11 +190,19 @@ const VehicleInspectChecklist = () => {
                                                                 <FormControlLabel
                                                                     style={{ marginTop: -6 }}
                                                                     label="Yes"
-                                                                    control={<GreenCheckbox
-                                                                        name="checkedG"
-                                                                    // checked={state.checkedG} 
-                                                                    // onChange={handleChange}
-                                                                    />}
+                                                                    control={
+                                                                        <GreenCheckbox
+                                                                            name="checkedG"
+                                                                            onChange={(e) => {
+                                                                                if (e.target.checked) {
+                                                                                    setFitnessCert(true)
+                                                                                }
+                                                                                if (!e.target.checked) {
+                                                                                    setFitnessCert(false)
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    }
                                                                 />
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
