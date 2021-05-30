@@ -200,9 +200,9 @@ const PurchaseOrder = ({ history }) => {
 	};
 
     const deleteItem = (i) => {
-        console.log(ItemCounter);
         const temp = [...ItemCounter];
 		temp.splice(i, 1);
+        console.log(temp)
 		setItemCounter(temp);
         // setItemCounter(ItemCounter.filter(item => item.id !== id))
     }
@@ -216,18 +216,19 @@ const PurchaseOrder = ({ history }) => {
     }
 
     const onChangeHandler = (e, placeholder, index) => {
-		const tempFields = ItemCounter.map((field, i) => {
+        console.log(e.target.value)
+		const tempFields = ItemCounter.map((item, i) => {
 			if (i === index) {
-				return { ...ItemCounter, [placeholder]: e.target.value };
+				return { ...item, [placeholder]: e.target.value };
 			} else {
-				return { ...ItemCounter };
+				return { ...item };
 			}
 		});
 		setItemCounter(tempFields);
 	};
 
     const onSubmitDate = async (props) => {
-        console.log(props);
+        console.log(ItemCounter);
         // try {
         // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
         // window.location.reload()
@@ -388,6 +389,7 @@ const PurchaseOrder = ({ history }) => {
                                                 type="text"
                                                 size="small"
                                                 select
+                                                // onChange={(e) => onChangeHandler(e, 'item', i)}
                                                 className={classes.inputFieldStyle2}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -406,6 +408,7 @@ const PurchaseOrder = ({ history }) => {
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
+                                                value={value.quantity}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "quantity", i)
                                                 }}
@@ -420,6 +423,7 @@ const PurchaseOrder = ({ history }) => {
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
+                                                value={value.unitValue}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)
                                                 }}
@@ -435,6 +439,7 @@ const PurchaseOrder = ({ history }) => {
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
+                                                value={value.remarks}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "remarks", i)
                                                 }}
@@ -472,7 +477,8 @@ const PurchaseOrder = ({ history }) => {
                                     variant="outlined" color="primary"
                                     className={classes.addButton}
                                     onClick={() => {
-                                        history.push('/purchase/purchase_requisition/print_purchase_requisition')
+                                        console.log(ItemCounter)
+                                        // history.push('/purchase/purchase_requisition/print_purchase_requisition')
                                     }}
                                 // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                                 >
