@@ -10,7 +10,8 @@ import cryptoRandomString from 'crypto-random-string';
 import { useDispatch, useSelector } from 'react-redux'
 import { appSuppListAction } from '../../../services/action/VendorAction';
 import { useForm } from "react-hook-form";
-import MaterialAddRow from './commponent/materialAddRow'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+// import MaterialAddRow from './commponent/materialAddRow'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle3: {
         [theme.breakpoints.up('md')]: {
             width: 250,
-            marginLeft: 70,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -101,7 +101,6 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle4: {
         [theme.breakpoints.up('md')]: {
             width: 250,
-            marginLeft: 140,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -182,7 +181,8 @@ const PurchaseOrder = ({ history }) => {
     const classes = useStyles();
     const dispatch = useDispatch()
 
-    const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
+    // const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
+    const [ItemCounter, setItemCounter] = useState([{ item: 'item1', quantity: '', unitValue: '', remarks: '' }]);
     const [VendorId, setVendorId] = useState('')
     const [VendorAddress, setVendorAddress] = useState('')
     const [vendorMaterial, setVendorMaterial] = useState([])
@@ -196,13 +196,15 @@ const PurchaseOrder = ({ history }) => {
     const { verifiedVendors } = useSelector(state => state.verifiedVendors)
 
     const addMoreFunc = () => {
-        const randomString = cryptoRandomString({ length: 10 });
-        const addNew = [...ItemCounter, { id: randomString }]
-        setItemCounter(addNew)
-    }
+		setItemCounter([...ItemCounter, { item: 'item1', quantity: '', unitValue: '', remarks: '' }]);
+	};
 
-    const deleteItem = (id) => {
-        setItemCounter(ItemCounter.filter(item => item.id !== id))
+    const deleteItem = (i) => {
+        console.log(ItemCounter);
+        const temp = [...ItemCounter];
+		temp.splice(i, 1);
+		setItemCounter(temp);
+        // setItemCounter(ItemCounter.filter(item => item.id !== id))
     }
 
     const onAdd = async (data) => {
@@ -213,16 +215,28 @@ const PurchaseOrder = ({ history }) => {
         console.log(data);
     }
 
-    const onSubmitDate = async (props) => {
-        try {
-            // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-            // window.location.reload()
-            // setAddMatError(false)
-        }
-        catch (error) {
-            // setAddMatError(true)
+    const onChangeHandler = (e, placeholder, index) => {
+		const tempFields = ItemCounter.map((field, i) => {
+			if (i === index) {
+				return { ...ItemCounter, [placeholder]: e.target.value };
+			} else {
+				return { ...ItemCounter };
+			}
+		});
+		setItemCounter(tempFields);
+	};
 
-        }
+    const onSubmitDate = async (props) => {
+        console.log(props);
+        // try {
+        // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
+        // window.location.reload()
+        // setAddMatError(false)
+        // }
+        // catch (error) {
+        // setAddMatError(true)
+
+        // }
     }
 
     return (
@@ -354,32 +368,120 @@ const PurchaseOrder = ({ history }) => {
                             </Grid>
                         </Grid>
                     </Container>
-                </form>
-                <div style={{ marginTop: 30, marginBottom: 30, }}>
-                    <hr />
-                </div>
-                {/* ========================================================== */}
-                <MaterialAddRow
-                    materials={vendorMaterial}
-                />
-                {/* ========================================================== */}
-                <Grid container spacing={1} >
-                    <Grid item lg={5} md={5} sm={10} xs={11}>
-                    </Grid>
-                    <Grid item lg={3} md={3} sm={10} xs={11}>
-                        <Button
-                            variant="outlined" color="primary"
-                            type="submit"
-                            className={classes.addButton}
-                        // onClick={() => {
-                        //     history.push('/purchase/purchase_order/print_order')
-                        // }}
-                        // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                        >
-                            Submit
+                    <div style={{ marginTop: 30, marginBottom: 30, }}>
+                        <hr />
+                    </div>
+                    <Container className={classes.mainContainer}>
+                        <h4 className="text-left">Items</h4>
+                        {
+                            ItemCounter.map((value, i) => {
+                                const no = i + 1;
+                                return (
+                                    <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
+                                        <Grid item lg={1} md={1}>
+                                            <h5 className={classes.itemHeading}>{no}</h5>
+                                        </Grid>
+                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                            <CssTextField id="outlined-basic"
+                                                label="Select Item"
+                                                variant="outlined"
+                                                type="text"
+                                                size="small"
+                                                select
+                                                className={classes.inputFieldStyle2}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={10}>Material 01</MenuItem>
+                                                <MenuItem value={20}>Material 02</MenuItem>
+                                            </CssTextField>
+                                        </Grid>
+                                        <Grid item lg={1} md={3} sm={12} xs={12}></Grid>
+                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                            <CssTextField id="outlined-basic"
+                                                label="Quantity"
+                                                variant="outlined"
+                                                type="text"
+                                                size="small"
+                                                onChange={(e) => {
+                                                    onChangeHandler(e, "quantity", i)
+                                                }}
+                                                className={classes.inputFieldStyle3}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                            />
+                                        </Grid>
+                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                            <CssTextField id="outlined-basic"
+                                                label="Unit Value"
+                                                variant="outlined"
+                                                type="text"
+                                                size="small"
+                                                onChange={(e) => {
+                                                    onChangeHandler(e, "unitValue", i)
+                                                }}
+                                                className={classes.inputFieldStyle4}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                            />
+
+                                        </Grid>
+                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                            <CssTextField id="outlined-basic"
+                                                label="Remarks"
+                                                variant="outlined"
+                                                type="text"
+                                                size="small"
+                                                onChange={(e) => {
+                                                    onChangeHandler(e, "remarks", i)
+                                                }}
+                                                className={classes.inputFieldStyle5}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                            />
+                                        </Grid>
+                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                            <Button onClick={() => deleteItem(i)} className={classes.deleteRowBtn}>
+                                                <DeleteOutlineIcon className={classes.delete} />
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            }
+                            )
+                        }
+                        <Grid container spacing={1} >
+                            <Grid item lg={3} md={3} sm={10} xs={11}>
+                                <Button variant="outlined" color="primary"
+                                    className={classes.addButton}
+                                    onClick={addMoreFunc}
+                                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                                >
+                                    Add More
                             </Button>
-                    </Grid>
-                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={1} >
+                            <Grid item lg={5} md={5} sm={10} xs={11}>
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={10} xs={11}>
+                                <Button
+                                    variant="outlined" color="primary"
+                                    className={classes.addButton}
+                                    onClick={() => {
+                                        history.push('/purchase/purchase_requisition/print_purchase_requisition')
+                                    }}
+                                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                                >
+                                    Submit
+                            </Button>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </form>
                 {/* </form> */}
             </div>
         </Sidenav>
