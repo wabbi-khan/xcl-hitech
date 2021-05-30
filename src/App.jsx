@@ -58,6 +58,11 @@ import ViewEmpDetails from './dashboard/hr/employees/ViewEmpDetails';
 import AddEmpAttendance from './dashboard/hr/emp attendance new/AddEmpAttendance';
 import Category from './dashboard/purchase/category/Category';
 import InspectionForm from './dashboard/store/good rec and inspection rep/InspectionForm';
+import Designation from './dashboard/hr/designation/Designation';
+import Education from './dashboard/hr/education/Education';
+import Skills from './dashboard/hr/skills/Skills';
+import Experience from './dashboard/hr/experience/Experience';
+import Training from './dashboard/hr/training/Training';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -107,6 +112,11 @@ function App() {
       <Route exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
       <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
       <Route exact path="/hr_dashboard" component={HR} />
+      <Route exact path="/hr/designation" component={Designation} />
+      <Route exact path="/hr/education" component={Education} />
+      <Route exact path="/hr/skills" component={Skills} />
+      <Route exact path="/hr/experience" component={Experience} />
+      <Route exact path="/hr/training" component={Training} />
       <Route exact path="/hr/competence_criteria" component={CompetenceCriteria} />
       <Route exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint} />
       <Route exact path="/hr/employees" component={Employees} />

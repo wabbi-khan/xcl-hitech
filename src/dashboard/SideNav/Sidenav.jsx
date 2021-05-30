@@ -911,6 +911,46 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
+                                    history.push('/hr/designation')
+                                }}
+                            >
+                                <ListItemText inset primary="Designation" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/hr/education')
+                                }}
+                            >
+                                <ListItemText inset primary="Education" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/hr/skills')
+                                }}
+                            >
+                                <ListItemText inset primary="Skills" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/hr/experience')
+                                }}
+                            >
+                                <ListItemText inset primary="Experience" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/hr/training')
+                                }}
+                            >
+                                <ListItemText inset primary="Training" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
                                     history.push('/hr/competence_criteria')
                                 }}
                             >

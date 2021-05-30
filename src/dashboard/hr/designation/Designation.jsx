@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,10 +14,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
-import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
-// import EditCategory from './EditCategory';
+import { fetchDesignationAction } from '../../../services/action/DesignationAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -119,24 +119,21 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-
-const Category = () => {
+const Designation = () => {
     const classes = useStyles();
-    const [category, setCategory] = useState()
-
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(getMaterialCategoryAction())
+        await dispatch(fetchDesignationAction())
     }, [dispatch])
 
-    const { categories, loading, error } = useSelector(state => state.categories)
-
+    const { designations, loading, error } = useSelector(state => state.designations)
+    
     const onSubmitDate = async (props) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
+            await axios.post(`${process.env.REACT_APP_API_URL}/designation`, props)
             window.location.reload()
             console.log('submit');
             // setAddMatError(false)
@@ -148,45 +145,25 @@ const Category = () => {
         }
     }
 
-    const [open, setOpen] = useState(false);
-
-    const handleClose = (props) => {
-        setOpen(props);
-    }
-
-    const handleOpen = async (category) => {
-        setCategory(category);
-        setOpen(true);
-    }
-
-    const deleteCategory = async (params) => {
+    const deleteDesignation = async (params) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
+            await axios.delete(`${process.env.REACT_APP_API_URL}/designation/${params}`)
             window.location.reload()
         }
         catch (error) {
             console.log(error);
-            console.log('catch');
         }
 
     }
 
     return (
-        <Sidenav title={'Category'}>
-            {/* ============Edit Category form component */}
-            {/* <EditCategory
-                show={open}
-                handler={handleClose}
-                categories={categories}
-                category={category}
-            /> */}
-            {/* ============Edit category form component */}
+        <Sidenav title={'Designation'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <CssTextField id="outlined-basic"
-                            label="Category Name*"
+                            label="Designation Name"
                             variant="outlined"
                             type="text"
                             autocomplete="off"
@@ -197,9 +174,9 @@ const Category = () => {
                             {...register("name", { required: true })}
                         />
                         {/* {
-                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                    categories.map(category => (
-                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
+                                !designations || !designations.length ? <p>Data Not Found</p> :
+                                    designations.map(designation => (
+                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
                                     ))
                             } */}
                         <div>
@@ -219,7 +196,7 @@ const Category = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Category</StyledTableCell>
+                                    <StyledTableCell align="center">Designation</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -232,30 +209,30 @@ const Category = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                categories.length ?
-                                                    categories.map((category, i) => (
-                                                        <StyledTableRow key={i}>
+                                                designations.length ?
+                                                    designations.map((designation, i) => (
+                                                        <StyledTableRow>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{designation.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(category)
-                                                                    }
+                                                                    // onClick={() =>
+                                                                    //     handleOpen(designation)
+                                                                    // }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteCategory(category._id)}
+                                                                        onClick={() => deleteDesignation(designation._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
                                                                 </Button></>
                                                             </StyledTableCell>
                                                         </StyledTableRow>
-                                                    ))
+                                                     ))
                                                     : <h5>Not Found</h5>
                                             )
-                                }
+                                } 
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -265,4 +242,4 @@ const Category = () => {
     )
 }
 
-export default Category
+export default Designation

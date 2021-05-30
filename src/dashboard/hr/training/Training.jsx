@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -13,10 +13,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
-import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
-// import EditCategory from './EditCategory';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -119,74 +115,52 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-
-const Category = () => {
+const Training = () => {
     const classes = useStyles();
-    const [category, setCategory] = useState()
-
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(getMaterialCategoryAction())
+        // await dispatch(getMaterialCategoryAction())
     }, [dispatch])
 
     const { categories, loading, error } = useSelector(state => state.categories)
 
     const onSubmitDate = async (props) => {
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
-            window.location.reload()
-            console.log('submit');
-            // setAddMatError(false)
-        }
-        catch (error) {
-            console.log(error);
-            // setAddMatError(true)
+        // try {
+        //     await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
+        //     window.location.reload()
+        //     console.log('submit');
+        //     // setAddMatError(false)
+        // }
+        // catch (error) {
+        //     console.log(error);
+        //     // setAddMatError(true)
 
-        }
+        // }
     }
 
-    const [open, setOpen] = useState(false);
+    // const deleteCategory = async (params) => {
+    //     try {
+    //         await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
+    //         window.location.reload()
+    //     }
+    //     catch (error) {
+    //         console.log(error);
+    //         console.log('catch');
+    //     }
 
-    const handleClose = (props) => {
-        setOpen(props);
-    }
-
-    const handleOpen = async (category) => {
-        setCategory(category);
-        setOpen(true);
-    }
-
-    const deleteCategory = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
-            window.location.reload()
-        }
-        catch (error) {
-            console.log(error);
-            console.log('catch');
-        }
-
-    }
+    // }
 
     return (
-        <Sidenav title={'Category'}>
-            {/* ============Edit Category form component */}
-            {/* <EditCategory
-                show={open}
-                handler={handleClose}
-                categories={categories}
-                category={category}
-            /> */}
-            {/* ============Edit category form component */}
+        <Sidenav title={'Training'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <CssTextField id="outlined-basic"
-                            label="Category Name*"
+                            label="Training Name"
                             variant="outlined"
                             type="text"
                             autocomplete="off"
@@ -219,12 +193,12 @@ const Category = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Category</StyledTableCell>
+                                    <StyledTableCell align="center">Trainings</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                {
+                                {/* {
                                     loading ? (
                                         <Loading />
                                     ) :
@@ -233,29 +207,29 @@ const Category = () => {
                                         ) :
                                             (
                                                 categories.length ?
-                                                    categories.map((category, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{category.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(category)
-                                                                    }
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
+                                                    categories.map((category, i) => ( */}
+                                <StyledTableRow>
+                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Manager</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            // onClick={() =>
+                                            //     handleOpen(material)
+                                            // }
+                                            style={{ marginTop: 2 }} >
+                                            Edit
                                                                 </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteCategory(category._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
+                                            <Button variant="contained" color="secondary" size="small"
+                                                // onClick={() => deleteCategory(category._id)}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
                                                                 </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                {/* ))
                                                     : <h5>Not Found</h5>
                                             )
-                                }
+                                } */}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -265,4 +239,4 @@ const Category = () => {
     )
 }
 
-export default Category
+export default Training
