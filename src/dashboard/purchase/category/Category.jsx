@@ -16,6 +16,7 @@ import axios from 'axios';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
+import EditCategory from './EditCategory';
 // import EditCategory from './EditCategory';
 
 
@@ -174,12 +175,12 @@ const Category = () => {
     return (
         <Sidenav title={'Category'}>
             {/* ============Edit Category form component */}
-            {/* <EditCategory
+            <EditCategory
                 show={open}
                 handler={handleClose}
-                categories={categories}
+                // categories={categories}
                 category={category}
-            /> */}
+            />
             {/* ============Edit category form component */}
             <div>
                 <Container className={classes.mainContainer}>

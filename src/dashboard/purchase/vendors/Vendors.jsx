@@ -165,8 +165,9 @@ const Vendors = () => {
         await dispatch(getMaterialCategoryAction())
     }, [dispatch])
 
-    const fetchMatCategory = useSelector(state => state.categories)
     const { loading, vendors, error } = useSelector(state => state.vendors)
+    console.log(vendors);
+    const fetchMatCategory = useSelector(state => state.categories)
     const fetchMaterial = useSelector(state => state.materials)
 
     const fetchMaterials = async (id) => {
@@ -352,7 +353,7 @@ const Vendors = () => {
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
                                 <FormGroup row>
                                     {
-                                        !fetchMaterial.materials || !fetchMaterial.materials.length ? <p>Not Any Material</p> :
+                                        !fetchMaterial.materials || !fetchMaterial.materials.length ? <p className="mt-2 ml-4">Please Select Any Category</p> :
                                             fetchMaterial.materials.map((material, i) => (
                                                 <FormControlLabel
                                                     key={i}
@@ -433,7 +434,11 @@ const Vendors = () => {
                                                             <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !vendor.category ? null : vendor.category.name
+                                                                }
+                                                            </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 {
                                                                     !vendor.material || !vendor.material.length ? <p>Not Found</p> :

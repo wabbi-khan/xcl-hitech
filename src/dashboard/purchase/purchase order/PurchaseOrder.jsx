@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { appSuppListAction } from '../../../services/action/VendorAction';
 import { useForm } from "react-hook-form";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import axios from 'axios';
+
 // import MaterialAddRow from './commponent/materialAddRow'
 
 
@@ -92,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle3: {
         [theme.breakpoints.up('md')]: {
             width: 250,
+            marginLeft: -30
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -101,6 +104,7 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle4: {
         [theme.breakpoints.up('md')]: {
             width: 250,
+            marginLeft: 40,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -110,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     inputFieldStyle5: {
         [theme.breakpoints.up('md')]: {
             width: 250,
-            marginLeft: 210,
+            marginLeft: 110,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -152,6 +156,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     deleteRowBtn: {
+        marginLeft: 120,
         '&:hover': {
             border: 'none',
             background: 'none',
@@ -182,10 +187,12 @@ const PurchaseOrder = ({ history }) => {
     const dispatch = useDispatch()
 
     // const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
-    const [ItemCounter, setItemCounter] = useState([{ item: 'item1', quantity: '', unitValue: '', remarks: '' }]);
+    const [ItemCounter, setItemCounter] = useState([{ material: "", quantity: '', unitValue: '', remarks: '' }]);
     const [VendorId, setVendorId] = useState('')
     const [VendorAddress, setVendorAddress] = useState('')
     const [vendorMaterial, setVendorMaterial] = useState([])
+    const [orderBody, setOrderBody] = useState({})
+    // console.log(vendorMaterial);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -196,49 +203,72 @@ const PurchaseOrder = ({ history }) => {
     const { verifiedVendors } = useSelector(state => state.verifiedVendors)
 
     const addMoreFunc = () => {
-		setItemCounter([...ItemCounter, { item: 'item1', quantity: '', unitValue: '', remarks: '' }]);
-	};
+        setItemCounter([...ItemCounter, { material: '', quantity: '', unitValue: '', remarks: '' }]);
+    };
 
     const deleteItem = (i) => {
         const temp = [...ItemCounter];
-		temp.splice(i, 1);
-        console.log(temp)
-		setItemCounter(temp);
-        // setItemCounter(ItemCounter.filter(item => item.id !== id))
+        temp.splice(i, 1);
+        setItemCounter(temp);
     }
 
-    const onAdd = async (data) => {
-        console.log(data);
-    }
+    // const onAdd = async (data) => {
+    //     console.log(data);
+    // }
 
-    const onAddMaterial = async data => {
-        console.log(data);
-    }
+    // const onAddMaterial = async data => {
+    //     console.log(data);
+    // }
 
     const onChangeHandler = (e, placeholder, index) => {
         console.log(e.target.value)
-		const tempFields = ItemCounter.map((item, i) => {
-			if (i === index) {
-				return { ...item, [placeholder]: e.target.value };
-			} else {
-				return { ...item };
-			}
-		});
-		setItemCounter(tempFields);
-	};
+        const tempFields = ItemCounter.map((item, i) => {
+            if (i === index) {
+                return { ...item, [placeholder]: e.target.value };
+            } else {
+                return { ...item };
+            }
+        });
+        setItemCounter(tempFields);
+    };
 
     const onSubmitDate = async (props) => {
-        console.log(ItemCounter);
-        // try {
-        // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-        // window.location.reload()
-        // setAddMatError(false)
-        // }
-        // catch (error) {
-        // setAddMatError(true)
+        // console.log(ItemCounter);
+        // console.log(props);
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/order`, {
+                vendor: props.vendor,
+                poNum: props.poNum,
+                prNum: props.prNum,
+                reference: props.reference,
+                paymentTerm: props.paymentTerm,
+                paymentSubject: props.paymentSubject,
+                materials: ItemCounter,
+                // materials: [
+                //     {
+                //         material: "60967de642ab87001586f002",
+                //         quantity: 15,
+                //         unitValue: 12,
+                //         remarks: "dfsd"
+                //     },
+                //     {
+                //         material: "609baa076768bb00154affe7",
+                //         quantity: 25,
+                //         unitValue: 23,
+                //         remarks: "dfsd"
+                //     }
+                // ]
+            })
+            // window.location.reload()
+            // setAddMatError(false)
+        }
+        catch (error) {
+            console.log(error);
+            // setAddMatError(true)
 
-        // }
+        }
     }
+    console.log(orderBody);
 
     return (
         <Sidenav title={'Purchase Order'}>
@@ -257,7 +287,7 @@ const PurchaseOrder = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("vendorName")}
+                                    {...register("vendor", { required: true })}
 
                                 >
                                     {
@@ -285,7 +315,7 @@ const PurchaseOrder = ({ history }) => {
                                     className={classes.inputFieldStyle1}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("productNo")}
+                                    {...register("poNum", { required: true })}
                                 />
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -311,7 +341,7 @@ const PurchaseOrder = ({ history }) => {
                                     className={classes.inputFieldStyle1}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("reference")}
+                                    {...register("reference", { required: true })}
                                 />
                             </Grid>
                         </Grid>
@@ -327,7 +357,7 @@ const PurchaseOrder = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("prNo")}
+                                    {...register("prNum", { required: true })}
                                 >
                                 </CssTextField>
                             </Grid>
@@ -340,7 +370,7 @@ const PurchaseOrder = ({ history }) => {
                                     className={classes.inputFieldStyle1}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("paymentTerms")}
+                                    {...register("paymentTerm", { required: true })}
                                 />
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -352,10 +382,10 @@ const PurchaseOrder = ({ history }) => {
                                     className={classes.inputFieldStyle1}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("paymentSubject")}
+                                    {...register("paymentSubject", { required: true })}
                                 />
                             </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                            {/* <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     // label="Your Reference"
                                     variant="outlined"
@@ -366,7 +396,7 @@ const PurchaseOrder = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("date")}
                                 />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </Container>
                     <div style={{ marginTop: 30, marginBottom: 30, }}>
@@ -382,32 +412,43 @@ const PurchaseOrder = ({ history }) => {
                                         <Grid item lg={1} md={1}>
                                             <h5 className={classes.itemHeading}>{no}</h5>
                                         </Grid>
-                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                        <Grid item lg={2} md={2} sm={12} xs={12}>
                                             <CssTextField id="outlined-basic"
                                                 label="Select Item"
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
                                                 select
-                                                // onChange={(e) => onChangeHandler(e, 'item', i)}
+                                                required
+                                                onChange={(e) => {
+                                                    onChangeHandler(e, 'material', i)
+                                                }}
                                                 className={classes.inputFieldStyle2}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                             >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={10}>Material 01</MenuItem>
-                                                <MenuItem value={20}>Material 02</MenuItem>
+                                                {
+                                                    !vendorMaterial.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
+                                                        vendorMaterial.map(material => (
+                                                            <MenuItem value={material._id} key={material._id}
+                                                            // onClick={() => {
+
+                                                            // }}
+                                                            >
+                                                                {material.name}
+                                                            </MenuItem>
+                                                        ))
+                                                }
                                             </CssTextField>
                                         </Grid>
-                                        <Grid item lg={1} md={3} sm={12} xs={12}></Grid>
-                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                        <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                                        <Grid item lg={2} md={2} sm={12} xs={12}>
                                             <CssTextField id="outlined-basic"
                                                 label="Quantity"
                                                 variant="outlined"
-                                                type="text"
+                                                type="number"
                                                 size="small"
+                                                required
                                                 value={value.quantity}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "quantity", i)
@@ -417,12 +458,13 @@ const PurchaseOrder = ({ history }) => {
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                             />
                                         </Grid>
-                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                        <Grid item lg={2} md={2} sm={12} xs={12}>
                                             <CssTextField id="outlined-basic"
                                                 label="Unit Value"
                                                 variant="outlined"
-                                                type="text"
+                                                type="number"
                                                 size="small"
+                                                required
                                                 value={value.unitValue}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)
@@ -431,14 +473,14 @@ const PurchaseOrder = ({ history }) => {
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                             />
-
                                         </Grid>
-                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                        <Grid item lg={2} md={2} sm={12} xs={12}>
                                             <CssTextField id="outlined-basic"
                                                 label="Remarks"
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
+                                                required
                                                 value={value.remarks}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "remarks", i)
@@ -448,7 +490,7 @@ const PurchaseOrder = ({ history }) => {
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                             />
                                         </Grid>
-                                        <Grid item lg={2} md={3} sm={12} xs={12}>
+                                        <Grid item lg={2} md={2} sm={12} xs={12}>
                                             <Button onClick={() => deleteItem(i)} className={classes.deleteRowBtn}>
                                                 <DeleteOutlineIcon className={classes.delete} />
                                             </Button>
@@ -475,9 +517,10 @@ const PurchaseOrder = ({ history }) => {
                             <Grid item lg={3} md={3} sm={10} xs={11}>
                                 <Button
                                     variant="outlined" color="primary"
+                                    type="submit"
                                     className={classes.addButton}
                                     onClick={() => {
-                                        console.log(ItemCounter)
+                                        // console.log(ItemCounter)
                                         // history.push('/purchase/purchase_requisition/print_purchase_requisition')
                                     }}
                                 // style={{ marginLeft: 'auto', marginRight: 'auto' }}

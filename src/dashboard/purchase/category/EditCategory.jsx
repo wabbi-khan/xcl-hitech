@@ -103,9 +103,9 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const EditMaterial = (props) => {
-    const { show, handler, categories, material } = props
-    // const { _id, name, category } = material
+
+const EditCategory = (props) => {
+    const { show, handler, category } = props
 
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -121,7 +121,7 @@ const EditMaterial = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/material/${material._id}`, data)
+            await axios.patch(`${process.env.REACT_APP_API_URL}/category/${category._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -152,10 +152,10 @@ const EditMaterial = (props) => {
                     <Container className={classes.mainContainer}>
                         {/* Form */}
                         {
-                            material ? (
+                            category ? (
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <Grid container spacing={1}>
-                                        <Grid lg={12} md={12} sm={12}>
+                                        {/* <Grid lg={12} md={12} sm={12}>
                                             <CssTextField id="outlined-basic"
                                                 label="Select Category"
                                                 variant="outlined"
@@ -166,17 +166,17 @@ const EditMaterial = (props) => {
                                                 className={classes.inputFieldStyle}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                                                defaultValue={material.category._id}
+                                                defaultValue={category._id}
                                                 {...register("category", { required: true })}
                                             >
                                                 {
-                                                    !categories || !categories.length ? <p>Data Not Found</p> :
-                                                        categories.map(category => (
+                                                    !category || !category.length ? <p>Data Not Found</p> :
+                                                    categories.map(category => (
                                                             <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
                                                         ))
                                                 }
                                             </CssTextField>
-                                        </Grid>
+                                        </Grid> */}
                                         <Grid lg={12} md={12} sm={12}>
                                             <CssTextField id="outlined-basic"
                                                 label="Enter Material Name"
@@ -185,23 +185,19 @@ const EditMaterial = (props) => {
                                                 autocomplete="off"
                                                 size="small"
                                                 autoComplete="off"
-                                                defaultValue={material.name}
+                                                defaultValue={category.name}
                                                 className={classes.inputFieldStyle1}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                                 {...register("name", { required: true, maxLength: 30 })}
                                             />
                                             {
-                                                errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
+                                                errors.name?.type === 'required' && <p className="text-danger">Category name is required</p>
                                             }
-                                            <br />
-                                            {
-                                                errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
-                                            }
-                                            <br />
+                                            {/* <br />
                                             {
                                                 errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
-                                            }
+                                            } */}
                                             {
                                                 isUpdate ? <p className="text-success">Material Edit Success</p> : (
                                                     isError ? <p className="text-danger">Material Edit Fail Internal Server Error</p> : null
@@ -233,4 +229,4 @@ const EditMaterial = (props) => {
     )
 }
 
-export default EditMaterial
+export default EditCategory
