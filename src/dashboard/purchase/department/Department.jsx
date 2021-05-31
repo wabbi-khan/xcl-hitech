@@ -16,8 +16,8 @@ import axios from 'axios';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
-import EditCategory from './EditCategory';
-// import EditCategory from './EditCategory';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
+import EditDepartment from './EditDepartment';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -120,24 +120,23 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-
-const Category = () => {
+const Department = () => {
     const classes = useStyles();
-    const [category, setCategory] = useState()
+    const [dept, setDept] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(getMaterialCategoryAction())
+        await dispatch(fetchDepartmentsAction())
     }, [dispatch])
 
-    const { categories, loading, error } = useSelector(state => state.categories)
+    const { departments, loading, error } = useSelector(state => state.departments)
 
     const onSubmitDate = async (props) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
+            await axios.post(`${process.env.REACT_APP_API_URL}/department`, props)
             window.location.reload()
             console.log('submit');
             // setAddMatError(false)
@@ -155,31 +154,30 @@ const Category = () => {
         setOpen(props);
     }
 
-    const handleOpen = async (category) => {
-        setCategory(category);
+    const handleOpen = async (department) => {
+        setDept(department);
         setOpen(true);
     }
 
-    const deleteCategory = async (params) => {
+    const deleteDept = async (params) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
+            await axios.delete(`${process.env.REACT_APP_API_URL}/department/${params}`)
             window.location.reload()
         }
         catch (error) {
             console.log(error);
             console.log('catch');
         }
-
     }
 
     return (
-        <Sidenav title={'Categories'}>
+        <Sidenav title={'Departments'}>
             {/* ============Edit Category form component */}
-            <EditCategory
+            <EditDepartment
                 show={open}
                 handler={handleClose}
                 // categories={categories}
-                category={category}
+                department={dept}
             />
             {/* ============Edit category form component */}
             <div>
@@ -187,11 +185,12 @@ const Category = () => {
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <CssTextField id="outlined-basic"
-                            label="Category Name*"
+                            label="Department Name*"
                             variant="outlined"
                             type="text"
                             autocomplete="off"
                             size="small"
+                            autocomplete="off"
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
@@ -220,7 +219,7 @@ const Category = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Categories</StyledTableCell>
+                                    <StyledTableCell align="center">Departments</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -233,21 +232,21 @@ const Category = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                categories.length ?
-                                                    categories.map((category, i) => (
+                                                departments.length ?
+                                                    departments.map((department, i) => (
                                                         <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{department.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>
-                                                                        handleOpen(category)
+                                                                        handleOpen(department)
                                                                     }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteCategory(category._id)}
+                                                                        onClick={() => deleteDept(department._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
                                                                 </Button></>
@@ -266,4 +265,4 @@ const Category = () => {
     )
 }
 
-export default Category
+export default Department

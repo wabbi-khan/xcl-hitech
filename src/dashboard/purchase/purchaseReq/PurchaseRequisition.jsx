@@ -237,9 +237,9 @@ const PurchaseRequisition = ({ history }) => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    // label="Date"
+                                    label="Purpose"
                                     variant="outlined"
-                                    type="date"
+                                    type="text"
                                     size="small"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
@@ -285,8 +285,9 @@ const PurchaseRequisition = ({ history }) => {
                                             <CssTextField id="outlined-basic"
                                                 label="Quantity"
                                                 variant="outlined"
-                                                type="text"
+                                                type="number"
                                                 size="small"
+                                                autoComplete="off"
                                                 value={value.quantity}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "quantity", i)
@@ -300,8 +301,9 @@ const PurchaseRequisition = ({ history }) => {
                                             <CssTextField id="outlined-basic"
                                                 label="Unit Value"
                                                 variant="outlined"
-                                                type="text"
+                                                type="number"
                                                 size="small"
+                                                autoComplete="off"
                                                 value={value.unitValue}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)

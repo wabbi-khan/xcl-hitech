@@ -63,6 +63,7 @@ import Education from './dashboard/hr/education/Education';
 import Skills from './dashboard/hr/skills/Skills';
 import Experience from './dashboard/hr/experience/Experience';
 import Training from './dashboard/hr/training/Training';
+import Department from './dashboard/purchase/department/Department';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -82,6 +83,7 @@ function App() {
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/purchasedashboard" component={PurchaseDashboard} />
       <Route exact path="/purchase/category" component={Category} />
+      <Route exact path="/purchase/department" component={Department} />
       <Route exact path="/purchase/material" component={Material} />
       <Route exact path="/purchase/vendors" component={Vendors} />
       <Route exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm} />

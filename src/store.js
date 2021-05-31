@@ -8,6 +8,7 @@ import { fetchPurchaseOrderReducer, fetchSinglePurchaseOrderReducer } from './se
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
 import { fetchDesignationsReducer } from './services/reducer/DesignationReducer';
+import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
 
 const initialState = {}
 
@@ -23,6 +24,7 @@ const reducer = combineReducers({
     products: fetchProductsReducer,
     vehicles: fetchVehiclesReducer,
     designations: fetchDesignationsReducer,
+    departments: fetchDepartmentsReducer,
 
 })
 
