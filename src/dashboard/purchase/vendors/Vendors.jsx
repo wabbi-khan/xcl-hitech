@@ -269,7 +269,7 @@ const Vendors = () => {
                                 }
                                 <br />
                                 {
-                                    errors.email?.type === 'required' && <p className="text-danger mt-2">Vendor email is required</p>
+                                    errors.email?.type === 'required' && <p className="text-danger">Vendor email is required</p>
                                 }
                             </Grid>
 

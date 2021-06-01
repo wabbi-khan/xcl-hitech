@@ -99,15 +99,19 @@ export const PurchaseOrderList = ({ history }) => {
                                                 !orders || !orders.length ? <h5>Not Found</h5> :
                                                     orders.map((order, i) => (
                                                         <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i+1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !order.vendor ? null : order.vendor.name
+                                                                }
+                                                            </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 {
                                                                     !order.materials.length ? <span>Not Found</span> :
                                                                         (
                                                                             order.materials.map((material, i) => (
-                                                                                <span key={i} >{material.material.name}, </span>
+                                                                                <span key={i} >{material.name}, </span>
                                                                             ))
                                                                         )
                                                                 }
@@ -115,7 +119,7 @@ export const PurchaseOrderList = ({ history }) => {
                                                             <StyledTableCell className="text-dark" align="center">{order.totalQuantity}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.date}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
-                                                                <Button 
+                                                                <Button
                                                                     className="btn bg-dark text-light"
                                                                     onClick={() => {
                                                                         history.push(`/purchase/purchase_order_list/order_details/${order._id}`)

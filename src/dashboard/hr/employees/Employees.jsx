@@ -120,7 +120,7 @@ const Employees = ({ history }) => {
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const onSubmitData = () => {
-        console.log('data submit');
+        // console.log('data submit');
     }
 
 
@@ -231,75 +231,74 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    // label="Hiring Date"
-                                    variant="outlined"
-                                    type="date"
-                                    autocomplete="off"
-                                    size="small"
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("date", { required: true, })}
-                                >
-                                </CssTextField>
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={1} className="mt-3">
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
+                            <CssTextField id="outlined-basic"
                                     label="Education"
                                     variant="outlined"
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem>Intermediate</MenuItem>
+                                    <MenuItem>Bachelor's</MenuItem>
+                                    <MenuItem>Masters</MenuItem>
                                 </CssTextField>
                             </Grid>
+                        </Grid>
+                        <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
+                            <CssTextField id="outlined-basic"
                                     label="Skills"
                                     variant="outlined"
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem>Sales</MenuItem>
+                                    <MenuItem>Marketing</MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
+                            <CssTextField id="outlined-basic"
                                     label="Experience"
                                     variant="outlined"
                                     type="email"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem>Fresher</MenuItem>
+                                    <MenuItem>0-2 years</MenuItem>
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
+                            <CssTextField id="outlined-basic"
                                     label="Department"
                                     variant="outlined"
                                     type="text"
                                     autocomplete="off"
                                     size="small"
+                                    select
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
+                                    <MenuItem>Purchase</MenuItem>
+                                    <MenuItem>Store</MenuItem>
                                 </CssTextField>
                                 {/* {
                                         !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
@@ -314,10 +313,8 @@ const Employees = ({ history }) => {
                                             ))
                                     } */}
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
+                            <CssTextField id="outlined-basic"
                                     label="Designation"
                                     variant="outlined"
                                     type="text"
@@ -329,7 +326,14 @@ const Employees = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
+                                     <MenuItem>Manager</MenuItem>
+                                     <MenuItem>Assistant Manager</MenuItem>
                                 </CssTextField>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={1} className="mt-3">
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                
                             </Grid>
 
                             <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>

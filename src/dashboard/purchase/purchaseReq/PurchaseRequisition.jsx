@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
 import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
 import axios from 'axios';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -171,7 +172,7 @@ const CssTextField = withStyles({
 
 const PurchaseRequisition = ({ history }) => {
     const classes = useStyles();
-    const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
+    const [ItemCounter, setItemCounter] = useState([{ material: "", quantity: '', unitValue: '', remarks: '' }])
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -201,19 +202,26 @@ const PurchaseRequisition = ({ history }) => {
 
     useEffect(async () => {
         await dispatch(getMaterialAction())
+        await dispatch(fetchDepartmentsAction())
     }, [dispatch])
 
-    const { loading, materials, error } = useSelector(state => state.materials)
-    // console.log(materials);
+    const { materials } = useSelector(state => state.materials)
+    const { departments, loading, error } = useSelector(state => state.departments)
+    // console.log(departments);
 
     const onSubmitDate = async (props) => {
         console.log(ItemCounter);
+        console.log(props);
         try {
-        await axios.post(`${process.env.REACT_APP_API_URL}/request`, props)
-        window.location.reload()
+            await axios.post(`${process.env.REACT_APP_API_URL}/request`, {
+                department: props.department,
+                purpose: props.purpose,
+                materials: ItemCounter,
+            })
+            window.location.reload()
         }
         catch (error) {
-        console.log(error);
+            console.log(error);
 
         }
     }
@@ -227,23 +235,29 @@ const PurchaseRequisition = ({ history }) => {
                             {/* <Grid item lg={1}></Grid> */}
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Select Department"
+                                    label="Select Department*"
                                     variant="outlined"
                                     type="select"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("department", { required: true })}
 
                                 >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value={10}>Purchase</MenuItem>
-                                    <MenuItem value={20}>Sales</MenuItem>
+                                    {
+                                        !departments || !departments.length ? <MenuItem>Not Found</MenuItem> :
+                                            departments.map(department => (
+                                                <MenuItem value={department._id} key={department._id}
+                                                // onClick={() => {
+
+                                                // }}
+                                                >
+                                                    {department.name}
+                                                </MenuItem>
+                                            ))
+                                    }
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -256,8 +270,10 @@ const PurchaseRequisition = ({ history }) => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("purpose", { required: true })}
-
                                 />
+                                {
+                                    errors.purpose?.type === 'required' && <p className="mt-1 text-danger">Purpose is required</p>
+                                }
                             </Grid>
                         </Grid>
                     </Container>
@@ -281,7 +297,6 @@ const PurchaseRequisition = ({ history }) => {
                                                 type="text"
                                                 size="small"
                                                 select
-                                                required
                                                 onChange={(e) => {
                                                     onChangeHandler(e, 'material', i)
                                                 }}
@@ -310,7 +325,6 @@ const PurchaseRequisition = ({ history }) => {
                                                 variant="outlined"
                                                 type="number"
                                                 size="small"
-                                                required
                                                 value={value.quantity}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "quantity", i)
@@ -326,7 +340,6 @@ const PurchaseRequisition = ({ history }) => {
                                                 variant="outlined"
                                                 type="number"
                                                 size="small"
-                                                required
                                                 value={value.unitValue}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)
@@ -342,7 +355,6 @@ const PurchaseRequisition = ({ history }) => {
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
-                                                required
                                                 value={value.remarks}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "remarks", i)

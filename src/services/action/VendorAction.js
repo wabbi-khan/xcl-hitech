@@ -66,6 +66,7 @@ export const appSuppListAction = () => async (dispatch) => {
     
     try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/vendor/verified`)
+        // console.log(data);
         
         dispatch({
             type: APPSUPPLIST_FETCH_SUCCESS,

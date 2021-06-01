@@ -199,6 +199,8 @@ const EmpAttendance = ({ history }) => {
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
                                     <StyledTableCell align="center">Employee Name</StyledTableCell>
+                                    <StyledTableCell align="center">Designation</StyledTableCell>
+                                    <StyledTableCell align="center">Department</StyledTableCell>
                                     <StyledTableCell align="center">Date</StyledTableCell>
                                     <StyledTableCell align="center">Present/Absent</StyledTableCell>
                                 </TableRow>
@@ -207,6 +209,8 @@ const EmpAttendance = ({ history }) => {
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Manager</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">12-5-21</StyledTableCell>
                                     {/* <StyledTableCell className="text-dark" align="center">
                                         {
@@ -223,6 +227,54 @@ const EmpAttendance = ({ history }) => {
                                             className="bg-light text-dark"
                                         >
                                             Absent
+                                        </Button>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">2</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Manager</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">12-5-21</StyledTableCell>
+                                    {/* <StyledTableCell className="text-dark" align="center">
+                                        {
+                                            !vendor.material || !vendor.material.length ? <p>Not Found</p> :
+                                                vendor.material.map((value, i) => (
+                                                    <span key={i} className="ml-1">{value.name},</span>
+                                                ))
+                                        }
+                                    </StyledTableCell> */}
+                                    <StyledTableCell className="text-light" align="center">
+                                        <Button 
+                                            disabled
+                                            variant="contained" size="small"
+                                            className="bg-light text-dark"
+                                        >
+                                            Present
+                                        </Button>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                <StyledTableRow >
+                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Manager</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center">12-5-21</StyledTableCell>
+                                    {/* <StyledTableCell className="text-dark" align="center">
+                                        {
+                                            !vendor.material || !vendor.material.length ? <p>Not Found</p> :
+                                                vendor.material.map((value, i) => (
+                                                    <span key={i} className="ml-1">{value.name},</span>
+                                                ))
+                                        }
+                                    </StyledTableCell> */}
+                                    <StyledTableCell className="text-light" align="center">
+                                        <Button 
+                                            disabled
+                                            variant="contained" size="small"
+                                            className="bg-light text-dark"
+                                        >
+                                            Leave
                                         </Button>
                                     </StyledTableCell>
                                 </StyledTableRow>

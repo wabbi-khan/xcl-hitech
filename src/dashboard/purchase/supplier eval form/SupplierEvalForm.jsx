@@ -243,7 +243,7 @@ const SupplierEvalForm = () => {
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Select Vendor Name"
+                                    label="Select Vendor Name*"
                                     variant="outlined"
                                     type="email"
                                     size="small"
@@ -350,7 +350,7 @@ const SupplierEvalForm = () => {
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>1. Are you registered to ISO 9001/ API?</h6>
                                 {
-                                    errors.registered?.type === 'required' && <p className="mt-3 text-danger">ISO Certification must be required</p>
+                                    errors.registered?.type === 'required' && <p className="mt-3 ml-5 text-danger">ISO Certification must be required</p>
                                 }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
@@ -381,7 +381,7 @@ const SupplierEvalForm = () => {
                             <Grid item lg={7} md={7} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>2. Do you have Quality Management / Quality Assurance System?</h6>
                                 {
-                                    errors.quality?.type === 'required' && <p className="mt-3 text-danger">Quality Assurance must be required</p>
+                                    errors.quality?.type === 'required' && <p className="mt-3 ml-5 text-danger">Quality Assurance must be required</p>
                                 }
                             </Grid>
                             <Grid item lg={2} md={2} sm={12} xs={12}>
@@ -430,7 +430,6 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -461,7 +460,6 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -492,7 +490,6 @@ const SupplierEvalForm = () => {
                                     type="text"
                                     size="small"
                                     select
-                                    required
                                     className={classes.inputFieldStyle2}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -512,13 +509,13 @@ const SupplierEvalForm = () => {
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>4. How do you control Non-Confirming products?</h6>
                                 {
-                                    errors.question?.type === 'required' && <p className="mt-3 text-danger">Ans must be required</p>
+                                    errors.question?.type === 'required' && <p className="mt-3 ml-5 text-danger">Ans must be required</p>
                                 }
                                 {
-                                    errors.question?.type === 'maxLength' && <p className="mt-3 text-danger">Ans must be less than or equal to 100</p>
+                                    errors.question?.type === 'maxLength' && <p className="mt-3 ml-5 text-danger">Ans must be less than or equal to 100</p>
                                 }
                                 {
-                                    errors.question?.type === 'minLength' && <p className="mt-3 text-danger">Ans must be min 5 letters</p>
+                                    errors.question?.type === 'minLength' && <p className="mt-3 ml-5 text-danger">Ans must be min 5 letters</p>
                                 }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>
@@ -543,7 +540,7 @@ const SupplierEvalForm = () => {
                             <Grid item lg={7} md={3} sm={12} xs={12}>
                                 <h6 className={classes.questinOne}>5. How do you rate the skills and training of your personnel?</h6>
                                 {
-                                    errors.rating?.type === 'required' && <p className="mt-3 text-danger">rating must be required</p>
+                                    errors.rating?.type === 'required' && <p className="mt-3 ml-5 text-danger">rating must be required</p>
                                 }
                             </Grid>
                             <Grid item lg={2} md={3} sm={12} xs={12}>

@@ -279,7 +279,7 @@ const PurchaseOrder = ({ history }) => {
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Select Vendor Name"
+                                    label="Select Vendor Name*"
                                     variant="outlined"
                                     type="email"
                                     size="small"
@@ -317,6 +317,9 @@ const PurchaseOrder = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("poNum", { required: true })}
                                 />
+                                {
+                                    errors.poNum?.type === 'required' && <p className="mt-1 text-danger">P.O. No. is required</p>
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -343,6 +346,9 @@ const PurchaseOrder = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("reference", { required: true })}
                                 />
+                                {
+                                    errors.reference?.type === 'required' && <p className="mt-1 text-danger">Reference is required</p>
+                                }
                             </Grid>
                         </Grid>
                     </Container>
@@ -358,8 +364,10 @@ const PurchaseOrder = ({ history }) => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("prNum", { required: true })}
-                                >
-                                </CssTextField>
+                                />
+                                {
+                                    errors.prNum?.type === 'required' && <p className="mt-1 text-danger">P.R. No. is required</p>
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -372,6 +380,9 @@ const PurchaseOrder = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("paymentTerm", { required: true })}
                                 />
+                                {
+                                    errors.paymentTerm?.type === 'required' && <p className="mt-1 text-danger">Payment Terms required</p>
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -384,6 +395,9 @@ const PurchaseOrder = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("paymentSubject", { required: true })}
                                 />
+                                {
+                                    errors.paymentSubject?.type === 'required' && <p className="mt-1 text-danger">Payment Subject is required</p>
+                                }
                             </Grid>
                             {/* <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -419,7 +433,6 @@ const PurchaseOrder = ({ history }) => {
                                                 type="text"
                                                 size="small"
                                                 select
-                                                required
                                                 onChange={(e) => {
                                                     onChangeHandler(e, 'material', i)
                                                 }}
@@ -448,7 +461,6 @@ const PurchaseOrder = ({ history }) => {
                                                 variant="outlined"
                                                 type="number"
                                                 size="small"
-                                                required
                                                 value={value.quantity}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "quantity", i)
@@ -460,11 +472,10 @@ const PurchaseOrder = ({ history }) => {
                                         </Grid>
                                         <Grid item lg={2} md={2} sm={12} xs={12}>
                                             <CssTextField id="outlined-basic"
-                                                label="Unit Value"
+                                                label="Unit"
                                                 variant="outlined"
                                                 type="number"
                                                 size="small"
-                                                required
                                                 value={value.unitValue}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)
@@ -480,7 +491,6 @@ const PurchaseOrder = ({ history }) => {
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
-                                                required
                                                 value={value.remarks}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "remarks", i)

@@ -145,8 +145,8 @@ const EmpLeave = () => {
                                 >
                                     <MenuItem
                                         value={0}
-                                        // onClick={(e) => fetchMaterials(category._id)}
-                                        // key={i}
+                                    // onClick={(e) => fetchMaterials(category._id)}
+                                    // key={i}
                                     >
                                         Purchase
                                     </MenuItem>
@@ -167,8 +167,8 @@ const EmpLeave = () => {
                                 >
                                     <MenuItem
                                         value={0}
-                                        // onClick={(e) => fetchMaterials(category._id)}
-                                        // key={i}
+                                    // onClick={(e) => fetchMaterials(category._id)}
+                                    // key={i}
                                     >
                                         Assistant Manager
                                     </MenuItem>
@@ -204,6 +204,23 @@ const EmpLeave = () => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={1} className="mt-3">
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Paid/Un-Paid"
+                                    variant="outlined"
+                                    type="text"
+                                    autocomplete="off"
+                                    size="small"
+                                    select
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("cnicNo", { required: true, })}
+                                >
+                                    <MenuItem>Paid</MenuItem>
+                                    <MenuItem>Un-Paid</MenuItem>
+                                </CssTextField>
+                            </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     // label="From Date"
