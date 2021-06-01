@@ -1,14 +1,34 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { 
+    applyMiddleware, 
+    combineReducers, 
+    compose, 
+    createStore 
+} 
+from 'redux';
 import thunk from 'redux-thunk';
 import { fetchMaterialReducer } from './services/reducer/MaterialReducer'
 import { fetchCategoryReducer } from './services/reducer/MatCategoryReducer'
-import { fetchNonVerifiedVendorReducer, fetchVendorReducer, fetchAppSuppListReducer } from './services/reducer/VendorReducer'
+import { 
+    fetchNonVerifiedVendorReducer, 
+    fetchVendorReducer, 
+    fetchAppSuppListReducer 
+} 
+from './services/reducer/VendorReducer'
 import { fetchPersonsReducer } from './services/reducer/PersonReducer'
-import { fetchPurchaseOrderReducer, fetchSinglePurchaseOrderReducer } from './services/reducer/OrdersReducer';
+import { 
+    fetchPurchaseOrderReducer, 
+    fetchSinglePurchaseOrderReducer 
+} 
+from './services/reducer/OrdersReducer';
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
 import { fetchDesignationsReducer } from './services/reducer/DesignationReducer';
 import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
+import { 
+    fetchReqReducer, 
+    fetchSingleReqReducer 
+} 
+from './services/reducer/PurchaseReqReducer';
 
 const initialState = {}
 
@@ -25,6 +45,8 @@ const reducer = combineReducers({
     vehicles: fetchVehiclesReducer,
     designations: fetchDesignationsReducer,
     departments: fetchDepartmentsReducer,
+    requests: fetchReqReducer,
+    request: fetchSingleReqReducer,
 
 })
 

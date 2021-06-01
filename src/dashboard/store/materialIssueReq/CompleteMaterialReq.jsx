@@ -96,62 +96,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const MaterialIssueReq = ({ history }) => {
+const CompleteMaterialReq = ({ history }) => {
     const classes = useStyles();
     const [switchButton, setSwitchButton] = useState('Incomplete')
-
-    function handleClick() {
-        if (switchButton === "Incomplete") {
-            setSwitchButton("Complete")
-
-        }
-        else {
-            setSwitchButton("Incomplete")
-        }
-    }
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(fetchRequisitionAction(false))
+        await dispatch(fetchRequisitionAction(true))
     }, [dispatch])
 
     const { requests, loading, error } = useSelector(state => state.requests)
-
-    const onSubmitDate = async (props) => {
-        console.log(props);
-        // try {
-        // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-        // window.location.reload()
-        // setAddMatError(false)
-        // }
-        // catch (error) {
-        // setAddMatError(true)
-
-        // }
-    }
+    console.log(requests);
 
     return (
-        <Sidenav title={'Material Issue Requisition'}>
+        <Sidenav title={'Completed Material Issue Requisitions'}>
             <div>
                 <div className={classes.dataTable}>
-                    <Grid container spacing={1}>
-                        <Grid item lg={3} md={3} sm={6} xs={6}>
-                            <h5 className="ml-1 mt-3">UnComplete Purchase Requisitions</h5>
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={6} xs={6}></Grid>
-                        <Grid item lg={4} md={3} sm={6} xs={6}></Grid>
-                        <Grid item lg={2} md={3} sm={6} xs={6}>
-                            <Button variant="contained" size="small"
-                                    className="bg-dark text-light"
-                                onClick={() => {
-                                    history.push(`/storedashboard/material_issue_requisition/complete_material_issue_requisition`)
-                                }}
-                            >
-                                View Complete Requisitions
-                            </Button>
-                        </Grid>
-                    </Grid>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -186,7 +147,7 @@ const MaterialIssueReq = ({ history }) => {
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 <Button variant="contained" size="small"
                                                                     onClick={() => {
-                                                                        history.push(`/storedashboard/material_issue_requisition/material_requisition_details/${request._id}`)
+                                                                        history.push(`/storedashboard/material_issue_requisition/complete_requisition_details/${request._id}`)
                                                                     }}
                                                                 // style={{ backgroundColor: 'red', color: 'whitesmoke', }}
                                                                 >
@@ -208,4 +169,4 @@ const MaterialIssueReq = ({ history }) => {
     )
 }
 
-export default MaterialIssueReq
+export default CompleteMaterialReq

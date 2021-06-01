@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -7,9 +7,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import cryptoRandomString from 'crypto-random-string';
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from "react-hook-form";
+import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -175,38 +176,46 @@ const PurchaseRequisition = ({ history }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const addMoreFunc = () => {
-		setItemCounter([...ItemCounter, { item: 'item1', quantity: '', unitValue: '', remarks: '' }]);
-	};
+        setItemCounter([...ItemCounter, { material: '', quantity: '', unitValue: '', remarks: '' }]);
+    };
 
     const deleteItem = (i) => {
         const temp = [...ItemCounter];
-		temp.splice(i, 1);
-		setItemCounter(temp);
+        temp.splice(i, 1);
+        setItemCounter(temp);
     }
 
     const onChangeHandler = (e, placeholder, index) => {
         console.log(e.target.value)
-		const tempFields = ItemCounter.map((item, i) => {
-			if (i === index) {
-				return { ...item, [placeholder]: e.target.value };
-			} else {
-				return { ...item };
-			}
-		});
-		setItemCounter(tempFields);
-	};
+        const tempFields = ItemCounter.map((item, i) => {
+            if (i === index) {
+                return { ...item, [placeholder]: e.target.value };
+            } else {
+                return { ...item };
+            }
+        });
+        setItemCounter(tempFields);
+    };
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(getMaterialAction())
+    }, [dispatch])
+
+    const { loading, materials, error } = useSelector(state => state.materials)
+    // console.log(materials);
 
     const onSubmitDate = async (props) => {
         console.log(ItemCounter);
-        // try {
-        // await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-        // window.location.reload()
-        // setAddMatError(false)
-        // }
-        // catch (error) {
-        // setAddMatError(true)
+        try {
+        await axios.post(`${process.env.REACT_APP_API_URL}/request`, props)
+        window.location.reload()
+        }
+        catch (error) {
+        console.log(error);
 
-        // }
+        }
     }
 
     return (
@@ -227,6 +236,8 @@ const PurchaseRequisition = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("department", { required: true })}
+
                                 >
                                     <MenuItem value="">
                                         <em>None</em>
@@ -244,6 +255,8 @@ const PurchaseRequisition = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("purpose", { required: true })}
+
                                 />
                             </Grid>
                         </Grid>
@@ -268,16 +281,26 @@ const PurchaseRequisition = ({ history }) => {
                                                 type="text"
                                                 size="small"
                                                 select
-                                                // onChange={(e) => onChangeHandler(e, 'item', i)}
+                                                required
+                                                onChange={(e) => {
+                                                    onChangeHandler(e, 'material', i)
+                                                }}
                                                 className={classes.inputFieldStyle2}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                             >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={10}>Material 01</MenuItem>
-                                                <MenuItem value={20}>Material 02</MenuItem>
+                                                {
+                                                    !materials || !materials.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
+                                                        materials.map(material => (
+                                                            <MenuItem value={material._id} key={material._id}
+                                                            // onClick={() => {
+
+                                                            // }}
+                                                            >
+                                                                {material.name}
+                                                            </MenuItem>
+                                                        ))
+                                                }
                                             </CssTextField>
                                         </Grid>
                                         <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
@@ -287,7 +310,7 @@ const PurchaseRequisition = ({ history }) => {
                                                 variant="outlined"
                                                 type="number"
                                                 size="small"
-                                                autoComplete="off"
+                                                required
                                                 value={value.quantity}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "quantity", i)
@@ -303,7 +326,7 @@ const PurchaseRequisition = ({ history }) => {
                                                 variant="outlined"
                                                 type="number"
                                                 size="small"
-                                                autoComplete="off"
+                                                required
                                                 value={value.unitValue}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)
@@ -319,6 +342,7 @@ const PurchaseRequisition = ({ history }) => {
                                                 variant="outlined"
                                                 type="text"
                                                 size="small"
+                                                required
                                                 value={value.remarks}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "remarks", i)
@@ -355,9 +379,10 @@ const PurchaseRequisition = ({ history }) => {
                             <Grid item lg={3} md={3} sm={10} xs={11}>
                                 <Button
                                     variant="outlined" color="primary"
+                                    type="submit"
                                     className={classes.addButton}
                                     onClick={() => {
-                                        console.log(ItemCounter)
+                                        // console.log(ItemCounter)
                                         // history.push('/purchase/purchase_requisition/print_purchase_requisition')
                                     }}
                                 // style={{ marginLeft: 'auto', marginRight: 'auto' }}

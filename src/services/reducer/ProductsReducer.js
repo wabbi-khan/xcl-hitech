@@ -1,7 +1,5 @@
 import { PRODUCTS_FETCH_FAIL, PRODUCTS_FETCH_REQUEST, PRODUCTS_FETCH_SUCCESS } from "../constants/ProductsConst";
 
-
-
 export const fetchProductsReducer = (
     state = { products: [] },
     action

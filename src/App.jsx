@@ -64,6 +64,9 @@ import Skills from './dashboard/hr/skills/Skills';
 import Experience from './dashboard/hr/experience/Experience';
 import Training from './dashboard/hr/training/Training';
 import Department from './dashboard/purchase/department/Department';
+import MaterialReqDetails from './dashboard/store/materialIssueReq/MaterialReqDetails';
+import CompleteMaterialReq from './dashboard/store/materialIssueReq/CompleteMaterialReq';
+import CompleteMatReqDetails from './dashboard/store/materialIssueReq/CompleteMatReqDetails';
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -109,6 +112,9 @@ function App() {
       <Route exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport} />
       <Route exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory} />
       <Route exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq} />
+      <Route exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails} />
+      <Route exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq} />
+      <Route exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails} />
       <Route exact path="/storedashboard/delivery_order/order_details" component={OrderDetails} />
       <Route exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
       <Route exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />

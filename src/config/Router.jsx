@@ -60,6 +60,9 @@ import AddEmpAttendance from '../dashboard/hr/emp attendance new/AddEmpAttendanc
 import Category from '../dashboard/purchase/category/Category';
 import InspectionForm from '../dashboard/store/good rec and inspection rep/InspectionForm';
 import Department from '../dashboard/purchase/department/Department';
+import MaterialReqDetails from '../dashboard/store/materialIssueReq/MaterialReqDetails';
+import CompleteMaterialReq from '../dashboard/store/materialIssueReq/CompleteMaterialReq';
+import CompleteMatReqDetails from '../dashboard/store/materialIssueReq/CompleteMatReqDetails';
 
 
 
@@ -97,6 +100,9 @@ const Router = () => {
                 <Router exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport}/>
                 <Router exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory}/>
                 <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq}/>
+                <Router exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails}/>
+                <Router exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq}/>
+                <Router exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails}/>
                 <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails}/>
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>

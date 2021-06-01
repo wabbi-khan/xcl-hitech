@@ -133,6 +133,11 @@ const Material = () => {
 
     const dispatch = useDispatch()
 
+    useEffect(async () => {
+        await dispatch(getMaterialAction())
+        await dispatch(getMaterialCategoryAction())
+    }, [dispatch])
+
     const onSubmitDate = async (props) => {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
@@ -144,12 +149,6 @@ const Material = () => {
 
         }
     }
-
-    useEffect(async () => {
-        await dispatch(getMaterialAction())
-        await dispatch(getMaterialCategoryAction())
-    }, [dispatch])
-
 
     const { loading, materials, error } = useSelector(state => state.materials)
     // console.log(materials);
