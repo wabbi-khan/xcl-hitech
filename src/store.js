@@ -29,6 +29,7 @@ import {
     fetchSingleReqReducer 
 } 
 from './services/reducer/PurchaseReqReducer';
+import { fetchStoreCatReducer } from './services/reducer/StoreCatReducer';
 
 const initialState = {}
 
@@ -47,6 +48,7 @@ const reducer = combineReducers({
     departments: fetchDepartmentsReducer,
     requests: fetchReqReducer,
     request: fetchSingleReqReducer,
+    category: fetchStoreCatReducer,
 
 })
 

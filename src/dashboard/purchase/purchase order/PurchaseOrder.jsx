@@ -259,7 +259,7 @@ const PurchaseOrder = ({ history }) => {
                 //     }
                 // ]
             })
-            // window.location.reload()
+            window.location.reload()
             // setAddMatError(false)
         }
         catch (error) {

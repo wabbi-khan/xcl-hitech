@@ -1,4 +1,4 @@
-import React, { useEffect, useState }from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -68,11 +68,12 @@ const InspectionForm = ({ history }) => {
     }, [dispatch])
 
     const { orders, loading, error } = useSelector(state => state.orders)
+    console.log(orders);
 
     return (
         <Sidenav title={'Good Received and Inspection Form'}>
             <div>
-            <div className={classes.dataTable}>
+                <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer} >
                         <Table stickyHeader className={classes.table} style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -98,23 +99,28 @@ const InspectionForm = ({ history }) => {
                                                 !orders || !orders.length ? <h5>Not Found</h5> :
                                                     orders.map((order, i) => (
                                                         <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i+1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.poNum}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{order.vendor.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !order.vendor ? null : order.vendor.name
+                                                                }
+                                                            </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 {
                                                                     !order.materials.length ? <span>Not Found</span> :
                                                                         (
-                                                                            order.materials.map((material, i) => (
+                                                                            order.materials.map((material, i) =>(
                                                                                 <span key={i} >{material.material.name}, </span>
-                                                                            ))
+                                                                            ) 
+                                                                                )
                                                                         )
                                                                 }
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.totalQuantity}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{order.date}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
-                                                                <Button 
+                                                                <Button
                                                                     className="btn bg-dark text-light"
                                                                     onClick={() => {
                                                                         history.push(`/storedashboard/good_received_and_inspection_report/${order._id}`)

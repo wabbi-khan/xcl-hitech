@@ -84,9 +84,18 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 600,
     },
+    tableContainer: {
+        marginTop: 20,
+    },
     dataTable: {
         marginTop: 40,
-
+    },
+    Error: {
+        color: 'red',
+        backgroundColor: '#e8eaf6',
+        padding: 8,
+        borderRadius: 5,
+        marginLeft: 3,
     },
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
@@ -110,23 +119,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CssTextField = withStyles({
-    root: {
-        '& label.Mui-focused': {
-            color: 'black',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'black',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'black',
-            },
-        },
-    },
-
-})(TextField);
-
 const VehicleInspectChecklist = () => {
     const [fitnessCert, setFitnessCert] = useState(false)
     const [regDoc, setRegDoc] = useState(false)
@@ -138,6 +130,7 @@ const VehicleInspectChecklist = () => {
     const [appropriateJack, setAppropriateJack] = useState(false)
     const [enoughFuel, setEnoughFuel] = useState(false)
     const [signOfInspector, setSignOfInspector] = useState(false)
+    const [SubmitError, setSubmitError] = useState('')
 
     const classes = useStyles();
 
@@ -151,28 +144,34 @@ const VehicleInspectChecklist = () => {
 
     const getCheckedValues = async (_id) => {
         if (fitnessCert && regDoc && RoadTaxPaid && validVehicleInsp && driverValidLins &&
-            visualCheckVehicle && spareTyre && appropriateJack && enoughFuel && signOfInspector ) {
-                await axios.patch(`${process.env.REACT_APP_API_URL}/vehicle/inspection/${_id}`, {
-                    fitnessCert,
-                    regDoc,
-                    RoadTaxPaid,
-                    validVehicleInsp,
-                    driverValidLins,
-                    visualCheckVehicle,
-                    spareTyre,
-                    appropriateJack,
-                    enoughFuel,
-                    signOfInspector
-                })
+            visualCheckVehicle && spareTyre && appropriateJack && enoughFuel && signOfInspector) {
+            await axios.patch(`${process.env.REACT_APP_API_URL}/vehicle/inspection/${_id}`, {
+                fitnessCert,
+                regDoc,
+                RoadTaxPaid,
+                validVehicleInsp,
+                driverValidLins,
+                visualCheckVehicle,
+                spareTyre,
+                appropriateJack,
+                enoughFuel,
+                signOfInspector
+            })
         }
-        else{
+        else {
             console.log('error');
+            setSubmitError('Internal Server Error')
         }
     }
     return (
         <Sidenav title={'Vehicle Inspection Checklist'}>
             <div>
                 <div className={classes.dataTable}>
+                {
+                    fitnessCert == false || regDoc == false || RoadTaxPaid == false || validVehicleInsp == false || driverValidLins == false ||
+                    visualCheckVehicle == false || spareTyre == false || appropriateJack == false || enoughFuel == false || signOfInspector == false ? 
+                    <span className={classes.Error}>Check All The Fields</span> : null
+                }
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -414,6 +413,7 @@ const VehicleInspectChecklist = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+
                 </div>
             </div>
         </Sidenav>

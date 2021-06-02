@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Sidenav from '../../SideNav/Sidenav'
+import Sidenav from '../../SideNav/Sidenav';
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -13,10 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
-import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
-import EditCategory from './EditCategory';
+import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActiion';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+import EditCategories from './EditCategories';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -120,23 +120,23 @@ const CssTextField = withStyles({
 })(TextField);
 
 
-const Category = () => {
+const Categories = () => {
     const classes = useStyles();
-    const [category, setCategory] = useState()
+    const [cat, setcat] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(getMaterialCategoryAction())
+        await dispatch(fetchStoreCatAction())
     }, [dispatch])
 
-    const { categories, loading, error } = useSelector(state => state.categories)
+    const { category, loading, error } = useSelector(state => state.category)
 
     const onSubmitDate = async (props) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
+            await axios.post(`${process.env.REACT_APP_API_URL}/store-category`, props)
             window.location.reload()
             console.log('submit');
             // setAddMatError(false)
@@ -154,31 +154,30 @@ const Category = () => {
         setOpen(props);
     }
 
-    const handleOpen = async (category) => {
-        setCategory(category);
+    const handleOpen = async (cat) => {
+        setcat(cat);
         setOpen(true);
     }
 
     const deleteCategory = async (params) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
+            await axios.delete(`${process.env.REACT_APP_API_URL}/store-category/${params}`)
             window.location.reload()
         }
         catch (error) {
             console.log(error);
-            console.log('catch');
         }
 
     }
 
     return (
-        <Sidenav title={'Categories'}>
+        <Sidenav title={'Store Categories'}>
             {/* ============Edit Category form component */}
-            <EditCategory
+            <EditCategories
                 show={open}
                 handler={handleClose}
                 // categories={categories}
-                category={category}
+                cat={cat}
             />
             {/* ============Edit category form component */}
             <div>
@@ -196,6 +195,9 @@ const Category = () => {
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("name", { required: true })}
                         />
+                        {
+                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Category Name is required</p>
+                        }
                         {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
@@ -232,21 +234,21 @@ const Category = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                categories.length ?
-                                                    categories.map((category, i) => (
+                                                category.length ?
+                                                    category.map((cat, i) => (
                                                         <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{category.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{cat.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>
-                                                                        handleOpen(category)
+                                                                        handleOpen(cat)
                                                                     }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
                                                                     <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteCategory(category._id)}
+                                                                        onClick={() => deleteCategory(cat._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
                                                                 </Button></>
@@ -265,4 +267,4 @@ const Category = () => {
     )
 }
 
-export default Category
+export default Categories
