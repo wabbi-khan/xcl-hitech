@@ -549,6 +549,7 @@ function Sidenav(props) {
     const [open1, setOpen1] = React.useState(false)
     const [open2, setOpen2] = React.useState(false)
     const [open3, setOpen3] = React.useState(false)
+    const [open4, setOpen4] = React.useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -737,13 +738,80 @@ function Sidenav(props) {
                 <Divider />
                 <List>
                     {['Production'].map((text, index) => (
-                        <ListItem button key={text}>
+                        <ListItem button key={text} onClick={() => {
+                            setOpen4(!open4)
+                        }} >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
                                 {index % 2 === 0 ? <LabelIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={text} onClick={() => {
+                                    history.push('/productionDashboard')
+                                }}/>
+                            {open4 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
                     ))}
+                    <Collapse in={open4} timeout="auto" unmountOnExit>
+                    <Divider />
+                    <List component="div" disablePadding>
+                    <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/machines')
+                                }}
+                            >
+                                <ListItemText inset primary="Machines" />
+                            </ListItem>
+                    <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/weeklyProductionPlan')
+                                }}
+                            >
+                                <ListItemText inset primary="Weekly Production Plan" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/setUpCards')
+                                }}
+                            >
+                                <ListItemText inset primary="Set Up Cards" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/productionReport')
+                                }}
+                            >
+                                <ListItemText inset primary="Production Report" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/productionOnlineInspectionReport')
+                                }}
+                            >
+                                <ListItemText inset primary="Production Online Inspection Report" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/shifts')
+                                }}
+                            >
+                                <ListItemText inset primary="Shifts" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/productionDashboard/production')
+                                }}
+                            >
+                                <ListItemText inset primary="Production" />
+                            </ListItem>
+</List>
+
+</Collapse>
                 </List>
                 <Divider />
                 <List>

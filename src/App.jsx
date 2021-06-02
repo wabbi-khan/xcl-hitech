@@ -67,6 +67,9 @@ import Department from './dashboard/purchase/department/Department';
 import MaterialReqDetails from './dashboard/store/materialIssueReq/MaterialReqDetails';
 import CompleteMaterialReq from './dashboard/store/materialIssueReq/CompleteMaterialReq';
 import CompleteMatReqDetails from './dashboard/store/materialIssueReq/CompleteMatReqDetails';
+import ProductionDashboard from './dashboard/production/production'
+import Machines from './dashboard/production/machines/Machines'
+
 dotenv.config()
 
 const theme = createMuiTheme({
@@ -141,6 +144,8 @@ function App() {
       <Route exact path="/hr/training_record" component={TrainingRecord} />
       <Route exact path="/hr/job_description" component={JobDescription} />
       <Route exact path="/hr/employees_promotion" component={EmployeePromotion} />
+      <Route exact path="/productionDashboard" component={ProductionDashboard} />
+      <Route exact path="/productionDashboard/machines" component={Machines} />
     </BrowserRouter>
   );
 }
