@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { PERSON_FETCH_REQUEST, PERSON_FETCH_SUCCESS, PERSON_FETCH_FAIL} from '../constants/ContactPerson'
+import { 
+    PERSON_FETCH_REQUEST, 
+    PERSON_FETCH_SUCCESS, 
+    PERSON_FETCH_FAIL
+} 
+from '../constants/ContactPerson'
 
 export const fetchPersonAction = () => async (dispatch) => {
     dispatch({

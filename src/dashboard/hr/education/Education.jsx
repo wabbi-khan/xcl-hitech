@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -117,6 +117,8 @@ const CssTextField = withStyles({
 
 const Education = () => {
     const classes = useStyles();
+    const [education, seteducation] = useState()
+
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
@@ -169,6 +171,9 @@ const Education = () => {
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("name", { required: true })}
                         />
+                        {
+                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Education Name is required</p>
+                        }
                         {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
