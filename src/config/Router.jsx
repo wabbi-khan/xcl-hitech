@@ -64,6 +64,8 @@ import MaterialReqDetails from '../dashboard/store/materialIssueReq/MaterialReqD
 import CompleteMaterialReq from '../dashboard/store/materialIssueReq/CompleteMaterialReq';
 import CompleteMatReqDetails from '../dashboard/store/materialIssueReq/CompleteMatReqDetails';
 import Categories from '../dashboard/store/storecategories/Categories';
+import Marketing from '../dashboard/marketing-sales/Marketing';
+import OrderBookingForm from '../dashboard/marketing-sales/order booking form/OrderBookingForm';
 
 
 
@@ -73,7 +75,7 @@ const Router = () => {
             <Router>
                 <Router exact path="/" component={Login}/>
                 <Router exact path="/sidenav" component={Sidenav}/>
-                <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>
+                <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>       //Purchase Module Routes
                 <Router exact path="/purchase/category" component={Category}/>
                 <Router exact path="/purchase/department" component={Department}/>
                 <Router exact path="/purchase/material" component={Material}/>
@@ -86,7 +88,7 @@ const Router = () => {
                 <Router exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails}/>
                 <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
                 <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
-                <Router exact path="/storedashboard" component={Store}/>
+                <Router exact path="/storedashboard" component={Store}/>                      //Store Module Routes
                 <Router exact path="/storedashboard/store_categories" component={Categories}/>
                 <Router exact path="/storedashboard/products" component={Products}/>
                 <Router exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm}/>
@@ -109,7 +111,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
-                <Router exact path="/hr_dashboard" component={HR}/>
+                <Router exact path="/hr_dashboard" component={HR}/>                 //HR Module Routes
                 <Router exact path="/hr/designation" component={Designation}/>
                 <Router exact path="/hr/education" component={Education}/>
                 <Router exact path="/hr/skills" component={Skills}/>
@@ -131,6 +133,8 @@ const Router = () => {
                 <Router exact path="/hr/training_record" component={TrainingRecord}/>
                 <Router exact path="/hr/job_description" component={JobDescription}/>
                 <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
+                <Router exact path="/marketing_dashboard" component={Marketing}/>                 //Marketing/Sales Module Routes
+                <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>                
             </Router>
         </BrowserRouter>
     )

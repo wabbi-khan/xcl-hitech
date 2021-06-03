@@ -135,6 +135,34 @@ const CompetenceCriteria = ({ history }) => {
                         <Grid container spacing={1}>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
+                                    label="Select Department"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autocomplete="off"
+                                    select
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("name", { required: true })}
+                                >
+                                    <MenuItem value="0"
+                                    // value={category._id}
+                                    // onClick={(e) => fetchMaterials(category._id)}
+                                    // key={i}
+                                    >
+                                        Purchase
+                                    </MenuItem>
+                                    <MenuItem value="1" >
+                                        Sales/Marketing
+                                    </MenuItem>
+                                    <MenuItem value="2" >
+                                        Production
+                                    </MenuItem>
+                                </CssTextField>
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
                                     label="Select Designation"
                                     variant="outlined"
                                     type="text"
@@ -209,6 +237,8 @@ const CompetenceCriteria = ({ history }) => {
                                     </MenuItem>
                                 </CssTextField>
                             </Grid>
+                        </Grid>
+                        <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Experience"
@@ -243,47 +273,6 @@ const CompetenceCriteria = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                         </Grid>
-                        <Grid container spacing={1} style={{ marginTop: 8, }}>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Training (Optional)"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    select
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("email", { required: true, })}
-                                >
-                                    <MenuItem value="0">
-                                        Training 01
-                                    </MenuItem>
-                                    <MenuItem value="1" >
-                                        Training 02
-                                    </MenuItem>
-                                    <MenuItem value="2" >
-                                        Training 03
-                                    </MenuItem>
-                                </CssTextField>
-                                {/* {
-                                        !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
-                                            fetchMatCategory.categories.map((category, i) => (
-                                                <MenuItem
-                                                    value={category._id}
-                                                    onClick={(e) => fetchMaterials(category._id)}
-                                                    key={i}
-                                                >
-                                                    {category.name}
-                                                </MenuItem>
-                                            ))
-                                    } */}
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-
-                            </Grid>
-                        </Grid>
                         <div>
                             <Button
                                 variant="outlined"
@@ -309,7 +298,6 @@ const CompetenceCriteria = ({ history }) => {
                                     <StyledTableCell align="center">Education</StyledTableCell>
                                     <StyledTableCell align="center">Experience</StyledTableCell>
                                     <StyledTableCell align="center">Skills</StyledTableCell>
-                                    <StyledTableCell align="center">Training</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -320,7 +308,6 @@ const CompetenceCriteria = ({ history }) => {
                                     <StyledTableCell className="text-dark" align="center">Masters</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">2 years</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">Sales Expert</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Training 02</StyledTableCell>
                                     {/* <StyledTableCell className="text-dark" align="center">
                                         {
                                             !vendor.material || !vendor.material.length ? <p>Not Found</p> :
@@ -337,7 +324,7 @@ const CompetenceCriteria = ({ history }) => {
                                             style={{ marginTop: 2 }} >
                                             Edit
                                         </Button>
-                                        <Button variant="contained" color="secondary" size="small"
+                                            <Button variant="contained" color="secondary" size="small"
                                                 // onClick={() => deleteMaterial(vendor._id)}
                                                 style={{ marginLeft: 2, marginTop: 2 }}>
                                                 Delete

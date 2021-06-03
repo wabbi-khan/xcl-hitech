@@ -7,12 +7,9 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch, useSelector } from 'react-redux'
-import { appSuppListAction } from '../../../services/action/VendorAction';
 import { useForm } from "react-hook-form";
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import axios from 'axios';
-
-// import MaterialAddRow from './commponent/materialAddRow'
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -180,7 +177,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const PurchaseOrder = ({ history }) => {
+const OrderBookingForm = () => {
     const classes = useStyles();
     const dispatch = useDispatch()
 
@@ -195,7 +192,7 @@ const PurchaseOrder = ({ history }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(async () => {
-        await dispatch(appSuppListAction())
+        // await dispatch(appSuppListAction())
     }, [dispatch])
 
     const { verifiedVendors } = useSelector(state => state.verifiedVendors)
@@ -233,46 +230,65 @@ const PurchaseOrder = ({ history }) => {
     const onSubmitDate = async (props) => {
         // console.log(ItemCounter);
         // console.log(props);
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/order`, {
-                vendor: props.vendor,
-                poNum: props.poNum,
-                prNum: props.prNum,
-                reference: props.reference,
-                paymentTerm: props.paymentTerm,
-                paymentSubject: props.paymentSubject,
-                materials: ItemCounter,
-                // materials: [
-                //     {
-                //         material: "60967de642ab87001586f002",
-                //         quantity: 15,
-                //         unitValue: 12,
-                //         remarks: "dfsd"
-                //     },
-                //     {
-                //         material: "609baa076768bb00154affe7",
-                //         quantity: 25,
-                //         unitValue: 23,
-                //         remarks: "dfsd"
-                //     }
-                // ]
-            })
-            window.location.reload()
-            // setAddMatError(false)
-        }
-        catch (error) {
-            console.log(error);
-            // setAddMatError(true)
+        // try {
+        //     await axios.post(`${process.env.REACT_APP_API_URL}/order`, {
+        //         vendor: props.vendor,
+        //         poNum: props.poNum,
+        //         prNum: props.prNum,
+        //         reference: props.reference,
+        //         paymentTerm: props.paymentTerm,
+        //         paymentSubject: props.paymentSubject,
+        //         materials: ItemCounter,
 
-        }
+        //     })
+        //     window.location.reload()
+        //     // setAddMatError(false)
+        // }
+        // catch (error) {
+        //     console.log(error);
+        //     // setAddMatError(true)
+
+        // }
     }
-    console.log(orderBody);
 
     return (
-        <Sidenav title={'Purchase Order'}>
+        <Sidenav title={'Order Booking Form'}>
             <div>
-                {/* <form onSubmit={handleSubmit(onAdd)}> */}
                 <form action="" onSubmit={handleSubmit(onSubmitDate)}>
+                    <Container className={classes.mainContainer}>
+                        <Grid container spacing={1} style={{ marginTop: 15, }} >
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Enter Work Order No."
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("prNum", { required: true })}
+                                />
+                                {
+                                    errors.prNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                }
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Payment Terms"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    className={classes.inputFieldStyle1}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("paymentTerm", { required: true })}
+                                />
+                                {
+                                    errors.paymentTerm?.type === 'required' && <p className="mt-1 text-danger">Payment Terms required</p>
+                                }
+                            </Grid>
+                        </Grid>
+                    </Container>
                     <Container className={classes.mainContainer}>
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -539,10 +555,9 @@ const PurchaseOrder = ({ history }) => {
                         </Grid>
                     </Container>
                 </form>
-                {/* </form> */}
             </div>
         </Sidenav>
     )
 }
 
-export default PurchaseOrder
+export default OrderBookingForm

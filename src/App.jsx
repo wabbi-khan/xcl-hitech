@@ -68,6 +68,8 @@ import MaterialReqDetails from './dashboard/store/materialIssueReq/MaterialReqDe
 import CompleteMaterialReq from './dashboard/store/materialIssueReq/CompleteMaterialReq';
 import CompleteMatReqDetails from './dashboard/store/materialIssueReq/CompleteMatReqDetails';
 import Categories from './dashboard/store/storecategories/Categories';
+import Marketing from './dashboard/marketing-sales/Marketing';
+import OrderBookingForm from './dashboard/marketing-sales/order booking form/OrderBookingForm';
 
 
 dotenv.config()
@@ -87,7 +89,7 @@ function App() {
     <BrowserRouter>
       <Route exact path="/" component={Login} />
       <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/purchasedashboard" component={PurchaseDashboard} />
+      <Route exact path="/purchasedashboard" component={PurchaseDashboard} />      //Purchase Module Routes
       <Route exact path="/purchase/category" component={Category} />
       <Route exact path="/purchase/department" component={Department} />
       <Route exact path="/purchase/material" component={Material} />
@@ -100,7 +102,7 @@ function App() {
       <Route exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails} />
       <Route exact path="/purchase/purchase_requisition" component={PurchaseRequisition} />
       <Route exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint} />
-      <Route exact path="/storedashboard" component={Store} />
+      <Route exact path="/storedashboard" component={Store} />            //Store Module Routes
       <Route exact path="/storedashboard/store_categories" component={Categories} />
       <Route exact path="/storedashboard/products" component={Products} />
       <Route exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm} />
@@ -123,7 +125,7 @@ function App() {
       <Route exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
       <Route exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
       <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
-      <Route exact path="/hr_dashboard" component={HR} />
+      <Route exact path="/hr_dashboard" component={HR} />           //HR Module Routes
       <Route exact path="/hr/designation" component={Designation} />
       <Route exact path="/hr/education" component={Education} />
       <Route exact path="/hr/skills" component={Skills} />
@@ -145,6 +147,8 @@ function App() {
       <Route exact path="/hr/training_record" component={TrainingRecord} />
       <Route exact path="/hr/job_description" component={JobDescription} />
       <Route exact path="/hr/employees_promotion" component={EmployeePromotion} />
+      <Route exact path="/marketing_dashboard" component={Marketing} />       //Marketing Module Routes
+      <Route exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm} />       
     </BrowserRouter>
   );
 }

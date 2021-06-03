@@ -549,6 +549,7 @@ function Sidenav(props) {
     const [open1, setOpen1] = React.useState(false)
     const [open2, setOpen2] = React.useState(false)
     const [open3, setOpen3] = React.useState(false)
+    const [open4, setOpen4] = React.useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -725,14 +726,78 @@ function Sidenav(props) {
                 <Divider />
                 <List>
                     {['Marketing/Sales'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}
-                            >
-                                {index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
+                        <ListItem
+                            button key={text}
+                            onClick={() => {
+                                setOpen4(!open4)
+                            }}
+                        >
+                            <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
+                                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText
+                                primary={text}
+                                onClick={() => {
+                                    history.push('/purchasedashboard')
+                                }}
+                            />
+                            {open4 ? <IconExpandLess /> : <IconExpandMore />}
                         </ListItem>
+
                     ))}
+                    <Collapse in={open4} timeout="auto" unmountOnExit>
+                        <Divider />
+                        <List component="div" disablePadding>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/marketing_dashboard/order_booking_form')
+                                }}
+                            >
+                                <ListItemText inset primary="Order Booking Form" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/department')
+                                }}
+                            >
+                                <ListItemText inset primary="Order Log Sheet" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/material')
+                                }}
+                            >
+                                <ListItemText inset primary="Sales Contract" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/vendors')
+                                }}
+                            >
+                                <ListItemText inset primary="Contract Review..." />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/supplier_evaluation_form')
+                                }}
+                            >
+                                <ListItemText inset primary="Customer Feedback.." />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/purchase/approved_supplier_list')
+                                }}
+                            >
+                                <ListItemText inset primary="Complaint Testing" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
                 </List>
                 <Divider />
                 <List>

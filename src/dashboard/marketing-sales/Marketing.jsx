@@ -9,14 +9,13 @@ import DashboardImg4 from '../../images/4.PNG'
 import DashboardImg5 from '../../images/5.PNG'
 import DashboardImg6 from '../../images/6.PNG'
 import DashboardImg7 from '../../images/7.PNG'
-import { withRouter } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
     // root: {
     //     maxWidth: 345,
     //     backgroundColor: 'grey',
     //     marginRight: 900,
-
     // },
     root: {
         flexGrow: 1,
@@ -47,11 +46,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const PurchaseDashboard = () => {
+const Marketing = () => {
     const classes = useStyles();
 
+
     return (
-        <Sidenav title={'Purchase Dashboard'}>
+        <Sidenav title={'Marketing/Sales Dashboard'}>
             <div>
                 <div className={classes.root}>
                     <Grid container spacing={3}>
@@ -95,4 +95,4 @@ const PurchaseDashboard = () => {
     )
 }
 
-export default PurchaseDashboard
+export default Marketing
