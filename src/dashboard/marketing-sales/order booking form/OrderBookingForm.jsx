@@ -20,18 +20,25 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     mainContainer: {
+        [theme.breakpoints.up('md')]: {
+            marginTop: 10,
+        },
+        [theme.breakpoints.down('sm')]: {
+            marginTop: -15,
+        },
+    },
+    innerContainer: {
         textAlign: 'center',
         [theme.breakpoints.up('md')]: {
-            marginLeft: 0,
-            marginTop: 15,
+            marginTop: 10,
         },
         [theme.breakpoints.down('sm')]: {
             marginTop: -15,
         },
     },
     addButton: {
-        marginTop: 10,
-        marginLeft: 15,
+        marginTop: 20,
+        marginLeft: 50,
         color: '#22A19A',
         borderColor: '#22A19A',
         '&:hover': {
@@ -79,8 +86,8 @@ const useStyles = makeStyles((theme) => ({
         // boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
         // borderRadius: 5,
         [theme.breakpoints.up('md')]: {
-            width: 250,
-
+            width: 270,
+            marginLeft: -20
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -89,8 +96,8 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFieldStyle3: {
         [theme.breakpoints.up('md')]: {
-            width: 250,
-            marginLeft: -30
+            width: 270,
+            marginLeft: -20
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -99,8 +106,8 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFieldStyle4: {
         [theme.breakpoints.up('md')]: {
-            width: 250,
-            marginLeft: 40,
+            width: 270,
+            marginLeft: -20
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
@@ -109,12 +116,29 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFieldStyle5: {
         [theme.breakpoints.up('md')]: {
-            width: 250,
-            marginLeft: 110,
+            width: 270,
+            marginLeft: -20,
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
-
+        },
+    },
+    inputFieldStyle6: {
+        [theme.breakpoints.up('md')]: {
+            width: 270,
+            marginLeft: -20,
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
+        },
+    },
+    inputFieldStyle7: {
+        [theme.breakpoints.up('md')]: {
+            width: 270,
+            marginLeft: -20,
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
         },
     },
     itemHeading: {
@@ -141,9 +165,9 @@ const useStyles = makeStyles((theme) => ({
     },
     delete: {
         color: 'red',
-        fontSize: 38,
+        fontSize: 37,
         [theme.breakpoints.up('md')]: {
-            marginLeft: 50,
+            // marginLeft: 50,
             marginTop: -7,
 
         },
@@ -152,7 +176,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     deleteRowBtn: {
-        marginLeft: 120,
+        marginTop: 2,
         '&:hover': {
             border: 'none',
             background: 'none',
@@ -256,55 +280,62 @@ const OrderBookingForm = () => {
             <div>
                 <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                     <Container className={classes.mainContainer}>
-                        <Grid container spacing={1} style={{ marginTop: 15, }} >
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Enter Work Order No."
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("prNum", { required: true })}
-                                />
-                                {
-                                    errors.prNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                }
+                        <Container className={classes.innerContainer}>
+                            <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Enter work Order no.*"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        // label="Date"
+                                        variant="outlined"
+                                        type="date"
+                                        size="small"
+                                        className={classes.inputFieldStyle1}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("poNum", { required: true })}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Payment Terms"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("paymentTerm", { required: true })}
-                                />
-                                {
-                                    errors.paymentTerm?.type === 'required' && <p className="mt-1 text-danger">Payment Terms required</p>
-                                }
-                            </Grid>
-                        </Grid>
+                            <div style={{ marginTop: 30, marginBottom: 30, }}>
+                                <hr />
+                            </div>
+                        </Container>
                     </Container>
                     <Container className={classes.mainContainer}>
-                        <Grid container spacing={1} style={{ marginTop: 15, }} >
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Select Vendor Name*"
-                                    variant="outlined"
-                                    type="email"
-                                    size="small"
-                                    select
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("vendor", { required: true })}
+                        <div className="mt-2 ml-5">
+                            <h5>Company Representative</h5>
+                        </div>
+                        <Container className={classes.innerContainer}>
+                            <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Select Designation*"
+                                        variant="outlined"
+                                        type="email"
+                                        size="small"
+                                        select
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
 
-                                >
-                                    {
+                                    >
+                                        <MenuItem value="">Manager</MenuItem>
+                                        {/* {
                                         !verifiedVendors || !verifiedVendors.length ? <p>Data Not Found</p> :
                                             verifiedVendors.map(verifiedVendor => (
                                                 <MenuItem value={verifiedVendor._id} key={verifiedVendor._id}
@@ -317,144 +348,129 @@ const OrderBookingForm = () => {
                                                     {verifiedVendor.name}
                                                 </MenuItem>
                                             ))
+                                    } */}
+                                    </CssTextField>
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Select Employee Name"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        select
+                                        className={classes.inputFieldStyle1}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("poNum", { required: true })}
+                                    >
+                                        <MenuItem value="">Asad</MenuItem>
+                                        <MenuItem value="">Arsalan</MenuItem>
+                                    </CssTextField>
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">P.O. No. is required</p>
                                     }
-                                </CssTextField>
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Address"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        disabled
+                                        value={VendorAddress}
+                                        className={classes.inputFieldStyle1}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                    // {...register("address", { required: true })}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="P.O. No."
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("poNum", { required: true })}
-                                />
-                                {
-                                    errors.poNum?.type === 'required' && <p className="mt-1 text-danger">P.O. No. is required</p>
-                                }
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Address"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    disabled
-                                    value={VendorAddress}
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                // {...register("address", { required: true })}
-                                />
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Your Reference"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("reference", { required: true })}
-                                />
-                                {
-                                    errors.reference?.type === 'required' && <p className="mt-1 text-danger">Reference is required</p>
-                                }
-                            </Grid>
-                        </Grid>
+                        </Container>
                     </Container>
                     <Container className={classes.mainContainer}>
-                        <Grid container spacing={1} style={{ marginTop: 15, }} >
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="P.R.No."
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("prNum", { required: true })}
-                                />
-                                {
-                                    errors.prNum?.type === 'required' && <p className="mt-1 text-danger">P.R. No. is required</p>
-                                }
+                        <div className="mt-4 ml-5">
+                            <h5>Customer Information</h5>
+                        </div>
+                        <Container className={classes.innerContainer}>
+                            <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Enter Customer Name"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        autoComplete="off"
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Customer Name is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Customer Address"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        autoComplete="off"
+                                        className={classes.inputFieldStyle1}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("poNum", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Customer Address is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Delivery Site Address"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        autoComplete="off"
+                                        className={classes.inputFieldStyle1}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("address", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Delivery Site Address is required</p>
+                                    }
+                                </Grid>
                             </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Payment Terms"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("paymentTerm", { required: true })}
-                                />
-                                {
-                                    errors.paymentTerm?.type === 'required' && <p className="mt-1 text-danger">Payment Terms required</p>
-                                }
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Payment Subject To"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("paymentSubject", { required: true })}
-                                />
-                                {
-                                    errors.paymentSubject?.type === 'required' && <p className="mt-1 text-danger">Payment Subject is required</p>
-                                }
-                            </Grid>
-                            {/* <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    // label="Your Reference"
-                                    variant="outlined"
-                                    type="date"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("date")}
-                                />
-                            </Grid> */}
-                        </Grid>
+                        </Container>
                     </Container>
-                    <div style={{ marginTop: 30, marginBottom: 30, }}>
-                        <hr />
-                    </div>
                     <Container className={classes.mainContainer}>
-                        <h4 className="text-left">Items</h4>
-                        {
-                            ItemCounter.map((value, i) => {
-                                const no = i + 1;
-                                return (
-                                    <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
-                                        <Grid item lg={1} md={1}>
-                                            <h5 className={classes.itemHeading}>{no}</h5>
-                                        </Grid>
-                                        <Grid item lg={2} md={2} sm={12} xs={12}>
-                                            <CssTextField id="outlined-basic"
-                                                label="Select Item"
-                                                variant="outlined"
-                                                type="text"
-                                                size="small"
-                                                select
-                                                onChange={(e) => {
-                                                    onChangeHandler(e, 'material', i)
-                                                }}
-                                                className={classes.inputFieldStyle2}
-                                                inputProps={{ style: { fontSize: 14 } }}
-                                                InputLabelProps={{ style: { fontSize: 14 } }}
-                                            >
-                                                {
+                        <div className="mt-4 ml-5">
+                            <h5>Items</h5>
+                        </div>
+                        <Container className={classes.innerContainer}>
+                            {
+                                ItemCounter.map((value, i) => {
+                                    const no = i + 1;
+                                    return (
+                                        <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
+                                            <Grid item lg={1} md={1}>
+                                                <h5 className={classes.itemHeading}>{no}.</h5>
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Enter Size"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e, 'material', i)
+                                                    }}
+                                                    className={classes.inputFieldStyle2}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                >
+                                                    {/* {
                                                     !vendorMaterial.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
                                                         vendorMaterial.map(material => (
                                                             <MenuItem value={material._id} key={material._id}
@@ -465,94 +481,279 @@ const OrderBookingForm = () => {
                                                                 {material.name}
                                                             </MenuItem>
                                                         ))
-                                                }
-                                            </CssTextField>
+                                                } */}
+                                                </CssTextField>
+                                            </Grid>
+                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="PE-80/100"
+                                                    variant="outlined"
+                                                    type="number"
+                                                    size="small"
+                                                    value={value.quantity}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e, "quantity", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle3}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="PN"
+                                                    variant="outlined"
+                                                    type="number"
+                                                    size="small"
+                                                    value={value.unitValue}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e, "unitValue", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle4}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="SDR"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    value={value.remarks}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e, "remarks", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle5}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Length in Meter"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    value={value.remarks}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e, "remarks", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle6}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="No. of Pipes/Coils"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    value={value.remarks}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e, "remarks", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle7}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <Button onClick={() => deleteItem(i)} className={classes.deleteRowBtn}>
+                                                    <DeleteOutlineIcon className={classes.delete} />
+                                                </Button>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-                                        <Grid item lg={2} md={2} sm={12} xs={12}>
-                                            <CssTextField id="outlined-basic"
-                                                label="Quantity"
-                                                variant="outlined"
-                                                type="number"
-                                                size="small"
-                                                value={value.quantity}
-                                                onChange={(e) => {
-                                                    onChangeHandler(e, "quantity", i)
-                                                }}
-                                                className={classes.inputFieldStyle3}
-                                                inputProps={{ style: { fontSize: 14 } }}
-                                                InputLabelProps={{ style: { fontSize: 14 } }}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={2} md={2} sm={12} xs={12}>
-                                            <CssTextField id="outlined-basic"
-                                                label="Unit"
-                                                variant="outlined"
-                                                type="number"
-                                                size="small"
-                                                value={value.unitValue}
-                                                onChange={(e) => {
-                                                    onChangeHandler(e, "unitValue", i)
-                                                }}
-                                                className={classes.inputFieldStyle4}
-                                                inputProps={{ style: { fontSize: 14 } }}
-                                                InputLabelProps={{ style: { fontSize: 14 } }}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={2} md={2} sm={12} xs={12}>
-                                            <CssTextField id="outlined-basic"
-                                                label="Remarks"
-                                                variant="outlined"
-                                                type="text"
-                                                size="small"
-                                                value={value.remarks}
-                                                onChange={(e) => {
-                                                    onChangeHandler(e, "remarks", i)
-                                                }}
-                                                className={classes.inputFieldStyle5}
-                                                inputProps={{ style: { fontSize: 14 } }}
-                                                InputLabelProps={{ style: { fontSize: 14 } }}
-                                            />
-                                        </Grid>
-                                        <Grid item lg={2} md={2} sm={12} xs={12}>
-                                            <Button onClick={() => deleteItem(i)} className={classes.deleteRowBtn}>
-                                                <DeleteOutlineIcon className={classes.delete} />
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
+                                    )
+                                }
                                 )
                             }
-                            )
-                        }
-                        <Grid container spacing={1} >
-                            <Grid item lg={3} md={3} sm={10} xs={11}>
-                                <Button variant="outlined" color="primary"
-                                    className={classes.addButton}
-                                    onClick={addMoreFunc}
-                                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                                >
-                                    Add More
-                            </Button>
+                            <Grid container spacing={1} >
+                                <Grid item lg={3} md={3} sm={10} xs={11}>
+                                    <Button variant="outlined" color="primary"
+                                        className={classes.addButton}
+                                        onClick={addMoreFunc}
+                                    // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                                    >
+                                        Add More
+                                    </Button>
+                                </Grid>
                             </Grid>
+                            <div style={{ marginTop: 30, marginBottom: 30, }}>
+                                <hr />
+                            </div>
+                        </Container>
+                    </Container>
+                    <Container className={classes.mainContainer}>
+                        <Container className={classes.innerContainer}>
+                            <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Fitting Required"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        select
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    >
+                                        <MenuItem value="">Yes</MenuItem>
+                                        <MenuItem value="">No</MenuItem>
+                                    </CssTextField>
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Fitting Quantity"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Welding Required"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        select
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    >
+                                        <MenuItem value="">Yes</MenuItem>
+                                        <MenuItem value="">No</MenuItem>
+                                    </CssTextField>
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Mode of Transportation"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        select
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    >
+                                        <MenuItem value="">By Road</MenuItem>
+                                    </CssTextField>
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </Container>
+                    <Container className={classes.mainContainer}>
+                        <Container className={classes.innerContainer}>
+                            <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Mode of Payment"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        select
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    >
+                                        <MenuItem value="">Online</MenuItem>
+                                        <MenuItem value="">Caash</MenuItem>
+                                    </CssTextField>
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        // label="Expected Date of Delivery"
+                                        variant="outlined"
+                                        type="date"
+                                        size="small"
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Any Special Requirements"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField id="outlined-basic"
+                                        label="Remarks"
+                                        variant="outlined"
+                                        type="text"
+                                        size="small"
+                                        className={classes.inputFieldStyle}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                        {...register("vendor", { required: true })}
+                                    />
+                                    {
+                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
+                                    }
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    <Grid container spacing={1} >
+                        <Grid item lg={5} md={5} sm={10} xs={11}>
                         </Grid>
-                        <Grid container spacing={1} >
-                            <Grid item lg={5} md={5} sm={10} xs={11}>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={10} xs={11}>
-                                <Button
-                                    variant="outlined" color="primary"
-                                    type="submit"
-                                    className={classes.addButton}
-                                    onClick={() => {
-                                        // console.log(ItemCounter)
-                                        // history.push('/purchase/purchase_requisition/print_purchase_requisition')
-                                    }}
-                                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                                >
-                                    Submit
+                        <Grid item lg={3} md={3} sm={10} xs={11}>
+                            <Button
+                                variant="outlined" color="primary"
+                                type="submit"
+                                className={classes.addButton}
+                                onClick={() => {
+                                    // console.log(ItemCounter)
+                                    // history.push('/purchase/purchase_requisition/print_purchase_requisition')
+                                }}
+                            // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                            >
+                                Submit
                             </Button>
-                            </Grid>
                         </Grid>
+                    </Grid>
                     </Container>
                 </form>
             </div>

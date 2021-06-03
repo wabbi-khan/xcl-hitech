@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -13,6 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { fetchExperienceAction } from '../../../services/action/ExperienceAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+import EditExperience from './EditExperience';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -117,50 +121,67 @@ const CssTextField = withStyles({
 
 const Experience = () => {
     const classes = useStyles();
+    const [Experience, setExperience] = useState('')
+
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        // await dispatch(getMaterialCategoryAction())
+        await dispatch(fetchExperienceAction())
     }, [dispatch])
 
-    const { categories, loading, error } = useSelector(state => state.categories)
+    const { experience, loading, error } = useSelector(state => state.experience)
 
     const onSubmitDate = async (props) => {
-        // try {
-        //     await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
-        //     window.location.reload()
-        //     console.log('submit');
-        //     // setAddMatError(false)
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     // setAddMatError(true)
-
-        // }
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/experience`, props)
+            window.location.reload()
+            console.log('submit');
+            // setAddMatError(false)
+        }
+        catch (error) {
+            console.log(error);
+            // setAddMatError(true)
+        }
     }
 
-    // const deleteCategory = async (params) => {
-    //     try {
-    //         await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
-    //         window.location.reload()
-    //     }
-    //     catch (error) {
-    //         console.log(error);
-    //         console.log('catch');
-    //     }
+    const deleteCategory = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/experience/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
-    // }
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
+    const handleOpen = async (exp) => {
+        setExperience(exp);
+        setOpen(true);
+    }
 
     return (
         <Sidenav title={'Experience'}>
+            {/* ============products form component */}
+            <EditExperience
+                show={open}
+                handler={handleClose}
+                exp={Experience}
+            />
+            {/* ============products form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <CssTextField id="outlined-basic"
-                            label="Experience"
+                            label="Enter Experience"
                             variant="outlined"
                             type="text"
                             autocomplete="off"
@@ -170,6 +191,9 @@ const Experience = () => {
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("name", { required: true })}
                         />
+                        {
+                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Experience Name is required</p>
+                        }
                         {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
@@ -198,7 +222,7 @@ const Experience = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                {/* {
+                                {
                                     loading ? (
                                         <Loading />
                                     ) :
@@ -206,30 +230,32 @@ const Experience = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                categories.length ?
-                                                    categories.map((category, i) => ( */}
-                                <StyledTableRow>
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Fresher</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            // onClick={() =>
-                                            //     handleOpen(material)
-                                            // }
-                                            style={{ marginTop: 2 }} >
-                                            Edit
+                                                experience.length ?
+                                                    experience.map((exp, i) => (
+                                                        <StyledTableRow>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{exp.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() =>
+                                                                        handleOpen(exp)
+                                                                    }
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
                                                                 </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                // onClick={() => deleteCategory(category._id)}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
+                                                                <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() =>
+                                                                            deleteCategory(exp._id)
+                                                                        }
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
                                                                 </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                {/* ))
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
                                                     : <h5>Not Found</h5>
                                             )
-                                } */}
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

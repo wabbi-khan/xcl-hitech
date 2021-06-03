@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -13,6 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { fetchSkillsAction } from '../../../services/action/SkillsAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+import EditSkills from './EditSkills';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -117,50 +121,67 @@ const CssTextField = withStyles({
 
 const Skills = () => {
     const classes = useStyles();
+    const [Skill, setSkill] = useState('')
+
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        // await dispatch(getMaterialCategoryAction())
+        await dispatch(fetchSkillsAction())
     }, [dispatch])
 
-    const { categories, loading, error } = useSelector(state => state.categories)
+    const { skills, loading, error } = useSelector(state => state.skills)
 
     const onSubmitDate = async (props) => {
-        // try {
-        //     await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
-        //     window.location.reload()
-        //     console.log('submit');
-        //     // setAddMatError(false)
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     // setAddMatError(true)
-
-        // }
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/skills`, props)
+            window.location.reload()
+            console.log('submit');
+            // setAddMatError(false)
+        }
+        catch (error) {
+            console.log(error);
+            // setAddMatError(true)
+        }
     }
 
-    // const deleteCategory = async (params) => {
-    //     try {
-    //         await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
-    //         window.location.reload()
-    //     }
-    //     catch (error) {
-    //         console.log(error);
-    //         console.log('catch');
-    //     }
+    const deleteSkill = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/skills/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
-    // }
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
+    const handleOpen = async (skill) => {
+        setSkill(skill);
+        setOpen(true);
+    }
 
     return (
         <Sidenav title={'Skills'}>
+            {/* ============products form component */}
+            <EditSkills
+                show={open}
+                handler={handleClose}
+                skill={Skill}
+            />
+            {/* ============products form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <CssTextField id="outlined-basic"
-                            label="Skill Name"
+                            label="Enter Skill Name"
                             variant="outlined"
                             type="text"
                             autocomplete="off"
@@ -168,8 +189,11 @@ const Skills = () => {
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                            {...register("name", { required: true })}
+                            {...register("skill", { required: true })}
                         />
+                        {
+                            errors.skill?.type === 'required' && <p className="mt-1 text-danger">Skill Name is required</p>
+                        }
                         {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
@@ -198,7 +222,7 @@ const Skills = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                {/* {
+                                {
                                     loading ? (
                                         <Loading />
                                     ) :
@@ -206,30 +230,32 @@ const Skills = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                categories.length ?
-                                                    categories.map((category, i) => ( */}
-                                <StyledTableRow>
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Marketing</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            // onClick={() =>
-                                            //     handleOpen(material)
-                                            // }
-                                            style={{ marginTop: 2 }} >
-                                            Edit
+                                                skills.length ?
+                                                    skills.map((skill, i) => (
+                                                        <StyledTableRow>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{skill.skill}</StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() =>
+                                                                        handleOpen(skill)
+                                                                    }
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
                                                                 </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                // onClick={() => deleteCategory(category._id)}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                                                </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                {/* ))
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() =>
+                                                                            deleteSkill(skill._id)
+                                                                        }
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
+                                            </Button></>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
                                                     : <h5>Not Found</h5>
                                             )
-                                } */}
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

@@ -6,11 +6,9 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
-
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -105,10 +103,9 @@ const CssTextField = withStyles({
 })(TextField);
 
 
-const EditDesignation = (props) => {
-    const { show, handler, designation } = props
-
+const EditSkills = (props) => {
     const classes = useStyles();
+    const { show, handler, skill } = props
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -123,7 +120,7 @@ const EditDesignation = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/designation/${designation._id}`, data)
+            await axios.patch(`${process.env.REACT_APP_API_URL}/skills/${skill._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -155,28 +152,28 @@ const EditDesignation = (props) => {
                         <Container className={classes.mainContainer}>
                             {/* Form */}
                             {
-                                designation ? (
+                                skill ? (
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <Grid container spacing={1}>
                                             <Grid lg={12} md={12} sm={12}>
                                                 <CssTextField id="outlined-basic"
-                                                    label="Designation Name"
+                                                    label="Skill Name"
                                                     variant="outlined"
                                                     type="text"
                                                     size="small"
                                                     autoComplete="off"
-                                                    defaultValue={designation.name}
+                                                    defaultValue={skill.skill}
                                                     className={classes.inputFieldStyle1}
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register("name")}
+                                                    {...register("skill")}
                                                 />
                                                 {
-                                                    errors.name?.type === 'required' && <p className="text-danger">Designation Name is required</p>
+                                                    errors.skill?.type === 'required' && <p className="text-danger">Skill Name is required</p>
                                                 }
                                                 {
-                                                    isUpdate ? <p className="text-success mt-2">Designation Update Successfully</p> : (
-                                                        isError ? <p className="text-danger mt-2">Designation Update Failed </p> : null
+                                                    isUpdate ? <p className="text-success mt-2">Skill Update Successfully</p> : (
+                                                        isError ? <p className="text-danger mt-2">Skill Update Failed </p> : null
                                                     )
                                                 }
                                             </Grid>
@@ -206,4 +203,4 @@ const EditDesignation = (props) => {
     )
 }
 
-export default EditDesignation
+export default EditSkills

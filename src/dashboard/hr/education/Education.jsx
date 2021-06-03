@@ -13,6 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { fetchEducationAction } from '../../../services/action/EducationAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+import EditEducation from './EditEducation';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -117,45 +121,61 @@ const CssTextField = withStyles({
 
 const Education = () => {
     const classes = useStyles();
-    const [education, seteducation] = useState()
+    const [Education, setEducation] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        // await dispatch(getMaterialCategoryAction())
+        await dispatch(fetchEducationAction())
     }, [dispatch])
 
-    const { categories, loading, error } = useSelector(state => state.categories)
+    const { education, loading, error } = useSelector(state => state.education)
 
     const onSubmitDate = async (props) => {
-        // try {
-        //     await axios.post(`${process.env.REACT_APP_API_URL}/category`, props)
-        //     window.location.reload()
-        //     console.log('submit');
-        //     // setAddMatError(false)
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     // setAddMatError(true)
-
-        // }
+        try {
+            await axios.post(`${process.env.REACT_APP_API_URL}/education`, props)
+            window.location.reload()
+            console.log('submit');
+            // setAddMatError(false)
+        }
+        catch (error) {
+            console.log(error);
+            // setAddMatError(true)
+        }
     }
 
-    // const deleteCategory = async (params) => {
-    //     try {
-    //         await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`)
-    //         window.location.reload()
-    //     }
-    //     catch (error) {
-    //         console.log(error);
-    //         console.log('catch');
-    //     }
+    const deleteCategory = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/education/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
-    // }
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
+    const handleOpen = async (edu) => {
+        setEducation(edu);
+        setOpen(true);
+    }
+
     return (
         <Sidenav title={'Education'}>
+             {/* ============products form component */}
+             <EditEducation
+                show={open}
+                handler={handleClose}
+                edu={Education}
+            />
+            {/* ============products form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
@@ -202,7 +222,7 @@ const Education = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                {/* {
+                                {
                                     loading ? (
                                         <Loading />
                                     ) :
@@ -210,30 +230,32 @@ const Education = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                categories.length ?
-                                                    categories.map((category, i) => ( */}
-                                <StyledTableRow>
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Bachelors</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            // onClick={() =>
-                                            //     handleOpen(material)
-                                            // }
-                                            style={{ marginTop: 2 }} >
-                                            Edit
+                                                education.length ?
+                                                    education.map((edu, i) => (
+                                                        <StyledTableRow>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{edu.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() =>
+                                                                        handleOpen(edu)
+                                                                    }
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
                                                                 </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                // onClick={() => deleteCategory(category._id)}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() => 
+                                                                            deleteCategory(edu._id)
+                                                                        }
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
                                                                 </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                                {/* ))
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
                                                     : <h5>Not Found</h5>
                                             )
-                                } */}
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

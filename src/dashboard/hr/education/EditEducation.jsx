@@ -104,7 +104,7 @@ const CssTextField = withStyles({
 })(TextField);
 
 const EditEducation = (props) => {
-    const { show, handler, designation } = props
+    const { show, handler, edu } = props
 
     const classes = useStyles();
 
@@ -121,7 +121,7 @@ const EditEducation = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/designation/${designation._id}`, data)
+            await axios.patch(`${process.env.REACT_APP_API_URL}/education/${edu._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -153,7 +153,7 @@ const EditEducation = (props) => {
                         <Container className={classes.mainContainer}>
                             {/* Form */}
                             {
-                                designation ? (
+                                edu ? (
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <Grid container spacing={1}>
                                             <Grid lg={12} md={12} sm={12}>
@@ -163,18 +163,18 @@ const EditEducation = (props) => {
                                                     type="text"
                                                     size="small"
                                                     autoComplete="off"
-                                                    defaultValue={designation.name}
+                                                    defaultValue={edu.name}
                                                     className={classes.inputFieldStyle1}
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                                     {...register("name")}
                                                 />
                                                 {
-                                                    errors.name?.type === 'required' && <p className="text-danger">Designation Name is required</p>
+                                                    errors.name?.type === 'required' && <p className="text-danger">Education Name is required</p>
                                                 }
                                                 {
-                                                    isUpdate ? <p className="text-success">Designation Update Successfully</p> : (
-                                                        isError ? <p className="text-danger">Designation Update Failed </p> : null
+                                                    isUpdate ? <p className="text-success mt-2">Education Update Successfully</p> : (
+                                                        isError ? <p className="text-danger mt-2">Education Update Failed </p> : null
                                                     )
                                                 }
                                             </Grid>

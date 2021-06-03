@@ -30,6 +30,9 @@ import {
 } 
 from './services/reducer/PurchaseReqReducer';
 import { fetchStoreCatReducer } from './services/reducer/StoreCatReducer';
+import { fetchEducationReducer } from './services/reducer/EducationReducer';
+import { fetchSkillsReducer } from './services/reducer/SkillsReducer';
+import { fetchExperienceReducer } from './services/reducer/ExperienceReducer';
 
 const initialState = {}
 
@@ -49,6 +52,9 @@ const reducer = combineReducers({
     requests: fetchReqReducer,
     request: fetchSingleReqReducer,
     category: fetchStoreCatReducer,
+    education: fetchEducationReducer,
+    skills: fetchSkillsReducer,
+    experience: fetchExperienceReducer,
 
 })
 

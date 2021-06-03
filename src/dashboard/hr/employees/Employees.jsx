@@ -231,7 +231,7 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Education"
                                     variant="outlined"
                                     type="text"
@@ -251,7 +251,7 @@ const Employees = ({ history }) => {
                         </Grid>
                         <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Skills"
                                     variant="outlined"
                                     type="text"
@@ -268,7 +268,7 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Experience"
                                     variant="outlined"
                                     type="email"
@@ -285,7 +285,7 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Department"
                                     variant="outlined"
                                     type="text"
@@ -314,7 +314,7 @@ const Employees = ({ history }) => {
                                     } */}
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Designation"
                                     variant="outlined"
                                     type="text"
@@ -326,18 +326,14 @@ const Employees = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
-                                     <MenuItem>Manager</MenuItem>
-                                     <MenuItem>Assistant Manager</MenuItem>
+                                    <MenuItem>Manager</MenuItem>
+                                    <MenuItem>Assistant Manager</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
                         <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 
-                            </Grid>
-
-                            <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-
                             </Grid>
                         </Grid>
                         <div>
