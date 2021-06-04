@@ -90,6 +90,8 @@ const WeeklyProductionPlan = (props) => {
 								<h1>Not found</h1>
 							</div>
 						)
+					) : error ? (
+						<h1>{error.message}</h1>
 					) : (
 						<Loading />
 					)}

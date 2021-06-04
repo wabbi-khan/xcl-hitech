@@ -14,10 +14,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { fetchMachineAction } from '../../../services/action/MachineAction';
+import { fetchShiftAction } from '../../../services/action/ShiftAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
-import EditMachine from './EditMachines';
+import EditShifts from './EditShifts';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -113,7 +113,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const Machines = () => {
+const Shifts = () => {
 	const classes = useStyles();
 	const {
 		register,
@@ -124,23 +124,40 @@ const Machines = () => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		await dispatch(fetchMachineAction());
+		await dispatch(fetchShiftAction());
 	}, [dispatch]);
 
-	const { machines, loading, error } = useSelector((state) => state.machines);
+	const { shifts, loading, error } = useSelector((state) => state.shifts);
+
+	const [inputFields, setInputFields] = useState({
+		name: '',
+		startTime: new Date(Date.now()).toLocaleTimeString([], {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false,
+			second: '2-digit',
+		}),
+		endTime: new Date(Date.now()).toLocaleTimeString([], {
+			hour: '2-digit',
+			minute: '2-digit',
+			second: '2-digit',
+			hour12: false,
+		}),
+	});
 
 	const onSubmitDate = async () => {
+		console.log(inputFields);
 		try {
 			await axios({
 				method: 'POST',
-				url: `${process.env.REACT_APP_API_URL}/machine`,
+				url: `${process.env.REACT_APP_API_URL}/shift`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
 					name: inputFields.name,
-					code: inputFields.code,
-					date: inputFields.date,
+					startTime: inputFields.startTime,
+					endTime: inputFields.endTime,
 				},
 			});
 			window.location.reload();
@@ -149,46 +166,45 @@ const Machines = () => {
 		}
 	};
 
-	const todaysDate = new Date(Date.now());
-	const sortedDate = `${todaysDate.getDate()}/${todaysDate.getMonth()}/${todaysDate.getFullYear()}`;
-
-	const [open, setOpen] = useState(false);
-	const [machine, setMachine] = useState({});
-	const [inputFields, setInputFields] = useState({
-		name: '',
-		code: '',
-		date: sortedDate,
+	const todaysDate = new Date(Date.now()).toLocaleTimeString([], {
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: false,
 	});
 
+	// console.log(todaysDate);
+
+	const [open, setOpen] = useState(false);
+	const [shift, setShift] = useState({});
+
 	const onChangeHandler = (e, placeholder) => {
-		console.log(placeholder);
-		if (placeholder !== 'date')
-			setInputFields({ ...inputFields, [placeholder]: e.target.value });
+		setInputFields({ ...inputFields, [placeholder]: e.target.value });
 	};
 
 	const handleClose = () => {
 		setOpen(!open);
 	};
 
-	const handleOpen = (machine) => {
-		console.log(machine);
-		setMachine(machine);
+	const handleOpen = (shift) => {
+		console.log(shift);
+		setShift(shift);
 		setOpen(true);
 	};
 
-	const onUpdateSubmit = async (machine) => {
-		setMachine({});
+	const onUpdateSubmit = async (shift) => {
+		setShift({});
 		try {
 			await axios({
 				method: 'PATCH',
-				url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`,
+				url: `${process.env.REACT_APP_API_URL}/shift/${shift._id}`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
-					name: machine.name,
-					code: machine.code,
-					date: machine.date,
+					name: shift.name,
+					startTime: shift.startTime,
+					endTime: shift.endTime,
 				},
 			});
 			window.location.reload();
@@ -201,7 +217,7 @@ const Machines = () => {
 		try {
 			await axios({
 				method: 'DELETE',
-				url: `${process.env.REACT_APP_API_URL}/machine/${id}`,
+				url: `${process.env.REACT_APP_API_URL}/shift/${id}`,
 			});
 			window.location.reload();
 		} catch (error) {
@@ -210,14 +226,14 @@ const Machines = () => {
 	};
 
 	return (
-		<Sidenav title={'Machine'}>
+		<Sidenav title={'Shifts'}>
 			<div>
 				<Container className={classes.mainContainer}>
 					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
 						{/* Material category selector */}
 						<CssTextField
 							id='outlined-basic'
-							label='Machine Name'
+							label='Shift Name'
 							variant='outlined'
 							type='text'
 							autocomplete='off'
@@ -231,30 +247,30 @@ const Machines = () => {
 						/>
 						<CssTextField
 							id='outlined-basic'
-							label='Machine Code'
 							variant='outlined'
-							type='text'
+							type='time'
+							label='Enter start time'
 							autocomplete='off'
 							size='small'
 							className={classes.inputFieldStyle}
 							style={{ marginRight: 20 }}
 							inputProps={{ style: { fontSize: 14 } }}
 							InputLabelProps={{ style: { fontSize: 14 } }}
-							value={inputFields.code}
-							onChange={(e) => onChangeHandler(e, 'code')}
+							value={inputFields.startTime}
+							onChange={(e) => onChangeHandler(e, 'startTime')}
 						/>
 						<CssTextField
 							id='outlined-basic'
-							label='Date'
 							variant='outlined'
-							type='text'
+							type='time'
+							label='Enter end time'
 							autocomplete='off'
 							size='small'
 							className={classes.inputFieldStyle}
 							inputProps={{ style: { fontSize: 14 } }}
 							InputLabelProps={{ style: { fontSize: 14 } }}
-							value={inputFields.date}
-							onChange={(e) => onChangeHandler(e, 'date')}
+							value={inputFields.endTime}
+							onChange={(e) => onChangeHandler(e, 'endTime')}
 						/>
 						<div>
 							<Button
@@ -267,13 +283,12 @@ const Machines = () => {
 						</div>
 					</form>
 				</Container>
-				<EditMachine
+				<EditShifts
 					show={open}
 					close={handleClose}
-					machine={machine}
+					shift={shift}
 					onSubmit={onUpdateSubmit}
 				/>
-
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -283,8 +298,9 @@ const Machines = () => {
 							<TableHead>
 								<TableRow hover role='checkbox'>
 									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Machine Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
+									<StyledTableCell align='center'>Shift Name</StyledTableCell>
+									<StyledTableCell align='center'>Start time</StyledTableCell>
+									<StyledTableCell align='center'>End time</StyledTableCell>
 									<StyledTableCell align='center'>Action</StyledTableCell>
 								</TableRow>
 							</TableHead>
@@ -293,17 +309,20 @@ const Machines = () => {
 									<Loading />
 								) : error ? (
 									<MaterialError />
-								) : machines.length ? (
-									machines.map((machine, i) => (
+								) : shifts.length ? (
+									shifts.map((shift, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{machine.name}
+												{shift.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{machine.code}
+												{shift.startTime}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{shift.endTime}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
@@ -311,7 +330,7 @@ const Machines = () => {
 													className='bg-dark text-light'
 													size='small'
 													onClick={() => {
-														handleOpen(machine);
+														handleOpen(shift);
 													}}
 													style={{ marginTop: 2 }}>
 													Edit
@@ -321,7 +340,7 @@ const Machines = () => {
 													color='secondary'
 													size='small'
 													onClick={() => {
-														onDelete(machine._id);
+														onDelete(shift._id);
 													}}
 													style={{ marginLeft: 2, marginTop: 2 }}>
 													Delete
@@ -341,4 +360,4 @@ const Machines = () => {
 	);
 };
 
-export default Machines;
+export default Shifts;

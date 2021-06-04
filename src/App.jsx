@@ -67,7 +67,8 @@ import Machines from './dashboard/production/machines/Machines';
 import WeeklyProductionPlan from './dashboard/production/weeklyProductionPlan/WeeklyProductionPlan';
 import AddNewPlan from './dashboard/production/addNewPlan/AddNewPlan';
 import ViewPlan from './dashboard/production/ViewPlan/ViewPlan';
-import EditPlan from './dashboard/production/EditPlan/EditPlan';
+import EditPlan from './dashboard/production/editPlan/EditPlan';
+import Shifts from './dashboard/production/shifts/Shifts';
 
 dotenv.config();
 
@@ -298,6 +299,7 @@ function App() {
 					path='/productionDashboard/weekly-production-plan/:planId'
 					component={ViewPlan}
 				/>
+				<Route exact path='/productionDashboard/shifts' component={Shifts} />
 			</Switch>
 		</BrowserRouter>
 	);

@@ -260,7 +260,7 @@ const EditPlan = (props) => {
 						style={{ borderWidth: 0 }}
 						onClick={() => history.goBack()}
 						className={`${classes.addButton} bg-danger text-light`}>
-						Delete
+						Cancel
 					</Button>
 				</div>
 			</div>

@@ -18,6 +18,7 @@ import { fetchDesignationsReducer } from './services/reducer/DesignationReducer'
 import { fetchMachineReducer } from './services/reducer/MachineReducer';
 import { fetchPlanReducer } from './services/reducer/PlanReducer';
 import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
+import { fetchShiftReducer } from './services/reducer/ShiftReducer';
 import {
 	fetchReqReducer,
 	fetchSingleReqReducer,
@@ -42,6 +43,7 @@ const reducer = combineReducers({
 	request: fetchSingleReqReducer,
 	machines: fetchMachineReducer,
 	plans: fetchPlanReducer,
+	shifts: fetchShiftReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
