@@ -134,7 +134,7 @@ const Designation = () => {
     
     const onSubmitDate = async () => {
         try {
-            await axios({method: 'POST', url: `http://localhost:8000/api/machine`, headers: {
+            await axios({method: 'POST', url: `${process.env.REACT_APP_API_URL}/machine`, headers: {
               'Content-Type': 'application/json'
             },data: {
               name: inputFields.name,
@@ -175,8 +175,9 @@ const handleOpen = (machine) => {
 }
 
 const onUpdateSubmit = async (machine) => {
+  setMachine({})
   try {
-    await axios({method: 'PATCH', url: `http://localhost:8000/api/machine/${machine._id}`, headers: {
+    await axios({method: 'PATCH', url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`, headers: {
       'Content-Type': 'application/json'
     },data: {
       name: machine.name,
@@ -192,7 +193,7 @@ catch (error) {
 
 const onDelete = async (id)  => {
   try {
-    await axios({method: 'DELETE', url: `http://localhost:8000/api/machine/${id}` })
+    await axios({method: 'DELETE', url: `${process.env.REACT_APP_API_URL}/machine/${id}` })
     window.location.reload()
 }
 catch (error) {

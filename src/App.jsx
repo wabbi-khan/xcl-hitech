@@ -1,11 +1,6 @@
 import React from 'react';
 import './App.css';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import Login from './login/Login';
 import PurchaseDashboard from './dashboard/purchase/PurchaseDashboard';
 import Material from './dashboard/purchase/material/Material';
@@ -37,7 +32,7 @@ import GoodReceivedPrint from './dashboard/store/good rec and inspection rep/Goo
 import OutwardGatePass from './dashboard/store/outward gate pass/OutwardGatePass';
 import StockAssessReport from './dashboard/store/stock assessment report/StockAssessReport';
 import OutGatePassPrint from './dashboard/store/outward gate pass/OutGatePassPrint';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import HR from './dashboard/hr/HR';
 import CompetenceCriteria from './dashboard/hr/competence criteria/CompetenceCriteria';
 import Employees from './dashboard/hr/employees/Employees';
@@ -67,87 +62,245 @@ import Department from './dashboard/purchase/department/Department';
 import MaterialReqDetails from './dashboard/store/materialIssueReq/MaterialReqDetails';
 import CompleteMaterialReq from './dashboard/store/materialIssueReq/CompleteMaterialReq';
 import CompleteMatReqDetails from './dashboard/store/materialIssueReq/CompleteMatReqDetails';
-import ProductionDashboard from './dashboard/production/production'
-import Machines from './dashboard/production/machines/Machines'
+import ProductionDashboard from './dashboard/production/Production';
+import Machines from './dashboard/production/machines/Machines';
+import WeeklyProductionPlan from './dashboard/production/weeklyProductionPlan/WeeklyProductionPlan';
+import AddNewPlan from './dashboard/production/addNewPlan/AddNewPlan';
+import ViewPlan from './dashboard/production/ViewPlan/ViewPlan';
+import EditPlan from './dashboard/production/EditPlan/EditPlan';
 
-dotenv.config()
+dotenv.config();
 
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#22a19a',
-      secondary: '#00726c',
-      contrastText: '#fff',
-    }
-  },
+	palette: {
+		primary: {
+			main: '#22a19a',
+			secondary: '#00726c',
+			contrastText: '#fff',
+		},
+	},
 });
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Route exact path="/" component={Login} />
-      <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/purchasedashboard" component={PurchaseDashboard} />
-      <Route exact path="/purchase/category" component={Category} />
-      <Route exact path="/purchase/department" component={Department} />
-      <Route exact path="/purchase/material" component={Material} />
-      <Route exact path="/purchase/vendors" component={Vendors} />
-      <Route exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm} />
-      <Route exact path="/purchase/approved_supplier_list" component={AppSupplier} />
-      <Route exact path="/purchase/purchase_order" component={PurchaseOrder} />
-      <Route exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder} />
-      <Route exact path="/purchase/purchase_order_list" component={PurchaseOrderList} />
-      <Route exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails} />
-      <Route exact path="/purchase/purchase_requisition" component={PurchaseRequisition} />
-      <Route exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint} />
-      <Route exact path="/storedashboard" component={Store} />
-      <Route exact path="/storedashboard/products" component={Products} />
-      <Route exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm} />
-      <Route exact path="/storedashboard/good_received_and_inspection_report/:id" component={GoodReceived} />
-      <Route exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint} />
-      <Route exact path="/storedashboard/products_bin_card" component={ProductsBinCard} />
-      <Route exact path="/storedashboard/vehicles" component={Vehicles} />
-      <Route exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist} />
-      <Route exact path="/storedashboard/delivery_order" component={DeliveryOrder} />
-      <Route exact path="/storedashboard/delivery_chalan" component={DeliveryChalan} />
-      <Route exact path="/storedashboard/daily_inwards_report" component={DailyInwardReports} />
-      <Route exact path="/storedashboard/daily_consumption_report" component={DailyConsumptionReport} />
-      <Route exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport} />
-      <Route exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory} />
-      <Route exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq} />
-      <Route exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails} />
-      <Route exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq} />
-      <Route exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails} />
-      <Route exact path="/storedashboard/delivery_order/order_details" component={OrderDetails} />
-      <Route exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
-      <Route exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
-      <Route exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
-      <Route exact path="/hr_dashboard" component={HR} />
-      <Route exact path="/hr/designation" component={Designation} />
-      <Route exact path="/hr/education" component={Education} />
-      <Route exact path="/hr/skills" component={Skills} />
-      <Route exact path="/hr/experience" component={Experience} />
-      <Route exact path="/hr/training" component={Training} />
-      <Route exact path="/hr/competence_criteria" component={CompetenceCriteria} />
-      <Route exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint} />
-      <Route exact path="/hr/employees" component={Employees} />
-      <Route exact path="/hr/employees/view_emp_details" component={ViewEmpDetails} />
-      <Route exact path="/hr/employees_salaries" component={EmpSalaries} />
-      <Route exact path="/hr/employees_leave" component={EmpLeave} />
-      <Route exact path="/hr/employees_attendance" component={EmpAttendance} />
-      <Route exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance} />
-      <Route exact path="/hr/employees_performance_assessment" component={EmployeePerformance} />
-      <Route exact path="/hr/trainings" component={Trainings} />
-      <Route exact path="/hr/training_need_identification" component={TrainingNeed} />
-      <Route exact path="/hr/training_plan" component={TrainingPlan} />
-      <Route exact path="/hr/training_attendance" component={TrainingAttendance} />
-      <Route exact path="/hr/training_record" component={TrainingRecord} />
-      <Route exact path="/hr/job_description" component={JobDescription} />
-      <Route exact path="/hr/employees_promotion" component={EmployeePromotion} />
-      <Route exact path="/productionDashboard" component={ProductionDashboard} />
-      <Route exact path="/productionDashboard/machines" component={Machines} />
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Switch>
+				<Route exact path='/' component={Login} />
+				<Route exact path='/dashboard' component={Dashboard} />
+				<Route exact path='/purchasedashboard' component={PurchaseDashboard} />
+				<Route exact path='/purchase/category' component={Category} />
+				<Route exact path='/purchase/department' component={Department} />
+				<Route exact path='/purchase/material' component={Material} />
+				<Route exact path='/purchase/vendors' component={Vendors} />
+				<Route
+					exact
+					path='/purchase/supplier_evaluation_form'
+					component={SupplierEvalForm}
+				/>
+				<Route
+					exact
+					path='/purchase/approved_supplier_list'
+					component={AppSupplier}
+				/>
+				<Route exact path='/purchase/purchase_order' component={PurchaseOrder} />
+				<Route
+					exact
+					path='/purchase/purchase_order/print_order'
+					component={PrintPurchaseOrder}
+				/>
+				<Route
+					exact
+					path='/purchase/purchase_order_list'
+					component={PurchaseOrderList}
+				/>
+				<Route
+					exact
+					path='/purchase/purchase_order_list/order_details/:id'
+					component={FullOrderDetails}
+				/>
+				<Route
+					exact
+					path='/purchase/purchase_requisition'
+					component={PurchaseRequisition}
+				/>
+				<Route
+					exact
+					path='/purchase/purchase_requisition/print_purchase_requisition'
+					component={PurchaseReqPrint}
+				/>
+				<Route exact path='/storedashboard' component={Store} />
+				<Route exact path='/storedashboard/products' component={Products} />
+				<Route
+					exact
+					path='/storedashboard/good_received_and_inspection_form'
+					component={InspectionForm}
+				/>
+				<Route
+					exact
+					path='/storedashboard/good_received_and_inspection_report/:id'
+					component={GoodReceived}
+				/>
+				<Route
+					exact
+					path='/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id'
+					component={GoodReceivedPrint}
+				/>
+				<Route
+					exact
+					path='/storedashboard/products_bin_card'
+					component={ProductsBinCard}
+				/>
+				<Route exact path='/storedashboard/vehicles' component={Vehicles} />
+				<Route
+					exact
+					path='/storedashboard/vehicle_inspect_checklist'
+					component={VehicleInspectChecklist}
+				/>
+				<Route
+					exact
+					path='/storedashboard/delivery_order'
+					component={DeliveryOrder}
+				/>
+				<Route
+					exact
+					path='/storedashboard/delivery_chalan'
+					component={DeliveryChalan}
+				/>
+				<Route
+					exact
+					path='/storedashboard/daily_inwards_report'
+					component={DailyInwardReports}
+				/>
+				<Route
+					exact
+					path='/storedashboard/daily_consumption_report'
+					component={DailyConsumptionReport}
+				/>
+				<Route
+					exact
+					path='/storedashboard/department_wise_consumption_report'
+					component={DeptWiseConsReport}
+				/>
+				<Route
+					exact
+					path='/storedashboard/department_wise_store_inventory'
+					component={DeptWiseStoreInventory}
+				/>
+				<Route
+					exact
+					path='/storedashboard/material_issue_requisition'
+					component={MaterialIssueReq}
+				/>
+				<Route
+					exact
+					path='/storedashboard/material_issue_requisition/material_requisition_details/:id'
+					component={MaterialReqDetails}
+				/>
+				<Route
+					exact
+					path='/storedashboard/material_issue_requisition/complete_material_issue_requisition'
+					component={CompleteMaterialReq}
+				/>
+				<Route
+					exact
+					path='/storedashboard/material_issue_requisition/complete_requisition_details/:id'
+					component={CompleteMatReqDetails}
+				/>
+				<Route
+					exact
+					path='/storedashboard/delivery_order/order_details'
+					component={OrderDetails}
+				/>
+				<Route
+					exact
+					path='/storedashboard/outward_gatepass'
+					component={OutwardGatePass}
+				/>
+				<Route
+					exact
+					path='/storedashboard/outward_gatepass/print_outward_gatepass'
+					component={OutGatePassPrint}
+				/>
+				<Route
+					exact
+					path='/storedashboard/stock_assessment_report'
+					component={StockAssessReport}
+				/>
+				<Route exact path='/hr_dashboard' component={HR} />
+				<Route exact path='/hr/designation' component={Designation} />
+				<Route exact path='/hr/education' component={Education} />
+				<Route exact path='/hr/skills' component={Skills} />
+				<Route exact path='/hr/experience' component={Experience} />
+				<Route exact path='/hr/training' component={Training} />
+				<Route
+					exact
+					path='/hr/competence_criteria'
+					component={CompetenceCriteria}
+				/>
+				<Route
+					exact
+					path='/hr/competence_criteria_print'
+					component={CompetenceCriteriaPrint}
+				/>
+				<Route exact path='/hr/employees' component={Employees} />
+				<Route
+					exact
+					path='/hr/employees/view_emp_details'
+					component={ViewEmpDetails}
+				/>
+				<Route exact path='/hr/employees_salaries' component={EmpSalaries} />
+				<Route exact path='/hr/employees_leave' component={EmpLeave} />
+				<Route exact path='/hr/employees_attendance' component={EmpAttendance} />
+				<Route
+					exact
+					path='/hr/employees_attendance/add_new_attendance'
+					component={AddEmpAttendance}
+				/>
+				<Route
+					exact
+					path='/hr/employees_performance_assessment'
+					component={EmployeePerformance}
+				/>
+				<Route exact path='/hr/trainings' component={Trainings} />
+				<Route
+					exact
+					path='/hr/training_need_identification'
+					component={TrainingNeed}
+				/>
+				<Route exact path='/hr/training_plan' component={TrainingPlan} />
+				<Route
+					exact
+					path='/hr/training_attendance'
+					component={TrainingAttendance}
+				/>
+				<Route exact path='/hr/training_record' component={TrainingRecord} />
+				<Route exact path='/hr/job_description' component={JobDescription} />
+				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />
+				<Route exact path='/productionDashboard' component={ProductionDashboard} />
+				<Route exact path='/productionDashboard/machines' component={Machines} />
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan'
+					component={WeeklyProductionPlan}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan/add-new-plan'
+					component={AddNewPlan}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan/edit_plan'
+					component={EditPlan}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan/:planId'
+					component={ViewPlan}
+				/>
+			</Switch>
+		</BrowserRouter>
+	);
 }
 
 export default App;

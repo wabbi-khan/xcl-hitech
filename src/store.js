@@ -16,6 +16,7 @@ import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
 import { fetchDesignationsReducer } from './services/reducer/DesignationReducer';
 import { fetchMachineReducer } from './services/reducer/MachineReducer';
+import { fetchPlanReducer } from './services/reducer/PlanReducer';
 import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
 import {
 	fetchReqReducer,
@@ -40,6 +41,7 @@ const reducer = combineReducers({
 	requests: fetchReqReducer,
 	request: fetchSingleReqReducer,
 	machines: fetchMachineReducer,
+	plans: fetchPlanReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

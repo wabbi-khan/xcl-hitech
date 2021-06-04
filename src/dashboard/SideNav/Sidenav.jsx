@@ -764,7 +764,7 @@ function Sidenav(props) {
                     <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
-                                    history.push('/productionDashboard/weeklyProductionPlan')
+                                    history.push('/productionDashboard/weekly-production-plan')
                                 }}
                             >
                                 <ListItemText inset primary="Weekly Production Plan" />
