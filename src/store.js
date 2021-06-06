@@ -33,6 +33,8 @@ import { fetchStoreCatReducer } from './services/reducer/StoreCatReducer';
 import { fetchEducationReducer } from './services/reducer/EducationReducer';
 import { fetchSkillsReducer } from './services/reducer/SkillsReducer';
 import { fetchExperienceReducer } from './services/reducer/ExperienceReducer';
+import { fetchCompCriteriaReducer } from './services/reducer/CriteriaReducer';
+import { fetchEmployeesReducer } from './services/reducer/EmployeesReducer';
 
 const initialState = {}
 
@@ -55,6 +57,8 @@ const reducer = combineReducers({
     education: fetchEducationReducer,
     skills: fetchSkillsReducer,
     experience: fetchExperienceReducer,
+    criteria: fetchCompCriteriaReducer,
+    employee: fetchEmployeesReducer,
 
 })
 

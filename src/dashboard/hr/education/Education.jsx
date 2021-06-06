@@ -37,15 +37,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-function createData(No, name, Action) {
-    return { No, name, Action };
-}
-
-const rows = [
-    createData(1, 'Item1'),
-
-];
-
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {

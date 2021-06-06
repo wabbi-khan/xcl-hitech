@@ -13,7 +13,17 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios';
+import { fetchCompCriteriaAction } from '../../../services/action/CriteriaAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+import { fetchDesignationAction } from '../../../services/action/DesignationAction';
+import { fetchEducationAction } from '../../../services/action/EducationAction';
+import { fetchSkillsAction } from '../../../services/action/SkillsAction';
+import { fetchExperienceAction } from '../../../services/action/ExperienceAction';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
+import EditCompCriteria from './EditCompCriteria';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -118,17 +128,72 @@ const CssTextField = withStyles({
 
 const CompetenceCriteria = ({ history }) => {
     const classes = useStyles();
-
-    const dispatch = useDispatch()
+    const [Criteria, setCriteria] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
-    const onSubmitData = async (data) => {
-        // console.log(Materials);
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchCompCriteriaAction())
+        await dispatch(fetchDesignationAction())
+        await dispatch(fetchEducationAction())
+        await dispatch(fetchSkillsAction())
+        await dispatch(fetchExperienceAction())
+        await dispatch(fetchDepartmentsAction())
+    }, [dispatch])
+
+    const { loading, criteria, error } = useSelector(state => state.criteria)
+
+    const { departments } = useSelector(state => state.departments)
+    const { designations } = useSelector(state => state.designations)
+    const { education } = useSelector(state => state.education)
+    const { skills } = useSelector(state => state.skills)
+    const { experience } = useSelector(state => state.experience)
+
+    const onSubmitData = async (props) => {
+        // try {
+        //     await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
+        //     window.location.reload()
+        //     setAddMatError(false)
+        // }
+        // catch (error) {
+        //     setAddMatError(true)
+
+        // }
+    }
+
+
+    const deleteCriteria = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/criteria/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
+    const handleOpen = async (criteria) => {
+        setCriteria(criteria)
+        setOpen(true);
     }
 
     return (
         <Sidenav title={'Competence Criteria'}>
+             {/* ============Edit competence criteria form component */}
+             <EditCompCriteria
+                show={open}
+                handler={handleClose}
+                criteria={Criteria}
+            />
+            {/* ============Edit competence criteria form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
@@ -146,19 +211,16 @@ const CompetenceCriteria = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
-                                    <MenuItem value="0"
-                                    // value={category._id}
-                                    // onClick={(e) => fetchMaterials(category._id)}
-                                    // key={i}
-                                    >
-                                        Purchase
-                                    </MenuItem>
-                                    <MenuItem value="1" >
-                                        Sales/Marketing
-                                    </MenuItem>
-                                    <MenuItem value="2" >
-                                        Production
-                                    </MenuItem>
+                                    {
+                                        !departments || !departments.length ? <p>Data Not Found</p> :
+                                            departments.map(dept => (
+                                                <MenuItem value={dept._id} key={dept._id}>
+                                                    {
+                                                        dept.name
+                                                    }
+                                                </MenuItem>
+                                            ))
+                                    }
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -174,19 +236,16 @@ const CompetenceCriteria = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
-                                    <MenuItem value="0"
-                                    // value={category._id}
-                                    // onClick={(e) => fetchMaterials(category._id)}
-                                    // key={i}
-                                    >
-                                        Manager
-                                    </MenuItem>
-                                    <MenuItem value="1" >
-                                        Assistant Manager
-                                    </MenuItem>
-                                    <MenuItem value="2" >
-                                        Head of Department
-                                    </MenuItem>
+                                    {
+                                        !designations || !designations.length ? <p>Data Not Found</p> :
+                                            designations.map(designation => (
+                                                <MenuItem value={designation._id} key={designation._id}>
+                                                    {
+                                                        designation.name
+                                                    }
+                                                </MenuItem>
+                                            ))
+                                    }
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -202,18 +261,16 @@ const CompetenceCriteria = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        PHD
-                                    </MenuItem>
-                                    <MenuItem value="1">
-                                        Masters
-                                    </MenuItem>
-                                    <MenuItem value="2">
-                                        Bachelors
-                                    </MenuItem>
-                                    <MenuItem value="3">
-                                        Diploma
-                                    </MenuItem>
+                                    {
+                                        !education || !education.length ? <p>Data Not Found</p> :
+                                            education.map(edu => (
+                                                <MenuItem value={edu._id} key={edu._id}>
+                                                    {
+                                                        edu.name
+                                                    }
+                                                </MenuItem>
+                                            ))
+                                    }
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -229,12 +286,16 @@ const CompetenceCriteria = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        Accounting
-                                    </MenuItem>
-                                    <MenuItem value="1">
-                                        Sales Expert
-                                    </MenuItem>
+                                    {
+                                        !skills || !skills.length ? <p>Data Not Found</p> :
+                                            skills.map(skill => (
+                                                <MenuItem value={skill._id} key={skill._id}>
+                                                    {
+                                                        skill.skill
+                                                    }
+                                                </MenuItem>
+                                            ))
+                                    }
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -252,24 +313,16 @@ const CompetenceCriteria = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("email", { required: true, })}
                                 >
-                                    <MenuItem value="0">
-                                        Fresher
-                                    </MenuItem>
-                                    <MenuItem value="1">
-                                        0-2 years
-                                    </MenuItem>
-                                    <MenuItem value="2">
-                                        2-4 years
-                                    </MenuItem>
-                                    <MenuItem value="3">
-                                        4-6 years
-                                    </MenuItem>
-                                    <MenuItem value="4">
-                                        6-8 years
-                                    </MenuItem>
-                                    <MenuItem value="5">
-                                        8-10 years
-                                    </MenuItem>
+                                    {
+                                        !experience || !experience.length ? <p>Data Not Found</p> :
+                                            experience.map(exp => (
+                                                <MenuItem value={exp._id} key={exp._id}>
+                                                    {
+                                                        exp.name
+                                                    }
+                                                </MenuItem>
+                                            ))
+                                    }
                                 </CssTextField>
                             </Grid>
                         </Grid>
@@ -294,6 +347,7 @@ const CompetenceCriteria = ({ history }) => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                    <StyledTableCell align="center">Department</StyledTableCell>
                                     <StyledTableCell align="center">Destination</StyledTableCell>
                                     <StyledTableCell align="center">Education</StyledTableCell>
                                     <StyledTableCell align="center">Experience</StyledTableCell>
@@ -302,35 +356,62 @@ const CompetenceCriteria = ({ history }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Manager</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Masters</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2 years</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Sales Expert</StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
-                                        {
-                                            !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                vendor.material.map((value, i) => (
-                                                    <span key={i} className="ml-1">{value.name},</span>
-                                                ))
-                                        }
-                                    </StyledTableCell> */}
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                // onClick={() => deleteMaterial(vendor._id)}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                        </Button></>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                criteria.length ?
+                                                    criteria.map((criteria, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !criteria.department ? null : criteria.department.name
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !criteria.designation ? null : criteria.designation.name
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !criteria.education ? null : criteria.education.name
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !criteria.experience ? null : criteria.experience.name
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !criteria.skill ? null : criteria.skill.skill
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() => {
+                                                                        handleOpen(criteria)
+                                                                    }}
+                                                                    style={{ marginTop: 2 }} >
+                                                                    Edit
+                                                                </Button>
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() => deleteCriteria(criteria._id)}
+                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                        Delete
+                                                                </Button></>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                                 {/* {
                                     loading ? (
                                         <Loading />

@@ -89,7 +89,9 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const ViewEmpDetails = () => {
+const ViewEmpDetails = (props) => {
+    const id = props.match.params.id
+    
     const classes = useStyles();
 
     const { register, handleSubmit, formState: { errors } } = useForm()
