@@ -66,6 +66,11 @@ import CompleteMatReqDetails from '../dashboard/store/materialIssueReq/CompleteM
 import Categories from '../dashboard/store/storecategories/Categories';
 import Marketing from '../dashboard/marketing-sales/Marketing';
 import OrderBookingForm from '../dashboard/marketing-sales/order booking form/OrderBookingForm';
+import WeeklyProductionPlan from '../dashboard/production/weeklyProductionPlan/WeeklyProductionPlan';
+import AddNewPlan from '../dashboard/production/addNewPlan/AddNewPlan';
+import EditPlan from '../dashboard/production/editPlan/EditPlan';
+import ViewPlan from '../dashboard/production/ViewPlan/ViewPlan';
+import Shifts from '../dashboard/production/shifts/Shifts';
 
 
 
@@ -134,7 +139,29 @@ const Router = () => {
                 <Router exact path="/hr/job_description" component={JobDescription}/>
                 <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
                 <Router exact path="/marketing_dashboard" component={Marketing}/>                 //Marketing/Sales Module Routes
-                <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>                
+                <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>
+
+                <Route
+					exact
+					path='/productionDashboard/weekly-production-plan'
+					component={WeeklyProductionPlan}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan/add-new-plan'
+					component={AddNewPlan}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan/edit_plan'
+					component={EditPlan}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/weekly-production-plan/:planId'
+					component={ViewPlan}
+				/>
+				<Route exact path='/productionDashboard/shifts' component={Shifts} />                
             </Router>
         </BrowserRouter>
     )

@@ -102,22 +102,22 @@ const EditMachine = (props) => {
         setOpen(show)
     }, [show])
     useEffect(() => {
-      setInputFields(machine)
-  }, [machine])
+        setInputFields(machine)
+    }, [machine])
     const onChangeHandler = (e, placeholder) => {
-      console.log(placeholder)
-      if (placeholder !== 'date')
-      setInputFields({...inputFields, [placeholder]: e.target.value})
+        console.log(placeholder)
+        if (placeholder !== 'date')
+            setInputFields({ ...inputFields, [placeholder]: e.target.value })
     }
-    
+
 
     const onSubmitData = () => {
-      onSubmit(inputFields)
+        onSubmit(inputFields)
     }
 
     const handleClose = () => {
-      setOpen(false)
-      close()
+        setOpen(false)
+        close()
     }
 
     return (
@@ -142,7 +142,7 @@ const EditMachine = (props) => {
                                 machine ? (
                                     <form onSubmit={handleSubmit(onSubmitData)}>
                                         <Grid container spacing={1}>
-                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                            <Grid item lg={12} md={12} sm={12} xs={12}>
                                                 <CssTextField id="outlined-basic"
                                                     label="Enter Machine Name"
                                                     variant="outlined"
@@ -152,13 +152,13 @@ const EditMachine = (props) => {
                                                     className={classes.inputFieldStyle}
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    style={{marginBottom: 10}}
+                                                    style={{ marginBottom: 10 }}
                                                     value={inputFields.name}
-                                                    onChange={(e)=> onChangeHandler(e, 'name')}
+                                                    onChange={(e) => onChangeHandler(e, 'name')}
                                                 />
                                             </Grid>
 
-                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                            <Grid item lg={12} md={12} sm={12} xs={12}>
                                                 <CssTextField id="outlined-basic"
                                                     label="Machine Code"
                                                     variant="outlined"
@@ -167,14 +167,14 @@ const EditMachine = (props) => {
                                                     className={classes.inputFieldStyle}
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    onChange={(e)=> onChangeHandler(e, 'code')}
+                                                    onChange={(e) => onChangeHandler(e, 'code')}
                                                     value={inputFields.code}
-                                                    style={{marginBottom: 10}}
+                                                    style={{ marginBottom: 10 }}
 
                                                 />
                                             </Grid>
 
-                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                            <Grid item lg={12} md={12} sm={12} xs={12}>
                                                 <CssTextField id="outlined-basic"
                                                     label="Phone No."
                                                     variant="outlined"
@@ -182,12 +182,12 @@ const EditMachine = (props) => {
                                                     autocomplete="off"
                                                     size="small"
                                                     className={classes.inputFieldStyle}
-                                                    style={{marginBottom: 20}}
+                                                    style={{ marginBottom: 20 }}
 
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                            onChange={(e)=> onChangeHandler(e, 'date')}
-                            value={inputFields.date}
+                                                    onChange={(e) => onChangeHandler(e, 'date')}
+                                                    value={inputFields.date}
                                                 />
                                             </Grid>
                                         </Grid>
@@ -195,7 +195,7 @@ const EditMachine = (props) => {
                                             <Button
                                                 className="bg-warning text-light"
                                                 type="submit"
-                                                style={{marginRight: 10}}
+                                                style={{ marginRight: 10 }}
                                             >
                                                 Update
                                             </Button>

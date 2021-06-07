@@ -135,7 +135,7 @@ const EditShifts = (props) => {
 							{shift ? (
 								<form onSubmit={handleSubmit(onSubmitData)}>
 									<Grid container spacing={1}>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Enter Machine Name'
@@ -152,7 +152,7 @@ const EditShifts = (props) => {
 											/>
 										</Grid>
 
-										<Grid item lg={3} md={3} sm={12} xs={12}>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Enter Start Time'
@@ -169,7 +169,7 @@ const EditShifts = (props) => {
 											/>
 										</Grid>
 
-										<Grid item lg={3} md={3} sm={12} xs={12}>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Enter end time'
