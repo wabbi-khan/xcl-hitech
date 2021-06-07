@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Sidenav from '../../SideNav/Sidenav'
+import React, { useState, useEffect } from 'react'
+import Sidenav from '../../SideNav/Sidenav';
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -13,10 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { fetchExperienceAction } from '../../../services/action/ExperienceAction';
+import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActiion';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
-import EditExperience from './EditExperience';
+import EditCategories from './EditCategories';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -119,23 +119,24 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const Experience = () => {
+
+const Categories = () => {
     const classes = useStyles();
-    const [Experience, setExperience] = useState('')
+    const [cat, setcat] = useState()
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(fetchExperienceAction())
+        await dispatch(fetchStoreCatAction())
     }, [dispatch])
 
-    const { experience, loading, error } = useSelector(state => state.experience)
+    const { category, loading, error } = useSelector(state => state.category)
 
     const onSubmitDate = async (props) => {
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/experience`, props)
+            await axios.post(`${process.env.REACT_APP_API_URL}/store-category`, props)
             window.location.reload()
             console.log('submit');
             // setAddMatError(false)
@@ -143,16 +144,7 @@ const Experience = () => {
         catch (error) {
             console.log(error);
             // setAddMatError(true)
-        }
-    }
 
-    const deleteCategory = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/experience/${params}`)
-            window.location.reload()
-        }
-        catch (error) {
-            console.log(error);
         }
     }
 
@@ -162,26 +154,38 @@ const Experience = () => {
         setOpen(props);
     }
 
-    const handleOpen = async (exp) => {
-        setExperience(exp);
+    const handleOpen = async (cat) => {
+        setcat(cat);
         setOpen(true);
     }
 
+    const deleteCategory = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/store-category/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+    }
+
     return (
-        <Sidenav title={'Experience'}>
-            {/* ============products form component */}
-            <EditExperience
+        <Sidenav title={'Store Categories'}>
+            {/* ============Edit Category form component */}
+            <EditCategories
                 show={open}
                 handler={handleClose}
-                exp={Experience}
+                // categories={categories}
+                cat={cat}
             />
-            {/* ============products form component */}
+            {/* ============Edit category form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <CssTextField id="outlined-basic"
-                            label="Enter Experience"
+                            label="Category Name*"
                             variant="outlined"
                             type="text"
                             autocomplete="off"
@@ -192,7 +196,7 @@ const Experience = () => {
                             {...register("name", { required: true })}
                         />
                         {
-                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Experience Name is required</p>
+                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Category Name is required</p>
                         }
                         {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
@@ -217,7 +221,7 @@ const Experience = () => {
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Experience</StyledTableCell>
+                                    <StyledTableCell align="center">Categories</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -230,23 +234,21 @@ const Experience = () => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                experience.length ?
-                                                    experience.map((exp, i) => (
-                                                        <StyledTableRow>
+                                                category.length ?
+                                                    category.map((cat, i) => (
+                                                        <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{exp.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{cat.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>
-                                                                        handleOpen(exp)
+                                                                        handleOpen(cat)
                                                                     }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
-                                                                <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() =>
-                                                                            deleteCategory(exp._id)
-                                                                        }
+                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                        onClick={() => deleteCategory(cat._id)}
                                                                         style={{ marginLeft: 2, marginTop: 2 }}>
                                                                         Delete
                                                                 </Button></>
@@ -265,4 +267,4 @@ const Experience = () => {
     )
 }
 
-export default Experience
+export default Categories

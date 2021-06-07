@@ -17,7 +17,6 @@ import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import EditCategory from './EditCategory';
-// import EditCategory from './EditCategory';
 
 
 const StyledTableCell = withStyles((theme) => ({

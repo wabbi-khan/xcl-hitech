@@ -19,6 +19,7 @@ import MaterialError from '../../purchase/material/MaterialError';
 import axios from 'axios';
 import EditProducts from './EditProducts';
 import { useForm } from 'react-hook-form';
+import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActiion';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -128,9 +129,11 @@ const Products = () => {
 
     useEffect(async () => {
         await dispatch(fetchProductsAction())
+        await dispatch(fetchStoreCatAction())
     }, [dispatch])
 
     const { loading, products, error } = useSelector(state => state.products)
+    const { category } = useSelector(state => state.category)
 
     const onSubmitDate = async (props) => {
         try {
@@ -180,17 +183,28 @@ const Products = () => {
                         <Grid container spacing={1} style={{ marginTop: 15, }} >
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Category"
+                                    label="Select Category"
                                     variant="outlined"
                                     type="email"
                                     size="small"
                                     autoComplete="off"
-                                    value="Finished"
-                                    disabled
+                                    select
+                                    required
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                />
+                                >
+                                    {
+                                        !category || !category.length ? <p>Data Not Found</p> :
+                                            category.map(cat => (
+                                                <MenuItem value={cat._id} key={cat._id}
+                                                // onClick={() => setCodeCategory(cat.name) }
+                                                >
+                                                    {cat.name}
+                                                </MenuItem>
+                                            ))
+                                    }
+                                </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -203,8 +217,10 @@ const Products = () => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
-
                                 />
+                                {
+                                    errors.name?.type === 'required' && <p className="mt-1 text-danger">Product Name is required</p>
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -213,6 +229,7 @@ const Products = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
+                                    // value={`${CodeCategory}-${CodeName}-${CodeRandom}`}
                                     className={classes.inputFieldStyle1}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -231,8 +248,10 @@ const Products = () => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("minInventoryLevel", { required: true })}
-
                                 />
+                                {
+                                    errors.minInventoryLevel?.type === 'required' && <p className="mt-1 text-danger">Min Inventory Level is required</p>
+                                }
                             </Grid>
                         </Grid>
                     </Container>
@@ -249,8 +268,10 @@ const Products = () => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("remarks", { required: true })}
-
                                 />
+                                {
+                                    errors.remarks?.type === 'required' && <p className="mt-1 text-danger">Remarks is required</p>
+                                }
                             </Grid>
 
                         </Grid>

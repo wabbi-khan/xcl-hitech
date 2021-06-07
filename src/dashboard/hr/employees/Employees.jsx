@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +13,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux'
+import avatar from '../assests/user.svg'
+import { fetchEmployeesAction } from '../../../services/action/EmployeesAction';
+import Loading from '../../purchase/material/Loading';
+import MaterialError from '../../purchase/material/MaterialError';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -92,9 +99,22 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
-
         },
     },
+    inputFieldStyle1: {
+        // boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
+        // borderColor: 'red',
+        [theme.breakpoints.up('md')]: {
+            width: 250,
+
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
+        },
+    },
+    uploadImgBtn: {
+        paddingLeft: 20,
+    }
 }));
 
 const CssTextField = withStyles({
@@ -114,10 +134,29 @@ const CssTextField = withStyles({
 
 })(TextField);
 
+
 const Employees = ({ history }) => {
     const classes = useStyles();
+    const [image, setImage] = useState({ path: avatar })
 
     const { register, handleSubmit, formState: { errors } } = useForm()
+
+    const picUploadFunc = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setImage({
+                path: URL.createObjectURL(event.target.files[0])
+            })
+        }
+    }
+
+    const dispatch = useDispatch()
+
+    useEffect(async () => {
+        await dispatch(fetchEmployeesAction())
+    }, [dispatch])
+
+    const { employee, loading, error } = useSelector(state => state.employee)
+    console.log(employee);
 
     const onSubmitData = () => {
         // console.log('data submit');
@@ -129,6 +168,7 @@ const Employees = ({ history }) => {
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
+                        {/* employee ? ( */}
                         <Grid container spacing={1}>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -231,7 +271,7 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Education"
                                     variant="outlined"
                                     type="text"
@@ -251,7 +291,7 @@ const Employees = ({ history }) => {
                         </Grid>
                         <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Skills"
                                     variant="outlined"
                                     type="text"
@@ -268,7 +308,7 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Experience"
                                     variant="outlined"
                                     type="email"
@@ -285,7 +325,7 @@ const Employees = ({ history }) => {
                                 </CssTextField>
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Department"
                                     variant="outlined"
                                     type="text"
@@ -301,20 +341,20 @@ const Employees = ({ history }) => {
                                     <MenuItem>Store</MenuItem>
                                 </CssTextField>
                                 {/* {
-                                        !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
-                                            fetchMatCategory.categories.map((category, i) => (
-                                                <MenuItem
-                                                    value={category._id}
-                                                    onClick={(e) => fetchMaterials(category._id)}
-                                                    key={i}
-                                                >
-                                                    {category.name}
-                                                </MenuItem>
-                                            ))
-                                    } */}
+                                            !fetchMatCategory.categories || !fetchMatCategory.categories.length ? <p>Data Not Found</p> :
+                                                fetchMatCategory.categories.map((category, i) => (
+                                                    <MenuItem
+                                                        value={category._id}
+                                                        onClick={(e) => fetchMaterials(category._id)}
+                                                        key={i}
+                                                    >
+                                                        {category.name}
+                                                    </MenuItem>
+                                                ))
+                                        } */}
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField id="outlined-basic"
+                                <CssTextField id="outlined-basic"
                                     label="Designation"
                                     variant="outlined"
                                     type="text"
@@ -326,20 +366,24 @@ const Employees = ({ history }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
                                 >
-                                     <MenuItem>Manager</MenuItem>
-                                     <MenuItem>Assistant Manager</MenuItem>
+                                    <MenuItem>Manager</MenuItem>
+                                    <MenuItem>Assistant Manager</MenuItem>
                                 </CssTextField>
                             </Grid>
                         </Grid>
                         <Grid container spacing={1} className="mt-3">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                
-                            </Grid>
-
-                            <Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-
+                                <input
+                                    type="file"
+                                    className={classes.uploadImgBtn}
+                                    onChange={(event) => picUploadFunc(event)}
+                                // {...register("name", { required: true })}
+                                >
+                                </input>
+                                <img src={image.path} alt="Employee Picture" width="150" height="150" className="mt-4 ml-3" align="left" />
                             </Grid>
                         </Grid>
+                        {/* ) : null */}
                         <div>
                             <Button
                                 variant="outlined"
@@ -368,29 +412,51 @@ const Employees = ({ history }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Sales</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Assistant Manager</StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
-                                        {
-                                            !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                vendor.material.map((value, i) => (
-                                                    <span key={i} className="ml-1">{value.name},</span>
-                                                ))
-                                        }
-                                    </StyledTableCell> */}
-                                    <StyledTableCell className="text-light" align="center">
-                                        <Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-                                                history.push('/hr/employees/view_emp_details')
-                                            }}
-                                        >
-                                            View Report
-                                        </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                {
+                                    loading ? (
+                                        <Loading />
+                                    ) :
+                                        error ? (
+                                            <MaterialError />
+                                        ) :
+                                            (
+                                                employee.length ?
+                                                    employee.map((emp, i) => (
+                                                        <StyledTableRow key={i}>
+                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{emp.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !emp.department ? null : emp.department.name
+                                                                }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !emp.designation ? null : emp.designation.name
+                                                                }
+                                                            </StyledTableCell>
+                                                            {/* <StyledTableCell className="text-dark" align="center">
+                                                                {
+                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
+                                                                        vendor.material.map((value, i) => (
+                                                                            <span key={i} className="ml-1">{value.name},</span>
+                                                                        ))
+                                                                }
+                                                            </StyledTableCell> */}
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() => {
+                                                                        history.push(`/hr/employees/view_emp_details/${emp._id}`)
+                                                                    }}
+                                                                >
+                                                                    View Report
+                                                                </Button>
+                                                            </StyledTableCell>
+                                                        </StyledTableRow>
+                                                    ))
+                                                    : <h5>Not Found</h5>
+                                            )
+                                }
                                 {/* {
                                     loading ? (
                                         <Loading />
@@ -438,7 +504,7 @@ const Employees = ({ history }) => {
                     </TableContainer>
                 </div>
             </div>
-        </Sidenav>
+        </Sidenav >
     )
 }
 

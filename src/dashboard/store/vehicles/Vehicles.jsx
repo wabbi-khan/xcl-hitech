@@ -193,7 +193,7 @@ const Vehicles = () => {
                                     {...register("number", { required: true })}
                                 />
                                 {
-                                    errors.number?.type === 'required' && <p className="text-warning">Vehicle No. is required</p>
+                                    errors.number?.type === 'required' && <p className="text-danger mt-1">Vehicle No. is required</p>
                                 }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -216,7 +216,7 @@ const Vehicles = () => {
                                     <MenuItem value="heavy truck">Heavy Truck</MenuItem>
                                 </CssTextField>
                                 {
-                                    errors.type?.type === 'required' && <p className="text-warning">Vehicle Type is required</p>
+                                    errors.type?.type === 'required' && <p className="text-danger mt-1">Vehicle Type is required</p>
                                 }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -232,7 +232,7 @@ const Vehicles = () => {
                                     {...register("driverName", { required: true, maxLength: 20 })}
                                 />
                                 {
-                                    errors.driverName?.type === 'required' && <p className="text-warning">Driver Name is required</p>
+                                    errors.driverName?.type === 'required' && <p className="text-danger mt-1">Driver Name is required</p>
                                 }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -248,7 +248,7 @@ const Vehicles = () => {
                                     {...register("phoneNum", { required: true, maxLength: 40 })}
                                 />
                                 {
-                                    errors.phoneNum?.type === 'required' && <p className="text-warning">Phone No. is required</p>
+                                    errors.phoneNum?.type === 'required' && <p className="text-danger mt-1">Phone No. is required</p>
                                 }
                             </Grid>
                         </Grid>
@@ -268,7 +268,7 @@ const Vehicles = () => {
                                     {...register("cnicNum", { required: true, maxLength: 30 })}
                                 />
                                 {
-                                    errors.cnicNum?.type === 'required' && <p className="text-warning">CNIC No. is required</p>
+                                    errors.cnicNum?.type === 'required' && <p className="text-danger mt-1">CNIC No. is required</p>
                                 }
                                 {
                                     isUpdate ? <p className="text-success mt-2">Vehicle Added Successfully</p> : (

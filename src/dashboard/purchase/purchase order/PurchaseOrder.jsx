@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import cryptoRandomString from 'crypto-random-string';
 import { useDispatch, useSelector } from 'react-redux'
 import { appSuppListAction } from '../../../services/action/VendorAction';
 import { useForm } from "react-hook-form";
@@ -182,7 +181,6 @@ const CssTextField = withStyles({
 })(TextField);
 
 const PurchaseOrder = ({ history }) => {
-
     const classes = useStyles();
     const dispatch = useDispatch()
 
@@ -259,7 +257,7 @@ const PurchaseOrder = ({ history }) => {
                 //     }
                 // ]
             })
-            // window.location.reload()
+            window.location.reload()
             // setAddMatError(false)
         }
         catch (error) {

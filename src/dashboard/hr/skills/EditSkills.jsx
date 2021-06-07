@@ -6,11 +6,9 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
-
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -104,10 +102,10 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const EditProducts = (props) => {
-    const { show, handler, product } = props
 
+const EditSkills = (props) => {
     const classes = useStyles();
+    const { show, handler, skill } = props
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -122,7 +120,7 @@ const EditProducts = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/product/${product._id}`, data)
+            await axios.patch(`${process.env.REACT_APP_API_URL}/skills/${skill._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -132,6 +130,7 @@ const EditProducts = (props) => {
 
     const handleClose = () => {
         handler(false)
+        window.location.reload()
     }
 
     return (
@@ -153,95 +152,28 @@ const EditProducts = (props) => {
                         <Container className={classes.mainContainer}>
                             {/* Form */}
                             {
-                                product ? (
+                                skill ? (
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <Grid container spacing={1}>
                                             <Grid lg={12} md={12} sm={12}>
                                                 <CssTextField id="outlined-basic"
-                                                    label="Product Name"
+                                                    label="Skill Name"
                                                     variant="outlined"
                                                     type="text"
                                                     size="small"
                                                     autoComplete="off"
-                                                    defaultValue={product.name}
-                                                    className={classes.inputFieldStyle1}                    
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register("name", { required: true, maxLength: 30 })}
-                                                />
-                                                {
-                                                    errors.name?.type === 'required' && <p className="text-danger">Product Name is required</p>
-                                                }
-                                                <br />
-                                                {
-                                                    errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
-                                                }
-                                            </Grid>
-                                            <Grid lg={12} md={12} sm={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="Product Code"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    autoComplete="off"
-                                                    defaultValue={product.productCode}
+                                                    defaultValue={skill.skill}
                                                     className={classes.inputFieldStyle1}
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register("productCode", { required: true, maxLength: 30 })}
+                                                    {...register("skill")}
                                                 />
                                                 {
-                                                    errors.productCode?.type === 'required' && <p className="text-danger">Product Code is required</p>
-                                                }
-                                                <br />
-                                                {
-                                                    errors.productCode?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
-                                                }
-                                            </Grid>
-                                            <Grid lg={12} md={12} sm={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="Min Inventory Level"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    autoComplete="off"
-                                                    defaultValue={product.minInventoryLevel}
-                                                    className={classes.inputFieldStyle1}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register("minInventoryLevel", { required: true, maxLength: 20 })}
-                                                />
-                                                {
-                                                    errors.minInventoryLevel?.type === 'required' && <p className="text-danger">Min Inventory Level is required</p>
-                                                }
-                                                <br />
-                                                {
-                                                    errors.minInventoryLevel?.type === 'maxLength' && <p className="text-danger">Length must be less than 20</p>
-                                                }
-                                            </Grid>
-                                            <Grid lg={12} md={12} sm={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="Remarks"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    autoComplete="off"
-                                                    defaultValue={product.remarks}
-                                                    className={classes.inputFieldStyle1}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register("remarks", { required: true, maxLength: 40 })}
-                                                />
-                                                {
-                                                    errors.remarks?.type === 'required' && <p className="text-danger">Remarks is required</p>
-                                                }
-                                                <br />
-                                                {
-                                                    errors.remarks?.type === 'maxLength' && <p className="text-danger">Length must be less than 40</p>
+                                                    errors.skill?.type === 'required' && <p className="text-danger">Skill Name is required</p>
                                                 }
                                                 {
-                                                    isUpdate ? <p className="text-success">Product Update Success</p> : (
-                                                        isError ? <p className="text-danger">Product Update Failed </p> : null
+                                                    isUpdate ? <p className="text-success mt-2">Skill Update Successfully</p> : (
+                                                        isError ? <p className="text-danger mt-2">Skill Update Failed </p> : null
                                                     )
                                                 }
                                             </Grid>
@@ -271,4 +203,4 @@ const EditProducts = (props) => {
     )
 }
 
-export default EditProducts
+export default EditSkills

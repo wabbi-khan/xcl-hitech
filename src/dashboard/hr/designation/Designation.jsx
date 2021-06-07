@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidenav from '../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -17,6 +17,7 @@ import axios from 'axios';
 import { fetchDesignationAction } from '../../../services/action/DesignationAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
+import EditDesignation from './EditDesignation';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -121,6 +122,8 @@ const CssTextField = withStyles({
 
 const Designation = () => {
     const classes = useStyles();
+    const [designation, setdesignation] = useState()
+
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
@@ -130,7 +133,7 @@ const Designation = () => {
     }, [dispatch])
 
     const { designations, loading, error } = useSelector(state => state.designations)
-    
+
     const onSubmitDate = async (props) => {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/designation`, props)
@@ -156,8 +159,26 @@ const Designation = () => {
 
     }
 
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (props) => {
+        setOpen(props);
+    }
+
+    const handleOpen = async (designation) => {
+        setdesignation(designation)
+        setOpen(true);
+    }
+
     return (
         <Sidenav title={'Designation'}>
+            {/* ============products form component */}
+            <EditDesignation
+                show={open}
+                handler={handleClose}
+                designation={designation}
+            />
+            {/* ============products form component */}
             <div>
                 <Container className={classes.mainContainer}>
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
@@ -173,6 +194,9 @@ const Designation = () => {
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("name", { required: true })}
                         />
+                        {
+                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Designation Name is required</p>
+                        }
                         {/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :
                                     designations.map(designation => (
@@ -216,9 +240,9 @@ const Designation = () => {
                                                             <StyledTableCell className="text-dark" align="center">{designation.name}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    // onClick={() =>
-                                                                    //     handleOpen(designation)
-                                                                    // }
+                                                                    onClick={() =>
+                                                                        handleOpen(designation)
+                                                                    }
                                                                     style={{ marginTop: 2 }} >
                                                                     Edit
                                                                 </Button>
@@ -229,10 +253,10 @@ const Designation = () => {
                                                                 </Button></>
                                                             </StyledTableCell>
                                                         </StyledTableRow>
-                                                     ))
+                                                    ))
                                                     : <h5>Not Found</h5>
                                             )
-                                } 
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>

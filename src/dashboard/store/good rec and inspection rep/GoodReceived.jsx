@@ -133,7 +133,9 @@ const GoodReceived = (props) => {
     }, [dispatch])
 
     const { loading, orders, error } = useSelector(state => state.orders)
+    console.log(orders);
     const { order } = useSelector(state => state.order)
+    console.log(order);
 
     const onSubmitDate = async (props) => {
         try {
@@ -147,7 +149,7 @@ const GoodReceived = (props) => {
     }
 
     return (
-        <Sidenav title={'Good Received and Inspection Report'}>
+        <Sidenav title={'Good Received and Inspection Report (Inspected)'}>
             <div>
                 <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                     {
@@ -212,6 +214,9 @@ const GoodReceived = (props) => {
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                             {...register("description", { required: true })}
                                         />
+                                        {
+                                            errors.description?.type === 'required' && <p className="mt-1 text-danger">Description is required</p>
+                                        }
                                     </Grid>
                                 </Grid>
                             </Container>
@@ -238,6 +243,9 @@ const GoodReceived = (props) => {
                                     <MenuItem value="Rejected">Rejected</MenuItem>
                                     <MenuItem value="Signature">Signature</MenuItem>
                                 </CssTextField>
+                                {
+                                    errors.inspectionStatus?.type === 'required' && <p className="mt-1 text-danger">Status of Inspection is required</p>
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
@@ -251,6 +259,9 @@ const GoodReceived = (props) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("remarks", { required: true })}
                                 />
+                                {
+                                    errors.remarks?.type === 'required' && <p className="mt-1 text-danger">Category Name is required</p>
+                                }
                             </Grid>
                         </Grid>
                         <div>
@@ -264,6 +275,7 @@ const GoodReceived = (props) => {
                 </form>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
+                        <h5>Inspected Orders</h5>
                         <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
                                 <TableRow hover role="checkbox">

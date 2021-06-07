@@ -103,8 +103,8 @@ const CssTextField = withStyles({
 })(TextField);
 
 
-const EditCategory = (props) => {
-    const { show, handler, category } = props
+const EditCategories = (props) => {
+    const { show, handler, cat } = props
 
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -120,7 +120,7 @@ const EditCategory = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/category/${category._id}`, data)
+            await axios.patch(`${process.env.REACT_APP_API_URL}/store-category/${cat._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -151,7 +151,7 @@ const EditCategory = (props) => {
                     <Container className={classes.mainContainer}>
                         {/* Form */}
                         {
-                            category ? (
+                            cat ? (
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <Grid container spacing={1}>
                                         {/* <Grid lg={12} md={12} sm={12}>
@@ -184,7 +184,7 @@ const EditCategory = (props) => {
                                                 autocomplete="off"
                                                 size="small"
                                                 autoComplete="off"
-                                                defaultValue={category.name}
+                                                defaultValue={cat.name}
                                                 className={classes.inputFieldStyle1}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -228,4 +228,4 @@ const EditCategory = (props) => {
     )
 }
 
-export default EditCategory
+export default EditCategories
