@@ -91,10 +91,12 @@ const CssTextField = withStyles({
 
 const EditVendor = (props) => {
 	const classes = useStyles();
+	
 	const dispatch = useDispatch();
 
 	const { show, handler, vendor, categories } = props;
-
+	// console.log(vendor);
+	// console.log(categories);
 	const [open, setOpen] = useState(false);
 	const [materialsSelect, setMaterialsSelect] = useState([]);
 
@@ -113,6 +115,7 @@ const EditVendor = (props) => {
 
 	const handleClose = () => {
 		handler(false);
+		window.location.reload();
 	};
 
 	const onSubmitData = (data) => {
@@ -154,147 +157,145 @@ const EditVendor = (props) => {
 						<h5 className='text-center mt-4'>Edit Vendor</h5>
 						<Container className={classes.mainContainer}>
 							{/* ========================================= */}
-							{vendor ? (
-								<form onSubmit={handleSubmit(onSubmitData)}>
-									<Grid container spacing={1}>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Enter Vendor Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
-												className={classes.inputFieldStyle}
-												defaultValue={vendor.name}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('name', { required: true, maxLength: 22 })}
-											/>
+							{
+								vendor ? (
+									<form onSubmit={handleSubmit(onSubmitData)}>
+										<Grid container spacing={1}>
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Enter Vendor Name'
+													variant='outlined'
+													type='text'
+													size='small'
+													autocomplete='off'
+													className={classes.inputFieldStyle}
+													defaultValue={vendor.name}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													{...register('name', { required: true, maxLength: 22 })}
+												/>
+											</Grid>
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Email (Optional)'
+													variant='outlined'
+													autocomplete='off'
+													size='small'
+													className={classes.inputFieldStyle}
+													defaultValue={vendor.email}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													{...register('email', {
+														required: 'email is required',
+														pattern: {
+															value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+															message: 'Enter a valid e-mail address',
+														},
+													})}
+												/>
+											</Grid>
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Phone No.'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													className={classes.inputFieldStyle}
+													inputProps={{ style: { fontSize: 14 } }}
+													defaultValue={vendor.phone}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													{...register('phone', { required: true, maxLength: 24 })}
+												/>
+											</Grid>
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Address'
+													variant='outlined'
+													type='text'
+													size='small'
+													autocomplete='off'
+													className={classes.inputFieldStyle}
+													defaultValue={vendor.location}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													{...register('location', { required: true, maxLength: 70 })}
+												/>
+											</Grid>
 										</Grid>
-
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Email (Optional)'
-												variant='outlined'
-												autocomplete='off'
-												size='small'
-												className={classes.inputFieldStyle}
-												defaultValue={vendor.email}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('email', {
-													required: 'email is required',
-													pattern: {
-														value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-														message: 'Enter a valid e-mail address',
-													},
-												})}
-											/>
+										<Grid container spacing={1} style={{ marginTop: 8 }}>
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Select Category'
+													variant='outlined'
+													type='text'
+													autoComplete='off'
+													size='small'
+													select
+													defaultValue={vendor.category._id}
+													className={classes.inputFieldStyle}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													{...register('category', { required: true })}>
+													{!categories || !categories.length ? (
+														<p>Data Not Found</p>
+													) : (
+														categories.map((category, i) => (
+															<MenuItem
+																value={category._id}
+																onClick={(e) => fetchMaterials(category._id)}
+																key={i}>
+																{category.name}
+															</MenuItem>
+														))
+													)}
+												</CssTextField>
+											</Grid>
+											<Grid item lg={12} md={12} sm={6} xs={6} className={classes.ckeckBox}>
+												<FormGroup row>
+													{!vendor.material || !vendor.material.length ? (
+														<p>Not Any Material</p>
+													) : (
+														vendor.material.map((mat, i) => (
+															<FormControlLabel
+																key={i}
+																control={
+																	<Checkbox
+																		icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+																		checkedIcon={<CheckBoxIcon fontSize='small' />}
+																		onChange={(e) => getMaterials(e)}
+																	/>
+																}
+																name={mat.name}
+																value={mat._id}
+																label={mat.name}
+																{...register('material')}
+															/>
+														))
+													)}
+												</FormGroup>
+											</Grid>
 										</Grid>
-
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Phone No.'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												defaultValue={vendor.phone}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('phone', { required: true, maxLength: 24 })}
-											/>
-										</Grid>
-
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Address'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
-												className={classes.inputFieldStyle}
-												defaultValue={vendor.location}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('location', { required: true, maxLength: 70 })}
-											/>
-										</Grid>
-									</Grid>
-									<Grid container spacing={1} style={{ marginTop: 8 }}>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Select Category'
-												variant='outlined'
-												type='text'
-												autoComplete='off'
-												size='small'
-												select
-												defaultValue={vendor.category._id}
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('category', { required: true })}>
-												{!categories || !categories.length ? (
-													<p>Data Not Found</p>
-												) : (
-													categories.map((category, i) => (
-														<MenuItem
-															value={category._id}
-															onClick={(e) => fetchMaterials(category._id)}
-															key={i}>
-															{category.name}
-														</MenuItem>
-													))
-												)}
-											</CssTextField>
-										</Grid>
-										<Grid item lg={12} md={12} sm={6} xs={6} className={classes.ckeckBox}>
-											<FormGroup row>
-												{!materials || !materials.length ? (
-													<p>Not Any Material</p>
-												) : (
-													materials.map((material, i) => (
-														<FormControlLabel
-															key={i}
-															control={
-																<Checkbox
-																	icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-																	checkedIcon={<CheckBoxIcon fontSize='small' />}
-																	onChange={(e) => getMaterials(e)}
-																/>
-															}
-															name={material.name}
-															value={material._id}
-															label={material.name}
-															{...register('material')}
-														/>
-													))
-												)}
-											</FormGroup>
-										</Grid>
-									</Grid>
-									{/* ============================================================= */}
-									{errors?.email && (
-										<span className='text-danger'>{errors.email.message}</span>
-									)}
-									{/* ============================================================= */}
-									<div>
-										<Button className='bg-warning text-light' type='submit'>
-											Update
+										{/* ============================================================= */}
+										{errors?.email && (
+											<span className='text-danger'>{errors.email.message}</span>
+										)}
+										{/* ============================================================= */}
+										<div>
+											<Button className='bg-warning text-light' type='submit'>
+												Update
 										</Button>
-										<Button className='bg-danger text-light ml-1' onClick={handleClose}>
-											Close
+											<Button className='bg-danger text-light ml-1' onClick={handleClose}>
+												Close
 										</Button>
-									</div>
-								</form>
-							) : null}
+										</div>
+									</form>
+								) : null}
 							<br />
 							{errors.category?.type === 'required' && (
 								<p className='mt-3 text-danger'>Category must be required</p>

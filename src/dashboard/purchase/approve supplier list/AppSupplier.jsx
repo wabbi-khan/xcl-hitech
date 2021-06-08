@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { appSuppListAction } from '../../../services/action/VendorAction';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
+import Button from '@material-ui/core/Button';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AppSupplier = () => {
+const AppSupplier = ({ history }) => {
     const classes = useStyles();
 
     const dispatch = useDispatch()
@@ -84,6 +85,7 @@ const AppSupplier = () => {
                                     <StyledTableCell align="center">Items Supplied</StyledTableCell>
                                     <StyledTableCell align="center">Approving Date</StyledTableCell>
                                     <StyledTableCell align="center">Remarks</StyledTableCell>
+                                    <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
@@ -127,6 +129,15 @@ const AppSupplier = () => {
                                                                     verifiedVendor.rating == 0 ? <span>Bad</span> :
                                                                     <span>None of these</span>
                                                                 }
+                                                            </StyledTableCell>
+                                                            <StyledTableCell className="text-light" align="center">
+                                                                <Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() =>
+                                                                        history.push(`/purchase/approved_supplier_list/view_approved_supplier_details/${verifiedVendor._id}`)
+                                                                    }
+                                                                    style={{ marginTop: 2 }} >
+                                                                    View
+                                                                </Button>
                                                             </StyledTableCell>
                                                         </StyledTableRow>
                                                     ))

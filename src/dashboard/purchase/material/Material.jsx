@@ -161,7 +161,6 @@ const Material = () => {
         }
         catch (error) {
             console.log(error);
-            console.log('catch');
         }
 
     }
@@ -211,6 +210,9 @@ const Material = () => {
                                     ))
                             }
                         </CssTextField>
+                        {
+                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
+                        }
                         {/* Material Name */}
                         <CssTextField id="outlined-basic"
                             label="Enter Material Name"
@@ -224,17 +226,30 @@ const Material = () => {
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("name", { required: true, maxLength: 30 })}
                         />
-                        <br />
-                        {
-                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
-                        }
-                        <br />
                         {
                             errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
                         }
-                        <br />
                         {
                             errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
+                        }
+                        <CssTextField id="outlined-basic"
+                            label="Enter Unit"
+                            variant="outlined"
+                            type="text"
+                            autocomplete="off"
+                            size="small"
+                            autoComplete="off"
+                            className={classes.inputFieldStyle1}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                            {...register("unit", { required: true, maxLength: 15 })}
+                        />
+                        {
+                            errors.unit?.type === 'required' && <p className="text-danger">Unit is required</p>
+                        }
+                        <br />
+                        {
+                            errors.unit?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
                         }
                         {/* {
                             AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p>  : null
@@ -258,6 +273,7 @@ const Material = () => {
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
                                     <StyledTableCell align="center">Category</StyledTableCell>
                                     <StyledTableCell align="center">Material Name</StyledTableCell>
+                                    <StyledTableCell align="center">Unit</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -280,6 +296,7 @@ const Material = () => {
                                                                 }
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.unit}</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>

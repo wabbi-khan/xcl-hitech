@@ -69,6 +69,10 @@ import AddNewPlan from './dashboard/production/addNewPlan/AddNewPlan';
 import ViewPlan from './dashboard/production/ViewPlan/ViewPlan';
 import EditPlan from './dashboard/production/EditPlan/EditPlan';
 import Shifts from './dashboard/production/shifts/Shifts';
+import Marketing from './dashboard/marketing-sales/Marketing';
+import OrderBookingForm from './dashboard/marketing-sales/order booking form/OrderBookingForm';
+import ViewVendorDetails from './dashboard/purchase/vendors/ViewVendorDetails';
+import ViewAppSuppDetails from './dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 
 dotenv.config();
 
@@ -93,6 +97,7 @@ function App() {
 				<Route exact path='/purchase/department' component={Department} />
 				<Route exact path='/purchase/material' component={Material} />
 				<Route exact path='/purchase/vendors' component={Vendors} />
+				<Route exact path='/purchase/vendors/vendor_details/:id' component={ViewVendorDetails} />
 				<Route
 					exact
 					path='/purchase/supplier_evaluation_form'
@@ -102,6 +107,11 @@ function App() {
 					exact
 					path='/purchase/approved_supplier_list'
 					component={AppSupplier}
+				/>
+				<Route
+					exact
+					path='/purchase/approved_supplier_list/view_approved_supplier_details'
+					component={ViewAppSuppDetails}
 				/>
 				<Route exact path='/purchase/purchase_order' component={PurchaseOrder} />
 				<Route
@@ -277,6 +287,10 @@ function App() {
 				<Route exact path='/hr/training_record' component={TrainingRecord} />
 				<Route exact path='/hr/job_description' component={JobDescription} />
 				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />
+
+				<Route exact path='/marketing_dashboard' component={Marketing} />
+				<Route exact path='/marketing_dashboard/order_booking_form' component={OrderBookingForm} />
+
 				<Route exact path='/productionDashboard' component={ProductionDashboard} />
 				<Route exact path='/productionDashboard/machines' component={Machines} />
 				<Route

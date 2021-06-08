@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch, useSelector } from 'react-redux'
-import { appSuppListAction } from '../../../services/action/VendorAction';
 import { useForm } from "react-hook-form";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import axios from 'axios';
+import { appSuppListAction } from '../../../services/action/VendorAction';
 
 // import MaterialAddRow from './commponent/materialAddRow'
 
@@ -182,6 +182,8 @@ const CssTextField = withStyles({
 
 const PurchaseOrder = ({ history }) => {
     const classes = useStyles();
+    const [unit, setUnit] = useState()
+
     const dispatch = useDispatch()
 
     // const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
@@ -199,6 +201,7 @@ const PurchaseOrder = ({ history }) => {
     }, [dispatch])
 
     const { verifiedVendors } = useSelector(state => state.verifiedVendors)
+    console.log(verifiedVendors);
 
     const addMoreFunc = () => {
         setItemCounter([...ItemCounter, { material: '', quantity: '', unitValue: '', remarks: '' }]);
@@ -266,7 +269,6 @@ const PurchaseOrder = ({ history }) => {
 
         }
     }
-    console.log(orderBody);
 
     return (
         <Sidenav title={'Purchase Order'}>
@@ -296,6 +298,7 @@ const PurchaseOrder = ({ history }) => {
                                                         setVendorId(verifiedVendor._id)
                                                         setVendorAddress(verifiedVendor.location)
                                                         setVendorMaterial(verifiedVendor.material)
+                                                        console.log(verifiedVendor.material)
                                                     }}
                                                 >
                                                     {verifiedVendor.name}
@@ -472,9 +475,9 @@ const PurchaseOrder = ({ history }) => {
                                             <CssTextField id="outlined-basic"
                                                 label="Unit"
                                                 variant="outlined"
-                                                type="number"
+                                                type="text"
                                                 size="small"
-                                                value={value.unitValue}
+                                                value={unit}
                                                 onChange={(e) => {
                                                     onChangeHandler(e, "unitValue", i)
                                                 }}

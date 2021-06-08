@@ -71,6 +71,8 @@ import AddNewPlan from '../dashboard/production/addNewPlan/AddNewPlan';
 import EditPlan from '../dashboard/production/editPlan/EditPlan';
 import ViewPlan from '../dashboard/production/ViewPlan/ViewPlan';
 import Shifts from '../dashboard/production/shifts/Shifts';
+import ViewVendorDetails from '../dashboard/purchase/vendors/ViewVendorDetails';
+import ViewAppSuppDetails from '../dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 
 
 
@@ -85,8 +87,10 @@ const Router = () => {
                 <Router exact path="/purchase/department" component={Department}/>
                 <Router exact path="/purchase/material" component={Material}/>
                 <Router exact path="/purchase/vendors" component={Vendors}/>
+                <Router exact path="/purchase/vendors/vendor_details/:id" component={ViewVendorDetails}/>
                 <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>
                 <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
+                <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details" component={ViewAppSuppDetails}/>
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>

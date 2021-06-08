@@ -176,6 +176,9 @@ const EditMaterial = (props) => {
                                                         ))
                                                 }
                                             </CssTextField>
+                                            {
+                                                errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
+                                            }
                                         </Grid>
                                         <Grid lg={12} md={12} sm={12}>
                                             <CssTextField id="outlined-basic"
@@ -191,9 +194,7 @@ const EditMaterial = (props) => {
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
                                                 {...register("name", { required: true, maxLength: 30 })}
                                             />
-                                            {
-                                                errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
-                                            }
+                                           
                                             <br />
                                             {
                                                 errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
@@ -201,6 +202,28 @@ const EditMaterial = (props) => {
                                             <br />
                                             {
                                                 errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
+                                            }
+                                            <CssTextField id="outlined-basic"
+                                                label="Enter Unit"
+                                                variant="outlined"
+                                                type="text"
+                                                autocomplete="off"
+                                                size="small"
+                                                autoComplete="off"
+                                                defaultValue={material.unit}
+                                                className={classes.inputFieldStyle1}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                                {...register("unit", { required: true, maxLength: 30 })}
+                                            />
+                                           
+                                            <br />
+                                            {
+                                                errors.unit?.type === 'required' && <p className="text-danger">Unit is required</p>
+                                            }
+                                            <br />
+                                            {
+                                                errors.unit?.type === 'maxLength' && <p className="text-danger">Length must be less than 15</p>
                                             }
                                             {
                                                 isUpdate ? <p className="text-success">Material Edit Success</p> : (

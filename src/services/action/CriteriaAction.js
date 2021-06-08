@@ -13,6 +13,7 @@ export const fetchCompCriteriaAction = () => async (dispatch) => {
     
     try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/criteria`)
+        console.log(data);
         
         dispatch({
             type: COMP_CRITERIA_FETCH_SUCCESS,

@@ -652,14 +652,12 @@ const OrderBookingForm = () => {
                                         variant="outlined"
                                         type="text"
                                         size="small"
-                                        select
+                                        value="By Road"
                                         className={classes.inputFieldStyle}
                                         inputProps={{ style: { fontSize: 14 } }}
                                         InputLabelProps={{ style: { fontSize: 14 } }}
                                         {...register("vendor", { required: true })}
-                                    >
-                                        <MenuItem value="">By Road</MenuItem>
-                                    </CssTextField>
+                                    />
                                     {
                                         errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
                                     }
@@ -683,7 +681,9 @@ const OrderBookingForm = () => {
                                         {...register("vendor", { required: true })}
                                     >
                                         <MenuItem value="">Online</MenuItem>
-                                        <MenuItem value="">Caash</MenuItem>
+                                        <MenuItem value="">Cash</MenuItem>
+                                        <MenuItem value="">Advance</MenuItem>
+                                        <MenuItem value="">Half</MenuItem>
                                     </CssTextField>
                                     {
                                         errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
