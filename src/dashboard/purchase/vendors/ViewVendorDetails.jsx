@@ -112,18 +112,6 @@ const ViewVendorDetails = (props) => {
 
     const [vendor, setVendor] = useState({})
 
-    const deleteMaterial = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
-            window.location.reload()
-        }
-        catch (error) {
-            console.log(error);
-            console.log('catch');
-        }
-
-    }
-
     const getSingleVendor = async (id) => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/vendor/id/${id}`)

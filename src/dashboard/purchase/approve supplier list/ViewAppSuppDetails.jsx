@@ -105,25 +105,15 @@ const useStyles = makeStyles((theme) => ({
 
 const ViewAppSuppDetails = (props) => {
     const id = props.match.params.id
+
     const classes = useStyles();
 
     const [vendor, setVendor] = useState({})
 
-    const deleteMaterial = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
-            window.location.reload()
-        }
-        catch (error) {
-            console.log(error);
-            console.log('catch');
-        }
-
-    }
-
     const getSingleVendor = async (id) => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/vendor/id/${id}`)
+            console.log(data.vendor);
             setVendor(data.vendor)
         }
         catch (error) {
@@ -181,19 +171,35 @@ const ViewAppSuppDetails = (props) => {
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell className="text-dark bg-light" align="center">Sr.No</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Vendor Name</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">Phone No.</StyledTableCell>
-                                    <StyledTableCell className="text-dark bg-light" align="center">Address</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Contact No.</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Contact Person</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Approving Date</StyledTableCell>
+                                    <StyledTableCell className="text-dark bg-light" align="center">Rating</StyledTableCell>
                                     <StyledTableCell className="text-dark bg-light" align="center">Category</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
                                 {
-                                    !vendor ? null :
+                                    !vendor ? <span>Data Not Found</span> :
                                         <StyledTableRow >
                                             <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
                                             <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
                                             <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
-                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
+                                            <StyledTableCell className="text-dark" align="center">
+                                                {
+                                                    !vendor.contactPerson ? null : vendor.contactPerson.name
+                                                }
+                                            </StyledTableCell>
+                                            <StyledTableCell className="text-dark" align="center">{vendor.approveDate}</StyledTableCell>
+                                            <StyledTableCell className="text-dark" align="center">
+                                                {
+                                                    vendor.rating == 3 ? <span>High</span> :
+                                                        vendor.rating == 2 ? <span>Medium</span> :
+                                                            vendor.rating == 1 ? <span>Low</span> :
+                                                                vendor.rating == 0 ? <span>Bad</span> :
+                                                                    <span>None of these</span>
+                                                }
+                                            </StyledTableCell>
                                             <StyledTableCell className="text-dark" align="center">
                                                 {
                                                     !vendor.category ? null : vendor.category.name

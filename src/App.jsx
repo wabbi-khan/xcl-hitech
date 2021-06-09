@@ -110,7 +110,7 @@ function App() {
 				/>
 				<Route
 					exact
-					path='/purchase/approved_supplier_list/view_approved_supplier_details'
+					path='/purchase/approved_supplier_list/view_approved_supplier_details/:id'
 					component={ViewAppSuppDetails}
 				/>
 				<Route exact path='/purchase/purchase_order' component={PurchaseOrder} />

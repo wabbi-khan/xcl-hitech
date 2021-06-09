@@ -90,7 +90,7 @@ const Router = () => {
                 <Router exact path="/purchase/vendors/vendor_details/:id" component={ViewVendorDetails}/>
                 <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>
                 <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
-                <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details" component={ViewAppSuppDetails}/>
+                <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details/:id" component={ViewAppSuppDetails}/>
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>

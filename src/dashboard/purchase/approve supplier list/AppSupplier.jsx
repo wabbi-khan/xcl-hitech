@@ -84,7 +84,7 @@ const AppSupplier = ({ history }) => {
                                     <StyledTableCell align="center">Contact Person</StyledTableCell>
                                     <StyledTableCell align="center">Items Supplied</StyledTableCell>
                                     <StyledTableCell align="center">Approving Date</StyledTableCell>
-                                    <StyledTableCell align="center">Remarks</StyledTableCell>
+                                    <StyledTableCell align="center">Rating</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>

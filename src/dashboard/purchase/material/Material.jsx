@@ -81,7 +81,9 @@ const useStyles = makeStyles((theme) => ({
     },
     dataTable: {
         marginTop: 40,
-
+    },
+    tableContainer: {
+        marginTop: 10,
     },
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
@@ -266,6 +268,17 @@ const Material = () => {
                 </Container>
 
                 <div className={classes.dataTable}>
+                    <CssTextField id="outlined-basic"
+                        label="Search Materials"
+                        variant="outlined"
+                        type="text"
+                        size="small"
+                        autoComplete="off"
+                        className={classes.inputFieldStyle1}
+                        inputProps={{ style: { fontSize: 14 } }}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
+                        {...register("")}
+                    />
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -274,6 +287,7 @@ const Material = () => {
                                     <StyledTableCell align="center">Category</StyledTableCell>
                                     <StyledTableCell align="center">Material Name</StyledTableCell>
                                     <StyledTableCell align="center">Unit</StyledTableCell>
+                                    <StyledTableCell align="center">Code</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -297,6 +311,7 @@ const Material = () => {
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{material.unit}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">code</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>
