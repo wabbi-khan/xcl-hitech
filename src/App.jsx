@@ -69,6 +69,9 @@ import AddNewPlan from './dashboard/production/addNewPlan/AddNewPlan';
 import ViewPlan from './dashboard/production/ViewPlan/ViewPlan';
 import EditPlan from './dashboard/production/EditPlan/EditPlan';
 import Shifts from './dashboard/production/shifts/Shifts';
+import ProductionReport from './dashboard/production/productionReport/ProductionReport';
+import SetUpCard from './dashboard/production/setUpCard/SetUpCard';
+import ProductionOnlineInspectionReport from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInspectionReport';
 
 dotenv.config();
 
@@ -300,6 +303,21 @@ function App() {
 					component={ViewPlan}
 				/>
 				<Route exact path='/productionDashboard/shifts' component={Shifts} />
+				<Route
+					exact
+					path='/productionDashboard/production-report'
+					component={ProductionReport}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/set-up-card'
+					component={SetUpCard}
+				/>
+				<Route
+					exact
+					path='/productionDashboard/production-online-inspection-report'
+					component={ProductionOnlineInspectionReport}
+				/>
 			</Switch>
 		</BrowserRouter>
 	);
