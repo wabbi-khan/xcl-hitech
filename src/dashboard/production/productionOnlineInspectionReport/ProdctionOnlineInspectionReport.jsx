@@ -219,7 +219,7 @@ const ProductionOnlineInspectionReport = () => {
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='P.R. No'
 									variant='outlined'
 									type='text'
 									size='small'
@@ -235,7 +235,7 @@ const ProductionOnlineInspectionReport = () => {
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='Batch No.'
 									variant='outlined'
 									type='text'
 									size='small'
@@ -251,7 +251,56 @@ const ProductionOnlineInspectionReport = () => {
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									variant='outlined'
+									type='date'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('poNum', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+						</Grid>
+						<Grid container spacing={1} style={{ marginTop: 15 }}>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Production Spec'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('poNum', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Raw Material'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('poNum', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Outer Dia (mm)'
 									variant='outlined'
 									type='text'
 									size='small'
@@ -269,57 +318,7 @@ const ProductionOnlineInspectionReport = () => {
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
-									variant='outlined'
-									type='text'
-									size='small'
-									style={{ width: '100%' }}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
-								)}
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='P.R. No.'
-									variant='outlined'
-									type='text'
-									size='small'
-									style={{ width: '100%' }}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
-								)}
-							</Grid>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='P.R. No.'
-									variant='outlined'
-									type='text'
-									size='small'
-									style={{ width: '100%' }}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
-								)}
-							</Grid>
-						</Grid>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={4} md={4} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='P.R. No.'
+									label='Wall Thickness (mm)'
 									variant='outlined'
 									type='text'
 									size='small'

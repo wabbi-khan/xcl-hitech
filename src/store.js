@@ -20,6 +20,7 @@ import { fetchPlanReducer } from './services/reducer/PlanReducer';
 import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
 import { fetchShiftReducer } from './services/reducer/ShiftReducer';
 import { fetchProductionReportReducer } from './services/reducer/ProductionReportReducer';
+import { fetchCardReducer } from './services/reducer/CardReducer';
 import {
 	fetchReqReducer,
 	fetchSingleReqReducer,
@@ -46,6 +47,7 @@ const reducer = combineReducers({
 	plans: fetchPlanReducer,
 	shifts: fetchShiftReducer,
 	productionReports: fetchProductionReportReducer,
+	cards: fetchCardReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

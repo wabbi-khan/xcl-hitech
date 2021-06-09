@@ -14,7 +14,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { fetchMachineAction } from '../../../services/action/MachineAction';
+import { fetchCardAction } from '../../../services/action/CardAction';
+import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import { getVendorAction } from '../../../services/action/VendorAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import Grid from '@material-ui/core/Grid';
@@ -124,23 +126,30 @@ const SetUpCard = () => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		await dispatch(fetchMachineAction());
+		await dispatch(fetchCardAction());
+		await dispatch(getMaterialAction());
+		await dispatch(getVendorAction());
 	}, [dispatch]);
 
-	const { machines, loading, error } = useSelector((state) => state.machines);
+	const { cards, loading, error } = useSelector((state) => state.cards);
+	const { materials } = useSelector((state) => state.materials);
+	const { vendors } = useSelector((state) => state.vendors);
 
-	const onSubmitDate = async () => {
+	const onSubmitDate = async (props) => {
+		console.log(props);
 		try {
 			await axios({
 				method: 'POST',
-				url: `${process.env.REACT_APP_API_URL}/machine`,
+				url: `${process.env.REACT_APP_API_URL}/card`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
-					name: inputFields.name,
-					code: inputFields.code,
-					date: inputFields.date,
+					material: props.material,
+					supplier: props.supplier,
+					min: props.min,
+					max: props.max,
+					avg: props.avg,
 				},
 			});
 			window.location.reload();
@@ -176,25 +185,25 @@ const SetUpCard = () => {
 		setOpen(true);
 	};
 
-	const onUpdateSubmit = async (machine) => {
-		setMachine({});
-		try {
-			await axios({
-				method: 'PATCH',
-				url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				data: {
-					name: machine.name,
-					code: machine.code,
-					date: machine.date,
-				},
-			});
-			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+	const onUpdateSubmit = async (props) => {
+		console.log(props);
+		// try {
+		// 	await axios({
+		// 		method: 'PATCH',
+		// 		url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`,
+		// 		headers: {
+		// 			'Content-Type': 'application/json',
+		// 		},
+		// 		data: {
+		// 			name: machine.name,
+		// 			code: machine.code,
+		// 			date: machine.date,
+		// 		},
+		// 	});
+		// 	window.location.reload();
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	};
 
 	const onDelete = async (id) => {
@@ -219,15 +228,27 @@ const SetUpCard = () => {
 							<Grid item lg={6} md={6} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='Select Material'
 									variant='outlined'
 									type='text'
+									autoComplete='off'
 									size='small'
-									className={classes.inputFieldStyle1}
+									select
+									value={inputFields.machine1}
 									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
-								/>
+									{...register('material', { required: true })}
+									style={{ width: '100%' }}
+									InputLabelProps={{ style: { fontSize: 14 } }}>
+									{!materials || !materials.length ? (
+										<p>Data Not Found</p>
+									) : (
+										materials.map((material, i) => (
+											<MenuItem value={material._id} key={i}>
+												{material.name}
+											</MenuItem>
+										))
+									)}
+								</CssTextField>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
 								)}
@@ -235,42 +256,47 @@ const SetUpCard = () => {
 							<Grid item lg={6} md={6} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='Select Vendor'
 									variant='outlined'
 									type='text'
+									autoComplete='off'
 									size='small'
-									className={classes.inputFieldStyle1}
+									select
+									value={inputFields.machine1}
 									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
-								/>
+									{...register('supplier', { required: true })}
+									style={{ width: '100%' }}
+									InputLabelProps={{ style: { fontSize: 14 } }}>
+									{!vendors || !vendors.length ? (
+										<p>Data Not Found</p>
+									) : (
+										vendors.map((vendor, i) => (
+											<MenuItem value={vendor._id} key={i}>
+												{vendor.name}
+											</MenuItem>
+										))
+									)}
+								</CssTextField>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
 								)}
 							</Grid>
 						</Grid>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid
-								alignItems='center'
-								justify='center'
-								item
-								lg={1}
-								md={1}
-								sm={12}
-								xs={12}>
+							<Grid item lg={1} md={1} sm={12} xs={12}>
 								<h4>Size: </h4>
 							</Grid>
 							<Grid item lg={3} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='Min'
 									variant='outlined'
 									type='text'
 									size='small'
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('min', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -280,14 +306,14 @@ const SetUpCard = () => {
 							<Grid item lg={3} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='Max'
 									variant='outlined'
 									type='text'
+									style={{ width: '100%' }}
 									size='small'
-									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('max', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -297,14 +323,14 @@ const SetUpCard = () => {
 							<Grid item lg={3} md={4} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='P.R. No.'
+									label='Avg'
 									variant='outlined'
 									type='text'
+									style={{ width: '100%' }}
 									size='small'
-									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('avg', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -333,9 +359,12 @@ const SetUpCard = () => {
 							<TableHead>
 								<TableRow hover role='checkbox'>
 									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Machine Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+									<StyledTableCell align='center'>Material</StyledTableCell>
+									<StyledTableCell align='center'>Vendor</StyledTableCell>
+									<StyledTableCell align='center'>Min</StyledTableCell>
+									<StyledTableCell align='center'>Max</StyledTableCell>
+									<StyledTableCell align='center'>Avg</StyledTableCell>
+									<StyledTableCell align='center'>Actions</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -343,17 +372,26 @@ const SetUpCard = () => {
 									<Loading />
 								) : error ? (
 									<MaterialError />
-								) : machines.length ? (
-									machines.map((machine, i) => (
+								) : cards.length ? (
+									cards.map((card, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{machine.name}
+												{card.material.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{machine.code}
+												{card.supplier.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{card.min}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{card.max}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{card.avg}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
