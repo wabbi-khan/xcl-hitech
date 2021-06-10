@@ -73,6 +73,7 @@ import Marketing from './dashboard/marketing-sales/Marketing';
 import OrderBookingForm from './dashboard/marketing-sales/order booking form/OrderBookingForm';
 import ViewVendorDetails from './dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from './dashboard/purchase/approve supplier list/ViewAppSuppDetails';
+import PrintVendorOrderList from './dashboard/purchase/purchase order list/PrintVendorOrderList';
 
 dotenv.config();
 
@@ -128,6 +129,11 @@ function App() {
 					exact
 					path='/purchase/purchase_order_list/order_details/:id'
 					component={FullOrderDetails}
+				/>
+				<Route
+					exact
+					path='/purchase/purchase_order_list/print_order_details/:id'
+					component={PrintVendorOrderList}
 				/>
 				<Route
 					exact

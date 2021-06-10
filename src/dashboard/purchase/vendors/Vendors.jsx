@@ -169,13 +169,6 @@ const Vendors = ({ history }) => {
     const fetchMatCategory = useSelector(state => state.categories)
     const fetchMaterial = useSelector(state => state.materials)
 
-    const [myVendors, setMyVendors] = useState(vendors)
-
-
-    useEffect(() => {
-        setMyVendors(vendors)
-    }, [vendors])
-
     const fetchMaterials = async (id) => {
         setMaterials([])
         await dispatch(getSpecCatMatAction(id))
@@ -194,12 +187,10 @@ const Vendors = ({ history }) => {
 
     const onSubmitData = async (data) => {
         data.material = Materials
-        console.log(data)
-        setMyVendors([...myVendors, data])
         try {
-            const vendor = await axios.post(`${process.env.REACT_APP_API_URL}/vendor`, data)
+            await axios.post(`${process.env.REACT_APP_API_URL}/vendor`, data)
             setAddVendorSuccess(true)
-            console.log(vendor)
+            window.location.reload()
         }
         catch (error) {
             setAddVendorFail(true)
@@ -434,8 +425,8 @@ const Vendors = ({ history }) => {
                                             <MaterialError />
                                         ) :
                                             (
-                                                !myVendors || !myVendors.length ? <p>Not Found</p> :
-                                                    myVendors.map((vendor, i) => (
+                                                !vendors || !vendors.length ? <p>Not Found</p> :
+                                                    vendors.map((vendor, i) => (
                                                         <StyledTableRow key={i}>
                                                             <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>

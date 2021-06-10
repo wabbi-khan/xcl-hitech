@@ -253,9 +253,9 @@ const Material = () => {
                         {
                             errors.unit?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
                         }
-                        {/* {
+                        {
                             AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p>  : null
-                        } */}
+                        }
                         <div>
                             <Button variant="outlined" color="primary"
                                 type="submit"

@@ -73,6 +73,7 @@ import ViewPlan from '../dashboard/production/ViewPlan/ViewPlan';
 import Shifts from '../dashboard/production/shifts/Shifts';
 import ViewVendorDetails from '../dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from '../dashboard/purchase/approve supplier list/ViewAppSuppDetails';
+import PrintVendorOrderList from '../dashboard/purchase/purchase order list/PrintVendorOrderList';
 
 
 
@@ -95,6 +96,7 @@ const Router = () => {
                 <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>
                 <Router exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails}/>
+                <Router exact path="/purchase/purchase_order_list/print_order_details/:id" component={PrintVendorOrderList}/>
                 <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
                 <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
                 <Router exact path="/storedashboard" component={Store}/>                      //Store Module Routes
