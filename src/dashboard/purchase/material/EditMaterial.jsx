@@ -163,10 +163,11 @@ const EditMaterial = (props) => {
                                                 autocomplete="off"
                                                 size="small"
                                                 select
+                                                value={material.category._id}
                                                 className={classes.inputFieldStyle}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                                                defaultValue={material.category._id}
+                                                // defaultValue={material.category._id}
                                                 {...register("category", { required: true })}
                                             >
                                                 {

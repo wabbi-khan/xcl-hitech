@@ -216,7 +216,7 @@ const PrintVendorOrderList = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                {
+                                {/* {
                                     !order.materials || !order.materials.length ? <span>Not Found</span> :
                                         order.materials.map((mat, i) => (
                                             <StyledTableRow key={i}>
@@ -225,30 +225,19 @@ const PrintVendorOrderList = (props) => {
                                                 <StyledTableCell className="text-dark" align="center">{mat.unit}</StyledTableCell>
                                             </StyledTableRow>
                                         ))
-                                }
+                                } */}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
                 </div>
             </div>
             <div className="container mt-5">
                 <div className="row">
-                    <div className="col-lg-3 col-md-3 mt-4">
+                    <div className="col-lg-3 col-md-3 mt-5">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
                         <p style={{ marginTop: -10 }}>Store Incharge</p>
                     </div>
-                    <div className="offset-lg-6 offset-md-6 col-lg-3 col-md-3 mt-4">
+                    <div className="offset-lg-6 offset-md-6 col-lg-3 col-md-3 mt-5">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
                         <p style={{ marginTop: -10 }}>Q.A Dept</p>
                     </div>

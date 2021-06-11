@@ -12,7 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
-import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import { getMaterialAction, getFilteredMaterial } from '../../../services/action/MaterialDataHandle';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import MaterialError from './MaterialError';
 import { useForm } from 'react-hook-form';
@@ -129,12 +129,14 @@ const Material = () => {
     const [AddMatError, setAddMatError] = useState(false)
     const [AddMatErrMsg, setAddMatErrMsg] = useState('internal server error')
     const [material, setMaterial] = useState()
+    const [input, setInput] = useState()
+    const [materialName, setMaterialName] = useState()
 
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors } } = useForm()
-
+    
     const dispatch = useDispatch()
-
+    
     useEffect(async () => {
         await dispatch(getMaterialAction())
         await dispatch(getMaterialCategoryAction())
@@ -148,12 +150,10 @@ const Material = () => {
         }
         catch (error) {
             setAddMatError(true)
-
         }
     }
 
     const { loading, materials, error } = useSelector(state => state.materials)
-    // console.log(materials);
     const { categories } = useSelector(state => state.categories)
 
     const deleteMaterial = async (params) => {
@@ -164,7 +164,6 @@ const Material = () => {
         catch (error) {
             console.log(error);
         }
-
     }
 
     const [open, setOpen] = useState(false);
@@ -172,11 +171,17 @@ const Material = () => {
     const handleClose = (props) => {
         setOpen(props);
     }
-
     const handleOpen = async (material) => {
         setMaterial(material)
         setOpen(true);
     }
+
+    const handleChange = async (e) => {
+        e.preventDefault();
+        dispatch(getFilteredMaterial(e.target.value))
+    }
+
+
 
     return (
         <Sidenav title={'Material'}>
@@ -254,7 +259,7 @@ const Material = () => {
                             errors.unit?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
                         }
                         {
-                            AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p>  : null
+                            AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p> : null
                         }
                         <div>
                             <Button variant="outlined" color="primary"
@@ -271,13 +276,14 @@ const Material = () => {
                     <CssTextField id="outlined-basic"
                         label="Search Materials"
                         variant="outlined"
-                        type="text"
+                        type="search"
                         size="small"
                         autoComplete="off"
+                        value={input}
+                        onChange={handleChange}
                         className={classes.inputFieldStyle1}
                         inputProps={{ style: { fontSize: 14 } }}
                         InputLabelProps={{ style: { fontSize: 14 } }}
-                        {...register("")}
                     />
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
