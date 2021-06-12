@@ -19,6 +19,7 @@ import avatar from '../assests/user.svg'
 import { fetchEmployeesAction } from '../../../services/action/EmployeesAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -75,6 +76,15 @@ const useStyles = makeStyles((theme) => ({
 
         },
     },
+    addMoreButton: {
+        backgroundColor: '#22A19A',
+        color: 'whitesmoke',
+        marginLeft: 20,
+        '&:hover': {
+            color: '#22A19A',
+            borderColor: '#22A19A',
+        },
+    },
     table: {
         minWidth: 600,
     },
@@ -102,15 +112,49 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     inputFieldStyle1: {
-        // boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-        // borderColor: 'red',
         [theme.breakpoints.up('md')]: {
             width: 250,
-
+            marginLeft: 70
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
         },
+    },
+    inputFieldStyle2: {
+        [theme.breakpoints.up('md')]: {
+            width: 250,
+            marginLeft: 140
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
+        },
+    },
+    inputFieldStyle3: {
+        [theme.breakpoints.up('md')]: {
+            width: 250,
+            marginLeft: 210
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: 200,
+        },
+    },
+    delete: {
+        color: 'red',
+        fontSize: 38,
+        [theme.breakpoints.up('md')]: {
+            marginLeft: 50,
+            marginTop: -7,
+        },
+        [theme.breakpoints.down('sm')]: {
+            marginTop: -10,
+        },
+    },
+    deleteRowBtn: {
+        marginLeft: 220,
+        '&:hover': {
+            border: 'none',
+            background: 'none',
+        }
     },
     uploadImgBtn: {
         paddingLeft: 20,
@@ -138,6 +182,8 @@ const CssTextField = withStyles({
 const Employees = ({ history }) => {
     const classes = useStyles();
     const [image, setImage] = useState({ path: avatar })
+    const [ItemCounter, setItemCounter] = useState([{ material: "", quantity: '', unitValue: '', remarks: '' }]);
+    const [vendorMaterial, setVendorMaterial] = useState([])
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -157,6 +203,29 @@ const Employees = ({ history }) => {
 
     const { employee, loading, error } = useSelector(state => state.employee)
     console.log(employee);
+
+    const addMoreFunc = () => {
+        setItemCounter([...ItemCounter, { material: '', quantity: '', unitValue: '', remarks: '' }]);
+    };
+
+    const deleteItem = (i) => {
+        const temp = [...ItemCounter];
+        temp.splice(i, 1);
+        setItemCounter(temp);
+    }
+
+    const onChangeHandler = (value, placeholder, index) => {
+        console.log(value)
+        const tempFields = ItemCounter.map((item, i) => {
+            if (i === index) {
+                return { ...item, [placeholder]: value };
+            } else {
+                return { ...item };
+            }
+        });
+        console.log(tempFields)
+        setItemCounter([...tempFields]);
+    };
 
     const onSubmitData = () => {
         // console.log('data submit');
@@ -589,6 +658,122 @@ const Employees = ({ history }) => {
                             </Grid>
                         </Grid>
                         {/* ) : null */}
+                        <div style={{ marginTop: 30, marginBottom: 30, }}>
+                            <hr />
+                        </div>
+                        <Container className={classes.mainContainer}>
+                            <h5 className="text-left">Academic Qualification</h5>
+                            {
+                                ItemCounter.map((value, i) => {
+                                    const no = i + 1;
+                                    return (
+                                        <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
+                                            <Grid item lg={1} md={1}>
+                                                <h5 className={classes.itemHeading}>{no}</h5>
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Degree/Certification"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    select
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e.target.value, 'material', i)
+                                                        const material = vendorMaterial.find(el => el._id === e.target.value)
+                                                        const tempFields = ItemCounter.map((item, myI) => {
+                                                            if (myI === i) {
+                                                                return { ...item, 'material': e.target.value, 'unitValue': material.unit };
+                                                            } else {
+                                                                return { ...item };
+                                                            }
+                                                        });
+                                                        setItemCounter([...tempFields]);
+                                                    }}
+                                                    className={classes.inputFieldStyle}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                >
+                                                    {
+                                                        !vendorMaterial.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
+                                                            vendorMaterial.map(material => (
+                                                                <MenuItem value={material._id} key={material._id}>
+                                                                    {material.name}
+                                                                </MenuItem>
+                                                            ))
+                                                    }
+                                                </CssTextField>
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Board/University"
+                                                    variant="outlined"
+                                                    type="number"
+                                                    size="small"
+                                                    value={value.quantity}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e.target.value, "quantity", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle1}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Year of Passing"
+                                                    variant="outlined"
+                                                    type="number"
+                                                    size="small"
+                                                    value={ItemCounter[i].unitValue}
+                                                    className={classes.inputFieldStyle2}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Division"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    value={value.remarks}
+                                                    onChange={(e) => {
+                                                        onChangeHandler(e.target.value, "remarks", i)
+                                                    }}
+                                                    className={classes.inputFieldStyle3}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                                <Button onClick={() => deleteItem(i)} className={classes.deleteRowBtn}>
+                                                    <DeleteOutlineIcon className={classes.delete} />
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    )
+                                }
+                                )
+                            }
+                            <Grid container spacing={1} >
+                                <Grid item lg={3} md={3} sm={10} xs={11}>
+                                    <Button variant="outlined" color="primary"
+                                        className={classes.addMoreButton}
+                                        onClick={addMoreFunc}
+                                    // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                                    >
+                                        Add More
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            {/* {
+                                AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p> : null
+                            }
+                            {
+                                AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
+                            } */}
+                        </Container>
                         <div>
                             <Button
                                 variant="outlined"
@@ -600,7 +785,7 @@ const Employees = ({ history }) => {
                                 }}
                             >
                                 Add
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>

@@ -1,4 +1,12 @@
-import { CATEGORY_FETCH_FAIL, CATEGORY_FETCH_REQUEST, CATEGORY_FETCH_SUCCESS } from "../constants/MatCategoryConst";
+import { 
+    CATEGORY_FAIL, 
+    CATEGORY_REQUEST, 
+    CATEGORY_FETCH_SUCCESS, 
+    CATEGORY_CREATE_SUCCESS, 
+    CATEGORY_DELETE_SUCCESS, 
+    CATEGORY_UPDATE_SUCCESS 
+} 
+from "../constants/MatCategoryConst";
 
 
 export const fetchCategoryReducer = (
@@ -6,21 +14,43 @@ export const fetchCategoryReducer = (
     action
 ) => {
     switch (action.type) {
-        case CATEGORY_FETCH_REQUEST:
-            return { 
+        case CATEGORY_REQUEST:
+            return {
+                ...state,
+                error: '',
                 loading: true,
             }
-        case CATEGORY_FETCH_SUCCESS:
-            return { 
-                loading: false,
-                categories: action.payload
-            }
-        case CATEGORY_FETCH_FAIL:
-            return { 
+        case CATEGORY_FAIL:
+            return {
+                ...state,
                 loading: false,
                 error: action.payload
             }
-    
+        case CATEGORY_FETCH_SUCCESS:
+            return {
+                loading: false,
+                error: '',
+                categories: action.payload
+            }
+        case CATEGORY_UPDATE_SUCCESS:
+            return {
+                loading: false,
+                error: '',
+                categories: state.categories.map(category => category._id === action.payload._id ? action.payload : category)
+            }
+        case CATEGORY_DELETE_SUCCESS:
+            return {
+                loading: false,
+                error: '',
+                categories: state.categories.filter(category => category._id !== action.payload)
+            }
+        case CATEGORY_CREATE_SUCCESS:
+            return {
+                error: '',
+                loading: false,
+                categories: [...state.categories, action.payload]
+            }
+
         default:
             return state;
     }

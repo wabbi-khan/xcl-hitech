@@ -382,7 +382,7 @@ const PurchaseRequisition = ({ history }) => {
                                 // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                                 >
                                     Add More
-                            </Button>
+                                </Button>
                             </Grid>
                         </Grid>
                         <Grid container spacing={1} >
@@ -400,7 +400,7 @@ const PurchaseRequisition = ({ history }) => {
                                 // style={{ marginLeft: 'auto', marginRight: 'auto' }}
                                 >
                                     Submit
-                            </Button>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Container>
