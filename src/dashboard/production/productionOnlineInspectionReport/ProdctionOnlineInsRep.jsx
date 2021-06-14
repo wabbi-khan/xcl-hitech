@@ -113,7 +113,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const ProductionOnlineInspectionReport = () => {
+const ProductionOnlineInsRep = () => {
 	const classes = useStyles();
 	const {
 		register,
@@ -129,18 +129,22 @@ const ProductionOnlineInspectionReport = () => {
 
 	const { machines, loading, error } = useSelector((state) => state.machines);
 
-	const onSubmitDate = async () => {
+	const onSubmitDate = async (props) => {
 		try {
 			await axios({
 				method: 'POST',
-				url: `${process.env.REACT_APP_API_URL}/machine`,
+				url: `${process.env.REACT_APP_API_URL}/productionOnlineInsRep`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
-					name: inputFields.name,
-					code: inputFields.code,
-					date: inputFields.date,
+					shift: props.shift,
+					supplier: props.supplier,
+					batchNo: props.batchNo,
+					productionSpec: props.productionSpec,
+					rawMaterial: props.rawMaterial,
+					outerDia: props.outerDia,
+					wallThickness: props.wallThickness,
 				},
 			});
 			window.location.reload();
@@ -149,15 +153,16 @@ const ProductionOnlineInspectionReport = () => {
 		}
 	};
 
-	const todaysDate = new Date(Date.now());
-	const sortedDate = `${todaysDate.getDate()}/${todaysDate.getMonth()}/${todaysDate.getFullYear()}`;
-
 	const [open, setOpen] = useState(false);
-	const [machine, setMachine] = useState({});
+	const [productionOnlineInsRep, setProductionOnlineInsRep] = useState({});
 	const [inputFields, setInputFields] = useState({
-		name: '',
-		code: '',
-		date: sortedDate,
+		shift: '',
+		supplier: '',
+		batchNo: '',
+		productionSpec: '',
+		rawMaterial: '',
+		outerDia: '',
+		wallThickness: '',
 	});
 
 	const onChangeHandler = (e, placeholder) => {
@@ -170,25 +175,28 @@ const ProductionOnlineInspectionReport = () => {
 		setOpen(!open);
 	};
 
-	const handleOpen = (machine) => {
-		console.log(machine);
-		setMachine(machine);
+	const handleOpen = (productionOnlineInsRep) => {
+		console.log(productionOnlineInsRep);
+		setProductionOnlineInsRep(productionOnlineInsRep);
 		setOpen(true);
 	};
 
-	const onUpdateSubmit = async (machine) => {
-		setMachine({});
+	const onUpdateSubmit = async (productionOnlineInsRep) => {
 		try {
 			await axios({
 				method: 'PATCH',
-				url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`,
+				url: `${process.env.REACT_APP_API_URL}/productionOnlineInsRep/${productionOnlineInsRep._id}`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
-					name: machine.name,
-					code: machine.code,
-					date: machine.date,
+					shift: productionOnlineInsRep.shift,
+					supplier: productionOnlineInsRep.supplier,
+					batchNo: productionOnlineInsRep.batchNo,
+					productionSpec: productionOnlineInsRep.productionSpec,
+					rawMaterial: productionOnlineInsRep.rawMaterial,
+					outerDia: productionOnlineInsRep.outerDia,
+					wallThickness: productionOnlineInsRep.wallThickness,
 				},
 			});
 			window.location.reload();
@@ -226,7 +234,7 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('prNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -242,7 +250,7 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('hi', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -257,7 +265,7 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('machineNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -275,7 +283,7 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('orderNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -291,7 +299,7 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('rawMaterial', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -307,7 +315,7 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('productionHours', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -325,7 +333,23 @@ const ProductionOnlineInspectionReport = () => {
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('poNum', { required: true })}
+									{...register('shift', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Wall Thickness (mm)'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('items', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.O. No. is required</p>
@@ -412,4 +436,4 @@ const ProductionOnlineInspectionReport = () => {
 	);
 };
 
-export default ProductionOnlineInspectionReport;
+export default ProductionOnlineInsRep;

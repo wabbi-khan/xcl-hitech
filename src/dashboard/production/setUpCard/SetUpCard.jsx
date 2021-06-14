@@ -20,6 +20,7 @@ import { getVendorAction } from '../../../services/action/VendorAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import Grid from '@material-ui/core/Grid';
+import EditSetUpCard from './EditSetUpCard';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -162,7 +163,7 @@ const SetUpCard = () => {
 	const sortedDate = `${todaysDate.getDate()}/${todaysDate.getMonth()}/${todaysDate.getFullYear()}`;
 
 	const [open, setOpen] = useState(false);
-	const [machine, setMachine] = useState({});
+	const [card, setCard] = useState({});
 	const [inputFields, setInputFields] = useState({
 		name: '',
 		code: '',
@@ -179,38 +180,41 @@ const SetUpCard = () => {
 		setOpen(!open);
 	};
 
-	const handleOpen = (machine) => {
-		console.log(machine);
-		setMachine(machine);
+	const handleOpen = (card) => {
+		console.log(card);
+		setCard(card);
 		setOpen(true);
 	};
 
 	const onUpdateSubmit = async (props) => {
 		console.log(props);
-		// try {
-		// 	await axios({
-		// 		method: 'PATCH',
-		// 		url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`,
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 		},
-		// 		data: {
-		// 			name: machine.name,
-		// 			code: machine.code,
-		// 			date: machine.date,
-		// 		},
-		// 	});
-		// 	window.location.reload();
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+		console.log('object');
+		try {
+			await axios({
+				method: 'PATCH',
+				url: `${process.env.REACT_APP_API_URL}/card/${card._id}`,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				data: {
+					material: props.material,
+					supplier: props.supplier,
+					min: props.min,
+					max: props.max,
+					avg: props.avg,
+				},
+			});
+			window.location.reload();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const onDelete = async (id) => {
 		try {
 			await axios({
 				method: 'DELETE',
-				url: `${process.env.REACT_APP_API_URL}/machine/${id}`,
+				url: `${process.env.REACT_APP_API_URL}/card/${id}`,
 			});
 			window.location.reload();
 		} catch (error) {
@@ -350,6 +354,15 @@ const SetUpCard = () => {
 					</form>
 				</Container>
 
+				{open && (
+					<EditSetUpCard
+						show={open}
+						close={handleClose}
+						card={card}
+						onSubmit={onUpdateSubmit}
+					/>
+				)}
+
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -399,7 +412,8 @@ const SetUpCard = () => {
 													className='bg-dark text-light'
 													size='small'
 													onClick={() => {
-														handleOpen(machine);
+														console.log(card);
+														handleOpen(card);
 													}}
 													style={{ marginTop: 2 }}>
 													Edit
@@ -409,7 +423,7 @@ const SetUpCard = () => {
 													color='secondary'
 													size='small'
 													onClick={() => {
-														onDelete(machine._id);
+														onDelete(card._id);
 													}}
 													style={{ marginLeft: 2, marginTop: 2 }}>
 													Delete

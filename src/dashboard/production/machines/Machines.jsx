@@ -139,8 +139,6 @@ const Machines = () => {
 				},
 				data: {
 					name: inputFields.name,
-					code: inputFields.code,
-					date: inputFields.date,
 				},
 			});
 			window.location.reload();
@@ -149,15 +147,10 @@ const Machines = () => {
 		}
 	};
 
-	const todaysDate = new Date(Date.now());
-	const sortedDate = `${todaysDate.getDate()}/${todaysDate.getMonth()}/${todaysDate.getFullYear()}`;
-
 	const [open, setOpen] = useState(false);
 	const [machine, setMachine] = useState({});
 	const [inputFields, setInputFields] = useState({
 		name: '',
-		code: '',
-		date: sortedDate,
 	});
 
 	const onChangeHandler = (e, placeholder) => {
@@ -177,7 +170,6 @@ const Machines = () => {
 	};
 
 	const onUpdateSubmit = async (machine) => {
-		setMachine({});
 		try {
 			await axios({
 				method: 'PATCH',
@@ -187,8 +179,6 @@ const Machines = () => {
 				},
 				data: {
 					name: machine.name,
-					code: machine.code,
-					date: machine.date,
 				},
 			});
 			window.location.reload();
@@ -228,33 +218,6 @@ const Machines = () => {
 							InputLabelProps={{ style: { fontSize: 14 } }}
 							onChange={(e) => onChangeHandler(e, 'name')}
 							value={inputFields.name}
-						/>
-						<CssTextField
-							id='outlined-basic'
-							label='Machine Code'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							style={{ marginRight: 20 }}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							value={inputFields.code}
-							onChange={(e) => onChangeHandler(e, 'code')}
-						/>
-						<CssTextField
-							id='outlined-basic'
-							label='Date'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							value={inputFields.date}
-							onChange={(e) => onChangeHandler(e, 'date')}
 						/>
 						<div>
 							<Button

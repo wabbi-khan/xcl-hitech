@@ -71,7 +71,7 @@ import EditPlan from './dashboard/production/EditPlan/EditPlan';
 import Shifts from './dashboard/production/shifts/Shifts';
 import ProductionReport from './dashboard/production/productionReport/ProductionReport';
 import SetUpCard from './dashboard/production/setUpCard/SetUpCard';
-import ProductionOnlineInspectionReport from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInspectionReport';
+import ProductionOnlineInsRep from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInsRep';
 
 dotenv.config();
 
@@ -316,7 +316,7 @@ function App() {
 				<Route
 					exact
 					path='/productionDashboard/production-online-inspection-report'
-					component={ProductionOnlineInspectionReport}
+					component={ProductionOnlineInsRep}
 				/>
 			</Switch>
 		</BrowserRouter>
