@@ -74,6 +74,7 @@ import Shifts from '../dashboard/production/shifts/Shifts';
 import ViewVendorDetails from '../dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from '../dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 import PrintVendorOrderList from '../dashboard/purchase/purchase order list/PrintVendorOrderList';
+import PrintEmpDetails from '../dashboard/hr/employees/PrintEmpDetails';
 
 
 
@@ -131,7 +132,7 @@ const Router = () => {
                 <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
                 <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
                 <Router exact path="/hr/employees" component={Employees}/>
-                <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
+                <Router exact path="/hr/employees/view_emp_details/:id" component={PrintEmpDetails}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>
                 <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>

@@ -74,6 +74,7 @@ import OrderBookingForm from './dashboard/marketing-sales/order booking form/Ord
 import ViewVendorDetails from './dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from './dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 import PrintVendorOrderList from './dashboard/purchase/purchase order list/PrintVendorOrderList';
+import PrintEmpDetails from './dashboard/hr/employees/PrintEmpDetails';
 
 dotenv.config();
 
@@ -262,8 +263,8 @@ function App() {
 				<Route exact path='/hr/employees' component={Employees} />
 				<Route
 					exact
-					path='/hr/employees/view_emp_details'
-					component={ViewEmpDetails}
+					path='/hr/employees/view_emp_details/:id'
+					component={PrintEmpDetails}
 				/>
 				<Route exact path='/hr/employees_salaries' component={EmpSalaries} />
 				<Route exact path='/hr/employees_leave' component={EmpLeave} />
