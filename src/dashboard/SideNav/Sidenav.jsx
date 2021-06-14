@@ -544,6 +544,7 @@ function Sidenav(props) {
 	const [open2, setOpen2] = React.useState(false);
 	const [open3, setOpen3] = React.useState(false);
 	const [open4, setOpen4] = React.useState(false);
+	const [open5, setOpen5] = React.useState(false);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -730,7 +731,7 @@ function Sidenav(props) {
 							<ListItemText
 								primary={text}
 								onClick={() => {
-									history.push('/purchasedashboard');
+									history.push('/marketing_dashboard');
 								}}
 							/>
 							{open4 ? <IconExpandLess /> : <IconExpandMore />}
@@ -797,7 +798,7 @@ function Sidenav(props) {
 							button
 							key={text}
 							onClick={() => {
-								setOpen4(!open4);
+								setOpen5(!open5);
 							}}>
 							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
 								{index % 2 === 0 ? <LabelIcon /> : <MailIcon />}
@@ -808,10 +809,10 @@ function Sidenav(props) {
 									history.push('/productionDashboard');
 								}}
 							/>
-							{open4 ? <IconExpandLess /> : <IconExpandMore />}
+							{open5 ? <IconExpandLess /> : <IconExpandMore />}
 						</ListItem>
 					))}
-					<Collapse in={open4} timeout='auto' unmountOnExit>
+					<Collapse in={open5} timeout='auto' unmountOnExit>
 						<Divider />
 						<List component='div' disablePadding>
 							<ListItem
@@ -826,15 +827,23 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/productionDashboard/weekly-production-plan');
+									history.push('/productionDashboard/shifts');
 								}}>
-								<ListItemText inset primary='Weekly Production Plan' />
+								<ListItemText inset primary='Shifts' />
 							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/productionDashboard/set-up-card');
+									history.push('/productionDashboard/weekly-production-plan');
+								}}>
+								<ListItemText inset primary='Weekly Production...' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/setUpCards');
 								}}>
 								<ListItemText inset primary='Set Up Cards' />
 							</ListItem>
@@ -842,7 +851,7 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/productionDashboard/production-report');
+									history.push('/productionDashboard/productionReport');
 								}}>
 								<ListItemText inset primary='Production Report' />
 							</ListItem>
@@ -850,19 +859,17 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push(
-										'/productionDashboard/production-online-inspection-report',
-									);
+									history.push('/productionDashboard/productionOnlineInspectionReport');
 								}}>
-								<ListItemText inset primary='Production Online Inspection Report' />
+								<ListItemText inset primary='Production Online...' />
 							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/productionDashboard/shifts');
+									history.push('/productionDashboard/production');
 								}}>
-								<ListItemText inset primary='Shifts' />
+								<ListItemText inset primary='Production' />
 							</ListItem>
 						</List>
 					</Collapse>

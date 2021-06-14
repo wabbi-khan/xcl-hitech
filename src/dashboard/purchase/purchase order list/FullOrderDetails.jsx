@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
+import Button from '@material-ui/core/Button';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -76,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
     },
     dataTable: {
         marginTop: 40,
-
     },
     ckeckBox: {
         [theme.breakpoints.up('md')]: {
@@ -91,11 +91,22 @@ const useStyles = makeStyles((theme) => ({
         // borderRadius: 5,
         [theme.breakpoints.up('md')]: {
             width: 250,
-
+            
         },
         [theme.breakpoints.down('sm')]: {
             width: 200,
-
+            
+        },
+    },
+    printBtn: {
+        marginRight: 40,
+        backgroundColor: '#22A19A',
+        color: 'whitesmoke',
+        fontWeight: 'bold',
+        '&:hover': {
+            border: 'none',
+            backgroundColor: 'whitesmoke',
+            color: '#22A19A',
         },
     },
 }));
@@ -119,6 +130,7 @@ const CssTextField = withStyles({
 
 const FullOrderDetails = (props) => {
     const id = props.match.params.id
+    const { history } = props
     const classes = useStyles();
 
     const dispatch = useDispatch()
@@ -289,7 +301,7 @@ const FullOrderDetails = (props) => {
                                                                     !order.materials || !order.materials.length ? <span>Material Not Found</span> : (
                                                                         order.materials.map((material, i) => (
                                                                             <StyledTableRow key={i}>
-                                                                                <StyledTableCell className="text-dark" align="center">{i+1}</StyledTableCell>
+                                                                                <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
                                                                                 <StyledTableCell className="text-dark" align="center">{material.material.name}</StyledTableCell>
                                                                                 <StyledTableCell className="text-dark" align="center">{material.quantity}</StyledTableCell>
                                                                                 <StyledTableCell className="text-dark" align="center">{material.unitValue}</StyledTableCell>
@@ -306,6 +318,20 @@ const FullOrderDetails = (props) => {
                                         )
                                 )
                     }
+                    <Grid container spacing={1} className="mt-2">
+                        <Grid item lg={10} md={10}></Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Button
+                                variant="contained" size="small" 
+                                className={classes.printBtn}
+                                onClick={() => {
+                                    history.push(`/purchase/purchase_order_list/print_order_details/${order._id}`)
+                                }}
+                            >
+                                Print
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Container>
             </div>
         </Sidenav>

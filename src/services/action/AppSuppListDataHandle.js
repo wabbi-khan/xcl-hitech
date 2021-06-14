@@ -13,6 +13,7 @@ export const appSuppListAction = () => async (dispatch) => {
     })
     
     try {
+        console.log('asdjh')
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/vendor/verified`)
         
         dispatch({

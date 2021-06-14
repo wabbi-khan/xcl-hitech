@@ -16,7 +16,7 @@ import axios from 'axios';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
-import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
+import { createDepartmentAction, deleteDepartmentAction, fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import EditDepartment from './EditDepartment';
 
 
@@ -134,18 +134,19 @@ const Department = () => {
 
     const { departments, loading, error } = useSelector(state => state.departments)
 
-    const onSubmitDate = async (props) => {
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/department`, props)
-            window.location.reload()
-            console.log('submit');
-            // setAddMatError(false)
-        }
-        catch (error) {
-            console.log(error);
-            // setAddMatError(true)
 
-        }
+    const onSubmitDate = async (props) => {
+        dispatch(createDepartmentAction(props))
+        // try {
+        //     await axios.post(`${process.env.REACT_APP_API_URL}/department`, props)
+        //     window.location.reload()
+        //     console.log('submit');
+        //     // setAddMatError(false)
+        // }
+        // catch (error) {
+        //     console.log(error);
+        //     // setAddMatError(true)
+        // }
     }
 
     const [open, setOpen] = useState(false);
@@ -160,14 +161,15 @@ const Department = () => {
     }
 
     const deleteDept = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/department/${params}`)
-            window.location.reload()
-        }
-        catch (error) {
-            console.log(error);
-            console.log('catch');
-        }
+        dispatch(deleteDepartmentAction(params))
+        // try {
+        //     await axios.delete(`${process.env.REACT_APP_API_URL}/department/${params}`)
+        //     window.location.reload()
+        // }
+        // catch (error) {
+        //     console.log(error);
+        //     console.log('catch');
+        // }
     }
 
     return (
@@ -188,7 +190,6 @@ const Department = () => {
                             label="Department Name*"
                             variant="outlined"
                             type="text"
-                            autocomplete="off"
                             size="small"
                             autocomplete="off"
                             className={classes.inputFieldStyle}
@@ -202,17 +203,22 @@ const Department = () => {
                                         <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
                                     ))
                             } */}
+                        {
+                            errors.name?.type === 'required' && <p className='mt-3 text-danger'>Department Name must be required</p>
+                        }
                         <div>
                             <Button variant="outlined" color="primary"
                                 type="submit"
                                 className={classes.addButton}
                             >
                                 Add
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>
-
+                {
+                    error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
+                }
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
@@ -228,33 +234,31 @@ const Department = () => {
                                     loading ? (
                                         <Loading />
                                     ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
+                                        (
+                                            departments &&
                                                 departments.length ?
-                                                    departments.map((department, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{department.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(department)
-                                                                    }
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteDept(department._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
+                                                departments.map((department, i) => (
+                                                    <StyledTableRow key={i}>
+                                                        <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                        <StyledTableCell className="text-dark" align="center">{department.name}</StyledTableCell>
+                                                        <StyledTableCell className="text-light" align="center">
+                                                            <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                onClick={() =>
+                                                                    handleOpen(department)
+                                                                }
+                                                                style={{ marginTop: 2 }} >
+                                                                Edit
+                                                            </Button>
+                                                                <Button variant="contained" color="secondary" size="small"
+                                                                    onClick={() => deleteDept(department._id)}
+                                                                    style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                    Delete
                                                                 </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                                    : <h5>Not Found</h5>
-                                            )
+                                                        </StyledTableCell>
+                                                    </StyledTableRow>
+                                                ))
+                                                : <h5>Not Found</h5>
+                                        )
                                 }
                             </TableBody>
                         </Table>

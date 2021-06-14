@@ -20,7 +20,32 @@ export const getMaterialAction = () => async (dispatch) => {
         
         dispatch({
             type: MATERIAL_FETCH_SUCCESS,
-            payload: data.material,
+            payload: data.data,
+        })
+
+        // console.log(fetchApiData.data.material);
+    }
+    
+    catch (err) {
+        dispatch({
+            type: MATERIAL_FETCH_FAIL,
+            payload: err
+        })
+
+    }
+}
+
+export const getFilteredMaterial = (filterValue) => async (dispatch) => {
+    dispatch({
+        type: MATERIAL_FETCH_REQUEST
+    })
+    
+    try {
+        const {data} = await axios.get(`${process.env.REACT_APP_API_URL}/material?name[regex]=${filterValue}`)
+        
+        dispatch({
+            type: MATERIAL_FETCH_SUCCESS,
+            payload: data.data,
         })
 
         // console.log(fetchApiData.data.material);

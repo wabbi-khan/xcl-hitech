@@ -7,10 +7,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch, useSelector } from 'react-redux'
-import { appSuppListAction } from '../../../services/action/VendorAction';
 import { useForm } from "react-hook-form";
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import axios from 'axios';
+import { appSuppListAction } from '../../../services/action/VendorAction';
 
 // import MaterialAddRow from './commponent/materialAddRow'
 
@@ -182,6 +182,8 @@ const CssTextField = withStyles({
 
 const PurchaseOrder = ({ history }) => {
     const classes = useStyles();
+    const [unit, setUnit] = useState()
+
     const dispatch = useDispatch()
 
     // const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
@@ -189,8 +191,8 @@ const PurchaseOrder = ({ history }) => {
     const [VendorId, setVendorId] = useState('')
     const [VendorAddress, setVendorAddress] = useState('')
     const [vendorMaterial, setVendorMaterial] = useState([])
-    const [orderBody, setOrderBody] = useState({})
-    // console.log(vendorMaterial);
+    const [AddOrderSuccess, setAddOrderSuccess] = useState(false)
+    const [AddOrderError, setAddOrderError] = useState(false)
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -218,28 +220,28 @@ const PurchaseOrder = ({ history }) => {
     //     console.log(data);
     // }
 
-    const onChangeHandler = (e, placeholder, index) => {
-        console.log(e.target.value)
+    const onChangeHandler = (value, placeholder, index) => {
+        console.log(value)
         const tempFields = ItemCounter.map((item, i) => {
             if (i === index) {
-                return { ...item, [placeholder]: e.target.value };
+                return { ...item, [placeholder]: value };
             } else {
                 return { ...item };
             }
         });
-        setItemCounter(tempFields);
+        console.log(tempFields)
+        setItemCounter([...tempFields]);
     };
 
     const onSubmitDate = async (props) => {
         // console.log(ItemCounter);
-        // console.log(props);
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/order`, {
                 vendor: props.vendor,
                 poNum: props.poNum,
                 prNum: props.prNum,
                 reference: props.reference,
-                paymentTerm: props.paymentTerm,
+                paymentTerm: props.paymentTerm, 
                 paymentSubject: props.paymentSubject,
                 materials: ItemCounter,
                 // materials: [
@@ -258,15 +260,16 @@ const PurchaseOrder = ({ history }) => {
                 // ]
             })
             window.location.reload()
-            // setAddMatError(false)
+            setAddOrderSuccess(true)
+            setAddOrderError(false)
         }
         catch (error) {
             console.log(error);
-            // setAddMatError(true)
+            setAddOrderError(true)
+            setAddOrderSuccess(false)
 
         }
     }
-    console.log(orderBody);
 
     return (
         <Sidenav title={'Purchase Order'}>
@@ -432,7 +435,16 @@ const PurchaseOrder = ({ history }) => {
                                                 size="small"
                                                 select
                                                 onChange={(e) => {
-                                                    onChangeHandler(e, 'material', i)
+                                                    onChangeHandler(e.target.value, 'material', i)
+                                                    const material = vendorMaterial.find(el => el._id === e.target.value)
+                                                    const tempFields = ItemCounter.map((item, myI) => {
+                                                        if (myI === i) {
+                                                            return { ...item, 'material': e.target.value, 'unitValue': material.unit };
+                                                        } else {
+                                                            return { ...item };
+                                                        }
+                                                    });
+                                                    setItemCounter([...tempFields]);
                                                 }}
                                                 className={classes.inputFieldStyle2}
                                                 inputProps={{ style: { fontSize: 14 } }}
@@ -441,11 +453,7 @@ const PurchaseOrder = ({ history }) => {
                                                 {
                                                     !vendorMaterial.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
                                                         vendorMaterial.map(material => (
-                                                            <MenuItem value={material._id} key={material._id}
-                                                            // onClick={() => {
-
-                                                            // }}
-                                                            >
+                                                            <MenuItem value={material._id} key={material._id}>
                                                                 {material.name}
                                                             </MenuItem>
                                                         ))
@@ -461,7 +469,7 @@ const PurchaseOrder = ({ history }) => {
                                                 size="small"
                                                 value={value.quantity}
                                                 onChange={(e) => {
-                                                    onChangeHandler(e, "quantity", i)
+                                                    onChangeHandler(e.target.value, "quantity", i)
                                                 }}
                                                 className={classes.inputFieldStyle3}
                                                 inputProps={{ style: { fontSize: 14 } }}
@@ -472,12 +480,9 @@ const PurchaseOrder = ({ history }) => {
                                             <CssTextField id="outlined-basic"
                                                 label="Unit"
                                                 variant="outlined"
-                                                type="number"
+                                                type="text"
                                                 size="small"
-                                                value={value.unitValue}
-                                                onChange={(e) => {
-                                                    onChangeHandler(e, "unitValue", i)
-                                                }}
+                                                value={ItemCounter[i].unitValue}
                                                 className={classes.inputFieldStyle4}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
@@ -491,7 +496,7 @@ const PurchaseOrder = ({ history }) => {
                                                 size="small"
                                                 value={value.remarks}
                                                 onChange={(e) => {
-                                                    onChangeHandler(e, "remarks", i)
+                                                    onChangeHandler(e.target.value, "remarks", i)
                                                 }}
                                                 className={classes.inputFieldStyle5}
                                                 inputProps={{ style: { fontSize: 14 } }}
@@ -519,6 +524,12 @@ const PurchaseOrder = ({ history }) => {
                             </Button>
                             </Grid>
                         </Grid>
+                        {
+                            AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p>  : null
+                        }
+                        {
+                            AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p>  : null
+                        }
                         <Grid container spacing={1} >
                             <Grid item lg={5} md={5} sm={10} xs={11}>
                             </Grid>

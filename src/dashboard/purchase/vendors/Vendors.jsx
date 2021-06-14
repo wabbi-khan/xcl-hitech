@@ -147,7 +147,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const Vendors = () => {
+const Vendors = ({ history }) => {
 
     const classes = useStyles();
     const [Materials, setMaterials] = useState([])
@@ -166,7 +166,6 @@ const Vendors = () => {
     }, [dispatch])
 
     const { loading, vendors, error } = useSelector(state => state.vendors)
-    console.log(vendors);
     const fetchMatCategory = useSelector(state => state.categories)
     const fetchMaterial = useSelector(state => state.materials)
 
@@ -191,21 +190,11 @@ const Vendors = () => {
         try {
             await axios.post(`${process.env.REACT_APP_API_URL}/vendor`, data)
             setAddVendorSuccess(true)
-        } catch (error) {
-            setAddVendorFail(true)
-        }
-    }
-
-    const deleteMaterial = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
             window.location.reload()
         }
         catch (error) {
-            console.log(error);
-            console.log('catch');
+            setAddVendorFail(true)
         }
-
     }
 
     const [open, setOpen] = useState(false);
@@ -219,8 +208,26 @@ const Vendors = () => {
         setVendor(vendor)
     };
 
+    const deleteMaterial = async (params) => {
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`)
+            window.location.reload()
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+    }
+
     return (
         <Sidenav title={'Vendors'}>
+            <EditVendor
+                show={open}
+                handler={handleClose}
+                vendor={vendor}
+                categories={fetchMatCategory.categories}
+                materials={fetchMaterial.materials}
+            />
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
@@ -395,15 +402,6 @@ const Vendors = () => {
                         </div>
                     </form>
                 </Container>
-                {/* ============edit vendor form component */}
-                <EditVendor
-                    show={open}
-                    handler={handleClose}
-                    vendor={vendor}
-                    categories={fetchMatCategory.categories}
-                    materials={fetchMaterial.materials}
-                />
-                {/* ============edit vendor form component */}
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
@@ -448,12 +446,19 @@ const Vendors = () => {
                                                                 }
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
+                                                                <Button variant="contained" className="bg-dark text-light" size="small"
+                                                                    onClick={() =>
+                                                                        history.push(`/purchase/vendors/vendor_details/${vendor._id}`)
+                                                                    }
+                                                                    style={{ marginTop: 2 }} >
+                                                                    View
+                                                                    </Button>
                                                                 <>
                                                                     <Button variant="contained" className="bg-dark text-light" size="small"
                                                                         onClick={() =>
                                                                             handleOpen(vendor)
                                                                         }
-                                                                        style={{ marginTop: 2 }} >
+                                                                        style={{ marginLeft: 2, marginTop: 2 }} >
                                                                         Edit
                                                                     </Button>
                                                                     <Button variant="contained" color="secondary" size="small"

@@ -8,7 +8,10 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { useDispatch } from 'react-redux'
+import { updateMatCategoryAction } from '../../../services/action/MatCategoryAction';
 import Grid from '@material-ui/core/Grid';
+
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -104,10 +107,12 @@ const CssTextField = withStyles({
 
 
 const EditCategory = (props) => {
+    const dispatch = useDispatch()
     const { show, handler, category } = props
 
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors } } = useForm()
+    const [inputFields, setInputFields] = useState({ name: '' })
 
     const [open, setOpen] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false)
@@ -115,12 +120,22 @@ const EditCategory = (props) => {
 
     useEffect(() => {
         setOpen(show)
+        setIsUpdate(false)
     }, [show])
 
+    useEffect(() => {
+        if (category)
+            setInputFields({ name: category.name })
+    }, [category])
 
-    const onSubmit = async (data) => {
+    const onChangeHandler = (value, placeholder) => {
+        setInputFields({ ...inputFields, [placeholder]: value })
+    }
+
+
+    const onSubmit = async () => {
+        dispatch(updateMatCategoryAction(category._id, inputFields))
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/category/${category._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -130,7 +145,6 @@ const EditCategory = (props) => {
 
     const handleClose = () => {
         handler(false)
-        window.location.reload()
     }
 
     return (
@@ -152,7 +166,7 @@ const EditCategory = (props) => {
                         {/* Form */}
                         {
                             category ? (
-                                <form onSubmit={handleSubmit(onSubmit)}>
+                                <form onSubmit={handleSubmit(onSubmit)} >
                                     <Grid container spacing={1}>
                                         {/* <Grid lg={12} md={12} sm={12}>
                                             <CssTextField id="outlined-basic"
@@ -183,12 +197,13 @@ const EditCategory = (props) => {
                                                 type="text"
                                                 autocomplete="off"
                                                 size="small"
+                                                value={inputFields.name}
                                                 autoComplete="off"
-                                                defaultValue={category.name}
                                                 className={classes.inputFieldStyle1}
                                                 inputProps={{ style: { fontSize: 14 } }}
                                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                                                {...register("name", { required: true, maxLength: 30 })}
+                                                onChange={(e) => onChangeHandler(e.target.value, 'name')}
+                                            // {...register("name", { required: true, maxLength: 30 })}
                                             />
                                             {
                                                 errors.name?.type === 'required' && <p className="text-danger">Category name is required</p>
@@ -210,13 +225,13 @@ const EditCategory = (props) => {
                                             type="submit"
                                         >
                                             Update
-                                    </Button>
+                                        </Button>
                                         <Button variant="outlined" color="primary"
                                             className={classes.closeButton}
                                             onClick={handleClose}
                                         >
                                             close
-                                    </Button>
+                                        </Button>
                                     </div>
                                 </form>
                             ) : null

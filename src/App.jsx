@@ -69,9 +69,11 @@ import AddNewPlan from './dashboard/production/addNewPlan/AddNewPlan';
 import ViewPlan from './dashboard/production/ViewPlan/ViewPlan';
 import EditPlan from './dashboard/production/EditPlan/EditPlan';
 import Shifts from './dashboard/production/shifts/Shifts';
-import ProductionReport from './dashboard/production/productionReport/ProductionReport';
-import SetUpCard from './dashboard/production/setUpCard/SetUpCard';
-import ProductionOnlineInsRep from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInsRep';
+import Marketing from './dashboard/marketing-sales/Marketing';
+import OrderBookingForm from './dashboard/marketing-sales/order booking form/OrderBookingForm';
+import ViewVendorDetails from './dashboard/purchase/vendors/ViewVendorDetails';
+import ViewAppSuppDetails from './dashboard/purchase/approve supplier list/ViewAppSuppDetails';
+import PrintVendorOrderList from './dashboard/purchase/purchase order list/PrintVendorOrderList';
 
 dotenv.config();
 
@@ -98,6 +100,11 @@ function App() {
 				<Route exact path='/purchase/vendors' component={Vendors} />
 				<Route
 					exact
+					path='/purchase/vendors/vendor_details/:id'
+					component={ViewVendorDetails}
+				/>
+				<Route
+					exact
 					path='/purchase/supplier_evaluation_form'
 					component={SupplierEvalForm}
 				/>
@@ -105,6 +112,11 @@ function App() {
 					exact
 					path='/purchase/approved_supplier_list'
 					component={AppSupplier}
+				/>
+				<Route
+					exact
+					path='/purchase/approved_supplier_list/view_approved_supplier_details/:id'
+					component={ViewAppSuppDetails}
 				/>
 				<Route exact path='/purchase/purchase_order' component={PurchaseOrder} />
 				<Route
@@ -121,6 +133,11 @@ function App() {
 					exact
 					path='/purchase/purchase_order_list/order_details/:id'
 					component={FullOrderDetails}
+				/>
+				<Route
+					exact
+					path='/purchase/purchase_order_list/print_order_details/:id'
+					component={PrintVendorOrderList}
 				/>
 				<Route
 					exact
@@ -280,6 +297,14 @@ function App() {
 				<Route exact path='/hr/training_record' component={TrainingRecord} />
 				<Route exact path='/hr/job_description' component={JobDescription} />
 				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />
+
+				<Route exact path='/marketing_dashboard' component={Marketing} />
+				<Route
+					exact
+					path='/marketing_dashboard/order_booking_form'
+					component={OrderBookingForm}
+				/>
+
 				<Route exact path='/productionDashboard' component={ProductionDashboard} />
 				<Route exact path='/productionDashboard/machines' component={Machines} />
 				<Route

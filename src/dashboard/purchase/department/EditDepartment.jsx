@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
+import { updateDeaprtmentAction } from '../../../services/action/DepartmentAction';
+import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -104,6 +106,8 @@ const CssTextField = withStyles({
 })(TextField);
 
 const EditDepartment = (props) => {
+    const dispatch = useDispatch()
+
     const { show, handler, department } = props
 
     const classes = useStyles();
@@ -112,15 +116,25 @@ const EditDepartment = (props) => {
     const [open, setOpen] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false)
     const [isError, setIsError] = useState(false)
+    const [inputFields, setInputFields] = useState({ name: '' })
 
     useEffect(() => {
         setOpen(show)
+        setIsUpdate(false)
     }, [show])
 
+    useEffect(() => {
+        if (department)
+            setInputFields({ name: department.name })
+    }, [department])
 
-    const onSubmit = async (data) => {
+    const onChangeHandler = (value, placeholder) => {
+        setInputFields({ ...inputFields, [placeholder]: value })
+    }
+
+    const onSubmit = async () => {
+        dispatch(updateDeaprtmentAction(department._id, inputFields))
         try {
-            await axios.patch(`${process.env.REACT_APP_API_URL}/department/${department._id}`, data)
             setIsUpdate(true)
         }
         catch (error) {
@@ -130,7 +144,6 @@ const EditDepartment = (props) => {
 
     const handleClose = () => {
         handler(false)
-        window.location.reload()
     }
 
     return (
@@ -185,11 +198,11 @@ const EditDepartment = (props) => {
                                                     autocomplete="off"
                                                     size="small"
                                                     autoComplete="off"
-                                                    defaultValue={department.name}
+                                                    value={inputFields.name}
                                                     className={classes.inputFieldStyle1}
                                                     inputProps={{ style: { fontSize: 14 } }}
                                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register("name", { required: true, maxLength: 30 })}
+                                                    onChange={(e) => onChangeHandler(e.target.value, 'name')}
                                                 />
                                                 {
                                                     errors.name?.type === 'required' && <p className="text-danger">Department name is required</p>
@@ -211,13 +224,13 @@ const EditDepartment = (props) => {
                                                 type="submit"
                                             >
                                                 Update
-                                    </Button>
+                                            </Button>
                                             <Button variant="outlined" color="primary"
                                                 className={classes.closeButton}
                                                 onClick={handleClose}
                                             >
                                                 close
-                                    </Button>
+                                            </Button>
                                         </div>
                                     </form>
                                 ) : null

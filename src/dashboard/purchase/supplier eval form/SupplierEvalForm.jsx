@@ -224,6 +224,7 @@ const SupplierEvalForm = () => {
             await axios.patch(`${process.env.REACT_APP_API_URL}/vendor/evaluation/${VendorId}`, data)
             setEvalSuccess(true);
             setEvalMsg("Evaluation form has been submitted successfully")
+            window.location.reload()
         }
         catch (error) {
             setEvalError(true)

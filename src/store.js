@@ -15,6 +15,10 @@ import {
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
 import { fetchDesignationsReducer } from './services/reducer/DesignationReducer';
+import { fetchEducationReducer } from './services/reducer/EducationReducer';
+import { fetchSkillsReducer } from './services/reducer/SkillsReducer';
+import { fetchCompCriteriaReducer } from './services/reducer/CriteriaReducer';
+import { fetchEmployeesReducer } from './services/reducer/EmployeesReducer';
 import { fetchMachineReducer } from './services/reducer/MachineReducer';
 import { fetchPlanReducer } from './services/reducer/PlanReducer';
 import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
@@ -25,6 +29,7 @@ import {
 	fetchReqReducer,
 	fetchSingleReqReducer,
 } from './services/reducer/PurchaseReqReducer';
+import { fetchExperienceReducer } from './services/reducer/ExperienceReducer';
 
 const initialState = {};
 
@@ -43,6 +48,11 @@ const reducer = combineReducers({
 	departments: fetchDepartmentsReducer,
 	requests: fetchReqReducer,
 	request: fetchSingleReqReducer,
+	education: fetchEducationReducer,
+	skills: fetchSkillsReducer,
+	experience: fetchExperienceReducer,
+	criteria: fetchCompCriteriaReducer,
+	employee: fetchEmployeesReducer,
 	machines: fetchMachineReducer,
 	plans: fetchPlanReducer,
 	shifts: fetchShiftReducer,

@@ -12,7 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
-import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import { getMaterialAction, getFilteredMaterial } from '../../../services/action/MaterialDataHandle';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import MaterialError from './MaterialError';
 import { useForm } from 'react-hook-form';
@@ -81,7 +81,9 @@ const useStyles = makeStyles((theme) => ({
     },
     dataTable: {
         marginTop: 40,
-
+    },
+    tableContainer: {
+        marginTop: 10,
     },
     inputFieldStyle: {
         [theme.breakpoints.up('md')]: {
@@ -127,12 +129,14 @@ const Material = () => {
     const [AddMatError, setAddMatError] = useState(false)
     const [AddMatErrMsg, setAddMatErrMsg] = useState('internal server error')
     const [material, setMaterial] = useState()
+    const [input, setInput] = useState()
+    const [materialName, setMaterialName] = useState()
 
     const classes = useStyles();
     const { register, handleSubmit, formState: { errors } } = useForm()
-
+    
     const dispatch = useDispatch()
-
+    
     useEffect(async () => {
         await dispatch(getMaterialAction())
         await dispatch(getMaterialCategoryAction())
@@ -146,12 +150,10 @@ const Material = () => {
         }
         catch (error) {
             setAddMatError(true)
-
         }
     }
 
     const { loading, materials, error } = useSelector(state => state.materials)
-    // console.log(materials);
     const { categories } = useSelector(state => state.categories)
 
     const deleteMaterial = async (params) => {
@@ -161,9 +163,7 @@ const Material = () => {
         }
         catch (error) {
             console.log(error);
-            console.log('catch');
         }
-
     }
 
     const [open, setOpen] = useState(false);
@@ -171,11 +171,17 @@ const Material = () => {
     const handleClose = (props) => {
         setOpen(props);
     }
-
     const handleOpen = async (material) => {
         setMaterial(material)
         setOpen(true);
     }
+
+    const handleChange = async (e) => {
+        e.preventDefault();
+        dispatch(getFilteredMaterial(e.target.value))
+    }
+
+
 
     return (
         <Sidenav title={'Material'}>
@@ -211,6 +217,9 @@ const Material = () => {
                                     ))
                             }
                         </CssTextField>
+                        {
+                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
+                        }
                         {/* Material Name */}
                         <CssTextField id="outlined-basic"
                             label="Enter Material Name"
@@ -224,21 +233,34 @@ const Material = () => {
                             InputLabelProps={{ style: { fontSize: 14 } }}
                             {...register("name", { required: true, maxLength: 30 })}
                         />
-                        <br />
-                        {
-                            errors.category?.type === 'required' && <p className="mt-3 text-danger">Category must be required</p>
-                        }
-                        <br />
                         {
                             errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
                         }
-                        <br />
                         {
                             errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
                         }
-                        {/* {
-                            AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p>  : null
-                        } */}
+                        <CssTextField id="outlined-basic"
+                            label="Enter Unit"
+                            variant="outlined"
+                            type="text"
+                            autocomplete="off"
+                            size="small"
+                            autoComplete="off"
+                            className={classes.inputFieldStyle1}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                            {...register("unit", { required: true, maxLength: 15 })}
+                        />
+                        {
+                            errors.unit?.type === 'required' && <p className="text-danger">Unit is required</p>
+                        }
+                        <br />
+                        {
+                            errors.unit?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
+                        }
+                        {
+                            AddMatError ? <p className="mt-3 text-danger"> {AddMatErrMsg}</p> : null
+                        }
                         <div>
                             <Button variant="outlined" color="primary"
                                 type="submit"
@@ -251,6 +273,18 @@ const Material = () => {
                 </Container>
 
                 <div className={classes.dataTable}>
+                    <CssTextField id="outlined-basic"
+                        label="Search Materials"
+                        variant="outlined"
+                        type="search"
+                        size="small"
+                        autoComplete="off"
+                        value={input}
+                        onChange={handleChange}
+                        className={classes.inputFieldStyle1}
+                        inputProps={{ style: { fontSize: 14 } }}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
+                    />
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -258,6 +292,8 @@ const Material = () => {
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
                                     <StyledTableCell align="center">Category</StyledTableCell>
                                     <StyledTableCell align="center">Material Name</StyledTableCell>
+                                    <StyledTableCell align="center">Unit</StyledTableCell>
+                                    <StyledTableCell align="center">Code</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -280,6 +316,8 @@ const Material = () => {
                                                                 }
                                                             </StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{material.name}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{material.unit}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">code</StyledTableCell>
                                                             <StyledTableCell className="text-light" align="center">
                                                                 <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                     onClick={() =>

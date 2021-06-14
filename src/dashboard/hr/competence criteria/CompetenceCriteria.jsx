@@ -144,6 +144,7 @@ const CompetenceCriteria = ({ history }) => {
     }, [dispatch])
 
     const { loading, criteria, error } = useSelector(state => state.criteria)
+    console.log(criteria);
 
     const { departments } = useSelector(state => state.departments)
     const { designations } = useSelector(state => state.designations)
