@@ -206,7 +206,7 @@ const Employees = ({ history }) => {
         await dispatch(fetchEmployeesAction())
     }, [dispatch])
 
-    const { employee, loading, error } = useSelector(state => state.employee)
+    const { employee, loading, error } = useSelector( state => state.employee)
     console.log(employee);
 
     const addMoreFunc = () => {
@@ -401,6 +401,11 @@ const Employees = ({ history }) => {
                                     type="date"
                                     autocomplete="off"
                                     size="small"
+                                    // views={["day", "month", "year"]}
+                                    // format="DD-MM-YYYY"
+                                    // onClick={(e) => {
+                                    //     console.log(e.target.value);
+                                    // }}
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
@@ -638,110 +643,6 @@ const Employees = ({ history }) => {
                         </div>
                     </form>
                 </Container>
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Employee Name</StyledTableCell>
-                                    <StyledTableCell align="center">Department</StyledTableCell>
-                                    <StyledTableCell align="center">Designation</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                employee.length ?
-                                                    employee.map((emp, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{emp.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !emp.department ? null : emp.department.name
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !emp.designation ? null : emp.designation.name
-                                                                }
-                                                            </StyledTableCell>
-                                                            {/* <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                }
-                                                            </StyledTableCell> */}
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-                                                                        history.push(`/hr/employees/view_emp_details/${emp._id}`)
-                                                                    }}
-                                                                >
-                                                                    View Report
-                                                                </Button>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                                    : <h5>Not Found</h5>
-                                            )
-                                }
-                                {/* {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                !vendors || !vendors.length ? <p>Not Found</p> :
-                                                    vendors.map((vendor, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteMaterial(vendor._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                    </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                            )
-                                } */}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
             </div>
         </Sidenav >
     )

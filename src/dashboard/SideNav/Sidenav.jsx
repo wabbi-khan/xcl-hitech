@@ -1116,6 +1116,14 @@ function Sidenav(props) {
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
+                                    history.push('/hr/employees/view_emp_details')
+                                }}
+                            >
+                                <ListItemText inset primary="Employees Details" />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
                                     history.push('/hr/employees_salaries')
                                 }}
                             >
