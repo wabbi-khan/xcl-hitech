@@ -74,6 +74,9 @@ import OrderBookingForm from './dashboard/marketing-sales/order booking form/Ord
 import ViewVendorDetails from './dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from './dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 import PrintVendorOrderList from './dashboard/purchase/purchase order list/PrintVendorOrderList';
+import ProductionReport from './dashboard/production/productionReport/ProductionReport';
+import SetUpCard from './dashboard/production/setUpCard/SetUpCard';
+import ProductionOnlineInsRep from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInsRep';
 
 dotenv.config();
 

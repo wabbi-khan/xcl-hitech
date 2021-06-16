@@ -1,86 +1,109 @@
 import axios from 'axios';
-import 
-    {
-        MATERIAL_FETCH_FAIL,
-        MATERIAL_FETCH_REQUEST,
-        MATERIAL_FETCH_SUCCESS,     
-        SPEC_CAT_MATERIAL_FETCH_FAIL,     
-        SPEC_CAT_MATERIAL_FETCH_REQUEST,
-        SPEC_CAT_MATERIAL_FETCH_SUCCESS
-    } 
-    from '../constants/MaterialConst';
+import {
+	MATERIAL_FAIL,
+	MATERIAL_REQUEST,
+	MATERIAL_FETCH_SUCCESS,
+	MATERIAL_CREATE_SUCCESS,
+	MATERIAL_UPDATE_SUCCESS,
+	MATERIAL_DELETE_SUCCESS,
+} from '../constants/MaterialConst';
 
-export const getMaterialAction = () => async (dispatch) => {
-    dispatch({
-        type: MATERIAL_FETCH_REQUEST
-    })
-    
-    try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/material`)
-        
-        dispatch({
-            type: MATERIAL_FETCH_SUCCESS,
-            payload: data.data,
-        })
+export const getMaterialAction = (query) => async (dispatch) => {
+	dispatch({
+		type: MATERIAL_REQUEST,
+	});
 
-        // console.log(fetchApiData.data.material);
-    }
-    
-    catch (err) {
-        dispatch({
-            type: MATERIAL_FETCH_FAIL,
-            payload: err
-        })
+	try {
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/material${query ? `?${query}` : ''}`,
+		);
 
-    }
-}
+		dispatch({
+			type: MATERIAL_FETCH_SUCCESS,
+			payload: data.data,
+		});
 
-export const getFilteredMaterial = (filterValue) => async (dispatch) => {
-    dispatch({
-        type: MATERIAL_FETCH_REQUEST
-    })
-    
-    try {
-        const {data} = await axios.get(`${process.env.REACT_APP_API_URL}/material?name[regex]=${filterValue}`)
-        
-        dispatch({
-            type: MATERIAL_FETCH_SUCCESS,
-            payload: data.data,
-        })
+		// console.log(fetchApiData.data.material);
+	} catch (err) {
+		dispatch({
+			type: MATERIAL_FAIL,
+			payload: err,
+		});
+	}
+};
 
-        // console.log(fetchApiData.data.material);
-    }
-    
-    catch (err) {
-        dispatch({
-            type: MATERIAL_FETCH_FAIL,
-            payload: err
-        })
+export const createMaterialAction = (material) => async (dispatch) => {
+	dispatch({
+		type: MATERIAL_REQUEST,
+	});
 
-    }
-}
+	try {
+		const res = await axios.post(
+			`${process.env.REACT_APP_API_URL}/material`,
+			material,
+		);
 
+		dispatch({
+			type: MATERIAL_CREATE_SUCCESS,
+			payload: res.data.material,
+		});
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
 
-export const getSpecCatMatAction = (_id) => async (dispatch) => {
-    dispatch({
-        type: SPEC_CAT_MATERIAL_FETCH_REQUEST
-    })
-    
-    try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/material/${_id}`)
-        
-        dispatch({
-            type: SPEC_CAT_MATERIAL_FETCH_SUCCESS,
-            payload: data.materials,
-        })
+export const updateMaterialAction = (id, data) => async (dispatch) => {
+	dispatch({
+		type: MATERIAL_REQUEST,
+	});
 
-    }
-    
-    catch (err) {
-        dispatch({
-            type: SPEC_CAT_MATERIAL_FETCH_FAIL,
-            payload: err
-        })
+	try {
+		const res = await axios.patch(
+			`${process.env.REACT_APP_API_URL}/material/${id}`,
+			data,
+		);
 
-    }
-}
+		dispatch({
+			type: MATERIAL_UPDATE_SUCCESS,
+			payload: res.data.material,
+		});
+
+		// console.log(data);
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
+export const deleteMaterialAction = (params) => async (dispatch) => {
+	dispatch({
+		type: MATERIAL_REQUEST,
+	});
+
+	try {
+		await axios.delete(`${process.env.REACT_APP_API_URL}/material/${params}`);
+
+		dispatch({
+			type: MATERIAL_DELETE_SUCCESS,
+			payload: params,
+		});
+
+		// console.log(data);
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
+const dispatchError = (err, dispatch) => {
+	if (err.response) {
+		console.log(err.response.data.error);
+		dispatch({
+			type: MATERIAL_FAIL,
+			payload: err.response.data.error,
+		});
+	} else {
+		dispatch({
+			type: MATERIAL_FAIL,
+			payload: 'Network Error',
+		});
+	}
+};
