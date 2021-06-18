@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';  
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -133,7 +133,6 @@ const Department = () => {
 		await dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
-<<<<<<< HEAD
 	const { departments, loading, error } = useSelector(
 		(state) => state.departments,
 	);
@@ -151,21 +150,6 @@ const Department = () => {
 		//     // setAddMatError(true)
 		// }
 	};
-=======
-    const onSubmitDate = async (props) => {
-        dispatch(createDepartmentAction(props))
-        // try {
-        //     await axios.post(`${process.env.REACT_APP_API_URL}/department`, props)
-        //     window.location.reload()
-        //     console.log('submit');
-        //     // setAddMatError(false)
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     // setAddMatError(true)
-        // }
-    }
->>>>>>> cd72427a99f088a8439746f49a78a1c4ee7058c6
 
 	const [open, setOpen] = useState(false);
 

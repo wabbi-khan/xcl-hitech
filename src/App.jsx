@@ -74,14 +74,11 @@ import OrderBookingForm from './dashboard/marketing-sales/order booking form/Ord
 import ViewVendorDetails from './dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from './dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 import PrintVendorOrderList from './dashboard/purchase/purchase order list/PrintVendorOrderList';
-<<<<<<< HEAD
 import ProductionReport from './dashboard/production/productionReport/ProductionReport';
 import SetUpCard from './dashboard/production/setUpCard/SetUpCard';
 import ProductionOnlineInsRep from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInsRep';
-=======
 import PrintEmpDetails from './dashboard/hr/employees/PrintEmpDetails';
 import TrainingNeedPreReq from './dashboard/hr/training need pre req/TrainingNeedPreReq';
->>>>>>> cd72427a99f088a8439746f49a78a1c4ee7058c6
 
 dotenv.config();
 
@@ -296,7 +293,11 @@ function App() {
 					component={EmployeePerformance}
 				/>
 				<Route exact path='/hr/trainings' component={Trainings} />
-				<Route exact path='/hr/training_need_pre-requests' component={TrainingNeedPreReq} />
+				<Route
+					exact
+					path='/hr/training_need_pre-requests'
+					component={TrainingNeedPreReq}
+				/>
 				<Route
 					exact
 					path='/hr/training_need_identification'
