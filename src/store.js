@@ -7,7 +7,7 @@ import { fetchPersonsReducer } from './services/reducer/PersonReducer';
 import { fetchPurchaseOrderReducer } from './services/reducer/OrdersReducer';
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
-import { fetchDesignationsReducer } from './services/reducer/DesignationReducer';
+import { fetchDesignation } from './services/reducer/DesignationReducer';
 import { fetchEducationReducer } from './services/reducer/EducationReducer';
 import { fetchSkillsReducer } from './services/reducer/SkillsReducer';
 import { fetchCompCriteriaReducer } from './services/reducer/CriteriaReducer';
@@ -31,7 +31,7 @@ const reducer = combineReducers({
 	orders: fetchPurchaseOrderReducer,
 	products: fetchProductsReducer,
 	vehicles: fetchVehiclesReducer,
-	designations: fetchDesignationsReducer,
+	designations: fetchDesignation,
 	departments: fetchDepartmentsReducer,
 	purchaseRequisitions: fetchPurchaseReqReducer,
 	education: fetchEducationReducer,
