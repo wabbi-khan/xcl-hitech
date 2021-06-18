@@ -64,7 +64,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     resStyle: {
-        marginBottom: -10,
+        marginTop: 10,
+        marginBottom: 0,
         fontSize: 16
 
     },
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
         border: 'none',
     },
     delete: {
-        fontSize: 22,
+        fontSize: 21,
         color: 'red',
         marginTop: -3,
         marginLeft: 10
@@ -105,7 +106,7 @@ const CompetenceCriteria = () => {
             minReqString: ''
         }
     ])
-
+    const [responsibilities, setResponsibilities] = useState([])
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -119,9 +120,9 @@ const CompetenceCriteria = () => {
     }
 
     const removeRes = (index) => {
-        // const temp = [...responsibilities];
-        // temp.splice(index, 1)
-        // setResponsibilities(temp)
+        const temp = [...responsibilities];
+        temp.splice(index, 1)
+        setResponsibilities(temp)
     }
 
     return (
@@ -151,7 +152,7 @@ const CompetenceCriteria = () => {
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
                         >
-                            <MenuItem value="">Education</MenuItem>
+                            <MenuItem value="0">Education</MenuItem>
                         </CssTextField>
                         {
                             errors.name?.type === 'required' && <p className="mt-1 text-danger">Parameter is required</p>
@@ -173,7 +174,7 @@ const CompetenceCriteria = () => {
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
                         >
-                            <MenuItem value="">Bacelors</MenuItem>
+                            <MenuItem value="0">Bacelors</MenuItem>
                         </CssTextField>
                         {
                             errors.name?.type === 'required' && <p className="mt-1 text-danger">Min Requirements is required</p>
@@ -192,25 +193,27 @@ const CompetenceCriteria = () => {
                     variant="contained" size="small"
                     className={classes.addMoreRes}
                     onClick={() => setCompCriterias([...compCriterias, { parameter: '', minReq: [] }])}
-                >Add More</Button>
+                >
+                    Add More
+                </Button>
                 {
-                    // responsibilities.map((res, i) => (
-                    //     <p className={classes.resStyle}>
-                    //         <span style={{ fontSize: 30 }}>.</span>
-                    //         {res}
-                    //         <DeleteOutlineIcon
-                    //             type="button"
-                    //             className={classes.delete}
-                    //             onClick={() => removeRes(i)}
-                    //         />
-                    //         {/* <Button
-                    //             variant="outlined" size="small"
-                    //             className={classes.deleteResBtn}
-                    //         >
-                    //         </Button> */}
-                    //     </p>
-                    // )
-                    // )
+                    responsibilities.map((res, i) => (
+                        <p className={classes.resStyle}>
+                            {/* <span style={{ fontSize: 30 }}>asdasd</span> */}
+                            {/* {res} */}
+                            <DeleteOutlineIcon
+                                type="button"
+                                className={classes.delete}
+                                onClick={() => removeRes(i)}
+                            />
+                            {/* <Button
+                                variant="outlined" size="small"
+                                className={classes.deleteResBtn}
+                            >
+                            </Button> */}
+                        </p>
+                    )
+                    )
                 }
                 {/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :

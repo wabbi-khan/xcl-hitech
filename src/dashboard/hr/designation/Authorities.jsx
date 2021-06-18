@@ -63,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     resStyle: {
-        marginBottom: -10,
+        marginTop: 8,
+        marginBottom: 0,
         fontSize: 16
 
     },
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         border: 'none',
     },
     delete: {
-        fontSize: 22,
+        fontSize: 21,
         color: 'red',
         marginTop: -3,
         marginLeft: 10
@@ -147,7 +148,7 @@ const Authorities = () => {
                 {
                     responsibilities.map((res, i) => (
                         <p className={classes.resStyle}>
-                            <span style={{ fontSize: 30 }}>.</span>
+                            <span style={{ fontSize: 13 }}>{i+1}. </span>
                             {res}
                             <DeleteOutlineIcon
                                 type="button"
