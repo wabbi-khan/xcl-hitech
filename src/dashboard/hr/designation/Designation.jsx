@@ -20,6 +20,8 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
 import Responsibilities from './Responsibilities';
+import Authorities from './Authorities';
+import CompetenceCriteria from './CompetenceCriteria';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -189,6 +191,8 @@ const Designation = () => {
                             errors.name?.type === 'required' && <p className="mt-1 text-danger">Designation Name is required</p>
                         }
                         <Responsibilities />
+                        <Authorities />
+                        <CompetenceCriteria />
                     {/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :
                                     designations.map(designation => (

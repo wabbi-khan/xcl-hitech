@@ -687,7 +687,7 @@ function Sidenav(props) {
                                     history.push('/purchase/supplier_evaluation_form')
                                 }}
                             >
-                                <ListItemText inset primary="Supplier Evaluation Form" />
+                                <ListItemText inset primary="Supplier Eval Form" />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -695,7 +695,7 @@ function Sidenav(props) {
                                     history.push('/purchase/approved_supplier_list')
                                 }}
                             >
-                                <ListItemText inset primary="Approved Supplier List" />
+                                <ListItemText inset primary="Approved Supplier.." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}
@@ -1097,14 +1097,14 @@ function Sidenav(props) {
                             >
                                 <ListItemText inset primary="Training" />
                             </ListItem>
-                            <ListItem button
+                            {/* <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('/hr/competence_criteria')
                                 }}
                             >
                                 <ListItemText inset primary="Competence Criteria" />
-                            </ListItem>
+                            </ListItem> */}
                             <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
@@ -1152,6 +1152,14 @@ function Sidenav(props) {
                                 }}
                             >
                                 <ListItemText inset primary="Employees Perform..." />
+                            </ListItem>
+                            <ListItem button
+                                className={classes.menuItem}
+                                onClick={() => {
+                                    history.push('/hr/training_need_pre-requests')
+                                }}
+                            >
+                                <ListItemText inset primary="Training Need Pre-Req.." />
                             </ListItem>
                             <ListItem button
                                 className={classes.menuItem}

@@ -75,6 +75,7 @@ import ViewVendorDetails from '../dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from '../dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 import PrintVendorOrderList from '../dashboard/purchase/purchase order list/PrintVendorOrderList';
 import PrintEmpDetails from '../dashboard/hr/employees/PrintEmpDetails';
+import TrainingNeedPreReq from '../dashboard/hr/training need pre req/TrainingNeedPreReq';
 
 
 
@@ -140,6 +141,7 @@ const Router = () => {
                 <Router exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance}/>
                 <Router exact path="/hr/employees_performance_assessment" component={EmployeePerformance}/>
                 <Router exact path="/hr/trainings" component={Trainings}/>
+                <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
                 <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>
                 <Router exact path="/hr/training_plan" component={TrainingPlan}/>
                 <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>

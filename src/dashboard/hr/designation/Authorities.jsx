@@ -95,7 +95,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const Responsibilities = () => {
+const Authorities = () => {
     const classes = useStyles();
     const [resString, setResString] = useState('')
     const [responsibilities, setResponsibilities] = useState([])
@@ -119,9 +119,9 @@ const Responsibilities = () => {
                 <hr />
             </div>
             <Container className={classes.mainContainer}>
-                <h4 className="text-left">Responsibilities</h4>
+                <h4 className="text-left">Authorities</h4>
                 <CssTextField id="outlined-basic"
-                    label="Resposibilities"
+                    label="Authorities"
                     variant="outlined"
                     type="text"
                     autocomplete="off"
@@ -174,4 +174,4 @@ const Responsibilities = () => {
     )
 }
 
-export default Responsibilities
+export default Authorities
