@@ -13,7 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { getDesignation } from '../../../services/action/DesignationAction';
+import {
+	getDesignation,
+	deleteDesignation,
+} from '../../../services/action/DesignationAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
@@ -128,25 +131,8 @@ const Designation = () => {
 		(state) => state.designations,
 	);
 
-	const onSubmitDate = async (props) => {
-		try {
-			await axios.post(`${process.env.REACT_APP_API_URL}/designation`, props);
-			window.location.reload();
-			console.log('submit');
-			// setAddMatError(false)
-		} catch (error) {
-			console.log(error);
-			// setAddMatError(true)
-		}
-	};
-
 	const deleteDesignation = async (params) => {
-		try {
-			await axios.delete(`${process.env.REACT_APP_API_URL}/designation/${params}`);
-			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		dispatch(deleteDesignation(params));
 	};
 
 	const [open, setOpen] = useState(false);
@@ -160,6 +146,15 @@ const Designation = () => {
 		setOpen(true);
 	};
 
+	const onChangeHandler = (value, placeholder) => {
+		console.log(value);
+		console.log(placeholder);
+	};
+
+	const onSubmitData = async (props) => {
+		console.log(props);
+	};
+
 	return (
 		<Sidenav title={'Designation'}>
 			{/* ============products form component */}
@@ -171,7 +166,7 @@ const Designation = () => {
 			{/* ============products form component */}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
+					<form action='' onSubmit={handleSubmit(onSubmitData)}>
 						{/* Material category selector */}
 						<CssTextField
 							id='outlined-basic'
@@ -188,15 +183,9 @@ const Designation = () => {
 						{errors.name?.type === 'required' && (
 							<p className='mt-1 text-danger'>Designation Name is required</p>
 						)}
-						<Responsibilities />
+						{/* <Responsibilities />
 						<Authorities />
-						<CompetenceCriteria />
-						{/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
+						<CompetenceCriteria /> */}
 						<div>
 							<Button variant='outlined' type='submit' className={classes.addButton}>
 								Add
