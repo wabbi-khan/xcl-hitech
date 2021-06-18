@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,7 +19,9 @@ import { fetchDesignationAction } from '../../../services/action/DesignationActi
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
-
+import Responsibilities from './Responsibilities';
+import Authorities from './Authorities';
+import CompetenceCriteria from './CompetenceCriteria';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -38,15 +41,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-function createData(No, name, Action) {
-    return { No, name, Action };
-}
-
-const rows = [
-    createData(1, 'Item1'),
-
-];
-
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -55,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     mainContainer: {
-        textAlign: 'center',
         marginTop: 20,
     },
     addButton: {
@@ -197,72 +190,75 @@ const Designation = () => {
                         {
                             errors.name?.type === 'required' && <p className="mt-1 text-danger">Designation Name is required</p>
                         }
-                        {/* {
+                        <Responsibilities />
+                        <Authorities />
+                        <CompetenceCriteria />
+                    {/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :
                                     designations.map(designation => (
                                         <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
                                     ))
                             } */}
-                        <div>
-                            <Button variant="outlined" color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                            >
-                                Add
+                    <div>
+                        <Button variant="outlined"
+                            type="submit"
+                            className={classes.addButton}
+                        >
+                            Add
                         </Button>
-                        </div>
+                    </div>
                     </form>
                 </Container>
 
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Designation</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                {
-                                    loading ? (
-                                        <Loading />
+            <div className={classes.dataTable}>
+                <TableContainer className={classes.tableContainer}>
+                    <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                        <TableHead>
+                            <TableRow hover role="checkbox">
+                                <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                <StyledTableCell align="center">Designation</StyledTableCell>
+                                <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody >
+                            {
+                                loading ? (
+                                    <Loading />
+                                ) :
+                                    error ? (
+                                        <MaterialError />
                                     ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                designations.length ?
-                                                    designations.map((designation, i) => (
-                                                        <StyledTableRow>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{designation.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(designation)
-                                                                    }
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteDesignation(designation._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
+                                        (
+                                            designations.length ?
+                                                designations.map((designation, i) => (
+                                                    <StyledTableRow>
+                                                        <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
+                                                        <StyledTableCell className="text-dark" align="center">{designation.name}</StyledTableCell>
+                                                        <StyledTableCell className="text-light" align="center">
+                                                            <><Button variant="contained" className="bg-dark text-light" size="small"
+                                                                onClick={() =>
+                                                                    handleOpen(designation)
+                                                                }
+                                                                style={{ marginTop: 2 }} >
+                                                                Edit
+                                                            </Button>
+                                                                <Button variant="contained" color="secondary" size="small"
+                                                                    onClick={() => deleteDesignation(designation._id)}
+                                                                    style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                    Delete
                                                                 </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                                    : <h5>Not Found</h5>
-                                            )
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
+                                                        </StyledTableCell>
+                                                    </StyledTableRow>
+                                                ))
+                                                : <h5>Not Found</h5>
+                                        )
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
-        </Sidenav>
+            </div>
+        </Sidenav >
     )
 }
 

@@ -74,6 +74,8 @@ import Shifts from '../dashboard/production/shifts/Shifts';
 import ViewVendorDetails from '../dashboard/purchase/vendors/ViewVendorDetails';
 import ViewAppSuppDetails from '../dashboard/purchase/approve supplier list/ViewAppSuppDetails';
 import PrintVendorOrderList from '../dashboard/purchase/purchase order list/PrintVendorOrderList';
+import PrintEmpDetails from '../dashboard/hr/employees/PrintEmpDetails';
+import TrainingNeedPreReq from '../dashboard/hr/training need pre req/TrainingNeedPreReq';
 
 
 
@@ -132,12 +134,14 @@ const Router = () => {
                 <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
                 <Router exact path="/hr/employees" component={Employees}/>
                 <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
+                <Router exact path="/hr/employees/print_emp_details/:id" component={PrintEmpDetails}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>
                 <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>
                 <Router exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance}/>
                 <Router exact path="/hr/employees_performance_assessment" component={EmployeePerformance}/>
                 <Router exact path="/hr/trainings" component={Trainings}/>
+                <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
                 <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>
                 <Router exact path="/hr/training_plan" component={TrainingPlan}/>
                 <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>

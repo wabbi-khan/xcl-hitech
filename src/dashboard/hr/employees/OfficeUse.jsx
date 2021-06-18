@@ -161,23 +161,23 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const Reference = () => {
+const OfficeUse = () => {
     const classes = useStyles();
-    
+
 
     return (
         <div>
             <Container className={classes.mainContainer}>
-                <h5 className="text-left">Reference</h5>
+                <h5 className="text-left">For Office Use Only</h5>
                 <Grid container spacing={1} style={{ marginTop: 15, }} >
                     <Grid item lg={1} md={1}>
                         {/* <h5 className={classes.itemHeading}>1.</h5> */}
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Name"
+                            // label="Date of Interviewed"
                             variant="outlined"
-                            type="text"
+                            type="date"
                             size="small"
                             autocomplete="off"
                             // onChange={(e) => {
@@ -189,7 +189,7 @@ const Reference = () => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Address"
+                            label="Remarks"
                             variant="outlined"
                             type="text"
                             size="small"
@@ -204,16 +204,71 @@ const Reference = () => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Contact No."
+                            label="Recommend For Employment"
                             variant="outlined"
                             type="number"
                             size="small"
+                            select
                             autocomplete="off"
                             // value={ItemCounter[i].unitValue}
                             className={classes.inputFieldStyle2}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
+                        >
+                            <MenuItem value="">Yes</MenuItem>
+                            <MenuItem value="">No</MenuItem>
+                        </CssTextField>
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Job Title"
+                            variant="outlined"
+                            type="number"
+                            size="small"
+                            autocomplete="off"
+                            // value={ItemCounter[i].unitValue}
+                            className={classes.inputFieldStyle3}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
                         />
+                    </Grid>
+                </Grid>
+                <Grid container spacing={1} style={{ marginTop: 15, }} >
+                    <Grid item lg={1} md={1}>
+                        {/* <h5 className={classes.itemHeading}>1.</h5> */}
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Recommended Salary"
+                            variant="outlined"
+                            type="number"
+                            size="small"
+                            autocomplete="off"
+                            // onChange={(e) => {
+                            // }}
+                            className={classes.inputFieldStyle}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                        />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Recommendations Approved"
+                            variant="outlined"
+                            type="text"
+                            size="small"
+                            select
+                            autocomplete="off"
+                            // value={value.quantity}
+                            // onChange={(e) => {
+                            // }}
+                            className={classes.inputFieldStyle1}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                        >
+                            <MenuItem value="">Yes</MenuItem>
+                            <MenuItem value="">No</MenuItem>
+                        </CssTextField>
                     </Grid>
                 </Grid>
             </Container>
@@ -228,4 +283,4 @@ const Reference = () => {
     )
 }
 
-export default Reference
+export default OfficeUse
