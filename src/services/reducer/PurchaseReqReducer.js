@@ -1,86 +1,62 @@
-import { 
-    REQ_FETCH_FAIL,
-    REQ_FETCH_REQUEST, 
-    REQ_FETCH_SUCCESS,
-    SINGLE_REQ_FETCH_FAIL,
-    SINGLE_REQ_FETCH_REQUEST,
-    SINGLE_REQ_FETCH_SUCCESS, 
-} 
-from "../constants/PurchaseReqConst";
+import {
+	PURCHASE_REQ_CREATE_SUCCESS,
+	PURCHASE_REQ_FAIL,
+	PURCHASE_REQ_FETCH_SUCCESS,
+	PURCHASE_REQ_REQUEST,
+	PURCHASE_REQ_UPDATE_SUCCESS,
+} from '../constants/PurchaseReqConst';
 
-
-export const fetchReqReducer = (
-    state = { requests: [] },
-    action
+export const fetchPurchaseReqReducer = (
+	state = { purchaseRequisitions: [], purchaseRequisition: {} },
+	action,
 ) => {
-    switch (action.type) {
-        case REQ_FETCH_REQUEST:
-            return { 
-                loading: true,
-            }
-        case REQ_FETCH_SUCCESS:
-            return { 
-                loading: false,
-                requests: action.payload
-            }
-        case REQ_FETCH_FAIL:
-            return { 
-                loading: false,
-                error: action.payload
-            }
-    
-        default:
-            return state;
-    }
-}
+	switch (action.type) {
+		case PURCHASE_REQ_REQUEST:
+			console.log(state);
+			return {
+				...state,
+				error: '',
+				loading: true,
+			};
+		case PURCHASE_REQ_FAIL:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case PURCHASE_REQ_FETCH_SUCCESS:
+			console.log(action.payload);
+			return {
+				loading: false,
+				error: '',
+				purchaseRequisitions: Array.isArray(action.payload) ? action.payload : [],
+				purchaseRequisition: Array.isArray(action.payload) ? {} : action.payload,
+			};
+		case PURCHASE_REQ_UPDATE_SUCCESS:
+			console.log(state);
+			return {
+				loading: false,
+				error: '',
+				purchaseRequisitions:
+					state.purchaseRequisitions.length === 0
+						? []
+						: state.purchaseRequisitions.map((purchaseRequisition) =>
+								purchaseRequisition._id === action.payload._id
+									? action.payload
+									: purchaseRequisition,
+						  ),
+				purchaseRequisition:
+					state.purchaseRequisitions.length === 0 ? action.payload : {},
+			};
+		case PURCHASE_REQ_CREATE_SUCCESS:
+			return {
+				error: '',
+				loading: false,
+				purchaseRequisition: {},
+				purchaseRequisitions: [...state.purchaseRequisitions, action.payload],
+			};
 
-export const fetchSingleReqReducer = (
-    state = { request: [] },
-    action
-) => {
-    switch (action.type) {
-        case SINGLE_REQ_FETCH_REQUEST:
-            return { 
-                loading: true,
-            }
-        case SINGLE_REQ_FETCH_SUCCESS:
-            return { 
-                loading: false,
-                request: action.payload
-            }
-        case SINGLE_REQ_FETCH_FAIL:
-            return { 
-                loading: false,
-                error: action.payload
-            }
-    
-        default:
-            return state;
-    }
-}
-
-
-// export const fetchCompletePurchaseReqReducer = (
-//     state = { products: [] },
-//     action
-// ) => {
-//     switch (action.type) {
-//         case COMPLETE_PURCHASE_REQ_FETCH_REQUEST:
-//             return { 
-//                 loading: true,
-//             }
-//         case COMPLETE_PURCHASE_REQ_FETCH_SUCCESS:
-//             return { 
-//                 loading: false,
-//                 products: action.payload
-//             }
-//         case COMPLETE_PURCHASE_REQ_FETCH_FAIL:
-//             return { 
-//                 loading: false,
-//                 error: action.payload
-//             }
-    
-//         default:
-//             return state;
-//     }
-// }
+		default:
+			return state;
+	}
+};

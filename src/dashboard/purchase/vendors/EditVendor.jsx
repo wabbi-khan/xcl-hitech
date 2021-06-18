@@ -16,7 +16,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import { getSpecCatMatAction } from '../../../services/action/MaterialDataHandle';
+import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import { updateVendorAction } from '../../../services/action/VendorAction';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -91,7 +92,7 @@ const CssTextField = withStyles({
 
 const EditVendor = (props) => {
 	const classes = useStyles();
-	
+
 	const dispatch = useDispatch();
 
 	const { show, handler, vendor, categories } = props;
@@ -99,7 +100,15 @@ const EditVendor = (props) => {
 	// console.log(categories);
 	const [open, setOpen] = useState(false);
 	const [materialsSelect, setMaterialsSelect] = useState([]);
-
+	const [isUpdate, setIsUpdate] = useState(false);
+	const [isError, setIsError] = useState(false);
+	const [inputField, setInputField] = useState({
+		name: '',
+		email: '',
+		location: '',
+		phone: '',
+		category: '',
+	});
 	const {
 		register,
 		handleSubmit,
@@ -110,34 +119,56 @@ const EditVendor = (props) => {
 
 	useEffect(() => {
 		setOpen(show);
-		console.log(materialsSelect);
 	}, [show, materialsSelect]);
+
+	useEffect(() => {
+		if (vendor) {
+			fetchMaterials(vendor.category._id);
+			setInputField({ ...vendor, category: vendor.category._id });
+			const allMaterials = [];
+			vendor.material.forEach((material) => allMaterials.push(material._id));
+			setMaterialsSelect([...allMaterials]);
+		}
+	}, [vendor]);
 
 	const handleClose = () => {
 		handler(false);
-		window.location.reload();
 	};
 
-	const onSubmitData = (data) => {
-		console.log('onSubmit');
-		console.log(data);
+	const onSubmitData = () => {
+		try {
+			dispatch(
+				updateVendorAction(vendor._id, {
+					...inputField,
+					material: materialsSelect,
+				}),
+			);
+			setIsUpdate(true);
+		} catch (error) {
+			setIsError(true);
+		}
 	};
 
 	const fetchMaterials = async (id) => {
 		setMaterialsSelect([]);
-		await dispatch(getSpecCatMatAction(id));
+		dispatch(getMaterialAction(`category=${id}`));
 	};
 
 	const getMaterials = async (event) => {
 		// console.log(event.target);
 		if (event.target.checked) {
+			console.log(event.target.value);
 			setMaterialsSelect([...materialsSelect, event.target.value]);
 		}
 		if (event.target.checked === false) {
 			setMaterialsSelect(
-				materialsSelect.filter((value) => value !== event.target.value),
+				materialsSelect.filter((value) => value._id !== event.target.value),
 			);
 		}
+	};
+
+	const onChangeHandler = (value, placeholder) => {
+		setInputField({ ...inputField, [placeholder]: value });
 	};
 
 	return (
@@ -157,145 +188,158 @@ const EditVendor = (props) => {
 						<h5 className='text-center mt-4'>Edit Vendor</h5>
 						<Container className={classes.mainContainer}>
 							{/* ========================================= */}
-							{
-								vendor ? (
-									<form onSubmit={handleSubmit(onSubmitData)}>
-										<Grid container spacing={1}>
-											<Grid item lg={12} md={12} sm={12} xs={12}>
-												<CssTextField
-													id='outlined-basic'
-													label='Enter Vendor Name'
-													variant='outlined'
-													type='text'
-													size='small'
-													autocomplete='off'
-													className={classes.inputFieldStyle}
-													defaultValue={vendor.name}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													{...register('name', { required: true, maxLength: 22 })}
-												/>
-											</Grid>
-											<Grid item lg={12} md={12} sm={12} xs={12}>
-												<CssTextField
-													id='outlined-basic'
-													label='Email (Optional)'
-													variant='outlined'
-													autocomplete='off'
-													size='small'
-													className={classes.inputFieldStyle}
-													defaultValue={vendor.email}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													{...register('email', {
-														required: 'email is required',
-														pattern: {
-															value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-															message: 'Enter a valid e-mail address',
-														},
-													})}
-												/>
-											</Grid>
-											<Grid item lg={12} md={12} sm={12} xs={12}>
-												<CssTextField
-													id='outlined-basic'
-													label='Phone No.'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
-													className={classes.inputFieldStyle}
-													inputProps={{ style: { fontSize: 14 } }}
-													defaultValue={vendor.phone}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													{...register('phone', { required: true, maxLength: 24 })}
-												/>
-											</Grid>
-											<Grid item lg={12} md={12} sm={12} xs={12}>
-												<CssTextField
-													id='outlined-basic'
-													label='Address'
-													variant='outlined'
-													type='text'
-													size='small'
-													autocomplete='off'
-													className={classes.inputFieldStyle}
-													defaultValue={vendor.location}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													{...register('location', { required: true, maxLength: 70 })}
-												/>
-											</Grid>
+							{vendor ? (
+								<form onSubmit={handleSubmit(onSubmitData)}>
+									<Grid container spacing={1}>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Enter Vendor Name'
+												variant='outlined'
+												type='text'
+												size='small'
+												autocomplete='off'
+												className={classes.inputFieldStyle}
+												value={inputField.name}
+												onChange={(e) => onChangeHandler(e.target.value, 'name')}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												// {...register('name', { maxLength: 22 })}
+											/>
 										</Grid>
-										<Grid container spacing={1} style={{ marginTop: 8 }}>
-											<Grid item lg={12} md={12} sm={12} xs={12}>
-												<CssTextField
-													id='outlined-basic'
-													label='Select Category'
-													variant='outlined'
-													type='text'
-													autoComplete='off'
-													size='small'
-													select
-													defaultValue={vendor.category._id}
-													className={classes.inputFieldStyle}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													{...register('category', { required: true })}>
-													{!categories || !categories.length ? (
-														<p>Data Not Found</p>
-													) : (
-														categories.map((category, i) => (
-															<MenuItem
-																value={category._id}
-																onClick={(e) => fetchMaterials(category._id)}
-																key={i}>
-																{category.name}
-															</MenuItem>
-														))
-													)}
-												</CssTextField>
-											</Grid>
-											<Grid item lg={12} md={12} sm={6} xs={6} className={classes.ckeckBox}>
-												<FormGroup row>
-													{!vendor.material || !vendor.material.length ? (
-														<p>Not Any Material</p>
-													) : (
-														vendor.material.map((mat, i) => (
-															<FormControlLabel
-																key={i}
-																control={
-																	<Checkbox
-																		icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-																		checkedIcon={<CheckBoxIcon fontSize='small' />}
-																		onChange={(e) => getMaterials(e)}
-																	/>
-																}
-																name={mat.name}
-																value={mat._id}
-																label={mat.name}
-																{...register('material')}
-															/>
-														))
-													)}
-												</FormGroup>
-											</Grid>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Email'
+												variant='outlined'
+												autocomplete='off'
+												size='small'
+												className={classes.inputFieldStyle}
+												value={inputField.email}
+												onChange={(e) => onChangeHandler(e.target.value, 'email')}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												// {...register('email', {
+												// 	pattern: {
+												// 		value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+												// 		message: 'Enter a valid e-mail address',
+												// 	},
+												// })}
+											/>
 										</Grid>
-										{/* ============================================================= */}
-										{errors?.email && (
-											<span className='text-danger'>{errors.email.message}</span>
-										)}
-										{/* ============================================================= */}
-										<div>
-											<Button className='bg-warning text-light' type='submit'>
-												Update
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Phone No.'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												value={inputField.phone}
+												onChange={(e) => onChangeHandler(e.target.value, 'phone')}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												// {...register('phone', { maxLength: 24 })}
+											/>
+										</Grid>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Address'
+												variant='outlined'
+												type='text'
+												size='small'
+												autocomplete='off'
+												className={classes.inputFieldStyle}
+												value={inputField.location}
+												onChange={(e) => onChangeHandler(e.target.value, 'location')}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												// {...register('location', { maxLength: 70 })}
+											/>
+										</Grid>
+									</Grid>
+									<Grid container spacing={1} style={{ marginTop: 8 }}>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Category'
+												variant='outlined'
+												type='text'
+												autoComplete='off'
+												size='small'
+												select
+												value={inputField.category}
+												onChange={(e) => onChangeHandler(e.target.value, 'category')}
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												// {...register('category')}
+											>
+												{!categories || !categories.length ? (
+													<p>Data Not Found</p>
+												) : (
+													categories.map((category, i) => (
+														<MenuItem
+															value={category._id}
+															onClick={(e) => fetchMaterials(category._id)}
+															key={i}>
+															{category.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={12} md={12} sm={6} xs={6} className={classes.ckeckBox}>
+											<FormGroup row>
+												{!materials || !materials.length ? (
+													<p className='mt-2 ml-4'>
+														No Materials found for the selected Category
+													</p>
+												) : (
+													materials.map((material, i) => (
+														<FormControlLabel
+															key={i}
+															control={
+																<Checkbox
+																	icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+																	checkedIcon={<CheckBoxIcon fontSize='small' />}
+																	onChange={(e) => getMaterials(e)}
+																	checked={
+																		materialsSelect.find((selectedMaterials) =>
+																			selectedMaterials === material._id ? material : null,
+																		)
+																			? true
+																			: false
+																	}
+																/>
+															}
+															name={material.name}
+															value={material._id}
+															label={material.name}
+															{...register('material')}
+														/>
+													))
+												)}
+											</FormGroup>
+										</Grid>
+									</Grid>
+									{/* ============================================================= */}
+									{errors?.email && (
+										<span className='text-danger'>{errors.email.message}</span>
+									)}
+									{/* ============================================================= */}
+									<div>
+										<Button className='bg-warning text-light' type='submit'>
+											Update
 										</Button>
-											<Button className='bg-danger text-light ml-1' onClick={handleClose}>
-												Close
+										<Button className='bg-danger text-light ml-1' onClick={handleClose}>
+											Close
 										</Button>
-										</div>
-									</form>
-								) : null}
+									</div>
+								</form>
+							) : null}
 							<br />
 							{errors.category?.type === 'required' && (
 								<p className='mt-3 text-danger'>Category must be required</p>
@@ -314,6 +358,13 @@ const EditVendor = (props) => {
                                 )
                             } */}
 						</Container>
+						{isUpdate ? (
+							<p className='text-success'>Category Edit Success</p>
+						) : isError ? (
+							<p className='text-danger'>
+								Category Edit Failed! Internal Server Error
+							</p>
+						) : null}
 					</div>
 				</Fade>
 			</Modal>

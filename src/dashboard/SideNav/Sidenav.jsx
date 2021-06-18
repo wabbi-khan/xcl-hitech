@@ -237,7 +237,6 @@
 //     const [open, setOpen] = React.useState(true);
 //     const [open2, setOpen2] = React.useState(false);
 
-
 //     const handleClick1 = () => {
 //         console.log('handleClick1');
 
@@ -433,11 +432,7 @@
 //     );
 // }
 
-
 // export default (SideNav)
-
-
-
 
 import React from 'react';
 import clsx from 'clsx';
@@ -474,180 +469,95 @@ import BusinessIcon from '@material-ui/icons/Business';
 const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-    },
-    drawerOpen: {
-        background: 'black',
-        color: 'whitesmoke',
-        opacity: 0.9,
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerClose: {
-        background: 'black',
-        color: 'whitesmoke',
-        opacity: 0.9,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9) + 1,
-        },
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        backgroundColor: 'whitesmoke',
-        minHeight: 770,
-    },
+	root: {
+		display: 'flex',
+	},
+	appBar: {
+		zIndex: theme.zIndex.drawer + 1,
+		transition: theme.transitions.create(['width', 'margin'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+	},
+	appBarShift: {
+		marginLeft: drawerWidth,
+		width: `calc(100% - ${drawerWidth}px)`,
+		transition: theme.transitions.create(['width', 'margin'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+	},
+	menuButton: {
+		marginRight: 36,
+	},
+	hide: {
+		display: 'none',
+	},
+	drawer: {
+		width: drawerWidth,
+		flexShrink: 0,
+		whiteSpace: 'nowrap',
+	},
+	drawerOpen: {
+		background: 'black',
+		color: 'whitesmoke',
+		opacity: 0.9,
+		width: drawerWidth,
+		transition: theme.transitions.create('width', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen,
+		}),
+	},
+	drawerClose: {
+		background: 'black',
+		color: 'whitesmoke',
+		opacity: 0.9,
+		transition: theme.transitions.create('width', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		overflowX: 'hidden',
+		width: theme.spacing(7) + 1,
+		[theme.breakpoints.up('sm')]: {
+			width: theme.spacing(9) + 1,
+		},
+	},
+	toolbar: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		padding: theme.spacing(0, 1),
+		// necessary for content to be below app bar
+		...theme.mixins.toolbar,
+	},
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
+		backgroundColor: 'whitesmoke',
+		minHeight: 770,
+	},
 }));
 
 function Sidenav(props) {
-    const { title, history, children } = props;
-    const classes = useStyles();
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const [open1, setOpen1] = React.useState(false)
-    const [open2, setOpen2] = React.useState(false)
-    const [open3, setOpen3] = React.useState(false)
-    const [open4, setOpen4] = React.useState(false)
-    const [open5, setOpen5] = React.useState(false)
+	const { title, history, children } = props;
+	const classes = useStyles();
+	const theme = useTheme();
+	const [open, setOpen] = React.useState(false);
+	const [open1, setOpen1] = React.useState(false);
+	const [open2, setOpen2] = React.useState(false);
+	const [open3, setOpen3] = React.useState(false);
+	const [open4, setOpen4] = React.useState(false);
+	const [open5, setOpen5] = React.useState(false);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+	const handleDrawerOpen = () => {
+		setOpen(true);
+	};
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+	const handleDrawerClose = () => {
+		setOpen(false);
+	};
 
-    // function handleDropdown1() {
-    //     setOpen1(!open1);
-    // }
-
-    return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-            >
-                <Toolbar style={{ backgroundColor: '#22a19a' }}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        {title}
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose} style={{ background: 'black', color: 'whitesmoke', }}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    {['Dashboard'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
-                                {index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={text}
-                                onClick={() => {
-                                    history.push('/dashboard')
-                                }}
-                            />
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['Purchase'].map((text, index) => (
-                        <ListItem
-                            button key={text}
-                            onClick={() => {
-                                setOpen1(!open1)
-                            }}
-                        >
-                            <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
-                                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={text}
-                                onClick={() => {
-                                    history.push('/purchasedashboard')
-                                }}
-                            />
-                            {open1 ? <IconExpandLess /> : <IconExpandMore />}
-                        </ListItem>
-
+<<<<<<< HEAD
                     ))}
                     <Collapse in={open1} timeout="auto" unmountOnExit>
                         <Divider />
@@ -938,6 +848,385 @@ function Sidenav(props) {
                                 <ListItemText inset primary="Products Bin Card" />
                             </ListItem>
                             {/* <ListItem button
+=======
+	// function handleDropdown1() {
+	//     setOpen1(!open1);
+	// }
+
+	return (
+		<div className={classes.root}>
+			<CssBaseline />
+			<AppBar
+				position='fixed'
+				className={clsx(classes.appBar, {
+					[classes.appBarShift]: open,
+				})}>
+				<Toolbar style={{ backgroundColor: '#22a19a' }}>
+					<IconButton
+						color='inherit'
+						aria-label='open drawer'
+						onClick={handleDrawerOpen}
+						edge='start'
+						className={clsx(classes.menuButton, {
+							[classes.hide]: open,
+						})}>
+						<MenuIcon />
+					</IconButton>
+					<Typography variant='h6' noWrap>
+						{title}
+					</Typography>
+				</Toolbar>
+			</AppBar>
+			<Drawer
+				variant='permanent'
+				className={clsx(classes.drawer, {
+					[classes.drawerOpen]: open,
+					[classes.drawerClose]: !open,
+				})}
+				classes={{
+					paper: clsx({
+						[classes.drawerOpen]: open,
+						[classes.drawerClose]: !open,
+					}),
+				}}>
+				<div className={classes.toolbar}>
+					<IconButton
+						onClick={handleDrawerClose}
+						style={{ background: 'black', color: 'whitesmoke' }}>
+						{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+					</IconButton>
+				</div>
+				<Divider />
+				<List>
+					{['Dashboard'].map((text, index) => (
+						<ListItem button key={text}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+								{index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
+							</ListItemIcon>
+							<ListItemText
+								primary={text}
+								onClick={() => {
+									history.push('/dashboard');
+								}}
+							/>
+						</ListItem>
+					))}
+				</List>
+				<Divider />
+				<List>
+					{['Purchase'].map((text, index) => (
+						<ListItem
+							button
+							key={text}
+							onClick={() => {
+								setOpen1(!open1);
+							}}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+							</ListItemIcon>
+							<ListItemText
+								primary={text}
+								onClick={() => {
+									history.push('/purchasedashboard');
+								}}
+							/>
+							{open1 ? <IconExpandLess /> : <IconExpandMore />}
+						</ListItem>
+					))}
+					<Collapse in={open1} timeout='auto' unmountOnExit>
+						<Divider />
+						<List component='div' disablePadding>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/category');
+								}}>
+								<ListItemText inset primary='Categories' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/department');
+								}}>
+								<ListItemText inset primary='Departments' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/material');
+								}}>
+								<ListItemText inset primary='Material' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/vendors');
+								}}>
+								<ListItemText inset primary='Vendors' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/supplier_evaluation_form');
+								}}>
+								<ListItemText inset primary='Supplier Evaluation Form' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/approved_supplier_list');
+								}}>
+								<ListItemText inset primary='Approved Supplier List' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/purchase_order');
+								}}>
+								<ListItemText inset primary='Purchase Order' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/purchase_order_list');
+								}}>
+								<ListItemText inset primary='Purchase Order List' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/purchase_requisition');
+								}}>
+								<ListItemText inset primary='Purchase Requisition' />
+							</ListItem>
+						</List>
+					</Collapse>
+				</List>
+				<Divider />
+				<List>
+					{['Marketing/Sales'].map((text, index) => (
+						<ListItem
+							button
+							key={text}
+							onClick={() => {
+								setOpen4(!open4);
+							}}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+							</ListItemIcon>
+							<ListItemText
+								primary={text}
+								onClick={() => {
+									history.push('/marketing_dashboard');
+								}}
+							/>
+							{open4 ? <IconExpandLess /> : <IconExpandMore />}
+						</ListItem>
+					))}
+					<Collapse in={open4} timeout='auto' unmountOnExit>
+						<Divider />
+						<List component='div' disablePadding>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/marketing_dashboard/order_booking_form');
+								}}>
+								<ListItemText inset primary='Order Booking Form' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/department');
+								}}>
+								<ListItemText inset primary='Order Log Sheet' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/material');
+								}}>
+								<ListItemText inset primary='Sales Contract' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/vendors');
+								}}>
+								<ListItemText inset primary='Contract Review...' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/supplier_evaluation_form');
+								}}>
+								<ListItemText inset primary='Customer Feedback..' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/approved_supplier_list');
+								}}>
+								<ListItemText inset primary='Complaint Testing' />
+							</ListItem>
+						</List>
+					</Collapse>
+				</List>
+				<Divider />
+				<List>
+					{['Production'].map((text, index) => (
+						<ListItem
+							button
+							key={text}
+							onClick={() => {
+								setOpen5(!open5);
+							}}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+								{index % 2 === 0 ? <LabelIcon /> : <MailIcon />}
+							</ListItemIcon>
+							<ListItemText
+								primary={text}
+								onClick={() => {
+									history.push('/productionDashboard');
+								}}
+							/>
+							{open5 ? <IconExpandLess /> : <IconExpandMore />}
+						</ListItem>
+					))}
+					<Collapse in={open5} timeout='auto' unmountOnExit>
+						<Divider />
+						<List component='div' disablePadding>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/machines');
+								}}>
+								<ListItemText inset primary='Machines' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/shifts');
+								}}>
+								<ListItemText inset primary='Shifts' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/weekly-production-plan');
+								}}>
+								<ListItemText inset primary='Weekly Production...' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/setUpCards');
+								}}>
+								<ListItemText inset primary='Set Up Cards' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/productionReport');
+								}}>
+								<ListItemText inset primary='Production Report' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/productionOnlineInspectionReport');
+								}}>
+								<ListItemText inset primary='Production Online...' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/productionDashboard/production');
+								}}>
+								<ListItemText inset primary='Production' />
+							</ListItem>
+						</List>
+					</Collapse>
+				</List>
+				<Divider />
+				<List>
+					{['Store'].map((text, index) => (
+						<ListItem
+							button
+							key={text}
+							onClick={() => {
+								setOpen2(!open2);
+							}}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+							</ListItemIcon>
+							<ListItemText
+								primary={text}
+								onClick={() => {
+									history.push('/storedashboard');
+								}}
+							/>
+							{open2 ? <IconExpandLess /> : <IconExpandMore />}
+						</ListItem>
+					))}
+					<Collapse in={open2} timeout='auto' unmountOnExit>
+						<Divider />
+						<List component='div' disablePadding>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/storedashboard/store_categories');
+								}}>
+								<ListItemText inset primary='Categories' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/storedashboard/products');
+								}}>
+								<ListItemText inset primary='Products' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/storedashboard/good_received_and_inspection_form');
+								}}>
+								<ListItemText inset primary='Goods Received(GRIN)' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/storedashboard/products_bin_card');
+								}}>
+								<ListItemText inset primary='Products Bin Card' />
+							</ListItem>
+							{/* <ListItem button
+>>>>>>> 34b0aafc0b1a31ab0d4441d589adfa5943d7ad57
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('')

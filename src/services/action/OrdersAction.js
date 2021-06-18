@@ -1,83 +1,91 @@
 import axios from 'axios';
-import { PURCHASE_ORDER_FETCH_REQUEST, 
-    PURCHASE_ORDER_FETCH_SUCCESS, 
-    PURCHASE_ORDER_FETCH_FAIL, 
-    SINGLE_PURCHASE_ORDER_FETCH_REQUEST, 
-    SINGLE_PURCHASE_ORDER_FETCH_SUCCESS, 
-    SINGLE_PURCHASE_ORDER_FETCH_FAIL, 
-    INSPECTED_ORDER_FETCH_REQUEST, 
-    INSPECTED_ORDER_FETCH_SUCCESS, 
-    INSPECTED_ORDER_FETCH_FAIL} from '../constants/OrderConstant'
+import {
+	PURCHASE_ORDER_REQUEST,
+	PURCHASE_ORDER_FETCH_SUCCESS,
+	PURCHASE_ORDER_FAIL,
+	PURCHASE_ORDER_CREATE_SUCCESS,
+	PURCHASE_ORDER_UPDATE_SUCCESS,
+} from '../constants/OrderConstant';
 
-export const fetchPurchaseOrderAction = () => async (dispatch) => {
-    dispatch({
-        type: PURCHASE_ORDER_FETCH_REQUEST
-    })
-    
-    try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/order`)
-        
-        dispatch({
-            type: PURCHASE_ORDER_FETCH_SUCCESS,
-            payload: data.orders
-        })
+export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
+	dispatch({
+		type: PURCHASE_ORDER_REQUEST,
+	});
 
-    }
-    
-    catch (err) {
-        dispatch({
-            type: PURCHASE_ORDER_FETCH_FAIL,
-            payload: err
-        })
+	try {
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/order${query ? `?${query}` : ''}`,
+		);
 
-    }
-}
+		dispatch({
+			type: PURCHASE_ORDER_FETCH_SUCCESS,
+			payload: data.data,
+		});
+	} catch (err) {
+		dispatch({
+			type: PURCHASE_ORDER_FAIL,
+			payload: err,
+		});
+	}
+};
 
 export const fetchSinglePurchaseOrderAction = (_id) => async (dispatch) => {
-    dispatch({
-        type: SINGLE_PURCHASE_ORDER_FETCH_REQUEST
-    })
-    
-    try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/order/id/${_id}`)
+	dispatch({
+		type: PURCHASE_ORDER_REQUEST,
+	});
 
-        dispatch({
-            type: SINGLE_PURCHASE_ORDER_FETCH_SUCCESS,
-            payload: data.order
-        })
+	try {
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/order/id/${_id}`,
+		);
+		console.log(data.order);
+		dispatch({
+			type: PURCHASE_ORDER_FETCH_SUCCESS,
+			payload: data.order,
+		});
+	} catch (err) {
+		dispatch({
+			type: PURCHASE_ORDER_FAIL,
+			payload: err,
+		});
+	}
+};
 
-    }
-    
-    catch (err) {
-        dispatch({
-            type: SINGLE_PURCHASE_ORDER_FETCH_FAIL,
-            payload: err
-        })
+export const createPurchaseOrderAction =
+	(purchaseOrder) => async (dispatch) => {
+		dispatch({
+			type: PURCHASE_ORDER_REQUEST,
+		});
 
-    }
-}
+		try {
+			const res = await axios.post(
+				`${process.env.REACT_APP_API_URL}/order`,
+				purchaseOrder,
+			);
 
-export const fetchInspectedOrderAction = () => async (dispatch) => {
-    dispatch({
-        type: INSPECTED_ORDER_FETCH_REQUEST
-    })
-    
-    try {
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/order/inspected`)
-        
-        dispatch({
-            type: INSPECTED_ORDER_FETCH_SUCCESS,
-            payload: data.order
-        })
+			console.log(res.data.order);
 
-    }
-    
-    catch (err) {
-        dispatch({
-            type: INSPECTED_ORDER_FETCH_FAIL,
-            payload: err
-        })
+			dispatch({
+				type: PURCHASE_ORDER_CREATE_SUCCESS,
+				payload: res.data.order,
+			});
+		} catch (err) {
+			dispatchError(err, dispatch);
+		}
+	};
 
-    }
-}
-
+const dispatchError = (err, dispatch) => {
+	if (err.response) {
+		console.log(err.response.data.error);
+		dispatch({
+			type: PURCHASE_ORDER_FAIL,
+			payload: err.response.data.error,
+		});
+	} else {
+		console.log(err);
+		dispatch({
+			type: PURCHASE_ORDER_FAIL,
+			payload: 'Network Error',
+		});
+	}
+};

@@ -17,7 +17,7 @@ import axios from 'axios';
 import { fetchMachineAction } from '../../../services/action/MachineAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
-import EditMachine from './EditMachines';
+import Grid from '@material-ui/core/Grid';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -113,7 +113,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const Machines = () => {
+const ProductionOnlineInsRep = () => {
 	const classes = useStyles();
 	const {
 		register,
@@ -129,16 +129,22 @@ const Machines = () => {
 
 	const { machines, loading, error } = useSelector((state) => state.machines);
 
-	const onSubmitDate = async () => {
+	const onSubmitDate = async (props) => {
 		try {
 			await axios({
 				method: 'POST',
-				url: `${process.env.REACT_APP_API_URL}/machine`,
+				url: `${process.env.REACT_APP_API_URL}/productionOnlineInsRep`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
-					name: inputFields.name,
+					shift: props.shift,
+					supplier: props.supplier,
+					batchNo: props.batchNo,
+					productionSpec: props.productionSpec,
+					rawMaterial: props.rawMaterial,
+					outerDia: props.outerDia,
+					wallThickness: props.wallThickness,
 				},
 			});
 			window.location.reload();
@@ -148,9 +154,15 @@ const Machines = () => {
 	};
 
 	const [open, setOpen] = useState(false);
-	const [machine, setMachine] = useState({});
+	const [productionOnlineInsRep, setProductionOnlineInsRep] = useState({});
 	const [inputFields, setInputFields] = useState({
-		name: '',
+		shift: '',
+		supplier: '',
+		batchNo: '',
+		productionSpec: '',
+		rawMaterial: '',
+		outerDia: '',
+		wallThickness: '',
 	});
 
 	const onChangeHandler = (e, placeholder) => {
@@ -163,22 +175,28 @@ const Machines = () => {
 		setOpen(!open);
 	};
 
-	const handleOpen = (machine) => {
-		console.log(machine);
-		setMachine(machine);
+	const handleOpen = (productionOnlineInsRep) => {
+		console.log(productionOnlineInsRep);
+		setProductionOnlineInsRep(productionOnlineInsRep);
 		setOpen(true);
 	};
 
-	const onUpdateSubmit = async (machine) => {
+	const onUpdateSubmit = async (productionOnlineInsRep) => {
 		try {
 			await axios({
 				method: 'PATCH',
-				url: `${process.env.REACT_APP_API_URL}/machine/${machine._id}`,
+				url: `${process.env.REACT_APP_API_URL}/productionOnlineInsRep/${productionOnlineInsRep._id}`,
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				data: {
-					name: machine.name,
+					shift: productionOnlineInsRep.shift,
+					supplier: productionOnlineInsRep.supplier,
+					batchNo: productionOnlineInsRep.batchNo,
+					productionSpec: productionOnlineInsRep.productionSpec,
+					rawMaterial: productionOnlineInsRep.rawMaterial,
+					outerDia: productionOnlineInsRep.outerDia,
+					wallThickness: productionOnlineInsRep.wallThickness,
 				},
 			});
 			window.location.reload();
@@ -205,20 +223,140 @@ const Machines = () => {
 				<Container className={classes.mainContainer}>
 					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
 						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Machine Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							style={{ marginRight: 20 }}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							onChange={(e) => onChangeHandler(e, 'name')}
-							value={inputFields.name}
-						/>
+						<Grid container spacing={1} style={{ marginTop: 15 }}>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='P.R. No'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('prNo', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Batch No.'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('hi', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									variant='outlined'
+									type='date'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('machineNo', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+						</Grid>
+						<Grid container spacing={1} style={{ marginTop: 15 }}>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Production Spec'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('orderNo', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Raw Material'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('rawMaterial', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Outer Dia (mm)'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('productionHours', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+						</Grid>
+						<Grid container spacing={1} style={{ marginTop: 15 }}>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Wall Thickness (mm)'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('shift', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+							<Grid item lg={4} md={4} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
+									label='Wall Thickness (mm)'
+									variant='outlined'
+									type='text'
+									size='small'
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...register('items', { required: true })}
+								/>
+								{errors.poNum?.type === 'required' && (
+									<p className='mt-1 text-danger'>P.O. No. is required</p>
+								)}
+							</Grid>
+						</Grid>
+
 						<div>
 							<Button
 								variant='outlined'
@@ -230,12 +368,6 @@ const Machines = () => {
 						</div>
 					</form>
 				</Container>
-				<EditMachine
-					show={open}
-					close={handleClose}
-					machine={machine}
-					onSubmit={onUpdateSubmit}
-				/>
 
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
@@ -304,4 +436,4 @@ const Machines = () => {
 	);
 };
 
-export default Machines;
+export default ProductionOnlineInsRep;
