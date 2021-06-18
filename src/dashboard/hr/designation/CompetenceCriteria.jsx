@@ -62,14 +62,15 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	resStyle: {
-		marginBottom: -10,
+		marginTop: 10,
+		marginBottom: 0,
 		fontSize: 16,
 	},
 	deleteResBtn: {
 		border: 'none',
 	},
 	delete: {
-		fontSize: 22,
+		fontSize: 21,
 		color: 'red',
 		marginTop: -3,
 		marginLeft: 10,
@@ -101,6 +102,7 @@ const CompetenceCriteria = () => {
 			minReqString: '',
 		},
 	]);
+	const [responsibilities, setResponsibilities] = useState([]);
 
 	const {
 		register,
@@ -116,11 +118,10 @@ const CompetenceCriteria = () => {
 		// setParamString('')
 		// setMinReqString('')
 	};
-
 	const removeRes = (index) => {
-		// const temp = [...responsibilities];
-		// temp.splice(index, 1)
-		// setResponsibilities(temp)
+		const temp = [...responsibilities];
+		temp.splice(index, 1);
+		setResponsibilities(temp);
 	};
 
 	return (
