@@ -269,7 +269,7 @@ function App() {
 				/>
 				<Route
 					exact
-					path='/hr/employees/print_emp_details/:id'
+					path='/hr/employees/print_emp_details'
 					component={PrintEmpDetails}
 				/>
 				<Route exact path='/hr/employees_salaries' component={EmpSalaries} />

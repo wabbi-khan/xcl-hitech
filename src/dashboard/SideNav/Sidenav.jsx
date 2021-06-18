@@ -467,6 +467,9 @@ import LabelIcon from '@material-ui/icons/Label';
 import StoreIcon from '@material-ui/icons/Store';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
+import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import BusinessIcon from '@material-ui/icons/Business';
+
 
 const drawerWidth = 270;
 
@@ -734,7 +737,7 @@ function Sidenav(props) {
                             }}
                         >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
-                                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+                                {index % 2 === 0 ? <TrendingDownIcon /> : <MailIcon />}
                             </ListItemIcon>
                             <ListItemText
                                 primary={text}
@@ -807,7 +810,7 @@ function Sidenav(props) {
                             setOpen5(!open5)
                         }} >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
-                                {index % 2 === 0 ? <LabelIcon /> : <MailIcon />}
+                                {index % 2 === 0 ? <BusinessIcon /> : <MailIcon />}
                             </ListItemIcon>
                             <ListItemText primary={text} onClick={() => {
                                 history.push('/productionDashboard')
@@ -888,7 +891,7 @@ function Sidenav(props) {
                             }}
                         >
                             <ListItemIcon style={{ background: 'black', color: 'whitesmoke', }}>
-                                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+                                {index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
                             </ListItemIcon>
                             <ListItemText
                                 primary={text}

@@ -134,7 +134,7 @@ const Router = () => {
                 <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
                 <Router exact path="/hr/employees" component={Employees}/>
                 <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
-                <Router exact path="/hr/employees/print_emp_details/:id" component={PrintEmpDetails}/>
+                <Router exact path="/hr/employees/print_emp_details" component={PrintEmpDetails}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>
                 <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>
@@ -150,7 +150,6 @@ const Router = () => {
                 <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
                 <Router exact path="/marketing_dashboard" component={Marketing}/>                 //Marketing/Sales Module Routes
                 <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>
-
                 <Route
 					exact
 					path='/productionDashboard/weekly-production-plan'
