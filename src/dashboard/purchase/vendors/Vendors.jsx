@@ -102,6 +102,9 @@ const useStyles = makeStyles((theme) => ({
 	table: {
 		minWidth: 600,
 	},
+	tableContainer: {
+		marginTop: 10,
+	},
 	dataTable: {
 		marginTop: 40,
 	},
@@ -121,6 +124,16 @@ const useStyles = makeStyles((theme) => ({
 		},
 		[theme.breakpoints.down('sm')]: {
 			width: 200,
+		},
+	},
+	inputFieldStyle1: {
+		[theme.breakpoints.up('md')]: {
+			width: 250,
+			marginLeft: 5,
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: 200,
+			marginTop: 10,
 		},
 	},
 }));
@@ -205,6 +218,11 @@ const Vendors = () => {
 	const handleOpen = async (vendor) => {
 		setOpen(true);
 		setVendor(vendor);
+	};
+
+	const handleChange = async (e) => {
+		e.preventDefault();
+		dispatch(getVendorAction(`name[regex]=${e.target.value}`));
 	};
 
 	return (
@@ -319,7 +337,7 @@ const Vendors = () => {
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('category', { required: true })}>
 									{!fetchMatCategory.categories ||
-									!fetchMatCategory.categories.length ? (
+										!fetchMatCategory.categories.length ? (
 										<p>Data Not Found</p>
 									) : (
 										fetchMatCategory.categories.map((category, i) => (
@@ -369,8 +387,12 @@ const Vendors = () => {
 						</Grid>
 
 						{/* ============All msg show here about add vendor succsese / fail========= */}
-						{addVendorSuccess ? <span>Vendor Added Successfully</span> : null}
-						{addVendorFail ? <span>Vendor Added Failed</span> : null}
+						{
+							addVendorSuccess ? <span>Vendor Added Successfully</span> : null
+						}
+						{
+							addVendorFail ? <span>Vendor Added Failed</span> : null
+						}
 						<div>
 							<Button
 								variant='outlined'
@@ -392,6 +414,19 @@ const Vendors = () => {
 				/>
 				{/* ============edit vendor form component */}
 				<div className={classes.dataTable}>
+					<CssTextField
+						id='outlined-basic'
+						label='Search Vendors'
+						variant='outlined'
+						type='search'
+						size='small'
+						autoComplete='off'
+						// value={input}
+						onChange={handleChange}
+						className={classes.inputFieldStyle1}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					/>
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader

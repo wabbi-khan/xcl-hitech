@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 	inputFieldStyle1: {
 		[theme.breakpoints.up('md')]: {
 			width: 330,
-			marginLeft: 10,
+			marginLeft: 5,
 		},
 		[theme.breakpoints.down('sm')]: {
 			width: 200,
@@ -126,7 +126,7 @@ const Material = () => {
 	const [AddMatError, setAddMatError] = useState(false);
 	const [AddMatErrMsg, setAddMatErrMsg] = useState('internal server error');
 	const [material, setMaterial] = useState();
-	const [input, setInput] = useState();
+	// const [input, setInput] = useState();
 
 	const classes = useStyles();
 	const {
@@ -148,7 +148,8 @@ const Material = () => {
 			await dispatch(createMaterialAction(props));
 			reset({});
 			setAddMatError(false);
-		} catch (error) {
+		} 
+        catch (error) {
 			setAddMatError(true);
 		}
 	};
@@ -276,7 +277,6 @@ const Material = () => {
 						type='search'
 						size='small'
 						autoComplete='off'
-						value={input}
 						onChange={handleChange}
 						className={classes.inputFieldStyle1}
 						inputProps={{ style: { fontSize: 14 } }}
