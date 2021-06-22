@@ -1220,7 +1220,7 @@ const Employees = ({ history }) => {
 										id='outlined-basic'
 										label='Job Title'
 										variant='outlined'
-										type='number'
+										type='text'
 										size='small'
 										{...register('jobTitle', { required: true })}
 										autocomplete='off'

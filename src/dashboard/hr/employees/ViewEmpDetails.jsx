@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
-
+import { getEmployees } from '../../../services/action/EmployeesAction';
 const StyledTableCell = withStyles((theme) => ({
 	head: {
 		backgroundColor: theme.palette.common.black,
@@ -88,12 +88,10 @@ const ViewEmpDetails = (props) => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		// await dispatch(fetchDepartmentsAction())
+		dispatch(getEmployees());
 	}, [dispatch]);
 
-	const { departments, loading, error } = useSelector(
-		(state) => state.departments,
-	);
+	const { employees, loading, error } = useSelector((state) => state.employees);
 
 	return (
 		<Sidenav title={'Employee Details'}>
@@ -117,43 +115,43 @@ const ViewEmpDetails = (props) => {
 								<Loading />
 							) : error ? (
 								<MaterialError />
-							) : (
-								// !employee || !employee.length ?
-								//     employee.map((emp, i) => (
-								<StyledTableRow>
-									<StyledTableCell className='text-dark' align='center'>
-										{1}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{/* {
+							) : !employees || !employees.length ? (
+								employees.map((emp, i) => (
+									<StyledTableRow>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{emp.name}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{/* {
                                                                     !emp.department ? null : emp.department.name
                                                                 } */}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{/* {
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{/* {
                                                                     !vendor.material || !vendor.material.length ? <p>Not Found</p> :
                                                                         vendor.material.map((value, i) => (
                                                                             <span key={i} className="ml-1">{value.name},</span>
                                                                         ))
                                                                 } */}
-									</StyledTableCell>
-									<StyledTableCell className='text-light' align='center'>
-										<Button
-											variant='contained'
-											className='bg-dark text-light'
-											size='small'
-											onClick={() => {
-												history.push(`/hr/employees/print_emp_details`);
-											}}>
-											View Report
-										</Button>
-									</StyledTableCell>
-								</StyledTableRow>
-								// ))
-								// : <h5>Not Found</h5>
+										</StyledTableCell>
+										<StyledTableCell className='text-light bg-light' align='center'>
+											<Button
+												variant='contained'
+												className='bg-dark text-light'
+												size='small'
+												onClick={() => {
+													history.push(`/hr/employees/print_emp_details`);
+												}}>
+												View Report
+											</Button>
+										</StyledTableCell>
+									</StyledTableRow>
+								))
+							) : (
+								<h5>Not Found</h5>
 							)}
 						</TableBody>
 					</Table>
