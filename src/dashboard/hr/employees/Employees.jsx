@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 import avatar from '../assests/user.svg';
 import {
@@ -19,6 +18,7 @@ import { getExperiences } from '../../../services/action/ExperienceAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { TableCell, TableRow } from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -37,17 +37,6 @@ const StyledTableRow = withStyles((theme) => ({
 		},
 	},
 }))(TableRow);
-=======
-import { useDispatch, useSelector } from 'react-redux'
-import avatar from '../assests/user.svg'
-import { fetchEmployeesAction } from '../../../services/action/EmployeesAction';
-import AcademicQualification from './AcademicQualification';
-import ProfessionalQualification from './ProfessionalQualification';
-import Experience from './Experience';
-import Reference from './Reference';
-import OfficeUse from './OfficeUse';
-
->>>>>>> 2023b9863b31270004291b30a03b1451124ed165
 
 const useStyles = makeStyles((theme) => ({
 	root: {
