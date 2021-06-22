@@ -307,9 +307,9 @@ const PrintNonExecEmpDetails = () => {
                                 }
                                 <StyledTableRow >
                                     <StyledTableCell className="text-dark" align="center" style={{ fontWeight: 'bold' }}></StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="right" style={{ fontWeight: 'bold'}}>TOTAL</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center" style={{ fontWeight: 'bold',}}>100</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center" style={{ fontWeight: 'bold',}}>82</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="right" style={{ fontWeight: 'bold' }}>TOTAL</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center" style={{ fontWeight: 'bold', }}>100</StyledTableCell>
+                                    <StyledTableCell className="text-dark" align="center" style={{ fontWeight: 'bold', }}>82</StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>
                         </Table>
@@ -328,108 +328,47 @@ const PrintNonExecEmpDetails = () => {
                 </div>
             </div>
             <div className={classes.mainContainer1}>
-                <h5 align="left" style={{ marginTop: 30}}>Rating</h5>
-                <div>
+                <h5 align="left" style={{ marginTop: 30 }}>Rating</h5>
+                <div className="mt-3">
                     <h6 style={{ display: 'inline' }}>Outstanding </h6>
                     <h6 style={{ display: 'inline', marginLeft: 0 }}>80-90</h6>
                 </div>
             </div>
-            <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-            <div className={classes.table1}>
-                <h5 align="left" style={{ marginTop: 30, textDecoration: 'underline' }}>For Office Use Only</h5>
-                <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <p style={{ fontWeight: 'bold', }}>
-                            Date Of Interviewed
-                        </p>
-                    </Grid>
-                    <Grid item lg={1} md={1} sm={1} xs={1}>
-                        <p>12-12-20</p>
-                        <hr
-                            style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                        />
-                    </Grid>
-                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <p style={{ fontWeight: 'bold', }}>
-                            Remarks
-                        </p>
-                    </Grid>
-                    <Grid item lg={3} md={3} sm={3} xs={3}>
-                        <p>This is the remarks of employee</p>
-                        <hr
-                            style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                    <Grid item lg={3} md={3} sm={3} xs={3}>
-                        <p style={{ fontWeight: 'bold', }}>
-                            Recommended For Employment
-                        </p>
-                    </Grid>
-                    <Grid item lg={1} md={1} sm={1} xs={1}>
-                        <p>Yes</p>
-                        <hr
-                            style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                        />
-                    </Grid>
-                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <p style={{ fontWeight: 'bold', }}>
-                            Job Title
-                        </p>
-                    </Grid>
-                    <Grid item lg={3} md={3} sm={3} xs={3}>
-                        <p>Assistant Manager</p>
-                        <hr
-                            style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                    <Grid item lg={3} md={3} sm={3} xs={3}>
-                        <p style={{ fontWeight: 'bold', }}>
-                            Recommended Salary
-                        </p>
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <p>40000</p>
-                        <hr
-                            style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                        />
-                    </Grid>
-                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                    <Grid item lg={3} md={3} sm={3} xs={3}>
-                        <p style={{ fontWeight: 'bold', }}>
-                            Recommendations Approved
-                        </p>
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <p>Yes</p>
-                        <hr
-                            style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
-                        />
-                    </Grid>
-                </Grid>
+            <div className={classes.mainContainer1}>
+                <h5 align="left" style={{ marginTop: 30 }}>Overall Rating</h5>
+                <div className="mt-3">
+                    <h6 style={{ textDecoration: 'underline' }}>Outstanding</h6>
+                    <p style={{ width: '50%' }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit illum iure voluptatibus laboriosam, aut cumque sint eius error. Aut voluptates aspernatur fugiat enim tenetur ullam repellendus eaque accusantium suscipit nobis.</p>
+                    <h6 style={{ textDecoration: 'underline' }}>Outstanding</h6>
+                    <p style={{ width: '50%' }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit illum iure voluptatibus laboriosam, aut cumque sint eius error. Aut voluptates aspernatur fugiat enim tenetur ullam repellendus eaque accusantium suscipit nobis.</p>
+                </div>
             </div>
+            <Grid container spacing={1} style={{ marginTop: 50, textAlign: 'left' }} >
+                <Grid item lg={2} md={2} sm={2} xs={2}>
+                    <p style={{ fontWeight: 'bold', }}>
+                        General Remarks:
+                    </p>
+                </Grid>
+                <Grid item lg={2} md={2} sm={2} xs={2}>
+                    <p>good</p>
+                    <hr
+                        style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
+                    />
+                </Grid>
+            </Grid>
             <div className="container mt-5">
                 <div className="row">
-                    <div className="col-lg-2 col-md-2 col-sm-2 mt-5">
+                    <div className="col-lg-3 col-md-3 col-sm-3 mt-5">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Applicant Signature</p>
+                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Head Of Department</p>
                     </div>
-                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-2 col-md-2 col-sm-2 mt-5">
+                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Interviewer Signature</p>
+                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Name</p>
                     </div>
-                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-2 col-md-2 col-sm-2 mt-5">
+                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5">
                         <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Approved By</p>
-                    </div>
-                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-2 col-md-2 col-sm-2 mt-5">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Date of Approval</p>
+                        <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Signature</p>
                     </div>
                 </div>
             </div>

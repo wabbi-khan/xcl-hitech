@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form';
 
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         [theme.breakpoints.up('md')]: {
             marginLeft: 0,
-            marginTop: 25,
+            marginTop: 15,
         },
         [theme.breakpoints.down('sm')]: {
             marginTop: -15,
@@ -107,28 +108,11 @@ const useStyles = makeStyles((theme) => ({
             width: 200,
         },
     },
-    inputFieldStyle4: {
-        [theme.breakpoints.up('md')]: {
-            width: 250,
-            marginLeft: -25
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    inputFieldStyle5: {
-        [theme.breakpoints.up('md')]: {
-            width: 250,
-            marginLeft: 2
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
     delete: {
         color: 'red',
         fontSize: 38,
         [theme.breakpoints.up('md')]: {
+            marginLeft: 50,
             marginTop: -7,
         },
         [theme.breakpoints.down('sm')]: {
@@ -136,12 +120,15 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     deleteRowBtn: {
-        marginLeft: 30,
+        marginLeft: 220,
         '&:hover': {
             border: 'none',
             background: 'none',
         }
     },
+    uploadImgBtn: {
+        paddingLeft: 20,
+    }
 }));
 
 const CssTextField = withStyles({
@@ -161,25 +148,47 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const OfficeUse = () => {
+const AcademicQualification = () => {
     const classes = useStyles();
+
+    // const onChangeHandler = (value, placeholder, index) => {
+    //     console.log(value)
+    //     const tempFields = ItemCounter.map((item, i) => {
+    //         if (i === index) {
+    //             return { ...item, [placeholder]: value };
+    //         } else {
+    //             return { ...item };
+    //         }
+    //     });
+    //     console.log(tempFields)
+    //     setItemCounter([...tempFields]);
+    // };
 
     return (
         <div>
             <Container className={classes.mainContainer}>
-                <h5 className="text-left">For Office Use Only</h5>
+                <h5 className="text-left">Academic Qualification</h5>
                 <Grid container spacing={1} style={{ marginTop: 15, }} >
                     <Grid item lg={1} md={1}>
-                        {/* <h5 className={classes.itemHeading}>1.</h5> */}
+                        {/* <h5 className={classes.itemHeading}></h5> */}
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            // label="Date of Interviewed"
+                            label="Degree/Certification"
                             variant="outlined"
-                            type="date"
+                            type="text"
                             size="small"
-                            autocomplete="off"
                             // onChange={(e) => {
+                            //     onChangeHandler(e.target.value, 'material', i)
+                            //     const material = vendorMaterial.find(el => el._id === e.target.value)
+                            //     const tempFields = ItemCounter.map((item, myI) => {
+                            //         if (myI === i) {
+                            //             return { ...item, 'material': e.target.value, 'unitValue': material.unit };
+                            //         } else {
+                            //             return { ...item };
+                            //         }
+                            //     });
+                            //     setItemCounter([...tempFields]);
                             // }}
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
@@ -188,13 +197,13 @@ const OfficeUse = () => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Remarks"
+                            label="Board/University"
                             variant="outlined"
                             type="text"
                             size="small"
-                            autocomplete="off"
                             // value={value.quantity}
                             // onChange={(e) => {
+                            //     onChangeHandler(e.target.value, "quantity", i)
                             // }}
                             className={classes.inputFieldStyle1}
                             inputProps={{ style: { fontSize: 14 } }}
@@ -203,103 +212,41 @@ const OfficeUse = () => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Recommend For Employment"
+                            label="Year of Passing"
                             variant="outlined"
-                            type="number"
+                            type="text"
                             size="small"
-                            select
-                            autocomplete="off"
                             // value={ItemCounter[i].unitValue}
                             className={classes.inputFieldStyle2}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="">Yes</MenuItem>
-                            <MenuItem value="">No</MenuItem>
-                        </CssTextField>
+                        />
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Job Title"
+                            label="Division"
                             variant="outlined"
                             type="text"
                             size="small"
-                            select
-                            autocomplete="off"
-                            // value={ItemCounter[i].unitValue}
+                            // value={value.remarks}
+                            // onChange={(e) => {
+                            //     onChangeHandler(e.target.value, "remarks", i)
+                            // }}
                             className={classes.inputFieldStyle3}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="0">Manager</MenuItem>
-                            </CssTextField>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1} style={{ marginTop: 15, }} >
-                    <Grid item lg={1} md={1}>
-                        {/* <h5 className={classes.itemHeading}>1.</h5> */}
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommended Department"
-                            variant="outlined"
-                            type="text"
-                            size="small"
-                            select
-                            autocomplete="off"
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="0">Purchase</MenuItem>
-                        </CssTextField>
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommended Salary"
-                            variant="outlined"
-                            type="number"
-                            size="small"
-                            autocomplete="off"
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle1}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
                         />
                     </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommendations Approved"
-                            variant="outlined"
-                            type="text"
-                            size="small"
-                            select
-                            autocomplete="off"
-                            // value={value.quantity}
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle2}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="">Yes</MenuItem>
-                            <MenuItem value="">No</MenuItem>
-                        </CssTextField>
-                    </Grid>
                 </Grid>
-            </Container>
-
-            {/* {
+                {/* {
                                 AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p> : null
                             }
                             {
                                 AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
                             } */}
+            </Container>
         </div>
     )
 }
 
-export default OfficeUse
+export default AcademicQualification

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
@@ -161,22 +161,22 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const OfficeUse = () => {
+const EmpFinalDetails = () => {
     const classes = useStyles();
 
     return (
         <div>
             <Container className={classes.mainContainer}>
-                <h5 className="text-left">For Office Use Only</h5>
+                <h5 className="text-left">Assigned Final Details</h5>
                 <Grid container spacing={1} style={{ marginTop: 15, }} >
                     <Grid item lg={1} md={1}>
                         {/* <h5 className={classes.itemHeading}>1.</h5> */}
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            // label="Date of Interviewed"
+                            label="Enter Desired Department"
                             variant="outlined"
-                            type="date"
+                            type="text"
                             size="small"
                             autocomplete="off"
                             // onChange={(e) => {
@@ -188,7 +188,7 @@ const OfficeUse = () => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Remarks"
+                            label="Designation"
                             variant="outlined"
                             type="text"
                             size="small"
@@ -203,103 +203,21 @@ const OfficeUse = () => {
                     </Grid>
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
-                            label="Recommend For Employment"
+                            label="Salary"
                             variant="outlined"
                             type="number"
                             size="small"
-                            select
                             autocomplete="off"
                             // value={ItemCounter[i].unitValue}
                             className={classes.inputFieldStyle2}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="">Yes</MenuItem>
-                            <MenuItem value="">No</MenuItem>
-                        </CssTextField>
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Job Title"
-                            variant="outlined"
-                            type="text"
-                            size="small"
-                            select
-                            autocomplete="off"
-                            // value={ItemCounter[i].unitValue}
-                            className={classes.inputFieldStyle3}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="0">Manager</MenuItem>
-                            </CssTextField>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1} style={{ marginTop: 15, }} >
-                    <Grid item lg={1} md={1}>
-                        {/* <h5 className={classes.itemHeading}>1.</h5> */}
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommended Department"
-                            variant="outlined"
-                            type="text"
-                            size="small"
-                            select
-                            autocomplete="off"
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="0">Purchase</MenuItem>
-                        </CssTextField>
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommended Salary"
-                            variant="outlined"
-                            type="number"
-                            size="small"
-                            autocomplete="off"
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle1}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
                         />
-                    </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommendations Approved"
-                            variant="outlined"
-                            type="text"
-                            size="small"
-                            select
-                            autocomplete="off"
-                            // value={value.quantity}
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle2}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="">Yes</MenuItem>
-                            <MenuItem value="">No</MenuItem>
-                        </CssTextField>
                     </Grid>
                 </Grid>
             </Container>
-
-            {/* {
-                                AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p> : null
-                            }
-                            {
-                                AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
-                            } */}
         </div>
     )
 }
 
-export default OfficeUse
+export default EmpFinalDetails

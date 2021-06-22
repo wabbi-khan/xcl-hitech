@@ -160,6 +160,7 @@ const CssTextField = withStyles({
 const Experience = () => {
 	const classes = useStyles();
 
+<<<<<<< HEAD
 	const [ItemCounter, setItemCounter] = useState([
 		{ material: '', quantity: '', unitValue: '', remarks: '' },
 	]);
@@ -232,6 +233,39 @@ const Experience = () => {
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
 								{/* {
+=======
+    return (
+        <div>
+            <Container className={classes.mainContainer}>
+                <h5 className="text-left">Experience (Recent First) in Relevant Field</h5>
+                <Grid container spacing={1} style={{ marginTop: 15, }} >
+                    <Grid item lg={1} md={1}>
+                        {/* <h5 className={classes.itemHeading}></h5> */}
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Company Name"
+                            variant="outlined"
+                            type="text"
+                            size="small"
+                            // onChange={(e) => {
+                            //     onChangeHandler(e.target.value, 'material', i)
+                            //     const material = vendorMaterial.find(el => el._id === e.target.value)
+                            //     const tempFields = ItemCounter.map((item, myI) => {
+                            //         if (myI === i) {
+                            //             return { ...item, 'material': e.target.value, 'unitValue': material.unit };
+                            //         } else {
+                            //             return { ...item };
+                            //         }
+                            //     });
+                            //     setItemCounter([...tempFields]);
+                            // }}
+                            className={classes.inputFieldStyle}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                        />
+                        {/* {
+>>>>>>> 7a9cf16c216cd9309420eaf8323201619e5b72b1
                                             !vendorMaterial.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
                                                 vendorMaterial.map(material => (
                                                     <MenuItem value={material._id} key={material._id}>
@@ -240,6 +274,7 @@ const Experience = () => {
                                                 ))
                                         }
                                     </CssTextField> */}
+<<<<<<< HEAD
 							</Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
@@ -344,6 +379,87 @@ const Experience = () => {
 					</Grid>
 				</Grid>
 				{/* {
+=======
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Company Address"
+                            variant="outlined"
+                            type="text"
+                            size="small"
+                            // value={value.quantity}
+                            // onChange={(e) => {
+                            //     onChangeHandler(e.target.value, "quantity", i)
+                            // }}
+                            className={classes.inputFieldStyle1}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                        />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Last Salary"
+                            variant="outlined"
+                            type="number"
+                            size="small"
+                            // value={ItemCounter[i].unitValue}
+                            className={classes.inputFieldStyle2}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                        />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                        <CssTextField id="outlined-basic"
+                            label="Reason of Left"
+                            variant="outlined"
+                            type="text"
+                            size="small"
+                            // value={value.remarks}
+                            // onChange={(e) => {
+                            //     onChangeHandler(e.target.value, "remarks", i)
+                            // }}
+                            className={classes.inputFieldStyle3}
+                            inputProps={{ style: { fontSize: 14 } }}
+                            InputLabelProps={{ style: { fontSize: 14 } }}
+                        />
+                    </Grid>
+                    <Grid container spacing={1} className="mt-1">
+                        <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                // label="From Date"
+                                variant="outlined"
+                                type="date"
+                                size="small"
+                                // value={value.remarks}
+                                // onChange={(e) => {
+                                //     onChangeHandler(e.target.value, "remarks", i)
+                                // }}
+                                className={classes.inputFieldStyle5}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            />
+                        </Grid>
+                        <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                // label="To Date"
+                                variant="outlined"
+                                type="date"
+                                size="small"
+                                // value={value.remarks}
+                                // onChange={(e) => {
+                                //     onChangeHandler(e.target.value, "remarks", i)
+                                // }}
+                                className={classes.inputFieldStyle4}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                {/* {
+>>>>>>> 7a9cf16c216cd9309420eaf8323201619e5b72b1
                                 AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p> : null
                             }
                             {
