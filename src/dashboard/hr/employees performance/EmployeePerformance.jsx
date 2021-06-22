@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     addButton: {
-        marginTop: 20,
+        marginTop: 70,
         color: '#22A19A',
         borderColor: '#22A19A',
         fontWeight: 'bold',
@@ -68,6 +68,22 @@ const useStyles = makeStyles((theme) => ({
             width: '30%',
 
         },
+    },
+    mainBtn: {
+        borderColor: '#22A19A',
+        backgroundColor: '#22A19A',
+        color: 'whitesmoke',
+        fontWeight: 500,
+        '&:hover': {
+            border: 'none',
+            color: '#22A19A',
+        },
+        // [theme.breakpoints.up('md')]: {
+        //     width: '15%',
+        // },
+        // [theme.breakpoints.down('sm')]: {
+        //     width: '30%',
+        // },
     },
     table: {
         minWidth: 600,
@@ -115,7 +131,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const EmployeePerformance = () => {
+const EmployeePerformance = ({ history }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -129,110 +145,98 @@ const EmployeePerformance = () => {
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
-                        <Grid container spacing={1}>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Select Department"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    select
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("name", { required: true })}
-                                >
-                                    <MenuItem
-                                        value={0}
-                                    // onClick={(e) => fetchMaterials(category._id)}
-                                    // key={i}
+                        <Container className={classes.mainContainer}>
+                            <h4 className='text-left'>Non-Executive</h4>
+                            <Grid container spacing={1} style={{ marginTop: 20 }}>
+                                {/* <Grid item lg={1} md={1}>
+                                            <h5 className={classes.itemHeading}>{no}</h5>
+                                        </Grid> */}
+                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/hr/performance_assessment/non_executive_emp_prerequisites')
+                                        }}
                                     >
-                                        Purchase
-                                    </MenuItem>
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Select Designation"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    select
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("fatherName", { required: true, })}
-                                >
-                                    <MenuItem
-                                        value={0}
-                                    // onClick={(e) => fetchMaterials(category._id)}
-                                    // key={i}
+                                        Performance Assessment Prerequisites
+                                    </Button>
+                                </Grid>
+                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/hr/performance_assessment/non_executive_emp_ratings')
+                                        }}
                                     >
-                                        Assistant Manager
-                                    </MenuItem>
-                                </CssTextField>
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Select Emp Name"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    select
-                                    autocomplete="off"
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("phoneNo", { required: true, })}
-                                >
-                                    <MenuItem
-                                        value={0}
-                                    // onClick={(e) => fetchMaterials(category._id)}
-                                    // key={i}
+                                        Employee Performance Ratings
+                                    </Button>
+                                </Grid>
+                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/hr/performance_assessment/non_executive_emp_assest_performance')
+                                        }}
                                     >
-                                        Ali
-                                    </MenuItem>
-                                </CssTextField>
+                                        Assest Employees Performance
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Attendance"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("cnicNo", { required: true, })}
-                                >
-                                </CssTextField>
+                            <div style={{ marginTop: 30, marginBottom: 30 }}>
+                                <hr />
+                            </div>
+                            <h4 className='text-left'>Executive</h4>
+                            <Grid container spacing={1} style={{ marginTop: 20 }}>
+                                {/* <Grid item lg={1} md={1}>
+                                            <h5 className={classes.itemHeading}>{no}</h5>
+                                        </Grid> */}
+                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/')
+                                        }}
+                                    >
+                                        Performance Assessment Prerequisites
+                                    </Button>
+                                </Grid>
+                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/')
+                                        }}
+                                    >
+                                        Employee Performance Ratings
+                                    </Button>
+                                </Grid>
+                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/')
+                                        }}
+                                    >
+                                        Assest Employees Performance
+                                    </Button>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid container spacing={1} className="mt-3">
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Select Rating"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autocomplete="off"
-                                    select
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("cnicNo", { required: true, })}
-                                >
-                                    <MenuItem>1</MenuItem>
-                                    <MenuItem>2</MenuItem>
-                                    <MenuItem>3</MenuItem>
-                                    <MenuItem>4</MenuItem>
-                                    <MenuItem>5</MenuItem>
-                                </CssTextField>
-                            </Grid>
-                        </Grid>
+                            {/* {AddOrderError ? (
+                                <p className='mt-3 text-danger'>
+                                {' '}
+                                Something Went Wrong. Internal Server Error{' '}
+                                </p>
+                                ) : null}
+                                {AddOrderSuccess ? (
+                                    <p className='mt-3 text-success'> Purchase Order Added Successfully</p>
+                                ) : null} */}
+                        </Container>
                         <div>
                             <Button
                                 variant="outlined"
@@ -244,11 +248,12 @@ const EmployeePerformance = () => {
                                 }}
                             >
                                 Add
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>
-                <div className={classes.dataTable}>
+
+                {/* <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                             <TableHead>
@@ -271,61 +276,19 @@ const EmployeePerformance = () => {
                                     <StyledTableCell className="text-dark" align="center">78%</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">4</StyledTableCell>
                                     <StyledTableCell className="text-dark" align="center">20-12-20</StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
+                                    <StyledTableCell className="text-dark" align="center">
                                         {
                                             !vendor.material || !vendor.material.length ? <p>Not Found</p> :
                                                 vendor.material.map((value, i) => (
                                                     <span key={i} className="ml-1">{value.name},</span>
                                                 ))
                                         }
-                                    </StyledTableCell> */}
+                                    </StyledTableCell>
                                 </StyledTableRow>
-                                {/* {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                !vendors || !vendors.length ? <p>Not Found</p> :
-                                                    vendors.map((vendor, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteMaterial(vendor._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                    </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                            )
-                                } */}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </div> */}
             </div>
         </Sidenav>
     )

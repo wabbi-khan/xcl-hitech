@@ -76,6 +76,10 @@ import ViewAppSuppDetails from '../dashboard/purchase/approve supplier list/View
 import PrintVendorOrderList from '../dashboard/purchase/purchase order list/PrintVendorOrderList';
 import PrintEmpDetails from '../dashboard/hr/employees/PrintEmpDetails';
 import TrainingNeedPreReq from '../dashboard/hr/training need pre req/TrainingNeedPreReq';
+import NonExecPrereq from '../dashboard/hr/employees performance/non-executive/pre-requisites/NonExecPrereq';
+import NonExecEmpRatings from '../dashboard/hr/employees performance/non-executive/non-exec emp ratings/NonExecEmpRatings';
+import NonExecEmpAssestPerform from '../dashboard/hr/employees performance/non-executive/non-exec emp assest perform/NonExecEmpAssestPerform';
+import PrintNonExecEmpDetails from '../dashboard/hr/employees performance/non-executive/non-exec emp assest perform/PrintNonExecEmpDetails';
 
 
 
@@ -140,6 +144,10 @@ const Router = () => {
                 <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>
                 <Router exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance}/>
                 <Router exact path="/hr/employees_performance_assessment" component={EmployeePerformance}/>
+                <Router exact path="/hr/performance_assessment/non_executive_emp_prerequisites" component={NonExecPrereq}/>
+                <Router exact path="/hr/performance_assessment/non_executive_emp_ratings" component={NonExecEmpRatings}/>
+                <Router exact path="/hr/performance_assessment/non_executive_emp_assest_performance" component={NonExecEmpAssestPerform}/>
+                <Router exact path="/hr/performance_assessment/print_non_executive_emp_performance" component={PrintNonExecEmpDetails}/>
                 <Router exact path="/hr/trainings" component={Trainings}/>
                 <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
                 <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>

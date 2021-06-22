@@ -4,12 +4,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
@@ -17,31 +11,12 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux'
 import avatar from '../assests/user.svg'
 import { fetchEmployeesAction } from '../../../services/action/EmployeesAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
 import AcademicQualification from './AcademicQualification';
 import ProfessionalQualification from './ProfessionalQualification';
 import Experience from './Experience';
 import Reference from './Reference';
 import OfficeUse from './OfficeUse';
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
     root: {

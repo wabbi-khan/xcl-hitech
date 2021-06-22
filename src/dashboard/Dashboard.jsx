@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import DashboardImg1 from '../images/1.PNG'
+import DashboardImg1 from '../images/dashboard.png';
 import DashboardImg2 from '../images/2.PNG'
 import DashboardImg3 from '../images/3.PNG'
 import DashboardImg4 from '../images/4.PNG'
@@ -118,6 +118,11 @@ const Dashboard = () => {
                         </Grid> */}
                     </Grid>
                     <Grid container spacing={3}>
+                        <Grid item lg={12} md={12} sm={12} xs={12} className="mt-4">
+                            <img src={DashboardImg1} alt="" width="70%" height="95%"/>
+                        </Grid>
+                    </Grid>
+                    {/* <Grid container spacing={3}>
                         <Grid item lg={3} md={2} sm={12} xs={12} className={classes.images1}>
                             <div class="card">
                                 <div class="card-header white">
@@ -177,7 +182,7 @@ const Dashboard = () => {
                         <Grid item lg={2} md={2} sm={12} xs={12} className={classes.images1}>
                             <img src={DashboardImg2} alt="" width="240" height="200" />
                         </Grid>
-                    </Grid>
+                    </Grid> */}
 
                     {/* <div className="row">
                         <div className="col-lg-8">
