@@ -1,32 +1,56 @@
-import { 
-    EDUCATION_FETCH_FAIL, 
-    EDUCATION_FETCH_REQUEST, 
-    EDUCATION_FETCH_SUCCESS 
-} 
-from "../constants/EducationConst";
+import {
+	EDUCATION_CREATE_SUCCESS,
+	EDUCATION_DELETE_SUCCESS,
+	EDUCATION_FAIL,
+	EDUCATION_FETCH_SUCCESS,
+	EDUCATION_REQUEST,
+	EDUCATION_UPDATE_SUCCESS,
+} from '../constants/EducationConst';
 
+export const getEducations = (state = { educations: [] }, action) => {
+	switch (action.type) {
+		case EDUCATION_REQUEST:
+			return {
+				...state,
+				error: '',
+				loading: true,
+			};
+		case EDUCATION_FAIL:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case EDUCATION_FETCH_SUCCESS:
+			return {
+				loading: false,
+				error: '',
+				educations: action.payload,
+			};
+		case EDUCATION_UPDATE_SUCCESS:
+			return {
+				loading: false,
+				error: '',
+				educations: state.educations.map((education) =>
+					education._id === action.payload._id ? action.payload : education,
+				),
+			};
+		case EDUCATION_DELETE_SUCCESS:
+			return {
+				loading: false,
+				error: '',
+				educations: state.educations.filter(
+					(education) => education._id !== action.payload,
+				),
+			};
+		case EDUCATION_CREATE_SUCCESS:
+			return {
+				error: '',
+				loading: false,
+				educations: [...state.educations, action.payload],
+			};
 
-export const fetchEducationReducer = (
-    state = { education: [] },
-    action
-) => {
-    switch (action.type) {
-        case EDUCATION_FETCH_REQUEST:
-            return { 
-                loading: true,
-            }
-        case EDUCATION_FETCH_SUCCESS:
-            return { 
-                loading: false,
-                education: action.payload
-            }
-        case EDUCATION_FETCH_FAIL:
-            return { 
-                loading: false,
-                error: action.payload
-            }
-    
-        default:
-            return state;
-    }
-}
+		default:
+			return state;
+	}
+};

@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		[theme.breakpoints.up('md')]: {
 			marginLeft: 0,
-			marginTop: 25,
+			marginTop: 15,
 		},
 		[theme.breakpoints.down('sm')]: {
 			marginTop: -15,
@@ -103,28 +104,11 @@ const useStyles = makeStyles((theme) => ({
 			width: 200,
 		},
 	},
-	inputFieldStyle4: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: -25,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle5: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: 2,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
 	delete: {
 		color: 'red',
 		fontSize: 38,
 		[theme.breakpoints.up('md')]: {
+			marginLeft: 50,
 			marginTop: -7,
 		},
 		[theme.breakpoints.down('sm')]: {
@@ -132,11 +116,14 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	deleteRowBtn: {
-		marginLeft: 30,
+		marginLeft: 220,
 		'&:hover': {
 			border: 'none',
 			background: 'none',
 		},
+	},
+	uploadImgBtn: {
+		paddingLeft: 20,
 	},
 }));
 
@@ -156,19 +143,20 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const Reference = () => {
+const AcademicQualification = ({}) => {
 	const classes = useStyles();
+	const [nextToKin, setNextToKin] = useState({
+		name: '',
+		relation: '',
+		contact: '',
+		address: '',
+	});
 
-	return (
-		<div>
-			{/* {
-                                AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p> : null
-                            }
-                            {
-                                AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
-                            } */}
-		</div>
-	);
+	const onChangeHandler = (e) => {
+		setNextToKin({ ...nextToKin, [e.target.name]: e.target.value });
+	};
+
+	return <div></div>;
 };
 
-export default Reference;
+export default AcademicQualification;

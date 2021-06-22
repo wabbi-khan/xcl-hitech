@@ -16,7 +16,11 @@ import axios from 'axios';
 import {
 	getDesignation,
 	deleteDesignation,
+	createDesignation,
 } from '../../../services/action/DesignationAction';
+// import { getEducations } from '../../../services/action/EducationAction';
+// import { getSkills } from '../../../services/action/SkillsAction';
+// import { getExperiences } from '../../../services/action/ExperienceAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
@@ -113,7 +117,20 @@ const CssTextField = withStyles({
 
 const Designation = () => {
 	const classes = useStyles();
-	const [designation, setdesignation] = useState();
+	const [designation, setDesignation] = useState();
+	const [responsibilities, setResponsibilities] = useState([]);
+	const [authorities, setAuthorities] = useState([]);
+	const [compCriteria, setCompCriteria] = useState({
+		educations: {
+			req: [],
+		},
+		skills: {
+			req: [],
+		},
+		experiences: {
+			req: [],
+		},
+	});
 
 	const {
 		register,
@@ -124,14 +141,20 @@ const Designation = () => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		await dispatch(getDesignation());
+		dispatch(getDesignation());
+		// dispatch(getSkills());
+		// dispatch(getEducations());
+		// dispatch(getExperiences());
 	}, [dispatch]);
 
 	const { designations, loading, error } = useSelector(
 		(state) => state.designations,
 	);
+	// const { skills } = useSelector((state) => state.skills);
+	// const { experiences } = useSelector((state) => state.experiences);
+	// const { educations } = useSelector((state) => state.educations);
 
-	const deleteDesignation = async (params) => {
+	const handleDeleteDesignation = async (params) => {
 		dispatch(deleteDesignation(params));
 	};
 
@@ -142,17 +165,19 @@ const Designation = () => {
 	};
 
 	const handleOpen = async (designation) => {
-		setdesignation(designation);
+		setDesignation(designation);
 		setOpen(true);
 	};
 
-	const onChangeHandler = (value, placeholder) => {
-		console.log(value);
-		console.log(placeholder);
-	};
-
 	const onSubmitData = async (props) => {
-		console.log(props);
+		dispatch(
+			createDesignation({
+				...props,
+				responsibilities: [...responsibilities],
+				authorities: [...authorities],
+				criteria: { ...compCriteria },
+			}),
+		);
 	};
 
 	return (
@@ -166,7 +191,7 @@ const Designation = () => {
 			{/* ============products form component */}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitData)}>
+					<form onSubmit={handleSubmit(onSubmitData)}>
 						{/* Material category selector */}
 						<CssTextField
 							id='outlined-basic'
@@ -183,15 +208,22 @@ const Designation = () => {
 						{errors.name?.type === 'required' && (
 							<p className='mt-1 text-danger'>Designation Name is required</p>
 						)}
-						{/* <Responsibilities />
-						<Authorities />
-						<CompetenceCriteria /> */}
+						<Responsibilities
+							responsibilities={responsibilities}
+							setResponsibilities={setResponsibilities}
+						/>
+						<Authorities authorities={authorities} setAuthorities={setAuthorities} />
+						<CompetenceCriteria
+							compCriteria={compCriteria}
+							setCompCriteria={setCompCriteria}
+						/>
 						<div>
 							<Button variant='outlined' type='submit' className={classes.addButton}>
 								Add
 							</Button>
 						</div>
 					</form>
+					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 				</Container>
 
 				<div className={classes.dataTable}>
@@ -235,7 +267,7 @@ const Designation = () => {
 														variant='contained'
 														color='secondary'
 														size='small'
-														onClick={() => deleteDesignation(designation._id)}
+														onClick={() => handleDeleteDesignation(designation._id)}
 														style={{ marginLeft: 2, marginTop: 2 }}>
 														Delete
 													</Button>

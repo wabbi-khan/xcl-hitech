@@ -381,6 +381,8 @@ const Vendors = () => {
 							</Button>
 						</div>
 					</form>
+				{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+
 				</Container>
 				{/* ============edit vendor form component */}
 				<EditVendor

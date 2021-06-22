@@ -23,7 +23,7 @@ export const getVendorAction = (query) => async (dispatch) => {
 			payload: data.data,
 		});
 	} catch (err) {
-		dispatchError(err);
+		dispatchError(err, dispatch);
 	}
 };
 
@@ -96,13 +96,11 @@ export const deleteVendorAction = (params) => async (dispatch) => {
 
 const dispatchError = (err, dispatch) => {
 	if (err.response) {
-		console.log(err.response.data.error);
 		dispatch({
 			type: VENDOR_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
-		console.log(err);
 		dispatch({
 			type: VENDOR_FAIL,
 			payload: 'Network Error',

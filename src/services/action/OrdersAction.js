@@ -17,15 +17,14 @@ export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/order${query ? `?${query}` : ''}`,
 		);
 
+		console.log(data.data);
+
 		dispatch({
 			type: PURCHASE_ORDER_FETCH_SUCCESS,
 			payload: data.data,
 		});
 	} catch (err) {
-		dispatch({
-			type: PURCHASE_ORDER_FAIL,
-			payload: err,
-		});
+		dispatchError(err, dispatch);
 	}
 };
 
@@ -38,16 +37,12 @@ export const fetchSinglePurchaseOrderAction = (_id) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/order/id/${_id}`,
 		);
-		console.log(data.order);
 		dispatch({
 			type: PURCHASE_ORDER_FETCH_SUCCESS,
 			payload: data.order,
 		});
 	} catch (err) {
-		dispatch({
-			type: PURCHASE_ORDER_FAIL,
-			payload: err,
-		});
+		dispatchError(err, dispatch);
 	}
 };
 

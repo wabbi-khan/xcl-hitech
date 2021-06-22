@@ -25,10 +25,7 @@ export const getMaterialAction = (query) => async (dispatch) => {
 
 		// console.log(fetchApiData.data.material);
 	} catch (err) {
-		dispatch({
-			type: MATERIAL_FAIL,
-			payload: err,
-		});
+		dispatchError(err, dispatch)
 	}
 };
 

@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -9,9 +10,7 @@ import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
-import { updateSkill } from '../../../services/action/SkillsAction';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { updateTraining } from '../../../services/action/TrainingAction';
 const useStyles = makeStyles((theme) => ({
 	modal: {
 		display: 'flex',
@@ -102,10 +101,11 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const EditSkills = (props) => {
-	const classes = useStyles();
+const EditTraining = (props) => {
+	const { show, handler, training } = props;
 	const dispatch = useDispatch();
-	const { show, handler, skill } = props;
+
+	const classes = useStyles();
 
 	const {
 		register,
@@ -123,7 +123,7 @@ const EditSkills = (props) => {
 
 	const onSubmit = async (data) => {
 		try {
-			dispatch(updateSkill(skill._id, data));
+			dispatch(updateTraining(training._id, data));
 			setIsUpdate(true);
 		} catch (error) {
 			setIsError(true);
@@ -151,30 +151,30 @@ const EditSkills = (props) => {
 						<h5 className='text-center mt-4'>Update</h5>
 						<Container className={classes.mainContainer}>
 							{/* Form */}
-							{skill ? (
+							{training ? (
 								<form onSubmit={handleSubmit(onSubmit)}>
 									<Grid container spacing={1}>
 										<Grid lg={12} md={12} sm={12}>
 											<CssTextField
 												id='outlined-basic'
-												label='Skill Name'
+												label='Designation Name'
 												variant='outlined'
 												type='text'
 												size='small'
 												autoComplete='off'
-												defaultValue={skill.skill}
+												defaultValue={training.name}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('skill')}
+												{...register('name')}
 											/>
-											{errors.skill?.type === 'required' && (
-												<p className='text-danger'>Skill Name is required</p>
+											{errors.name?.type === 'required' && (
+												<p className='text-danger'>Training Name is required</p>
 											)}
 											{isUpdate ? (
-												<p className='text-success mt-2'>Skill Update Successfully</p>
+												<p className='text-success mt-2'>Training Update Successfully</p>
 											) : isError ? (
-												<p className='text-danger mt-2'>Skill Update Failed </p>
+												<p className='text-danger mt-2'>Training Update Failed </p>
 											) : null}
 										</Grid>
 									</Grid>
@@ -204,4 +204,4 @@ const EditSkills = (props) => {
 	);
 };
 
-export default EditSkills;
+export default EditTraining;

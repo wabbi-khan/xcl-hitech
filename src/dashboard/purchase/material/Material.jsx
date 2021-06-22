@@ -266,6 +266,7 @@ const Material = () => {
 							</Button>
 						</div>
 					</form>
+				{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 				</Container>
 
 				<div className={classes.dataTable}>

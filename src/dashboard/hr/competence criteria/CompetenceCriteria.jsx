@@ -19,9 +19,9 @@ import { fetchCompCriteriaAction } from '../../../services/action/CriteriaAction
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import { getDesignation } from '../../../services/action/DesignationAction';
-import { fetchEducationAction } from '../../../services/action/EducationAction';
-import { fetchSkillsAction } from '../../../services/action/SkillsAction';
-import { fetchExperienceAction } from '../../../services/action/ExperienceAction';
+import { getEducations } from '../../../services/action/EducationAction';
+import { getSkills } from '../../../services/action/SkillsAction';
+import { getExperiences } from '../../../services/action/ExperienceAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import EditCompCriteria from './EditCompCriteria';
 
@@ -134,9 +134,9 @@ const CompetenceCriteria = ({ history }) => {
 	useEffect(async () => {
 		await dispatch(fetchCompCriteriaAction());
 		await dispatch(getDesignation());
-		await dispatch(fetchEducationAction());
-		await dispatch(fetchSkillsAction());
-		await dispatch(fetchExperienceAction());
+		await dispatch(getEducations());
+		await dispatch(getSkills());
+		await dispatch(getExperiences());
 		await dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 

@@ -1,27 +1,54 @@
-import { SKILLS_FETCH_FAIL, SKILLS_FETCH_REQUEST, SKILLS_FETCH_SUCCESS } from "../constants/SkillsConst";
+import {
+	SKILL_CREATE_SUCCESS,
+	SKILL_DELETE_SUCCESS,
+	SKILL_FAIL,
+	SKILL_FETCH_SUCCESS,
+	SKILL_REQUEST,
+	SKILL_UPDATE_SUCCESS,
+} from '../constants/SkillsConst';
 
+export const fetchSkills = (state = { skills: [] }, action) => {
+	switch (action.type) {
+		case SKILL_REQUEST:
+			return {
+				...state,
+				error: '',
+				loading: true,
+			};
+		case SKILL_FAIL:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case SKILL_FETCH_SUCCESS:
+			return {
+				loading: false,
+				error: '',
+				skills: action.payload,
+			};
+		case SKILL_UPDATE_SUCCESS:
+			return {
+				loading: false,
+				error: '',
+				skills: state.skills.map((skill) =>
+					skill._id === action.payload._id ? action.payload : skill,
+				),
+			};
+		case SKILL_DELETE_SUCCESS:
+			return {
+				loading: false,
+				error: '',
+				skills: state.skills.filter((skill) => skill._id !== action.payload),
+			};
+		case SKILL_CREATE_SUCCESS:
+			return {
+				error: '',
+				loading: false,
+				skills: [...state.skills, action.payload],
+			};
 
-export const fetchSkillsReducer = (
-    state = { skills: [] },
-    action
-) => {
-    switch (action.type) {
-        case SKILLS_FETCH_REQUEST:
-            return { 
-                loading: true,
-            }
-        case SKILLS_FETCH_SUCCESS:
-            return { 
-                loading: false,
-                skills: action.payload
-            }
-        case SKILLS_FETCH_FAIL:
-            return { 
-                loading: false,
-                error: action.payload
-            }
-    
-        default:
-            return state;
-    }
-}
+		default:
+			return state;
+	}
+};

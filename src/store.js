@@ -8,10 +8,9 @@ import { fetchPurchaseOrderReducer } from './services/reducer/OrdersReducer';
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
 import { fetchDesignation } from './services/reducer/DesignationReducer';
-import { fetchEducationReducer } from './services/reducer/EducationReducer';
-import { fetchSkillsReducer } from './services/reducer/SkillsReducer';
+import { fetchSkills } from './services/reducer/SkillsReducer';
 import { fetchCompCriteriaReducer } from './services/reducer/CriteriaReducer';
-import { fetchEmployeesReducer } from './services/reducer/EmployeesReducer';
+import { getEmployees } from './services/reducer/EmployeesReducer';
 import { fetchMachineReducer } from './services/reducer/MachineReducer';
 import { fetchPlanReducer } from './services/reducer/PlanReducer';
 import { fetchDepartmentsReducer } from './services/reducer/DepartmentsReducer';
@@ -19,7 +18,9 @@ import { fetchShiftReducer } from './services/reducer/ShiftReducer';
 import { fetchProductionReportReducer } from './services/reducer/ProductionReportReducer';
 import { fetchCardReducer } from './services/reducer/CardReducer';
 import { fetchPurchaseReqReducer } from './services/reducer/PurchaseReqReducer';
-import { fetchExperienceReducer } from './services/reducer/ExperienceReducer';
+import { getExperiences } from './services/reducer/ExperienceReducer';
+import { getEducations } from './services/reducer/EducationReducer';
+import { getTrainings } from './services/reducer/TrainingReducer';
 
 const initialState = {};
 
@@ -34,16 +35,17 @@ const reducer = combineReducers({
 	designations: fetchDesignation,
 	departments: fetchDepartmentsReducer,
 	purchaseRequisitions: fetchPurchaseReqReducer,
-	education: fetchEducationReducer,
-	skills: fetchSkillsReducer,
-	experience: fetchExperienceReducer,
+	educations: getEducations,
+	skills: fetchSkills,
+	experiences: getExperiences,
 	criteria: fetchCompCriteriaReducer,
-	employee: fetchEmployeesReducer,
+	employees: getEmployees,
 	machines: fetchMachineReducer,
 	plans: fetchPlanReducer,
 	shifts: fetchShiftReducer,
 	productionReports: fetchProductionReportReducer,
 	cards: fetchCardReducer,
+	trainings: getTrainings,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -44,7 +44,7 @@ export const createDesignation = (material) => async (dispatch) => {
 
 		dispatch({
 			type: DESIGNATION_CREATE_SUCCESS,
-			payload: res.data.material,
+			payload: res.data.designation,
 		});
 	} catch (err) {
 		dispatchError(err, dispatch);
@@ -64,7 +64,7 @@ export const updateDesignation = (id, data) => async (dispatch) => {
 
 		dispatch({
 			type: DESIGNATION_UPDATE_SUCCESS,
-			payload: res.data.material,
+			payload: res.data.designation,
 		});
 
 		// console.log(data);
