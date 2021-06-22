@@ -83,6 +83,7 @@ import NonExecPrereq from './dashboard/hr/employees performance/non-executive/pr
 import NonExecEmpRatings from './dashboard/hr/employees performance/non-executive/non-exec emp ratings/NonExecEmpRatings';
 import NonExecEmpAssestPerform from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/NonExecEmpAssestPerform';
 import PrintNonExecEmpDetails from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/PrintNonExecEmpDetails';
+import HiredEmpDetails from './dashboard/hr/employees/hired/HiredEmpDetails';
 
 dotenv.config();
 
@@ -282,6 +283,11 @@ function App() {
 					exact
 					path='/hr/employees/print_emp_details'
 					component={PrintEmpDetails}
+				/>
+				<Route
+					exact
+					path='/hr/employees/hired_employee_details'
+					component={HiredEmpDetails}
 				/>
 				<Route exact path='/hr/employees_salaries' component={EmpSalaries} />
 				<Route exact path='/hr/employees_leave' component={EmpLeave} />

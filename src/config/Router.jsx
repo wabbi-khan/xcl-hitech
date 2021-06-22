@@ -80,6 +80,7 @@ import NonExecPrereq from '../dashboard/hr/employees performance/non-executive/p
 import NonExecEmpRatings from '../dashboard/hr/employees performance/non-executive/non-exec emp ratings/NonExecEmpRatings';
 import NonExecEmpAssestPerform from '../dashboard/hr/employees performance/non-executive/non-exec emp assest perform/NonExecEmpAssestPerform';
 import PrintNonExecEmpDetails from '../dashboard/hr/employees performance/non-executive/non-exec emp assest perform/PrintNonExecEmpDetails';
+import HiredEmpDetails from '../dashboard/hr/employees/hired/HiredEmpDetails';
 
 
 
@@ -139,6 +140,7 @@ const Router = () => {
                 <Router exact path="/hr/employees" component={Employees}/>
                 <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
                 <Router exact path="/hr/employees/print_emp_details" component={PrintEmpDetails}/>
+                <Router exact path="/hr/employees/hired_employee_details" component={HiredEmpDetails}/>
                 <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
                 <Router exact path="/hr/employees_leave" component={EmpLeave}/>
                 <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>

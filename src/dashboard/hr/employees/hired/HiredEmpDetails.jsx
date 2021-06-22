@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Sidenav from '../../SideNav/Sidenav'
+import Sidenav from '../../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
@@ -9,13 +9,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux'
-import avatar from '../assests/user.svg'
-import { fetchEmployeesAction } from '../../../services/action/EmployeesAction';
-import AcademicQualification from './AcademicQualification';
-import ProfessionalQualification from './ProfessionalQualification';
-import Experience from './Experience';
-import Reference from './Reference';
-import OfficeUse from './OfficeUse';
+import avatar from '../../assests/user.svg';
+import AcademicQualification from '../AcademicQualification';
+import ProfessionalQualification from '../ProfessionalQualification';
+import Experience from '../Experience';
+import Reference from '../Reference';
+import OfficeUse from '../OfficeUse';
+import EmpFinalDetails from './EmpFinalDetails';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -156,8 +156,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-
-const Employees = ({ history }) => {
+const HiredEmpDetails = () => {
     const classes = useStyles();
     const [image, setImage] = useState({ path: avatar })
     const [ItemCounter, setItemCounter] = useState([{ material: "", quantity: '', unitValue: '', remarks: '' }]);
@@ -177,10 +176,10 @@ const Employees = ({ history }) => {
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        await dispatch(fetchEmployeesAction())
+        // await dispatch(fetchEmployeesAction())
     }, [dispatch])
 
-    const { employee, loading, error } = useSelector( state => state.employee)
+    const { employee, loading, error } = useSelector(state => state.employee)
     console.log(employee);
 
     const addMoreFunc = () => {
@@ -210,9 +209,8 @@ const Employees = ({ history }) => {
         // console.log('data submit');
     }
 
-
     return (
-        <Sidenav title={'Employees'}>
+        <Sidenav title={'Hired Employee Details'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
@@ -492,14 +490,7 @@ const Employees = ({ history }) => {
                         </Grid>
                         <Grid container spacing={1} className="mt-5">
                             <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <input
-                                    type="file"
-                                    className={classes.uploadImgBtn}
-                                    onChange={(event) => picUploadFunc(event)}
-                                // {...register("name", { required: true })}
-                                >
-                                </input>
-                                <img src={image.path} alt="Employee Picture" width="150" height="150" className="mt-4 ml-3" align="left" />
+                                <img src={image.path} alt="Employee Picture" width="150" height="150" className="ml-3" align="left" />
                             </Grid>
                         </Grid>
                         <div style={{ marginTop: 30, marginBottom: 30, }}>
@@ -589,6 +580,9 @@ const Employees = ({ history }) => {
                             <hr />
                         </div>
                         <AcademicQualification />
+                        <div style={{ marginTop: 30, marginBottom: 30, }}>
+                            <hr />
+                        </div>
                         <ProfessionalQualification />
                         <div style={{ marginTop: 30, marginBottom: 30, }}>
                             <hr />
@@ -602,6 +596,10 @@ const Employees = ({ history }) => {
                             <hr />
                         </div>
                         <OfficeUse />
+                        <div style={{ marginTop: 30, marginBottom: 30, }}>
+                            <hr />
+                        </div>
+                        <EmpFinalDetails />
                         <div>
                             <Button
                                 variant="outlined"
@@ -612,14 +610,14 @@ const Employees = ({ history }) => {
                                     // history.push('')
                                 }}
                             >
-                                Add
+                                Submit
                             </Button>
                         </div>
                     </form>
                 </Container>
             </div>
-        </Sidenav >
+        </Sidenav>
     )
 }
 
-export default Employees
+export default HiredEmpDetails

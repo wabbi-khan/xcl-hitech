@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import Loading from '../../purchase/material/Loading'
 import MaterialError from '../../purchase/material/MaterialError'
-
+import { Link } from 'react-router-dom'
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -72,7 +72,6 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 600,
     },
     dataTable: {
-        marginTop: 40,
 
     },
 
@@ -97,6 +96,7 @@ const ViewEmpDetails = (props) => {
     return (
         <Sidenav title={'Employee Details'}>
             <div className={classes.dataTable}>
+                <h5>Un-Hired</h5>
                 <TableContainer className={classes.tableContainer}>
                     <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
                         <TableHead>
@@ -110,45 +110,111 @@ const ViewEmpDetails = (props) => {
                         </TableHead>
                         <TableBody >
                             {
-                                    loading ? (
-                                        <Loading />
+                                loading ? (
+                                    <Loading />
+                                ) :
+                                    error ? (
+                                        <MaterialError />
                                     ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                // !employee || !employee.length ?
-                                                //     employee.map((emp, i) => (
-                                                        <StyledTableRow>
-                                                            <StyledTableCell className="text-dark" align="center">{1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {/* {
+                                        (
+                                            // !employee || !employee.length ?
+                                            //     employee.map((emp, i) => (
+                                            <StyledTableRow>
+                                                <StyledTableCell className="text-dark" align="center">{1}</StyledTableCell>
+                                                <StyledTableCell className="text-dark" align="center">{ }</StyledTableCell>
+                                                <StyledTableCell className="text-dark" align="center">
+                                                    {/* {
                                                                     !emp.department ? null : emp.department.name
                                                                 } */}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {/* {
+                                                </StyledTableCell>
+                                                <StyledTableCell className="text-dark" align="center">
+                                                    {/* {
+                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
+                                                                    vendor.material.map((value, i) => (
+                                                                        <span key={i} className="ml-1">{value.name},</span>
+                                                                        ))
+                                                                    } */}
+                                                </StyledTableCell>
+                                                <StyledTableCell className="text-light" align="center">
+                                                    <>
+                                                        <Button variant="contained" className="bg-dark text-light" size="small"
+                                                            onClick={() => {
+                                                                history.push(`/hr/employees/print_emp_details`)
+                                                            }}
+                                                        >
+                                                            View Details
+                                                        </Button>
+                                                        <Link to="/hr/employees/hired_employee_details">
+                                                            <Button variant="contained" className="bg-success text-light ml-1" size="small"
+                                                            >
+                                                                Hired
+                                                            </Button>
+                                                        </Link>
+                                                    </>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                            // ))
+                                            // : <h5>Not Found</h5>
+                                        )
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+            <div className={classes.dataTable}>
+                <h5>Hired</h5>
+                <TableContainer className={classes.tableContainer}>
+                    <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                        <TableHead>
+                            <TableRow hover role="checkbox">
+                                <StyledTableCell align="center">Sr.No</StyledTableCell>
+                                <StyledTableCell align="center">Name</StyledTableCell>
+                                <StyledTableCell align="center">Designation</StyledTableCell>
+                                <StyledTableCell align="center">Department</StyledTableCell>
+                                <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody >
+                            {
+                                loading ? (
+                                    <Loading />
+                                ) :
+                                    error ? (
+                                        <MaterialError />
+                                    ) :
+                                        (
+                                            // !employee || !employee.length ?
+                                            //     employee.map((emp, i) => (
+                                            <StyledTableRow>
+                                                <StyledTableCell className="text-dark" align="center">{1}</StyledTableCell>
+                                                <StyledTableCell className="text-dark" align="center">{ }</StyledTableCell>
+                                                <StyledTableCell className="text-dark" align="center">
+                                                    {/* {
+                                                                    !emp.department ? null : emp.department.name
+                                                                } */}
+                                                </StyledTableCell>
+                                                <StyledTableCell className="text-dark" align="center">
+                                                    {/* {
                                                                     !vendor.material || !vendor.material.length ? <p>Not Found</p> :
                                                                         vendor.material.map((value, i) => (
                                                                             <span key={i} className="ml-1">{value.name},</span>
                                                                         ))
                                                                 } */}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-                                                                        history.push(`/hr/employees/print_emp_details`)
-                                                                    }}
-                                                                >
-                                                                    View Report
-                                                                </Button>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    // ))
-                                                    // : <h5>Not Found</h5>
-                                            )
-                                }
+                                                </StyledTableCell>
+                                                <StyledTableCell className="text-light" align="center">
+                                                    <Button variant="contained" className="bg-dark text-light" size="small"
+                                                        onClick={() => {
+                                                            history.push(``)
+                                                        }}
+                                                    >
+                                                        View Report
+                                                    </Button>
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                            // ))
+                                            // : <h5>Not Found</h5>
+                                        )
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
