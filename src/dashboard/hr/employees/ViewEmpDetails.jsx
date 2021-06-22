@@ -39,107 +39,6 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
-<<<<<<< HEAD
-	root: {
-		'& > *': {
-			margin: theme.spacing(1),
-			width: '25ch',
-		},
-	},
-	mainContainer: {
-		textAlign: 'center',
-		[theme.breakpoints.up('md')]: {
-			marginLeft: 0,
-			marginTop: 15,
-		},
-		[theme.breakpoints.down('sm')]: {
-			marginTop: -15,
-		},
-	},
-	addButton: {
-		marginTop: 20,
-		color: '#22A19A',
-		borderColor: '#22A19A',
-		fontWeight: 'bold',
-		'&:hover': {
-			border: 'none',
-			backgroundColor: '#22A19A',
-			color: 'whitesmoke',
-		},
-		[theme.breakpoints.up('md')]: {
-			width: '15%',
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: '30%',
-		},
-	},
-	table: {
-		minWidth: 600,
-	},
-	dataTable: {
-		marginTop: 40,
-	},
-}));
-
-const ViewEmpDetails = (props) => {
-	const { history } = props;
-	const id = props.match.params.id;
-
-	const classes = useStyles();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const dispatch = useDispatch();
-
-	useEffect(async () => {
-		dispatch(getEmployees());
-	}, [dispatch]);
-
-	const { employees, loading, error } = useSelector((state) => state.employees);
-
-	return (
-		<Sidenav title={'Employee Details'}>
-			<div className={classes.dataTable}>
-				<TableContainer className={classes.tableContainer}>
-					<Table
-						stickyHeader
-						className='table table-dark'
-						style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-						<TableHead>
-							<TableRow hover role='checkbox'>
-								<StyledTableCell align='center'>Sr.No</StyledTableCell>
-								<StyledTableCell align='center'>Name</StyledTableCell>
-								<StyledTableCell align='center'>Designation</StyledTableCell>
-								<StyledTableCell align='center'>Department</StyledTableCell>
-								<StyledTableCell align='center'>Action</StyledTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : !employees || !employees.length ? (
-								employees.map((emp, i) => (
-									<StyledTableRow>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{emp.name}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{/* {
-                                                                    !emp.department ? null : emp.department.name
-                                                                } */}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{/* {
-=======
     root: {
         '& > *': {
             margin: theme.spacing(1),
@@ -302,40 +201,11 @@ const ViewEmpDetails = (props) => {
                                                 </StyledTableCell>
                                                 <StyledTableCell className="text-dark" align="center">
                                                     {/* {
->>>>>>> 7a9cf16c216cd9309420eaf8323201619e5b72b1
                                                                     !vendor.material || !vendor.material.length ? <p>Not Found</p> :
                                                                         vendor.material.map((value, i) => (
                                                                             <span key={i} className="ml-1">{value.name},</span>
                                                                         ))
                                                                 } */}
-<<<<<<< HEAD
-										</StyledTableCell>
-										<StyledTableCell className='text-light bg-light' align='center'>
-											<Button
-												variant='contained'
-												className='bg-dark text-light'
-												size='small'
-												onClick={() => {
-													history.push(`/hr/employees/print_emp_details`);
-												}}>
-												View Report
-											</Button>
-										</StyledTableCell>
-									</StyledTableRow>
-								))
-							) : (
-								<h5>Not Found</h5>
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</div>
-		</Sidenav>
-	);
-};
-
-export default ViewEmpDetails;
-=======
                                                 </StyledTableCell>
                                                 <StyledTableCell className="text-light" align="center">
                                                     <Button variant="contained" className="bg-dark text-light" size="small"
@@ -360,4 +230,3 @@ export default ViewEmpDetails;
 }
 
 export default ViewEmpDetails
->>>>>>> 7a9cf16c216cd9309420eaf8323201619e5b72b1
