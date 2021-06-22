@@ -462,6 +462,9 @@ import LabelIcon from '@material-ui/icons/Label';
 import StoreIcon from '@material-ui/icons/Store';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
+import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import BusinessIcon from '@material-ui/icons/Business';
+
 
 const drawerWidth = 270;
 

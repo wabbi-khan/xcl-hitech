@@ -18,6 +18,7 @@ export const getVendorAction = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/vendor${query ? `?${query}` : ''}`,
 		);
 
+
 		dispatch({
 			type: VENDOR_FETCH_SUCCESS,
 			payload: data.data,

@@ -79,6 +79,10 @@ import SetUpCard from './dashboard/production/setUpCard/SetUpCard';
 import ProductionOnlineInsRep from './dashboard/production/productionOnlineInspectionReport/ProdctionOnlineInsRep';
 import PrintEmpDetails from './dashboard/hr/employees/PrintEmpDetails';
 import TrainingNeedPreReq from './dashboard/hr/training need pre req/TrainingNeedPreReq';
+import NonExecPrereq from './dashboard/hr/employees performance/non-executive/pre-requisites/NonExecPrereq';
+import NonExecEmpRatings from './dashboard/hr/employees performance/non-executive/non-exec emp ratings/NonExecEmpRatings';
+import NonExecEmpAssestPerform from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/NonExecEmpAssestPerform';
+import PrintNonExecEmpDetails from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/PrintNonExecEmpDetails';
 
 dotenv.config();
 
@@ -276,7 +280,7 @@ function App() {
 				/>
 				<Route
 					exact
-					path='/hr/employees/print_emp_details/:id'
+					path='/hr/employees/print_emp_details'
 					component={PrintEmpDetails}
 				/>
 				<Route exact path='/hr/employees_salaries' component={EmpSalaries} />
@@ -291,6 +295,26 @@ function App() {
 					exact
 					path='/hr/employees_performance_assessment'
 					component={EmployeePerformance}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/non_executive_emp_prerequisites'
+					component={NonExecPrereq}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/non_executive_emp_ratings'
+					component={NonExecEmpRatings}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/non_executive_emp_assest_performance'
+					component={NonExecEmpAssestPerform}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/print_non_executive_emp_performance'
+					component={PrintNonExecEmpDetails}
 				/>
 				<Route exact path='/hr/trainings' component={Trainings} />
 				<Route

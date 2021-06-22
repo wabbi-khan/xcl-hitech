@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import PreRequisites from './PreRequisites'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -148,6 +148,7 @@ const TrainingNeedPreReq = () => {
                         {
                             errors.name?.type === 'required' && <p className="mt-1 text-danger">Designation is required</p>
                         }
+                        <PreRequisites />
                         {/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :
                                     designations.map(designation => (

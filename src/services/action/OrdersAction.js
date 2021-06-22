@@ -12,6 +12,7 @@ export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
 		type: PURCHASE_ORDER_REQUEST,
 	});
 
+
 	try {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/order${query ? `?${query}` : ''}`,

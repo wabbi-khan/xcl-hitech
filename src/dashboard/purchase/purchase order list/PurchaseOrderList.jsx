@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPurchaseOrderAction } from '../../../services/action/OrdersAction';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
+import TextField from '@material-ui/core/TextField';
+
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -31,12 +33,6 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
-
-const rows = [createData(1, 'Item1')];
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& > *': {
@@ -51,7 +47,36 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 700,
 		border: '1px solid grey',
 	},
+	tableContainer: {
+		marginTop: 10,
+	},
+	inputFieldStyle1: {
+		[theme.breakpoints.up('md')]: {
+			width: 300,
+			marginLeft: 2,
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: 200,
+			marginTop: 10,
+		},
+	},
 }));
+
+const CssTextField = withStyles({
+	root: {
+		'& label.Mui-focused': {
+			color: 'black',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'black',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'black',
+			},
+		},
+	},
+})(TextField);
 
 export const PurchaseOrderList = ({ history }) => {
 	const classes = useStyles();
@@ -62,13 +87,29 @@ export const PurchaseOrderList = ({ history }) => {
 	}, [dispatch]);
 
 	const { orders, loading, error } = useSelector((state) => state.orders);
-	console.log(orders);
+
+	const handleChange = async (e) => {
+		e.preventDefault();
+		dispatch(fetchPurchaseOrderAction(`poNum[regex]=${e.target.value}`));
+	};
 
 	return (
 		<Sidenav title={'Purchase Order List'}>
 			<div>
 				<div className={classes.dataTable}>
-					<h4>UnInspected Orders List</h4>
+					<h4>Uninspected Orders List</h4>
+					<CssTextField
+						id='outlined-basic'
+						label='Search Orders'
+						variant='outlined'
+						type='search'
+						size='small'
+						autoComplete='off'
+						onChange={handleChange}
+						className={classes.inputFieldStyle1}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					/>
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader

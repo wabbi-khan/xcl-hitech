@@ -4,16 +4,11 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 import avatar from '../assests/user.svg';
 import {
@@ -42,6 +37,17 @@ const StyledTableRow = withStyles((theme) => ({
 		},
 	},
 }))(TableRow);
+=======
+import { useDispatch, useSelector } from 'react-redux'
+import avatar from '../assests/user.svg'
+import { fetchEmployeesAction } from '../../../services/action/EmployeesAction';
+import AcademicQualification from './AcademicQualification';
+import ProfessionalQualification from './ProfessionalQualification';
+import Experience from './Experience';
+import Reference from './Reference';
+import OfficeUse from './OfficeUse';
+
+>>>>>>> 2023b9863b31270004291b30a03b1451124ed165
 
 const useStyles = makeStyles((theme) => ({
 	root: {

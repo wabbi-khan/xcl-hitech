@@ -102,7 +102,9 @@ const ViewEmpDetails = (props) => {
                         <TableHead>
                             <TableRow hover role="checkbox">
                                 <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                <StyledTableCell align="center">Departments</StyledTableCell>
+                                <StyledTableCell align="center">Name</StyledTableCell>
+                                <StyledTableCell align="center">Designation</StyledTableCell>
+                                <StyledTableCell align="center">Department</StyledTableCell>
                                 <StyledTableCell align="center">Action</StyledTableCell>
                             </TableRow>
                         </TableHead>
@@ -118,7 +120,7 @@ const ViewEmpDetails = (props) => {
                                                 // !employee || !employee.length ?
                                                 //     employee.map((emp, i) => (
                                                         <StyledTableRow>
-                                                            <StyledTableCell className="text-dark" align="center">{}</StyledTableCell>
+                                                            <StyledTableCell className="text-dark" align="center">{1}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">{}</StyledTableCell>
                                                             <StyledTableCell className="text-dark" align="center">
                                                                 {/* {
