@@ -204,7 +204,7 @@ const ViewEmpDetails = (props) => {
                                                 <StyledTableCell className="text-light" align="center">
                                                     <Button variant="contained" className="bg-dark text-light" size="small"
                                                         onClick={() => {
-                                                            history.push(``)
+                                                            history.push(`/hr/employees/print_hired_employee_details`)
                                                         }}
                                                     >
                                                         View Report
