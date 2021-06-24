@@ -12,7 +12,10 @@ import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
-import { getEmployees } from '../../../services/action/EmployeesAction';
+import {
+	getEmployees,
+	getUnHiredEmployees,
+} from '../../../services/action/EmployeesAction';
 import { Link } from 'react-router-dom';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -89,10 +92,14 @@ const ViewEmpDetails = (props) => {
 
 	useEffect(async () => {
 		dispatch(getEmployees());
+		dispatch(getUnHiredEmployees());
 	}, [dispatch]);
 
-	const { employees, loading, error } = useSelector((state) => state.employees);
+	const { employees, unHiredEmployees, loading, error } = useSelector(
+		(state) => state.employees,
+	);
 
+	console.log(unHiredEmployees);
 	return (
 		<Sidenav title={'Employee Details'}>
 			<div className={classes.dataTable}>
@@ -116,40 +123,43 @@ const ViewEmpDetails = (props) => {
 								<Loading />
 							) : error ? (
 								<MaterialError />
-							) : !employees || !employees.length ? (
-								employees.map((emp, i) => (
+							) : !unHiredEmployees || !unHiredEmployees.length ? (
+								<h5>Not Found</h5>
+							) : (
+								unHiredEmployees.map((unHiredEmployee, i) => (
 									<StyledTableRow>
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{i + 1}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{emp.name}
+											{unHiredEmployee.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{/* {
-                                                                    !emp.department ? null : emp.department.name
-                                                                } */}
+											{unHiredEmployee.officeUse.jobTitle}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{/* {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                    vendor.material.map((value, i) => (
-                                                                        <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                    } */}
+											{unHiredEmployee.officeUse.department.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
-											<StyledTableCell>
+											<StyledTableCell
+												style={{
+													alignItems: 'center',
+													justifyContent: 'center',
+													display: 'flex',
+												}}>
 												<Button
 													variant='contained'
 													className='bg-dark text-light'
 													size='small'
 													onClick={() => {
-														history.push(`/hr/employees/print_emp_details`);
+														history.push(
+															`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
+														);
 													}}>
 													View Details
 												</Button>
-												<Link to='/hr/employees/hired_employee_details'>
+												<Link
+													to={`/hr/employees/hired_employee_details/${unHiredEmployee._id}`}>
 													<Button
 														variant='contained'
 														className='bg-success text-light ml-1'
@@ -161,8 +171,6 @@ const ViewEmpDetails = (props) => {
 										</StyledTableCell>
 									</StyledTableRow>
 								))
-							) : (
-								<h5>Not Found</h5>
 							)}
 						</TableBody>
 					</Table>
@@ -189,43 +197,36 @@ const ViewEmpDetails = (props) => {
 								<Loading />
 							) : error ? (
 								<MaterialError />
+							) : !employees || !employees.length ? (
+								<h5>Not Found</h5>
 							) : (
-								// !employee || !employee.length ?
-								//     employee.map((emp, i) => (
-								<StyledTableRow>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{1}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{/* {
-                                                                    !emp.department ? null : emp.department.name
-                                                                } */}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{/* {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                } */}
-									</StyledTableCell>
-									<StyledTableCell className='text-light bg-light' align='center'>
-										<Button
-											variant='contained'
-											className='bg-dark text-light'
-											size='small'
-											onClick={() => {
-												history.push(``);
-											}}>
-											View Report
-										</Button>
-									</StyledTableCell>
-								</StyledTableRow>
-								// ))
-								// : <h5>Not Found</h5>
+								employees.map((employee, i) => (
+									<StyledTableRow>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{i + 1}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{employee.name}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{employee.officeUse.jobTitle}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{employee.officeUse.department.name}
+										</StyledTableCell>
+										<StyledTableCell className='text-light bg-light' align='center'>
+											<Button
+												variant='contained'
+												className='bg-dark text-light'
+												size='small'
+												onClick={() => {
+													history.push(``);
+												}}>
+												View Report
+											</Button>
+										</StyledTableCell>
+									</StyledTableRow>
+								))
 							)}
 						</TableBody>
 					</Table>

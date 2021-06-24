@@ -5,7 +5,9 @@ import {
 	EMPLOYEE_DELETE_SUCCESS,
 	EMPLOYEE_FAIL,
 	EMPLOYEE_FETCH_SUCCESS,
+	EMPLOYEE_UNHIRED_FETCH_SUCCESS,
 	EMPLOYEE_REQUEST,
+	EMPLOYEE_SINGLE_FETCH_SUCCESS,
 	EMPLOYEE_UPDATE_SUCCESS,
 } from '../constants/EmployeesConst';
 
@@ -16,11 +18,50 @@ export const getEmployees = (query) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/employees`,
+			`${process.env.REACT_APP_API_URL}/employees?isHired=true`,
 		);
 
 		dispatch({
 			type: EMPLOYEE_FETCH_SUCCESS,
+			payload: data.data,
+		});
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
+export const getSingleEmployee = (id) => async (dispatch) => {
+	dispatch({
+		type: EMPLOYEE_REQUEST,
+	});
+
+	try {
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/employees/${id}`,
+		);
+
+		dispatch({
+			type: EMPLOYEE_SINGLE_FETCH_SUCCESS,
+			payload: data.data,
+		});
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
+export const getUnHiredEmployees = (query) => async (dispatch) => {
+	dispatch({
+		type: EMPLOYEE_REQUEST,
+	});
+
+	try {
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/employees?isHired=false`,
+		);
+		console.log(data);
+
+		dispatch({
+			type: EMPLOYEE_UNHIRED_FETCH_SUCCESS,
 			payload: data.data,
 		});
 	} catch (err) {
@@ -33,23 +74,24 @@ export const createEmployee = (data) => async (dispatch) => {
 		type: EMPLOYEE_REQUEST,
 	});
 
-	console.log(data);
-
 	try {
+		if (data.picture) {
+			const formData = new FormData();
+
+			formData.append('file', data.picture);
+			formData.append('upload_preset', 'q2yuodxb');
+			let img = await axios.post(
+				`https://api.cloudinary.com/v1_1/dcbwrkyux/image/upload`,
+				formData,
+			);
+
+			data.picture = img.data.url;
+		}
+
 		let res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/employees`,
 			data,
 		);
-
-		if (data.picture) {
-			const formData = new FormData();
-
-			formData.append('picture', data.picture);
-			res = await axios.patch(
-				`${process.env.REACT_APP_API_URL}/employees/${res.data.employee._id}/uploadimage`,
-				formData,
-			);
-		}
 
 		dispatch({
 			type: EMPLOYEE_CREATE_SUCCESS,
@@ -68,6 +110,28 @@ export const updateEmployee = (id, data) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/employees/${id}`,
+			data,
+		);
+
+		dispatch({
+			type: EMPLOYEE_UPDATE_SUCCESS,
+			payload: res.data.employee,
+		});
+
+		// console.log(data);
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
+export const hireEmployee = (id, data) => async (dispatch) => {
+	dispatch({
+		type: EMPLOYEE_REQUEST,
+	});
+
+	try {
+		const res = await axios.patch(
+			`${process.env.REACT_APP_API_URL}/employees/hire/${id}`,
 			data,
 		);
 

@@ -282,12 +282,12 @@ function App() {
 				/>
 				<Route
 					exact
-					path='/hr/employees/print_emp_details'
+					path='/hr/employees/print_emp_details/:id'
 					component={PrintEmpDetails}
 				/>
 				<Route
 					exact
-					path='/hr/employees/hired_employee_details'
+					path='/hr/employees/hired_employee_details/:id'
 					component={HiredEmpDetails}
 				/>
 				<Route

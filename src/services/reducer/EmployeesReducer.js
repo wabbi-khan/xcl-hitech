@@ -3,12 +3,24 @@ import {
 	EMPLOYEE_DELETE_SUCCESS,
 	EMPLOYEE_FAIL,
 	EMPLOYEE_FETCH_SUCCESS,
+	EMPLOYEE_SINGLE_FETCH_SUCCESS,
 	EMPLOYEE_REQUEST,
 	EMPLOYEE_UPDATE_SUCCESS,
+	EMPLOYEE_UNHIRED_FETCH_SUCCESS,
 } from '../constants/EmployeesConst';
 
-export const getEmployees = (state = { employees: [] }, action) => {
+export const getEmployees = (
+	state = { employees: [], unHiredEmployees: [], employee: {} },
+	action,
+) => {
 	switch (action.type) {
+		case EMPLOYEE_SINGLE_FETCH_SUCCESS:
+			return {
+				...state,
+				error: '',
+				loading: false,
+				employee: action.payload,
+			};
 		case EMPLOYEE_REQUEST:
 			return {
 				...state,
@@ -23,12 +35,21 @@ export const getEmployees = (state = { employees: [] }, action) => {
 			};
 		case EMPLOYEE_FETCH_SUCCESS:
 			return {
+				...state,
 				loading: false,
 				error: '',
 				employees: action.payload,
 			};
+		case EMPLOYEE_UNHIRED_FETCH_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				error: '',
+				unHiredEmployees: action.payload,
+			};
 		case EMPLOYEE_UPDATE_SUCCESS:
 			return {
+				...state,
 				loading: false,
 				error: '',
 				employees: state.employees.map((employee) =>
@@ -37,6 +58,7 @@ export const getEmployees = (state = { employees: [] }, action) => {
 			};
 		case EMPLOYEE_DELETE_SUCCESS:
 			return {
+				...state,
 				loading: false,
 				error: '',
 				employees: state.employees.filter(
@@ -45,6 +67,7 @@ export const getEmployees = (state = { employees: [] }, action) => {
 			};
 		case EMPLOYEE_CREATE_SUCCESS:
 			return {
+				...state,
 				error: '',
 				loading: false,
 				employees: [...state.employees, action.payload],

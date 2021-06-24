@@ -15,6 +15,7 @@ import {
 	getEmployees,
 } from '../../../services/action/EmployeesAction';
 import { getExperiences } from '../../../services/action/ExperienceAction';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -199,11 +200,13 @@ const Employees = ({ history }) => {
 	useEffect(async () => {
 		await dispatch(getEmployees());
 		await dispatch(getExperiences());
+		await dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { experiences: experiencesState } = useSelector(
 		(state) => state.experiences,
 	);
+	const { departments } = useSelector((state) => state.departments);
 
 	const [academicQualification, setAcademicQualification] = useState([
 		{
@@ -263,6 +266,7 @@ const Employees = ({ history }) => {
 					recommendedSalary: props.recommendedSalary,
 					approved: props.approved,
 					dateOfApproved: props.dateOfApproved,
+					department: props.department,
 				},
 			}),
 		);
@@ -1235,13 +1239,38 @@ const Employees = ({ history }) => {
 								<Grid item lg={2} md={2} sm={12} xs={12}>
 									<CssTextField
 										id='outlined-basic'
+										label='Recommendations Department'
+										variant='outlined'
+										type='text'
+										size='small'
+										select
+										autocomplete='off'
+										{...register('department', { required: true })}
+										className={classes.inputFieldStyle}
+										inputProps={{ style: { fontSize: 14 } }}
+										InputLabelProps={{ style: { fontSize: 14 } }}>
+										{!departments || !departments.length ? (
+											<p>Data Not Found</p>
+										) : (
+											departments.map((department, i) => (
+												<MenuItem value={department._id} key={i}>
+													{department.name}
+												</MenuItem>
+											))
+										)}
+									</CssTextField>
+								</Grid>
+
+								<Grid item lg={2} md={2} sm={12} xs={12}>
+									<CssTextField
+										id='outlined-basic'
 										label='Recommended Salary'
 										variant='outlined'
 										type='number'
 										size='small'
 										{...register('recommendedSalary', { required: true })}
 										autocomplete='off'
-										className={classes.inputFieldStyle}
+										className={classes.inputFieldStyle1}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 									/>
@@ -1256,7 +1285,7 @@ const Employees = ({ history }) => {
 										select
 										autocomplete='off'
 										{...register('approved', { required: true })}
-										className={classes.inputFieldStyle1}
+										className={classes.inputFieldStyle2}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}>
 										<MenuItem value='Yes'>Yes</MenuItem>

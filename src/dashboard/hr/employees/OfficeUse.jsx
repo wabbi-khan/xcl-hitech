@@ -239,23 +239,7 @@ const OfficeUse = () => {
                     <Grid item lg={1} md={1}>
                         {/* <h5 className={classes.itemHeading}>1.</h5> */}
                     </Grid>
-                    <Grid item lg={2} md={2} sm={12} xs={12}>
-                        <CssTextField id="outlined-basic"
-                            label="Recommended Department"
-                            variant="outlined"
-                            type="text"
-                            size="small"
-                            select
-                            autocomplete="off"
-                            // onChange={(e) => {
-                            // }}
-                            className={classes.inputFieldStyle}
-                            inputProps={{ style: { fontSize: 14 } }}
-                            InputLabelProps={{ style: { fontSize: 14 } }}
-                        >
-                            <MenuItem value="0">Purchase</MenuItem>
-                        </CssTextField>
-                    </Grid>
+                    
                     <Grid item lg={2} md={2} sm={12} xs={12}>
                         <CssTextField id="outlined-basic"
                             label="Recommended Salary"
