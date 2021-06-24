@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Sidenav from '../../../../SideNav/Sidenav'
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -98,7 +98,7 @@ const CssTextField = withStyles({
     },
 })(TextField);
 
-const NonExecPrereq = () => {
+const ExecPreReq = () => {
     const classes = useStyles();
     const {
         register,
@@ -120,40 +120,16 @@ const NonExecPrereq = () => {
     };
 
     return (
-        <Sidenav title={'Non-Executive Employees Prerequisitions'}>
+        <Sidenav title={'Executive Employee Pre-Requisitions'}>
             <div>
-                <Container className={classes.mainContainer}>
+            <Container className={classes.mainContainer}>
                     <form action='' onSubmit={handleSubmit(onSubmitDate)}>
-                        <Grid container spacing={1}>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField
-                                    id='outlined-basic'
-                                    label='Add Heading Name'
-                                    variant='outlined'
-                                    type='text'
-                                    autocomplete='off'
-                                    size='small'
-                                    className={classes.inputFieldStyle}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register('', { required: true })}
-                                />
-                                {
-                                    errors.category?.type === 'required' && (
-                                        <p className='mt-3 text-danger'>Heading Name is required</p>
-                                    )
-                                }
-                            </Grid>
-                        </Grid>
-                        <div style={{ marginTop: 30, marginBottom: 30 }}>
-                            <hr />
-                        </div>
                         <Container className={classes.mainContainer1}>
                             <Grid container spacing={1}>
                                 <Grid item lg={12} md={12} sm={12} xs={12}>
                                     <CssTextField
                                         id='outlined-basic'
-                                        label='Add Parameter'
+                                        label='Heading'
                                         variant='outlined'
                                         type='text'
                                         size='small'
@@ -164,24 +140,16 @@ const NonExecPrereq = () => {
                                         style={{ width: '30%' }}
                                         InputLabelProps={{ style: { fontSize: 14 } }}
                                     />
-                                    {/* {
-                                    educations &&
-                                    educations.map((education, i) => (
-                                        <MenuItem value={education._id} key={i}>
-                                            {education.name}
-                                        </MenuItem>
-                                    ))
-                                } */}
                                     {
                                         errors.name?.type === 'required' && (
-                                            <p className='mt-1 text-danger'>Min Requirements is required</p>
+                                            <p className='mt-1 text-danger'>Heading is required</p>
                                         )
                                     }
                                     <CssTextField
                                         id='outlined-basic'
-                                        label='Add Total No.'
+                                        label='Points'
                                         variant='outlined'
-                                        type='number'
+                                        type='text'
                                         size='small'
                                         // value={inputFields.educations}
                                         // onChange={(e) => onChangeHandler(e.target.value, 'educations')}
@@ -193,7 +161,7 @@ const NonExecPrereq = () => {
                                     />
                                     {
                                         errors.name?.type === 'required' && (
-                                            <p className='mt-1 text-danger'>Min Requirements is required</p>
+                                            <p className='mt-1 text-danger'>Atleast One Point is required</p>
                                         )
                                     }
                                     <Button
@@ -213,51 +181,6 @@ const NonExecPrereq = () => {
                             >
                                 Add Another
                             </Button>
-
-                            {/* {compCriteria.educations.req.map((education, i) => {
-                                const temp = educations.find((el) => el._id === education);
-                                return (
-                                    <p className={classes.resStyle}>
-                                        <span style={{ fontSize: 13 }}>{i + 1}. </span>
-                                        {temp.name}
-                                        <DeleteOutlineIcon
-                                            type='button'
-                                            className={classes.delete}
-                                            onClick={() => removeRes(i)}
-                                        />
-                                    </p>
-                                );
-                            })} */}
-
-                            {/* {compCriteria.minReq.map((el) => (
-					<p>{el}</p>
-				))} */}
-
-                            {
-                                // responsibilities.map((res, i) => (
-                                //     <p className={classes.resStyle}>
-                                //         <span style={{ fontSize: 30 }}>.</span>
-                                //         {res}
-                                //         <DeleteOutlineIcon
-                                //             type="button"
-                                //             className={classes.delete}
-                                //             onClick={() => removeRes(i)}
-                                //         />
-                                //         {/* <Button
-                                //             variant="outlined" size="small"
-                                //             className={classes.deleteResBtn}
-                                //         >
-                                //         </Button> */}
-                                //     </p>
-                                // )
-                                // )
-                            }
-                            {/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
                         </Container>
                         {/* {
                             AddMatError ? <p className='mt-3 text-danger'> {AddMatErrMsg} </p> : null
@@ -278,4 +201,4 @@ const NonExecPrereq = () => {
     )
 }
 
-export default NonExecPrereq
+export default ExecPreReq

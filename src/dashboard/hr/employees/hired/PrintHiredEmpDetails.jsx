@@ -542,7 +542,7 @@ const PrintHiredEmpDetails = () => {
                 <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
                 <div className={classes.table1}>
                     <h5 align="left" style={{ marginTop: 30, textDecoration: 'underline' }}>For Office Use Only</h5>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
+                    <Grid container spacing={1} style={{ marginTop: 25, textAlign: 'left' }} >
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p style={{ fontWeight: 'bold', }}>
                                 Date Of Interviewed
@@ -618,9 +618,51 @@ const PrintHiredEmpDetails = () => {
                         </Grid>
                     </Grid>
                 </div>
-                <div className="container mt-5">
+                <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+                <div className={classes.table1}>
+                    <h5 align="left" style={{ marginTop: 30, textDecoration: 'underline' }}>Assigned Employee Details</h5>
+                    <Grid container spacing={1} style={{ marginTop: 25, textAlign: 'left' }} >
+                        <Grid item lg={2} md={2} sm={2} xs={2}>
+                            <p style={{ fontWeight: 'bold', }}>
+                                Assigned Department
+                            </p>
+                        </Grid>
+                        <Grid item lg={3} md={2} sm={2} xs={2}>
+                            <p>Production</p>
+                            <hr
+                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
+                            />
+                        </Grid>
+                        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                        <Grid item lg={2} md={2} sm={2} xs={2}>
+                            <p style={{ fontWeight: 'bold', }}>
+                                Assigned Designation
+                            </p>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={3} xs={3}>
+                            <p>Assistant Manager</p>
+                            <hr
+                                style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
+                        <Grid item lg={2} md={2} sm={2} xs={2}>
+                            <p style={{ fontWeight: 'bold', }}>
+                                Assigned Salary
+                            </p>
+                        </Grid>
+                        <Grid item lg={3} md={2} sm={2} xs={2}>
+                            <p>40000</p>
+                            <hr
+                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
+                            />
+                        </Grid>
+                    </Grid>
+                </div>
+                <div className="container-fluid" style={{ marginTop: 200}}>
                     <div className="row">
-                        <div className="col-lg-2 col-md-2 col-sm-2 mt-5">
+                        <div className="col-lg-2 col-md-2 col-sm-2 mt-5" style={{ marginLeft: 60 }}>
                             <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
                             <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Applicant Signature</p>
                         </div>

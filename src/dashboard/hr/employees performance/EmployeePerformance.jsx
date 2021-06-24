@@ -198,7 +198,7 @@ const EmployeePerformance = ({ history }) => {
                                         variant="contained"
                                         className={classes.mainBtn}
                                         onClick={() => {
-                                            history.push('/')
+                                            history.push('/hr/performance_assessment/executive_emp_prerequisites')
                                         }}
                                     >
                                         Performance Assessment Prerequisites
@@ -209,7 +209,7 @@ const EmployeePerformance = ({ history }) => {
                                         variant="contained"
                                         className={classes.mainBtn}
                                         onClick={() => {
-                                            history.push('/')
+                                            history.push('/hr/performance_assessment/executive_emp_ratings')
                                         }}
                                     >
                                         Employee Performance Ratings
@@ -220,7 +220,7 @@ const EmployeePerformance = ({ history }) => {
                                         variant="contained"
                                         className={classes.mainBtn}
                                         onClick={() => {
-                                            history.push('/')
+                                            history.push('/hr/performance_assessment/executive_emp_assest_performance')
                                         }}
                                     >
                                         Assest Employees Performance

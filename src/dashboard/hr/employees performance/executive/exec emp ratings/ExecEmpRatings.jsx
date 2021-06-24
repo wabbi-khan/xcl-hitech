@@ -52,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
     },
     addMoreBtn: {
         marginTop: 15,
+        padding: 8,
+        marginLeft: -90,
         backgroundColor: '#22A19A',
         color: 'whitesmoke',
         '&:hover': {
@@ -59,24 +61,6 @@ const useStyles = makeStyles((theme) => ({
             color: '#22A19A',
             fontWeight: 'bold',
             backgroundColor: 'whitesmoke'
-        },
-    },
-    inputFieldStyle: {
-        [theme.breakpoints.up('md')]: {
-            width: 330,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    inputFieldStyle1: {
-        [theme.breakpoints.up('md')]: {
-            width: 330,
-            marginLeft: 5,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-            marginTop: 10,
         },
     },
 }));
@@ -97,7 +81,7 @@ const CssTextField = withStyles({
     },
 })(TextField);
 
-const NonExecEmpRatings = ({ history }) => {
+const ExecEmpRatings = () => {
     const classes = useStyles();
     const {
         register,
@@ -119,7 +103,7 @@ const NonExecEmpRatings = ({ history }) => {
     };
 
     return (
-        <Sidenav title={'Non-Executive Emplolyees Ratings'}>
+        <Sidenav title={'Executive Employee Ratings'}>
             <div>
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
@@ -130,7 +114,7 @@ const NonExecEmpRatings = ({ history }) => {
                             <Grid item lg={2} md={2} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
-                                    label='Name'
+                                    label='Rating Name'
                                     variant='outlined'
                                     type='text'
                                     autocomplete='off'
@@ -142,7 +126,7 @@ const NonExecEmpRatings = ({ history }) => {
                                 />
                                 {
                                     errors.category?.type === 'required' && (
-                                        <p className='mt-3 text-danger'>Name is required</p>
+                                        <p className='mt-3 text-danger'>Rating Name is required</p>
                                     )
                                 }
                             </Grid>
@@ -168,12 +152,31 @@ const NonExecEmpRatings = ({ history }) => {
                             <Grid item lg={2} md={2} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
-                                    label='Min Value'
+                                    label='Calculated Value'
                                     variant='outlined'
                                     type='number'
                                     autocomplete='off'
                                     size='small'
                                     style={{ width: '125%', marginLeft: 100 }}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register('', { required: true })}
+                                />
+                                {
+                                    errors.category?.type === 'required' && (
+                                        <p className='mt-3 text-danger'>Calculate Value required</p>
+                                    )
+                                }
+                            </Grid>
+                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                                <CssTextField
+                                    id='outlined-basic'
+                                    label='Min Value'
+                                    variant='outlined'
+                                    type='number'
+                                    autocomplete='off'
+                                    size='small'
+                                    style={{ width: '125%', marginLeft: 150 }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register('', { required: true })}
@@ -192,7 +195,7 @@ const NonExecEmpRatings = ({ history }) => {
                                     type='number'
                                     autocomplete='off'
                                     size='small'
-                                    style={{ width: '125%', marginLeft: 150 }}
+                                    style={{ width: '125%', marginLeft: 200 }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register('', { required: true })}
@@ -209,7 +212,7 @@ const NonExecEmpRatings = ({ history }) => {
                                 <Button
                                     variant='contained'
                                     size='small'
-                                    className={classes.addMoreParaBtn}
+                                    className={classes.addMoreBtn}
                                 // onClick={() => getValue('educations')}
                                 >
                                     Add More
@@ -245,4 +248,4 @@ const NonExecEmpRatings = ({ history }) => {
     )
 }
 
-export default NonExecEmpRatings
+export default ExecEmpRatings
