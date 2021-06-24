@@ -85,6 +85,9 @@ import NonExecEmpAssestPerform from './dashboard/hr/employees performance/non-ex
 import PrintNonExecEmpDetails from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/PrintNonExecEmpDetails';
 import HiredEmpDetails from './dashboard/hr/employees/hired/HiredEmpDetails';
 import PrintHiredEmpDetails from './dashboard/hr/employees/hired/PrintHiredEmpDetails';
+import ExecPreReq from './dashboard/hr/employees performance/executive/executive pre-requsite/ExecPreReq';
+import ExecEmpRatings from './dashboard/hr/employees performance/executive/exec emp ratings/ExecEmpRatings';
+import ExecEmpAssestPerform from './dashboard/hr/employees performance/executive/exec emp assest perform/ExecEmpAssestPerform';
 
 dotenv.config();
 
@@ -327,6 +330,21 @@ function App() {
 					exact
 					path='/hr/performance_assessment/print_non_executive_emp_performance'
 					component={PrintNonExecEmpDetails}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/executive_emp_prerequisites'
+					component={ExecPreReq}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/executive_emp_ratings'
+					component={ExecEmpRatings}
+				/>
+				<Route
+					exact
+					path='/hr/performance_assessment/executive_emp_assest_performance'
+					component={ExecEmpAssestPerform}
 				/>
 				<Route exact path='/hr/trainings' component={Trainings} />
 				<Route
