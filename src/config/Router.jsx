@@ -85,6 +85,7 @@ import PrintHiredEmpDetails from '../dashboard/hr/employees/hired/PrintHiredEmpD
 import ExecPreReq from '../dashboard/hr/employees performance/executive/executive pre-requsite/ExecPreReq';
 import ExecEmpRatings from '../dashboard/hr/employees performance/executive/exec emp ratings/ExecEmpRatings';
 import ExecEmpAssestPerform from '../dashboard/hr/employees performance/executive/exec emp assest perform/ExecEmpAssestPerform';
+import PrintExecEmpDetails from '../dashboard/hr/employees performance/executive/exec emp assest perform/PrintExecEmpDetails';
 
 
 
@@ -158,6 +159,7 @@ const Router = () => {
                 <Router exact path="/hr/performance_assessment/executive_emp_prerequisites" component={ExecPreReq}/>
                 <Router exact path="/hr/performance_assessment/executive_emp_ratings" component={ExecEmpRatings}/>
                 <Router exact path="/hr/performance_assessment/executive_emp_assest_performance" component={ExecEmpAssestPerform}/>
+                <Router exact path="/hr/performance_assessment/print_executive_emp_performance" component={PrintExecEmpDetails}/>
                 <Router exact path="/hr/trainings" component={Trainings}/>
                 <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
                 <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>

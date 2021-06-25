@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     addButton: {
-        marginTop: 20,
+        marginTop: 70,
         color: '#22A19A',
         borderColor: '#22A19A',
         fontWeight: 'bold',
@@ -845,7 +845,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                 color="primary"
                                 type="submit"
                                 className={classes.addButton}
-                                onClick={() => history.push('/hr/performance_assessment/print_non_executive_emp_performance')}
+                                onClick={() => history.push('/hr/performance_assessment/print_executive_emp_performance')}
                             >
                                 Submit
                             </Button>
