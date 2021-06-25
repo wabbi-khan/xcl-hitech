@@ -89,6 +89,7 @@ import ExecPreReq from './dashboard/hr/employees performance/executive/executive
 import ExecEmpRatings from './dashboard/hr/employees performance/executive/exec emp ratings/ExecEmpRatings';
 import ExecEmpAssestPerform from './dashboard/hr/employees performance/executive/exec emp assest perform/ExecEmpAssestPerform';
 import PrintExecEmpDetails from './dashboard/hr/employees performance/executive/exec emp assest perform/PrintExecEmpDetails';
+import PrintJobDescription from './dashboard/hr/job description/PrintJobDescription';
 
 dotenv.config();
 
@@ -371,6 +372,7 @@ function App() {
 				/>
 				<Route exact path='/hr/training_record' component={TrainingRecord} />
 				<Route exact path='/hr/job_description' component={JobDescription} />
+				<Route exact path='/hr/print_job_description' component={PrintJobDescription} />
 				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />
 
 				<Route exact path='/marketing_dashboard' component={Marketing} />
