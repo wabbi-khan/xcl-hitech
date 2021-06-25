@@ -14,7 +14,6 @@ import {
 } from '../../../../services/action/EmployeesAction';
 import { fetchDepartmentsAction } from '../../../../services/action/DepartmentAction';
 import { getDesignation } from '../../../../services/action/DesignationAction';
-import EmpFinalDetails from './EmpFinalDetails';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -151,6 +150,7 @@ const CssTextField = withStyles({
 })(TextField);
 
 const HiredEmpDetails = ({ match }) => {
+	const [isEmployeeHired, setIsEmployeeHired] = useState(false);
 	const classes = useStyles();
 
 	const {
@@ -172,7 +172,8 @@ const HiredEmpDetails = ({ match }) => {
 	}, [match.params]);
 
 	const onSubmitData = (props) => {
-		console.log(props);
+		dispatch(hireEmployee(employee._id, props));
+		setIsEmployeeHired(true);
 	};
 
 	const {
@@ -1072,14 +1073,12 @@ const HiredEmpDetails = ({ match }) => {
 								variant='outlined'
 								color='primary'
 								type='submit'
-								className={classes.addButton}
-								onClick={() => {
-									// history.push('')
-								}}>
+								className={classes.addButton}>
 								Submit
 							</Button>
 						</div>
 					</form>
+					<p>{isEmployeeHired && 'Employee is hired successfully'}</p>
 				</Container>
 			</div>
 		</Sidenav>

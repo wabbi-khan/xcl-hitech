@@ -21,6 +21,8 @@ import { fetchPurchaseReqReducer } from './services/reducer/PurchaseReqReducer';
 import { getExperiences } from './services/reducer/ExperienceReducer';
 import { getEducations } from './services/reducer/EducationReducer';
 import { getTrainings } from './services/reducer/TrainingReducer';
+import { fetchSalaryReducer } from './services/reducer/SalaryReducer';
+import { fetchAttendanceReducer } from './services/reducer/attendanceReducer';
 
 const initialState = {};
 
@@ -46,6 +48,8 @@ const reducer = combineReducers({
 	productionReports: fetchProductionReportReducer,
 	cards: fetchCardReducer,
 	trainings: getTrainings,
+	salaries: fetchSalaryReducer,
+	attendances: fetchAttendanceReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

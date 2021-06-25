@@ -220,7 +220,7 @@ const ViewEmpDetails = (props) => {
 												className='bg-dark text-light'
 												size='small'
 												onClick={() => {
-													history.push(``);
+													history.push(`/hr/employees/print_emp_details/${employee._id}`);
 												}}>
 												View Report
 											</Button>
