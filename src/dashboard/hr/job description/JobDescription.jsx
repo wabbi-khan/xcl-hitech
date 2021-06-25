@@ -255,7 +255,7 @@ const JobDescription = ({ history }) => {
                                 className={classes.addButton}
                                 onClick={() => history.push('/hr/print_job_description')}
                             >
-                                Add
+                                Print
                             </Button>
                         </div>
                     </form>
