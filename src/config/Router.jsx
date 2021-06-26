@@ -85,6 +85,8 @@ import PrintHiredEmpDetails from '../dashboard/hr/employees/hired/PrintHiredEmpD
 import ExecPreReq from '../dashboard/hr/employees performance/executive/executive pre-requsite/ExecPreReq';
 import ExecEmpRatings from '../dashboard/hr/employees performance/executive/exec emp ratings/ExecEmpRatings';
 import ExecEmpAssestPerform from '../dashboard/hr/employees performance/executive/exec emp assest perform/ExecEmpAssestPerform';
+import PrintExecEmpDetails from '../dashboard/hr/employees performance/executive/exec emp assest perform/PrintExecEmpDetails';
+import PrintJobDescription from '../dashboard/hr/job description/PrintJobDescription';
 
 
 
@@ -158,6 +160,7 @@ const Router = () => {
                 <Router exact path="/hr/performance_assessment/executive_emp_prerequisites" component={ExecPreReq}/>
                 <Router exact path="/hr/performance_assessment/executive_emp_ratings" component={ExecEmpRatings}/>
                 <Router exact path="/hr/performance_assessment/executive_emp_assest_performance" component={ExecEmpAssestPerform}/>
+                <Router exact path="/hr/performance_assessment/print_executive_emp_performance" component={PrintExecEmpDetails}/>
                 <Router exact path="/hr/trainings" component={Trainings}/>
                 <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
                 <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>
@@ -165,6 +168,7 @@ const Router = () => {
                 <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>
                 <Router exact path="/hr/training_record" component={TrainingRecord}/>
                 <Router exact path="/hr/job_description" component={JobDescription}/>
+                <Router exact path="/hr/print_job_description" component={PrintJobDescription}/>
                 <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
                 <Router exact path="/marketing_dashboard" component={Marketing}/>                 //Marketing/Sales Module Routes
                 <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>
