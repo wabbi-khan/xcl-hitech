@@ -251,10 +251,10 @@ const EmpAttendance = ({ history }) => {
 
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
-													style={{ backgroundColor: !el.isPresent ? '#C81D25' : '#008BF8' }}
 													variant='contained'
+													className={`text-light ${!el.isPresent ? 'bg-danger' : 'bg-success'}`}
 													size='small'
-													className='text-light'>
+												>
 													{el.isPresent ? 'Present' : 'Absent'}
 												</Button>
 											</StyledTableCell>

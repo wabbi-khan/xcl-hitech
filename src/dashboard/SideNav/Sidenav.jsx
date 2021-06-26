@@ -1088,14 +1088,6 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Designation' />
 							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training');
-								}}>
-								<ListItemText inset primary='Training' />
-							</ListItem>
 							{/* <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
@@ -1151,6 +1143,22 @@ function Sidenav(props) {
 									history.push('/hr/employees_performance_assessment');
 								}}>
 								<ListItemText inset primary='Employees Perform...' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/hr/training');
+								}}>
+								<ListItemText inset primary='Trainings' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/hr/training_venue');
+								}}>
+								<ListItemText inset primary='Training Venue' />
 							</ListItem>
 							<ListItem
 								button

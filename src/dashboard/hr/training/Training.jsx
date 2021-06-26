@@ -40,12 +40,6 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
-
-const rows = [createData(1, 'Item1')];
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& > *': {
@@ -170,6 +164,11 @@ const Training = () => {
 							InputLabelProps={{ style: { fontSize: 14 } }}
 							{...register('name', { required: true })}
 						/>
+						{
+                            errors.name?.type === 'required' && (
+                                <p className='mt-3 text-danger'>Training name must be required</p>
+                            )
+                        }
 						{/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (

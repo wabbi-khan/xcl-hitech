@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     addButton: {
-        marginTop: 20,
+        marginTop: 50,
         color: '#22A19A',
         borderColor: '#22A19A',
         fontWeight: 'bold',
@@ -130,23 +130,36 @@ const TrainingNeed = () => {
                 <Container className={classes.mainContainer}>
                     <form onSubmit={handleSubmit(onSubmitData)}>
                         <Grid container spacing={1}>
-                            <Grid item lg={3} md={3}></Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Enter Employee Name"
+                                    label="Select Department"
                                     variant="outlined"
                                     type="text"
                                     size="small"
+                                    select
                                     autocomplete="off"
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("name", { required: true })}
-                                />
+                                >
+                                    <MenuItem
+                                        value={0}
+                                    // onClick={(e) => fetchMaterials(category._id)}
+                                    // key={i}
+                                    >
+                                        HR
+                                    </MenuItem>
+                                </CssTextField>
+                                {
+                                    errors.name?.type === 'required' && (
+                                        <p className='mt-3 text-danger'>Department is required</p>
+                                    )
+                                }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Select Training"
+                                    label="Select Designation"
                                     variant="outlined"
                                     type="text"
                                     autocomplete="off"
@@ -155,7 +168,7 @@ const TrainingNeed = () => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("fatherName", { required: true, })}
+                                    {...register("name", { required: true, })}
                                 >
                                     <MenuItem
                                         value={0}
@@ -165,6 +178,38 @@ const TrainingNeed = () => {
                                         Assistant Manager
                                     </MenuItem>
                                 </CssTextField>
+                                {
+                                    errors.name?.type === 'required' && (
+                                        <p className='mt-3 text-danger'>Designation is required</p>
+                                    )
+                                }
+                            </Grid>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Interviewed By"
+                                    variant="outlined"
+                                    type="text"
+                                    autocomplete="off"
+                                    size="small"
+                                    select
+                                    className={classes.inputFieldStyle}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                    {...register("name", { required: true, })}
+                                >
+                                    <MenuItem
+                                        value={0}
+                                    // onClick={(e) => fetchMaterials(category._id)}
+                                    // key={i}
+                                    >
+                                        QC Manager
+                                    </MenuItem>
+                                </CssTextField>
+                                {
+                                    errors.name?.type === 'required' && (
+                                        <p className='mt-3 text-danger'>Interviewed By required</p>
+                                    )
+                                }
                             </Grid>
                         </Grid>
                         <div>
@@ -178,25 +223,42 @@ const TrainingNeed = () => {
                                 }}
                             >
                                 Add
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
+                        <Table stickyHeader className="table bg-dark text-light" style={{ border: '1px solid grey' }} >
                             <TableHead>
                                 <TableRow hover role="checkbox">
                                     <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Employee Name</StyledTableCell>
-                                    <StyledTableCell align="center">Training Required</StyledTableCell>
+                                    <StyledTableCell align="center">Department</StyledTableCell>
+                                    <StyledTableCell align="center">Designation</StyledTableCell>
+                                    <StyledTableCell align="center">Interviewed By</StyledTableCell>
+                                    <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
                                 <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Assistant Manager</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">1</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">Arsalan</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">Assistant Manager</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">Assistant Manager</StyledTableCell>
+                                    <StyledTableCell className="text-light" align="center">
+                                        <><Button variant="contained" className="bg-dark text-light" size="small"
+                                            onClick={() => {
+                                                
+                                            }}
+                                            style={{ marginTop: 2 }} >
+                                            Edit
+                                        </Button>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                // onClick={() => deleteMaterial(vendor._id)}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                Delete
+                                            </Button></>
+                                    </StyledTableCell>
                                     {/* <StyledTableCell className="text-dark" align="center">
                                         {
                                             !vendor.material || !vendor.material.length ? <p>Not Found</p> :

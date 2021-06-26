@@ -206,9 +206,11 @@ const Material = () => {
 								))
 							)}
 						</CssTextField>
-						{errors.category?.type === 'required' && (
-							<p className='mt-3 text-danger'>Category must be required</p>
-						)}
+						{
+							errors.category?.type === 'required' && (
+								<p className='mt-3 text-danger'>Category must be required</p>
+							)
+						}
 						{/* Material Name */}
 						<CssTextField
 							id='outlined-basic'
