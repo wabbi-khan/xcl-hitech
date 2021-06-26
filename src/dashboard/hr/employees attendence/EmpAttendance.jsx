@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAttendanceAction } from '../../../services/action/attendanceAction';
+import moment from 'moment';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -250,7 +251,7 @@ const EmpAttendance = ({ history }) => {
 
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
-													style={{ backgroundColor: el.isPresent ? '#C81D25' : '#008BF8' }}
+													style={{ backgroundColor: !el.isPresent ? '#C81D25' : '#008BF8' }}
 													variant='contained'
 													size='small'
 													className='text-light'>

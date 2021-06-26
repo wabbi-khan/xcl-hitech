@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import {
 	getAttendanceAction,
 	attendanceToggler,
+	createAttendanceAction,
 } from '../../../services/action/attendanceAction';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -165,10 +166,22 @@ const AddEmpAttendance = () => {
 		dispatch(attendanceToggler(attendance));
 	};
 
+	const generateTodaysAttendance = () => {
+		dispatch(createAttendanceAction());
+	};
+
 	return (
 		<Sidenav title={'Add Employees Attendance'}>
 			<div>
 				<Container className={classes.mainContainer}>
+					<Button
+						variant='contained'
+						style={{ backgroundColor: 'lightBlue' }}
+						className='text-dark'
+						onClick={generateTodaysAttendance}
+						size='small'>
+						Generate todays attendance
+					</Button>
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
 							<Table
@@ -241,7 +254,7 @@ const AddEmpAttendance = () => {
 															}}
 															size='small'
 															onClick={() => markPresentOrAbsent(el)}>
-															{el.isPresent ? 'Mark Absent' : 'Mark Present'}
+															{el?.isPresent ? 'Mark Absent' : 'Mark Present'}
 														</Button>
 													</div>
 												</StyledTableCell>

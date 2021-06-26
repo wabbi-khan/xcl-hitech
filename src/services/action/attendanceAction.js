@@ -57,10 +57,7 @@ export const createAttendanceAction = (attendance) => async (dispatch) => {
 	});
 
 	try {
-		const res = await axios.post(
-			`${process.env.REACT_APP_API_URL}/attendance`,
-			attendance,
-		);
+		const res = await axios.post(`${process.env.REACT_APP_API_URL}/attendance`);
 
 		console.log(res.data.attendance);
 
