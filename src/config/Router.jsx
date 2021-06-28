@@ -88,6 +88,7 @@ import ExecEmpAssestPerform from '../dashboard/hr/employees performance/executiv
 import PrintExecEmpDetails from '../dashboard/hr/employees performance/executive/exec emp assest perform/PrintExecEmpDetails';
 import PrintJobDescription from '../dashboard/hr/job description/PrintJobDescription';
 import TrainingVenue from '../dashboard/hr/training venue/TrainingVenue';
+import PrintTrainingNeedIdentification from '../dashboard/hr/training need/PrintTrainingNeedIdentification';
 
 
 
@@ -97,6 +98,7 @@ const Router = () => {
             <Router>
                 <Router exact path="/" component={Login}/>
                 <Router exact path="/sidenav" component={Sidenav}/>
+                {/* ===================================================================== */}
                 <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>       //Purchase Module Routes
                 <Router exact path="/purchase/category" component={Category}/>
                 <Router exact path="/purchase/department" component={Department}/>
@@ -113,6 +115,7 @@ const Router = () => {
                 <Router exact path="/purchase/purchase_order_list/print_order_details/:id" component={PrintVendorOrderList}/>
                 <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
                 <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
+                {/* ===================================================================== */}
                 <Router exact path="/storedashboard" component={Store}/>                      //Store Module Routes
                 <Router exact path="/storedashboard/store_categories" component={Categories}/>
                 <Router exact path="/storedashboard/products" component={Products}/>
@@ -136,6 +139,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
+                {/* ===================================================================== */}
                 <Router exact path="/hr_dashboard" component={HR}/>                 //HR Module Routes
                 <Router exact path="/hr/designation" component={Designation}/>
                 <Router exact path="/hr/education" component={Education}/>
@@ -166,19 +170,22 @@ const Router = () => {
                 <Router exact path="/hr/training_venue" component={TrainingVenue}/>
                 <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
                 <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>
+                <Router exact path="/hr/print_training_need_identification" component={PrintTrainingNeedIdentification}/>
                 <Router exact path="/hr/training_plan" component={TrainingPlan}/>
                 <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>
                 <Router exact path="/hr/training_record" component={TrainingRecord}/>
                 <Router exact path="/hr/job_description" component={JobDescription}/>
                 <Router exact path="/hr/print_job_description" component={PrintJobDescription}/>
                 <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
+                {/* ===================================================================== */}
                 <Router exact path="/marketing_dashboard" component={Marketing}/>                 //Marketing/Sales Module Routes
                 <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>
+                {/* ===================================================================== */}
                 <Route
 					exact
 					path='/productionDashboard/weekly-production-plan'
 					component={WeeklyProductionPlan}
-				/>
+                    />
 				<Route
 					exact
 					path='/productionDashboard/weekly-production-plan/add-new-plan'

@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: 0,
         },
     },
-    
+
 }));
 
 const CssTextField = withStyles({
@@ -107,7 +107,7 @@ const ExecEmpAssestPerform = ({ history }) => {
         // await dispatch(fetchEmployeesAction())
     }, [dispatch])
 
-    const { employee, loading, error } = useSelector(state => state.employee)
+    // const { employees, loading, error } = useSelector(state => state.employees)
 
     const onSubmitData = () => {
         console.log('submit');
@@ -130,12 +130,12 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
-                                    />
+                                    {...register("asd", { required: true })}
+                                />
                                 {
                                     errors.category?.type === 'required' && (
                                         <p className='mt-3 text-danger'>Due Date is required</p>
-                                        )
+                                    )
                                 }
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -149,8 +149,8 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
-                                    >
+                                    {...register("asd", { required: true, })}
+                                >
                                     <MenuItem>Production</MenuItem>
                                 </CssTextField>
                                 {
@@ -170,8 +170,8 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
-                                    >
+                                    {...register("asd", { required: true, })}
+                                >
                                     <MenuItem>Manager</MenuItem>
                                 </CssTextField>
                                 {
@@ -191,14 +191,14 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
-                                    >
+                                    {...register("asd", { required: true, })}
+                                >
                                     <MenuItem>Ali</MenuItem>
                                 </CssTextField>
                                 {
                                     errors.category?.type === 'required' && (
                                         <p className='mt-3 text-danger'>Employee Name is required</p>
-                                        )
+                                    )
                                 }
                             </Grid>
                         </Grid>
@@ -214,7 +214,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 />
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -228,7 +228,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                     <MenuItem>6-Months</MenuItem>
                                     <MenuItem>1-Year</MenuItem>
@@ -301,7 +301,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -321,7 +321,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -341,7 +341,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -361,7 +361,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -381,7 +381,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -454,7 +454,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -474,7 +474,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -494,7 +494,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -514,7 +514,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -534,7 +534,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                         // name={material.name}
                                                         // value={material._id}
                                                         // label={material.name}
-                                                        {...register('material')}
+                                                        {...register('asdmaterial')}
                                                     />
                                                 </FormGroup>
                                             </td>
@@ -664,7 +664,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                     // name={material.name}
                                                     // value={material._id}
                                                     // label={material.name}
-                                                    {...register('material')}
+                                                    {...register('asdmaterial')}
                                                 />
                                             </FormGroup>
                                         </td>
@@ -688,7 +688,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                     // name={material.name}
                                                     // value={material._id}
                                                     // label={material.name}
-                                                    {...register('material')}
+                                                    {...register('asdmaterial')}
                                                 />
                                             </FormGroup>
                                         </td>
@@ -712,7 +712,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                     // name={material.name}
                                                     // value={material._id}
                                                     // label={material.name}
-                                                    {...register('material')}
+                                                    {...register('asdmaterial')}
                                                 />
                                             </FormGroup>
                                         </td>
@@ -736,7 +736,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                     // name={material.name}
                                                     // value={material._id}
                                                     // label={material.name}
-                                                    {...register('material')}
+                                                    {...register('asdmaterial')}
                                                 />
                                             </FormGroup>
                                         </td>
@@ -760,7 +760,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                     // name={material.name}
                                                     // value={material._id}
                                                     // label={material.name}
-                                                    {...register('material')}
+                                                    {...register('asdmaterial')}
                                                 />
                                             </FormGroup>
                                         </td>

@@ -10,7 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../purchase/material/Loading';
-
 import { getSingleEmployee } from '../../../services/action/EmployeesAction';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -149,7 +148,7 @@ const PrintEmpDetails = (props) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5'>Employment Form</h5>
+				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>Employment Form</h5>
 			</div>
 			<div className='container-fluid'>
 				<div className='row'>
@@ -823,34 +822,35 @@ const PrintEmpDetails = (props) => {
 					</Grid>
 				</Grid>
 			</div>
-			<div className='container mt-5'>
-				<div className='row'>
-					<div className='col-lg-2 col-md-2 col-sm-2 mt-5'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
-							Applicant Signature
-						</p>
-					</div>
-					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-2 col-md-2 col-sm-2 mt-5'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
-							Interviewer Signature
-						</p>
-					</div>
-					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-2 col-md-2 col-sm-2 mt-5'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
-							Approved By
-						</p>
-					</div>
-					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-2 col-md-2 col-sm-2 mt-5'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
-							Date of Approval
-						</p>
-					</div>
-				</div>
-			</div>
+			<Grid container spacing={1} style={{ marginTop: 150, }} >
+				<Grid item lg={2} md={2} sm={2} xs={2}>
+					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
+						Applicant Signature
+					</p>
+				</Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid item lg={2} md={2} sm={2} xs={2}>
+					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
+						Interviewer Signature
+					</p>
+				</Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid item lg={2} md={2} sm={2} xs={2}>
+					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
+						Approved By
+					</p>
+				</Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid item lg={2} md={2} sm={2} xs={2}>
+					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
+						Date of Approval
+					</p>
+				</Grid>
+			</Grid>
 		</div>
 	);
 };

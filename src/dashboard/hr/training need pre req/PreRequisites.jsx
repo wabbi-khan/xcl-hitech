@@ -1,4 +1,4 @@
-import React, { useState }from 'react'
+import React, { useState } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
@@ -140,13 +140,13 @@ const PreRequisites = () => {
                             type="text"
                             size="small"
                             autocomplete="off"
-                            value={compCriteria.parameter}
-                            onChange={(e) => {
+                            // value={compCriteria.parameter}
+                            // onChange={(e) => {
 
-                                const temp = [...compCriterias]
-                                temp[i].parameter = e.target.value
-                                setCompCriterias([...temp])
-                            }}
+                            //     const temp = [...compCriterias]
+                            //     temp[i].parameter = e.target.value
+                            //     setCompCriterias([...temp])
+                            // }}
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}

@@ -162,8 +162,10 @@ const ViewEmpDetails = (props) => {
 													to={`/hr/employees/hired_employee_details/${unHiredEmployee._id}`}>
 													<Button
 														variant='contained'
-														className='bg-success text-light ml-1'
-														size='small'>
+														className='bg-success text-light'
+														size='small'
+														style={{ marginLeft: 3 }}
+													>
 														Hired
 													</Button>
 												</Link>

@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -115,7 +116,7 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const TrainingNeed = () => {
+const TrainingNeed = ({ history }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -212,6 +213,107 @@ const TrainingNeed = () => {
                                 }
                             </Grid>
                         </Grid>
+                        <div style={{ marginTop: 30, marginBottom: 30 }}>
+                            <hr />
+                        </div>
+                        <Container>
+                            <h4 style={{ textAlign: 'left' }}>Training</h4>
+                            {/* {
+                                academicQualification.map((value, i) => {
+                                    const no = i + 1;
+                                    return ( */}
+                            <Grid container spacing={1} style={{ marginTop: 35 }}>
+                                <Grid item lg={1} md={1}>
+                                    <h5 className={classes.itemHeading}>1.</h5>
+                                </Grid>
+                                <Grid item lg={5} md={5} sm={12} xs={12}>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <h5 style={{ marginBottom: 15 }}>
+                                            Quality Management System
+                                        </h5>
+                                        <p>
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        </p>
+                                        <p>
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField
+                                        id='outlined-basic'
+                                        label='Select Satisfaction'
+                                        variant='outlined'
+                                        type='text'
+                                        size='small'
+                                        name='yearOfPassing'
+                                        select
+                                        // value={value.yearOfPassing}
+                                        // onChange={(e) => {
+                                        //     onChangeAcademicQualification(e, i);
+                                        // }}
+                                        style={{ width: '75%' }}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                    >
+                                        <MenuItem value="0">Excellent</MenuItem>
+                                        <MenuItem value="0">Good</MenuItem>
+                                        <MenuItem value="0">Satisfactory</MenuItem>
+                                        <MenuItem value="0">Poor</MenuItem>
+                                    </CssTextField>
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <CssTextField
+                                        id='outlined-basic'
+                                        label='Training Need'
+                                        variant='outlined'
+                                        type='text'
+                                        size='small'
+                                        name='yearOfPassing'
+                                        select
+                                        // value={value.yearOfPassing}
+                                        // onChange={(e) => {
+                                        //     onChangeAcademicQualification(e, i);
+                                        // }}
+                                        style={{ width: '75%' }}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                    >
+                                        <MenuItem value="">Yes</MenuItem>
+                                        <MenuItem value="">No</MenuItem>
+                                    </CssTextField>
+                                </Grid>
+                            </Grid>
+                            {/* );
+                                })
+                            } */}
+                            {/* {
+                                AddOrderError ? <p className="mt-3 text-danger"> Something Went Wrong. Internal Server Error </p> : null
+                            }
+                            {
+                                AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
+                            } */}
+                        </Container>
+                        <Container>
+                            <Grid container spacing={1} style={{ marginTop: 60 }}>
+                                <Grid item lg={4} md={3} sm={12} xs={12}>
+                                    <CssTextField
+                                        id='outlined-basic'
+                                        label='Recommendations'
+                                        variant='outlined'
+                                        type='text'
+                                        size='small'
+                                        // value={value.yearOfPassing}
+                                        // onChange={(e) => {
+                                        //     onChangeAcademicQualification(e, i);
+                                        // }}
+                                        style={{ width: '100%' }}
+                                        inputProps={{ style: { fontSize: 14 } }}
+                                        InputLabelProps={{ style: { fontSize: 14 } }}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </Container>
                         <div>
                             <Button
                                 variant="outlined"
@@ -219,7 +321,7 @@ const TrainingNeed = () => {
                                 type="submit"
                                 className={classes.addButton}
                                 onClick={() => {
-                                    // history.push('')
+                                    history.push('/hr/print_training_need_identification')
                                 }}
                             >
                                 Add
@@ -227,93 +329,6 @@ const TrainingNeed = () => {
                         </div>
                     </form>
                 </Container>
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table bg-dark text-light" style={{ border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Department</StyledTableCell>
-                                    <StyledTableCell align="center">Designation</StyledTableCell>
-                                    <StyledTableCell align="center">Interviewed By</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-light" align="center">1</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">Arsalan</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">Assistant Manager</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">Assistant Manager</StyledTableCell>
-                                    <StyledTableCell className="text-light" align="center">
-                                        <><Button variant="contained" className="bg-dark text-light" size="small"
-                                            onClick={() => {
-                                                
-                                            }}
-                                            style={{ marginTop: 2 }} >
-                                            Edit
-                                        </Button>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                // onClick={() => deleteMaterial(vendor._id)}
-                                                style={{ marginLeft: 2, marginTop: 2 }}>
-                                                Delete
-                                            </Button></>
-                                    </StyledTableCell>
-                                    {/* <StyledTableCell className="text-dark" align="center">
-                                        {
-                                            !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                vendor.material.map((value, i) => (
-                                                    <span key={i} className="ml-1">{value.name},</span>
-                                                ))
-                                        }
-                                    </StyledTableCell> */}
-                                </StyledTableRow>
-                                {/* {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                !vendors || !vendors.length ? <p>Not Found</p> :
-                                                    vendors.map((vendor, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteMaterial(vendor._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                    </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                            )
-                                } */}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
             </div>
         </Sidenav>
     )

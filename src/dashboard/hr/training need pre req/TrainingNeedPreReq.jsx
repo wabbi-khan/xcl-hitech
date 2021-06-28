@@ -124,7 +124,7 @@ const TrainingNeedPreReq = () => {
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                        // {...register("", { required: true })}
+                            {...register("name", { required: true })}
                         >
                             <MenuItem value="0">Production</MenuItem>
                         </CssTextField>
@@ -141,7 +141,7 @@ const TrainingNeedPreReq = () => {
                             className={classes.inputFieldStyle1}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                        // {...register("", { required: true })}
+                            {...register("name", { required: true })}
                         >
                             <MenuItem value="0">Manager</MenuItem>
                         </CssTextField>

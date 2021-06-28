@@ -91,6 +91,7 @@ import ExecEmpAssestPerform from './dashboard/hr/employees performance/executive
 import PrintExecEmpDetails from './dashboard/hr/employees performance/executive/exec emp assest perform/PrintExecEmpDetails';
 import PrintJobDescription from './dashboard/hr/job description/PrintJobDescription';
 import TrainingVenue from './dashboard/hr/training venue/TrainingVenue';
+import PrintTrainingNeedIdentification from './dashboard/hr/training need/PrintTrainingNeedIdentification';
 
 dotenv.config();
 
@@ -110,6 +111,7 @@ function App() {
 			<Switch>
 				<Route exact path='/' component={Login} />
 				<Route exact path='/dashboard' component={Dashboard} />
+                {/* ===================================================================== */}
 				<Route exact path='/purchasedashboard' component={PurchaseDashboard} />
 				<Route exact path='/purchase/category' component={Category} />
 				<Route exact path='/purchase/department' component={Department} />
@@ -166,6 +168,7 @@ function App() {
 					path='/purchase/purchase_requisition/print_purchase_requisition'
 					component={PurchaseReqPrint}
 				/>
+                {/* ===================================================================== */}
 				<Route exact path='/storedashboard' component={Store} />
 				<Route exact path='/storedashboard/products' component={Products} />
 				<Route
@@ -264,6 +267,7 @@ function App() {
 					path='/storedashboard/stock_assessment_report'
 					component={StockAssessReport}
 				/>
+                {/* ===================================================================== */}
 				<Route exact path='/hr_dashboard' component={HR} />
 				<Route exact path='/hr/designation' component={Designation} />
 				<Route exact path='/hr/education' component={Education} />
@@ -366,6 +370,11 @@ function App() {
 					path='/hr/training_need_identification'
 					component={TrainingNeed}
 				/>
+				<Route
+					exact
+					path='/hr/print_training_need_identification'
+					component={PrintTrainingNeedIdentification}
+				/>
 				<Route exact path='/hr/training_plan' component={TrainingPlan} />
 				<Route
 					exact
@@ -376,14 +385,14 @@ function App() {
 				<Route exact path='/hr/job_description' component={JobDescription} />
 				<Route exact path='/hr/print_job_description' component={PrintJobDescription} />
 				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />
-
+                {/* ===================================================================== */}
 				<Route exact path='/marketing_dashboard' component={Marketing} />
 				<Route
 					exact
 					path='/marketing_dashboard/order_booking_form'
 					component={OrderBookingForm}
 				/>
-
+                {/* ===================================================================== */}
 				<Route exact path='/productionDashboard' component={ProductionDashboard} />
 				<Route exact path='/productionDashboard/machines' component={Machines} />
 				<Route
