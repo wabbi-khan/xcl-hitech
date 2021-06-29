@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { updateTraining } from '../../../services/action/TrainingAction';
+
 const useStyles = makeStyles((theme) => ({
 	modal: {
 		display: 'flex',

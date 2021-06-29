@@ -165,10 +165,10 @@ const Training = () => {
 							{...register('name', { required: true })}
 						/>
 						{
-                            errors.name?.type === 'required' && (
-                                <p className='mt-3 text-danger'>Training name must be required</p>
-                            )
-                        }
+							errors.name?.type === 'required' && (
+								<p className='mt-3 text-danger'>Training name must be required</p>
+							)
+						}
 						{/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
@@ -185,7 +185,9 @@ const Training = () => {
 							</Button>
 						</div>
 					</form>
-					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+					{
+						error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
+					}
 				</Container>
 
 				<EditTraining show={open} handler={handleClose} training={training} />
