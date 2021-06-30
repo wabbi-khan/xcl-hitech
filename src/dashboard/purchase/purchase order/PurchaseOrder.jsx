@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import axios from 'axios';
 import { getVendorAction } from '../../../services/action/VendorAction';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseOrderAction } from '../../../services/action/OrdersAction';
 
 // import MaterialAddRow from './commponent/materialAddRow'
@@ -192,9 +193,11 @@ const PurchaseOrder = ({ history }) => {
 
 	useEffect(async () => {
 		await dispatch(getVendorAction('verified=true'));
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { vendors } = useSelector((state) => state.vendors);
+	const { departments } = useSelector((state) => state.departments);
 
 	const addMoreFunc = () => {
 		setItemCounter([
@@ -221,7 +224,6 @@ const PurchaseOrder = ({ history }) => {
 	};
 
 	const onSubmitDate = async (props) => {
-		console.log({ ...props, materials: ItemCounter });
 		try {
 			dispatch(createPurchaseOrderAction({ ...props, materials: ItemCounter }));
 			setAddOrderSuccess(true);
@@ -303,6 +305,30 @@ const PurchaseOrder = ({ history }) => {
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
+									label='Department'
+									variant='outlined'
+									type='text'
+									size='small'
+									select
+									className={classes.inputFieldStyle1}
+									inputProps={{ style: { fontSize: 14 } }}
+									{...register('department', { required: true })}
+									InputLabelProps={{ style: { fontSize: 14 } }}>
+									{departments &&
+										departments.map((el) => (
+											<MenuItem key={el._id} value={el._id}>
+												{el.name}
+											</MenuItem>
+										))}
+								</CssTextField>
+							</Grid>
+						</Grid>
+					</Container>
+					<Container className={classes.mainContainer}>
+						<Grid container spacing={1} style={{ marginTop: 15 }}>
+							<Grid item lg={3} md={3} sm={12} xs={12}>
+								<CssTextField
+									id='outlined-basic'
 									label='Your Reference'
 									variant='outlined'
 									type='text'
@@ -316,10 +342,6 @@ const PurchaseOrder = ({ history }) => {
 									<p className='mt-1 text-danger'>Reference is required</p>
 								)}
 							</Grid>
-						</Grid>
-					</Container>
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'

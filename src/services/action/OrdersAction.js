@@ -5,6 +5,7 @@ import {
 	PURCHASE_ORDER_FAIL,
 	PURCHASE_ORDER_CREATE_SUCCESS,
 	PURCHASE_ORDER_UPDATE_SUCCESS,
+	PURCHASE_ORDER_SINGLE_FETCH_SUCCESS,
 } from '../constants/OrderConstant';
 
 export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
@@ -12,13 +13,12 @@ export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
 		type: PURCHASE_ORDER_REQUEST,
 	});
 
-
 	try {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/order${query ? `?${query}` : ''}`,
 		);
 
-		console.log(data.data);
+		console.log(data);
 
 		dispatch({
 			type: PURCHASE_ORDER_FETCH_SUCCESS,
@@ -38,8 +38,10 @@ export const fetchSinglePurchaseOrderAction = (_id) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/order/id/${_id}`,
 		);
+
+		console.log(data);
 		dispatch({
-			type: PURCHASE_ORDER_FETCH_SUCCESS,
+			type: PURCHASE_ORDER_SINGLE_FETCH_SUCCESS,
 			payload: data.order,
 		});
 	} catch (err) {

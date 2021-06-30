@@ -4,6 +4,7 @@ import {
 	PURCHASE_ORDER_FETCH_SUCCESS,
 	PURCHASE_ORDER_REQUEST,
 	PURCHASE_ORDER_UPDATE_SUCCESS,
+	PURCHASE_ORDER_SINGLE_FETCH_SUCCESS,
 } from '../constants/OrderConstant';
 
 export const fetchPurchaseOrderReducer = (state = { orders: [] }, action) => {
@@ -19,6 +20,12 @@ export const fetchPurchaseOrderReducer = (state = { orders: [] }, action) => {
 				...state,
 				loading: false,
 				error: action.payload,
+			};
+		case PURCHASE_ORDER_SINGLE_FETCH_SUCCESS:
+			return {
+				...state,
+				loading: false,
+				order: action.payload,
 			};
 		case PURCHASE_ORDER_FETCH_SUCCESS:
 			return {

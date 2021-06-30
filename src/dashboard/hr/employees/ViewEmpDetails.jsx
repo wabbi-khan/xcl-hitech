@@ -209,7 +209,7 @@ const ViewEmpDetails = (props) => {
 											{employee.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{employee.officeUse.jobTitle}
+											{employee?.finalDesignation?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{employee.officeUse.department.name}

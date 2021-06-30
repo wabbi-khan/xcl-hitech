@@ -127,13 +127,11 @@ const FullOrderDetails = (props) => {
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
-
 	useEffect(async () => {
 		await dispatch(fetchSinglePurchaseOrderAction(id));
 	}, [dispatch]);
 
-	const { orders, loading, error } = useSelector((state) => state.orders);
-	console.log(orders);
+	const { order, loading, error } = useSelector((state) => state.orders);
 
 	return (
 		<Sidenav title={'Order Details'}>
@@ -143,7 +141,7 @@ const FullOrderDetails = (props) => {
 						<Loading />
 					) : error ? (
 						<MaterialError />
-					) : !orders || !orders.vendor ? (
+					) : !order || !order.vendor ? (
 						<h5>Not Found</h5>
 					) : (
 						<>
@@ -157,7 +155,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										autocomplete='off'
 										disabled
-										value={orders.vendor.name}
+										value={order.vendor.name}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
@@ -173,7 +171,7 @@ const FullOrderDetails = (props) => {
 										autocomplete='off'
 										size='small'
 										disabled
-										value={orders.poNum}
+										value={order.poNum}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -188,7 +186,7 @@ const FullOrderDetails = (props) => {
 										autocomplete='off'
 										size='small'
 										disabled
-										value={orders.prNum}
+										value={order.prNum}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -203,7 +201,7 @@ const FullOrderDetails = (props) => {
 										autocomplete='off'
 										size='small'
 										disabled
-										value={orders.paymentTerm}
+										value={order.paymentTerm}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -219,7 +217,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										autocomplete='off'
 										disabled
-										value={orders.paymentSubject}
+										value={order.paymentSubject}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -234,7 +232,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										disabled
 										className={classes.inputFieldStyle}
-										value={orders.reference}
+										value={order.reference}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 								</Grid>
@@ -248,7 +246,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										disabled
 										className={classes.inputFieldStyle}
-										value={orders.date}
+										value={order.date}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 								</Grid>
@@ -262,7 +260,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										disabled
 										className={classes.inputFieldStyle}
-										value={orders.totalQuantity}
+										value={order.totalQuantity}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 								</Grid>
@@ -284,10 +282,10 @@ const FullOrderDetails = (props) => {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											{!orders.materials || !orders.materials.length ? (
+											{!order.materials || !order.materials.length ? (
 												<span>Material Not Found</span>
 											) : (
-												orders.materials.map((material, i) => (
+												order.materials.map((material, i) => (
 													<StyledTableRow key={i}>
 														<StyledTableCell className='text-dark' align='center'>
 															{i + 1}
@@ -322,7 +320,7 @@ const FullOrderDetails = (props) => {
 								className={classes.printBtn}
 								onClick={() => {
 									history.push(
-										`/purchase/purchase_order_list/print_order_details/${orders._id}`,
+										`/purchase/purchase_order_list/print_order_details/${order._id}`,
 									);
 								}}>
 								Print
