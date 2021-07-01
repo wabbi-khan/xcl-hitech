@@ -156,7 +156,7 @@ const EditTrainingPlan = (props) => {
                                 training ? ( */}
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <Grid container spacing={1}>
-                                    <Grid lg={12} md={12} sm={12} className="mt-3">
+                                    <Grid lg={12} md={12} sm={12} className="mt-2">
                                         <CssTextField
                                             id='outlined-basic'
                                             label='Training Topic'

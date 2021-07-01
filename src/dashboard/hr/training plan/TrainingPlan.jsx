@@ -15,23 +15,24 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import EditTrainingPlan from './EditTrainingPlan';
+import { Link } from 'react-router-dom'
 
 const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+    },
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
@@ -107,17 +108,13 @@ const CssTextField = withStyles({
 
 })(TextField);
 
-const TrainingPlan = () => {
+const TrainingPlan = ({ history }) => {
     const classes = useStyles();
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
-    const openEvalPage = () => {
-        const url = '/dashboard';
-        window.open(url, '_blank');
-    }
 
     useEffect(async () => {
         // await dispatch(fetchDesignationAction())
@@ -140,20 +137,20 @@ const TrainingPlan = () => {
     }
 
     const deleteCategory = async (params) => {
-		// dispatch(deleteTraining(params));
-	};
-	// const [training, setTraining] = useState({});
+        // dispatch(deleteTraining(params));
+    };
+    // const [training, setTraining] = useState({});
 
-	const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
-	const handleClose = (props) => {
-		setOpen(props);
-	};
+    const handleClose = (props) => {
+        setOpen(props);
+    };
 
-	const handleOpen = async (training) => {
-		// setTraining(training);
-		setOpen(true);
-	};
+    const handleOpen = async (training) => {
+        // setTraining(training);
+        setOpen(true);
+    };
 
     return (
         <Sidenav title={'Training Plan'}>
@@ -300,16 +297,14 @@ const TrainingPlan = () => {
                                 color="primary"
                                 type="submit"
                                 className={classes.addButton}
-                                onClick={() => {
-                                    // history.push('/hr/print_training_need_identification')
-                                }}
+                            // onClick={() => {}}
                             >
                                 Add Plan
                             </Button>
                         </div>
                     </form>
                 </Container>
-				<EditTrainingPlan show={open} handler={handleClose}  />
+                <EditTrainingPlan show={open} handler={handleClose} />
 
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
@@ -369,8 +364,18 @@ const TrainingPlan = () => {
                                                 variant='contained'
                                                 className='bg-dark text-light'
                                                 size='small'
-                                                onClick={() => handleOpen()}
+                                                onClick={() =>
+                                                    history.push('/hr/print_training_plan')
+                                                }
                                                 style={{ marginTop: 2 }}>
+                                                View
+                                            </Button>
+                                            <Button
+                                                variant='contained'
+                                                className='bg-dark text-light'
+                                                size='small'
+                                                onClick={() => handleOpen()}
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
                                                 Edit
                                             </Button>
                                             <Button
@@ -387,17 +392,22 @@ const TrainingPlan = () => {
                                                 size='small'
                                                 className="bg-primary"
                                                 // onClick={() => handleOpen(training)}
-                                                style={{ marginLeft: 3, marginTop: 2 }}>
+                                                style={{ marginLeft: 2, marginTop: 2 }}>
                                                 Start
                                             </Button>
-                                            <Button
-                                                variant='contained'
-                                                className='text-light'
-                                                size='small'
-                                                onClick={() => openEvalPage()}
-                                                style={{ marginLeft: 2, marginTop: 2, backgroundColor: 'rgb(34, 161, 154)' }}>
-                                                Evaluate
-                                            </Button>
+                                            <Link
+                                                to='/hr/training_attendance'
+                                                target='_blank'
+                                            >
+                                                <Button
+                                                    variant='contained'
+                                                    className='text-light'
+                                                    size='small'
+                                                    style={{ marginLeft: 2, marginTop: 2, backgroundColor: 'rgb(34, 161, 154)' }}
+                                                >
+                                                    Attendance
+                                                </Button>
+                                            </Link>
                                         </>
                                     </StyledTableCell>
                                 </StyledTableRow>

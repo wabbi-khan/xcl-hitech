@@ -92,6 +92,8 @@ import PrintExecEmpDetails from './dashboard/hr/employees performance/executive/
 import PrintJobDescription from './dashboard/hr/job description/PrintJobDescription';
 import TrainingVenue from './dashboard/hr/training venue/TrainingVenue';
 import PrintTrainingNeedIdentification from './dashboard/hr/training need/PrintTrainingNeedIdentification';
+import PrintTrainingPlan from './dashboard/hr/training plan/PrintTrainingPlan';
+import PrintTrainingAttendance from './dashboard/hr/training attendance/PrintTrainingAttendance';
 
 dotenv.config();
 
@@ -376,10 +378,16 @@ function App() {
 					component={PrintTrainingNeedIdentification}
 				/>
 				<Route exact path='/hr/training_plan' component={TrainingPlan} />
+				<Route exact path='/hr/print_training_plan' component={PrintTrainingPlan} />
 				<Route
 					exact
 					path='/hr/training_attendance'
 					component={TrainingAttendance}
+				/>
+				<Route
+					exact
+					path='/hr/print_training_attendance'
+					component={PrintTrainingAttendance}
 				/>
 				<Route exact path='/hr/training_record' component={TrainingRecord} />
 				<Route exact path='/hr/job_description' component={JobDescription} />
