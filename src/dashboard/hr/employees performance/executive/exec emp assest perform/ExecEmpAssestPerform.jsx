@@ -286,7 +286,67 @@ const ExecEmpAssestPerform = ({ history }) => {
                                         <tr>
                                             <td scope="row"></td>
                                             <td className="text-center">
-                                                <FormGroup row className="ml-5">
+                                                <FormGroup row style={{ marginLeft: 65 }}>
+                                                    <FormControlLabel
+                                                        // key={i}
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ color: '#22A19A' }}
+                                                                color="default"
+                                                                icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+                                                                checkedIcon={<CheckBoxIcon fontSize='small' />}
+                                                            // onChange={(e) => getMaterials(e)}
+                                                            />
+                                                        }
+                                                        // name={material.name}
+                                                        // value={material._id}
+                                                        // label={material.name}
+                                                        {...register('asdmaterial')}
+                                                    />
+                                                </FormGroup>
+                                            </td>
+                                            <td className="text-center">
+                                                <FormGroup row style={{ marginLeft: 100 }}>
+                                                    <FormControlLabel
+                                                        // key={i}
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ color: '#22A19A' }}
+                                                                color="default"
+                                                                icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+                                                                checkedIcon={<CheckBoxIcon fontSize='small' />}
+                                                            // onChange={(e) => getMaterials(e)}
+                                                            />
+                                                        }
+                                                        // name={material.name}
+                                                        // value={material._id}
+                                                        // label={material.name}
+                                                        {...register('asdmaterial')}
+                                                    />
+                                                </FormGroup>
+                                            </td>
+                                            <td className="text-center">
+                                                <FormGroup row style={{ marginLeft: 90 }}>
+                                                    <FormControlLabel
+                                                        // key={i}
+                                                        control={
+                                                            <Checkbox
+                                                                style={{ color: '#22A19A' }}
+                                                                color="default"
+                                                                icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+                                                                checkedIcon={<CheckBoxIcon fontSize='small' />}
+                                                            // onChange={(e) => getMaterials(e)}
+                                                            />
+                                                        }
+                                                        // name={material.name}
+                                                        // value={material._id}
+                                                        // label={material.name}
+                                                        {...register('asdmaterial')}
+                                                    />
+                                                </FormGroup>
+                                            </td>
+                                            <td className="text-center">
+                                                <FormGroup row style={{ marginLeft: 90 }}>
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -307,66 +367,6 @@ const ExecEmpAssestPerform = ({ history }) => {
                                             </td>
                                             <td className="text-center">
                                                 <FormGroup row style={{ marginLeft: 80 }}>
-                                                    <FormControlLabel
-                                                        // key={i}
-                                                        control={
-                                                            <Checkbox
-                                                                style={{ color: '#22A19A' }}
-                                                                color="default"
-                                                                icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-                                                                checkedIcon={<CheckBoxIcon fontSize='small' />}
-                                                            // onChange={(e) => getMaterials(e)}
-                                                            />
-                                                        }
-                                                        // name={material.name}
-                                                        // value={material._id}
-                                                        // label={material.name}
-                                                        {...register('asdmaterial')}
-                                                    />
-                                                </FormGroup>
-                                            </td>
-                                            <td className="text-center">
-                                                <FormGroup row style={{ marginLeft: 80 }}>
-                                                    <FormControlLabel
-                                                        // key={i}
-                                                        control={
-                                                            <Checkbox
-                                                                style={{ color: '#22A19A' }}
-                                                                color="default"
-                                                                icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-                                                                checkedIcon={<CheckBoxIcon fontSize='small' />}
-                                                            // onChange={(e) => getMaterials(e)}
-                                                            />
-                                                        }
-                                                        // name={material.name}
-                                                        // value={material._id}
-                                                        // label={material.name}
-                                                        {...register('asdmaterial')}
-                                                    />
-                                                </FormGroup>
-                                            </td>
-                                            <td className="text-center">
-                                                <FormGroup row style={{ marginLeft: 80 }}>
-                                                    <FormControlLabel
-                                                        // key={i}
-                                                        control={
-                                                            <Checkbox
-                                                                style={{ color: '#22A19A' }}
-                                                                color="default"
-                                                                icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-                                                                checkedIcon={<CheckBoxIcon fontSize='small' />}
-                                                            // onChange={(e) => getMaterials(e)}
-                                                            />
-                                                        }
-                                                        // name={material.name}
-                                                        // value={material._id}
-                                                        // label={material.name}
-                                                        {...register('asdmaterial')}
-                                                    />
-                                                </FormGroup>
-                                            </td>
-                                            <td className="text-center">
-                                                <FormGroup row className="ml-5">
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -389,7 +389,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="text-left mt-4">
+                            <div className="text-left mt-4" style={{ textAlign: 'left' }}>
                                 <CssTextField id="outlined-basic"
                                     label="Comments/Recommendations"
                                     variant="outlined"
@@ -439,7 +439,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                         <tr>
                                             <td scope="row"></td>
                                             <td className="text-center">
-                                                <FormGroup row className="ml-5">
+                                                <FormGroup row style={{ marginLeft: 65 }}>
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -459,7 +459,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                 </FormGroup>
                                             </td>
                                             <td className="text-center">
-                                                <FormGroup row style={{ marginLeft: 80 }}>
+                                                <FormGroup row style={{ marginLeft: 100 }}>
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -479,7 +479,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                 </FormGroup>
                                             </td>
                                             <td className="text-center">
-                                                <FormGroup row style={{ marginLeft: 80 }}>
+                                                <FormGroup row style={{ marginLeft: 90 }}>
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -499,7 +499,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                 </FormGroup>
                                             </td>
                                             <td className="text-center">
-                                                <FormGroup row style={{ marginLeft: 80 }}>
+                                                <FormGroup row style={{ marginLeft: 90 }}>
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -519,7 +519,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                                 </FormGroup>
                                             </td>
                                             <td className="text-center">
-                                                <FormGroup row className="ml-5">
+                                                <FormGroup row style={{ marginLeft: 70 }}>
                                                     <FormControlLabel
                                                         // key={i}
                                                         control={
@@ -542,7 +542,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="text-left mt-4">
+                            <div className="text-left mt-4" style={{ textAlign: 'left' }}>
                                 <CssTextField id="outlined-basic"
                                     label="Comments/Recommendations"
                                     variant="outlined"
@@ -803,7 +803,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                         <div style={{ marginTop: 30, marginBottom: 30 }}>
                             <hr />
                         </div>
-                        <div className="text-left mt-4">
+                        <div className="text-left mt-4" style={{ textAlign: 'left' }}>
                             <CssTextField id="outlined-basic"
                                 label="Suggestions"
                                 variant="outlined"
@@ -821,7 +821,7 @@ const ExecEmpAssestPerform = ({ history }) => {
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             />
                         </div>
-                        <div className="text-left mt-4">
+                        <div className="text-left mt-4" style={{ textAlign: 'left' }}>
                             <CssTextField id="outlined-basic"
                                 label="Recommendations"
                                 variant="outlined"

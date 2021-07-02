@@ -177,7 +177,7 @@ const Router = () => {
                 <Router exact path="/hr/print_training_plan" component={PrintTrainingPlan}/>
                 <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>
                 <Router exact path="/hr/print_training_attendance" component={PrintTrainingAttendance}/>
-                <Router exact path="/hr/training_record" component={TrainingRecord}/>
+                <Router exact path="/hr/training_record_and_evaluation" component={TrainingRecord}/>
                 <Router exact path="/hr/job_description" component={JobDescription}/>
                 <Router exact path="/hr/print_job_description" component={PrintJobDescription}/>
                 <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>

@@ -389,7 +389,7 @@ function App() {
 					path='/hr/print_training_attendance'
 					component={PrintTrainingAttendance}
 				/>
-				<Route exact path='/hr/training_record' component={TrainingRecord} />
+				<Route exact path='/hr/training_record_and_evaluation' component={TrainingRecord} />
 				<Route exact path='/hr/job_description' component={JobDescription} />
 				<Route exact path='/hr/print_job_description' component={PrintJobDescription} />
 				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />

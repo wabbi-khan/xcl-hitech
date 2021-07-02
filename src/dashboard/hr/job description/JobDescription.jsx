@@ -102,7 +102,7 @@ const JobDescription = ({ history }) => {
         // await dispatch(fetchEmployeesAction())
     }, [dispatch])
 
-    const { employee, loading, error } = useSelector(state => state.employee)
+    // const { employee, loading, error } = useSelector(state => state.employee)
 
     const onSubmitData = () => {
         console.log('submit');
@@ -126,7 +126,7 @@ const JobDescription = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 >
                                     <MenuItem>Purchase</MenuItem>
                                 </CssTextField>
@@ -147,7 +147,7 @@ const JobDescription = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 >
                                     <MenuItem>Manager</MenuItem>
                                 </CssTextField>
@@ -168,7 +168,7 @@ const JobDescription = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                     <MenuItem>Arsalan</MenuItem>
                                 </CssTextField>
@@ -189,7 +189,7 @@ const JobDescription = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                     <MenuItem>Factory Manager</MenuItem>
                                 </CssTextField>
@@ -212,7 +212,7 @@ const JobDescription = ({ history }) => {
                                     style={{ width: '75%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 >
                                     <MenuItem value="0">Store In-Charege</MenuItem>
                                 </CssTextField>
@@ -223,7 +223,7 @@ const JobDescription = ({ history }) => {
                                 }
                             </Grid>
                         </Grid>
-                        <div className="text-left mt-5 ml-5">
+                        <div className="container mt-5" style={{ textAlign: 'left' }}>
                             <h5 style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Responsibilities</h5>
                             <p>
                                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, eaque cupiditate magnam repellendus
@@ -235,7 +235,7 @@ const JobDescription = ({ history }) => {
                                 <hr />
                             </div>
                         </div>
-                        <div className="text-left mt-5 ml-5">
+                        <div className="container mt-5" style={{ textAlign: 'left' }}>
                             <h5 style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Authorities</h5>
                             <p>
                                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, eaque cupiditate magnam repellendus

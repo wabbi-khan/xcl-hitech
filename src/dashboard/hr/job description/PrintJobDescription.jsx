@@ -104,29 +104,30 @@ const PrintJobDescription = () => {
                 <h5 className="mt-4" style={{ textDecoration: 'underline', fontWeight: 'bold', marginBottom: 40 }}>JOB DESCRIPTION</h5>
             </div>
             <div className="container-fluid" >
-                <div className="row " style={{ marginTop: 15, textAlign: 'left' }}>
-                    <div className="col-lg-4 col-md-4 col-sm-6 mt-4">
-                        <div className="row no-gutters mt-2">
-                            <div className="col-lg-6 col-md-6 col-sm-6">
-                                <p>Date</p>
-                            </div>
-                            <div className="col-lg-6 col-md-6 col-sm-6">
+                <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
+                    <Grid item lg={4} md={4} sm={4} xs={4}>
+                        <Grid container spacing={1} >
+                            <Grid item lg={6} md={6} sm={6} xs={6}>
+                                <p style={{ fontWeight: 'bold', marginLeft: '10px' }}>Date:</p>
+                            </Grid>
+                            <Grid item lg={6} md={6} sm={6} xs={6}>
                                 <p>
                                     {fullDate}
-                                    <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+                                    <hr style={{ borderTop: '3px double black', }} />
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="offset-lg-6 col-lg-2 col-md-2 mt-4" id="printBtn">
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+                    <Grid item lg={2} md={2} sm={2} xs={2}>
                         <Button variant="contained" size="small"
                             className="bg-dark text-light"
                             onClick={() => window.print()}
                         >
                             Print
                         </Button>
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </div>
             <div className={classes.table}>
                 <div className="table ml-auto mr-auto mt-4">
@@ -138,9 +139,7 @@ const PrintJobDescription = () => {
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p>Arsalan Khan</p>
-                            <hr
-                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
                         </Grid>
                         <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
@@ -150,9 +149,7 @@ const PrintJobDescription = () => {
                         </Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
                             <p>Manager</p>
-                            <hr
-                                style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
                         </Grid>
                     </Grid>
                     <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
@@ -163,9 +160,7 @@ const PrintJobDescription = () => {
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p>Purchase</p>
-                            <hr
-                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
                         </Grid>
                         <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
@@ -175,9 +170,7 @@ const PrintJobDescription = () => {
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p>2-2-18</p>
-                            <hr
-                                style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
                         </Grid>
                     </Grid>
                     <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
@@ -188,9 +181,7 @@ const PrintJobDescription = () => {
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p>6-Months</p>
-                            <hr
-                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
                         </Grid>
                     </Grid>
                     {/* <thead class="thead-dark">
@@ -207,30 +198,40 @@ const PrintJobDescription = () => {
                 </div>
                 <div className={classes.mainContainer1}>
                     <h5 align="left" style={{ marginTop: 60 }}>Responsibilities</h5>
-                    <p style={{ width: '50%', marginTop: 15 }}>
+                    <p style={{ width: '75%', marginTop: 15 }}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit illum iure voluptatibus laboriosam
                     </p>
                 </div>
                 <div className={classes.mainContainer1}>
                     <h5 align="left" style={{ marginTop: 60 }}>Authorities</h5>
-                    <p style={{ width: '50%', marginTop: 15 }}>
+                    <p style={{ width: '75%', marginTop: 15 }}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit illum iure voluptatibus laboriosam
                     </p>
                 </div>
             </div>
-            <div className="container" style={{ marginTop: 170 }}>
+            <Grid container spacing={1} style={{ marginTop: 220 }}>
+                <Grid item lg={3} md={3} sm={3} xs={3} style={{ marginLeft: 40 }}>
+                    <hr style={{ borderTop: '3px double black' }} />
+                    <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Written & Signed By: <br />Factory Manager</p>
+                </Grid>
+                <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                <Grid item lg={3} md={3} sm={3} xs={3}>
+                    <hr style={{ borderTop: '3px double black' }} />
+                    <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Approved & Signed By: <br />CEO</p>
+                </Grid>
+                <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                <Grid item lg={3} md={3} sm={3} xs={3}>
+                    <hr style={{ borderTop: '3px double black' }} />
+                    <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Copy To: 1. Employee, <br /> 2. Personal File</p>
+                </Grid>
+            </Grid>
+            <div className="container" >
                 <div className="row">
                     <div className="col-lg-3 col-md-3 col-sm-3 mt-5">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Written & Signed By: <br />Factory Manager</p>
                     </div>
                     <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Approved & Signed By: <br />CEO</p>
                     </div>
                     <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Copy To: 1. Employee, <br /> 2. Personal File</p>
                     </div>
                 </div>
             </div>

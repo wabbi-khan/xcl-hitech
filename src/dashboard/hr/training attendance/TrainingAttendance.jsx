@@ -121,7 +121,7 @@ const TrainingAttendance = ({ history }) => {
                     <form action="" onSubmit={handleSubmit(onSubmitDate)}>
                         {/* Material category selector */}
                         <Grid container spacing={1}>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <Grid item lg={8} md={8} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Select Subject"
                                     variant="outlined"
@@ -142,6 +142,21 @@ const TrainingAttendance = ({ history }) => {
                                     )
                                 }
                             </Grid>
+                            <Grid item lg={3} md={3} sm={3} xs={3}></Grid>
+                            <Grid item lg={1} md={1} sm={1} xs={1}>
+                                <Button
+                                    variant='contained'
+                                    className='bg-dark text-light'
+                                    size='small'
+                                    onClick={() => 
+                                        history.push('/hr/print_training_attendance')
+                                    }
+                                    style={{ marginTop: 2 }}>
+                                    Print
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={1} style={{ marginTop: 10, }}>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
                                     label="Tutor"
@@ -180,19 +195,6 @@ const TrainingAttendance = ({ history }) => {
                                         <p className='mt-3 text-danger'>Date is required</p>
                                     )
                                 }
-                            </Grid>
-                            <Grid item lg={2} md={2} sm={2} xs={2}></Grid>
-                            <Grid item lg={1} md={1} sm={1} xs={1}>
-                                <Button
-                                    variant='contained'
-                                    className='bg-dark text-light'
-                                    size='small'
-                                    onClick={() => 
-                                        history.push('/hr/print_training_attendance')
-                                    }
-                                    style={{ marginTop: 2 }}>
-                                    Print
-                                </Button>
                             </Grid>
                         </Grid>
                         {/* {
