@@ -111,7 +111,7 @@ const JobDescription = ({ history }) => {
     return (
         <Sidenav title={'Job Description'}>
             <div>
-                <div className="text-center">
+                <div className="text-center mt-3">
                     <form onSubmit={handleSubmit(onSubmitData)}>
                         {/* employee ? ( */}
                         <Grid container spacing={1}>
@@ -159,7 +159,7 @@ const JobDescription = ({ history }) => {
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField id="outlined-basic"
-                                    label="Select Empployee Name"
+                                    label="Select Employee Name"
                                     variant="outlined"
                                     type="text"
                                     autocomplete="off"

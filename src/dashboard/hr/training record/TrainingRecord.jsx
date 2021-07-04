@@ -5,7 +5,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -14,6 +13,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import FormGroup from '@material-ui/core/FormGroup';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -66,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
     dataTable: {
         marginTop: 70,
-
+        textAlign: 'center'
     },
 }));
 
@@ -89,8 +93,6 @@ const CssTextField = withStyles({
 
 const TrainingRecord = ({ history }) => {
     const classes = useStyles();
-
-    const { register, handleSubmit, formState: { errors } } = useForm()
 
     const dispatch = useDispatch()
 
@@ -118,57 +120,93 @@ const TrainingRecord = ({ history }) => {
         <Sidenav title={'Training Record and Evaluation'}>
             <div>
                 <Container className={classes.mainContainer}>
-                    <form action="" onSubmit={handleSubmit(onSubmitDate)}>
-                        {/* Material category selector */}
-                        <Grid container spacing={1}>
-                            <Grid item lg={8} md={8} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Select Training"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    select
-                                    autocomplete="off"
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("asd", { required: true })}
-                                >
-                                    <MenuItem value="0">Training on Purchase</MenuItem>
-                                </CssTextField>
-                                {
-                                    errors.category?.type === 'required' && (
-                                        <p className='mt-3 text-danger'>Training Name is required</p>
-                                    )
-                                }
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Date"
-                                    variant="outlined"
-                                    type="text"
-                                    autocomplete="off"
-                                    size="small"
-                                    disabled
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("asd", { required: true, })}
-                                />
-                                {
-                                    errors.category?.type === 'required' && (
-                                        <p className='mt-3 text-danger'>Date is required</p>
-                                    )
-                                }
-                            </Grid>
+                    {/* Material category selector */}
+                    <Grid container spacing={1}>
+                        <Grid item lg={8} md={8} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Select Training"
+                                variant="outlined"
+                                type="text"
+                                size="small"
+                                select
+                                autocomplete="off"
+                                style={{ width: '100%' }}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="0">Training on Purchase</MenuItem>
+                            </CssTextField>
                         </Grid>
-                        {/* {
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Date"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                disabled
+                                style={{ width: '100%' }}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={1} style={{ marginTop: 12 }}>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Evaluation Method"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                select
+                                style={{ width: '100%' }}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="0">Interview</MenuItem>
+                                <MenuItem value="0">Written Test</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Training Evaluation Result"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                select
+                                style={{ width: '100%' }}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="0">Satisfactory</MenuItem>
+                                <MenuItem value="0">Unsatisfactory</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}>
+                            <CssTextField id="outlined-basic"
+                                label="Evaluated By"
+                                variant="outlined"
+                                type="text"
+                                autocomplete="off"
+                                size="small"
+                                select
+                                style={{ width: '100%' }}
+                                inputProps={{ style: { fontSize: 14 } }}
+                                InputLabelProps={{ style: { fontSize: 14 } }}
+                            >
+                                <MenuItem value="0">QC Manager</MenuItem>
+                            </CssTextField>
+                        </Grid>
+                    </Grid>
+                    {/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :
                                     designations.map(designation => (
                                         <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
                                     ))
                             } */}
-                        {/* <div>
+                    {/* <div>
                             <Button
                                 variant="outlined"
                                 color="primary"
@@ -181,10 +219,7 @@ const TrainingRecord = ({ history }) => {
                                 Add Plan
                             </Button>
                         </div> */}
-                    </form>
                 </Container>
-                
-
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
                         <Table
@@ -197,9 +232,10 @@ const TrainingRecord = ({ history }) => {
                                     <StyledTableCell align='center'>TRAINEE NAME</StyledTableCell>
                                     <StyledTableCell align='center'>DESIGNATION</StyledTableCell>
                                     <StyledTableCell align='center'>TRAINER</StyledTableCell>
-                                    <StyledTableCell align='center'>Evaluation Method</StyledTableCell>
+                                    <StyledTableCell align='center'>EVALUATION METHOD</StyledTableCell>
                                     <StyledTableCell align='center'>EVALUATED BY</StyledTableCell>
                                     <StyledTableCell align='center'>TRAINING EVALUATION RESULT</StyledTableCell>
+                                    <StyledTableCell align='center'>ACTION</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -224,14 +260,25 @@ const TrainingRecord = ({ history }) => {
                                         {/* {training.name} */}MR
                                     </StyledTableCell>
                                     <StyledTableCell className='text-dark bg-light' align='center'>
-                                        {/* {training.name} */}
-                                        
+                                        {/* {training.name} */}Interviewed
                                     </StyledTableCell>
                                     <StyledTableCell className='text-dark bg-light' align='center'>
                                         {/* {training.name} */}MR
                                     </StyledTableCell>
                                     <StyledTableCell className='text-dark bg-light' align='center'>
-                                        {/* {training.name} */}
+                                        {/* {training.name} */}Satisfactory
+                                    </StyledTableCell>
+                                    <StyledTableCell className='text-dark bg-light' align='center'>
+                                        <Button
+                                            variant='contained'
+                                            className='bg-dark text-light'
+                                            size='small'
+                                            onClick={() =>
+                                                history.push('/hr/print_training_record_and_evaluation')
+                                            }
+                                            style={{ marginTop: 2 }}>
+                                            View
+                                        </Button>
                                     </StyledTableCell>
                                 </StyledTableRow>
                                 {/* //         ))
@@ -242,6 +289,17 @@ const TrainingRecord = ({ history }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    <div>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            type="submit"
+                            className={classes.addButton}
+                        // onClick={() => }
+                        >
+                            Submit
+                        </Button>
+                    </div>
                 </div>
             </div>
         </Sidenav>
