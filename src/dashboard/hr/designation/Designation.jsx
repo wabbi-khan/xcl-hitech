@@ -115,7 +115,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const Designation = () => {
+const Designation = ({ history }) => {
 	const classes = useStyles();
 	const [designation, setDesignation] = useState();
 	const [responsibilities, setResponsibilities] = useState([]);
@@ -257,10 +257,21 @@ const Designation = () => {
 												<>
 													<Button
 														variant='contained'
+														size='small'
+														className='btn btn-sm bg-dark text-light'
+														onClick={() => 
+															// handleDeleteDesignation(designation._id)
+															history.push('/hr/competence_criteria_print')
+														}
+														style={{ marginTop: 2 }}>
+														View
+													</Button>
+													<Button
+														variant='contained'
 														className='bg-dark text-light'
 														size='small'
 														onClick={() => handleOpen(designation)}
-														style={{ marginTop: 2 }}>
+														style={{ marginTop: 2, marginLeft: 2 }}>
 														Edit
 													</Button>
 													<Button

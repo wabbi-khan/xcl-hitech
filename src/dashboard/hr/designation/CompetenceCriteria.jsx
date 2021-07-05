@@ -143,7 +143,7 @@ const CompetenceCriteria = ({ compCriteria, setCompCriteria }) => {
 			</div>
 			<Container className={classes.mainContainer}>
 				<h4 className='text-left'>Competency Criteria</h4>
-				<h6 className='text-left' style={{ margin: '10px 0px' }}>
+				<h6 className='text-left' style={{ margin: '15px 0px' }}>
 					Education
 				</h6>
 				<CssTextField

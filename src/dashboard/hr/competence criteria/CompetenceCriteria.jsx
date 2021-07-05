@@ -164,7 +164,8 @@ const CompetenceCriteria = ({ history }) => {
 		try {
 			await axios.delete(`${process.env.REACT_APP_API_URL}/criteria/${params}`);
 			window.location.reload();
-		} catch (error) {
+		} 
+		catch (error) {
 			console.log(error);
 		}
 	};
@@ -201,56 +202,58 @@ const CompetenceCriteria = ({ history }) => {
 								{
 									loading ? (
 										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : criteria.length ? (
-										criteria.map((criteria, i) => (
-											<StyledTableRow key={i}>
-												<StyledTableCell className='text-dark' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{!criteria.department ? null : criteria.department.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{!criteria.designation ? null : criteria.designation.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{!criteria.education ? null : criteria.education.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{!criteria.experience ? null : criteria.experience.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{!criteria.skill ? null : criteria.skill.skill}
-												</StyledTableCell>
-												<StyledTableCell className='text-light' align='center'>
-													<>
-														<Button
-															variant='contained'
-															className='bg-dark text-light'
-															size='small'
-															onClick={() => {
-																handleOpen(criteria);
-															}}
-															style={{ marginTop: 2 }}>
-															Edit
-														</Button>
-														<Button
-															variant='contained'
-															color='secondary'
-															size='small'
-															onClick={() => deleteCriteria(criteria._id)}
-															style={{ marginLeft: 2, marginTop: 2 }}>
-															Delete
-														</Button>
-													</>
-												</StyledTableCell>
-											</StyledTableRow>
-										))
-									) : (
-										<h5>Not Found</h5>
-									)
+									) :
+										error ? (
+											<MaterialError />
+										) :
+											criteria.length ? (
+												criteria.map((criteria, i) => (
+													<StyledTableRow key={i}>
+														<StyledTableCell className='text-dark' align='center'>
+															{i + 1}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark' align='center'>
+															{!criteria.department ? null : criteria.department.name}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark' align='center'>
+															{!criteria.designation ? null : criteria.designation.name}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark' align='center'>
+															{!criteria.education ? null : criteria.education.name}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark' align='center'>
+															{!criteria.experience ? null : criteria.experience.name}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark' align='center'>
+															{!criteria.skill ? null : criteria.skill.skill}
+														</StyledTableCell>
+														<StyledTableCell className='text-light' align='center'>
+															<>
+																<Button
+																	variant='contained'
+																	className='bg-dark text-light'
+																	size='small'
+																	onClick={() => {
+																		handleOpen(criteria);
+																	}}
+																	style={{ marginTop: 2 }}>
+																	Edit
+																</Button>
+																<Button
+																	variant='contained'
+																	color='secondary'
+																	size='small'
+																	onClick={() => deleteCriteria(criteria._id)}
+																	style={{ marginLeft: 2, marginTop: 2 }}>
+																	Delete
+																</Button>
+															</>
+														</StyledTableCell>
+													</StyledTableRow>
+												))
+											) : (
+												<h5>Not Found</h5>
+											)
 								}
 								{/* {
                                     loading ? (
@@ -308,7 +311,7 @@ const CompetenceCriteria = ({ history }) => {
 							color="primary"
 							type="submit"
 							className={classes.addButton}
-							onClick={() => 
+							onClick={() =>
 								history.push('/hr/competence_criteria_print')
 							}
 						>

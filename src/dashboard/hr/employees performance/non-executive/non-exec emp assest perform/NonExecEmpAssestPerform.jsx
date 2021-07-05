@@ -160,7 +160,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
         // await dispatch(fetchEmployeesAction())
     }, [dispatch])
 
-    const { employee, loading, error } = useSelector(state => state.employee)
+    // const { employee, loading, error } = useSelector(state => state.employee)
 
     const onSubmitData = () => {
         console.log('submit');
@@ -183,7 +183,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 />
                                 {
                                     errors.category?.type === 'required' && (
@@ -202,7 +202,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                     <MenuItem>Production</MenuItem>
                                 </CssTextField>
@@ -223,7 +223,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                     <MenuItem>Manager</MenuItem>
                                 </CssTextField>
@@ -244,7 +244,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                     <MenuItem>Ali</MenuItem>
                                 </CssTextField>
@@ -267,7 +267,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 />
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -281,7 +281,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 />
                             </Grid>
                             <Grid item lg={3} md={3} sm={12} xs={12}>
@@ -295,7 +295,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 >
                                 </CssTextField>
                             </Grid>
@@ -310,7 +310,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true, })}
+                                    {...register("asd", { required: true, })}
                                 />
                                 {
                                     errors.category?.type === 'required' && (
@@ -331,7 +331,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                     className={classes.inputFieldStyle}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("", { required: true })}
+                                    {...register("asd", { required: true })}
                                 />
                             </Grid>
                         </Grid>
@@ -436,7 +436,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
                                 style={{ width: '50%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
-                                {...register("", { required: true })}
+                                {...register("asd", { required: true })}
                             />
                         </Container>
                         <div>
