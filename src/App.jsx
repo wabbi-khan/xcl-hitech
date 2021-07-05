@@ -95,6 +95,7 @@ import PrintTrainingNeedIdentification from './dashboard/hr/training need/PrintT
 import PrintTrainingPlan from './dashboard/hr/training plan/PrintTrainingPlan';
 import PrintTrainingAttendance from './dashboard/hr/training attendance/PrintTrainingAttendance';
 import PrintTrainingRecord from './dashboard/hr/training record/PrintTrainingRecord';
+import EmpCompetencEval from './dashboard/hr/emp competence eval/EmpCompetencEval';
 
 dotenv.config();
 
@@ -287,6 +288,7 @@ function App() {
 					path='/hr/competence_criteria_print'
 					component={CompetenceCriteriaPrint}
 				/>
+				<Route exact path='/hr/emp_competency_evaluation' component={EmpCompetencEval} />
 				<Route exact path='/hr/employees' component={Employees} />
 				<Route
 					exact

@@ -92,6 +92,7 @@ import PrintTrainingNeedIdentification from '../dashboard/hr/training need/Print
 import PrintTrainingPlan from '../dashboard/hr/training plan/PrintTrainingPlan';
 import PrintTrainingAttendance from '../dashboard/hr/training attendance/PrintTrainingAttendance';
 import PrintTrainingRecord from '../dashboard/hr/training record/PrintTrainingRecord';
+import EmpCompetencEval from '../dashboard/hr/emp competence eval/EmpCompetencEval';
 
 
 
@@ -151,6 +152,7 @@ const Router = () => {
                 <Router exact path="/hr/training" component={Training}/>
                 <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
                 <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
+                <Router exact path="/hr/emp_competency_evaluation" component={EmpCompetencEval}/>
                 <Router exact path="/hr/employees" component={Employees}/>
                 <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
                 <Router exact path="/hr/employees/print_emp_details" component={PrintEmpDetails}/>

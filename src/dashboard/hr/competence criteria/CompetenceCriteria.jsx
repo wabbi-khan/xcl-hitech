@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 600,
 	},
 	dataTable: {
-		marginTop: 40,
+		marginTop: 20,
 	},
 	ckeckBox: {
 		[theme.breakpoints.up('md')]: {
@@ -145,9 +145,9 @@ const CompetenceCriteria = ({ history }) => {
 
 	const { departments } = useSelector((state) => state.departments);
 	const { designations } = useSelector((state) => state.designations);
-	const { education } = useSelector((state) => state.education);
+	// const { education } = useSelector((state) => state.education);
 	const { skills } = useSelector((state) => state.skills);
-	const { experience } = useSelector((state) => state.experience);
+	// const { experience } = useSelector((state) => state.experience);
 
 	const onSubmitData = async (props) => {
 		// try {
@@ -182,150 +182,7 @@ const CompetenceCriteria = ({ history }) => {
 
 	return (
 		<Sidenav title={'Competence Criteria'}>
-			{/* ============Edit competence criteria form component */}
-			<EditCompCriteria show={open} handler={handleClose} criteria={Criteria} />
-			{/* ============Edit competence criteria form component */}
 			<div>
-				<Container className={classes.mainContainer}>
-					<form onSubmit={handleSubmit(onSubmitData)}>
-						<Grid container spacing={1}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Select Department'
-									variant='outlined'
-									type='text'
-									size='small'
-									autocomplete='off'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('name', { required: true })}>
-									{!departments || !departments.length ? (
-										<p>Data Not Found</p>
-									) : (
-										departments.map((dept) => (
-											<MenuItem value={dept._id} key={dept._id}>
-												{dept.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Select Designation'
-									variant='outlined'
-									type='text'
-									size='small'
-									autocomplete='off'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('name', { required: true })}>
-									{!designations || !designations.length ? (
-										<p>Data Not Found</p>
-									) : (
-										designations.map((designation) => (
-											<MenuItem value={designation._id} key={designation._id}>
-												{designation.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Education'
-									variant='outlined'
-									type='text'
-									autocomplete='off'
-									size='small'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('email', { required: true })}>
-									{!education || !education.length ? (
-										<p>Data Not Found</p>
-									) : (
-										education.map((edu) => (
-											<MenuItem value={edu._id} key={edu._id}>
-												{edu.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Skills'
-									variant='outlined'
-									type='text'
-									autocomplete='off'
-									size='small'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('email', { required: true })}>
-									{!skills || !skills.length ? (
-										<p>Data Not Found</p>
-									) : (
-										skills.map((skill) => (
-											<MenuItem value={skill._id} key={skill._id}>
-												{skill.skill}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-						</Grid>
-						<Grid container spacing={1} className='mt-3'>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Experience'
-									variant='outlined'
-									type='email'
-									autocomplete='off'
-									size='small'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('email', { required: true })}>
-									{!experience || !experience.length ? (
-										<p>Data Not Found</p>
-									) : (
-										experience.map((exp) => (
-											<MenuItem value={exp._id} key={exp._id}>
-												{exp.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-						</Grid>
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}
-								onClick={() => {
-									history.push('/hr/competence_criteria_print');
-								}}>
-								Add
-							</Button>
-						</div>
-					</form>
-				</Container>
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -334,68 +191,67 @@ const CompetenceCriteria = ({ history }) => {
 							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
 							<TableHead>
 								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
 									<StyledTableCell align='center'>Destination</StyledTableCell>
 									<StyledTableCell align='center'>Education</StyledTableCell>
 									<StyledTableCell align='center'>Experience</StyledTableCell>
 									<StyledTableCell align='center'>Skills</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : criteria.length ? (
-									criteria.map((criteria, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.department ? null : criteria.department.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.designation ? null : criteria.designation.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.education ? null : criteria.education.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.experience ? null : criteria.experience.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.skill ? null : criteria.skill.skill}
-											</StyledTableCell>
-											<StyledTableCell className='text-light' align='center'>
-												<>
-													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
-														onClick={() => {
-															handleOpen(criteria);
-														}}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
-													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
-														onClick={() => deleteCriteria(criteria._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
+								{
+									loading ? (
+										<Loading />
+									) : error ? (
+										<MaterialError />
+									) : criteria.length ? (
+										criteria.map((criteria, i) => (
+											<StyledTableRow key={i}>
+												<StyledTableCell className='text-dark' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{!criteria.department ? null : criteria.department.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{!criteria.designation ? null : criteria.designation.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{!criteria.education ? null : criteria.education.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{!criteria.experience ? null : criteria.experience.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{!criteria.skill ? null : criteria.skill.skill}
+												</StyledTableCell>
+												<StyledTableCell className='text-light' align='center'>
+													<>
+														<Button
+															variant='contained'
+															className='bg-dark text-light'
+															size='small'
+															onClick={() => {
+																handleOpen(criteria);
+															}}
+															style={{ marginTop: 2 }}>
+															Edit
+														</Button>
+														<Button
+															variant='contained'
+															color='secondary'
+															size='small'
+															onClick={() => deleteCriteria(criteria._id)}
+															style={{ marginLeft: 2, marginTop: 2 }}>
+															Delete
+														</Button>
+													</>
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									) : (
+										<h5>Not Found</h5>
+									)
+								}
 								{/* {
                                     loading ? (
                                         <Loading />
@@ -442,6 +298,24 @@ const CompetenceCriteria = ({ history }) => {
 						</Table>
 					</TableContainer>
 				</div>
+			</div>
+			<div>
+				<Grid container spacing={1} >
+					<Grid item lg={5} md={5} sm={12} xs={12}></Grid>
+					<Grid item lg={6} md={6} sm={12} xs={12}>
+						<Button
+							variant="outlined"
+							color="primary"
+							type="submit"
+							className={classes.addButton}
+							onClick={() => 
+								history.push('/hr/competence_criteria_print')
+							}
+						>
+							Print
+						</Button>
+					</Grid>
+				</Grid>
 			</div>
 		</Sidenav>
 	);

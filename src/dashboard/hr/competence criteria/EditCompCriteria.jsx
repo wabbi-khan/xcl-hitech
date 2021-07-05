@@ -125,9 +125,9 @@ const EditCompCriteria = (props) => {
 
     const { departments } = useSelector(state => state.departments)
     const { designations } = useSelector(state => state.designations)
-    const { education } = useSelector(state => state.education)
+    // const { education } = useSelector(state => state.education)
     const { skills } = useSelector(state => state.skills)
-    const { experience } = useSelector(state => state.experience)
+    // const { experience } = useSelector(state => state.experience)
 
     const onUpdate = async (data) => {
         // console.log(data);
@@ -236,12 +236,12 @@ const EditCompCriteria = (props) => {
                                                     defaultValue={criteria.education._id}
                                                     {...register("education", { required: true })}
                                                 >
-                                                    {
+                                                    {/* {
                                                         !education || !education.length ? <p>Data Not Found</p> :
                                                             education.map(edu => (
                                                                 <MenuItem value={edu._id} key={edu._id}>{edu.name}</MenuItem>
                                                             ))
-                                                    }
+                                                    } */}
                                                 </CssTextField>
                                             </Grid>
                                             <Grid lg={12} md={12} sm={12} className="mt-3">
@@ -280,12 +280,12 @@ const EditCompCriteria = (props) => {
                                                     defaultValue={criteria.experience._id}
                                                     {...register("experience", { required: true })}
                                                 >
-                                                    {
+                                                    {/* {
                                                         !experience || !experience.length ? <p>Data Not Found</p> :
                                                             experience.map(exp => (
                                                                 <MenuItem value={exp._id} key={exp._id}>{exp.name}</MenuItem>
                                                             ))
-                                                    }
+                                                    } */}
                                                 </CssTextField>
                                                 {
                                                     isUpdate ? <p className="text-success mt-1">Competence Criteria Update Success</p> : (

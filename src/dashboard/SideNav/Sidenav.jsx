@@ -1148,6 +1148,22 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
+									history.push('/hr/competence_criteria');
+								}}>
+								<ListItemText inset primary='Competence Criteria' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/hr/emp_competency_evaluation');
+								}}>
+								<ListItemText inset primary='Employee Competency..' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
 									history.push('/hr/training');
 								}}>
 								<ListItemText inset primary='Trainings' />
