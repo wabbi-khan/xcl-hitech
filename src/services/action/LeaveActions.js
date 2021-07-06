@@ -32,16 +32,13 @@ export const createLeavesAction = (leave) => async (dispatch) => {
 	dispatch({
 		type: LEAVE_REQUEST,
 	});
-
-	console.log('object');
-
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/leaves`,
 			leave,
 		);
 
-		console.log(res.data.leave);
+		console.log(res);
 
 		dispatch({
 			type: LEAVE_CREATE_SUCCESS,
@@ -50,6 +47,7 @@ export const createLeavesAction = (leave) => async (dispatch) => {
 
 		// console.log(data);
 	} catch (err) {
+		console.log('object');
 		dispatchError(err, dispatch);
 	}
 };
@@ -78,7 +76,9 @@ export const updateLeavesAction = (el) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch) => {
+	console.log(err);
 	if (err.response) {
+		console.log(err.response.data);
 		dispatch({
 			type: LEAVE_FAIL,
 			payload: err.response.data.error,

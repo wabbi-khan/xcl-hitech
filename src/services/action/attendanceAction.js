@@ -59,11 +59,11 @@ export const createAttendanceAction = (attendance) => async (dispatch) => {
 	try {
 		const res = await axios.post(`${process.env.REACT_APP_API_URL}/attendance`);
 
-		console.log(res.data.attendance);
+		console.log(res.data.todayAttendance);
 
 		dispatch({
 			type: ATTENDANCE_CREATE_SUCCESS,
-			payload: res.data.attendance,
+			payload: res.data.todayAttendance,
 		});
 
 		// console.log(data);

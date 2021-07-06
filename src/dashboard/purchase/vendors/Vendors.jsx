@@ -337,7 +337,7 @@ const Vendors = () => {
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('category', { required: true })}>
 									{!fetchMatCategory.categories ||
-										!fetchMatCategory.categories.length ? (
+									!fetchMatCategory.categories.length ? (
 										<p>Data Not Found</p>
 									) : (
 										fetchMatCategory.categories.map((category, i) => (
@@ -387,12 +387,8 @@ const Vendors = () => {
 						</Grid>
 
 						{/* ============All msg show here about add vendor succsese / fail========= */}
-						{
-							addVendorSuccess ? <span>Vendor Added Successfully</span> : null
-						}
-						{
-							addVendorFail ? <span>Vendor Added Failed</span> : null
-						}
+						{addVendorSuccess ? <span>Vendor Added Successfully</span> : null}
+						{addVendorFail ? <span>Vendor Added Failed</span> : null}
 						<div>
 							<Button
 								variant='outlined'
@@ -403,8 +399,7 @@ const Vendors = () => {
 							</Button>
 						</div>
 					</form>
-				{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
-
+					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 				</Container>
 				{/* ============edit vendor form component */}
 				<EditVendor

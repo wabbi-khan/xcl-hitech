@@ -156,7 +156,8 @@ const AddEmpAttendance = () => {
 	const today = date.getDate();
 	const completeDate = `${today}-${month}-${year}`;
 
-	const { attendances } = useSelector((state) => state.attendances);
+	const { attendances, error } = useSelector((state) => state.attendances);
+	console.log(error);
 
 	React.useEffect(() => {
 		dispatch(getAttendanceAction(`date=${completeDate}`));
@@ -182,6 +183,7 @@ const AddEmpAttendance = () => {
 						size='small'>
 						Generate todays attendance
 					</Button>
+					<p>{error}</p>
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
 							<Table
@@ -224,18 +226,18 @@ const AddEmpAttendance = () => {
 																top: '-3px',
 																right: '36px',
 																borderRadius: '50%',
-																backgroundColor: el.isPresent ? 'lightGreen' : 'red',
+																backgroundColor: el?.isPresent ? 'lightGreen' : 'red',
 															}}></div>
 													</div>
 												</StyledTableCell>
 												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el.employee?.name}
+													{el?.employee?.name}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el.employee?.finalDepartment?.name}
+													{el?.employee?.finalDepartment?.name}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el.date}
+													{el?.date}
 												</StyledTableCell>
 
 												<StyledTableCell className='text-light bg-light' align='center'>
@@ -250,11 +252,19 @@ const AddEmpAttendance = () => {
 															variant='contained'
 															className='text-light'
 															style={{
-																backgroundColor: el.isPresent ? '#C81D25' : '#008BF8',
+																backgroundColor: el?.isPresent
+																	? '#C81D25'
+																	: el?.isLeave
+																	? '#333'
+																	: '#008BF8',
 															}}
 															size='small'
 															onClick={() => markPresentOrAbsent(el)}>
-														{el?.isPresent ? 'Mark Absent' : 'Mark Present'}
+															{el?.isPresent
+																? 'Mark Absent'
+																: el?.isLeave
+																? 'On Leave'
+																: 'Mark Present'}
 														</Button>
 													</div>
 												</StyledTableCell>

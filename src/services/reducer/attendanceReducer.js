@@ -7,7 +7,10 @@ import {
 	ATTENDANCE_UPDATE_SUCCESS,
 } from '../constants/attendanceConstant';
 
-export const fetchAttendanceReducer = (state = { attendances: [] }, action) => {
+export const fetchAttendanceReducer = (
+	state = { attendances: [], error: '' },
+	action,
+) => {
 	switch (action.type) {
 		case ATTENDANCE_REQUEST:
 			return {
@@ -16,6 +19,7 @@ export const fetchAttendanceReducer = (state = { attendances: [] }, action) => {
 				loading: true,
 			};
 		case ATTENDANCE_FAIL:
+			console.log(action.payload);
 			return {
 				...state,
 				loading: false,
@@ -50,7 +54,7 @@ export const fetchAttendanceReducer = (state = { attendances: [] }, action) => {
 			return {
 				error: '',
 				loading: false,
-				attendances: [...state.attendances, action.payload],
+				attendances: [...state.attendances, ...action.payload],
 			};
 
 		default:

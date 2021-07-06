@@ -142,7 +142,7 @@ const EmpAttendance = ({ history }) => {
 		console.log('data submit');
 	};
 	const dispatch = useDispatch();
-	const { attendances } = useSelector((state) => state.attendances);
+	const { attendances, error } = useSelector((state) => state.attendances);
 
 	React.useEffect(() => {
 		dispatch(getAttendanceAction());
@@ -210,6 +210,7 @@ const EmpAttendance = ({ history }) => {
 						style={{ backgroundColor: 'lightBlue' }}>
 						Mark Todays Attendance
 					</Button>
+					<p>{error}</p>
 				</div>
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
@@ -251,11 +252,17 @@ const EmpAttendance = ({ history }) => {
 
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
-													style={{ backgroundColor: !el.isPresent ? '#C81D25' : '#008BF8' }}
+													style={{
+														backgroundColor: el?.isPresent
+															? '#C81D25'
+															: el?.isLeave
+															? '#333'
+															: '#008BF8',
+													}}
 													variant='contained'
 													size='small'
 													className='text-light'>
-													{el.isPresent ? 'Present' : 'Absent'}
+													{el.isPresent ? 'Present' : el?.isLeave ? 'On Leave' : 'Absent'}
 												</Button>
 											</StyledTableCell>
 										</StyledTableRow>

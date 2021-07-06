@@ -24,6 +24,10 @@ import { getTrainings } from './services/reducer/TrainingReducer';
 import { fetchSalaryReducer } from './services/reducer/SalaryReducer';
 import { fetchAttendanceReducer } from './services/reducer/attendanceReducer';
 import { fetchLeaveReducer } from './services/reducer/LeaveReducer';
+import { fetchNonExecPrereqReducer } from './services/reducer/nonExecPrereqReducer';
+import { fetchNonExecRatReducer } from './services/reducer/nonExecRat';
+import { fetchNonExecPerformanceReducer } from './services/reducer/NonExtPerformanceReducer';
+import { fetchExecPrereqReducer } from './services/reducer/ExecPrereqReducer';
 
 const initialState = {};
 
@@ -52,6 +56,10 @@ const reducer = combineReducers({
 	salaries: fetchSalaryReducer,
 	leaves: fetchLeaveReducer,
 	attendances: fetchAttendanceReducer,
+	nonExecPrereq: fetchNonExecPrereqReducer,
+	nonExecRat: fetchNonExecRatReducer,
+	nonExecPerformance: fetchNonExecPerformanceReducer,
+	execPrereq: fetchExecPrereqReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
