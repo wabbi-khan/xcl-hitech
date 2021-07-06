@@ -148,7 +148,7 @@ const TrainingAttendance = ({ history }) => {
                                     variant='contained'
                                     className='bg-dark text-light'
                                     size='small'
-                                    onClick={() => 
+                                    onClick={() =>
                                         history.push('/hr/print_training_attendance')
                                     }
                                     style={{ marginTop: 2 }}>

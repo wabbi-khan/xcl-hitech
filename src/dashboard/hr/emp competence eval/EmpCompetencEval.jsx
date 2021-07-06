@@ -16,21 +16,21 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 
 const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+    },
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
@@ -194,86 +194,52 @@ const EmpCompetencEval = ({ history }) => {
                                     style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
                                     <TableHead>
                                         <TableRow hover role='checkbox'>
-                                            <StyledTableCell align='center'>Destination</StyledTableCell>
-                                            <StyledTableCell align='center'>Education</StyledTableCell>
-                                            <StyledTableCell align='center'>Experience</StyledTableCell>
-                                            <StyledTableCell align='center'>Skills</StyledTableCell>
+                                            <StyledTableCell align='center'>Sr.No</StyledTableCell>
+                                            <StyledTableCell align='center'>Topic</StyledTableCell>
+                                            <StyledTableCell align='center'>Topic</StyledTableCell>
+                                            <StyledTableCell align='center'>Participants</StyledTableCell>
+                                            <StyledTableCell align='center'>Action</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {/* {
-                                            loading ? (
-                                                <Loading />
-                                            ) :
-                                                error ? (
-                                                    <MaterialError />
-                                                ) :
-                                                    criteria.length ? (
-                                                        criteria.map((criteria, i) => ( */}
-                                                            <StyledTableRow>
-                                                                <StyledTableCell className='text-dark' align='center'>
-                                                                    {1}
-                                                                </StyledTableCell>
-                                                                <StyledTableCell className='text-dark' align='center'>
-                                                                    {/* {!criteria.department ? null : criteria.department.name} */}
-                                                                </StyledTableCell>
-                                                                <StyledTableCell className='text-dark' align='center'>
-                                                                    {/* {!criteria.designation ? null : criteria.designation.name} */}
-                                                                </StyledTableCell>
-                                                                <StyledTableCell className='text-dark' align='center'>
-                                                                    {/* {!criteria.education ? null : criteria.education.name} */}
-                                                                </StyledTableCell>
-                                                                <StyledTableCell className='text-dark' align='center'>
-                                                                    {/* {!criteria.experience ? null : criteria.experience.name} */}
-                                                                </StyledTableCell>
-                                                            </StyledTableRow>
-                                                        {/* ))
-                                                    ) : (
-                                                        <h5>Not Found</h5>
-                                                    )
-                                        } */}
-                                        {/* {
                                     loading ? (
                                         <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                !vendors || !vendors.length ? <p>Not Found</p> :
-                                                    vendors.map((vendor, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.phone}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.location}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vendor.category.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    !vendor.material || !vendor.material.length ? <p>Not Found</p> :
-                                                                        vendor.material.map((value, i) => (
-                                                                            <span key={i} className="ml-1">{value.name},</span>
-                                                                        ))
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() => {
-
-                                                                    }}
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteMaterial(vendor._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                    </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                            )
-                                } */}
+                                    ) : error ? (
+                                        <MaterialError />
+                                    ) : trainings.length ? (
+                                        trainings.map((training, i) => ( */}
+                                        <StyledTableRow>
+                                            <StyledTableCell className='text-dark bg-light' align='center'>
+                                                {1}
+                                            </StyledTableCell>
+                                            <StyledTableCell className='text-dark bg-light' align='center'>
+                                                {/* {training.name} */}topic
+                                            </StyledTableCell>
+                                            <StyledTableCell className='text-dark bg-light' align='center'>
+                                                {/* {training.name} */}training venue
+                                            </StyledTableCell>
+                                            <StyledTableCell className='text-dark bg-light' align='center'>
+                                                {/* {training.name} */}training status
+                                            </StyledTableCell>
+                                            <StyledTableCell className='text-light bg-light' align='center'>
+                                                <Button
+                                                    variant='contained'
+                                                    className='bg-dark text-light'
+                                                    size='small'
+                                                    onClick={() =>
+                                                        history.push('/hr/print_training_plan')
+                                                    }
+                                                    style={{ marginTop: 2 }}>
+                                                    View
+                                                </Button>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                        {/* //         ))
+                                //     ) : (
+                                //         <h5>Not Found</h5>
+                                //     )
+                            // } */}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
