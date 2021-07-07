@@ -12,7 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik'
 import * as yup from 'yup';
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
