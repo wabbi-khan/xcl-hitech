@@ -23,6 +23,7 @@ import { getEducations } from './services/reducer/EducationReducer';
 import { getTrainings } from './services/reducer/TrainingReducer';
 import { fetchSalaryReducer } from './services/reducer/SalaryReducer';
 import { fetchAttendanceReducer } from './services/reducer/attendanceReducer';
+import { fetchLeaveReducer } from './services/reducer/LeaveReducer';
 
 const initialState = {};
 
@@ -49,6 +50,7 @@ const reducer = combineReducers({
 	cards: fetchCardReducer,
 	trainings: getTrainings,
 	salaries: fetchSalaryReducer,
+	leaves: fetchLeaveReducer,
 	attendances: fetchAttendanceReducer,
 });
 

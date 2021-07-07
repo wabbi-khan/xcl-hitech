@@ -106,8 +106,7 @@ const PrintVendorOrderList = (props) => {
 		await dispatch(fetchSinglePurchaseOrderAction(id));
 	}, [dispatch]);
 
-	const { orders, loading, error } = useSelector((state) => state.orders);
-	console.log(orders);
+	const { order, loading, error } = useSelector((state) => state.orders);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -186,7 +185,7 @@ const PrintVendorOrderList = (props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{!orders ? (
+								{!order ? (
 									<span>Data Not Found</span>
 								) : (
 									<StyledTableRow>
@@ -194,28 +193,28 @@ const PrintVendorOrderList = (props) => {
 											1.
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{!orders.vendor ? null : orders.vendor.name}
+											{!order.vendor ? null : order.vendor.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.poNum}
+											{order.poNum}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.prNum}
+											{order.prNum}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.paymentTerm}
+											{order.paymentTerm}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.paymentSubject}
+											{order.paymentSubject}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.reference}
+											{order.reference}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.totalQuantity}
+											{order.totalQuantity}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{orders.date}
+											{order.date}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
 											{/* {
@@ -248,10 +247,10 @@ const PrintVendorOrderList = (props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{!orders.materials || !orders.materials.length ? (
+								{!order.materials || !order.materials.length ? (
 									<span>Not Found</span>
 								) : (
-									orders.materials.map((mat, i) => (
+									order.materials.map((mat, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark' align='center'>
 												{i + 1}

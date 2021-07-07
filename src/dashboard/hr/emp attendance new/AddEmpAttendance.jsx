@@ -254,7 +254,7 @@ const AddEmpAttendance = () => {
 															}}
 															size='small'
 															onClick={() => markPresentOrAbsent(el)}>
-															{el?.isPresent ? 'Mark Absent' : 'Mark Present'}
+														{el?.isPresent ? 'Mark Absent' : 'Mark Present'}
 														</Button>
 													</div>
 												</StyledTableCell>

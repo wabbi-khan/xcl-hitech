@@ -17,6 +17,7 @@ import {
 	fetchSinglePurchaseOrderAction,
 	fetchPurchaseOrderAction,
 } from '../../../services/action/OrdersAction';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import { useForm } from 'react-hook-form';
@@ -126,13 +127,14 @@ const GoodReceived = (props) => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
+		console.log(id);
 		await dispatch(fetchPurchaseOrderAction(`inspected=true`));
 		await dispatch(fetchSinglePurchaseOrderAction(id));
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
-	const { loading, orders, error } = useSelector((state) => state.orders);
-	console.log(orders);
-	const { order } = useSelector((state) => state.order);
+	const { loading, order, error } = useSelector((state) => state.orders);
+	const { departments } = useSelector((state) => state.departments);
 	console.log(order);
 
 	const onSubmitDate = async (props) => {
@@ -164,7 +166,7 @@ const GoodReceived = (props) => {
 										size='small'
 										autoComplete='off'
 										disabled
-										defaultValue={order.prNum}
+										defaultValue={order?.prNum}
 										className={classes.inputFieldStyle1}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -178,7 +180,7 @@ const GoodReceived = (props) => {
 										size='small'
 										autoComplete='off'
 										disabled
-										defaultValue={order.poNum}
+										defaultValue={order?.poNum}
 										className={classes.inputFieldStyle1}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
@@ -194,7 +196,7 @@ const GoodReceived = (props) => {
 											size='small'
 											autoComplete='off'
 											disabled
-											defaultValue={order.vendor.name}
+											defaultValue={order?.vendor.name}
 											className={classes.inputFieldStyle1}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
@@ -285,7 +287,6 @@ const GoodReceived = (props) => {
 							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
 							<TableHead>
 								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
 									<StyledTableCell align='center'>Date/Time</StyledTableCell>
 									<StyledTableCell align='center'>P.R. No.</StyledTableCell>
 									<StyledTableCell align='center'>P.O. No.</StyledTableCell>
@@ -297,55 +298,43 @@ const GoodReceived = (props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : orders.length ? (
-									orders.map((order, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.inspectionDate}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.prNum}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.poNum}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.vendor.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.description}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.inspectionStatus}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order.remarks}
-											</StyledTableCell>
-											<StyledTableCell className='text-light' align='center'>
-												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
-													onClick={() => {
-														history.push(
-															`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order._id}`,
-														);
-													}}>
-													View Report
-												</Button>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
+								<StyledTableRow>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.inspectionDate}
+									</StyledTableCell>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.prNum}
+									</StyledTableCell>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.poNum}
+									</StyledTableCell>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.vendor.name}
+									</StyledTableCell>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.description}
+									</StyledTableCell>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.inspectionStatus}
+									</StyledTableCell>
+									<StyledTableCell className='text-dark' align='center'>
+										{order?.remarks}
+									</StyledTableCell>
+									<StyledTableCell className='text-light' align='center'>
+										<Button
+											variant='contained'
+											className='bg-dark text-light'
+											size='small'
+											onClick={() => {
+												console.log(order);
+												history.push(
+													`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`,
+												);
+											}}>
+											View Report
+										</Button>
+									</StyledTableCell>
+								</StyledTableRow>
 							</TableBody>
 						</Table>
 					</TableContainer>

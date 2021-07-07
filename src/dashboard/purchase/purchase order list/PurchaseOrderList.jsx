@@ -12,8 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPurchaseOrderAction } from '../../../services/action/OrdersAction';
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
-import TextField from '@material-ui/core/TextField';
 
+import TextField from '@material-ui/core/TextField';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -87,6 +87,8 @@ export const PurchaseOrderList = ({ history }) => {
 	}, [dispatch]);
 
 	const { orders, loading, error } = useSelector((state) => state.orders);
+
+	console.log(orders);
 
 	const handleChange = async (e) => {
 		e.preventDefault();
