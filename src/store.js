@@ -28,6 +28,7 @@ import { fetchNonExecPrereqReducer } from './services/reducer/nonExecPrereqReduc
 import { fetchNonExecRatReducer } from './services/reducer/nonExecRat';
 import { fetchNonExecPerformanceReducer } from './services/reducer/NonExtPerformanceReducer';
 import { fetchExecPrereqReducer } from './services/reducer/ExecPrereqReducer';
+import { fetchExecRatReducer } from './services/reducer/ExecRatReducer';
 
 const initialState = {};
 
@@ -60,6 +61,7 @@ const reducer = combineReducers({
 	nonExecRat: fetchNonExecRatReducer,
 	nonExecPerformance: fetchNonExecPerformanceReducer,
 	execPrereq: fetchExecPrereqReducer,
+	execRat: fetchExecRatReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

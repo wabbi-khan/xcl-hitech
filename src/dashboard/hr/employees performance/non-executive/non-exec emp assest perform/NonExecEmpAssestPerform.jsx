@@ -256,10 +256,6 @@ const NonExecEmpAssestPerform = ({ history }) => {
 		// );
 	};
 
-	const onSelect = () => {
-		console.log('as');
-	};
-
 	React.useEffect(() => {
 		let tempTotal = 0;
 		initialValuesForDiscipline.length > 0 &&

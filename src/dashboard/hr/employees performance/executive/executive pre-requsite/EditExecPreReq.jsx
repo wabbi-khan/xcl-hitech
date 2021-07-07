@@ -96,7 +96,6 @@ const validationSchema = yup.object({
 });
 const validationSchemaSub = yup.object({
 	value: yup.string().required(),
-	marks: yup.number().required(),
 });
 
 const EditExecPrereq = (props) => {
@@ -223,23 +222,7 @@ const EditExecPrereq = (props) => {
 																	helperText={props.touched.value && props.errors.value}
 																	error={props.touched.value && props.errors.value}
 																/>
-																<CssTextField
-																	id='outlined-basic'
-																	label='Add Total No.'
-																	variant='outlined'
-																	type='number'
-																	size='small'
-																	className='ml-2'
-																	autocomplete='off'
-																	inputProps={{ style: { fontSize: 14 } }}
-																	style={{ width: '30%' }}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																	onChange={props.handleChange('marks')}
-																	onBlur={props.handleBlur('marks')}
-																	value={props.values.marks}
-																	error={props.touched.marks && props.errors.marks}
-																	helperText={props.touched.marks && props.errors.marks}
-																/>
+
 																<Button
 																	variant='contained'
 																	size='small'

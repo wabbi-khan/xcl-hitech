@@ -8,6 +8,36 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import {
+	createExtEmpRatingAction,
+	deleteExtEmpRatingAction,
+	getExtEmpRatingAction,
+} from '../../../../../services/action/ExecRating';
+import EditExecEmpRat from './EditExecEmpRat';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+const StyledTableCell = withStyles((theme) => ({
+	head: {
+		backgroundColor: theme.palette.common.black,
+		color: theme.palette.common.white,
+	},
+	body: {
+		fontSize: 14,
+	},
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+	root: {
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.action.hover,
+		},
+	},
+}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -53,8 +83,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	addMoreBtn: {
 		marginTop: 15,
-		padding: 8,
-		marginLeft: -90,
 		backgroundColor: '#22A19A',
 		color: 'whitesmoke',
 		'&:hover': {
@@ -62,6 +90,24 @@ const useStyles = makeStyles((theme) => ({
 			color: '#22A19A',
 			fontWeight: 'bold',
 			backgroundColor: 'whitesmoke',
+		},
+	},
+	inputFieldStyle: {
+		[theme.breakpoints.up('md')]: {
+			width: 330,
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: 200,
+		},
+	},
+	inputFieldStyle1: {
+		[theme.breakpoints.up('md')]: {
+			width: 330,
+			marginLeft: 5,
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: 200,
+			marginTop: 10,
 		},
 	},
 }));
@@ -98,21 +144,48 @@ const validationSchema = yup.object({
 	calculated: yup.number().required(),
 });
 
-const ExecEmpRatings = () => {
+const ExecEmpRatings = ({ history }) => {
 	const classes = useStyles();
+	const { execRat } = useSelector((state) => state.execRat);
+	const [fetchLoading, setFetchLoading] = React.useState(false);
+	const [error, setError] = React.useState('');
+	const [success, setSuccess] = React.useState(false);
+	const [open, setOpen] = React.useState(false);
+	const [rating, setRating] = React.useState({});
 
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		// await dispatch(getMaterialAction());
+		dispatch(getExtEmpRatingAction());
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
 		console.log(values);
+		dispatch(createExtEmpRatingAction(values));
+	};
+
+	const onDelete = async (id) => {
+		dispatch(
+			deleteExtEmpRatingAction(id, () => {
+				setSuccess(true);
+				setTimeout(() => {
+					setSuccess(false);
+				}, 4000);
+			}),
+		);
+	};
+
+	const handleClose = (props) => {
+		setOpen(props);
+	};
+
+	const handleOpen = async (rating) => {
+		setOpen(true);
+		setRating(rating);
 	};
 
 	return (
-		<Sidenav title={'Executive Employee Ratings'}>
+		<Sidenav title={'Non-Executive Emplolyees Ratings'}>
 			<div>
 				<Container className={classes.mainContainer}>
 					<Formik
@@ -125,7 +198,7 @@ const ExecEmpRatings = () => {
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
-											label='Rating Name'
+											label='Name'
 											variant='outlined'
 											type='text'
 											autocomplete='off'
@@ -161,30 +234,12 @@ const ExecEmpRatings = () => {
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
-											label='Calculated Value'
-											variant='outlined'
-											type='number'
-											autocomplete='off'
-											size='small'
-											style={{ width: '125%', marginLeft: 100 }}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('calculated')}
-											onBlur={props.handleBlur('calculated')}
-											value={props.values.calculated}
-											helperText={props.touched.calculated && props.errors.calculated}
-											error={props.touched.calculated && props.errors.calculated}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
 											label='Min Value'
 											variant='outlined'
 											type='number'
 											autocomplete='off'
 											size='small'
-											style={{ width: '125%', marginLeft: 150 }}
+											style={{ width: '125%', marginLeft: 100 }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('min')}
@@ -202,7 +257,7 @@ const ExecEmpRatings = () => {
 											type='number'
 											autocomplete='off'
 											size='small'
-											style={{ width: '125%', marginLeft: 200 }}
+											style={{ width: '125%', marginLeft: 150 }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('max')}
@@ -212,16 +267,31 @@ const ExecEmpRatings = () => {
 											error={props.touched.max && props.errors.max}
 										/>
 									</Grid>
+									<Grid item lg={2} md={2} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Calculated'
+											variant='outlined'
+											type='number'
+											autocomplete='off'
+											size='small'
+											style={{ width: '125%', marginLeft: 150 }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('calculated')}
+											onBlur={props.handleBlur('calculated')}
+											value={props.values.calculated}
+											helperText={props.touched.calculated && props.errors.calculated}
+											error={props.touched.calculated && props.errors.calculated}
+										/>
+									</Grid>
 								</Grid>
 								<div>
 									<Button
 										variant='outlined'
 										color='primary'
 										type='submit'
-										className={classes.addButton}
-										onClick={() => {
-											// history.push('')
-										}}>
+										className={classes.addButton}>
 										Add
 									</Button>
 								</div>
@@ -229,6 +299,79 @@ const ExecEmpRatings = () => {
 						)}
 					</Formik>
 				</Container>
+				<EditExecEmpRat show={open} handler={handleClose} rating={rating} />
+				<div className={classes.dataTable} style={{ marginTop: '1rem' }}>
+					<TableContainer className={classes.tableContainer}>
+						<Table
+							stickyHeader
+							className='table table-dark'
+							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							<TableHead>
+								<TableRow hover role='checkbox'>
+									<StyledTableCell align='center'>Sr.No</StyledTableCell>
+									<StyledTableCell align='center'>Name</StyledTableCell>
+									<StyledTableCell align='center'>Description</StyledTableCell>
+									<StyledTableCell align='center'>Min</StyledTableCell>
+									<StyledTableCell align='center'>Max</StyledTableCell>
+									<StyledTableCell align='center'>calculated</StyledTableCell>
+									<StyledTableCell align='center'>Actions</StyledTableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{fetchLoading ? (
+									<h1>Loading</h1>
+								) : error ? (
+									<h1>Error</h1>
+								) : !execRat || !execRat.length ? (
+									<p>Not Found</p>
+								) : (
+									execRat.map((el, i) => (
+										<StyledTableRow key={i}>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.description}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.min}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.max}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.calculated}
+											</StyledTableCell>
+											<StyledTableCell className='text-light bg-light' align='center'>
+												<>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														onClick={() => handleOpen(el)}
+														style={{ marginTop: 2 }}>
+														Edit
+													</Button>
+													<Button
+														variant='contained'
+														color='secondary'
+														size='small'
+														onClick={() => onDelete(el._id)}
+														style={{ marginLeft: 2, marginTop: 2 }}>
+														Delete
+													</Button>
+												</>
+											</StyledTableCell>
+										</StyledTableRow>
+									))
+								)}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</div>
 			</div>
 		</Sidenav>
 	);

@@ -6,7 +6,7 @@ import {
 	EXECPERFORMANCE_CREATE_SUCCESS,
 	EXECPERFORMANCE_UPDATE_SUCCESS,
 	EXECPERFORMANCE_DELETE_SUCCESS,
-} from '../constants/NonExtPerformanceConstant';
+} from '../constants/ExecPerofrmaceConstant';
 
 export const getExtEmpPerformanceAction = (query) => async (dispatch) => {
 	dispatch({
