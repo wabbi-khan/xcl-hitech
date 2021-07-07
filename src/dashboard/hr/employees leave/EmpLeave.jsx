@@ -22,6 +22,7 @@ import {
 } from '../../../services/action/LeaveActions';
 import { getEmployeeByDesignationAndDepartment } from '../../../services/action/EmployeesAction';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const initialValues = {
 	department: '',
@@ -402,10 +403,10 @@ const EmpLeave = () => {
 												{el?.purpose}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.from}
+												{moment(el?.from).format('Do - MMMM - YYYY')}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.to}
+												{moment(el?.to).format('Do - MMMM - YYYY')}
 											</StyledTableCell>
 										</StyledTableRow>
 									))
