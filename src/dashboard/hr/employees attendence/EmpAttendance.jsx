@@ -252,26 +252,20 @@ const EmpAttendance = ({ history }) => {
 
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
-<<<<<<< HEAD
-=======
 													style={{
 														backgroundColor: el?.isPresent
 															? '#C81D25'
 															: el?.isLeave
-															? '#333'
-															: '#008BF8',
+																? '#333'
+																: '#008BF8',
 													}}
->>>>>>> 8826a668d5f9d4da2be274e9c5fcd6aa8abfc603
 													variant='contained'
 													className={`text-light ${!el.isPresent ? 'bg-danger' : 'bg-success'}`}
 													size='small'
-<<<<<<< HEAD
 												>
-													{el.isPresent ? 'Present' : 'Absent'}
-=======
-													className='text-light'>
-													{el.isPresent ? 'Present' : el?.isLeave ? 'On Leave' : 'Absent'}
->>>>>>> 8826a668d5f9d4da2be274e9c5fcd6aa8abfc603
+													{
+														el.isPresent ? 'Present' : el?.isLeave ? 'On Leave' : 'Absent'
+													}
 												</Button>
 											</StyledTableCell>
 										</StyledTableRow>

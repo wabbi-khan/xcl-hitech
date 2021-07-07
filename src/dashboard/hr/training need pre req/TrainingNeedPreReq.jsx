@@ -127,45 +127,6 @@ const TrainingNeedPreReq = () => {
 		<Sidenav title={'Training Needs Pre-Requestions'}>
 			<div>
 				<Container className={classes.mainContainer}>
-<<<<<<< HEAD
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Select Department'
-							variant='outlined'
-							type='text'
-							size='small'
-							select
-							autocomplete='off'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-						// {...register("", { required: true })}
-						>
-							<MenuItem value='0'>Production</MenuItem>
-						</CssTextField>
-						{errors.name?.type === 'required' && (
-							<p className='mt-1 text-danger'>Department is required</p>
-						)}
-						<CssTextField
-							id='outlined-basic'
-							label='Select Designation'
-							variant='outlined'
-							type='text'
-							size='small'
-							select
-							autocomplete='off'
-							className={classes.inputFieldStyle1}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-						// {...register("", { required: true })}
-						>
-							<MenuItem value='0'>Manager</MenuItem>
-						</CssTextField>
-						{errors.name?.type === 'required' && (
-							<p className='mt-1 text-danger'>Designation is required</p>
-=======
 					<Formik
 						initialValues={initialValuesForTopForm}
 						validationSchema={validationSchemaForTopForm}
@@ -286,7 +247,6 @@ const TrainingNeedPreReq = () => {
 									</Button>
 								</div>
 							</>
->>>>>>> 8826a668d5f9d4da2be274e9c5fcd6aa8abfc603
 						)}
 					</Formik>
 				</Container>
