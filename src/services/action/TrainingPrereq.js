@@ -27,6 +27,28 @@ export const getTrainingsPrereq = (query) => async (dispatch) => {
 	}
 };
 
+export const getByDepartmentAndDesignation =
+	(departmentId, desigId) => async (dispatch) => {
+		dispatch({
+			type: TRAININGPREREQ_REQUEST,
+		});
+
+		try {
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_API_URL}/trainings/pre-requisition/by/${departmentId}/${desigId}`,
+			);
+
+			console.log(data);
+
+			dispatch({
+				type: TRAININGPREREQ_FETCH_SUCCESS,
+				payload: data.requisitions,
+			});
+		} catch (err) {
+			dispatchError(err, dispatch);
+		}
+	};
+
 export const createTrainingPrereq = (data) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPREREQ_REQUEST,

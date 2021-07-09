@@ -32,6 +32,9 @@ import { fetchExecRatReducer } from './services/reducer/ExecRatReducer';
 import { getTrainingsVenues } from './services/reducer/TrainingVenueReducer';
 import { getTrainingsPrereqReducer } from './services/reducer/TrainingPrereq';
 import { getTrainingsPlanes } from './services/reducer/TrainingPlan';
+import { getTrainingsIdentification } from './services/reducer/TrainingNeedIdentificationReducer';
+import { getTrainingsAttendance } from './services/reducer/TrainingAttendanceReducer';
+import { getUserReducer } from './services/reducer/UserReducer';
 
 const initialState = {};
 
@@ -68,6 +71,9 @@ const reducer = combineReducers({
 	venues: getTrainingsVenues,
 	requisitions: getTrainingsPrereqReducer,
 	trainingPlanes: getTrainingsPlanes,
+	trainingIdentifications: getTrainingsIdentification,
+	trainingAttendance: getTrainingsAttendance,
+	user: getUserReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

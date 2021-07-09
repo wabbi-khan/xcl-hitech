@@ -21,7 +21,6 @@ import { fetchDepartmentsAction } from '../../../services/action/DepartmentActio
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { getTrainingVenues } from '../../../services/action/TrainingVenue';
 import { getTrainings } from '../../../services/action/TrainingAction';
-
 import {
 	createTrainingPlanes,
 	deleteTrainingPlanes,
@@ -454,7 +453,7 @@ const TrainingPlan = ({ history }) => {
 														{el?.status === 'c' && 'Done'}
 													</Button>
 													{el?.status !== 'a' && (
-														<Link to='/hr/training_attendance' target='_blank'>
+														<Link to={{ pathname: '/hr/training_attendance', state: el }}>
 															<Button
 																variant='contained'
 																className='text-light'
