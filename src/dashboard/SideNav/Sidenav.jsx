@@ -755,7 +755,7 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/purchase/department');
+									history.push('');
 								}}>
 								<ListItemText inset primary='Order Log Sheet' />
 							</ListItem>
@@ -763,7 +763,15 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/purchase/material');
+									history.push('/marketing/delivery_order');
+								}}>
+								<ListItemText inset primary='Delivery Order' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('');
 								}}>
 								<ListItemText inset primary='Sales Contract' />
 							</ListItem>
@@ -771,7 +779,7 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/purchase/vendors');
+									history.push('');
 								}}>
 								<ListItemText inset primary='Contract Review...' />
 							</ListItem>
@@ -779,7 +787,7 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/purchase/supplier_evaluation_form');
+									history.push('');
 								}}>
 								<ListItemText inset primary='Customer Feedback..' />
 							</ListItem>
@@ -787,7 +795,7 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/purchase/approved_supplier_list');
+									history.push('');
 								}}>
 								<ListItemText inset primary='Complaint Testing' />
 							</ListItem>
@@ -956,14 +964,6 @@ function Sidenav(props) {
 									history.push('/storedashboard/vehicle_inspect_checklist');
 								}}>
 								<ListItemText inset primary='Vehicles Inspection...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/delivery_order');
-								}}>
-								<ListItemText inset primary='Delivery Order' />
 							</ListItem>
 							<ListItem
 								button
