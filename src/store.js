@@ -29,6 +29,9 @@ import { fetchNonExecRatReducer } from './services/reducer/nonExecRat';
 import { fetchNonExecPerformanceReducer } from './services/reducer/NonExtPerformanceReducer';
 import { fetchExecPrereqReducer } from './services/reducer/ExecPrereqReducer';
 import { fetchExecRatReducer } from './services/reducer/ExecRatReducer';
+import { getTrainingsVenues } from './services/reducer/TrainingVenueReducer';
+import { getTrainingsPrereqReducer } from './services/reducer/TrainingPrereq';
+import { getTrainingsPlanes } from './services/reducer/TrainingPlan';
 
 const initialState = {};
 
@@ -62,6 +65,9 @@ const reducer = combineReducers({
 	nonExecPerformance: fetchNonExecPerformanceReducer,
 	execPrereq: fetchExecPrereqReducer,
 	execRat: fetchExecRatReducer,
+	venues: getTrainingsVenues,
+	requisitions: getTrainingsPrereqReducer,
+	trainingPlanes: getTrainingsPlanes,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

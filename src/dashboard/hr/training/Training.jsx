@@ -11,7 +11,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
 import {
 	getTrainings,
 	createTraining,
@@ -21,6 +20,8 @@ import {
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditTraining from './EditTraining';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -110,13 +111,16 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	name: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+});
+
 const Training = () => {
 	const classes = useStyles();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
 
 	const dispatch = useDispatch();
 
@@ -126,7 +130,7 @@ const Training = () => {
 
 	const { trainings, loading, error } = useSelector((state) => state.trainings);
 
-	const onSubmitDate = async (props) => {
+	const onSubmit = async (props) => {
 		dispatch(createTraining(props));
 	};
 
@@ -150,44 +154,41 @@ const Training = () => {
 		<Sidenav title={'Training'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Training Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('name', { required: true })}
-						/>
-						{
-							errors.name?.type === 'required' && (
-								<p className='mt-3 text-danger'>Training name must be required</p>
-							)
-						}
-						{/* {
-                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                    categories.map(category => (
-                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                    ))
-                            } */}
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
-					{
-						error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
-					}
+					<Formik
+						initialValues={initialValue}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Training Name'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										type='submit'
+										className={classes.addButton}>
+										Add
+									</Button>
+								</div>
+							</Form>
+						)}
+					</Formik>
+					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 				</Container>
 
 				<EditTraining show={open} handler={handleClose} training={training} />
