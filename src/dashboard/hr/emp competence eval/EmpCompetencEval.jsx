@@ -186,64 +186,71 @@ const EmpCompetencEval = ({ history }) => {
                     </Grid>
                     <div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
                         <h5 style={{ textDecoration: 'underline' }}>Evaluation:</h5>
-                        <div className={classes.dataTable}>
-                            <TableContainer className={classes.tableContainer}>
-                                <Table
-                                    stickyHeader
-                                    className='table table-dark'
-                                    style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-                                    <TableHead>
-                                        <TableRow hover role='checkbox'>
-                                            <StyledTableCell align='center'>Sr.No</StyledTableCell>
-                                            <StyledTableCell align='center'>Topic</StyledTableCell>
-                                            <StyledTableCell align='center'>Topic</StyledTableCell>
-                                            <StyledTableCell align='center'>Participants</StyledTableCell>
-                                            <StyledTableCell align='center'>Action</StyledTableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {/* {
-                                    loading ? (
-                                        <Loading />
-                                    ) : error ? (
-                                        <MaterialError />
-                                    ) : trainings.length ? (
-                                        trainings.map((training, i) => ( */}
-                                        <StyledTableRow>
-                                            <StyledTableCell className='text-dark bg-light' align='center'>
-                                                {1}
-                                            </StyledTableCell>
-                                            <StyledTableCell className='text-dark bg-light' align='center'>
-                                                {/* {training.name} */}topic
-                                            </StyledTableCell>
-                                            <StyledTableCell className='text-dark bg-light' align='center'>
-                                                {/* {training.name} */}training venue
-                                            </StyledTableCell>
-                                            <StyledTableCell className='text-dark bg-light' align='center'>
-                                                {/* {training.name} */}training status
-                                            </StyledTableCell>
-                                            <StyledTableCell className='text-light bg-light' align='center'>
-                                                <Button
-                                                    variant='contained'
-                                                    className='bg-dark text-light'
-                                                    size='small'
-                                                    onClick={() =>
-                                                        history.push('/hr/print_training_plan')
-                                                    }
-                                                    style={{ marginTop: 2 }}>
-                                                    View
-                                                </Button>
-                                            </StyledTableCell>
-                                        </StyledTableRow>
-                                        {/* //         ))
-                                //     ) : (
-                                //         <h5>Not Found</h5>
-                                //     )
-                            // } */}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                        <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col" colspan="2">Competency Requirements</th>
+                                    <th rowspan="2">Actual Compatibility</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style={{ fontWeight: 'bold' }}>
+                                    <td>Parameter</td>
+                                    <td>Minimum Required</td>
+                                </tr>
+                                <tr>
+                                    <td style={{ fontWeight: 'bold' }}>
+                                        Education
+                                    </td>
+                                    <td>B.E / B.Tech</td>
+                                    <td>DAE</td>
+                                </tr>
+                                <Grid container spacing={1} style={{ marginTop: 15, marginBottom: '10px' }}>
+                                    <Grid item lg={8} md={8} sm={12} xs={12}>
+                                        <CssTextField id="outlined-basic"
+                                            label="Remarks"
+                                            variant="outlined"
+                                            type="text"
+                                            size="small"
+                                            autocomplete="off"
+                                            style={{ width: '100%' }}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </tbody>
+                        </table>
+                        <div style={{ marginTop: 30, marginBottom: 30 }}>
+                            <hr />
                         </div>
+                        <Grid container spacing={1} style={{ marginTop: 15, marginBottom: '10px' }}>
+                            <Grid item lg={6} md={8} sm={12} xs={12}>
+                                <CssTextField id="outlined-basic"
+                                    label="Evaluation Summary"
+                                    variant="outlined"
+                                    type="text"
+                                    size="small"
+                                    autocomplete="off"
+                                    style={{ width: '100%' }}
+                                    inputProps={{ style: { fontSize: 14 } }}
+                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                />
+                            </Grid>
+                        </Grid>
+                    </div>
+                    <div>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            type="submit"
+                            className={classes.addButton}
+                            onClick={() =>
+                                history.push('/hr/print_emp_competency_evaluation')
+                            }
+                        >
+                            Submit
+                        </Button>
                     </div>
                 </Container>
             </div>

@@ -5,7 +5,7 @@ const EmployeePromotion = () => {
     return (
         <Sidenav title={'Employees Promotion'}>
             <div>
-
+                
             </div>
         </Sidenav>
     )

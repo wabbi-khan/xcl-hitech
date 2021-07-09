@@ -237,19 +237,6 @@ const EmployeePerformance = ({ history }) => {
                                     <p className='mt-3 text-success'> Purchase Order Added Successfully</p>
                                 ) : null} */}
                         </Container>
-                        <div>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                                onClick={() => {
-                                    // history.push('')
-                                }}
-                            >
-                                Add
-                            </Button>
-                        </div>
                     </form>
                 </Container>
 
