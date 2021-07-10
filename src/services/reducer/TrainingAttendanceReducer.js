@@ -47,7 +47,7 @@ export const getTrainingsAttendance = (state = { attendance: [] }, action) => {
 			return {
 				error: '',
 				loading: false,
-				attendance: [...state.attendance, action.payload],
+				attendance: action.payload,
 			};
 
 		default:

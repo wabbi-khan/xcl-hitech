@@ -44,6 +44,7 @@ import Trainings from './dashboard/hr/trainings/Trainings';
 import TrainingNeed from './dashboard/hr/training need/TrainingNeed';
 import TrainingPlan from './dashboard/hr/training plan/TrainingPlan';
 import TrainingAttendance from './dashboard/hr/training attendance/TrainingAttendance';
+import TrainingAttendanceView from './dashboard/hr/training attendance/ViewTraining';
 import TrainingRecord from './dashboard/hr/training record/TrainingRecord';
 import JobDescription from './dashboard/hr/job description/JobDescription';
 import EmployeePromotion from './dashboard/hr/employees promotion/EmployeePromotion';
@@ -116,7 +117,7 @@ function App() {
 			<Switch>
 				<Route exact path='/' component={Login} />
 				<Route exact path='/dashboard' component={Dashboard} />
-                {/* ===================================================================== */}
+				{/* ===================================================================== */}
 				<Route exact path='/purchasedashboard' component={PurchaseDashboard} />
 				<Route exact path='/purchase/category' component={Category} />
 				<Route exact path='/purchase/department' component={Department} />
@@ -173,7 +174,7 @@ function App() {
 					path='/purchase/purchase_requisition/print_purchase_requisition'
 					component={PurchaseReqPrint}
 				/>
-                {/* ===================================================================== */}
+				{/* ===================================================================== */}
 				<Route exact path='/storedashboard' component={Store} />
 				<Route exact path='/storedashboard/products' component={Products} />
 				<Route
@@ -272,7 +273,7 @@ function App() {
 					path='/storedashboard/stock_assessment_report'
 					component={StockAssessReport}
 				/>
-                {/* ===================================================================== */}
+				{/* ===================================================================== */}
 				<Route exact path='/hr_dashboard' component={HR} />
 				<Route exact path='/hr/designation' component={Designation} />
 				<Route exact path='/hr/education' component={Education} />
@@ -289,8 +290,16 @@ function App() {
 					path='/hr/competence_criteria_print'
 					component={CompetenceCriteriaPrint}
 				/>
-				<Route exact path='/hr/emp_competency_evaluation' component={EmpCompetencEval} />
-				<Route exact path='/hr/print_emp_competency_evaluation' component={PrintEmpCompEval} />
+				<Route
+					exact
+					path='/hr/emp_competency_evaluation'
+					component={EmpCompetencEval}
+				/>
+				<Route
+					exact
+					path='/hr/print_emp_competency_evaluation'
+					component={PrintEmpCompEval}
+				/>
 				<Route exact path='/hr/employees' component={Employees} />
 				<Route
 					exact
@@ -391,22 +400,39 @@ function App() {
 				/>
 				<Route
 					exact
+					path='/hr/training_attendance/view'
+					component={TrainingAttendanceView}
+				/>
+				<Route
+					exact
 					path='/hr/print_training_attendance'
 					component={PrintTrainingAttendance}
 				/>
-				<Route exact path='/hr/training_record_and_evaluation' component={TrainingRecord} />
-				<Route exact path='/hr/print_training_record_and_evaluation' component={PrintTrainingRecord} />
+				<Route
+					exact
+					path='/hr/training_record_and_evaluation'
+					component={TrainingRecord}
+				/>
+				<Route
+					exact
+					path='/hr/print_training_record_and_evaluation'
+					component={PrintTrainingRecord}
+				/>
 				<Route exact path='/hr/job_description' component={JobDescription} />
-				<Route exact path='/hr/print_job_description' component={PrintJobDescription} />
+				<Route
+					exact
+					path='/hr/print_job_description'
+					component={PrintJobDescription}
+				/>
 				<Route exact path='/hr/employees_promotion' component={EmployeePromotion} />
-                {/* ===================================================================== */}
+				{/* ===================================================================== */}
 				<Route exact path='/marketing_dashboard' component={Marketing} />
 				<Route
 					exact
 					path='/marketing_dashboard/order_booking_form'
 					component={OrderBookingForm}
 				/>
-                {/* ===================================================================== */}
+				{/* ===================================================================== */}
 				<Route exact path='/productionDashboard' component={ProductionDashboard} />
 				<Route exact path='/productionDashboard/machines' component={Machines} />
 				<Route
