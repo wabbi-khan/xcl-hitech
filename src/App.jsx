@@ -97,6 +97,7 @@ import PrintTrainingRecord from './dashboard/hr/training record/PrintTrainingRec
 import EmpCompetencEval from './dashboard/hr/emp competence eval/EmpCompetencEval';
 import PrintEmpCompEval from './dashboard/hr/emp competence eval/PrintEmpCompEval';
 import DeliveryOrder from './dashboard/marketing-sales/deliveryOrder/DeliveryOrder';
+import Categories from './dashboard/store/storecategories/Categories';
 
 dotenv.config();
 
@@ -175,6 +176,7 @@ function App() {
 				/>
                 {/* ===================================================================== */}
 				<Route exact path='/storedashboard' component={Store} />
+                <Route exact path="/storedashboard/store_categories" component={Categories}/>
 				<Route exact path='/storedashboard/products' component={Products} />
 				<Route
 					exact

@@ -17,34 +17,7 @@ import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActii
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditCategories from './EditCategories';
-
-
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
-
-function createData(No, name, Action) {
-    return { No, name, Action };
-}
-
-const rows = [
-    createData(1, 'Item1'),
-
-];
+import { Form, Formik } from 'formik';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -132,7 +105,7 @@ const Categories = () => {
         await dispatch(fetchStoreCatAction())
     }, [dispatch])
 
-    const { category, loading, error } = useSelector(state => state.category)
+    // const { category, loading, error } = useSelector(state => state.category)
 
     const onSubmitDate = async (props) => {
         try {
@@ -188,16 +161,12 @@ const Categories = () => {
                             label="Category Name*"
                             variant="outlined"
                             type="text"
-                            autocomplete="off"
                             size="small"
+                            autocomplete="off"
                             className={classes.inputFieldStyle}
                             inputProps={{ style: { fontSize: 14 } }}
                             InputLabelProps={{ style: { fontSize: 14 } }}
-                            {...register("name", { required: true })}
                         />
-                        {
-                            errors.name?.type === 'required' && <p className="mt-1 text-danger">Category Name is required</p>
-                        }
                         {/* {
                                 !categories || !categories.length ? <p>Data Not Found</p> :
                                     categories.map(category => (
@@ -210,57 +179,47 @@ const Categories = () => {
                                 className={classes.addButton}
                             >
                                 Add
-                        </Button>
+                            </Button>
                         </div>
                     </form>
                 </Container>
 
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Categories</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
-                                        ) :
-                                            (
-                                                category.length ?
-                                                    category.map((cat, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{cat.name}</StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(cat)
-                                                                    }
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
-                                                                        onClick={() => deleteCategory(cat._id)}
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                                    : <h5>Not Found</h5>
-                                            )
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                <div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+                    <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                        <thead class="bg-dark text-light">
+                            <tr>
+                                <th>S.No.</th>
+                                <th>Categories</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1.</td>
+                                <td>Store Material</td>
+                                <td>
+                                    <>
+                                        <Button
+                                            variant='contained'
+                                            className='bg-dark text-light'
+                                            size='small'
+                                            // onClick={() => handleOpen(edu)}
+                                            style={{ marginTop: 2 }}>
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            variant='contained'
+                                            color='secondary'
+                                            size='small'
+                                            // onClick={() => deleteCategory(edu._id)}
+                                            style={{ marginLeft: 2, marginTop: 2 }}>
+                                            Delete
+                                        </Button>
+                                    </>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </Sidenav>

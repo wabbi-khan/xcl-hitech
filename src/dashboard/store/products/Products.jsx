@@ -179,22 +179,24 @@ const Products = () => {
 									autoComplete='off'
 									select
 									required
-									className={classes.inputFieldStyle}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}>
-									{!categories || !categories.length ? (
-										<p>Data Not Found</p>
-									) : (
-										categories.map((cat) => (
-											<MenuItem
-												value={cat._id}
-												key={cat._id}
+									{/* {
+										!categories || !categories.length ? (
+											<p>Data Not Found</p>
+										) : (
+											categories.map((cat) => (
+												<MenuItem
+													value={cat._id}
+													key={cat._id}
 												// onClick={() => setCodeCategory(cat.name) }
-											>
-												{cat.name}
-											</MenuItem>
-										))
-									)}
+												>
+													{cat.name}
+												</MenuItem>
+											))
+										)
+									} */}
 								</CssTextField>
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -205,14 +207,15 @@ const Products = () => {
 									type='text'
 									size='small'
 									autoComplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('name', { required: true })}
 								/>
-								{errors.name?.type === 'required' && (
+								{/* {
+								errors.name?.type === 'required' && (
 									<p className='mt-1 text-danger'>Product Name is required</p>
-								)}
+								)
+								} */}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
@@ -223,11 +226,15 @@ const Products = () => {
 									size='small'
 									autoComplete='off'
 									// value={`${CodeCategory}-${CodeName}-${CodeRandom}`}
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('productCode', { required: true })}
 								/>
+								{/* {
+									errors.name?.type === 'required' && (
+										<p className='mt-1 text-danger'>Product Name is required</p>
+									)
+									} */}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
@@ -237,14 +244,15 @@ const Products = () => {
 									type='text'
 									size='small'
 									autoComplete='off'
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('minInventoryLevel', { required: true })}
 								/>
-								{errors.minInventoryLevel?.type === 'required' && (
-									<p className='mt-1 text-danger'>Min Inventory Level is required</p>
-								)}
+								{/* {
+									errors.minInventoryLevel?.type === 'required' && (
+										<p className='mt-1 text-danger'>Min Inventory Level is required</p>
+									)
+								} */}
 							</Grid>
 						</Grid>
 					</Container>
@@ -258,14 +266,15 @@ const Products = () => {
 									type='text'
 									size='small'
 									autoComplete='off'
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('remarks', { required: true })}
 								/>
-								{errors.remarks?.type === 'required' && (
-									<p className='mt-1 text-danger'>Remarks is required</p>
-								)}
+								{/* {
+									errors.remarks?.type === 'required' && (
+										<p className='mt-1 text-danger'>Remarks is required</p>
+									)
+								} */}
 							</Grid>
 						</Grid>
 						<div>
@@ -279,50 +288,47 @@ const Products = () => {
 						</div>
 					</Container>
 				</form>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark table-md'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Product Category</StyledTableCell>
-									<StyledTableCell align='center'>Product Name</StyledTableCell>
-									<StyledTableCell align='center'>Product Code</StyledTableCell>
-									<StyledTableCell align='center'>Min Inventory Level</StyledTableCell>
-									<StyledTableCell align='center'>Remarks</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
+				<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+					<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+						<thead class="bg-dark text-light">
+							<tr>
+								<th>S.No.</th>
+								<th>Product Category</th>
+								<th>Product Name</th>
+								<th>Product Code</th>
+								<th>Min Inventory Level</th>
+								<th>Remarks</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+								loading ? (
 									<Loading />
 								) : error ? (
 									<MaterialError />
 								) : products.length ? (
 									products.map((product, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
+										<tr key={i}>
+											<td>
 												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												Finished
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.productCode}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.minInventoryLevel}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.remarks}
-											</StyledTableCell>
-											<StyledTableCell className='text-light' align='center'>
+											</td>
+											<td>
 												<>
 													<Button
 														variant='contained'
@@ -341,15 +347,15 @@ const Products = () => {
 														Delete
 													</Button>
 												</>
-											</StyledTableCell>
-										</StyledTableRow>
+											</td>
+										</tr>
 									))
 								) : (
 									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
+								)
+							}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</Sidenav>
