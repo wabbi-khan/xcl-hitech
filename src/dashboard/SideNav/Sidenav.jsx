@@ -464,7 +464,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import BusinessIcon from '@material-ui/icons/Business';
-
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 270;
 
@@ -548,6 +548,8 @@ function Sidenav(props) {
 	const [open3, setOpen3] = React.useState(false);
 	const [open4, setOpen4] = React.useState(false);
 	const [open5, setOpen5] = React.useState(false);
+
+	const { user } = useSelector((state) => state.user);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -720,7 +722,7 @@ function Sidenav(props) {
 					</Collapse>
 				</List>
 				<Divider />
-				<List>
+				{/* <List>
 					{['Marketing/Sales'].map((text, index) => (
 						<ListItem
 							button
@@ -801,9 +803,9 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List>
+				</List> */}
 				<Divider />
-				<List>
+				{/* <List>
 					{['Production'].map((text, index) => (
 						<ListItem
 							button
@@ -884,9 +886,9 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List>
+				</List> */}
 				<Divider />
-				<List>
+				{/* <List>
 					{['Store'].map((text, index) => (
 						<ListItem
 							button
@@ -941,14 +943,14 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Products Bin Card' />
 							</ListItem>
-							{/* <ListItem button
+							<ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('')
                                 }}
                             >
                                 <ListItemText inset primary="Grouped Bin Card" />
-                            </ListItem> */}
+                            </ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1031,7 +1033,7 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List>
+				</List> */}
 				<Divider />
 				<List>
 					{['HR'].map((text, index) => (
@@ -1235,7 +1237,7 @@ function Sidenav(props) {
 						</List>
 					</Collapse>
 				</List>
-				<List>
+				{/* <List>
 					{['Accounts'].map((text, index) => (
 						<ListItem button key={text}>
 							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
@@ -1244,7 +1246,7 @@ function Sidenav(props) {
 							<ListItemText primary={text} />
 						</ListItem>
 					))}
-				</List>
+				</List> */}
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.toolbar} />
