@@ -22,6 +22,8 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { Form, Formik } from 'formik'
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -111,6 +113,24 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	prNum: '',
+	poNum: '',
+	receivedFrom: '',
+	desc: '',
+	statusOfIns: '',
+	remarks: '',
+};
+
+const validationSchema = yup.object({
+	prNum: yup.string().required('P.R. No. is required'),
+	poNum: yup.string().required('P.O. No. is required'),
+	receivedFrom: yup.string().required('Received From is required'),
+	desc: yup.string().required('Description is required'),
+	statusOfIns: yup.string().required('Status of Inspection is required'),
+	remarks: yup.string().required('Remarks is required'),
+});
+
 const GoodReceived = (props) => {
 	const classes = useStyles();
 
@@ -127,7 +147,6 @@ const GoodReceived = (props) => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		console.log(id);
 		await dispatch(fetchPurchaseOrderAction(`inspected=true`));
 		await dispatch(fetchSinglePurchaseOrderAction(id));
 		dispatch(fetchDepartmentsAction());
@@ -135,26 +154,25 @@ const GoodReceived = (props) => {
 
 	const { loading, order, error } = useSelector((state) => state.orders);
 	const { departments } = useSelector((state) => state.departments);
-	console.log(order);
 
 	const onSubmitDate = async (props) => {
-		try {
-			await axios.patch(
-				`${process.env.REACT_APP_API_URL}/order/inspection/${id}`,
-				props,
-			);
-			window.location.reload();
-			console.log('submit');
-		} catch (error) {
-			console.log(error);
-		}
+		// try {
+		// 	await axios.patch(
+		// 		`${process.env.REACT_APP_API_URL}/order/inspection/${id}`,
+		// 		props,
+		// 	);
+		// 	window.location.reload();
+		// 	console.log('submit');
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	};
 
 	return (
 		<Sidenav title={'Good Received and Inspection Report (Inspected)'}>
 			<div>
-				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-					{!order ? null : (
+				{
+					!order ? null : (
 						<Container className={classes.mainContainer}>
 							<Grid container spacing={1} style={{ marginTop: 15 }}>
 								<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -222,62 +240,62 @@ const GoodReceived = (props) => {
 								</Grid>
 							</Grid>
 						</Container>
-					)}
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Status of Inspection'
-									variant='outlined'
-									type='text'
-									size='small'
-									select
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('inspectionStatus', { required: true })}>
-									<MenuItem value=''>
-										<em>None</em>
-									</MenuItem>
-									<MenuItem value='Accepted'>Accepted</MenuItem>
-									<MenuItem value='Rejected'>Rejected</MenuItem>
-									<MenuItem value='Signature'>Signature</MenuItem>
-								</CssTextField>
-								{errors.inspectionStatus?.type === 'required' && (
-									<p className='mt-1 text-danger'>Status of Inspection is required</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Remarks'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('remarks', { required: true })}
-								/>
-								{errors.remarks?.type === 'required' && (
-									<p className='mt-1 text-danger'>Category Name is required</p>
-								)}
-							</Grid>
-						</Grid>
-						<div>
-							<Button
+					)
+				}
+				<Container className={classes.mainContainer}>
+					<Grid container spacing={1} style={{ marginTop: 15 }}>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<CssTextField
+								id='outlined-basic'
+								label='Status of Inspection'
 								variant='outlined'
-								color='primary'
-								className={classes.addButton}
-								type='submit'>
-								Add
-							</Button>
-						</div>
-					</Container>
-				</form>
+								type='text'
+								size='small'
+								select
+								autoComplete='off'
+								className={classes.inputFieldStyle1}
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+								{...register('inspectionStatus', { required: true })}>
+								<MenuItem value=''>
+									<em>None</em>
+								</MenuItem>
+								<MenuItem value='Accepted'>Accepted</MenuItem>
+								<MenuItem value='Rejected'>Rejected</MenuItem>
+								<MenuItem value='Signature'>Signature</MenuItem>
+							</CssTextField>
+							{errors.inspectionStatus?.type === 'required' && (
+								<p className='mt-1 text-danger'>Status of Inspection is required</p>
+							)}
+						</Grid>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<CssTextField
+								id='outlined-basic'
+								label='Remarks'
+								variant='outlined'
+								type='text'
+								size='small'
+								autoComplete='off'
+								className={classes.inputFieldStyle1}
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+								{...register('remarks', { required: true })}
+							/>
+							{errors.remarks?.type === 'required' && (
+								<p className='mt-1 text-danger'>Category Name is required</p>
+							)}
+						</Grid>
+					</Grid>
+					<div>
+						<Button
+							variant='outlined'
+							color='primary'
+							className={classes.addButton}
+							type='submit'>
+							Add
+						</Button>
+					</div>
+				</Container>
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<h5>Inspected Orders</h5>

@@ -888,7 +888,7 @@ function Sidenav(props) {
 					</Collapse>
 				</List> */}
 				<Divider />
-				{/* <List>
+				<List>
 					{['Store'].map((text, index) => (
 						<ListItem
 							button
@@ -1033,7 +1033,7 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List> */}
+				</List>
 				<Divider />
 				<List>
 					{['HR'].map((text, index) => (
