@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: 10,
         color: '#22A19A',
         borderColor: '#22A19A',
-        fontWeight: 'bold',
+        textTransform: 'capitalize',
         '&:hover': {
             border: 'none',
             backgroundColor: '#22A19A',
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: 10,
         color: '#e74c3c',
         borderColor: '#e74c3c',
-        fontWeight: 'bold',
+        textTransform: 'capitalize',
         '&:hover': {
             border: 'none',
             backgroundColor: '#e74c3c',

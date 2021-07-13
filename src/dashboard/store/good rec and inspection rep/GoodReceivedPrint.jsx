@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
 import Loading from '../../purchase/material/Loading';
+import Grid from '@material-ui/core/Grid';
+
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -49,10 +51,15 @@ const useStyles = makeStyles((theme) => ({
 	table1: {
 		marginBottom: 300,
 	},
+	tableContainer: {
+		marginTop: '30px'
+	}
 }));
 
 const GoodReceivedPrint = (props) => {
 	const classes = useStyles();
+
+	const { history } = props
 
 	const id = props.match.params.id;
 
@@ -77,197 +84,139 @@ const GoodReceivedPrint = (props) => {
 				<img src='./logo.png' alt='' />
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
-				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5'>Goods Received and Inspection Report</h5>
+				<p>Ph.No 022-3870614-5, Fax: 022-3870606</p>
+				<h5 className='mt-4' style={{ textDecoration: 'underline' }}>Goods Received and Inspection Report</h5>
 			</div>
-			<div className='container-fluid'>
-				<div className='row'>
-					<div className='col-lg-6 col-md-6 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-4 col-md-4' align='right'>
-								<p>Date</p>
-							</div>
-							<div className='col-lg-4 col-md-4 ml-3'>
-								<p>{fullDate}</p>
-								<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-							</div>
+			<div className="container-fluid" style={{ textAlign: 'left', marginTop: 70 }}>
+				<Grid container spacing={1}>
+					<Grid item lg={2} md={2} sm={2} xs={2}>
+						<div className="col-lg-6 col-md-6 col-sm-6">
+							<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>Date:</p>
 						</div>
-					</div>
-					<div
-						className='offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4'
-						id='printBtn'>
-						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
+					</Grid>
+					<Grid item lg={2} md={2} sm={2} xs={2}>
+						<p>
+							{fullDate}
+							<hr style={{ borderTop: '3px double black', marginTop: '5px' }} />
+						</p>
+					</Grid>
+					<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+					<Grid item lg={2} md={2} sm={2} xs={2} id="printBtn">
+						<Button variant="contained" size="small"
+							className="bg-dark text-light"
+							onClick={() => window.print()}
+						>
 							Print
 						</Button>
+					</Grid>
+				</Grid>
+			</div>
+			<div className={classes.dataTable}>
+				<TableContainer >
+					<h5>Inspected Orders</h5>
+					<div className='container-fluid' style={{ textAlign: 'left', }}>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+							<thead >
+								<tr>
+									<th>Date/Time</th>
+									<th>P.R. No.</th>
+									<th>P.O. No.</th>
+									<th>Received From</th>
+									<th>Description</th>
+									<th>Status of Inspection</th>
+									<th>Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr >
+									<td>
+										asd
+									</td>
+									<td>
+										asd
+									</td>
+									<td>
+										asd
+									</td>
+									<td>
+										asd
+									</td>
+									<td>
+										asd
+									</td>
+									<td>
+										asd
+									</td>
+									<td>
+										asd
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-				</div>
+				</TableContainer>
 			</div>
-			<div className={classes.table}>
-				<div className='table ml-auto mr-auto mt-4'>
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Date/Time
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										P.R. No.
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										P.O. No.
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Received From
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Description
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Signature of Inspection
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Justification/Remarks
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<span>Error</span>
-								) : !order ? (
-									<h5>Not Found</h5>
-								) : (
-									<StyledTableRow>
-										<StyledTableCell className='text-dark' align='center'>
-											1.
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.inspectionDate}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.prNum}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.poNum}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.vendor ? order.vendor.name : null}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.description}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.inspectionStatus}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order.remarks}
-										</StyledTableCell>
-									</StyledTableRow>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
-				</div>
-			</div>
-			<div className={classes.table1}>
-				<div className='table ml-auto mr-auto mt-4'>
+			<div className={classes.dataTable}>
+				<TableContainer className={classes.tableContainer}>
 					<h6>Purchase Inspection Materials</h6>
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Material Name
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Quantity
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Unit Value
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Remarks
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<span>Error</span>
-								) : !order.materials || !order.materials.length ? (
-									<span>Not Found</span>
-								) : (
-									order.materials.map((material, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{material.material.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{material.quantity}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{material.unitValue}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{material.remarks}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
-				</div>
+					<div className='container-fluid' style={{ textAlign: 'left', }}>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+							<thead >
+								<tr>
+									<th>Sr.No</th>
+									<th>Material Name</th>
+									<th>Quantity</th>
+									<th>Unit Value</th>
+									<th>Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								{
+									loading ? (
+										<Loading />
+									) : error ? (
+										<span>Error</span>
+									) : !order.materials || !order.materials.length ? (
+										<span>Not Found</span>
+									) : (
+										order.materials.map((material, i) => (
+											<tr key={1}>
+												<td>
+													asd
+												</td>
+												<td>
+													asd
+												</td>
+												<td>
+													asd
+												</td>
+												<td>
+													asd
+												</td>
+												<td>
+													asd
+												</td>
+											</tr>
+										))
+									)
+								}
+							</tbody>
+						</table>
+					</div>
+				</TableContainer>
 			</div>
-			<div className='container'>
-				<div className='row'>
-					<div className='col-lg-3 col-md-3'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+			<div className='container' style={{ marginTop: '100px' }}>
+				<Grid container spacing={1}>
+					<Grid item lg={3} md={3} sm={3} xs={3}>
+						<hr style={{ borderTop: '3px double black', marginTop: '5px' }} />
 						<p style={{ marginTop: -10 }}>Store Incharge</p>
-					</div>
-					<div className='offset-lg-6 offset-md-6 col-lg-3 col-md-3'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+					</Grid>
+					<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+					<Grid item lg={3} md={3} sm={3} xs={3}>
+						<hr style={{ borderTop: '3px double black', marginTop: '5px' }} />
 						<p style={{ marginTop: -10 }}>Q.A Dept</p>
-					</div>
-				</div>
+					</Grid>
+				</Grid>
 			</div>
 		</div>
 	);

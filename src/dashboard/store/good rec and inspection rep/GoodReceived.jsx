@@ -299,62 +299,62 @@ const GoodReceived = (props) => {
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<h5>Inspected Orders</h5>
-						<Table
-							stickyHeader
-							className='table table-dark table-md'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Date/Time</StyledTableCell>
-									<StyledTableCell align='center'>P.R. No.</StyledTableCell>
-									<StyledTableCell align='center'>P.O. No.</StyledTableCell>
-									<StyledTableCell align='center'>Received From</StyledTableCell>
-									<StyledTableCell align='center'>Description</StyledTableCell>
-									<StyledTableCell align='center'>Status of Inspection</StyledTableCell>
-									<StyledTableCell align='center'>Remarks</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<StyledTableRow>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.inspectionDate}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.prNum}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.poNum}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.vendor.name}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.description}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.inspectionStatus}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.remarks}
-									</StyledTableCell>
-									<StyledTableCell className='text-light' align='center'>
-										<Button
-											variant='contained'
-											className='bg-dark text-light'
-											size='small'
-											onClick={() => {
-												console.log(order);
-												history.push(
-													`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`,
-												);
-											}}>
-											View Report
-										</Button>
-									</StyledTableCell>
-								</StyledTableRow>
-							</TableBody>
-						</Table>
+						<div className='container-fluid' style={{ textAlign: 'left', }}>
+							<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+								<thead class="bg-dark text-light">
+									<tr>
+										<th>Date/Time</th>
+										<th>P.R. No.</th>
+										<th>P.O. No.</th>
+										<th>Received From</th>
+										<th>Description</th>
+										<th>Status of Inspection</th>
+										<th>Remarks</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr >
+										<td>
+											{order?.inspectionDate}
+										</td>
+										<td>
+											{order?.prNum}
+										</td>
+										<td>
+											{order?.poNum}
+										</td>
+										<td>
+											{order?.vendor.name}
+										</td>
+										<td>
+											{order?.description}
+										</td>
+										<td>
+											{order?.inspectionStatus}
+										</td>
+										<td>
+											{order?.remarks}
+										</td>
+										<td>
+											<Button
+												variant='contained'
+												color='secondary'
+												size='small'
+												class='btn btn-sm bg-dark text-light'
+												onClick={() =>
+													history.push(
+														`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`,
+													)
+												}
+												style={{ marginLeft: 2, marginTop: 2 }}>
+												View Report
+											</Button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</TableContainer>
 				</div>
 			</div>
