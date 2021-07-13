@@ -1211,22 +1211,22 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Training Record & Eval..' />
 							</ListItem> */}
-							{/* <ListItem
+							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/hr/job_description');
 								}}>
 								<ListItemText inset primary='Job Description' />
-							</ListItem> */}
-							{/* <ListItem
+							</ListItem>
+							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/hr/employees_promotion');
 								}}>
 								<ListItemText inset primary='Employees Promotion' />
-							</ListItem> */}
+							</ListItem>
 						</List>
 					</Collapse>
 				</List>

@@ -12,7 +12,7 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
-import { getEmployees } from '../../../services/action/EmployeesAction';
+import { getEmployeeByDesignationAndDepartment } from '../../../services/action/EmployeesAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -116,8 +116,9 @@ const validationSchema = yup.object({
 });
 
 const EmpCompetencEval = ({ history }) => {
+	const [designation, setDesignation] = React.useState();
+	const [department, setDepartment] = React.useState('');
 	const [cnic, setCnic] = React.useState('');
-	const [selectedDesignation, setSelectedDesignation] = React.useState();
 	const [criteria, setCriteria] = React.useState([]);
 	const classes = useStyles();
 	const { designations } = useSelector((state) => state.designations);
@@ -127,20 +128,25 @@ const EmpCompetencEval = ({ history }) => {
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
-		if (selectedDesignation) {
-			let temp = Object.keys(selectedDesignation?.criteria);
+		if (designation) {
+			let temp = Object.keys(designation?.criteria);
 			temp = temp.map((el) => {
 				return { name: el, capability: '', remarks: '' };
 			});
 			console.log(temp);
 			setCriteria(temp);
 		}
-	}, [selectedDesignation]);
+	}, [designation]);
+
+	React.useEffect(() => {
+		if (designation && department) {
+			dispatch(getEmployeeByDesignationAndDepartment(designation._id, department));
+		}
+	}, [designation, department]);
 
 	useEffect(async () => {
 		dispatch(fetchDepartmentsAction());
 		dispatch(getDesignation());
-		dispatch(getEmployees());
 	}, []);
 
 	const onSubmit = async (props) => {
@@ -154,6 +160,8 @@ const EmpCompetencEval = ({ history }) => {
 		setCriteria(temp);
 	};
 
+	console.log(designation);
+
 	return (
 		<Sidenav title={"Employee's Competency Evaluation"}>
 			<div>
@@ -165,37 +173,6 @@ const EmpCompetencEval = ({ history }) => {
 						{(props) => (
 							<Form>
 								<Grid container spacing={1}>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Employee Name'
-											variant='outlined'
-											type='text'
-											size='small'
-											select
-											autocomplete='off'
-											style={{ width: '100%' }}
-											inputProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('employees')}
-											onBlur={props.handleBlur('employees')}
-											value={props.values.employees}
-											helperText={props.touched.employees && props.errors.employees}
-											error={props.touched.employees && props.errors.employees}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{employees && employees.length > 0 ? (
-												employees.map((el) => (
-													<MenuItem
-														key={el?._id}
-														value={el?._id}
-														onClick={() => setCnic(el?.cnic)}>
-														{el?.name}
-													</MenuItem>
-												))
-											) : (
-												<p>Not found</p>
-											)}
-										</CssTextField>
-									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -215,7 +192,10 @@ const EmpCompetencEval = ({ history }) => {
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											{departments && departments.length > 0 ? (
 												departments.map((el) => (
-													<MenuItem key={el?._id} value={el?._id}>
+													<MenuItem
+														key={el?._id}
+														value={el?._id}
+														onClick={() => setDepartment(el._id)}>
 														{el?.name}
 													</MenuItem>
 												))
@@ -246,7 +226,38 @@ const EmpCompetencEval = ({ history }) => {
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setSelectedDesignation(el)}>
+														onClick={() => setDesignation(el)}>
+														{el?.name}
+													</MenuItem>
+												))
+											) : (
+												<p>Not found</p>
+											)}
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Employee Name'
+											variant='outlined'
+											type='text'
+											size='small'
+											select
+											autocomplete='off'
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('employees')}
+											onBlur={props.handleBlur('employees')}
+											value={props.values.employees}
+											helperText={props.touched.employees && props.errors.employees}
+											error={props.touched.employees && props.errors.employees}
+											InputLabelProps={{ style: { fontSize: 14 } }}>
+											{employees && employees.length > 0 ? (
+												employees.map((el) => (
+													<MenuItem
+														key={el?._id}
+														value={el?._id}
+														onClick={() => setCnic(el?.cnic)}>
 														{el?.name}
 													</MenuItem>
 												))
@@ -290,7 +301,7 @@ const EmpCompetencEval = ({ history }) => {
 													)}
 													<tr>
 														<td style={{ fontWeight: 'bold' }}>{el?.name}</td>
-														{selectedDesignation?.criteria[el?.name]?.req?.map((el, i) => (
+														{designation?.criteria[el?.name]?.req?.map((el, i) => (
 															<td>
 																{el.name && el.name}
 																{el.skill && el.skill}

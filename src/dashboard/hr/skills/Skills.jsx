@@ -138,7 +138,7 @@ const Skills = () => {
 		dispatch(createSkill(props));
 	};
 
-	const deleteSkill = async (params) => {
+	const deleteSkillFunc = async (params) => {
 		dispatch(deleteSkill(params));
 	};
 
@@ -212,8 +212,6 @@ const Skills = () => {
 							<TableBody>
 								{loading ? (
 									<Loading />
-								) : error ? (
-									<MaterialError />
 								) : skills.length ? (
 									skills.map((skill, i) => (
 										<StyledTableRow>
@@ -237,7 +235,7 @@ const Skills = () => {
 														variant='contained'
 														color='secondary'
 														size='small'
-														onClick={() => deleteSkill(skill._id)}
+														onClick={() => deleteSkillFunc(skill._id)}
 														style={{ marginLeft: 2, marginTop: 2 }}>
 														Delete
 													</Button>
