@@ -236,25 +236,6 @@ const TrainingRecord = ({ history }) => {
 							</Form>
 						)}
 					</Formik>
-					{/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                      <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                      ))
-                            } */}
-					{/* <div>
-                            <Button
-                            variant="outlined"
-                            color="primary"
-                            type="submit"
-                            className={classes.addButton}
-                            onClick={() => {
-                                    // history.push('/hr/print_training_need_identification')
-                                }}
-                                >
-                                Add Plan
-                                </Button>
-                              </div> */}
 				</Container>
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>

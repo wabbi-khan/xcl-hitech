@@ -1,190 +1,190 @@
-import React from 'react'
+import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import CheckIcon from '@material-ui/icons/Check';
+import { withRouter } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
+	head: {
+		backgroundColor: theme.palette.common.black,
+		color: theme.palette.common.white,
+	},
+	body: {
+		fontSize: 14,
+	},
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
+	root: {
+		'&:nth-of-type(odd)': {
+			backgroundColor: theme.palette.action.hover,
+		},
+	},
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-    mainContainer: {
-        textAlign: 'center',
-        [theme.breakpoints.up('md')]: {
-            marginLeft: 0,
-            marginTop: 15,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -15,
-        },
-    },
-    mainContainer1: {
-        textAlign: 'left',
-        [theme.breakpoints.up('md')]: {
-            marginLeft: 0,
-            marginTop: 15,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -15,
-        },
-    },
-    addButton: {
-        marginTop: 20,
-        color: '#22A19A',
-        borderColor: '#22A19A',
-        fontWeight: 'bold',
-        '&:hover': {
-            border: 'none',
-            backgroundColor: '#22A19A',
-            color: 'whitesmoke',
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '15%',
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: '30%',
-
-        },
-    },
-    table: {
-        marginLeft: 15
-    },
-    table1: {
-        // minWidth: 600,
-        backgroundColor: 'red',
-        marginTop: 60,
-    },
-    dataTable: {
-        marginTop: 40,
-
-    },
+	root: {
+		'& > *': {
+			margin: theme.spacing(1),
+			width: '25ch',
+		},
+	},
+	mainContainer: {
+		textAlign: 'center',
+		[theme.breakpoints.up('md')]: {
+			marginLeft: 0,
+			marginTop: 15,
+		},
+		[theme.breakpoints.down('sm')]: {
+			marginTop: -15,
+		},
+	},
+	mainContainer1: {
+		textAlign: 'left',
+		[theme.breakpoints.up('md')]: {
+			marginLeft: 0,
+			marginTop: 15,
+		},
+		[theme.breakpoints.down('sm')]: {
+			marginTop: -15,
+		},
+	},
+	addButton: {
+		marginTop: 20,
+		color: '#22A19A',
+		borderColor: '#22A19A',
+		fontWeight: 'bold',
+		'&:hover': {
+			border: 'none',
+			backgroundColor: '#22A19A',
+			color: 'whitesmoke',
+		},
+		[theme.breakpoints.up('md')]: {
+			width: '15%',
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: '30%',
+		},
+	},
+	table: {
+		marginLeft: 15,
+	},
+	table1: {
+		// minWidth: 600,
+		backgroundColor: 'red',
+		marginTop: 60,
+	},
+	dataTable: {
+		marginTop: 40,
+	},
 }));
 
-const PrintJobDescription = () => {
-    const classes = useStyles();
-    // const id = props.match.params.id
+const PrintJobDescription = ({ location }) => {
+	const classes = useStyles();
+	// const id = props.match.params.id
 
-    const date = new Date()
-    const currDate = date.getDate()
-    const months = date.getMonth() + 1
-    const years = date.getFullYear()
-    const fullDate = `${currDate} / ${months} / ${years}`
+	console.log(location);
+	const description = location.state.description;
 
-    return (
-        <div className="text-center">
-            <div className="container">
-                <img src="./logo.png" alt="" />
-                <h4>Hi-Tech Pipe & Engineering Industries</h4>
-                <h6>Plot No X-22, Site Area Kotri</h6>
-                <p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-                <h5 className="mt-4" style={{ textDecoration: 'underline', fontWeight: 'bold', marginBottom: 40 }}>JOB DESCRIPTION</h5>
-            </div>
-            <div className="container-fluid" >
-                <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                    <Grid item lg={4} md={4} sm={4} xs={4}>
-                        <Grid container spacing={1} >
-                            <Grid item lg={6} md={6} sm={6} xs={6}>
-                                <p style={{ fontWeight: 'bold', marginLeft: '10px' }}>Date:</p>
-                            </Grid>
-                            <Grid item lg={6} md={6} sm={6} xs={6}>
-                                <p>
-                                    {fullDate}
-                                    <hr style={{ borderTop: '3px double black', }} />
-                                </p>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item lg={6} md={6} sm={6} xs={6}></Grid>
-                    <Grid item lg={2} md={2} sm={2} xs={2}>
-                        <Button variant="contained" size="small"
-                            className="bg-dark text-light"
-                            onClick={() => window.print()}
-                        >
-                            Print
-                        </Button>
-                    </Grid>
-                </Grid>
-            </div>
-            <div className={classes.table}>
-                <div className="table ml-auto mr-auto mt-4">
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ fontWeight: 'bold', }}>
-                                Name
-                            </p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>Arsalan Khan</p>
-                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
-                        </Grid>
-                        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                        <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p style={{ fontWeight: 'bold', }}>
-                                Designation
-                            </p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p>Manager</p>
-                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ fontWeight: 'bold', }}>
-                                Department
-                            </p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>Purchase</p>
-                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
-                        </Grid>
-                        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                        <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p style={{ fontWeight: 'bold', }}>
-                                Reports To
-                            </p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>2-2-18</p>
-                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ fontWeight: 'bold', }}>
-                                Interaction With
-                            </p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>6-Months</p>
-                            <hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
-                        </Grid>
-                    </Grid>
-                    {/* <thead class="thead-dark">
+	const date = new Date();
+	const currDate = date.getDate();
+	const months = date.getMonth() + 1;
+	const years = date.getFullYear();
+	const fullDate = `${currDate} / ${months} / ${years}`;
+
+	return (
+		<div className='text-center'>
+			<div className='container'>
+				<img src='./logo.png' alt='' />
+				<h4>Hi-Tech Pipe & Engineering Industries</h4>
+				<h6>Plot No X-22, Site Area Kotri</h6>
+				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
+				<h5
+					className='mt-4'
+					style={{
+						textDecoration: 'underline',
+						fontWeight: 'bold',
+						marginBottom: 40,
+					}}>
+					JOB DESCRIPTION
+				</h5>
+			</div>
+			<div className='container-fluid'>
+				<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
+					<Grid item lg={4} md={4} sm={4} xs={4}>
+						<Grid container spacing={1}>
+							<Grid item lg={6} md={6} sm={6} xs={6}>
+								<p style={{ fontWeight: 'bold', marginLeft: '10px' }}>Date:</p>
+							</Grid>
+							<Grid item lg={6} md={6} sm={6} xs={6}>
+								<p>
+									{fullDate}
+									<hr style={{ borderTop: '3px double black' }} />
+								</p>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+					<Grid item lg={2} md={2} sm={2} xs={2}>
+						<Button
+							variant='contained'
+							size='small'
+							className='bg-dark text-light'
+							onClick={() => window.print()}>
+							Print
+						</Button>
+					</Grid>
+				</Grid>
+			</div>
+			<div className={classes.table}>
+				<div className='table ml-auto mr-auto mt-4'>
+					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p style={{ fontWeight: 'bold' }}>Name</p>
+						</Grid>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p>{description?.employee?.name}</p>
+							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+						</Grid>
+						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+						<Grid item lg={2} md={2} sm={3} xs={3}>
+							<p style={{ fontWeight: 'bold' }}>Designation</p>
+						</Grid>
+						<Grid item lg={2} md={2} sm={3} xs={3}>
+							<p>{description?.employee?.finalDesignation?.name}</p>
+							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+						</Grid>
+					</Grid>
+					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p style={{ fontWeight: 'bold' }}>Department</p>
+						</Grid>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p>{description?.employee?.finalDepartment?.name}</p>
+							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+						</Grid>
+						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+						<Grid item lg={2} md={2} sm={3} xs={3}>
+							<p style={{ fontWeight: 'bold' }}>Reports To</p>
+						</Grid>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p>{description?.reportTo?.name}</p>
+							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+						</Grid>
+					</Grid>
+					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p style={{ fontWeight: 'bold' }}>Interaction With</p>
+						</Grid>
+						<Grid item lg={2} md={2} sm={2} xs={2}>
+							<p>{description?.interactionWith?.name}</p>
+							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+						</Grid>
+					</Grid>
+					{/* <thead class="thead-dark">
                     <tr>
                     <th>S.No.</th>
                     <td colspan="5">
@@ -195,48 +195,57 @@ const PrintJobDescription = () => {
                     <th>Remarks</th>
                     </tr>
                 </thead> */}
-                </div>
-                <div className={classes.mainContainer1}>
-                    <h5 align="left" style={{ marginTop: 60 }}>Responsibilities</h5>
-                    <p style={{ width: '75%', marginTop: 15 }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit illum iure voluptatibus laboriosam
-                    </p>
-                </div>
-                <div className={classes.mainContainer1}>
-                    <h5 align="left" style={{ marginTop: 60 }}>Authorities</h5>
-                    <p style={{ width: '75%', marginTop: 15 }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit illum iure voluptatibus laboriosam
-                    </p>
-                </div>
-            </div>
-            <Grid container spacing={1} style={{ marginTop: 220 }}>
-                <Grid item lg={3} md={3} sm={3} xs={3} style={{ marginLeft: 40 }}>
-                    <hr style={{ borderTop: '3px double black' }} />
-                    <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Written & Signed By: <br />Factory Manager</p>
-                </Grid>
-                <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                <Grid item lg={3} md={3} sm={3} xs={3}>
-                    <hr style={{ borderTop: '3px double black' }} />
-                    <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Approved & Signed By: <br />CEO</p>
-                </Grid>
-                <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                <Grid item lg={3} md={3} sm={3} xs={3}>
-                    <hr style={{ borderTop: '3px double black' }} />
-                    <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Copy To: 1. Employee, <br /> 2. Personal File</p>
-                </Grid>
-            </Grid>
-            <div className="container" >
-                <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-3 mt-5">
-                    </div>
-                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5">
-                    </div>
-                    <div className="offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5">
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
+				</div>
+				<div className={classes.mainContainer1}>
+					<h5 align='left' style={{ marginTop: 60 }}>
+						Responsibilities
+					</h5>
+					{description?.employee?.finalDesignation?.responsibilities?.map((el) => (
+						<p style={{ width: '75%', marginTop: 15 }}>{el}</p>
+					))}
+				</div>
+				<div className={classes.mainContainer1}>
+					<h5 align='left' style={{ marginTop: 60 }}>
+						Authorities
+					</h5>
+					{description?.employee?.finalDesignation?.authorities?.map((el) => (
+						<p style={{ width: '75%', marginTop: 15 }}>{el}</p>
+					))}
+				</div>
+			</div>
+			<Grid container spacing={1} style={{ marginTop: 220 }}>
+				<Grid item lg={3} md={3} sm={3} xs={3} style={{ marginLeft: 40 }}>
+					<hr style={{ borderTop: '3px double black' }} />
+					<p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>
+						Written & Signed By: <br />
+						Factory Manager
+					</p>
+				</Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid item lg={3} md={3} sm={3} xs={3}>
+					<hr style={{ borderTop: '3px double black' }} />
+					<p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>
+						Approved & Signed By: <br />
+						CEO
+					</p>
+				</Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid item lg={3} md={3} sm={3} xs={3}>
+					<hr style={{ borderTop: '3px double black' }} />
+					<p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>
+						Copy To: 1. Employee, <br /> 2. Personal File
+					</p>
+				</Grid>
+			</Grid>
+			<div className='container'>
+				<div className='row'>
+					<div className='col-lg-3 col-md-3 col-sm-3 mt-5'></div>
+					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5'></div>
+					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5'></div>
+				</div>
+			</div>
+		</div>
+	);
+};
 
-export default PrintJobDescription
+export default withRouter(PrintJobDescription);

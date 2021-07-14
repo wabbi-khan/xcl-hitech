@@ -90,8 +90,27 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	department: '',
+	designation: '',
+	employee: '',
+	reportTo: '',
+	interactionWith: '',
+};
+
+const validationSchema = yup.object({
+	department: yup.string().required(),
+	designation: yup.string().required(),
+	employee: yup.string().required(),
+	reportTo: yup.string().required(),
+	interactionWith: yup.string().required(),
+});
+
 const JobDescription = ({ history }) => {
-	const [designation, setDesignation] = React.useState('');
+	const [designation, setDesignation] = React.useState({
+		responsibilities: [],
+		authorities: [],
+	});
 	const [department, setDepartment] = React.useState('');
 	const { departments } = useSelector((state) => state.departments);
 	const { designations } = useSelector((state) => state.designations);
@@ -102,7 +121,7 @@ const JobDescription = ({ history }) => {
 
 	React.useEffect(() => {
 		if (department && designation) {
-			dispatch(getEmployeeByDesignationAndDepartment(designation, department));
+			dispatch(getEmployeeByDesignationAndDepartment(designation._id, department));
 		}
 	}, [department && designation]);
 
@@ -111,17 +130,32 @@ const JobDescription = ({ history }) => {
 		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
-	const onSubmit = (values) => {
+	const onSubmit = async (values) => {
 		console.log(values);
+		const res = await axios.post(
+			`${process.env.REACT_APP_API_URL}/job-description`,
+			values,
+		);
 
-		// history.push('/hr/print_job_description')
+		console.log(res);
+
+		if (res.status == 200) {
+			console.log('object');
+			history.push({
+				pathname: '/hr/print_job_description',
+				state: { description: res.data.description },
+			});
+		}
 	};
 
 	return (
 		<Sidenav title={'Job Description'}>
 			<div>
 				<div className='text-center mt-3'>
-					<Formik>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
 						{(props) => (
 							<Form>
 								<Grid container spacing={1}>
@@ -136,6 +170,11 @@ const JobDescription = ({ history }) => {
 											autocomplete='off'
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('department')}
+											onBlur={props.handleBlur('department')}
+											value={props.values.department}
+											helperText={props.touched.department && props.errors.department}
+											error={props.touched.department && props.errors.department}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											{!departments || !departments.length ? (
 												<p>Data Not Found</p>
@@ -162,8 +201,24 @@ const JobDescription = ({ history }) => {
 											autocomplete='off'
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('designation')}
+											onBlur={props.handleBlur('designation')}
+											value={props.values.designation}
+											helperText={props.touched.designation && props.errors.designation}
+											error={props.touched.designation && props.errors.designation}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem>Manager</MenuItem>
+											{!designations || !designations.length ? (
+												<p>Data Not Found</p>
+											) : (
+												designations.map((el, i) => (
+													<MenuItem
+														value={el._id}
+														key={i}
+														onClick={() => setDesignation(el)}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -177,8 +232,21 @@ const JobDescription = ({ history }) => {
 											select
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('employee')}
+											onBlur={props.handleBlur('employee')}
+											value={props.values.employee}
+											helperText={props.touched.employee && props.errors.employee}
+											error={props.touched.employee && props.errors.employee}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem>Arsalan</MenuItem>
+											{!employees || !employees.length ? (
+												<p>Data Not Found</p>
+											) : (
+												employees.map((el, i) => (
+													<MenuItem value={el._id} key={i}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -192,8 +260,21 @@ const JobDescription = ({ history }) => {
 											select
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('reportTo')}
+											onBlur={props.handleBlur('reportTo')}
+											value={props.values.reportTo}
+											helperText={props.touched.reportTo && props.errors.reportTo}
+											error={props.touched.reportTo && props.errors.reportTo}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem>Factory Manager</MenuItem>
+											{!designations || !designations.length ? (
+												<p>Data Not Found</p>
+											) : (
+												designations.map((el, i) => (
+													<MenuItem value={el._id} key={i}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
 								</Grid>
@@ -209,8 +290,23 @@ const JobDescription = ({ history }) => {
 											autocomplete='off'
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('interactionWith')}
+											onBlur={props.handleBlur('interactionWith')}
+											value={props.values.interactionWith}
+											helperText={
+												props.touched.interactionWith && props.errors.interactionWith
+											}
+											error={props.touched.interactionWith && props.errors.interactionWith}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem value='0'>Store In-Charege</MenuItem>
+											{!designations || !designations.length ? (
+												<p>Data Not Found</p>
+											) : (
+												designations.map((el, i) => (
+													<MenuItem value={el._id} key={i}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
 								</Grid>
@@ -218,14 +314,9 @@ const JobDescription = ({ history }) => {
 									<h5 style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
 										Responsibilities
 									</h5>
-									<p>
-										Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, eaque
-										cupiditate magnam repellendus
-									</p>
-									<p>
-										Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, eaque
-										cupiditate magnam repellendus
-									</p>
+									{designation.responsibilities.map((el) => (
+										<p>{el}</p>
+									))}
 									<div style={{ marginTop: 30, marginBottom: 30 }}>
 										<hr />
 									</div>
@@ -234,14 +325,9 @@ const JobDescription = ({ history }) => {
 									<h5 style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
 										Authorities
 									</h5>
-									<p>
-										Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, eaque
-										cupiditate magnam repellendus
-									</p>
-									<p>
-										Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto, eaque
-										cupiditate magnam repellendus
-									</p>
+									{designation.authorities.map((el) => (
+										<p>{el}</p>
+									))}
 									<div style={{ marginTop: 30, marginBottom: 30 }}>
 										<hr />
 									</div>

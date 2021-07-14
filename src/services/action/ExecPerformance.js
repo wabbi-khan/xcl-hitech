@@ -44,12 +44,14 @@ export const createExtEmpPerformanceAction =
 
 			console.log(res);
 
-			dispatch({
-				type: EXECPERFORMANCE_CREATE_SUCCESS,
-				payload: res.data.performance,
-			});
+			if (res.status === 200) {
+				dispatch({
+					type: EXECPERFORMANCE_CREATE_SUCCESS,
+					payload: res.data.performance,
+				});
 
-			if (cb) cb();
+				if (cb) cb();
+			}
 		} catch (err) {
 			console.log('object');
 			dispatchError(err, dispatch);

@@ -18,8 +18,6 @@ export const getDesignation = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/designation${query ? `?${query}` : ''}`,
 		);
 
-		console.log(data.data);
-
 		dispatch({
 			type: DESIGNATION_FETCH_SUCCESS,
 			payload: data.data,

@@ -97,6 +97,7 @@ const PrintExecEmpDetails = ({ location }) => {
 	const fullDate = `${currDate} / ${months} / ${years}`;
 	const { execPrereq } = useSelector((state) => state.execPrereq);
 	const { execRat } = useSelector((state) => state.execRat);
+	console.log(execPrereq);
 
 	React.useEffect(() => {
 		if (location?.state?.assessment) {
@@ -174,7 +175,7 @@ const PrintExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Employee Name</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>Arsalan Khan</p>
+							<p>{assessment?.employee?.name}</p>
 							<hr
 								style={{
 									paddingBottom: 4,
@@ -189,7 +190,7 @@ const PrintExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Position/Title</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p>Manager</p>
+							<p>{assessment?.employee?.finalDesignation?.name}</p>
 							<hr
 								style={{
 									paddingBottom: 3,
@@ -205,7 +206,7 @@ const PrintExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Department</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>Purchase</p>
+							<p>{assessment?.employee?.finalDepartment?.name}</p>
 							<hr
 								style={{
 									paddingBottom: 4,
@@ -289,30 +290,21 @@ const PrintExecEmpDetails = ({ location }) => {
 												execRat?.length > 0 &&
 												execRat?.map((el) => <td>({el?.calculated})</td>)}
 										</tr>
-										{topEl?.points?.map((el) => (
+										{topEl?.points?.map((el, i) => (
 											<tr>
-												<td scope='row'>{topEl?.heading}</td>
-												<td>{el}</td>
+												{i === 0 ? (
+													<td scope='row'>{topEl?.heading}</td>
+												) : (
+													<td scope='row'></td>
+												)}
+												<td>
+													{el}
+													{assessment?.list?.map(
+														(el2, i) => el2?.selected === el && <CheckIcon />,
+													)}
+												</td>
 											</tr>
 										))}
-										<tr>
-											<td scope='row'></td>
-											<td className='text-center'>
-												<CheckIcon />
-											</td>
-											<td className='text-center'>
-												<CheckIcon />
-											</td>
-											<td className='text-center'>
-												<CheckIcon />
-											</td>
-											<td className='text-center'>
-												<CheckIcon />
-											</td>
-											<td className='text-center'>
-												<CheckIcon />
-											</td>
-										</tr>
 									</tbody>
 								</table>
 								<Grid
@@ -324,7 +316,7 @@ const PrintExecEmpDetails = ({ location }) => {
 									</Grid>
 									<Grid item sm={1} xs={1}></Grid>
 									<Grid item lg={2} md={2} sm={3} xs={3}>
-										<p>overall good</p>
+										<p>{assessment?.list[i].comments}</p>
 										<hr
 											style={{
 												paddingBottom: 4,
@@ -358,16 +350,28 @@ const PrintExecEmpDetails = ({ location }) => {
 										<td scope='row'>{el?.name}</td>
 										<td scope='row'>{el?.calculated}</td>
 										<td scope='row'>x</td>
-										<td scope='row'>6</td>
+										<td scope='row'>
+											{' '}
+											{
+												assessment.list.filter(
+													(tempEl) => tempEl?.calculated === el?.calculated,
+												).length
+											}
+										</td>
 										<td scope='row'>=</td>
-										<td scope='row'>30</td>
+										<td scope='row'>
+											{' '}
+											{assessment.list.filter(
+												(tempEl) => tempEl?.calculated === el?.calculated,
+											).length * parseInt(el.calculated)}
+										</td>
 									</tr>
 								))}
 
 							<tr>
 								<td colspan='2'>TOTAL</td>
 								<td colspan='3'></td>
-								<td>46</td>
+								<td>{assessment?.total}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -393,7 +397,9 @@ const PrintExecEmpDetails = ({ location }) => {
 											{el?.min}-{el?.max}
 										</td>
 										<td className='text-center'>
-											<CheckIcon />
+											{assessment.total >= el?.min && assessment.total < el?.max && (
+												<CheckIcon />
+											)}
 										</td>
 									</tr>
 								))}
@@ -425,9 +431,7 @@ const PrintExecEmpDetails = ({ location }) => {
 				</Grid>
 				<Grid item lg={9} md={9} sm={9} xs={9}>
 					<p>
-						Lorem ipsum dolor sit, amet consectetur adipisicing elit. voluptatum
-						possimus porro voluptatem totam rerum eligendi modi mollitia consequuntur
-						quia eum. Eligendi laboriosam repudiandae ea odit.
+						{assessment?.values?.suggestions}
 						<hr
 							style={{
 								paddingBottom: 4,
@@ -467,9 +471,7 @@ const PrintExecEmpDetails = ({ location }) => {
 				</Grid>
 				<Grid item lg={9} md={9} sm={9} xs={9}>
 					<p>
-						Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam,
-						veniam ex illum totam rerum eligendi modi mollitia consequuntur quia eum.
-						Eligendi laboriosam repudiandae ea odit.
+						{assessment?.values?.recommendations}
 						<hr
 							style={{
 								paddingBottom: 4,

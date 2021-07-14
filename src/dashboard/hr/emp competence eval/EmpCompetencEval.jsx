@@ -130,10 +130,15 @@ const EmpCompetencEval = ({ history }) => {
 	React.useEffect(() => {
 		if (designation) {
 			let temp = Object.keys(designation?.criteria);
-			temp = temp.map((el) => {
-				return { name: el, capability: '', remarks: '' };
+			temp = temp.map((el, i) => {
+				return {
+					name: el,
+					required: designation?.criteria[el].req,
+					capability: '',
+					remarks: '',
+					summary: '',
+				};
 			});
-			console.log(temp);
 			setCriteria(temp);
 		}
 	}, [designation]);
@@ -151,6 +156,11 @@ const EmpCompetencEval = ({ history }) => {
 
 	const onSubmit = async (props) => {
 		console.log(criteria);
+
+		history.push({
+			pathname: '/hr/print_emp_competency_evaluation',
+			state: { criteria },
+		});
 	};
 
 	const onChange = (value, index, key) => {
@@ -159,8 +169,6 @@ const EmpCompetencEval = ({ history }) => {
 		);
 		setCriteria(temp);
 	};
-
-	console.log(designation);
 
 	return (
 		<Sidenav title={"Employee's Competency Evaluation"}>
@@ -301,12 +309,14 @@ const EmpCompetencEval = ({ history }) => {
 													)}
 													<tr>
 														<td style={{ fontWeight: 'bold' }}>{el?.name}</td>
-														{designation?.criteria[el?.name]?.req?.map((el, i) => (
-															<td>
-																{el.name && el.name}
-																{el.skill && el.skill}
-															</td>
-														))}
+														<td>
+															{designation?.criteria[el?.name]?.req?.map((el, i) => (
+																<span>
+																	{el.name && el.name}
+																	{el.skill && el.skill} /
+																</span>
+															))}
+														</td>
 													</tr>
 													<Grid
 														container
@@ -315,7 +325,7 @@ const EmpCompetencEval = ({ history }) => {
 														<Grid item lg={6} md={6} sm={12} xs={12}>
 															<CssTextField
 																id='outlined-basic'
-																label='Remarks'
+																label='Capability'
 																variant='outlined'
 																type='text'
 																size='small'
@@ -360,6 +370,7 @@ const EmpCompetencEval = ({ history }) => {
 														autocomplete='off'
 														style={{ width: '100%' }}
 														inputProps={{ style: { fontSize: 14 } }}
+														onChange={(e) => onChange(e.target.value, i, 'summary')}
 														InputLabelProps={{ style: { fontSize: 14 } }}
 													/>
 												</Grid>

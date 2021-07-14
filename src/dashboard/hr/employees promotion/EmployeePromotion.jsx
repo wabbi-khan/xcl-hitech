@@ -107,6 +107,7 @@ const EmployeePromotion = ({ history }) => {
 	const [employee, setEmployee] = React.useState('');
 	const classes = useStyles();
 	const { departments } = useSelector((state) => state.departments);
+	const [success, setSuccess] = React.useState('');
 	const { designations } = useSelector((state) => state.designations);
 	const { employees } = useSelector((state) => state.employees);
 
@@ -124,9 +125,16 @@ const EmployeePromotion = ({ history }) => {
 	}, []);
 
 	const onSubmit = async (props) => {
+		console.log(props.promoteTo);
 		dispatch(
-			promoteEmployee(employee, { promoteTo: props.designation }, () => {
-				// history.push('/hr/print_emp_competency_evaluation');
+			promoteEmployee(employee, { promoteTo: props.promoteTo }, (err) => {
+				if (err) {
+				} else {
+					setSuccess('Employee successfully promoted');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
 			}),
 		);
 	};
@@ -272,6 +280,7 @@ const EmployeePromotion = ({ history }) => {
 										className={classes.addButton}>
 										Submit
 									</Button>
+									{success && <p>{success}</p>}
 								</div>
 							</Form>
 						)}

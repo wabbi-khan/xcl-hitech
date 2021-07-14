@@ -24,67 +24,63 @@ import { getExtEmpRatingAction } from '../../../../../services/action/ExecRating
 import { getExtEmpRequisitionAction } from '../../../../../services/action/ExecPrereq';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-    mainContainer: {
-        textAlign: 'center',
-        [theme.breakpoints.up('md')]: {
-            marginLeft: 0,
-            marginTop: 15,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -15,
-        },
-    },
-    addButton: {
-        marginTop: 70,
-        color: '#22A19A',
-        borderColor: '#22A19A',
-        fontWeight: 'bold',
-        '&:hover': {
-            border: 'none',
-            backgroundColor: '#22A19A',
-            color: 'whitesmoke',
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '15%',
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: '30%',
-
-        },
-    },
-    addMoreButton: {
-        backgroundColor: '#22A19A',
-        color: 'whitesmoke',
-        marginLeft: 20,
-        marginTop: 5,
-        '&:hover': {
-            color: '#22A19A',
-            borderColor: '#22A19A',
-        },
-    },
-    table: {
-        minWidth: 600,
-    },
-    dataTable: {
-        marginTop: 40,
-
-    },
-    ckeckBox: {
-        [theme.breakpoints.up('md')]: {
-            marginLeft: 7,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: 0,
-        },
-    },
-
+	root: {
+		'& > *': {
+			margin: theme.spacing(1),
+			width: '25ch',
+		},
+	},
+	mainContainer: {
+		textAlign: 'center',
+		[theme.breakpoints.up('md')]: {
+			marginLeft: 0,
+			marginTop: 15,
+		},
+		[theme.breakpoints.down('sm')]: {
+			marginTop: -15,
+		},
+	},
+	addButton: {
+		marginTop: 70,
+		color: '#22A19A',
+		borderColor: '#22A19A',
+		fontWeight: 'bold',
+		'&:hover': {
+			border: 'none',
+			backgroundColor: '#22A19A',
+			color: 'whitesmoke',
+		},
+		[theme.breakpoints.up('md')]: {
+			width: '15%',
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: '30%',
+		},
+	},
+	addMoreButton: {
+		backgroundColor: '#22A19A',
+		color: 'whitesmoke',
+		marginLeft: 20,
+		marginTop: 5,
+		'&:hover': {
+			color: '#22A19A',
+			borderColor: '#22A19A',
+		},
+	},
+	table: {
+		minWidth: 600,
+	},
+	dataTable: {
+		marginTop: 40,
+	},
+	ckeckBox: {
+		[theme.breakpoints.up('md')]: {
+			marginLeft: 7,
+		},
+		[theme.breakpoints.down('sm')]: {
+			marginLeft: 0,
+		},
+	},
 }));
 
 const CssTextField = withStyles({
@@ -177,16 +173,20 @@ const ExecEmpAssestPerform = ({ history }) => {
 	const onSubmit = (values) => {
 		console.log(values);
 		dispatch(
-			createExtEmpPerformanceAction({
-				employee: values._id,
-				...values,
-				list: ratingList,
-			}),
+			createExtEmpPerformanceAction(
+				{
+					employee: values._id,
+					...values,
+					list: ratingList,
+				},
+				() => {
+					history.push({
+						pathname: '/hr/performance_assessment/print_executive_emp_performance',
+						state: { assessment: { employee, list: ratingList, total, values } },
+					});
+				},
+			),
 		);
-		// history.push({
-		// 	pathname: '/hr/performance_assessment/print_executive_emp_performance',
-		// 	state: { assessment: { employee, list: ratingList } },
-		// });
 	};
 
 	const onCheck = (e, index, index2) => {

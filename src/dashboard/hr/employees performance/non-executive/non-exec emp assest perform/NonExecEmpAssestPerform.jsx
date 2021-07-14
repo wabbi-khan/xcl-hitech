@@ -153,7 +153,7 @@ const CssTextField = withStyles({
 })(TextField);
 
 const initialValuesForTopForm = {
-	name: '',
+	employeeName: '',
 	_id: '',
 	age: '',
 	dateOfBirth: '',
@@ -165,7 +165,7 @@ const initialValuesForTopForm = {
 };
 
 const validationSchemaForTopForm = yup.object({
-	name: yup.mixed().required(),
+	employeeName: yup.mixed().required(),
 	_id: yup.string().required(),
 	age: yup.string().required(),
 	dateOfBirth: yup.string().required(),
@@ -196,6 +196,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 	const { nonExecPrereq } = useSelector((state) => state.nonExecPrereq);
 
 	console.log(initialValuesForDiscipline);
+	console.log(nonExecPrereq);
 
 	useEffect(() => {
 		nonExecPrereq && setInitialValuesForDiscipline(nonExecPrereq);
@@ -209,7 +210,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 				...employee,
 				designation,
 				department,
-				name: employee._id,
+				employeeName: employee._id,
 			});
 	}, [employee]);
 
@@ -248,12 +249,16 @@ const NonExecEmpAssestPerform = ({ history }) => {
 					setTimeout(() => {
 						setSuccess(false);
 					}, 4000);
+					history.push({
+						pathname:
+							'/hr/performance_assessment/print_non_executive_emp_performance',
+						state: {
+							assessment: { values, total, data: initialValuesForDiscipline },
+						},
+					});
 				},
 			),
 		);
-		// history.push(
-		// 	'/hr/performance_assessment/print_non_executive_emp_performance',
-		// );
 	};
 
 	React.useEffect(() => {
@@ -363,11 +368,11 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
-											onChange={props.handleChange('name')}
-											onBlur={props.handleBlur('name')}
-											value={props.values.name}
-											helperText={props.touched.name && props.errors.name}
-											error={props.touched.name && props.errors.name}
+											onChange={props.handleChange('employeeName')}
+											onBlur={props.handleBlur('employeeName')}
+											value={props.values.employeeName}
+											helperText={props.touched.employeeName && props.errors.employeeName}
+											error={props.touched.employeeName && props.errors.employeeName}
 											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
@@ -551,12 +556,12 @@ const NonExecEmpAssestPerform = ({ history }) => {
 												spacing={1}
 												style={{ marginTop: 15, paddingRight: 120 }}>
 												<Grid item lg={3} md={3} sm={12} xs={12}>
-													{total > el?.min && total < el?.max && <AiOutlineCheck />}
+													{total >= el?.min && total < el?.max && <AiOutlineCheck />}
 													<h6>{el?.name}</h6>
 												</Grid>
 												<Grid item lg={2} md={2} sm={12} xs={12}>
 													<h6>
-														{el?.min}-{el?.max}
+														{el?.min}-{el?.max - 1}
 													</h6>
 												</Grid>
 											</Grid>
@@ -570,7 +575,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											<>
 												<Grid container spacing={1} style={{ marginTop: 15 }}>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
-														{total > el?.min && total < el?.max && <AiOutlineCheck />}
+														{total >= el?.min && total < el?.max && <AiOutlineCheck />}
 														<h6 style={{ textDecoration: 'underline' }}>{el?.name}</h6>
 													</Grid>
 												</Grid>
