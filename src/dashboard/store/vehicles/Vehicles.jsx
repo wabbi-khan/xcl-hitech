@@ -18,8 +18,8 @@ import { fetchVehiclesAction } from '../../../services/action/VehiclesAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditVehicles from './EditVehicles';
-import { useForm } from 'react-hook-form';
-
+import { Form, Formik } from 'formik'
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -78,26 +78,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 40,
 
     },
-    inputFieldStyle: {
-        [theme.breakpoints.up('md')]: {
-            width: 250,
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-
-        },
-    },
-    inputFieldStyle1: {
-        [theme.breakpoints.up('md')]: {
-            width: 250,
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-            marginTop: 10,
-        },
-    },
 }));
 
 const CssTextField = withStyles({
@@ -117,6 +97,22 @@ const CssTextField = withStyles({
 
 })(TextField);
 
+const initialValue = {
+    vehicleNo: '',
+    vehicleType: '',
+    driverName: '',
+    phnNo: '',
+    cnicNo: '',
+};
+
+const validationSchema = yup.object({
+    vehicleNo: yup.string().required('Vehicle No. is required'),
+    vehicleType: yup.string().required('Vehicle Type is required'),
+    driverName: yup.string().required('Driver name is required'),
+    phnNo: yup.string().required('Phone No. is required'),
+    cnicNo: yup.string().required('CNIC No. is required'),
+});
+
 const Vehicles = () => {
     const [vehicle, setvehicle] = useState('')
     const [isUpdate, setIsUpdate] = useState(false)
@@ -124,7 +120,7 @@ const Vehicles = () => {
 
     const classes = useStyles();
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+
 
     const dispatch = useDispatch()
 
@@ -134,17 +130,9 @@ const Vehicles = () => {
 
     const { loading, vehicles, error } = useSelector(state => state.vehicles)
 
-    const onSubmitDate = async (props) => {
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/vehicle`, props)
-            window.location.reload()
-            setIsUpdate(true)
-        }
-        catch (error) {
-            setIsError(true)
-            console.log(error);
-        }
-    }
+    const onSubmit = async (props) => {
+        // dispatch(createTraining(props));
+    };
 
     const [open, setOpen] = useState(false);
 
@@ -177,198 +165,217 @@ const Vehicles = () => {
             />
             {/* ============vehicles form component */}
             <div>
-                <form action="" onSubmit={handleSubmit(onSubmitDate)}>
-                    <Container className={classes.mainContainer}>
-                        <Grid container spacing={1} style={{ marginTop: 15, }} >
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Vehicle No."
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autoComplete="off"
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("number", { required: true })}
-                                />
-                                {
-                                    errors.number?.type === 'required' && <p className="text-danger mt-1">Vehicle No. is required</p>
-                                }
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Vehicle Type"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autoComplete="off"
-                                    select
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("type", { required: true })}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value="truck">Truck</MenuItem>
-                                    <MenuItem value="heavy truck">Heavy Truck</MenuItem>
-                                </CssTextField>
-                                {
-                                    errors.type?.type === 'required' && <p className="text-danger mt-1">Vehicle Type is required</p>
-                                }
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Driver Name"
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autoComplete="off"
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("driverName", { required: true, maxLength: 20 })}
-                                />
-                                {
-                                    errors.driverName?.type === 'required' && <p className="text-danger mt-1">Driver Name is required</p>
-                                }
-                            </Grid>
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="Phone No."
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autoComplete="off"
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("phoneNum", { required: true, maxLength: 40 })}
-                                />
-                                {
-                                    errors.phoneNum?.type === 'required' && <p className="text-danger mt-1">Phone No. is required</p>
-                                }
-                            </Grid>
-                        </Grid>
-                    </Container>
-                    <Container className={classes.mainContainer}>
-                        <Grid container spacing={1} style={{ marginTop: 15, }} >
-                            <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    label="CNIC No."
-                                    variant="outlined"
-                                    type="text"
-                                    size="small"
-                                    autoComplete="off"
-                                    style={{ width: '100%' }}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("cnicNum", { required: true, maxLength: 30 })}
-                                />
-                                {
-                                    errors.cnicNum?.type === 'required' && <p className="text-danger mt-1">CNIC No. is required</p>
-                                }
-                                {
-                                    isUpdate ? <p className="text-success mt-2">Vehicle Added Successfully</p> : (
-                                        isError ? <p className="text-danger mt-1">Vehicle Add Failed </p> : null
-                                    )
-                                }
-                            </Grid>
-                        </Grid>
-                        <div>
-                            <Button variant="outlined" color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                            >
-                                Add
-                            </Button>
-                        </div>
-                    </Container>
-                </form>
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        {/* <h5>Inspected Orders</h5> */}
-                        <div className='container-fluid' style={{ textAlign: 'left', }}>
-                            <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-                                <thead class="bg-dark text-light">
-                                    <tr>
-                                        <th>S.No.</th>
-                                        <th>Vehicle No.</th>
-                                        <th>Vehicle Type</th>
-                                        <th>Driver Name</th>
-                                        <th>Phn No.</th>
-                                        <th>CNIC No.</th>
-                                        <th>Inspected/Un-Inspected</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        loading ? (
-                                            <Loading />
-                                        ) :
-                                            error ? (
-                                                <MaterialError />
+                <Container className={classes.mainContainer}>
+                    <Formik
+                        initialValues={initialValue}
+                        validationSchema={validationSchema}
+                        onSubmit={onSubmit}
+                    >
+                        {
+                            (props) => (
+                                <Form>
+                                    <Container>
+                                        <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Vehicle No."
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    autoComplete="off"
+                                                    style={{ width: '100%' }}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                    onChange={props.handleChange('vehicleNo')}
+                                                    onBlur={props.handleBlur('vehicleNo')}
+                                                    value={props.values.vehicleNo}
+                                                    helperText={props.touched.vehicleNo && props.errors.vehicleNo}
+                                                    error={props.touched.vehicleNo && props.errors.vehicleNo}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Vehicle Type"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    autoComplete="off"
+                                                    select
+                                                    style={{ width: '100%' }}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                    onChange={props.handleChange('vehicleType')}
+                                                    onBlur={props.handleBlur('vehicleType')}
+                                                    value={props.values.vehicleType}
+                                                    helperText={props.touched.vehicleType && props.errors.vehicleType}
+                                                    error={props.touched.vehicleType && props.errors.vehicleType}
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value="truck">Truck</MenuItem>
+                                                    <MenuItem value="heavy truck">Heavy Truck</MenuItem>
+                                                </CssTextField>
+                                            </Grid>
+                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Driver Name"
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    autoComplete="off"
+                                                    style={{ width: '100%' }}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                    onChange={props.handleChange('driverName')}
+                                                    onBlur={props.handleBlur('driverName')}
+                                                    value={props.values.driverName}
+                                                    helperText={props.touched.driverName && props.errors.driverName}
+                                                    error={props.touched.driverName && props.errors.driverName}
+                                                />
+                                            </Grid>
+                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="Phone No."
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    autoComplete="off"
+                                                    style={{ width: '100%' }}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                    onChange={props.handleChange('phnNo')}
+                                                    onBlur={props.handleBlur('phnNo')}
+                                                    value={props.values.phnNo}
+                                                    helperText={props.touched.phnNo && props.errors.phnNo}
+                                                    error={props.touched.phnNo && props.errors.phnNo}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    </Container>
+                                    <Container className={classes.mainContainer}>
+                                        <Grid container spacing={1} style={{ marginTop: 15, }} >
+                                            <Grid item lg={3} md={3} sm={12} xs={12}>
+                                                <CssTextField id="outlined-basic"
+                                                    label="CNIC No."
+                                                    variant="outlined"
+                                                    type="text"
+                                                    size="small"
+                                                    autoComplete="off"
+                                                    style={{ width: '100%' }}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                    onChange={props.handleChange('cnicNo')}
+                                                    onBlur={props.handleBlur('cnicNo')}
+                                                    value={props.values.cnicNo}
+                                                    helperText={props.touched.cnicNo && props.errors.cnicNo}
+                                                    error={props.touched.cnicNo && props.errors.cnicNo}
+                                                />
+                                                {/* {
+                                                    isUpdate ? <p className="text-success mt-2">Vehicle Added Successfully</p> : (
+                                                        isError ? <p className="text-danger mt-1">Vehicle Add Failed </p> : null
+                                                    )
+                                                } */}
+                                            </Grid>
+                                        </Grid>
+                                        <div>
+                                            <Button
+                                                variant="outlined"
+                                                color="primary"
+                                                type="submit"
+                                                className={classes.addButton}
+                                            >
+                                                Add
+                                            </Button>
+                                        </div>
+                                    </Container>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                    <div className={classes.dataTable}>
+                        <TableContainer className={classes.tableContainer}>
+                            {/* <h5>Inspected Orders</h5> */}
+                            <div className='container-fluid' style={{ textAlign: 'left', }}>
+                                <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                                    <thead class="bg-dark text-light">
+                                        <tr>
+                                            <th>S.No.</th>
+                                            <th>Vehicle No.</th>
+                                            <th>Vehicle Type</th>
+                                            <th>Driver Name</th>
+                                            <th>Phn No.</th>
+                                            <th>CNIC No.</th>
+                                            <th>Inspected/Un-Inspected</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            loading ? (
+                                                <Loading />
                                             ) :
-                                                (
-                                                    vehicles.length ?
-                                                        vehicles.map((vehicle, i) => (
-                                                            <tr key={i}>
-                                                                <td>
-                                                                    {i + 1}
-                                                                </td>
-                                                                <td>
-                                                                    {vehicle.number}
-                                                                </td>
-                                                                <td>
-                                                                    {vehicle.type}
-                                                                </td>
-                                                                <td>
-                                                                    {vehicle.driverName}
-                                                                </td>
-                                                                <td>
-                                                                    {vehicle.phoneNum}
-                                                                </td>
-                                                                <td>
-                                                                    {vehicle.cnicNum}
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        vehicle.RoadTaxPaid && vehicle.appropriateJack && vehicle.driverValidLins &&
-                                                                            vehicle.enoughFuel && vehicle.fitnessCert && vehicle.regDoc && vehicle.signOfInspector &&
-                                                                            vehicle.spareTyre && vehicle.validVehicleInsp && vehicle.visualCheckVehicle ?
-                                                                            <span className="text-success">Inspected</span> :
-                                                                            <span className="text-danger">Un-Inspected</span>
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                        onClick={() =>
-                                                                            handleOpen(vehicle)
+                                                error ? (
+                                                    <MaterialError />
+                                                ) :
+                                                    (
+                                                        vehicles.length ?
+                                                            vehicles.map((vehicle, i) => (
+                                                                <tr key={i}>
+                                                                    <td>
+                                                                        {i + 1}
+                                                                    </td>
+                                                                    <td>
+                                                                        {vehicle.number}
+                                                                    </td>
+                                                                    <td>
+                                                                        {vehicle.type}
+                                                                    </td>
+                                                                    <td>
+                                                                        {vehicle.driverName}
+                                                                    </td>
+                                                                    <td>
+                                                                        {vehicle.phoneNum}
+                                                                    </td>
+                                                                    <td>
+                                                                        {vehicle.cnicNum}
+                                                                    </td>
+                                                                    <td>
+                                                                        {
+                                                                            vehicle.RoadTaxPaid && vehicle.appropriateJack && vehicle.driverValidLins &&
+                                                                                vehicle.enoughFuel && vehicle.fitnessCert && vehicle.regDoc && vehicle.signOfInspector &&
+                                                                                vehicle.spareTyre && vehicle.validVehicleInsp && vehicle.visualCheckVehicle ?
+                                                                                <span className="text-success">Inspected</span> :
+                                                                                <span className="text-danger">Un-Inspected</span>
                                                                         }
-                                                                        style={{ marginTop: 2 }} >
-                                                                        Edit
-                                                                    </Button>
-                                                                        <Button variant="contained" color="secondary" size="small"
+                                                                    </td>
+                                                                    <td>
+                                                                        <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                             onClick={() =>
-                                                                                deleteVehicle(vehicle._id)
+                                                                                handleOpen(vehicle)
                                                                             }
-                                                                            style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                            Delete
-                                                                        </Button></>
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                        : <h5>Not Found</h5>
-                                                )
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </TableContainer>
-                </div>
+                                                                            style={{ marginTop: 2 }} >
+                                                                            Edit
+                                                                        </Button>
+                                                                            <Button variant="contained" color="secondary" size="small"
+                                                                                onClick={() =>
+                                                                                    deleteVehicle(vehicle._id)
+                                                                                }
+                                                                                style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                                Delete
+                                                                            </Button></>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                            : <h5>Not Found</h5>
+                                                    )
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </TableContainer>
+                    </div>
+                </Container>
             </div>
         </Sidenav>
     )
