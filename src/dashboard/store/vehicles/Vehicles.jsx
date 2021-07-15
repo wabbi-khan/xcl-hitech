@@ -187,7 +187,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("number", { required: true })}
@@ -204,7 +204,7 @@ const Vehicles = () => {
                                     size="small"
                                     autoComplete="off"
                                     select
-                                    className={classes.inputFieldStyle1}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("type", { required: true })}
@@ -226,7 +226,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle1}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("driverName", { required: true, maxLength: 20 })}
@@ -242,7 +242,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle1}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("phoneNum", { required: true, maxLength: 40 })}
@@ -262,7 +262,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("cnicNum", { required: true, maxLength: 30 })}

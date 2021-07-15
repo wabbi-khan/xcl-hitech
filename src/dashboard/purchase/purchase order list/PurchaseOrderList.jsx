@@ -154,7 +154,7 @@ export const PurchaseOrderList = ({ history }) => {
 														<h5>Not Found</h5>
 													) : (
 														order.materials.map((material, i) => {
-															return i > 1 ? '...' : material.material.name + ', ';
+															return i > 1 ? '...' : material?.material?.name + ', ';
 														})
 													)}
 												</StyledTableCell>

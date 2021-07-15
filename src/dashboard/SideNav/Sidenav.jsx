@@ -722,7 +722,7 @@ function Sidenav(props) {
 					</Collapse>
 				</List>
 				<Divider />
-				{/* <List>
+				<List>
 					{['Marketing/Sales'].map((text, index) => (
 						<ListItem
 							button
@@ -745,22 +745,22 @@ function Sidenav(props) {
 					<Collapse in={open4} timeout='auto' unmountOnExit>
 						<Divider />
 						<List component='div' disablePadding>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/marketing_dashboard/order_booking_form');
 								}}>
 								<ListItemText inset primary='Order Booking Form' />
-							</ListItem>
-							<ListItem
+							</ListItem> */}
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Order Log Sheet' />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -769,41 +769,41 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Delivery Order' />
 							</ListItem>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Sales Contract' />
-							</ListItem>
-							<ListItem
+							</ListItem> */}
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Contract Review...' />
-							</ListItem>
-							<ListItem
+							</ListItem> */}
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Customer Feedback..' />
-							</ListItem>
-							<ListItem
+							</ListItem> */}
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Complaint Testing' />
-							</ListItem>
+							</ListItem> */}
 						</List>
 					</Collapse>
-				</List> */}
+				</List>
 				<Divider />
 				{/* <List>
 					{['Production'].map((text, index) => (
@@ -943,14 +943,14 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Products Bin Card' />
 							</ListItem>
-							<ListItem button
+							{/* <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('')
                                 }}
                             >
                                 <ListItemText inset primary="Grouped Bin Card" />
-                            </ListItem>
+                            </ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -991,14 +991,14 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Daily Consumption...' />
 							</ListItem>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/department_wise_consumption_report');
 								}}>
 								<ListItemText inset primary='Dept Wise Consump...' />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
