@@ -118,53 +118,10 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 			</div>
 			<Container className={classes.mainContainer}>
 				<h4 className='text-left'>Responsibilities</h4>
-				<CssTextField
-					id='outlined-basic'
-					label='Resposibilities'
-					variant='outlined'
-					type='text'
-					autocomplete='off'
-					size='small'
-					value={resString}
-					onChange={(e) => {
-						setResString(e.target.value);
-					}}
-					className={classes.inputFieldStyle}
-					inputProps={{ style: { fontSize: 14 } }}
-					InputLabelProps={{ style: { fontSize: 14 } }}
-				/>
+
 				{errors.name?.type === 'required' && (
 					<p className='mt-1 text-danger'>Responsibilities is required</p>
 				)}
-				<Button
-					variant='contained'
-					size='small'
-					className={classes.addMoreRes}
-					onClick={getValue}>
-					Add
-				</Button>
-				{responsibilities.map((res, i) => (
-					<p className={classes.resStyle}>
-						<span style={{ fontSize: 13 }}>{i + 1}. </span>
-						{res}
-						<DeleteOutlineIcon
-							type='button'
-							className={classes.delete}
-							onClick={() => removeRes(i)}
-						/>
-						{/* <Button
-                                variant="outlined" size="small"
-                                className={classes.deleteResBtn}
-                            >
-                            </Button> */}
-					</p>
-				))}
-				{/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
 			</Container>
 		</div>
 	);

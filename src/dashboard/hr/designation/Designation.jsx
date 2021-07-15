@@ -11,22 +11,22 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import {
 	getDesignation,
 	deleteDesignation,
 	createDesignation,
 } from '../../../services/action/DesignationAction';
-// import { getEducations } from '../../../services/action/EducationAction';
-// import { getSkills } from '../../../services/action/SkillsAction';
-// import { getExperiences } from '../../../services/action/ExperienceAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
-import Responsibilities from './Responsibilities';
-import Authorities from './Authorities';
-import CompetenceCriteria from './CompetenceCriteria';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { getEducations } from '../../../services/action/EducationAction';
+import { getSkills } from '../../../services/action/SkillsAction';
+import { getExperiences } from '../../../services/action/ExperienceAction';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -115,44 +115,75 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+});
+
+const responsibilityInitialValues = {
+	value: '',
+};
+
+const responsibilityValidationSchema = yup.object({
+	value: yup.string().required(),
+});
+
+const authorityInitialValues = {
+	value: '',
+};
+
+const authorityValidationSchema = yup.object({
+	value: yup.string().required(),
+});
+const educationInitialValues = {
+	value: '',
+};
+
+const educationValidationSchema = yup.object({
+	value: yup.string().required(),
+});
+const skillInitialValues = {
+	value: '',
+};
+
+const skillValidationSchema = yup.object({
+	value: yup.string().required(),
+});
+const experienceInitialValues = {
+	value: '',
+};
+
+const experienceValidationSchema = yup.object({
+	value: yup.string().required(),
+});
+
 const Designation = ({ history }) => {
 	const classes = useStyles();
 	const [designation, setDesignation] = useState();
 	const [responsibilities, setResponsibilities] = useState([]);
 	const [authorities, setAuthorities] = useState([]);
-	const [compCriteria, setCompCriteria] = useState({
-		educations: {
-			req: [],
-		},
-		skills: {
-			req: [],
-		},
-		experiences: {
-			req: [],
-		},
-	});
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const [educationsState, setEducations] = useState([]);
+	const [skillsState, setSkills] = useState([]);
+	const [experiencesState, setExperiences] = useState([]);
+	const { skills } = useSelector((state) => state.skills);
+	const { educations } = useSelector((state) => state.educations);
+	const { experiences } = useSelector((state) => state.experiences);
 
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
 		dispatch(getDesignation());
-		// dispatch(getSkills());
-		// dispatch(getEducations());
-		// dispatch(getExperiences());
+		dispatch(getSkills());
+		dispatch(getEducations());
+		dispatch(getExperiences());
 	}, [dispatch]);
 
 	const { designations, loading, error } = useSelector(
 		(state) => state.designations,
 	);
-	// const { skills } = useSelector((state) => state.skills);
-	// const { experiences } = useSelector((state) => state.experiences);
-	// const { educations } = useSelector((state) => state.educations);
 
 	const handleDeleteDesignation = async (params) => {
 		dispatch(deleteDesignation(params));
@@ -169,13 +200,65 @@ const Designation = ({ history }) => {
 		setOpen(true);
 	};
 
-	const onSubmitData = async (props) => {
+	function addRes(value) {
+		setResponsibilities((prev) => [...prev, value.value]);
+	}
+	function addAuth(value) {
+		setAuthorities((prev) => [...prev, value.value]);
+	}
+	function addEdu(value) {
+		setAuthorities((prev) => [...prev, value.value]);
+	}
+	function addSkill(value) {
+		setAuthorities((prev) => [...prev, value.value]);
+	}
+	function addExp(value) {
+		setAuthorities((prev) => [...prev, value.value]);
+	}
+
+	function removeRes(index) {
+		setResponsibilities((prev) => {
+			prev.splice(index, 1);
+			console.log(prev);
+			return [...prev];
+		});
+	}
+	function removeAuth(index) {
+		setAuthorities((prev) => {
+			prev.splice(index, 1);
+			console.log(prev);
+			return [...prev];
+		});
+	}
+	function removeEdu(index) {
+		setEducations((prev) => {
+			prev.splice(index, 1);
+			console.log(prev);
+			return [...prev];
+		});
+	}
+	function removeSkill(index) {
+		setSkills((prev) => {
+			prev.splice(index, 1);
+			console.log(prev);
+			return [...prev];
+		});
+	}
+	function removeExp(index) {
+		setExperiences((prev) => {
+			prev.splice(index, 1);
+			console.log(prev);
+			return [...prev];
+		});
+	}
+
+	const onSubmit = async (props) => {
 		dispatch(
 			createDesignation({
 				...props,
 				responsibilities: [...responsibilities],
 				authorities: [...authorities],
-				criteria: { ...compCriteria },
+				criteria: { educationsState, skillsState, experiencesState },
 			}),
 		);
 	};
@@ -191,39 +274,299 @@ const Designation = ({ history }) => {
 			{/* ============products form component */}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form onSubmit={handleSubmit(onSubmitData)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Designation Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('name', { required: true })}
-						/>
-						{errors.name?.type === 'required' && (
-							<p className='mt-1 text-danger'>Designation Name is required</p>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<>
+								<Form>
+									<CssTextField
+										id='outlined-basic'
+										label='Designation Name'
+										variant='outlined'
+										type='text'
+										autocomplete='off'
+										size='small'
+										className={classes.inputFieldStyle}
+										inputProps={{ style: { fontSize: 14 } }}
+										InputLabelProps={{ style: { fontSize: 14 } }}
+										onChange={props.handleChange('name')}
+										onBlur={props.handleBlur('name')}
+										value={props.values.name}
+										helperText={props.touched.name && props.errors.name}
+										error={props.touched.name && props.errors.name}
+									/>
+								</Form>
+								<div style={{ margin: '2rem 0rem' }}></div>
+								<Formik
+									initialValues={responsibilityInitialValues}
+									validationSchema={responsibilityValidationSchema}
+									onSubmit={addRes}>
+									{(props) => (
+										<Form>
+											<h5>Responsibility</h5>
+											<CssTextField
+												id='outlined-basic'
+												label='Resposibilities'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('value')}
+												onBlur={props.handleBlur('value')}
+												value={props.values.value}
+												helperText={props.touched.value && props.errors.value}
+												error={props.touched.value && props.errors.value}
+											/>
+											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+											<Button
+												variant='contained'
+												size='small'
+												type='submit'
+												className={classes.addMoreRes}>
+												Add
+											</Button>
+											{responsibilities.map((res, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{res}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeRes(i)}
+													/>
+												</p>
+											))}
+										</Form>
+									)}
+								</Formik>
+								<div style={{ margin: '2rem 0rem' }}></div>
+								<Formik
+									initialValues={authorityInitialValues}
+									validationSchema={authorityValidationSchema}
+									onSubmit={addAuth}>
+									{(props) => (
+										<Form>
+											<h5>Authority</h5>
+											<CssTextField
+												id='outlined-basic'
+												label='Resposibilities'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('value')}
+												onBlur={props.handleBlur('value')}
+												value={props.values.value}
+												helperText={props.touched.value && props.errors.value}
+												error={props.touched.value && props.errors.value}
+											/>
+											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+
+											<Button
+												variant='contained'
+												size='small'
+												type='submit'
+												className={classes.addMoreRes}>
+												Add
+											</Button>
+											{authorities.map((res, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{res}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeAuth(i)}
+													/>
+												</p>
+											))}
+										</Form>
+									)}
+								</Formik>
+								<div style={{ margin: '5rem 0rem' }}></div>
+								<Formik
+									initialValues={educationInitialValues}
+									validationSchema={educationValidationSchema}
+									onSubmit={addEdu}>
+									{(props) => (
+										<Form>
+											<h5>Educations</h5>
+											<CssTextField
+												id='outlined-basic'
+												label='Resposibilities'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												select
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('value')}
+												onBlur={props.handleBlur('value')}
+												value={props.values.value}
+												helperText={props.touched.value && props.errors.value}
+												error={props.touched.value && props.errors.value}>
+												{educations &&
+													educations.map((education, i) => (
+														<MenuItem value={education._id} key={i}>
+															{education.name}
+														</MenuItem>
+													))}
+											</CssTextField>
+											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+
+											<Button
+												variant='contained'
+												size='small'
+												type='submit'
+												className={classes.addMoreRes}>
+												Add
+											</Button>
+											{authorities.map((res, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{res}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeRes(i)}
+													/>
+												</p>
+											))}
+										</Form>
+									)}
+								</Formik>
+								<div style={{ margin: '2rem 0rem' }}></div>
+
+								<Formik
+									initialValues={authorityInitialValues}
+									validationSchema={authorityValidationSchema}
+									onSubmit={addAuth}>
+									{(props) => (
+										<Form>
+											<h5>Skills</h5>
+											<CssTextField
+												id='outlined-basic'
+												label='Resposibilities'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												select
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('value')}
+												onBlur={props.handleBlur('value')}
+												value={props.values.value}
+												helperText={props.touched.value && props.errors.value}
+												error={props.touched.value && props.errors.value}>
+												{skills &&
+													skills.map((skill, i) => (
+														<MenuItem value={skill._id} key={i}>
+															{skill.skill}
+														</MenuItem>
+													))}
+											</CssTextField>
+											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+
+											<Button
+												variant='contained'
+												size='small'
+												type='submit'
+												className={classes.addMoreRes}>
+												Add
+											</Button>
+											{authorities.map((res, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{res}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeRes(i)}
+													/>
+												</p>
+											))}
+										</Form>
+									)}
+								</Formik>
+								<div style={{ margin: '2rem 0rem' }}></div>
+								<Formik
+									initialValues={authorityInitialValues}
+									validationSchema={authorityValidationSchema}
+									onSubmit={addAuth}>
+									{(props) => (
+										<Form>
+											<h5>Experiences</h5>
+											<CssTextField
+												id='outlined-basic'
+												label='Resposibilities'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												select
+												className={classes.inputFieldStyle}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('value')}
+												onBlur={props.handleBlur('value')}
+												value={props.values.value}
+												helperText={props.touched.value && props.errors.value}
+												error={props.touched.value && props.errors.value}>
+												{experiences &&
+													experiences.map((skill, i) => (
+														<MenuItem value={skill._id} key={i}>
+															{skill.name}
+														</MenuItem>
+													))}
+											</CssTextField>
+											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+
+											<Button
+												variant='contained'
+												size='small'
+												type='submit'
+												className={classes.addMoreRes}>
+												Add
+											</Button>
+											{authorities.map((res, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{res}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeRes(i)}
+													/>
+												</p>
+											))}
+										</Form>
+									)}
+								</Formik>
+								<Form>
+									<div>
+										<Button
+											variant='outlined'
+											type='submit'
+											className={classes.addButton}>
+											Add
+										</Button>
+									</div>
+								</Form>
+							</>
 						)}
-						<Responsibilities
-							responsibilities={responsibilities}
-							setResponsibilities={setResponsibilities}
-						/>
-						<Authorities authorities={authorities} setAuthorities={setAuthorities} />
-						<CompetenceCriteria
-							compCriteria={compCriteria}
-							setCompCriteria={setCompCriteria}
-						/>
-						<div>
-							<Button variant='outlined' type='submit' className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
-					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+					</Formik>
 				</Container>
 
 				<div className={classes.dataTable}>
@@ -268,14 +611,14 @@ const Designation = ({ history }) => {
 														style={{ marginTop: 2 }}>
 														View
 													</Button>
-													{/* <Button
+													<Button
 														variant='contained'
 														className='bg-dark text-light'
 														size='small'
 														onClick={() => handleOpen(designation)}
 														style={{ marginTop: 2, marginLeft: 2 }}>
 														Edit
-													</Button> */}
+													</Button>
 													<Button
 														variant='contained'
 														color='secondary'
