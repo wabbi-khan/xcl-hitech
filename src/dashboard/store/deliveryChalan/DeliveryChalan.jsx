@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import cryptoRandomString from 'crypto-random-string';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-
+import { Formik, Form } from 'yup'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -135,7 +135,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value=""
-                                className={classes.inputFieldStyle}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -150,7 +150,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="Deliver according to requirements"
-                                className={classes.inputFieldStyle1}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -165,7 +165,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="24-2-21"
-                                className={classes.inputFieldStyle}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -180,7 +180,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="26"
-                                className={classes.inputFieldStyle1}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -199,7 +199,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="ABC-123"
-                                className={classes.inputFieldStyle}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -214,7 +214,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value=""
-                                className={classes.inputFieldStyle1}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -229,7 +229,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value=""
-                                className={classes.inputFieldStyle}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -244,7 +244,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value=""
-                                className={classes.inputFieldStyle1}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -263,7 +263,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="Kotri Site Area, Hyderabad"
-                                className={classes.inputFieldStyle}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -278,7 +278,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="0303-3030303"
-                                className={classes.inputFieldStyle1}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -293,7 +293,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="Muhammad Ali"
-                                className={classes.inputFieldStyle}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -308,7 +308,7 @@ const DeliveryChalan = () => {
                                 autoComplete="off"
                                 disabled
                                 value="0330-2020202"
-                                className={classes.inputFieldStyle1}
+                    style={{ width: '100%' }}
                                 inputProps={{ style: { fontSize: 14 } }}
                                 InputLabelProps={{ style: { fontSize: 14 } }}
                             >
@@ -337,7 +337,7 @@ const DeliveryChalan = () => {
                                             size="small"
                                             disabled
                                             value="delivery will be on time"
-                                            className={classes.inputFieldStyle2}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         >
@@ -352,7 +352,7 @@ const DeliveryChalan = () => {
                                             size="small"
                                             disabled
                                             value=""
-                                            className={classes.inputFieldStyle3}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
@@ -365,7 +365,7 @@ const DeliveryChalan = () => {
                                             size="small"
                                             disabled
                                             value="1234"
-                                            className={classes.inputFieldStyle4}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
@@ -379,7 +379,7 @@ const DeliveryChalan = () => {
                                             size="small"
                                             disabled
                                             value=""
-                                            className={classes.inputFieldStyle5}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
@@ -392,7 +392,7 @@ const DeliveryChalan = () => {
                                             size="small"
                                             disabled
                                             value="230"
-                                            className={classes.inputFieldStyle5}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />

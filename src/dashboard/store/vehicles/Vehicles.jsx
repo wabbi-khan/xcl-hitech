@@ -187,7 +187,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("number", { required: true })}
@@ -204,7 +204,7 @@ const Vehicles = () => {
                                     size="small"
                                     autoComplete="off"
                                     select
-                                    className={classes.inputFieldStyle1}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("type", { required: true })}
@@ -226,7 +226,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle1}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("driverName", { required: true, maxLength: 20 })}
@@ -242,7 +242,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle1}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("phoneNum", { required: true, maxLength: 40 })}
@@ -262,7 +262,7 @@ const Vehicles = () => {
                                     type="text"
                                     size="small"
                                     autoComplete="off"
-                                    className={classes.inputFieldStyle}
+                                    style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                     {...register("cnicNum", { required: true, maxLength: 30 })}
@@ -283,75 +283,90 @@ const Vehicles = () => {
                                 className={classes.addButton}
                             >
                                 Add
-                        </Button>
+                            </Button>
                         </div>
                     </Container>
                 </form>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Vehicle No.</StyledTableCell>
-                                    <StyledTableCell align="center">Vehicle Type</StyledTableCell>
-                                    <StyledTableCell align="center">Driver Name</StyledTableCell>
-                                    <StyledTableCell align="center">Phn No.</StyledTableCell>
-                                    <StyledTableCell align="center">CNIC No.</StyledTableCell>
-                                    <StyledTableCell align="center">Inspected/Un-Inspected</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                {
-                                    loading ? (
-                                        <Loading />
-                                    ) :
-                                        error ? (
-                                            <MaterialError />
+                        {/* <h5>Inspected Orders</h5> */}
+                        <div className='container-fluid' style={{ textAlign: 'left', }}>
+                            <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                                <thead class="bg-dark text-light">
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Vehicle No.</th>
+                                        <th>Vehicle Type</th>
+                                        <th>Driver Name</th>
+                                        <th>Phn No.</th>
+                                        <th>CNIC No.</th>
+                                        <th>Inspected/Un-Inspected</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        loading ? (
+                                            <Loading />
                                         ) :
-                                            (
-                                                vehicles.length ?
-                                                    vehicles.map((vehicle, i) => (
-                                                        <StyledTableRow key={i}>
-                                                            <StyledTableCell className="text-dark" align="center">{i + 1}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vehicle.number}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vehicle.type}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vehicle.driverName}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vehicle.phoneNum}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">{vehicle.cnicNum}</StyledTableCell>
-                                                            <StyledTableCell className="text-dark" align="center">
-                                                                {
-                                                                    vehicle.RoadTaxPaid && vehicle.appropriateJack && vehicle.driverValidLins &&
-                                                                    vehicle.enoughFuel && vehicle.fitnessCert && vehicle.regDoc && vehicle.signOfInspector &&
-                                                                    vehicle.spareTyre && vehicle.validVehicleInsp && vehicle.visualCheckVehicle ? 
-                                                                    <span className="text-success">Inspected</span> : 
-                                                                    <span className="text-danger">Un-Inspected</span>
-                                                                }
-                                                            </StyledTableCell>
-                                                            <StyledTableCell className="text-light" align="center">
-                                                                <><Button variant="contained" className="bg-dark text-light" size="small"
-                                                                    onClick={() =>
-                                                                        handleOpen(vehicle)
+                                            error ? (
+                                                <MaterialError />
+                                            ) :
+                                                (
+                                                    vehicles.length ?
+                                                        vehicles.map((vehicle, i) => (
+                                                            <tr key={i}>
+                                                                <td>
+                                                                    {i + 1}
+                                                                </td>
+                                                                <td>
+                                                                    {vehicle.number}
+                                                                </td>
+                                                                <td>
+                                                                    {vehicle.type}
+                                                                </td>
+                                                                <td>
+                                                                    {vehicle.driverName}
+                                                                </td>
+                                                                <td>
+                                                                    {vehicle.phoneNum}
+                                                                </td>
+                                                                <td>
+                                                                    {vehicle.cnicNum}
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        vehicle.RoadTaxPaid && vehicle.appropriateJack && vehicle.driverValidLins &&
+                                                                            vehicle.enoughFuel && vehicle.fitnessCert && vehicle.regDoc && vehicle.signOfInspector &&
+                                                                            vehicle.spareTyre && vehicle.validVehicleInsp && vehicle.visualCheckVehicle ?
+                                                                            <span className="text-success">Inspected</span> :
+                                                                            <span className="text-danger">Un-Inspected</span>
                                                                     }
-                                                                    style={{ marginTop: 2 }} >
-                                                                    Edit
-                                                                </Button>
-                                                                    <Button variant="contained" color="secondary" size="small"
+                                                                </td>
+                                                                <td>
+                                                                    <><Button variant="contained" className="bg-dark text-light" size="small"
                                                                         onClick={() =>
-                                                                            deleteVehicle(vehicle._id)
+                                                                            handleOpen(vehicle)
                                                                         }
-                                                                        style={{ marginLeft: 2, marginTop: 2 }}>
-                                                                        Delete
-                                                                </Button></>
-                                                            </StyledTableCell>
-                                                        </StyledTableRow>
-                                                    ))
-                                                    : <h5>Not Found</h5>
-                                            )
-                                }
-                            </TableBody>
-                        </Table>
+                                                                        style={{ marginTop: 2 }} >
+                                                                        Edit
+                                                                    </Button>
+                                                                        <Button variant="contained" color="secondary" size="small"
+                                                                            onClick={() =>
+                                                                                deleteVehicle(vehicle._id)
+                                                                            }
+                                                                            style={{ marginLeft: 2, marginTop: 2 }}>
+                                                                            Delete
+                                                                        </Button></>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                        : <h5>Not Found</h5>
+                                                )
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </TableContainer>
                 </div>
             </div>

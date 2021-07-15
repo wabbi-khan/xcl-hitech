@@ -158,37 +158,41 @@ const Training = () => {
 						initialValues={initialValue}
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}>
-						{(props) => (
-							<Form>
-								<CssTextField
-									id='outlined-basic'
-									label='Training Name'
-									variant='outlined'
-									type='text'
-									autocomplete='off'
-									size='small'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									onChange={props.handleChange('name')}
-									onBlur={props.handleBlur('name')}
-									value={props.values.name}
-									helperText={props.touched.name && props.errors.name}
-									error={props.touched.name && props.errors.name}
-								/>
-								<div>
-									<Button
+						{
+							(props) => (
+								<Form>
+									<CssTextField
+										id='outlined-basic'
+										label='Training Name'
 										variant='outlined'
-										color='primary'
-										type='submit'
-										className={classes.addButton}>
-										Add
-									</Button>
-								</div>
-							</Form>
-						)}
+										type='text'
+										autocomplete='off'
+										size='small'
+										className={classes.inputFieldStyle}
+										inputProps={{ style: { fontSize: 14 } }}
+										InputLabelProps={{ style: { fontSize: 14 } }}
+										onChange={props.handleChange('name')}
+										onBlur={props.handleBlur('name')}
+										value={props.values.name}
+										helperText={props.touched.name && props.errors.name}
+										error={props.touched.name && props.errors.name}
+									/>
+									<div>
+										<Button
+											variant='outlined'
+											color='primary'
+											type='submit'
+											className={classes.addButton}>
+											Add
+										</Button>
+									</div>
+								</Form>
+							)
+						}
 					</Formik>
-					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+					{
+						error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
+					}
 				</Container>
 
 				<EditTraining show={open} handler={handleClose} training={training} />
@@ -207,44 +211,46 @@ const Training = () => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : trainings.length ? (
-									trainings.map((training, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{training.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
-													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
-														onClick={() => handleOpen(training)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
-													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
-														onClick={() => deleteCategory(training._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
+								{
+									loading ? (
+										<Loading />
+									) : error ? (
+										<MaterialError />
+									) : trainings.length ? (
+										trainings.map((training, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{training.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<>
+														<Button
+															variant='contained'
+															className='bg-dark text-light'
+															size='small'
+															onClick={() => handleOpen(training)}
+															style={{ marginTop: 2 }}>
+															Edit
+														</Button>
+														<Button
+															variant='contained'
+															color='secondary'
+															size='small'
+															onClick={() => deleteCategory(training._id)}
+															style={{ marginLeft: 2, marginTop: 2 }}>
+															Delete
+														</Button>
+													</>
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									) : (
+										<h5>Not Found</h5>
+									)
+								}
 							</TableBody>
 						</Table>
 					</TableContainer>

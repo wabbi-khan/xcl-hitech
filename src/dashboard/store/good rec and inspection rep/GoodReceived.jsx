@@ -22,6 +22,8 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { Form, Formik } from 'formik'
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -111,6 +113,24 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	prNum: '',
+	poNum: '',
+	receivedFrom: '',
+	desc: '',
+	statusOfIns: '',
+	remarks: '',
+};
+
+const validationSchema = yup.object({
+	prNum: yup.string().required('P.R. No. is required'),
+	poNum: yup.string().required('P.O. No. is required'),
+	receivedFrom: yup.string().required('Received From is required'),
+	desc: yup.string().required('Description is required'),
+	statusOfIns: yup.string().required('Status of Inspection is required'),
+	remarks: yup.string().required('Remarks is required'),
+});
+
 const GoodReceived = (props) => {
 	const classes = useStyles();
 
@@ -127,7 +147,6 @@ const GoodReceived = (props) => {
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		console.log(id);
 		await dispatch(fetchPurchaseOrderAction(`inspected=true`));
 		await dispatch(fetchSinglePurchaseOrderAction(id));
 		dispatch(fetchDepartmentsAction());
@@ -135,26 +154,25 @@ const GoodReceived = (props) => {
 
 	const { loading, order, error } = useSelector((state) => state.orders);
 	const { departments } = useSelector((state) => state.departments);
-	console.log(order);
 
 	const onSubmitDate = async (props) => {
-		try {
-			await axios.patch(
-				`${process.env.REACT_APP_API_URL}/order/inspection/${id}`,
-				props,
-			);
-			window.location.reload();
-			console.log('submit');
-		} catch (error) {
-			console.log(error);
-		}
+		// try {
+		// 	await axios.patch(
+		// 		`${process.env.REACT_APP_API_URL}/order/inspection/${id}`,
+		// 		props,
+		// 	);
+		// 	window.location.reload();
+		// 	console.log('submit');
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	};
 
 	return (
 		<Sidenav title={'Good Received and Inspection Report (Inspected)'}>
 			<div>
-				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-					{!order ? null : (
+				{
+					!order ? null : (
 						<Container className={classes.mainContainer}>
 							<Grid container spacing={1} style={{ marginTop: 15 }}>
 								<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -222,121 +240,121 @@ const GoodReceived = (props) => {
 								</Grid>
 							</Grid>
 						</Container>
-					)}
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Status of Inspection'
-									variant='outlined'
-									type='text'
-									size='small'
-									select
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('inspectionStatus', { required: true })}>
-									<MenuItem value=''>
-										<em>None</em>
-									</MenuItem>
-									<MenuItem value='Accepted'>Accepted</MenuItem>
-									<MenuItem value='Rejected'>Rejected</MenuItem>
-									<MenuItem value='Signature'>Signature</MenuItem>
-								</CssTextField>
-								{errors.inspectionStatus?.type === 'required' && (
-									<p className='mt-1 text-danger'>Status of Inspection is required</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Remarks'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('remarks', { required: true })}
-								/>
-								{errors.remarks?.type === 'required' && (
-									<p className='mt-1 text-danger'>Category Name is required</p>
-								)}
-							</Grid>
-						</Grid>
-						<div>
-							<Button
+					)
+				}
+				<Container className={classes.mainContainer}>
+					<Grid container spacing={1} style={{ marginTop: 15 }}>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<CssTextField
+								id='outlined-basic'
+								label='Status of Inspection'
 								variant='outlined'
-								color='primary'
-								className={classes.addButton}
-								type='submit'>
-								Add
-							</Button>
-						</div>
-					</Container>
-				</form>
+								type='text'
+								size='small'
+								select
+								autoComplete='off'
+								className={classes.inputFieldStyle1}
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+								{...register('inspectionStatus', { required: true })}>
+								<MenuItem value=''>
+									<em>None</em>
+								</MenuItem>
+								<MenuItem value='Accepted'>Accepted</MenuItem>
+								<MenuItem value='Rejected'>Rejected</MenuItem>
+								<MenuItem value='Signature'>Signature</MenuItem>
+							</CssTextField>
+							{errors.inspectionStatus?.type === 'required' && (
+								<p className='mt-1 text-danger'>Status of Inspection is required</p>
+							)}
+						</Grid>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<CssTextField
+								id='outlined-basic'
+								label='Remarks'
+								variant='outlined'
+								type='text'
+								size='small'
+								autoComplete='off'
+								className={classes.inputFieldStyle1}
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+								{...register('remarks', { required: true })}
+							/>
+							{errors.remarks?.type === 'required' && (
+								<p className='mt-1 text-danger'>Category Name is required</p>
+							)}
+						</Grid>
+					</Grid>
+					<div>
+						<Button
+							variant='outlined'
+							color='primary'
+							className={classes.addButton}
+							type='submit'>
+							Add
+						</Button>
+					</div>
+				</Container>
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<h5>Inspected Orders</h5>
-						<Table
-							stickyHeader
-							className='table table-dark table-md'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Date/Time</StyledTableCell>
-									<StyledTableCell align='center'>P.R. No.</StyledTableCell>
-									<StyledTableCell align='center'>P.O. No.</StyledTableCell>
-									<StyledTableCell align='center'>Received From</StyledTableCell>
-									<StyledTableCell align='center'>Description</StyledTableCell>
-									<StyledTableCell align='center'>Status of Inspection</StyledTableCell>
-									<StyledTableCell align='center'>Remarks</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<StyledTableRow>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.inspectionDate}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.prNum}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.poNum}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.vendor.name}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.description}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.inspectionStatus}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark' align='center'>
-										{order?.remarks}
-									</StyledTableCell>
-									<StyledTableCell className='text-light' align='center'>
-										<Button
-											variant='contained'
-											className='bg-dark text-light'
-											size='small'
-											onClick={() => {
-												console.log(order);
-												history.push(
-													`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`,
-												);
-											}}>
-											View Report
-										</Button>
-									</StyledTableCell>
-								</StyledTableRow>
-							</TableBody>
-						</Table>
+						<div className='container-fluid' style={{ textAlign: 'left', }}>
+							<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+								<thead class="bg-dark text-light">
+									<tr>
+										<th>Date/Time</th>
+										<th>P.R. No.</th>
+										<th>P.O. No.</th>
+										<th>Received From</th>
+										<th>Description</th>
+										<th>Status of Inspection</th>
+										<th>Remarks</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr >
+										<td>
+											{order?.inspectionDate}
+										</td>
+										<td>
+											{order?.prNum}
+										</td>
+										<td>
+											{order?.poNum}
+										</td>
+										<td>
+											{order?.vendor.name}
+										</td>
+										<td>
+											{order?.description}
+										</td>
+										<td>
+											{order?.inspectionStatus}
+										</td>
+										<td>
+											{order?.remarks}
+										</td>
+										<td>
+											<Button
+												variant='contained'
+												color='secondary'
+												size='small'
+												class='btn btn-sm bg-dark text-light'
+												onClick={() =>
+													history.push(
+														`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`,
+													)
+												}
+												style={{ marginLeft: 2, marginTop: 2 }}>
+												View Report
+											</Button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</TableContainer>
 				</div>
 			</div>

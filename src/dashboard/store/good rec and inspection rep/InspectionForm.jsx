@@ -110,10 +110,10 @@ const InspectionForm = ({ history }) => {
                                                                 {
                                                                     !order.materials.length ? <span>Not Found</span> :
                                                                         (
-                                                                            order.materials.map((material, i) =>(
-                                                                                <span key={i} >{material.material.name}, </span>
-                                                                            ) 
-                                                                                )
+                                                                            order.materials.map((material, i) => (
+                                                                                <span key={i} >{material?.material?.name}, </span>
+                                                                            )
+                                                                            )
                                                                         )
                                                                 }
                                                             </StyledTableCell>

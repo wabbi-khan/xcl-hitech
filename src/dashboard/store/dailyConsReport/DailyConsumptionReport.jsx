@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 600,
     },
     dataTable: {
-        marginTop: 40,
+        marginTop: 10,
 
     },
     inputFieldStyle: {
@@ -97,57 +97,68 @@ const DailyConsumptionReport = () => {
 
     return (
         <Sidenav title={'Daily Consumption Report'}>
-            <div>
-                <div className={classes.dataTable}>
-                    <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Item Name</StyledTableCell>
-                                    <StyledTableCell align="center">Item No.</StyledTableCell>
-                                    <StyledTableCell align="center">Department</StyledTableCell>
-                                    <StyledTableCell align="center">Qty Consumed</StyledTableCell>
-                                    <StyledTableCell align="center">Req. Date</StyledTableCell>
-                                    <StyledTableCell align="center">Previous Quantity</StyledTableCell>
-                                    <StyledTableCell align="center">New Quantity</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Purchase</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">321345</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">421122</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Cement</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Manufacture</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">321345</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">421122</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">23423</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Sales</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">232342</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-21</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">321345</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">421122</StyledTableCell>
-                                </StyledTableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
+            <div className={classes.dataTable}>
+                <TableContainer className={classes.tableContainer}>
+                    {/* <h5>Inspected Orders</h5> */}
+                    <div className='container-fluid' style={{ textAlign: 'left', }}>
+                        <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
+                            <thead class="bg-dark text-light">
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Item Name</th>
+                                    <th>Item No.</th>
+                                    <th>Department</th>
+                                    <th>Qty Consumed</th>
+                                    <th>Req. Date</th>
+                                    <th>Previous Quantity</th>
+                                    <th>New Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* {
+                                        loading ? (
+                                            <Loading />
+                                        ) :
+                                            error ? (
+                                                <MaterialError />
+                                            ) :
+                                                (
+                                                    vehicles.length ?
+                                                        vehicles.map((vehicle, i) => ( */}
+                                <tr >
+                                    <td>
+                                        {1}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.number} */}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.type} */}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.driverName} */}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.phoneNum} */}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.phoneNum} */}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.phoneNum} */}
+                                    </td>
+                                    <td>
+                                        {/* {vehicle.phoneNum} */}
+                                    </td>
+                                </tr>
+                                {/* ))
+                                                        : <h5>Not Found</h5>
+                                                )
+                                    } */}
+                            </tbody>
+                        </table>
+                    </div>
+                </TableContainer>
             </div>
         </Sidenav>
     )

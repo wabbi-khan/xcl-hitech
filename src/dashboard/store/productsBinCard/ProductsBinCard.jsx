@@ -135,48 +135,61 @@ const ProductsBinCard = () => {
                 </Container>
                 <div className={classes.dataTable}>
                     <TableContainer className={classes.tableContainer}>
-                        <Table stickyHeader className="table table-dark table-md" style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }} >
-                            <TableHead>
-                                <TableRow hover role="checkbox">
-                                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                                    <StyledTableCell align="center">Product Name</StyledTableCell>
-                                    <StyledTableCell align="center">Current Balance</StyledTableCell>
-                                    <StyledTableCell align="center">In</StyledTableCell>
-                                    <StyledTableCell align="center">Out</StyledTableCell>
-                                    <StyledTableCell align="center">Balance</StyledTableCell>
-                                    <StyledTableCell align="center">Date</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody >
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">1.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30200</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2321</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30000</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">2.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Cement</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30200</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2321</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30000</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">12-2-2021</StyledTableCell>
-                                </StyledTableRow>
-                                <StyledTableRow >
-                                    <StyledTableCell className="text-dark" align="center">3.</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">Screw</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30200</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2321</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2312</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">30000</StyledTableCell>
-                                    <StyledTableCell className="text-dark" align="center">2-2-2021</StyledTableCell>
-                                </StyledTableRow>
-                            </TableBody>
-                        </Table>
+                        {/* <h5>Inspected Orders</h5> */}
+                        <div className='container-fluid' style={{ textAlign: 'left', }}>
+                            <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                                <thead class="bg-dark text-light">
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Product Name</th>
+                                        <th>Current Balance</th>
+                                        <th>IN</th>
+                                        <th>OUT</th>
+                                        <th>Balance</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {/* {
+                                        loading ? (
+                                            <Loading />
+                                        ) :
+                                            error ? (
+                                                <MaterialError />
+                                            ) :
+                                                (
+                                                    vehicles.length ?
+                                                        vehicles.map((vehicle, i) => ( */}
+                                                            <tr >
+                                                                <td>
+                                                                    {1}
+                                                                </td>
+                                                                <td>
+                                                                    {/* {vehicle.number} */}
+                                                                </td>
+                                                                <td>
+                                                                    {/* {vehicle.type} */}
+                                                                </td>
+                                                                <td>
+                                                                    {/* {vehicle.driverName} */}
+                                                                </td>
+                                                                <td>
+                                                                    {/* {vehicle.phoneNum} */}
+                                                                </td>
+                                                                <td>
+                                                                    {/* {vehicle.cnicNum} */}
+                                                                </td>
+                                                                <td>
+                                                                    {/* {vehicle.cnicNum} */}
+                                                                </td>
+                                                            </tr>
+                                                        {/* ))
+                                                        : <h5>Not Found</h5>
+                                                )
+                                    } */}
+                                </tbody>
+                            </table>
+                        </div>
                     </TableContainer>
                 </div>
             </div>

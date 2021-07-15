@@ -20,6 +20,8 @@ import axios from 'axios';
 import EditProducts from './EditProducts';
 import { useForm } from 'react-hook-form';
 import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActiion';
+import { Form, Formik } from 'formik'
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -109,16 +111,26 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	category: '',
+	name: '',
+	code: '',
+	minInventoryLevel: '',
+	remarks: '',
+};
+
+const validationSchema = yup.object({
+	category: yup.string().required('Category is required'),
+	name: yup.string().required('Product name is required'),
+	code: yup.string().required('Product code is required'),
+	minInventoryLevel: yup.string().required('Min. Inventory Level is required'),
+	remarks: yup.string().required('Reamrks is required'),
+});
+
 const Products = () => {
 	const [product, setproduct] = useState('');
 
 	const classes = useStyles();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
 
 	const dispatch = useDispatch();
 
@@ -130,14 +142,8 @@ const Products = () => {
 	const { loading, products, error } = useSelector((state) => state.products);
 	const { categories } = useSelector((state) => state.categories);
 
-	const onSubmitDate = async (props) => {
-		try {
-			await axios.post(`${process.env.REACT_APP_API_URL}/product`, props);
-			window.location.reload();
-			console.log('submit');
-		} catch (error) {
-			console.log(error);
-		}
+	const onSubmit = async (props) => {
+		// dispatch(createTraining(props));
 	};
 
 	const deleteProduct = async (params) => {
@@ -166,163 +172,203 @@ const Products = () => {
 			<EditProducts show={open} handler={handleClose} product={product} />
 			{/* ============products form component */}
 			<div>
-				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Select Category'
-									variant='outlined'
-									type='email'
-									size='small'
-									autoComplete='off'
-									select
-									required
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
-									{!categories || !categories.length ? (
-										<p>Data Not Found</p>
-									) : (
-										categories.map((cat) => (
-											<MenuItem
-												value={cat._id}
-												key={cat._id}
-												// onClick={() => setCodeCategory(cat.name) }
+				<Container className={classes.mainContainer}>
+					<Formik
+						initialValues={initialValue}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{
+							(props) => (
+								<Form>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Category'
+												variant='outlined'
+												type='email'
+												size='small'
+												autoComplete='off'
+												select
+												required
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('category')}
+												onBlur={props.handleBlur('category')}
+												value={props.values.category}
+												helperText={props.touched.category && props.errors.category}
+												error={props.touched.category && props.errors.category}
 											>
-												{cat.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Product Name'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('name', { required: true })}
-								/>
-								{errors.name?.type === 'required' && (
+												{/* {
+										!categories || !categories.length ? (
+											<p>Data Not Found</p>
+										) : (
+											categories.map((cat) => (
+												<MenuItem
+													value={cat._id}
+													key={cat._id}
+												// onClick={() => setCodeCategory(cat.name) }
+												>
+													{cat.name}
+												</MenuItem>
+											))
+										)
+									} */}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Product Name'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('name')}
+												onBlur={props.handleBlur('name')}
+												value={props.values.name}
+												helperText={props.touched.name && props.errors.name}
+												error={props.touched.name && props.errors.name}
+											/>
+											{/* {
+								errors.name?.type === 'required' && (
 									<p className='mt-1 text-danger'>Product Name is required</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Product Code'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									// value={`${CodeCategory}-${CodeName}-${CodeRandom}`}
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('productCode', { required: true })}
-								/>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Min. Inventory Level'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('minInventoryLevel', { required: true })}
-								/>
-								{errors.minInventoryLevel?.type === 'required' && (
-									<p className='mt-1 text-danger'>Min Inventory Level is required</p>
-								)}
-							</Grid>
-						</Grid>
-					</Container>
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Remarks'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('remarks', { required: true })}
-								/>
-								{errors.remarks?.type === 'required' && (
-									<p className='mt-1 text-danger'>Remarks is required</p>
-								)}
-							</Grid>
-						</Grid>
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</Container>
-				</form>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark table-md'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Product Category</StyledTableCell>
-									<StyledTableCell align='center'>Product Name</StyledTableCell>
-									<StyledTableCell align='center'>Product Code</StyledTableCell>
-									<StyledTableCell align='center'>Min Inventory Level</StyledTableCell>
-									<StyledTableCell align='center'>Remarks</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
+								)
+								} */}
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Product Code'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												// value={`${CodeCategory}-${CodeName}-${CodeRandom}`}
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('code')}
+												onBlur={props.handleBlur('code')}
+												value={props.values.code}
+												helperText={props.touched.code && props.errors.code}
+												error={props.touched.code && props.errors.code}
+											/>
+											{/* {
+									errors.name?.type === 'required' && (
+										<p className='mt-1 text-danger'>Product Name is required</p>
+									)
+									} */}
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Min. Inventory Level'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('minInventoryLevel')}
+												onBlur={props.handleBlur('minInventoryLevel')}
+												value={props.values.minInventoryLevel}
+												helperText={props.touched.minInventoryLevel && props.errors.minInventoryLevel}
+												error={props.touched.minInventoryLevel && props.errors.minInventoryLevel}
+											/>
+											{/* {
+									errors.minInventoryLevel?.type === 'required' && (
+										<p className='mt-1 text-danger'>Min Inventory Level is required</p>
+									)
+								} */}
+										</Grid>
+									</Grid>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Remarks'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('remarks')}
+												onBlur={props.handleBlur('remarks')}
+												value={props.values.remarks}
+												helperText={props.touched.remarks && props.errors.remarks}
+												error={props.touched.remarks && props.errors.remarks}
+											/>
+											{/* {
+									errors.remarks?.type === 'required' && (
+										<p className='mt-1 text-danger'>Remarks is required</p>
+										)
+									} */}
+										</Grid>
+									</Grid>
+									<div>
+										<Button
+											variant='outlined'
+											color='primary'
+											type='submit'
+											className={classes.addButton}>
+											Add
+										</Button>
+									</div>
+								</Form>
+							)
+						}
+					</Formik>
+				</Container>
+				<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+					<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+						<thead class="bg-dark text-light">
+							<tr>
+								<th>S.No.</th>
+								<th>Product Category</th>
+								<th>Product Name</th>
+								<th>Product Code</th>
+								<th>Min Inventory Level</th>
+								<th>Remarks</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+								loading ? (
 									<Loading />
 								) : error ? (
 									<MaterialError />
 								) : products.length ? (
 									products.map((product, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
+										<tr key={i}>
+											<td>
 												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												Finished
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.productCode}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.minInventoryLevel}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											</td>
+											<td>
 												{product.remarks}
-											</StyledTableCell>
-											<StyledTableCell className='text-light' align='center'>
+											</td>
+											<td>
 												<>
 													<Button
 														variant='contained'
@@ -341,15 +387,15 @@ const Products = () => {
 														Delete
 													</Button>
 												</>
-											</StyledTableCell>
-										</StyledTableRow>
+											</td>
+										</tr>
 									))
 								) : (
 									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
+								)
+							}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</Sidenav>

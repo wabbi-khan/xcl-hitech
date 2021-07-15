@@ -17,14 +17,13 @@ import GoodReceived from './dashboard/store/good rec and inspection rep/GoodRece
 import ProductsBinCard from './dashboard/store/productsBinCard/ProductsBinCard';
 import Vehicles from './dashboard/store/vehicles/Vehicles';
 import VehicleInspectChecklist from './dashboard/store/vehicleInspectCheck/VehicleInspectChecklist';
-import DeliveryOrder from './dashboard/store/deliveryOrder/DeliveryOrder';
 import DeliveryChalan from './dashboard/store/deliveryChalan/DeliveryChalan';
 import DailyInwardReports from './dashboard/store/dailyInwardReports/DailyInwardReports';
 import DailyConsumptionReport from './dashboard/store/dailyConsReport/DailyConsumptionReport';
 import DeptWiseConsReport from './dashboard/store/deptwiseConsReport/DeptWiseConsReport';
 import DeptWiseStoreInventory from './dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
 import MaterialIssueReq from './dashboard/store/materialIssueReq/MaterialIssueReq';
-import OrderDetails from './dashboard/store/deliveryOrder/OrderDetails';
+import OrderDetails from './dashboard/marketing-sales/deliveryOrder/OrderDetails';
 import PrintPurchaseOrder from './dashboard/purchase/purchase order/PrintPurchaseOrder';
 import PurchaseRequisition from './dashboard/purchase/purchaseReq/PurchaseRequisition';
 import PurchaseReqPrint from './dashboard/purchase/purchaseReq/PurchaseReqPrint';
@@ -98,6 +97,8 @@ import PrintTrainingAttendance from './dashboard/hr/training attendance/PrintTra
 import PrintTrainingRecord from './dashboard/hr/training record/PrintTrainingRecord';
 import EmpCompetencEval from './dashboard/hr/emp competence eval/EmpCompetencEval';
 import PrintEmpCompEval from './dashboard/hr/emp competence eval/PrintEmpCompEval';
+import DeliveryOrder from './dashboard/marketing-sales/deliveryOrder/DeliveryOrder';
+import Categories from './dashboard/store/storecategories/Categories';
 
 dotenv.config();
 
@@ -176,6 +177,7 @@ function App() {
 				/>
 				{/* ===================================================================== */}
 				<Route exact path='/storedashboard' component={Store} />
+                <Route exact path="/storedashboard/store_categories" component={Categories}/>
 				<Route exact path='/storedashboard/products' component={Products} />
 				<Route
 					exact
@@ -205,7 +207,7 @@ function App() {
 				/>
 				<Route
 					exact
-					path='/storedashboard/delivery_order'
+					path='/marketing/delivery_order'
 					component={DeliveryOrder}
 				/>
 				<Route
