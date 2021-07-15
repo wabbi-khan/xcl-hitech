@@ -38,12 +38,14 @@ export const createSkill = (skill) => async (dispatch) => {
 			skill,
 		);
 
-		dispatch({
-			type: SKILL_CREATE_SUCCESS,
-			payload: res.data.skill,
-		});
+		console.log(res);
 
-		// console.log(data);
+		if (res.success || res.status === 200) {
+			dispatch({
+				type: SKILL_CREATE_SUCCESS,
+				payload: res.data.skill,
+			});
+		}
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

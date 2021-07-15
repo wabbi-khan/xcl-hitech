@@ -97,106 +97,24 @@ const CssTextField = withStyles({
 const TrainingAttendance = ({ history, match, location }) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const [initialValueState, setInitialValueState] = React.useState(
-		location?.state,
-	);
-	const { attendance } = useSelector((state) => state.trainingAttendance);
+	const [trainingPlan, setTrainingPlan] = React.useState();
 
-	console.log(attendance);
+	console.log(location?.params);
+
+	React.useEffect(() => {
+		setTrainingPlan(location?.params);
+	}, [location?.params]);
+
+	const { attendance } = useSelector((state) => state.trainingAttendance);
 
 	React.useEffect(() => {
 		dispatch(getTrainings());
-		dispatch(getTrainingsAttendance(`date=${moment().format('MMM Do YY')}`));
-	}, []);
-
-	React.useEffect(() => {
-		setInitialValueState(location.state);
-		console.log(location.state);
-	}, [location?.state]);
-
-	const onSubmit = async (values) => {
-		console.log(values);
-		dispatch(
-			createTrainingAttendance({
-				participants: values?.participants?._id,
-				trainingPlan: values._id,
-			}),
-		);
-	};
-
-	const toggleAbsentFunc = (id) => {
-		console.log(id);
-		dispatch(markAsAbsent(id));
-	};
+		dispatch(getTrainingsAttendance(`training=${trainingPlan}`));
+	}, [trainingPlan]);
 
 	return (
 		<Sidenav title={'Training Attendance'}>
 			<div>
-				<Button
-					variant='contained'
-					size='small'
-					type='submit'
-					onClick={() => {
-						history.push({
-							pathname: '/hr/training_attendance/view',
-							params: initialValueState._id,
-						});
-					}}
-					className='bg-primary text-light'
-					style={{ marginLeft: 2, marginTop: 2 }}>
-					View All Attendance
-				</Button>
-				<Container className={classes.mainContainer}>
-					<Formik
-						initialValues={initialValueState}
-						onSubmit={onSubmit}
-						enableReinitialize>
-						{(props) => (
-							<Form>
-								<Grid container spacing={1}>
-									<Grid item lg={8} md={8} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Subject'
-											variant='outlined'
-											type='text'
-											disabled
-											size='small'
-											autocomplete='off'
-											style={{ width: '100%' }}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											value={props?.values?.topic?.name}></CssTextField>
-									</Grid>
-								</Grid>
-								<Grid container spacing={1} style={{ marginTop: 10 }}>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Tutor'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											style={{ width: '100%' }}
-											inputProps={{ style: { fontSize: 14 } }}
-											value={props?.values?.trainer?.name}
-											InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-									</Grid>
-								</Grid>
-								<Button
-									variant='contained'
-									size='small'
-									type='submit'
-									className='bg-primary text-light'
-									style={{ marginLeft: 2, marginTop: 2 }}>
-									Generate Attendance
-								</Button>
-							</Form>
-						)}
-					</Formik>
-				</Container>
-
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -209,7 +127,8 @@ const TrainingAttendance = ({ history, match, location }) => {
 									<StyledTableCell align='center'>Name</StyledTableCell>
 									<StyledTableCell align='center'>Designation</StyledTableCell>
 									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+									<StyledTableCell align='center'>Date</StyledTableCell>
+									<StyledTableCell align='center'>Status</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -229,17 +148,11 @@ const TrainingAttendance = ({ history, match, location }) => {
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el?.training?.trainer?.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<Button
-													variant='contained'
-													size='small'
-													className='bg-danger text-light'
-													onClick={() => {
-														toggleAbsentFunc(el._id);
-													}}
-													style={{ marginLeft: 2, marginTop: 2 }}>
-													{el?.isPresent ? 'Mark as Absent' : 'Mark as Present'}
-												</Button>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.date}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.isPresent ? 'Absent' : 'Present'}
 											</StyledTableCell>
 										</StyledTableRow>
 									))}

@@ -1166,10 +1166,19 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
+									history.push('/hr/employees_promotion');
+								}}>
+								<ListItemText inset primary='Employees Promotion' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
 									history.push('/hr/training');
 								}}>
 								<ListItemText inset primary='Trainings' />
 							</ListItem>
+
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1206,14 +1215,6 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/hr/training_attendance');
-								}}>
-								<ListItemText inset primary='Training Attendence' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
 									history.push('/hr/training_record_and_evaluation');
 								}}>
 								<ListItemText inset primary='Training Record & Eval..' />
@@ -1225,14 +1226,6 @@ function Sidenav(props) {
 									history.push('/hr/job_description');
 								}}>
 								<ListItemText inset primary='Job Description' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees_promotion');
-								}}>
-								<ListItemText inset primary='Employees Promotion' />
 							</ListItem>
 						</List>
 					</Collapse>

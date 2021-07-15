@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
@@ -20,6 +20,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import FormGroup from '@material-ui/core/FormGroup';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import { getDesignation } from '../../../services/action/DesignationAction';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -92,121 +93,149 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const initialValues = {};
+const initialValues = {
+	training: '',
+	method: '',
+	result: '',
+	evaluatedBy: '',
+};
+
+const validationSchema = yup.object({
+	training: yup.string().required(),
+	method: yup.string().required(),
+	result: yup.string().required(),
+	evaluatedBy: yup.string().required(),
+});
 
 const TrainingRecord = ({ history }) => {
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
+	const { designations } = useSelector((state) => state.designations);
+	console.log(designations);
 
-	useEffect(async () => {}, [dispatch]);
+	useEffect(async () => {
+		dispatch(getDesignation());
+	}, [dispatch]);
 
-	const onSubmitDate = async (props) => {};
+	const onSubmit = async (props) => {};
 
 	return (
 		<Sidenav title={'Training Record and Evaluation'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					{/* Material category selector */}
-					<Grid container spacing={1}>
-						<Grid item lg={8} md={8} sm={12} xs={12}>
-							<CssTextField
-								id='outlined-basic'
-								label='Select Training'
-								variant='outlined'
-								type='text'
-								size='small'
-								select
-								autocomplete='off'
-								style={{ width: '100%' }}
-								inputProps={{ style: { fontSize: 14 } }}
-								InputLabelProps={{ style: { fontSize: 14 } }}>
-								<MenuItem value='0'>Training on Purchase</MenuItem>
-							</CssTextField>
-						</Grid>
-						<Grid item lg={3} md={3} sm={12} xs={12}>
-							<CssTextField
-								id='outlined-basic'
-								label='Date'
-								variant='outlined'
-								type='text'
-								autocomplete='off'
-								size='small'
-								disabled
-								style={{ width: '100%' }}
-								inputProps={{ style: { fontSize: 14 } }}
-								InputLabelProps={{ style: { fontSize: 14 } }}
-							/>
-						</Grid>
-					</Grid>
-					<Grid container spacing={1} style={{ marginTop: 12 }}>
-						<Grid item lg={3} md={3} sm={12} xs={12}>
-							<CssTextField
-								id='outlined-basic'
-								label='Evaluation Method'
-								variant='outlined'
-								type='text'
-								autocomplete='off'
-								size='small'
-								select
-								style={{ width: '100%' }}
-								inputProps={{ style: { fontSize: 14 } }}
-								InputLabelProps={{ style: { fontSize: 14 } }}>
-								<MenuItem value='0'>Interview</MenuItem>
-								<MenuItem value='0'>Written Test</MenuItem>
-							</CssTextField>
-						</Grid>
-						<Grid item lg={3} md={3} sm={12} xs={12}>
-							<CssTextField
-								id='outlined-basic'
-								label='Training Evaluation Result'
-								variant='outlined'
-								type='text'
-								autocomplete='off'
-								size='small'
-								select
-								style={{ width: '100%' }}
-								inputProps={{ style: { fontSize: 14 } }}
-								InputLabelProps={{ style: { fontSize: 14 } }}>
-								<MenuItem value='0'>Satisfactory</MenuItem>
-								<MenuItem value='0'>Unsatisfactory</MenuItem>
-							</CssTextField>
-						</Grid>
-						<Grid item lg={3} md={3} sm={12} xs={12}>
-							<CssTextField
-								id='outlined-basic'
-								label='Evaluated By'
-								variant='outlined'
-								type='text'
-								autocomplete='off'
-								size='small'
-								select
-								style={{ width: '100%' }}
-								inputProps={{ style: { fontSize: 14 } }}
-								InputLabelProps={{ style: { fontSize: 14 } }}>
-								<MenuItem value='0'>QC Manager</MenuItem>
-							</CssTextField>
-						</Grid>
-					</Grid>
-					{/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
-					{/* <div>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                                onClick={() => {
-                                    // history.push('/hr/print_training_need_identification')
-                                }}
-                            >
-                                Add Plan
-                            </Button>
-                        </div> */}
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<Grid container spacing={1}>
+									<Grid item lg={8} md={8} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Training'
+											variant='outlined'
+											type='text'
+											size='small'
+											select
+											autocomplete='off'
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('training')}
+											onBlur={props.handleBlur('training')}
+											value={props.values.training}
+											helperText={props.touched.training && props.errors.training}
+											error={props.touched.training && props.errors.training}
+											InputLabelProps={{ style: { fontSize: 14 } }}>
+											<MenuItem value='0'>Training on Purchase</MenuItem>
+										</CssTextField>
+									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 12 }}>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Evaluation Method'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											select
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('method')}
+											onBlur={props.handleBlur('method')}
+											value={props.values.method}
+											helperText={props.touched.method && props.errors.method}
+											error={props.touched.method && props.errors.method}
+											InputLabelProps={{ style: { fontSize: 14 } }}>
+											<MenuItem value='0'>Interview</MenuItem>
+											<MenuItem value='0'>Written Test</MenuItem>
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Training Evaluation Result'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											select
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('result')}
+											onBlur={props.handleBlur('result')}
+											value={props.values.result}
+											helperText={props.touched.result && props.errors.result}
+											error={props.touched.result && props.errors.result}
+											InputLabelProps={{ style: { fontSize: 14 } }}>
+											<MenuItem value='0'>Satisfactory</MenuItem>
+											<MenuItem value='0'>Unsatisfactory</MenuItem>
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Evaluated By'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											select
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('evaluatedBy')}
+											onBlur={props.handleBlur('evaluatedBy')}
+											value={props.values.evaluatedBy}
+											helperText={props.touched.evaluatedBy && props.errors.evaluatedBy}
+											error={props.touched.evaluatedBy && props.errors.evaluatedBy}
+											InputLabelProps={{ style: { fontSize: 14 } }}>
+											{!designations || !designations.length ? (
+												<p>Data Not Found</p>
+											) : (
+												designations.map((el, i) => (
+													<MenuItem value={el._id} key={i}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
+										</CssTextField>
+									</Grid>
+								</Grid>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										type='submit'
+										className={classes.addButton}>
+										Submit
+									</Button>
+								</div>
+							</Form>
+						)}
+					</Formik>
 				</Container>
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
@@ -279,17 +308,6 @@ const TrainingRecord = ({ history }) => {
 							</TableBody>
 						</Table>
 					</TableContainer>
-					<div>
-						<Button
-							variant='outlined'
-							color='primary'
-							type='submit'
-							className={classes.addButton}
-							// onClick={() => }
-						>
-							Submit
-						</Button>
-					</div>
 				</div>
 			</div>
 		</Sidenav>

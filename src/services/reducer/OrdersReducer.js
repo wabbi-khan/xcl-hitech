@@ -7,7 +7,10 @@ import {
 	PURCHASE_ORDER_SINGLE_FETCH_SUCCESS,
 } from '../constants/OrderConstant';
 
-export const fetchPurchaseOrderReducer = (state = { orders: [] }, action) => {
+export const fetchPurchaseOrderReducer = (
+	state = { orders: [], order: {} },
+	action,
+) => {
 	switch (action.type) {
 		case PURCHASE_ORDER_REQUEST:
 			return {

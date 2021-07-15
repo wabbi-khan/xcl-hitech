@@ -124,6 +124,32 @@ export const updateEmployee = (id, data) => async (dispatch) => {
 	}
 };
 
+export const promoteEmployee = (id, data, cb) => async (dispatch) => {
+	dispatch({
+		type: EMPLOYEE_REQUEST,
+	});
+
+	console.dir(data);
+
+	try {
+		const res = await axios.patch(
+			`${process.env.REACT_APP_API_URL}/employees/promote/${id}`,
+			data,
+		);
+
+		console.dir(res);
+
+		dispatch({
+			type: EMPLOYEE_UPDATE_SUCCESS,
+			payload: res.data.employee,
+		});
+
+		if (cb) cb();
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
 export const hireEmployee = (id, data) => async (dispatch) => {
 	dispatch({
 		type: EMPLOYEE_REQUEST,
@@ -175,8 +201,6 @@ export const getEmployeeByDesignationAndDepartment =
 			const { data } = await axios.get(
 				`${process.env.REACT_APP_API_URL}/employees/?finalDesignation=${designation}&finalDepartment=${department}`,
 			);
-
-			console.log(data);
 
 			dispatch({
 				type: EMPLOYEE_FETCH_SUCCESS,

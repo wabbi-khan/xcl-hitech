@@ -45,7 +45,7 @@ export const fetchSkills = (state = { skills: [] }, action) => {
 			return {
 				error: '',
 				loading: false,
-				skills: [...state.skills, action.payload],
+				skills: [action.payload, ...state.skills],
 			};
 
 		default:

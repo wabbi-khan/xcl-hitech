@@ -259,21 +259,23 @@ const Designation = ({ history }) => {
 														variant='contained'
 														size='small'
 														className='btn btn-sm bg-dark text-light'
-														onClick={() => 
-															// handleDeleteDesignation(designation._id)
-															history.push('/hr/competence_criteria_print')
+														onClick={() =>
+															history.push({
+																pathname: '/hr/competence_criteria_print',
+																state: { designation },
+															})
 														}
 														style={{ marginTop: 2 }}>
 														View
 													</Button>
-													<Button
+													{/* <Button
 														variant='contained'
 														className='bg-dark text-light'
 														size='small'
 														onClick={() => handleOpen(designation)}
 														style={{ marginTop: 2, marginLeft: 2 }}>
 														Edit
-													</Button>
+													</Button> */}
 													<Button
 														variant='contained'
 														color='secondary'
