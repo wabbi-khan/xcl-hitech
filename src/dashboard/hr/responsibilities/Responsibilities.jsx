@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Sidenav from '../../SideNav/Sidenav';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -15,12 +16,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	mainContainer: {
 		marginTop: 20,
-		marginLeft: 0,
+		textAlign: 'center'
 	},
 	addMoreRes: {
-		marginTop: 2,
+		marginTop: 20,
 		padding: 6,
 		marginLeft: 20,
+		width: '10%',
 		backgroundColor: '#22A19A',
 		color: 'whitesmoke',
 		fontWeight: 'bold',
@@ -41,24 +43,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	dataTable: {
 		marginTop: 40,
-	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			// marginLeft: 10,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
-		},
 	},
 	resStyle: {
 		marginTop: 8,
@@ -112,38 +96,42 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 	};
 
 	return (
-		<div>
-			<div style={{ marginTop: 30, marginBottom: 30 }}>
+		<Sidenav title={'Responsibilities'}>
+			<div>
+				{/* <div style={{ marginTop: 30, marginBottom: 30 }}>
 				<hr />
-			</div>
-			<Container className={classes.mainContainer}>
-				<h4 className='text-left'>Responsibilities</h4>
-				<CssTextField
-					id='outlined-basic'
-					label='Resposibilities'
-					variant='outlined'
-					type='text'
-					autocomplete='off'
-					size='small'
-					value={resString}
-					onChange={(e) => {
-						setResString(e.target.value);
-					}}
-					className={classes.inputFieldStyle}
-					inputProps={{ style: { fontSize: 14 } }}
-					InputLabelProps={{ style: { fontSize: 14 } }}
-				/>
-				{errors.name?.type === 'required' && (
-					<p className='mt-1 text-danger'>Responsibilities is required</p>
-				)}
-				<Button
-					variant='contained'
-					size='small'
-					className={classes.addMoreRes}
-					onClick={getValue}>
-					Add
-				</Button>
-				{responsibilities.map((res, i) => (
+			</div> */}
+				<Container className={classes.mainContainer}>
+					{/* <h4 className='text-left'>Responsibilities</h4> */}
+					<CssTextField
+						id='outlined-basic'
+						label='Add Resposibilities'
+						variant='outlined'
+						type='text'
+						autocomplete='off'
+						size='small'
+						value={resString}
+						onChange={(e) => {
+							setResString(e.target.value);
+						}}
+						style={{ width: '50%' }}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					/>
+					{errors.name?.type === 'required' && (
+						<p className='mt-1 text-danger'>Responsibilities is required</p>
+					)}
+					<div>
+						<Button
+							variant='contained'
+							size='small'
+							className={classes.addMoreRes}
+						// onClick={getValue}
+						>
+							Add
+						</Button>
+					</div>
+					{/* {responsibilities.map((res, i) => (
 					<p className={classes.resStyle}>
 						<span style={{ fontSize: 13 }}>{i + 1}. </span>
 						{res}
@@ -152,21 +140,70 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 							className={classes.delete}
 							onClick={() => removeRes(i)}
 						/>
-						{/* <Button
-                                variant="outlined" size="small"
-                                className={classes.deleteResBtn}
-                            >
-                            </Button> */}
 					</p>
-				))}
-				{/* {
+				))} */}
+					{/* {
                                 !designations || !designations.length ? <p>Data Not Found</p> :
                                     designations.map(designation => (
                                         <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
                                     ))
                             } */}
-			</Container>
-		</div>
+				</Container>
+			</div>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+					<thead class="bg-dark text-light">
+						<tr>
+							<th>S.No.</th>
+							<th>Responsibilities</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+									<tr >
+										<td>
+											{1}
+										</td>
+										<td>
+											{}
+										</td>
+										<td>
+											<>
+												<Button
+													variant='contained'
+													className='bg-dark text-light'
+													size='small'
+													// onClick={() => handleOpen(product)}
+													style={{ marginTop: 2 }}>
+													Edit
+												</Button>
+												<Button
+													variant='contained'
+													color='secondary'
+													size='small'
+													// onClick={() => deleteProduct(product._id)}
+													style={{ marginLeft: 2, marginTop: 2 }}>
+													Delete
+												</Button>
+											</>
+										</td>
+									</tr>
+								{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
+			</div>
+		</Sidenav>
 	);
 };
 

@@ -24,7 +24,7 @@ import {
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
-import Responsibilities from './Responsibilities';
+import Responsibilities from '../responsibilities/Responsibilities';
 import Authorities from './Authorities';
 import CompetenceCriteria from './CompetenceCriteria';
 
@@ -208,11 +208,11 @@ const Designation = ({ history }) => {
 						{errors.name?.type === 'required' && (
 							<p className='mt-1 text-danger'>Designation Name is required</p>
 						)}
-						<Responsibilities
+						{/* <Responsibilities
 							responsibilities={responsibilities}
 							setResponsibilities={setResponsibilities}
 						/>
-						<Authorities authorities={authorities} setAuthorities={setAuthorities} />
+						<Authorities authorities={authorities} setAuthorities={setAuthorities} /> */}
 						<CompetenceCriteria
 							compCriteria={compCriteria}
 							setCompCriteria={setCompCriteria}

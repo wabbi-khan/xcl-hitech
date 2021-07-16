@@ -99,7 +99,7 @@ const ViewEmpDetails = (props) => {
 		(state) => state.employees,
 	);
 
-	console.log(unHiredEmployees);
+	console.log(employees);
 	return (
 		<Sidenav title={'Employee Details'}>
 			<div className={classes.dataTable}>

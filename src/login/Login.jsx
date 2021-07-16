@@ -22,12 +22,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	backImg: {
 		width: 'auto',
-		[theme.breakpoints.up('md')]: {
-			height: 800,
-		},
-		[theme.breakpoints.down('sm')]: {
-			height: 820,
-		},
+		height: '100vh'
+		// [theme.breakpoints.up('md')]: {
+		// 	height: 800,
+		// },
+		// [theme.breakpoints.down('sm')]: {
+		// 	height: 820,
+		// },
 	},
 	loginBox: {
 		marginLeft: 'auto',
@@ -70,12 +71,18 @@ const useStyles = makeStyles((theme) => ({
 
 const CssTextField = withStyles({
 	root: {
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'white',
-			},
-		},
-	},
+        '& label.Mui-focused': {
+            color: 'white',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'white',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'white',
+            },
+        },
+    },
 })(TextField);
 
 const initialValues = {
@@ -151,8 +158,12 @@ const Login = (props) => {
 									variant='outlined'
 									autoComplete='off'
 									type='text'
+									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{
-										style: { color: '#fff' },
+										style: {
+											color: '#fff',
+											fontSize: 14
+										},
 									}}
 									InputProps={{
 										classes: {
