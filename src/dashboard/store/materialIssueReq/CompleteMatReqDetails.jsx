@@ -48,23 +48,6 @@ const useStyles = makeStyles((theme) => ({
 			marginTop: -15,
 		},
 	},
-	addButton: {
-		marginTop: 20,
-		color: '#22A19A',
-		borderColor: '#22A19A',
-		fontWeight: 'bold',
-		'&:hover': {
-			border: 'none',
-			backgroundColor: '#22A19A',
-			color: 'whitesmoke',
-		},
-		[theme.breakpoints.up('md')]: {
-			width: '15%',
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: '30%',
-		},
-	},
 	table: {
 		minWidth: 600,
 	},
@@ -79,33 +62,7 @@ const useStyles = makeStyles((theme) => ({
 			marginLeft: 0,
 		},
 	},
-	inputFieldStyle: {
-		// boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-		// borderRadius: 5,
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
 }));
-
-const CssTextField = withStyles({
-	root: {
-		'& label.Mui-focused': {
-			color: 'black',
-		},
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'black',
-			},
-			'&.Mui-focused fieldset': {
-				borderColor: 'black',
-			},
-		},
-	},
-})(TextField);
 
 const CompleteMatReqDetails = (props) => {
 	const classes = useStyles();
@@ -126,6 +83,105 @@ const CompleteMatReqDetails = (props) => {
 		<Sidenav title={'Completed Material Issue Requisition Details'}>
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
+					{/* <h5>Inspected Orders</h5> */}
+					<div className='container-fluid' style={{ textAlign: 'left', }}>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
+							<thead class="bg-dark text-light">
+								<tr>
+									<th>S.No.</th>
+									<th>Department</th>
+									<th>Purpose</th>
+									<th>Req. Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								{
+									loading ? (
+										<Loading />
+									) : error ? (
+										<MaterialError />
+									) : purchaseRequisition ? (
+										<tr >
+											<td>
+												{1}
+											</td>
+											<td>
+												{
+													!purchaseRequisition.department
+														? null
+														: purchaseRequisition.department.name
+												}
+											</td>
+											<td>
+												{purchaseRequisition.purpose}
+											</td>
+											<td>
+												{purchaseRequisition.reqDate}
+											</td>
+										</tr>
+									) : (
+										<h5>Not Found</h5>
+									)
+								}
+							</tbody>
+						</table>
+					</div>
+				</TableContainer>
+			</div>
+			<div className={classes.dataTable}>
+				<TableContainer className={classes.tableContainer}>
+					{/* <h5>Inspected Orders</h5> */}
+					<div className='container-fluid' style={{ textAlign: 'left', }}>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
+							<thead class="bg-dark text-light">
+								<tr>
+									<th>S.No.</th>
+									<th>Material Name</th>
+									<th>Quantity</th>
+									<th>Unit Value</th>
+									<th>Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								{
+									loading ? (
+										<Loading />
+									) : error ? (
+										<MaterialError />
+									) : !purchaseRequisition.materials ||
+										!purchaseRequisition.materials.length ? (
+										<h5>Not Found</h5>
+									) : (
+										purchaseRequisition.materials.map((material, i) => (
+											<tr key={i}>
+												<td>
+													{i + 1}
+												</td>
+												<td>
+													{
+														!material.material ? null : material.material.name
+													}
+												</td>
+												<td>
+													{material.quantity}
+												</td>
+												<td>
+													{material.unitValue}
+												</td>
+												<td>
+													{material.remarks}
+												</td>
+											</tr>
+										))
+									)
+								}
+							</tbody>
+						</table>
+					</div>
+				</TableContainer>
+			</div>
+			{/* <div className={classes.dataTable}>
+				<TableContainer className={classes.tableContainer}>
 					<Table
 						stickyHeader
 						className='table table-dark'
@@ -139,35 +195,39 @@ const CompleteMatReqDetails = (props) => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : purchaseRequisition ? (
-								<StyledTableRow>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										1
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{!purchaseRequisition.department
-											? null
-											: purchaseRequisition.department.name}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{purchaseRequisition.purpose}
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										{purchaseRequisition.reqDate}
-									</StyledTableCell>
-								</StyledTableRow>
-							) : (
-								<h5>Not Found</h5>
-							)}
+							{
+								loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : purchaseRequisition ? (
+									<StyledTableRow>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											1
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{
+												!purchaseRequisition.department
+													? null
+													: purchaseRequisition.department.name
+											}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{purchaseRequisition.purpose}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{purchaseRequisition.reqDate}
+										</StyledTableCell>
+									</StyledTableRow>
+								) : (
+									<h5>Not Found</h5>
+								)
+							}
 						</TableBody>
 					</Table>
 				</TableContainer>
-			</div>
-			<div className={classes.dataTable}>
+			</div> */}
+			{/* <div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					<Table
 						stickyHeader
@@ -183,38 +243,42 @@ const CompleteMatReqDetails = (props) => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : !purchaseRequisition.materials ||
-							  !purchaseRequisition.materials.length ? (
-								<h5>Not Found</h5>
-							) : (
-								purchaseRequisition.materials.map((material, i) => (
-									<StyledTableRow key={i}>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{i + 1}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{!material.material ? <span>asd</span> : material.material.name}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{material.quantity}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{material.unitValue}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{material.remarks}
-										</StyledTableCell>
-									</StyledTableRow>
-								))
-							)}
+							{
+								loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : !purchaseRequisition.materials ||
+									!purchaseRequisition.materials.length ? (
+									<h5>Not Found</h5>
+								) : (
+									purchaseRequisition.materials.map((material, i) => (
+										<StyledTableRow key={i}>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{
+													!material.material ? <span>asd</span> : material.material.name
+												}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{material.quantity}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{material.unitValue}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{material.remarks}
+											</StyledTableCell>
+										</StyledTableRow>
+									))
+								)
+							}
 						</TableBody>
 					</Table>
 				</TableContainer>
-			</div>
+			</div> */}
 		</Sidenav>
 	);
 };
