@@ -144,32 +144,32 @@ export const PurchaseOrderList = ({ history }) => {
 													{i + 1}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{order.poNum}
+													{order?.poNum}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{!order.vendor ? null : order.vendor.name}
+													{!order?.vendor ? null : order?.vendor?.name}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{!order.materials || !order.materials.length ? (
+													{!order?.materials || !order?.materials?.length ? (
 														<h5>Not Found</h5>
 													) : (
-														order.materials.map((material, i) => {
+														order?.materials?.map((material, i) => {
 															return i > 1 ? '...' : material?.material?.name + ', ';
 														})
 													)}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{order.totalQuantity}
+													{order?.totalQuantity}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{order.date}
+													{order?.date}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
 													<Button
 														className='btn bg-dark text-light'
 														onClick={() => {
 															history.push(
-																`/purchase/purchase_order_list/order_details/${order._id}`,
+																`/purchase/purchase_order_list/order_details/${order?._id}`,
 															);
 														}}>
 														View Details

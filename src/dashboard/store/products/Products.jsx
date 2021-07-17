@@ -18,9 +18,8 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import axios from 'axios';
 import EditProducts from './EditProducts';
-import { useForm } from 'react-hook-form';
-import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActiion';
-import { Form, Formik } from 'formik'
+import { getStoreCategory } from '../../../services/action/StoreCategoryAction';
+import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -136,7 +135,7 @@ const Products = () => {
 
 	useEffect(async () => {
 		await dispatch(fetchProductsAction());
-		await dispatch(fetchStoreCatAction());
+		await dispatch(getStoreCategory());
 	}, [dispatch]);
 
 	const { loading, products, error } = useSelector((state) => state.products);
@@ -176,32 +175,29 @@ const Products = () => {
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}
-					>
-						{
-							(props) => (
-								<Form>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Select Category'
-												variant='outlined'
-												type='email'
-												size='small'
-												autoComplete='off'
-												select
-												required
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('category')}
-												onBlur={props.handleBlur('category')}
-												value={props.values.category}
-												helperText={props.touched.category && props.errors.category}
-												error={props.touched.category && props.errors.category}
-											>
-												{/* {
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Category'
+											variant='outlined'
+											type='email'
+											size='small'
+											autoComplete='off'
+											select
+											required
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('category')}
+											onBlur={props.handleBlur('category')}
+											value={props.values.category}
+											helperText={props.touched.category && props.errors.category}
+											error={props.touched.category && props.errors.category}>
+											{/* {
 										!categories || !categories.length ? (
 											<p>Data Not Found</p>
 										) : (
@@ -216,121 +212,126 @@ const Products = () => {
 											))
 										)
 									} */}
-											</CssTextField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Product Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('name')}
-												onBlur={props.handleBlur('name')}
-												value={props.values.name}
-												helperText={props.touched.name && props.errors.name}
-												error={props.touched.name && props.errors.name}
-											/>
-											{/* {
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Product Name'
+											variant='outlined'
+											type='text'
+											size='small'
+											autoComplete='off'
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('name')}
+											onBlur={props.handleBlur('name')}
+											value={props.values.name}
+											helperText={props.touched.name && props.errors.name}
+											error={props.touched.name && props.errors.name}
+										/>
+										{/* {
 								errors.name?.type === 'required' && (
 									<p className='mt-1 text-danger'>Product Name is required</p>
 								)
 								} */}
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Product Code'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												// value={`${CodeCategory}-${CodeName}-${CodeRandom}`}
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('code')}
-												onBlur={props.handleBlur('code')}
-												value={props.values.code}
-												helperText={props.touched.code && props.errors.code}
-												error={props.touched.code && props.errors.code}
-											/>
-											{/* {
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Product Code'
+											variant='outlined'
+											type='text'
+											size='small'
+											autoComplete='off'
+											// value={`${CodeCategory}-${CodeName}-${CodeRandom}`}
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('code')}
+											onBlur={props.handleBlur('code')}
+											value={props.values.code}
+											helperText={props.touched.code && props.errors.code}
+											error={props.touched.code && props.errors.code}
+										/>
+										{/* {
 									errors.name?.type === 'required' && (
 										<p className='mt-1 text-danger'>Product Name is required</p>
 									)
 									} */}
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Min. Inventory Level'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('minInventoryLevel')}
-												onBlur={props.handleBlur('minInventoryLevel')}
-												value={props.values.minInventoryLevel}
-												helperText={props.touched.minInventoryLevel && props.errors.minInventoryLevel}
-												error={props.touched.minInventoryLevel && props.errors.minInventoryLevel}
-											/>
-											{/* {
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Min. Inventory Level'
+											variant='outlined'
+											type='text'
+											size='small'
+											autoComplete='off'
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('minInventoryLevel')}
+											onBlur={props.handleBlur('minInventoryLevel')}
+											value={props.values.minInventoryLevel}
+											helperText={
+												props.touched.minInventoryLevel && props.errors.minInventoryLevel
+											}
+											error={
+												props.touched.minInventoryLevel && props.errors.minInventoryLevel
+											}
+										/>
+										{/* {
 									errors.minInventoryLevel?.type === 'required' && (
 										<p className='mt-1 text-danger'>Min Inventory Level is required</p>
 									)
 								} */}
-										</Grid>
 									</Grid>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Remarks'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('remarks')}
-												onBlur={props.handleBlur('remarks')}
-												value={props.values.remarks}
-												helperText={props.touched.remarks && props.errors.remarks}
-												error={props.touched.remarks && props.errors.remarks}
-											/>
-											{/* {
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Remarks'
+											variant='outlined'
+											type='text'
+											size='small'
+											autoComplete='off'
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('remarks')}
+											onBlur={props.handleBlur('remarks')}
+											value={props.values.remarks}
+											helperText={props.touched.remarks && props.errors.remarks}
+											error={props.touched.remarks && props.errors.remarks}
+										/>
+										{/* {
 									errors.remarks?.type === 'required' && (
 										<p className='mt-1 text-danger'>Remarks is required</p>
 										)
 									} */}
-										</Grid>
 									</Grid>
-									<div>
-										<Button
-											variant='outlined'
-											color='primary'
-											type='submit'
-											className={classes.addButton}>
-											Add
-										</Button>
-									</div>
-								</Form>
-							)
-						}
+								</Grid>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										type='submit'
+										className={classes.addButton}>
+										Add
+									</Button>
+								</div>
+							</Form>
+						)}
 					</Formik>
 				</Container>
-				<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
-					<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-						<thead class="bg-dark text-light">
+				<div
+					className='container-fluid'
+					style={{ textAlign: 'left', marginTop: '50px' }}>
+					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+						<thead class='bg-dark text-light'>
 							<tr>
 								<th>S.No.</th>
 								<th>Product Category</th>
@@ -342,58 +343,44 @@ const Products = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{
-								loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : products.length ? (
-									products.map((product, i) => (
-										<tr key={i}>
-											<td>
-												{i + 1}
-											</td>
-											<td>
-												Finished
-											</td>
-											<td>
-												{product.name}
-											</td>
-											<td>
-												{product.productCode}
-											</td>
-											<td>
-												{product.minInventoryLevel}
-											</td>
-											<td>
-												{product.remarks}
-											</td>
-											<td>
-												<>
-													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
-														onClick={() => handleOpen(product)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
-													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
-														onClick={() => deleteProduct(product._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
-											</td>
-										</tr>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)
-							}
+							{loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => (
+									<tr key={i}>
+										<td>{i + 1}</td>
+										<td>Finished</td>
+										<td>{product.name}</td>
+										<td>{product.productCode}</td>
+										<td>{product.minInventoryLevel}</td>
+										<td>{product.remarks}</td>
+										<td>
+											<>
+												<Button
+													variant='contained'
+													className='bg-dark text-light'
+													size='small'
+													onClick={() => handleOpen(product)}
+													style={{ marginTop: 2 }}>
+													Edit
+												</Button>
+												<Button
+													variant='contained'
+													color='secondary'
+													size='small'
+													onClick={() => deleteProduct(product._id)}
+													style={{ marginLeft: 2, marginTop: 2 }}>
+													Delete
+												</Button>
+											</>
+										</td>
+									</tr>
+								))
+							) : (
+								<h5>Not Found</h5>
+							)}
 						</tbody>
 					</table>
 				</div>

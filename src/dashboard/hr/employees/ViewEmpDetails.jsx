@@ -132,13 +132,13 @@ const ViewEmpDetails = (props) => {
 											{i + 1}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee.name}
+											{unHiredEmployee?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee.officeUse.jobTitle}
+											{unHiredEmployee?.officeUse?.jobTitle}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee.officeUse.department.name}
+											{unHiredEmployee?.officeUse?.department?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
 											<StyledTableCell
@@ -164,8 +164,7 @@ const ViewEmpDetails = (props) => {
 														variant='contained'
 														className='bg-success text-light'
 														size='small'
-														style={{ marginLeft: 3 }}
-													>
+														style={{ marginLeft: 3 }}>
 														Hired
 													</Button>
 												</Link>
@@ -208,13 +207,13 @@ const ViewEmpDetails = (props) => {
 											{i + 1}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{employee.name}
+											{employee?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{employee?.finalDesignation?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{employee.officeUse.department.name}
+											{employee?.officeUse?.department?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
 											<Button

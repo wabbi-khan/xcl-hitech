@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { PURCHASE_ORDER_REQUEST } from '../constants/OrderConstant';
 import {
 	PURCHASE_REQ_FAIL,
 	PURCHASE_REQ_REQUEST,

@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -108,7 +107,7 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 	const removeRes = (index) => {
 		const temp = [...responsibilities];
 		temp.splice(index, 1);
-		setResponsibilities(temp);
+		// setResponsibilities(temp);
 	};
 
 	return (

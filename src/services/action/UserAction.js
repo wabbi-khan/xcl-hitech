@@ -1,4 +1,3 @@
-import { CallMergeTwoTone } from '@material-ui/icons';
 import axios from 'axios';
 import {
 	USER_CREATE_SUCCESS,
@@ -27,7 +26,7 @@ export const loginUser = (user, cb) => async (dispatch) => {
 		if (data.success) {
 			dispatch({
 				type: USER_FETCH_SUCCESS,
-				payload: data.data,
+				payload: data.user,
 			});
 			localStorage.setItem('token', data.token);
 			if (cb) cb();
@@ -62,7 +61,6 @@ export const getUser = (cb) => async (dispatch) => {
 			if (cb) cb();
 		}
 	} catch (err) {
-		if (cb) cb(err?.response?.data?.error);
 		dispatchError(err, dispatch, cb);
 	}
 };
@@ -134,6 +132,7 @@ export const deleteTrainingVenue = (params) => async (dispatch) => {
 
 const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: USER_FAIL,
 			payload: err.response.data.error,

@@ -35,12 +35,14 @@ import { getTrainingsPlanes } from './services/reducer/TrainingPlan';
 import { getTrainingsIdentification } from './services/reducer/TrainingNeedIdentificationReducer';
 import { getTrainingsAttendance } from './services/reducer/TrainingAttendanceReducer';
 import { getUserReducer } from './services/reducer/UserReducer';
+import { fetchStoreCategory } from './services/reducer/StoreCatReducer';
 
 const initialState = {};
 
 const reducer = combineReducers({
 	materials: fetchMaterialReducer,
 	categories: fetchCategoryReducer,
+	storeCategories: fetchStoreCategory,
 	vendors: fetchVendorReducer,
 	persons: fetchPersonsReducer,
 	orders: fetchPurchaseOrderReducer,
