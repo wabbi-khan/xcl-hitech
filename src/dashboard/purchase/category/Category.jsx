@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,6 +21,8 @@ import {
 	deleteMatCategoryAction,
 } from '../../../services/action/MatCategoryAction';
 import EditCategory from './EditCategory';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -116,28 +118,43 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+});
+
 const Category = () => {
 	const classes = useStyles();
 	const [category, setCategory] = useState();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const [addLoading, setAddLoading] = React.useState(false);
+	const [error, setError] = React.useState('');
 
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		await dispatch(getMaterialCategoryAction());
+		dispatch(getMaterialCategoryAction());
 	}, [dispatch]);
 
-	const { categories, loading, error } = useSelector(
-		(state) => state.categories,
-	);
+	const { categories, loading } = useSelector((state) => state.categories);
 
-	const onSubmitDate = async (props) => {
-		dispatch(createMatCategoryAction(props));
+	const onSubmit = async (values, actions) => {
+		setAddLoading(true);
+		dispatch(
+			createMatCategoryAction(values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					actions.resetForm();
+				}
+				setAddLoading(false);
+			}),
+		);
 	};
 
 	const [open, setOpen] = useState(false);
@@ -157,51 +174,46 @@ const Category = () => {
 
 	return (
 		<Sidenav title={'Categories'}>
-			{/* ============Edit Category form component */}
-			<EditCategory
-				show={open}
-				handler={handleClose}
-				// categories={categories}
-				category={category}
-			/>
-			{/* ============Edit category form component */}
+			<EditCategory show={open} handler={handleClose} category={category} />
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Category Name*'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('name', { required: true })}
-						/>
-						{/* {
-                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                    categories.map(category => (
-                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                    ))
-                            } */}
-						{errors.name?.type === 'required' && (
-							<p className='mt-3 text-danger'>Category Name must be required</p>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Category Name*'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
+										variant='outlined'
+										text='Add'
+										color='primary'
+										classNames={classes.addButton}
+										loading={addLoading}
+										loaderColor='#333'
+									/>
+								</div>
+								{error && <p>{error}</p>}
+							</Form>
 						)}
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
+					</Formik>
 				</Container>
-				{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -228,24 +240,23 @@ const Category = () => {
 												{category.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div style={{ display: 'flex', justifyContent: 'center' }}>
 													<Button
 														variant='contained'
-														className='bg-dark text-light'
+														text='Edit'
 														size='small'
+														classNames='bg-dark text-light'
 														onClick={() => handleOpen(category)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
+													/>
 													<Button
 														variant='contained'
-														color='secondary'
+														text='Delete'
 														size='small'
+														color='secondary'
 														onClick={() => deleteCategory(category._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
+														style={{ marginLeft: '1rem' }}
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
 									))

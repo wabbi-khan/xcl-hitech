@@ -193,28 +193,28 @@ const PrintVendorOrderList = (props) => {
 											1.
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{!order.vendor ? null : order.vendor.name}
+											{!order?.vendor ? null : order?.vendor?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.poNum}
+											{order?.poNum}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.prNum}
+											{order?.prNum}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.paymentTerm}
+											{order?.paymentTerm}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.paymentSubject}
+											{order?.paymentSubject}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.reference}
+											{order?.reference}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.totalQuantity}
+											{order?.totalQuantity}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{order.date}
+											{order?.date}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
 											{/* {
@@ -247,19 +247,19 @@ const PrintVendorOrderList = (props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{!order.materials || !order.materials.length ? (
+								{!order?.materials || !order?.materials?.length ? (
 									<span>Not Found</span>
 								) : (
-									order.materials.map((mat, i) => (
+									order?.materials?.map((mat, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark' align='center'>
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
-												{mat.material.name}
+												{mat?.material?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
-												{mat.unitValue}
+												{mat?.unitValue}
 											</StyledTableCell>
 										</StyledTableRow>
 									))

@@ -5,12 +5,11 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { updateMatCategoryAction } from '../../../services/action/MatCategoryAction';
 import Grid from '@material-ui/core/Grid';
+import { Formik, Form } from 'formik';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -107,16 +106,12 @@ const EditCategory = (props) => {
 	const { show, handler, category } = props;
 
 	const classes = useStyles();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-	const [inputFields, setInputFields] = useState({ name: '' });
+	const [initialValues, setInitialValues] = useState({ name: '' });
 
 	const [open, setOpen] = useState(false);
 	const [isUpdate, setIsUpdate] = useState(false);
-	const [isError, setIsError] = useState(false);
+	const [error, setIsError] = useState(false);
+	const [loading, setLoading] = React.useState(false);
 
 	useEffect(() => {
 		setOpen(show);
@@ -124,20 +119,28 @@ const EditCategory = (props) => {
 	}, [show]);
 
 	useEffect(() => {
-		if (category) setInputFields({ name: category.name });
+		if (category) setInitialValues({ name: category.name });
 	}, [category]);
 
-	const onChangeHandler = (value, placeholder) => {
-		setInputFields({ ...inputFields, [placeholder]: value });
-	};
-
-	const onSubmit = async () => {
-		try {
-			dispatch(updateMatCategoryAction(category._id, inputFields));
-			setIsUpdate(true);
-		} catch (error) {
-			setIsError(true);
-		}
+	const onSubmit = async (values) => {
+		setLoading(true);
+		dispatch(
+			updateMatCategoryAction(category._id, values, (err) => {
+				if (err) {
+					setIsError(err);
+					setTimeout(() => {
+						setIsError('');
+					}, 4000);
+				} else {
+					setLoading(false);
+					setIsUpdate(true);
+					setTimeout(() => {
+						setIsUpdate(false);
+					}, 4000);
+				}
+			}),
+		);
+		setIsUpdate(true);
 	};
 
 	const handleClose = () => {
@@ -159,81 +162,59 @@ const EditCategory = (props) => {
 				<div className={classes.paper}>
 					<h5 className='text-center mt-4'>Update</h5>
 					<Container className={classes.mainContainer}>
-						{/* Form */}
 						{category ? (
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<Grid container spacing={1}>
-									{/* <Grid lg={12} md={12} sm={12}>
-                                            <CssTextField id="outlined-basic"
-                                                label="Select Category"
-                                                variant="outlined"
-                                                type="text"
-                                                autocomplete="off"
-                                                size="small"
-                                                select
-                                                className={classes.inputFieldStyle}
-                                                inputProps={{ style: { fontSize: 14 } }}
-                                                InputLabelProps={{ style: { fontSize: 14 } }}
-                                                defaultValue={category._id}
-                                                {...register("category", { required: true })}
-                                            >
-                                                {
-                                                    !category || !category.length ? <p>Data Not Found</p> :
-                                                    categories.map(category => (
-                                                            <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                                        ))
-                                                }
-                                            </CssTextField>
-                                        </Grid> */}
-									<Grid lg={12} md={12} sm={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Enter Category Name'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											value={inputFields.name}
-											autoComplete='off'
-											className={classes.inputFieldStyle1}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={(e) => onChangeHandler(e.target.value, 'name')}
-											// {...register("name", { required: true, maxLength: 30 })}
-										/>
-										{errors.name?.type === 'required' && (
-											<p className='text-danger'>Category name is required</p>
-										)}
-										{/* <br />
-                                            {
-                                                errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
-                                            } */}
-										{isUpdate ? (
-											<p className='text-success'>Category Edit Success</p>
-										) : isError ? (
-											<p className='text-danger'>
-												Category Edit Failed! Internal Server Error
-											</p>
-										) : null}
-									</Grid>
-								</Grid>
-								<div>
-									<Button
-										variant='outlined'
-										color='primary'
-										className={classes.addButton}
-										type='submit'>
-										Update
-									</Button>
-									<Button
-										variant='outlined'
-										color='primary'
-										className={classes.closeButton}
-										onClick={handleClose}>
-										close
-									</Button>
-								</div>
-							</form>
+							<Formik initialValues={initialValues} onSubmit={onSubmit}>
+								{(props) => (
+									<Form>
+										<Grid container spacing={1}>
+											<Grid lg={12} md={12} sm={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Enter Category Name'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													autoComplete='off'
+													className={classes.inputFieldStyle1}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('name')}
+													onBlur={props.handleBlur('name')}
+													value={props.values.name}
+													helperText={props.touched.name && props.errors.name}
+													error={props.touched.name && props.errors.name}
+												/>
+											</Grid>
+										</Grid>
+										<div
+											style={{
+												marginTop: '2rem',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}>
+											<Button
+												variant='contained'
+												color='primary'
+												text='Update'
+												style={{ marginRight: '1rem' }}
+												loading={loading}
+											/>
+											<Button
+												variant='outlined'
+												color='dark'
+												onClick={handleClose}
+												text='Close'
+												type='button'
+												classNames='bg-danger text-light'
+											/>
+										</div>
+										{error && <p>{error}</p>}
+										{isUpdate && <p>Category Successfully Updated</p>}
+									</Form>
+								)}
+							</Formik>
 						) : null}
 					</Container>
 				</div>

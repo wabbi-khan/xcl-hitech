@@ -164,8 +164,7 @@ const ViewEmpDetails = (props) => {
 														variant='contained'
 														className='bg-success text-light'
 														size='small'
-														style={{ marginLeft: 3 }}
-													>
+														style={{ marginLeft: 3 }}>
 														Hired
 													</Button>
 												</Link>

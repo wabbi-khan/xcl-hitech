@@ -282,25 +282,25 @@ const FullOrderDetails = (props) => {
 											</TableRow>
 										</TableHead>
 										<TableBody>
-											{!order.materials || !order.materials.length ? (
+											{!order?.materials || !order?.materials?.length ? (
 												<span>Material Not Found</span>
 											) : (
-												order.materials.map((material, i) => (
+												order?.materials?.map((material, i) => (
 													<StyledTableRow key={i}>
 														<StyledTableCell className='text-dark' align='center'>
 															{i + 1}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark' align='center'>
-															{material.material.name}
+															{material?.material?.name}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark' align='center'>
-															{material.quantity}
+															{material?.quantity}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark' align='center'>
-															{material.unitValue}
+															{material?.unitValue}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark' align='center'>
-															{material.remarks}
+															{material?.remarks}
 														</StyledTableCell>
 													</StyledTableRow>
 												))
@@ -320,7 +320,7 @@ const FullOrderDetails = (props) => {
 								className={classes.printBtn}
 								onClick={() => {
 									history.push(
-										`/purchase/purchase_order_list/print_order_details/${order._id}`,
+										`/purchase/purchase_order_list/print_order_details/${order?._id}`,
 									);
 								}}>
 								Print

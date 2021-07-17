@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,231 +13,260 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { fetchStoreCatAction } from '../../../services/action/StoreCategoryActiion';
+import {
+	getStoreCategory,
+	createStoreCategory,
+	deleteStoreCategory,
+} from '../../../services/action/StoreCategoryAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditCategories from './EditCategories';
 import { Form, Formik } from 'formik';
-import * as yup from 'yup'
+import * as yup from 'yup';
+import Loader from 'react-loader-spinner';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
-    },
-    mainContainer: {
-        textAlign: 'center',
-        marginTop: 20,
-    },
-    addButton: {
-        marginTop: 20,
-        color: '#22A19A',
-        borderColor: '#22A19A',
-        fontWeight: 'bold',
-        '&:hover': {
-            border: 'none',
-            backgroundColor: '#22A19A',
-            color: 'whitesmoke',
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '10%',
-        },
-        [theme.breakpoints.down('sm')]: {
-            // width: '12%',
-        },
-    },
-    table: {
-        minWidth: 600,
-    },
-    dataTable: {
-        marginTop: 40,
-
-    },
-    inputFieldStyle: {
-        [theme.breakpoints.up('md')]: {
-            width: 330,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    inputFieldStyle1: {
-        [theme.breakpoints.up('md')]: {
-            width: 330,
-            marginLeft: 10,
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-            marginTop: 10,
-        },
-    },
+	root: {
+		'& > *': {
+			margin: theme.spacing(1),
+			width: '25ch',
+		},
+	},
+	mainContainer: {
+		textAlign: 'center',
+		marginTop: 20,
+	},
+	addButton: {
+		marginTop: 20,
+		color: '#22A19A',
+		borderColor: '#22A19A',
+		fontWeight: 'bold',
+		'&:hover': {
+			border: 'none',
+			backgroundColor: '#22A19A',
+			color: 'whitesmoke',
+		},
+		[theme.breakpoints.up('md')]: {
+			width: '10%',
+		},
+		[theme.breakpoints.down('sm')]: {
+			// width: '12%',
+		},
+	},
+	table: {
+		minWidth: 600,
+	},
+	dataTable: {
+		marginTop: 40,
+	},
+	inputFieldStyle: {
+		[theme.breakpoints.up('md')]: {
+			width: 330,
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: 200,
+		},
+	},
+	inputFieldStyle1: {
+		[theme.breakpoints.up('md')]: {
+			width: 330,
+			marginLeft: 10,
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: 200,
+			marginTop: 10,
+		},
+	},
 }));
 
 const CssTextField = withStyles({
-    root: {
-        '& label.Mui-focused': {
-            color: 'black',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'black',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'black',
-            },
-        },
-    },
-
+	root: {
+		'& label.Mui-focused': {
+			color: 'black',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'black',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'black',
+			},
+		},
+	},
 })(TextField);
 
 const initialValue = {
-    name: '',
+	name: '',
 };
 
 const validationSchema = yup.object({
-    name: yup.string().required('Category name is required'),
+	name: yup.string().required('Category name is required'),
 });
 
 const Categories = () => {
-    const classes = useStyles();
-    const [cat, setcat] = useState()
+	const [success, setSuccess] = React.useState('');
+	const [error, setError] = React.useState('');
+	const [loading, setLoading] = React.useState(false);
+	const [addLoading, setAddLoading] = React.useState(false);
+	const classes = useStyles();
+	const [cat, setCat] = useState();
+	const { storeCategories } = useSelector((state) => state.storeCategories);
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+	const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+	useEffect(async () => {
+		setLoading(true);
+		dispatch(
+			getStoreCategory(null, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				}
+				setLoading(false);
+			}),
+		);
+	}, [dispatch]);
 
-    useEffect(async () => {
-        await dispatch(fetchStoreCatAction())
-    }, [dispatch])
+	const onSubmit = async (props) => {
+		setAddLoading(true);
+		dispatch(
+			createStoreCategory(props, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setAddLoading(false);
+			}),
+		);
+	};
 
-    // const { category, loading, error } = useSelector(state => state.category)
+	const [open, setOpen] = useState(false);
 
-    const onSubmit = async (props) => {
-        // dispatch(createTraining(props));
-    };
+	const handleClose = (props) => {
+		setOpen(props);
+	};
 
-    const [open, setOpen] = useState(false);
+	const handleOpen = async (cat) => {
+		setCat(cat);
+		setOpen(true);
+	};
 
-    const handleClose = (props) => {
-        setOpen(props);
-    }
+	const deleteCategory = async (params) => {
+		dispatch(deleteStoreCategory(params));
+	};
 
-    const handleOpen = async (cat) => {
-        setcat(cat);
-        setOpen(true);
-    }
+	return (
+		<Sidenav title={'Store Categories'}>
+			<EditCategories show={open} handler={handleClose} cat={cat} />
+			<div>
+				<Container className={classes.mainContainer}>
+					<Formik
+						initialValues={initialValue}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Category Name*'
+									variant='outlined'
+									type='text'
+									size='small'
+									autocomplete='off'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
+										text='Add'
+										variant='outlined'
+										classNames={classes.addButton}
+										color='primary'
+										loading={addLoading}
+									/>
 
-    const deleteCategory = async (params) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/store-category/${params}`)
-            window.location.reload()
-        }
-        catch (error) {
-            console.log(error);
-        }
+									{error && <p>{error}</p>}
+								</div>
+							</Form>
+						)}
+					</Formik>
+				</Container>
 
-    }
+				<div
+					className='container-fluid'
+					style={{ textAlign: 'left', marginTop: '50px' }}>
+					{loading ? (
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '3rem',
+							}}>
+							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						</div>
+					) : storeCategories?.length === 0 ? (
+						<p>There are no categories</p>
+					) : (
+						storeCategories?.map((el, i) => (
+							<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+								{i === 0 && (
+									<thead class='bg-dark text-light'>
+										<tr>
+											<th>S.No.</th>
+											<th>Categories</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+								)}
+								<tbody>
+									<tr>
+										<td>{i + 1}</td>
+										<td>{el?.name}</td>
+										<td>
+											<>
+												<Button
+													variant='contained'
+													className='bg-dark text-light'
+													size='small'
+													onClick={() => handleOpen(el)}
+													style={{ marginTop: 2 }}>
+													Edit
+												</Button>
+												<Button
+													variant='contained'
+													color='secondary'
+													size='small'
+													onClick={() => deleteCategory(el._id)}
+													style={{ marginLeft: 2, marginTop: 2 }}>
+													Delete
+												</Button>
+											</>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						))
+					)}
+				</div>
+			</div>
+		</Sidenav>
+	);
+};
 
-    return (
-        <Sidenav title={'Store Categories'}>
-            {/* ============Edit Category form component */}
-            <EditCategories
-                show={open}
-                handler={handleClose}
-                // categories={categories}
-                cat={cat}
-            />
-            {/* ============Edit category form component */}
-            <div>
-                <Container className={classes.mainContainer}>
-                    <Formik
-                        initialValues={initialValue}
-                        validationSchema={validationSchema}
-                        onSubmit={onSubmit}
-                    >
-                        {
-                            (props) => (
-                                <Form>
-                                    <CssTextField id="outlined-basic"
-                                        label="Category Name*"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        autocomplete="off"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        onChange={props.handleChange('name')}
-                                        onBlur={props.handleBlur('name')}
-                                        value={props.values.name}
-                                        helperText={props.touched.name && props.errors.name}
-                                        error={props.touched.name && props.errors.name}
-                                    />
-                                    {/* {
-                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                    categories.map(category => (
-                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                    ))
-                            } */}
-                                    <div>
-                                        <Button
-                                            variant="outlined"
-                                            color="primary"
-                                            type="submit"
-                                            className={classes.addButton}
-                                        >
-                                            Add
-                                        </Button>
-                                    </div>
-                                </Form>
-                            )
-                        }
-                    </Formik>
-                </Container>
-
-                <div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
-                    <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-                        <thead class="bg-dark text-light">
-                            <tr>
-                                <th>S.No.</th>
-                                <th>Categories</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>Store Material</td>
-                                <td>
-                                    <>
-                                        <Button
-                                            variant='contained'
-                                            className='bg-dark text-light'
-                                            size='small'
-                                            // onClick={() => handleOpen(edu)}
-                                            style={{ marginTop: 2 }}>
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant='contained'
-                                            color='secondary'
-                                            size='small'
-                                            // onClick={() => deleteCategory(edu._id)}
-                                            style={{ marginLeft: 2, marginTop: 2 }}>
-                                            Delete
-                                        </Button>
-                                    </>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </Sidenav>
-    )
-}
-
-export default Categories
+export default Categories;

@@ -822,7 +822,7 @@ const HiredEmpDetails = ({ match }) => {
 													type='text'
 													size='small'
 													disabled
-													value={value.experienceLevel.name}
+													value={value?.experienceLevel?.name}
 													style={{ width: '100%' }}
 													name='experienceLevel'
 													className={classes.inputFieldStyle4}
@@ -961,7 +961,7 @@ const HiredEmpDetails = ({ match }) => {
 									variant='outlined'
 									type='text'
 									disabled
-									value={officeUse?.department.name}
+									value={officeUse?.department?.name}
 									size='small'
 									select
 									autocomplete='off'
@@ -1024,7 +1024,7 @@ const HiredEmpDetails = ({ match }) => {
 									{departments &&
 										departments.map((el) => (
 											<MenuItem key={el._id} value={el._id}>
-												{el.name}
+												{el?.name}
 											</MenuItem>
 										))}
 								</CssTextField>
@@ -1047,7 +1047,7 @@ const HiredEmpDetails = ({ match }) => {
 									) : (
 										designations.map((el) => (
 											<MenuItem key={el._id} value={el._id}>
-												{el.name}
+												{el?.name}
 											</MenuItem>
 										))
 									)}

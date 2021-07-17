@@ -7,7 +7,7 @@ import {
 	USER_UPDATE_SUCCESS,
 } from '../constants/UserConstant';
 
-export const getUserReducer = (state = { user: [] }, action) => {
+export const getUserReducer = (state = { user: {} }, action) => {
 	switch (action.type) {
 		case USER_REQUEST:
 			return {
@@ -20,6 +20,7 @@ export const getUserReducer = (state = { user: [] }, action) => {
 				...state,
 				loading: false,
 				error: action.payload,
+				user: {},
 			};
 		case USER_FETCH_SUCCESS:
 			return {
@@ -45,7 +46,7 @@ export const getUserReducer = (state = { user: [] }, action) => {
 			return {
 				error: '',
 				loading: false,
-				user: [...state.user, action.payload],
+				user: action.payload,
 			};
 
 		default:

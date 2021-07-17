@@ -25,7 +25,7 @@ export const getMaterialCategoryAction = () => async (dispatch) => {
 	}
 };
 
-export const createMatCategoryAction = (category) => async (dispatch) => {
+export const createMatCategoryAction = (category, cb) => async (dispatch) => {
 	dispatch({
 		type: CATEGORY_REQUEST,
 	});
@@ -36,18 +36,23 @@ export const createMatCategoryAction = (category) => async (dispatch) => {
 			category,
 		);
 
-		dispatch({
-			type: CATEGORY_CREATE_SUCCESS,
-			payload: res.data.category,
-		});
+		console.log(res);
 
-		// console.log(data);
+		if (res.status === 200) {
+			dispatch({
+				type: CATEGORY_CREATE_SUCCESS,
+				payload: res.data.category,
+			});
+			if (cb) cb();
+		} else {
+			if (cb) cb('Something went wrong');
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateMatCategoryAction = (id, data) => async (dispatch) => {
+export const updateMatCategoryAction = (id, data, cb) => async (dispatch) => {
 	dispatch({
 		type: CATEGORY_REQUEST,
 	});
@@ -58,14 +63,17 @@ export const updateMatCategoryAction = (id, data) => async (dispatch) => {
 			data,
 		);
 
-		dispatch({
-			type: CATEGORY_UPDATE_SUCCESS,
-			payload: res.data.category,
-		});
+		console.log(res);
 
-		// console.log(data);
+		if (res.status === 200) {
+			dispatch({
+				type: CATEGORY_UPDATE_SUCCESS,
+				payload: res.data.category,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -88,13 +96,15 @@ export const deleteMatCategoryAction = (params) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: CATEGORY_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: CATEGORY_FAIL,
 			payload: 'Network Error',
