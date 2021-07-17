@@ -100,6 +100,7 @@ import PrintEmpCompEval from './dashboard/hr/emp competence eval/PrintEmpCompEva
 import DeliveryOrder from './dashboard/marketing-sales/deliveryOrder/DeliveryOrder';
 import Categories from './dashboard/store/storecategories/Categories';
 import Responsibilities from './dashboard/hr/responsibilities/Responsibilities';
+import Authorities from './dashboard/hr/authorities/Authorities';
 
 dotenv.config();
 
@@ -283,6 +284,7 @@ function App() {
 				<Route exact path='/hr/skills' component={Skills} />
 				<Route exact path='/hr/experience' component={Experience} />
 				<Route exact path='/hr/responsibilities' component={Responsibilities} />
+				<Route exact path='/hr/authorities' component={Authorities} />
 				<Route exact path='/hr/training' component={Training} />
 				<Route
 					exact

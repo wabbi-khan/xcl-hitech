@@ -25,7 +25,7 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditDesignation from './EditDesignation';
 import Responsibilities from '../responsibilities/Responsibilities';
-import Authorities from './Authorities';
+import Authorities from '../authorities/Authorities';
 import CompetenceCriteria from './CompetenceCriteria';
 
 const StyledTableCell = withStyles((theme) => ({

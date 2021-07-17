@@ -95,6 +95,7 @@ import EmpCompetencEval from '../dashboard/hr/emp competence eval/EmpCompetencEv
 import PrintEmpCompEval from '../dashboard/hr/emp competence eval/PrintEmpCompEval';
 import DeliveryOrder from '../dashboard/marketing-sales/deliveryOrder/DeliveryOrder';
 import Responsibilities from '../dashboard/hr/responsibilities/Responsibilities';
+import Authorities from '../dashboard/hr/authorities/Authorities';
 
 
 
@@ -151,6 +152,7 @@ const Router = () => {
                 <Router exact path="/hr/skills" component={Skills}/>
                 <Router exact path="/hr/experience" component={Experience}/>
                 <Router exact path="/hr/responsibilities" component={Responsibilities}/>
+                <Router exact path="/hr/authorities" component={Authorities}/>
                 <Router exact path="/hr/training" component={Training}/>
                 <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
                 <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>

@@ -4,8 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Sidenav from '../../SideNav/Sidenav';
+import { Formik, Form } from 'formik'
+import * as yup from 'yup';
+import axios from 'axios';
+import EditResponsibility from './EditResponsibility';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -49,15 +52,6 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: 0,
 		fontSize: 16,
 	},
-	deleteResBtn: {
-		border: 'none',
-	},
-	delete: {
-		fontSize: 21,
-		color: 'red',
-		marginTop: -3,
-		marginLeft: 10,
-	},
 }));
 
 const CssTextField = withStyles({
@@ -76,6 +70,14 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	name: ''
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required('Responsibility is required')
+});
+
 const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 	const classes = useStyles();
 	const [resString, setResString] = useState('');
@@ -84,53 +86,91 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 		formState: { errors },
 	} = useForm();
 
-	const getValue = (e) => {
-		setResponsibilities([...responsibilities, resString]);
-		setResString('');
+	const onSubmit = async (props) => {
+		// dispatch(createTraining(props));
 	};
 
-	const removeRes = (index) => {
-		const temp = [...responsibilities];
-		temp.splice(index, 1);
-		setResponsibilities(temp);
+	const deleteProduct = async (params) => {
+		try {
+			await axios.delete(`${process.env.REACT_APP_API_URL}/product/${params}`);
+			window.location.reload();
+		} catch (error) {
+			console.log(error);
+		}
 	};
+
+	const [open, setOpen] = useState(false);
+
+	const handleClose = (props) => {
+		setOpen(props);
+	};
+
+	const handleOpen = async (product) => {
+		// setproduct(product);
+		setOpen(true);
+	};
+	// const getValue = (e) => {
+	// 	setResponsibilities([...responsibilities, resString]);
+	// 	setResString('');
+	// };
+
+	// const removeRes = (index) => {
+	// 	const temp = [...responsibilities];
+	// 	temp.splice(index, 1);
+	// 	setResponsibilities(temp);
+	// };
 
 	return (
 		<Sidenav title={'Responsibilities'}>
+			<EditResponsibility show={open} handler={handleClose}  />
 			<div>
 				{/* <div style={{ marginTop: 30, marginBottom: 30 }}>
 				<hr />
 			</div> */}
 				<Container className={classes.mainContainer}>
-					{/* <h4 className='text-left'>Responsibilities</h4> */}
-					<CssTextField
-						id='outlined-basic'
-						label='Add Resposibilities'
-						variant='outlined'
-						type='text'
-						autocomplete='off'
-						size='small'
-						value={resString}
-						onChange={(e) => {
-							setResString(e.target.value);
-						}}
-						style={{ width: '50%' }}
-						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}
-					/>
-					{errors.name?.type === 'required' && (
-						<p className='mt-1 text-danger'>Responsibilities is required</p>
-					)}
-					<div>
-						<Button
-							variant='contained'
-							size='small'
-							className={classes.addMoreRes}
-						// onClick={getValue}
-						>
-							Add
-						</Button>
-					</div>
+					<Formik
+						initialValues={initialValue}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}
+					>
+						{
+							(props) => (
+								<Form>
+									{/* <h4 className='text-left'>Responsibilities</h4> */}
+									<CssTextField
+										id='outlined-basic'
+										label='Add Resposibilities'
+										variant='outlined'
+										type='text'
+										autocomplete='off'
+										size='small'
+										value={resString}
+										onChange={(e) => {
+											setResString(e.target.value);
+										}}
+										style={{ width: '50%' }}
+										inputProps={{ style: { fontSize: 14 } }}
+										InputLabelProps={{ style: { fontSize: 14 } }}
+										onChange={props.handleChange('name')}
+										onBlur={props.handleBlur('name')}
+										value={props.values.name}
+										helperText={props.touched.name && props.errors.name}
+										error={props.touched.name && props.errors.name}
+									/>
+									<div>
+										<Button
+											variant='contained'
+											size='small'
+											className={classes.addMoreRes}
+										// onClick={getValue}
+										>
+											Add
+										</Button>
+									</div>
+								</Form>
+							)
+						}
+					</Formik>
 					{/* {responsibilities.map((res, i) => (
 					<p className={classes.resStyle}>
 						<span style={{ fontSize: 13 }}>{i + 1}. </span>
@@ -167,35 +207,35 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-									<tr >
-										<td>
-											{1}
-										</td>
-										<td>
-											{}
-										</td>
-										<td>
-											<>
-												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
-													// onClick={() => handleOpen(product)}
-													style={{ marginTop: 2 }}>
-													Edit
-												</Button>
-												<Button
-													variant='contained'
-													color='secondary'
-													size='small'
-													// onClick={() => deleteProduct(product._id)}
-													style={{ marginLeft: 2, marginTop: 2 }}>
-													Delete
-												</Button>
-											</>
-										</td>
-									</tr>
-								{/* ))
+						<tr >
+							<td>
+								{1}
+							</td>
+							<td>
+								{ }
+							</td>
+							<td>
+								<>
+									<Button
+										variant='contained'
+										className='bg-dark text-light'
+										size='small'
+										onClick={() => handleOpen()}
+										style={{ marginTop: 2 }}>
+										Edit
+									</Button>
+									<Button
+										variant='contained'
+										color='secondary'
+										size='small'
+										// onClick={() => deleteProduct(product._id)}
+										style={{ marginLeft: 2, marginTop: 2 }}>
+										Delete
+									</Button>
+								</>
+							</td>
+						</tr>
+						{/* ))
 							) : (
 								<h5>Not Found</h5>
 							)
