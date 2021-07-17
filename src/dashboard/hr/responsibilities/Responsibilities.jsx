@@ -122,7 +122,7 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 
 	return (
 		<Sidenav title={'Responsibilities'}>
-			<EditResponsibility show={open} handler={handleClose}  />
+			<EditResponsibility show={open} handler={handleClose} />
 			<div>
 				{/* <div style={{ marginTop: 30, marginBottom: 30 }}>
 				<hr />
