@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import { useForm } from 'react-hook-form';
 import Sidenav from '../../SideNav/Sidenav';
 import { Formik, Form } from 'formik'
@@ -159,13 +159,12 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 									/>
 									<div>
 										<Button
-											variant='contained'
-											size='small'
-											className={classes.addMoreRes}
-										// onClick={getValue}
-										>
-											Add
-										</Button>
+											variant="outlined"
+											classNames={classes.addMoreRes}
+											text='Add'
+											loading={true}
+											loaderColor="#333"
+										/>
 									</div>
 								</Form>
 							)
@@ -215,24 +214,23 @@ const Responsibilities = ({ responsibilities, setResponsibilities }) => {
 								{ }
 							</td>
 							<td>
-								<>
+								<div style={{ display: 'flex', justifyContent: 'center' }}>
 									<Button
 										variant='contained'
-										className='bg-dark text-light'
+										text='Edit'
 										size='small'
+										classNames='bg-dark text-light'
 										onClick={() => handleOpen()}
-										style={{ marginTop: 2 }}>
-										Edit
-									</Button>
+									/>
 									<Button
 										variant='contained'
-										color='secondary'
+										text='Delete'
 										size='small'
-										// onClick={() => deleteProduct(product._id)}
-										style={{ marginLeft: 2, marginTop: 2 }}>
-										Delete
-									</Button>
-								</>
+										color='secondary'
+										// onClick={() => delete(category._id)}
+										style={{ marginLeft: '5px' }}
+									/>
+								</div>
 							</td>
 						</tr>
 						{/* ))

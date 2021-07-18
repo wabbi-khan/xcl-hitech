@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { Formik, Form } from 'formik'
 import * as yup from 'yup';
 import axios from 'axios';
 import Sidenav from '../../SideNav/Sidenav';
+import Button from '../../../components/utils/Button'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,12 +17,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	mainContainer: {
 		marginTop: 20,
-		marginLeft: 0,
+		textAlign: 'center'
 	},
 	addMoreRes: {
-		marginTop: 2,
+		marginTop: 20,
 		padding: 6,
 		marginLeft: 20,
+		width: '10%',
 		backgroundColor: '#22A19A',
 		color: 'whitesmoke',
 		fontWeight: 'bold',
@@ -45,24 +44,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	dataTable: {
 		marginTop: 40,
-	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			// marginLeft: 10,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
-		},
 	},
 	resStyle: {
 		marginTop: 8,
@@ -155,28 +136,24 @@ const Authorities = ({ authorities, setAuthorities }, props) => {
 										type='text'
 										autocomplete='off'
 										size='small'
-										value={resString}
-										onChange={(e) => {
-											setResString(e.target.value);
-										}}
+										style={{ width: '50%' }}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
+										value={props.values.name}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 										onChange={props.handleChange('name')}
 										onBlur={props.handleBlur('name')}
-										value={props.values.name}
 										helperText={props.touched.name && props.errors.name}
 										error={props.touched.name && props.errors.name}
 									/>
 									<div>
 										<Button
-											variant='contained'
-											size='small'
-											className={classes.addMoreRes}
-										// onClick={getValue}
-										>
-											Add
-										</Button>
+											variant="outlined"
+											classNames={classes.addMoreRes}
+											text='Add'
+											loading={true}
+											loaderColor="#333"
+										/>
 									</div>
 								</Form>
 							)
@@ -205,6 +182,58 @@ const Authorities = ({ authorities, setAuthorities }, props) => {
                                     ))
                             } */}
 				</Container>
+			</div>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+					<thead class="bg-dark text-light">
+						<tr>
+							<th>S.No.</th>
+							<th>Responsibilities</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+						<tr >
+							<td>
+								{1}
+							</td>
+							<td>
+								{ }
+							</td>
+							<td>
+								<div style={{ display: 'flex', justifyContent: 'center' }}>
+									<Button
+										variant='contained'
+										text='Edit'
+										size='small'
+										classNames='bg-dark text-light'
+										onClick={() => handleOpen()}
+									/>
+									<Button
+										variant='contained'
+										text='Delete'
+										size='small'
+										color='secondary'
+										// onClick={() => delete(category._id)}
+										style={{ marginLeft: '5px' }}
+									/>
+								</div>
+							</td>
+						</tr>
+						{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
 			</div>
 		</Sidenav>
 	);

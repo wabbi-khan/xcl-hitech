@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../purchase/material/Loading';
 import { getSingleEmployee } from '../../../services/action/EmployeesAction';
+import logo from '../../../images/logo.png'
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -142,10 +143,10 @@ const PrintEmpDetails = (props) => {
 	) : error ? (
 		<p>{error}</p>
 	) : (
-		<div className='text-center'>
+		<div className='text-center mt-4'>
 			<div className='container'>
-				<img src='./logo.png' alt='' />
-				<h4>Hi-Tech Pipe & Engineering Industries</h4>
+				{/* <img src={logo} alt='' /> */}
+				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
 				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>Employment Form</h5>
@@ -177,7 +178,7 @@ const PrintEmpDetails = (props) => {
 				</div>
 			</div>
 			<div className={classes.table}>
-				<div className='table ml-auto mr-auto mt-4'>
+				<div className='ml-auto mr-auto mt-4'>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
 							<p style={{ fontWeight: 'bold' }}>Name</p>

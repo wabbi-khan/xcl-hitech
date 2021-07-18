@@ -323,6 +323,8 @@ function App() {
 			<Route exact path='/hr/education' component={Education} />
 			<Route exact path='/hr/skills' component={Skills} />
 			<Route exact path='/hr/experience' component={Experience} />
+			<Route exact path='/hr/responsibilities' component={Responsibilities} />
+			<Route exact path='/hr/authorities' component={Authorities} />
 			<Route exact path='/hr/training' component={Training} />
 			<Route exact path='/hr/competence_criteria' component={CompetenceCriteria} />
 			<Route

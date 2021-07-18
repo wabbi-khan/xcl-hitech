@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -72,6 +72,26 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			// width: '12%',
 		},
+	},
+	addMoreRes: {
+		marginTop: 20,
+		padding: 6,
+		// textAlign: 'left',
+		width: '10%',
+		backgroundColor: '#22A19A',
+		color: 'whitesmoke',
+		fontWeight: 'bold',
+		'&:hover': {
+			color: '#22A19A',
+			backgroundColor: 'whitesmoke',
+			borderColor: '#22A19A',
+		},
+		// [theme.breakpoints.up('md')]: {
+		//     width: '10%',
+		// },
+		// [theme.breakpoints.down('sm')]: {
+		//     // width: '12%',
+		// },
 	},
 	table: {
 		minWidth: 600,
@@ -298,152 +318,62 @@ const Designation = ({ history }) => {
 										error={props.touched.name && props.errors.name}
 									/>
 								</Form>
-								<div style={{ margin: '2rem 0rem' }}></div>
-								<Formik
-									initialValues={responsibilityInitialValues}
-									validationSchema={responsibilityValidationSchema}
-									onSubmit={addRes}>
-									{(props) => (
-										<Form>
-											<h5>Responsibility</h5>
-											<CssTextField
-												id='outlined-basic'
-												label='Resposibilities'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('value')}
-												onBlur={props.handleBlur('value')}
-												value={props.values.value}
-												helperText={props.touched.value && props.errors.value}
-												error={props.touched.value && props.errors.value}
-											/>
-											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
-											<Button
-												variant='contained'
-												size='small'
-												type='submit'
-												className={classes.addMoreRes}>
-												Add
-											</Button>
-											{responsibilities.map((res, i) => (
-												<p className={classes.resStyle}>
-													<span style={{ fontSize: 13 }}>{i + 1}. </span>
-													{res}
-													<DeleteOutlineIcon
-														type='button'
-														className={classes.delete}
-														onClick={() => removeRes(i)}
-													/>
-												</p>
-											))}
-										</Form>
-									)}
-								</Formik>
-								<div style={{ margin: '2rem 0rem' }}></div>
-								<Formik
-									initialValues={authorityInitialValues}
-									validationSchema={authorityValidationSchema}
-									onSubmit={addAuth}>
-									{(props) => (
-										<Form>
-											<h5>Authority</h5>
-											<CssTextField
-												id='outlined-basic'
-												label='Resposibilities'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('value')}
-												onBlur={props.handleBlur('value')}
-												value={props.values.value}
-												helperText={props.touched.value && props.errors.value}
-												error={props.touched.value && props.errors.value}
-											/>
-											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
-
-											<Button
-												variant='contained'
-												size='small'
-												type='submit'
-												className={classes.addMoreRes}>
-												Add
-											</Button>
-											{authorities.map((res, i) => (
-												<p className={classes.resStyle}>
-													<span style={{ fontSize: 13 }}>{i + 1}. </span>
-													{res}
-													<DeleteOutlineIcon
-														type='button'
-														className={classes.delete}
-														onClick={() => removeAuth(i)}
-													/>
-												</p>
-											))}
-										</Form>
-									)}
-								</Formik>
-								<div style={{ margin: '5rem 0rem' }}></div>
+								<div style={{ margin: '3rem 0rem 2rem 0rem', textDecoration: 'underline' }}>
+									<h4>Competence Criteria</h4>
+								</div>
 								<Formik
 									initialValues={educationInitialValues}
 									validationSchema={educationValidationSchema}
 									onSubmit={addEdu}>
-									{(props) => (
-										<Form>
-											<h5>Educations</h5>
-											<CssTextField
-												id='outlined-basic'
-												label='Resposibilities'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												select
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('value')}
-												onBlur={props.handleBlur('value')}
-												value={props.values.value}
-												helperText={props.touched.value && props.errors.value}
-												error={props.touched.value && props.errors.value}>
-												{educations &&
-													educations.map((education, i) => (
-														<MenuItem value={education._id} key={i}>
-															{education.name}
-														</MenuItem>
-													))}
-											</CssTextField>
-											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
-
-											<Button
-												variant='contained'
-												size='small'
-												type='submit'
-												className={classes.addMoreRes}>
-												Add
-											</Button>
-											{authorities.map((res, i) => (
-												<p className={classes.resStyle}>
-													<span style={{ fontSize: 13 }}>{i + 1}. </span>
-													{res}
-													<DeleteOutlineIcon
-														type='button'
-														className={classes.delete}
-														onClick={() => removeRes(i)}
-													/>
-												</p>
-											))}
-										</Form>
-									)}
+									{
+										(props) => (
+											<Form>
+												<h5>Educations</h5>
+												<CssTextField
+													id='outlined-basic'
+													label='Education'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													className={classes.inputFieldStyle}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('value')}
+													onBlur={props.handleBlur('value')}
+													value={props.values.value}
+													helperText={props.touched.value && props.errors.value}
+													error={props.touched.value && props.errors.value}>
+													{educations &&
+														educations.map((education, i) => (
+															<MenuItem value={education._id} key={i}>
+																{education.name}
+															</MenuItem>
+														))}
+												</CssTextField>
+												<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+												<Button
+													variant="outlined"
+													classNames={classes.addMoreRes}
+													text='Add'
+													loading={true}
+													loaderColor="#333"
+												/>
+												{authorities.map((res, i) => (
+													<p className={classes.resStyle}>
+														<span style={{ fontSize: 13 }}>{i + 1}. </span>
+														{res}
+														<DeleteOutlineIcon
+															type='button'
+															className={classes.delete}
+															onClick={() => removeRes(i)}
+														/>
+													</p>
+												))}
+											</Form>
+										)
+									}
 								</Formik>
 								<div style={{ margin: '2rem 0rem' }}></div>
 
@@ -451,117 +381,122 @@ const Designation = ({ history }) => {
 									initialValues={authorityInitialValues}
 									validationSchema={authorityValidationSchema}
 									onSubmit={addAuth}>
-									{(props) => (
-										<Form>
-											<h5>Skills</h5>
-											<CssTextField
-												id='outlined-basic'
-												label='Resposibilities'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												select
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('value')}
-												onBlur={props.handleBlur('value')}
-												value={props.values.value}
-												helperText={props.touched.value && props.errors.value}
-												error={props.touched.value && props.errors.value}>
-												{skills &&
-													skills.map((skill, i) => (
-														<MenuItem value={skill._id} key={i}>
-															{skill.skill}
-														</MenuItem>
-													))}
-											</CssTextField>
-											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+									{
+										(props) => (
+											<Form>
+												<h5>Skills</h5>
+												<CssTextField
+													id='outlined-basic'
+													label='Skills'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													className={classes.inputFieldStyle}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('value')}
+													onBlur={props.handleBlur('value')}
+													value={props.values.value}
+													helperText={props.touched.value && props.errors.value}
+													error={props.touched.value && props.errors.value}>
+													{skills &&
+														skills.map((skill, i) => (
+															<MenuItem value={skill._id} key={i}>
+																{skill.skill}
+															</MenuItem>
+														))}
+												</CssTextField>
+												<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
 
-											<Button
-												variant='contained'
-												size='small'
-												type='submit'
-												className={classes.addMoreRes}>
-												Add
-											</Button>
-											{authorities.map((res, i) => (
-												<p className={classes.resStyle}>
-													<span style={{ fontSize: 13 }}>{i + 1}. </span>
-													{res}
-													<DeleteOutlineIcon
-														type='button'
-														className={classes.delete}
-														onClick={() => removeRes(i)}
-													/>
-												</p>
-											))}
-										</Form>
-									)}
+												<Button
+													variant='contained'
+													size='small'
+													type='submit'
+													className={classes.addMoreRes}>
+													Add
+												</Button>
+												{authorities.map((res, i) => (
+													<p className={classes.resStyle}>
+														<span style={{ fontSize: 13 }}>{i + 1}. </span>
+														{res}
+														<DeleteOutlineIcon
+															type='button'
+															className={classes.delete}
+															onClick={() => removeRes(i)}
+														/>
+													</p>
+												))}
+											</Form>
+										)
+									}
 								</Formik>
 								<div style={{ margin: '2rem 0rem' }}></div>
 								<Formik
 									initialValues={authorityInitialValues}
 									validationSchema={authorityValidationSchema}
 									onSubmit={addAuth}>
-									{(props) => (
-										<Form>
-											<h5>Experiences</h5>
-											<CssTextField
-												id='outlined-basic'
-												label='Resposibilities'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												select
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('value')}
-												onBlur={props.handleBlur('value')}
-												value={props.values.value}
-												helperText={props.touched.value && props.errors.value}
-												error={props.touched.value && props.errors.value}>
-												{experiences &&
-													experiences.map((skill, i) => (
-														<MenuItem value={skill._id} key={i}>
-															{skill.name}
-														</MenuItem>
-													))}
-											</CssTextField>
-											<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
+									{
+										(props) => (
+											<Form>
+												<h5>Experiences</h5>
+												<CssTextField
+													id='outlined-basic'
+													label='Experience'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													className={classes.inputFieldStyle}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('value')}
+													onBlur={props.handleBlur('value')}
+													value={props.values.value}
+													helperText={props.touched.value && props.errors.value}
+													error={props.touched.value && props.errors.value}>
+													{experiences &&
+														experiences.map((skill, i) => (
+															<MenuItem value={skill._id} key={i}>
+																{skill.name}
+															</MenuItem>
+														))}
+												</CssTextField>
+												<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
 
-											<Button
-												variant='contained'
-												size='small'
-												type='submit'
-												className={classes.addMoreRes}>
-												Add
-											</Button>
-											{authorities.map((res, i) => (
-												<p className={classes.resStyle}>
-													<span style={{ fontSize: 13 }}>{i + 1}. </span>
-													{res}
-													<DeleteOutlineIcon
-														type='button'
-														className={classes.delete}
-														onClick={() => removeRes(i)}
-													/>
-												</p>
-											))}
-										</Form>
-									)}
+												<Button
+													variant='contained'
+													size='small'
+													type='submit'
+													className={classes.addMoreRes}>
+													Add
+												</Button>
+												{authorities.map((res, i) => (
+													<p className={classes.resStyle}>
+														<span style={{ fontSize: 13 }}>{i + 1}. </span>
+														{res}
+														<DeleteOutlineIcon
+															type='button'
+															className={classes.delete}
+															onClick={() => removeRes(i)}
+														/>
+													</p>
+												))}
+											</Form>
+										)
+									}
 								</Formik>
 								<Form>
 									<div>
 										<Button
-											variant='outlined'
-											type='submit'
-											className={classes.addButton}>
-											Add
-										</Button>
+											variant="outlined"
+											classNames={classes.addMoreRes}
+											text='Add'
+											loading={true}
+											loaderColor="#333"
+										/>
 									</div>
 								</Form>
 							</>
