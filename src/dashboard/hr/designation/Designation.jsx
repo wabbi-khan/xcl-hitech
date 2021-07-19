@@ -74,17 +74,17 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	addMoreRes: {
-		marginTop: 20,
 		padding: 6,
-		// textAlign: 'left',
-		width: '10%',
+		marginLeft: 5,
 		backgroundColor: '#22A19A',
 		color: 'whitesmoke',
-		fontWeight: 'bold',
+		// textAlign: 'left',
+		// width: '70%',
 		'&:hover': {
 			color: '#22A19A',
 			backgroundColor: 'whitesmoke',
 			borderColor: '#22A19A',
+			fontWeight: 'bold',
 		},
 		// [theme.breakpoints.up('md')]: {
 		//     width: '10%',
@@ -99,24 +99,12 @@ const useStyles = makeStyles((theme) => ({
 	dataTable: {
 		marginTop: 40,
 	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
+	delete: {
+		color: 'red'
 	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			marginLeft: 10,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
-		},
-	},
+	resStyle: {
+		marginTop: 10,
+	}
 }));
 
 const CssTextField = withStyles({
@@ -308,7 +296,7 @@ const Designation = ({ history }) => {
 										type='text'
 										autocomplete='off'
 										size='small'
-										className={classes.inputFieldStyle}
+										style={{ width: '25%' }}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 										onChange={props.handleChange('name')}
@@ -329,48 +317,55 @@ const Designation = ({ history }) => {
 										(props) => (
 											<Form>
 												<h5>Educations</h5>
-												<CssTextField
-													id='outlined-basic'
-													label='Education'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
-													select
-													className={classes.inputFieldStyle}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('value')}
-													onBlur={props.handleBlur('value')}
-													value={props.values.value}
-													helperText={props.touched.value && props.errors.value}
-													error={props.touched.value && props.errors.value}>
-													{educations &&
-														educations.map((education, i) => (
-															<MenuItem value={education._id} key={i}>
-																{education.name}
-															</MenuItem>
-														))}
-												</CssTextField>
-												<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
-												<Button
-													variant="outlined"
-													classNames={classes.addMoreRes}
-													text='Add'
-													loading={true}
-													loaderColor="#333"
-												/>
-												{authorities.map((res, i) => (
-													<p className={classes.resStyle}>
-														<span style={{ fontSize: 13 }}>{i + 1}. </span>
-														{res}
-														<DeleteOutlineIcon
-															type='button'
-															className={classes.delete}
-															onClick={() => removeRes(i)}
-														/>
-													</p>
-												))}
+												<div style={{ display: 'flex', }}>
+													<CssTextField
+														id='outlined-basic'
+														label='Education'
+														variant='outlined'
+														type='text'
+														autocomplete='off'
+														size='small'
+														select
+														style={{ width: '25%' }}
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														onChange={props.handleChange('value')}
+														onBlur={props.handleBlur('value')}
+														value={props.values.value}
+														helperText={props.touched.value && props.errors.value}
+														error={props.touched.value && props.errors.value}>
+														{
+															educations &&
+															educations.map((education, i) => (
+																<MenuItem value={education._id} key={i}>
+																	{education.name}
+																</MenuItem>
+															))
+														}
+													</CssTextField>
+													{/* <div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div> */}
+													<Button
+														variant="outlined"
+														classNames={classes.addMoreRes}
+														text='Add'
+														// loading={true}
+														loaderColor="#333"
+													/>
+
+												</div>
+												{
+													authorities.map((res, i) => (
+														<p className={classes.resStyle}>
+															<span style={{ fontSize: 13 }}>{i + 1}. </span>
+															{res}
+															<DeleteOutlineIcon
+																type='button'
+																className={classes.delete}
+																onClick={() => removeRes(i)}
+															/>
+														</p>
+													))
+												}
 											</Form>
 										)
 									}
@@ -385,49 +380,53 @@ const Designation = ({ history }) => {
 										(props) => (
 											<Form>
 												<h5>Skills</h5>
-												<CssTextField
-													id='outlined-basic'
-													label='Skills'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
-													select
-													className={classes.inputFieldStyle}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('value')}
-													onBlur={props.handleBlur('value')}
-													value={props.values.value}
-													helperText={props.touched.value && props.errors.value}
-													error={props.touched.value && props.errors.value}>
-													{skills &&
-														skills.map((skill, i) => (
-															<MenuItem value={skill._id} key={i}>
-																{skill.skill}
-															</MenuItem>
-														))}
-												</CssTextField>
-												<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
-
-												<Button
-													variant='contained'
-													size='small'
-													type='submit'
-													className={classes.addMoreRes}>
-													Add
-												</Button>
-												{authorities.map((res, i) => (
-													<p className={classes.resStyle}>
-														<span style={{ fontSize: 13 }}>{i + 1}. </span>
-														{res}
-														<DeleteOutlineIcon
-															type='button'
-															className={classes.delete}
-															onClick={() => removeRes(i)}
-														/>
-													</p>
-												))}
+												<div style={{ display: 'flex', }}>
+													<CssTextField
+														id='outlined-basic'
+														label='Skills'
+														variant='outlined'
+														type='text'
+														autocomplete='off'
+														size='small'
+														select
+														style={{ width: '25%' }}
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														onChange={props.handleChange('value')}
+														onBlur={props.handleBlur('value')}
+														value={props.values.value}
+														helperText={props.touched.value && props.errors.value}
+														error={props.touched.value && props.errors.value}>
+														{
+															skills &&
+															skills.map((skill, i) => (
+																<MenuItem value={skill._id} key={i}>
+																	{skill.skill}
+																</MenuItem>
+															))
+														}
+													</CssTextField>
+													<Button
+														variant="outlined"
+														text='Add'
+														loaderColor="#333"
+														// loading={true}
+														classNames={classes.addMoreRes}
+													/>
+												</div>
+												{
+													authorities.map((res, i) => (
+														<p className={classes.resStyle}>
+															<span style={{ fontSize: 13 }}>{i + 1}. </span>
+															{res}
+															<DeleteOutlineIcon
+																type='button'
+																className={classes.delete}
+																onClick={() => removeRes(i)}
+															/>
+														</p>
+													))
+												}
 											</Form>
 										)
 									}
@@ -441,49 +440,53 @@ const Designation = ({ history }) => {
 										(props) => (
 											<Form>
 												<h5>Experiences</h5>
-												<CssTextField
-													id='outlined-basic'
-													label='Experience'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
-													select
-													className={classes.inputFieldStyle}
-													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('value')}
-													onBlur={props.handleBlur('value')}
-													value={props.values.value}
-													helperText={props.touched.value && props.errors.value}
-													error={props.touched.value && props.errors.value}>
-													{experiences &&
-														experiences.map((skill, i) => (
-															<MenuItem value={skill._id} key={i}>
-																{skill.name}
-															</MenuItem>
-														))}
-												</CssTextField>
-												<div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div>
-
-												<Button
-													variant='contained'
-													size='small'
-													type='submit'
-													className={classes.addMoreRes}>
-													Add
-												</Button>
-												{authorities.map((res, i) => (
-													<p className={classes.resStyle}>
-														<span style={{ fontSize: 13 }}>{i + 1}. </span>
-														{res}
-														<DeleteOutlineIcon
-															type='button'
-															className={classes.delete}
-															onClick={() => removeRes(i)}
-														/>
-													</p>
-												))}
+												<div style={{ display: 'flex', }}>
+													<CssTextField
+														id='outlined-basic'
+														label='Experience'
+														variant='outlined'
+														type='text'
+														autocomplete='off'
+														size='small'
+														select
+														style={{ width: '25%' }}
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														onChange={props.handleChange('value')}
+														onBlur={props.handleBlur('value')}
+														value={props.values.value}
+														helperText={props.touched.value && props.errors.value}
+														error={props.touched.value && props.errors.value}>
+														{
+															experiences &&
+															experiences.map((skill, i) => (
+																<MenuItem value={skill._id} key={i}>
+																	{skill.name}
+																</MenuItem>
+															))
+														}
+													</CssTextField>
+													<Button
+														variant="outlined"
+														text='Add'
+														loaderColor="#333"
+														// loading={true}
+														classNames={classes.addMoreRes}
+													/>
+												</div>
+												{
+													authorities.map((res, i) => (
+														<p className={classes.resStyle}>
+															<span style={{ fontSize: 13 }}>{i + 1}. </span>
+															{res}
+															<DeleteOutlineIcon
+																type='button'
+																className={classes.delete}
+																onClick={() => removeRes(i)}
+															/>
+														</p>
+													))
+												}
 											</Form>
 										)
 									}
@@ -492,10 +495,10 @@ const Designation = ({ history }) => {
 									<div>
 										<Button
 											variant="outlined"
-											classNames={classes.addMoreRes}
+											classNames={classes.addButton}
 											text='Add'
 											loading={true}
-											loaderColor="#333"
+											loaderColor="#22A19A"
 										/>
 									</div>
 								</Form>
@@ -518,57 +521,64 @@ const Designation = ({ history }) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : designations.length ? (
-									designations.map((designation, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{designation.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
-													<Button
-														variant='contained'
-														size='small'
-														className='btn btn-sm bg-dark text-light'
-														onClick={() =>
-															history.push({
-																pathname: '/hr/competence_criteria_print',
-																state: { designation },
-															})
-														}
-														style={{ marginTop: 2 }}>
-														View
-													</Button>
-													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
-														onClick={() => handleOpen(designation)}
-														style={{ marginTop: 2, marginLeft: 2 }}>
-														Edit
-													</Button>
-													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
-														onClick={() => handleDeleteDesignation(designation._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
+								{
+									loading ? (
+										<Loading />
+									) : error ? (
+										<MaterialError />
+									) : designations.length ? (
+										designations.map((designation, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{designation.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<div style={{ display: 'flex', justifyContent: 'center' }}>
+														<Button
+															variant='contained'
+															size='small'
+															text='View'
+															classNames='btn btn-sm bg-dark text-light'
+															style={{ marginTop: 2 }}
+															onClick={() =>
+																history.push({
+																	pathname: '/hr/competence_criteria_print',
+																	state: { designation },
+																})
+															}
+															/>
+														<Button
+															variant='contained'
+															classNames='bg-dark text-light'
+															size='small'
+															text='Edit'
+															style={{ marginTop: 2, marginLeft: 2 }}
+															onClick={() => 
+																handleOpen(designation)
+															}
+															/>
+														<Button
+															variant='contained'
+															color='secondary'
+															size='small'
+															text='Delete'
+															classNames='bg-danger text-light'
+															style={{ marginLeft: 2, marginTop: 2 }}
+															onClick={() => 
+																handleDeleteDesignation(designation._id)
+															}
+														/>
+													</div>
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									) : (
+										<h5>Not Found</h5>
+									)
+								}
 							</TableBody>
 						</Table>
 					</TableContainer>

@@ -188,7 +188,7 @@ const Authorities = ({ authorities, setAuthorities }, props) => {
 					<thead class="bg-dark text-light">
 						<tr>
 							<th>S.No.</th>
-							<th>Responsibilities</th>
+							<th>Authorities</th>
 							<th>Action</th>
 						</tr>
 					</thead>

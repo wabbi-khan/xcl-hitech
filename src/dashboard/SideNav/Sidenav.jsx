@@ -1120,7 +1120,7 @@ function Sidenav(props) {
 								onClick={() => {
 									history.push('/hr/employees');
 								}}>
-								<ListItemText inset primary='Employees' />
+								<ListItemText inset primary='Employee Profile' />
 							</ListItem>
 							<ListItem
 								button
