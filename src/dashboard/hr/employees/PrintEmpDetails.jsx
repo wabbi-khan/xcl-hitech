@@ -177,6 +177,52 @@ const PrintEmpDetails = (props) => {
 					</div>
 				</div>
 			</div>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<tbody>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								NAME
+							</td>
+							<td colspan='3'>
+								{ }muhammad ali
+							</td>
+							<td style={{ fontWeight: 'bold' }}>
+								FATHER/HUSBAND NAME
+							</td>
+							<td colspan='3'>
+								{ }wahab uz zaman khan
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Name
+							</td>
+							<td>
+								{ }
+							</td>
+							<td style={{ fontWeight: 'bold' }}>
+								Name
+							</td>
+							<td>
+								{ }
+							</td>
+						</tr>
+						{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
+			</div>
 			<div className={classes.table}>
 				<div className='ml-auto mr-auto mt-4'>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>

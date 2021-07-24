@@ -598,7 +598,8 @@ function Sidenav(props) {
 						[classes.drawerOpen]: open,
 						[classes.drawerClose]: !open,
 					}),
-				}}>
+				}}
+			>
 				<div className={classes.toolbar}>
 					<IconButton
 						onClick={handleDrawerClose}
@@ -610,13 +611,18 @@ function Sidenav(props) {
 				<List>
 					{['Dashboard'].map((text, index) => (
 						<ListItem button key={text}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}
+							>
 								{index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
 								onClick={() => {
 									history.push('/dashboard');
+
 								}}
 							/>
 						</ListItem>
@@ -631,7 +637,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen1(!open1);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}
+							>
 								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -731,7 +741,7 @@ function Sidenav(props) {
 								setOpen4(!open4);
 							}}>
 							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+								{index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
@@ -805,7 +815,7 @@ function Sidenav(props) {
 					</Collapse>
 				</List>
 				<Divider />
-				{/* <List>
+				<List>
 					{['Production'].map((text, index) => (
 						<ListItem
 							button
@@ -813,8 +823,12 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen5(!open5);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <LabelIcon /> : <MailIcon />}
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}
+							>
+								{index % 2 === 0 ? <BusinessIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
@@ -886,7 +900,7 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List> */}
+				</List>
 				<Divider />
 				<List>
 					{['Store'].map((text, index) => (
@@ -896,8 +910,12 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen2(!open2);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}
+							>
+								{index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
@@ -1043,7 +1061,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen3(!open3);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}
+							>
 								{index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
