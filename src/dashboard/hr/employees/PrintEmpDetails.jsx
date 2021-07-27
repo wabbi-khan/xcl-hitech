@@ -152,33 +152,33 @@ const PrintEmpDetails = (props) => {
 				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>Employment Form</h5>
 			</div>
 			<div className='container-fluid'>
-				<div className='row'>
-					<div className='col-lg-6 col-md-6 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-4 col-md-4' align='right'>
-								<p>Date</p>
-							</div>
-							<div className='col-lg-4 col-md-4 ml-3'>
-								<p>{fullDate}</p>
-								<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+					<div className='row ' style={{ marginTop: 70, textAlign: 'left' }}>
+						<div className='col-lg-4 col-md-4 col-sm-6 mt-4'>
+							<div className='row no-gutters mt-2'>
+								<div className='col-lg-6 col-md-6 col-sm-6'>
+									<p style={{ fontWeight: 'bold' }}>Date</p>
+								</div>
+								<div className='col-lg-6 col-md-6 col-sm-6'>
+									<p>
+										{fullDate}
+										<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+									</p>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div
-						className='offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4'
-						id='printBtn'>
-						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
-							Print
-						</Button>
+						<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
+							<Button
+								variant='contained'
+								size='small'
+								className='bg-dark text-light'
+								onClick={() => window.print()}>
+								Print
+							</Button>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
-				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+			<div className='container-fluid' style={{ marginTop: '50px' }}>
+				<table class="table table-responsive table-bordered border-dark mt-3" style={{ textAlign: 'left' }}>
 					<tbody>
 						{/* {
 							loading ? (
@@ -189,30 +189,156 @@ const PrintEmpDetails = (props) => {
 								products.map((product, i) => ( */}
 						<tr >
 							<td style={{ fontWeight: 'bold' }}>
-								NAME
+								Name
 							</td>
 							<td colspan='3'>
-								{ }muhammad ali
+								{name}
 							</td>
-							<td style={{ fontWeight: 'bold' }}>
-								FATHER/HUSBAND NAME
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Father/Husband Name
 							</td>
 							<td colspan='3'>
-								{ }wahab uz zaman khan
+								{fatherName_husbandName}
 							</td>
 						</tr>
 						<tr >
 							<td style={{ fontWeight: 'bold' }}>
-								Name
+								Job Applied For
 							</td>
-							<td>
-								{ }
+							<td colspan='3'>
+								{jobAppliedFor}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Present Address
+							</td>
+							<td colspan='3'>
+								{presentAddress}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Gender
+							</td>
+							<td colspan='3'>
+								{gender}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Permanent Address
+							</td>
+							<td colspan='3'>
+								{permanentAddress}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Mobile No.
+							</td>
+							<td colspan='3'>
+								{mobileNo}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Telephone No.
+							</td>
+							<td colspan='3'>
+								{telephoneNo}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Merital Status
+							</td>
+							<td colspan='3'>
+								{status}
 							</td>
 							<td style={{ fontWeight: 'bold' }}>
-								Name
+								Age
 							</td>
-							<td>
-								{ }
+							<td colspan='3'>
+								{age}
+							</td>
+							<td style={{ fontWeight: 'bold' }}>
+								DOB
+							</td>
+							<td colspan='3'>
+								{dateOfBirth}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Place of Birth
+							</td>
+							<td colspan='3'>
+								{placeOfBirth}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Email Address
+							</td>
+							<td colspan='3'>
+								{email}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								CNIC No.
+							</td>
+							<td colspan='3'>
+								{cnic}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Date & Place of Issue
+							</td>
+							<td colspan='3'>
+								{DatePlaceOfIssue}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Nationality
+							</td>
+							<td colspan='3'>
+								{nationality}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Bank Account No.
+							</td>
+							<td colspan='3'>
+								{bankAccount}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Account Name & Branch
+							</td>
+							<td colspan="5">
+								{bankNameAndBranch}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Next to Kin(Name)
+							</td>
+							<td colspan='3'>
+								{nextToKin?.name}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Relationship
+							</td>
+							<td colspan='3'>
+								{nextToKin?.relation}
+							</td>
+						</tr>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Contact No.
+							</td>
+							<td colspan='3'>
+								{nextToKin?.contact}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Address
+							</td>
+							<td colspan='3'>
+								{nextToKin?.address}
 							</td>
 						</tr>
 						{/* ))
@@ -223,7 +349,7 @@ const PrintEmpDetails = (props) => {
 					</tbody>
 				</table>
 			</div>
-			<div className={classes.table}>
+			{/* <div className={classes.table}>
 				<div className='ml-auto mr-auto mt-4'>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
@@ -566,19 +692,8 @@ const PrintEmpDetails = (props) => {
 							/>
 						</Grid>
 					</Grid>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
 				</div>
-			</div>
+			</div> */}
 			<div className={classes.table1}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					Academic Qualification
