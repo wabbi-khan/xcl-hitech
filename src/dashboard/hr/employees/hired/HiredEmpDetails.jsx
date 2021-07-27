@@ -65,62 +65,6 @@ const useStyles = makeStyles((theme) => ({
 	dataTable: {
 		marginTop: 40,
 	},
-	ckeckBox: {
-		[theme.breakpoints.up('md')]: {
-			marginLeft: 7,
-		},
-		[theme.breakpoints.down('sm')]: {
-			marginLeft: 0,
-		},
-	},
-	inputFieldStyle: {
-		// boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-		// borderRadius: 5,
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: 70,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle2: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: 140,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle3: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: 210,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	delete: {
-		color: 'red',
-		fontSize: 38,
-		[theme.breakpoints.up('md')]: {
-			marginLeft: 50,
-			marginTop: -7,
-		},
-		[theme.breakpoints.down('sm')]: {
-			marginTop: -10,
-		},
-	},
 	deleteRowBtn: {
 		marginLeft: 220,
 		'&:hover': {
@@ -221,7 +165,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={name}
 									disabled
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -234,7 +178,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={fatherName_husbandName}
 									disabled
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -248,7 +192,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={jobAppliedFor}
 									disabled
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -262,7 +206,7 @@ const HiredEmpDetails = ({ match }) => {
 									type='text'
 									autocomplete='off'
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -278,7 +222,7 @@ const HiredEmpDetails = ({ match }) => {
 									disabled
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -292,7 +236,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={telephoneNo}
 									disabled
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -306,7 +250,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									value={mobileNo}
 									disabled
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -320,7 +264,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={gender}
 									disabled
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -336,7 +280,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={status}
 									disabled
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -350,7 +294,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={age}
 									disabled
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -364,7 +308,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									value={dateOfBirth}
 									disabled
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -378,7 +322,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={placeOfBirth}
 									disabled
 									size='small'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -395,7 +339,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={email}
 									disabled
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -410,7 +354,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									value={cnic}
 									disabled
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -425,7 +369,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									value={DatePlaceOfIssue}
 									disabled
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -439,7 +383,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									value={nationality}
 									disabled
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -455,7 +399,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={bankAccount}
 									disabled
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -470,7 +414,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									value={bankNameAndBranch}
 									disabled
-									className={classes.inputFieldStyle}
+									style={{ width: '90%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -492,78 +436,78 @@ const HiredEmpDetails = ({ match }) => {
 							<hr />
 						</div>
 						<Container className={classes.mainContainer}>
-							<h5 className='text-left'>Next To Kin</h5>
-							<Grid container spacing={1} style={{ marginTop: 15 }}>
-								<Grid item lg={1} md={1}>
-									{/* <h5 className={classes.itemHeading}>1.</h5> */}
+							<h5 style={{ textAlign: 'left', }}>Next To Kin</h5>
+							<div class='container'>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid item lg={3} md={2} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Name'
+											variant='outlined'
+											type='text'
+											size='small'
+											value={nextToKin?.name}
+											disabled
+											autocomplete='off'
+											style={{ width: '90%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										/>
+									</Grid>
+									<Grid item lg={3} md={2} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Relationship'
+											variant='outlined'
+											type='text'
+											value={nextToKin?.relation}
+											disabled
+											size='small'
+											autocomplete='off'
+											style={{ width: '90%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										/>
+									</Grid>
+									<Grid item lg={3} md={2} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Address'
+											variant='outlined'
+											type='text'
+											size='small'
+											autocomplete='off'
+											value={nextToKin?.address}
+											disabled
+											style={{ width: '90%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										/>
+									</Grid>
+									<Grid item lg={3} md={2} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Contact No.'
+											variant='outlined'
+											type='number'
+											size='small'
+											value={nextToKin?.contact}
+											disabled
+											autocomplete='off'
+											style={{ width: '90%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										/>
+									</Grid>
+
 								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Name'
-										variant='outlined'
-										type='text'
-										size='small'
-										value={nextToKin?.name}
-										disabled
-										autocomplete='off'
-										className={classes.inputFieldStyle}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Relationship'
-										variant='outlined'
-										type='text'
-										value={nextToKin?.relation}
-										disabled
-										size='small'
-										autocomplete='off'
-										className={classes.inputFieldStyle1}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Address'
-										variant='outlined'
-										type='text'
-										size='small'
-										autocomplete='off'
-										value={nextToKin?.address}
-										disabled
-										className={classes.inputFieldStyle2}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Contact No.'
-										variant='outlined'
-										type='number'
-										size='small'
-										value={nextToKin?.contact}
-										disabled
-										autocomplete='off'
-										className={classes.inputFieldStyle3}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-							</Grid>
+							</div>
 						</Container>
 						{/* ) : null */}
 						<div style={{ marginTop: 30, marginBottom: 30 }}>
 							<hr />
 						</div>
-						<h5 className='text-left'>Academic Qualifications</h5>
+						<h5 style={{ textAlign: 'left', }}>Academic Qualifications</h5>
 						{academicQualification &&
 							academicQualification.map((value, i) => {
 								const no = i + 1;
@@ -582,7 +526,7 @@ const HiredEmpDetails = ({ match }) => {
 												name='degree'
 												value={value.degree}
 												disabled
-												className={classes.inputFieldStyle}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
@@ -596,7 +540,7 @@ const HiredEmpDetails = ({ match }) => {
 												size='small'
 												name='university'
 												value={value.university}
-												className={classes.inputFieldStyle1}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -611,7 +555,7 @@ const HiredEmpDetails = ({ match }) => {
 												name='yearOfPassing'
 												value={value.yearOfPassing}
 												size='small'
-												className={classes.inputFieldStyle2}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -626,7 +570,7 @@ const HiredEmpDetails = ({ match }) => {
 												size='small'
 												name='division'
 												value={value.division}
-												className={classes.inputFieldStyle3}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -637,7 +581,7 @@ const HiredEmpDetails = ({ match }) => {
 						<div style={{ marginTop: 30, marginBottom: 30 }}>
 							<hr />
 						</div>
-						<h5 className='text-left'>Professional Qualification</h5>
+						<h5 style={{ textAlign: 'left', }}>Professional Qualification</h5>
 
 						{professionalQualification &&
 							professionalQualification.map((value, i) => {
@@ -657,7 +601,7 @@ const HiredEmpDetails = ({ match }) => {
 												name='degree'
 												value={value.degree}
 												disabled
-												className={classes.inputFieldStyle}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
@@ -671,7 +615,7 @@ const HiredEmpDetails = ({ match }) => {
 												size='small'
 												name='university'
 												value={value.university}
-												className={classes.inputFieldStyle1}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -686,7 +630,7 @@ const HiredEmpDetails = ({ match }) => {
 												name='yearOfPassing'
 												value={value.yearOfPassing}
 												size='small'
-												className={classes.inputFieldStyle2}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -701,7 +645,7 @@ const HiredEmpDetails = ({ match }) => {
 												size='small'
 												name='division'
 												value={value.division}
-												className={classes.inputFieldStyle3}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -712,9 +656,9 @@ const HiredEmpDetails = ({ match }) => {
 						<div style={{ marginTop: 30, marginBottom: 30 }}>
 							<hr />
 						</div>
-						<h5 className='text-left'>Experience</h5>
-
-						{experience &&
+						<h5 style={{ textAlign: 'left', }}>Experience</h5>
+						{
+							experience &&
 							experience.map((value, i) => {
 								const no = i + 1;
 								return (
@@ -732,7 +676,7 @@ const HiredEmpDetails = ({ match }) => {
 												size='small'
 												value={value.companyName}
 												name='companyName'
-												className={classes.inputFieldStyle}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -747,7 +691,7 @@ const HiredEmpDetails = ({ match }) => {
 												disabled
 												value={value.companyAddress}
 												name='companyAddress'
-												className={classes.inputFieldStyle1}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -762,7 +706,7 @@ const HiredEmpDetails = ({ match }) => {
 												value={value.from}
 												disabled
 												name='from'
-												className={classes.inputFieldStyle2}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
@@ -777,30 +721,30 @@ const HiredEmpDetails = ({ match }) => {
 												disabled
 												value={value.to}
 												name='to'
-												className={classes.inputFieldStyle3}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
 										</Grid>
-										<Grid container spacing={1} className='mt-1'>
-											<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-											<Grid item lg={3} md={3} sm={12} xs={12}>
+										<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
+											<Grid item lg={1} md={1}>
+												{/* <h5 className={classes.itemHeading}>{no}</h5> */}
+											</Grid>
+											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
 													type='date'
-													style={{ width: '100%' }}
 													size='small'
-													value={value.lastSalary}
 													name='lastSalary'
 													disabled
-													className={classes.inputFieldStyle5}
+													value={value.lastSalary}
+													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}
 												/>
 											</Grid>
-											<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-											<Grid item lg={3} md={3} sm={12} xs={12}>
+											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
@@ -810,12 +754,11 @@ const HiredEmpDetails = ({ match }) => {
 													disabled
 													name='reasonOfLeft'
 													style={{ width: '100%' }}
-													className={classes.inputFieldStyle4}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}
 												/>
 											</Grid>
-											<Grid item lg={3} md={3} sm={12} xs={12}>
+											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
@@ -825,18 +768,18 @@ const HiredEmpDetails = ({ match }) => {
 													value={value?.experienceLevel?.name}
 													style={{ width: '100%' }}
 													name='experienceLevel'
-													className={classes.inputFieldStyle4}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 											</Grid>
 										</Grid>
 									</Grid>
 								);
-							})}
+							})
+						}
 						<div style={{ marginTop: 30, marginBottom: 30 }}>
 							<hr />
 						</div>
-						<h5 className='text-left'>Reference</h5>
+						<h5 style={{ textAlign: 'left', }}>Reference</h5>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={1} md={1}>
 								{/* <h5 className={classes.itemHeading}>1.</h5> */}
@@ -851,7 +794,7 @@ const HiredEmpDetails = ({ match }) => {
 									type='text'
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -866,7 +809,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={reference?.address}
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -881,7 +824,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={reference?.contactNo}
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle2}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -890,7 +833,7 @@ const HiredEmpDetails = ({ match }) => {
 						<div style={{ marginTop: 30, marginBottom: 30 }}>
 							<hr />
 						</div>
-						<h5 className='text-left'>For Office Use Only</h5>
+						<h5 style={{ textAlign: 'left', }}>For Office Use Only</h5>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={1} md={1}></Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
@@ -902,7 +845,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={officeUse?.dateOfApproved}
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -917,7 +860,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={officeUse?.remarks}
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -932,7 +875,7 @@ const HiredEmpDetails = ({ match }) => {
 									disabled
 									value={officeUse?.recommended}
 									autocomplete='off'
-									className={classes.inputFieldStyle2}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -946,7 +889,7 @@ const HiredEmpDetails = ({ match }) => {
 									disabled
 									value={officeUse?.jobTitle}
 									autocomplete='off'
-									className={classes.inputFieldStyle3}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -957,15 +900,15 @@ const HiredEmpDetails = ({ match }) => {
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='Recommendations Department'
+									label='Recommendations Dept'
 									variant='outlined'
 									type='text'
+									select
 									disabled
 									value={officeUse?.department?.name}
 									size='small'
-									select
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -980,7 +923,7 @@ const HiredEmpDetails = ({ match }) => {
 									autocomplete='off'
 									disabled
 									value={officeUse?.recommendedSalary}
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>
@@ -995,7 +938,7 @@ const HiredEmpDetails = ({ match }) => {
 									value={officeUse?.approved}
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle2}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 							</Grid>
@@ -1003,7 +946,7 @@ const HiredEmpDetails = ({ match }) => {
 						<div style={{ marginTop: 30, marginBottom: 30 }}>
 							<hr />
 						</div>
-						<h5 className='text-left'>Assigned Final Details</h5>
+						<h5 style={{ textAlign: 'left', }}>Assigned Final Details</h5>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={1} md={1}>
 								{/* <h5 className={classes.itemHeading}>1.</h5> */}
@@ -1011,14 +954,14 @@ const HiredEmpDetails = ({ match }) => {
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
-									label='Enter Desired Department'
+									label='Select Desired Dept'
 									variant='outlined'
 									type='text'
 									{...register('finalDepartment', { required: true })}
 									size='small'
 									select
 									autocomplete='off'
-									className={classes.inputFieldStyle}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}>
 									{departments &&
@@ -1039,7 +982,7 @@ const HiredEmpDetails = ({ match }) => {
 									size='small'
 									select
 									autocomplete='off'
-									className={classes.inputFieldStyle1}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}>
 									{designations && !designations.length ? (
@@ -1062,7 +1005,7 @@ const HiredEmpDetails = ({ match }) => {
 									type='number'
 									size='small'
 									autocomplete='off'
-									className={classes.inputFieldStyle2}
+									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 								/>

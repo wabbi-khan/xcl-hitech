@@ -113,6 +113,7 @@ import Authorities from './dashboard/hr/authorities/Authorities';
 import { loginUser, getUser } from './services/action/UserAction';
 import PrivateRoute from './components/PrivateRoute';
 import CeiledRoute from './components/CeiledRoute';
+import EditEmp from './dashboard/hr/employees/EditEmp';
 
 dotenv.config();
 
@@ -343,6 +344,7 @@ function App() {
 				component={PrintEmpCompEval}
 			/>
 			<Route exact path='/hr/employees' component={Employees} />
+			<Route exact path='/hr/edit_emp_details' component={EditEmp} />
 			<Route
 				exact
 				path='/hr/employees/view_emp_details'
