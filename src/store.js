@@ -36,6 +36,7 @@ import { getTrainingsIdentification } from './services/reducer/TrainingNeedIdent
 import { getTrainingsAttendance } from './services/reducer/TrainingAttendanceReducer';
 import { getUserReducer } from './services/reducer/UserReducer';
 import { fetchStoreCategory } from './services/reducer/StoreCatReducer';
+import { responsibilityReducer } from './services/reducer/ResponsibilityReducer';
 
 const initialState = {};
 
@@ -76,6 +77,7 @@ const reducer = combineReducers({
 	trainingIdentifications: getTrainingsIdentification,
 	trainingAttendance: getTrainingsAttendance,
 	user: getUserReducer,
+	responsibilities: responsibilityReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

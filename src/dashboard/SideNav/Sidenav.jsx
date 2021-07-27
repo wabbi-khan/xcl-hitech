@@ -454,16 +454,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import HomeIcon from '@material-ui/icons/Home';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-// import AssessmentIcon from '@material-ui/icons/Assessment';
+import AssessmentIcon from '@material-ui/icons/Assessment';
 import IconExpandLess from '@material-ui/icons/ExpandLess';
 import IconExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 // import LabelIcon from '@material-ui/icons/Label';
-// import StoreIcon from '@material-ui/icons/Store';
+import StoreIcon from '@material-ui/icons/Store';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
 // import TrendingDownIcon from '@material-ui/icons/TrendingDown';
-// import BusinessIcon from '@material-ui/icons/Business';
+import BusinessIcon from '@material-ui/icons/Business';
 import { useSelector } from 'react-redux';
 
 const drawerWidth = 270;
@@ -547,7 +547,7 @@ function Sidenav(props) {
 	const [open2, setOpen2] = React.useState(false);
 	const [open3, setOpen3] = React.useState(false);
 	const [open4, setOpen4] = React.useState(false);
-	// const [open5, setOpen5] = React.useState(false);
+	const [open5, setOpen5] = React.useState(false);
 
 	// const { user } = useSelector((state) => state.user);
 
@@ -610,7 +610,11 @@ function Sidenav(props) {
 				<List>
 					{['Dashboard'].map((text, index) => (
 						<ListItem button key={text}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}>
 								{index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -631,7 +635,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen1(!open1);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}>
 								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -684,7 +692,7 @@ function Sidenav(props) {
 								onClick={() => {
 									history.push('/purchase/supplier_evaluation_form');
 								}}>
-								<ListItemText inset primary='Supplier Evaluation Form' />
+								<ListItemText inset primary='Supplier Eval Form' />
 							</ListItem>
 							<ListItem
 								button
@@ -731,7 +739,7 @@ function Sidenav(props) {
 								setOpen4(!open4);
 							}}>
 							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+								{index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
@@ -805,7 +813,7 @@ function Sidenav(props) {
 					</Collapse>
 				</List>
 				<Divider />
-				{/* <List>
+				<List>
 					{['Production'].map((text, index) => (
 						<ListItem
 							button
@@ -813,8 +821,12 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen5(!open5);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <LabelIcon /> : <MailIcon />}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}>
+								{index % 2 === 0 ? <BusinessIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
@@ -886,7 +898,7 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List> */}
+				</List>
 				<Divider />
 				<List>
 					{['Store'].map((text, index) => (
@@ -896,8 +908,12 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen2(!open2);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}>
+								{index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
@@ -1043,7 +1059,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen3(!open3);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
+								onClick={() => {
+									handleDrawerOpen();
+								}}>
 								{index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -1086,6 +1106,22 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
+									history.push('/hr/responsibilities');
+								}}>
+								<ListItemText inset primary='Responsibilities' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/hr/authorities');
+								}}>
+								<ListItemText inset primary='Authorities' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
 									history.push('/hr/designation');
 								}}>
 								<ListItemText inset primary='Designation' />
@@ -1104,7 +1140,7 @@ function Sidenav(props) {
 								onClick={() => {
 									history.push('/hr/employees');
 								}}>
-								<ListItemText inset primary='Employees' />
+								<ListItemText inset primary='Employee Profile' />
 							</ListItem>
 							<ListItem
 								button

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -73,8 +75,26 @@ const useStyles = makeStyles((theme) => ({
 	table: {
 		minWidth: 600,
 	},
-	dataTable: {},
+	tableContainer: {
+		marginTop: '10px'
+	},
 }));
+
+const CssTextField = withStyles({
+	root: {
+		'& label.Mui-focused': {
+			color: 'black',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'black',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'black',
+			},
+		},
+	},
+})(TextField);
 
 const ViewEmpDetails = (props) => {
 	const { history } = props;
@@ -99,11 +119,41 @@ const ViewEmpDetails = (props) => {
 		(state) => state.employees,
 	);
 
-	console.log(unHiredEmployees);
+	console.log(employees);
 	return (
 		<Sidenav title={'Employee Details'}>
 			<div className={classes.dataTable}>
-				<h5>Un-Hired</h5>
+				{/* <h5>Un-Hired</h5> */}
+				<div style={{ display: 'flex', }}>
+					<CssTextField
+						id='outlined-basic'
+						label='Search Hired Employees'
+						variant='outlined'
+						type='search'
+						size='small'
+						autoComplete='off'
+						// onChange={handleChange}
+						style={{ width: '25%', marginTop: '5px' }}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					/>
+					<CssTextField
+						id='outlined-basic'
+						label='Search By Category'
+						variant='outlined'
+						type='text'
+						size='small'
+						select
+						autoComplete='off'
+						// onChange={handleChange}
+						style={{ width: '15%', marginTop: '5px', marginLeft: '3px' }}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					>
+						<MenuItem value="0">By Id</MenuItem>
+						<MenuItem value="0">By Name</MenuItem>
+					</CssTextField>
+				</div>
 				<TableContainer className={classes.tableContainer}>
 					<Table
 						stickyHeader
@@ -178,7 +228,37 @@ const ViewEmpDetails = (props) => {
 				</TableContainer>
 			</div>
 			<div className={classes.dataTable}>
-				<h5>Hired</h5>
+				{/* <h5>Hired</h5> */}
+				<div style={{ display: 'flex', }}>
+					<CssTextField
+						id='outlined-basic'
+						label='Search Hired Employees'
+						variant='outlined'
+						type='search'
+						size='small'
+						autoComplete='off'
+						// onChange={handleChange}
+						style={{ width: '25%', marginTop: '30px' }}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					/>
+					<CssTextField
+						id='outlined-basic'
+						label='Search By Category'
+						variant='outlined'
+						type='text'
+						size='small'
+						select
+						autoComplete='off'
+						// onChange={handleChange}
+						style={{ width: '15%', marginTop: '30px', marginLeft: '3px' }}
+						inputProps={{ style: { fontSize: 14 } }}
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					>
+						<MenuItem value="0">By Id</MenuItem>
+						<MenuItem value="0">By Name</MenuItem>
+					</CssTextField>
+				</div>
 				<TableContainer className={classes.tableContainer}>
 					<Table
 						stickyHeader
