@@ -31,11 +31,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -58,8 +58,8 @@ const AppSupplier = ({ history }) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(getVendorAction('verified=true'));
+	useEffect(() => {
+		dispatch(getVendorAction('verified=true'));
 	}, [dispatch]);
 
 	const { loading, vendors, error } = useSelector((state) => state.vendors);
@@ -105,9 +105,7 @@ const AppSupplier = ({ history }) => {
 												{vendor.phone}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{
-												!vendor.contactPerson ? null : vendor.contactPerson.name
-												}
+												{!vendor.contactPerson ? null : vendor.contactPerson.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{!vendor.material.length ? (

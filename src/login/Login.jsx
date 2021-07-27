@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import LoginImg from '../images/loginBack.jpg';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import { loginUser, getUser } from '../services/action/UserAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../services/action/UserAction';
+import { useDispatch } from 'react-redux';
 import Button from '../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +92,6 @@ const Login = (props) => {
 	const { history } = props;
 	const dispatch = useDispatch();
 	const [error, setError] = React.useState('');
-	const { user } = useSelector((state) => state.user);
 	const [loading, setLoading] = React.useState(false);
 
 	const onSubmit = (values) => {

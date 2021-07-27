@@ -1,42 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRequisitionAction } from '../../../services/action/PurchaseReqAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import { Grid } from '@material-ui/core';
-
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
-
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
-
-const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -74,20 +45,11 @@ const useStyles = makeStyles((theme) => ({
 
 const MaterialIssueReq = ({ history }) => {
 	const classes = useStyles();
-	const [switchButton, setSwitchButton] = useState('Incomplete');
-
-	function handleClick() {
-		if (switchButton === 'Incomplete') {
-			setSwitchButton('Complete');
-		} else {
-			setSwitchButton('Incomplete');
-		}
-	}
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchRequisitionAction(`isComplete=false`));
+	useEffect(() => {
+		dispatch(fetchRequisitionAction(`isComplete=false`));
 	}, [dispatch]);
 
 	const { purchaseRequisitions, loading, error } = useSelector(
@@ -95,18 +57,18 @@ const MaterialIssueReq = ({ history }) => {
 	);
 	console.log(purchaseRequisitions);
 
-	const onSubmitDate = async (props) => {
-		console.log(props);
-		// try {
-		// await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
-		// window.location.reload()
-		// setAddMatError(false)
-		// }
-		// catch (error) {
-		// setAddMatError(true)
+	// const onSubmitDate = async (props) => {
+	// 	console.log(props);
+	// 	// try {
+	// 	// await axios.post(`${process.env.REACT_APP_API_URL}/material`, props)
+	// 	// window.location.reload()
+	// 	// setAddMatError(false)
+	// 	// }
+	// 	// catch (error) {
+	// 	// setAddMatError(true)
 
-		// }
-	};
+	// 	// }
+	// };
 
 	return (
 		<Sidenav title={'Material Issue Requisition'}>
@@ -135,9 +97,9 @@ const MaterialIssueReq = ({ history }) => {
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
 							{/* <h5>Inspected Orders</h5> */}
-							<div className='container-fluid' style={{ textAlign: 'left', }}>
-								<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
-									<thead class="bg-dark text-light">
+							<div className='container-fluid' style={{ textAlign: 'left' }}>
+								<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
+									<thead class='bg-dark text-light'>
 										<tr>
 											<th>S.No.</th>
 											<th>Department</th>
@@ -147,54 +109,38 @@ const MaterialIssueReq = ({ history }) => {
 										</tr>
 									</thead>
 									<tbody>
-										{
-											loading ? (
-												<Loading />
-											) : error ? (
-												<MaterialError />
-											) : purchaseRequisitions.length ? (
-												purchaseRequisitions.map((request, i) => (
-													<tr key={i}>
-														<td>
-															{i + 1}
-														</td>
-														<td>
-															{
-																!request.department ? null : request.department.name
-															}
-														</td>
-														<td>
-															{
-																request.purpose
-															}
-														</td>
-														<td>
-															{
-																request.reqDate
-															}
-														</td>
-														<td>
-															<Button
-																variant='contained'
-																size='small'
-																class='btn btn-sm bg-dark text-light'
-																onClick={() => {
-																	history.push(
-																		`/storedashboard/material_issue_requisition/material_requisition_details/${request._id}`,
-																	);
-																}}
+										{loading ? (
+											<Loading />
+										) : error ? (
+											<MaterialError />
+										) : purchaseRequisitions.length ? (
+											purchaseRequisitions.map((request, i) => (
+												<tr key={i}>
+													<td>{i + 1}</td>
+													<td>{!request.department ? null : request.department.name}</td>
+													<td>{request.purpose}</td>
+													<td>{request.reqDate}</td>
+													<td>
+														<Button
+															variant='contained'
+															size='small'
+															class='btn btn-sm bg-dark text-light'
+															onClick={() => {
+																history.push(
+																	`/storedashboard/material_issue_requisition/material_requisition_details/${request._id}`,
+																);
+															}}
 															// style={{ backgroundColor: 'red', color: 'whitesmoke', }}
-															>
-																View Requisition
-																{/* {switchButton} */}
-															</Button>
-														</td>
-													</tr>
-												))
-											) : (
-												<h5>Not Found</h5>
-											)
-										}
+														>
+															View Requisition
+															{/* {switchButton} */}
+														</Button>
+													</td>
+												</tr>
+											))
+										) : (
+											<h5>Not Found</h5>
+										)}
 									</tbody>
 								</table>
 							</div>

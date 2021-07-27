@@ -89,10 +89,10 @@ const EditSetUpCard = (props) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchCardAction());
-		await dispatch(getMaterialAction());
-		await dispatch(getVendorAction());
+	useEffect(() => {
+		dispatch(fetchCardAction());
+		dispatch(getMaterialAction());
+		dispatch(getVendorAction());
 	}, [dispatch]);
 
 	const { materials } = useSelector((state) => state.materials);
@@ -102,11 +102,7 @@ const EditSetUpCard = (props) => {
 
 	const [open, setOpen] = useState(false);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { handleSubmit } = useForm();
 	const [inputFields, setInputFields] = useState(card);
 
 	useEffect(() => {

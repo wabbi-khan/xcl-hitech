@@ -127,9 +127,9 @@ const FullOrderDetails = (props) => {
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
-	useEffect(async () => {
-		await dispatch(fetchSinglePurchaseOrderAction(id));
-	}, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchSinglePurchaseOrderAction(id));
+	}, [dispatch, id]);
 
 	const { order, loading, error } = useSelector((state) => state.orders);
 

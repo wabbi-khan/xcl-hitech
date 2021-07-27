@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
 const WeeklyProductionPlan = (props) => {
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchPlanAction());
+	useEffect(() => {
+		dispatch(fetchPlanAction());
 	}, [dispatch]);
 
-	const { plans, loading, error } = useSelector((state) => state.plans);
+	const { plans, error } = useSelector((state) => state.plans);
 	const { history } = props;
 
 	const classes = useStyles();

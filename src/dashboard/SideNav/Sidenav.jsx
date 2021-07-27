@@ -454,16 +454,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import HomeIcon from '@material-ui/icons/Home';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import AssessmentIcon from '@material-ui/icons/Assessment';
+// import AssessmentIcon from '@material-ui/icons/Assessment';
 import IconExpandLess from '@material-ui/icons/ExpandLess';
 import IconExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-import LabelIcon from '@material-ui/icons/Label';
-import StoreIcon from '@material-ui/icons/Store';
+// import LabelIcon from '@material-ui/icons/Label';
+// import StoreIcon from '@material-ui/icons/Store';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
-import TrendingDownIcon from '@material-ui/icons/TrendingDown';
-import BusinessIcon from '@material-ui/icons/Business';
+// import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+// import BusinessIcon from '@material-ui/icons/Business';
 import { useSelector } from 'react-redux';
 
 const drawerWidth = 270;
@@ -547,9 +547,9 @@ function Sidenav(props) {
 	const [open2, setOpen2] = React.useState(false);
 	const [open3, setOpen3] = React.useState(false);
 	const [open4, setOpen4] = React.useState(false);
-	const [open5, setOpen5] = React.useState(false);
+	// const [open5, setOpen5] = React.useState(false);
 
-	const { user } = useSelector((state) => state.user);
+	// const { user } = useSelector((state) => state.user);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);

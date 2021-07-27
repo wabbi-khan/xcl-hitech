@@ -6,8 +6,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+// import Button from '@material-ui/core/Button';
+// import Paper from '@material-ui/core/Paper';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -27,11 +27,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintPurchaseOrder = () => {
 	const classes = useStyles();
-
 
 	return (
 		<div className='text-center'>

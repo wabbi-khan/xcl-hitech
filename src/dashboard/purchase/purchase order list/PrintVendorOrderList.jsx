@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import axios from 'axios';
+// import axios from 'axios';
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -29,11 +29,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -102,11 +102,11 @@ const PrintVendorOrderList = (props) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchSinglePurchaseOrderAction(id));
-	}, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchSinglePurchaseOrderAction(id));
+	}, [dispatch, id]);
 
-	const { order, loading, error } = useSelector((state) => state.orders);
+	const { order } = useSelector((state) => state.orders);
 
 	const date = new Date();
 	const currDate = date.getDate();

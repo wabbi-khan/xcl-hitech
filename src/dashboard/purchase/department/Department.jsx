@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
-import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import {
 	createDepartmentAction,
 	deleteDepartmentAction,
 	fetchDepartmentsAction,
 } from '../../../services/action/DepartmentAction';
 import EditDepartment from './EditDepartment';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -41,11 +39,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -117,41 +115,56 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required('Please enter a name for Department'),
+});
+
 const Department = () => {
 	const classes = useStyles();
-	const [dept, setDept] = useState();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
+	const [addLoading, setAddLoading] = React.useState(false);
+	const [loading, setLoading] = React.useState(true);
+	const [addError, setAddError] = React.useState('');
+	const [error, setError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [dept, setDept] = React.useState({});
+	const [open, setOpen] = React.useState(false);
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchDepartmentsAction());
+	useEffect(() => {
+		dispatch(
+			fetchDepartmentsAction((err) => {
+				if (err) {
+					console.log(err);
+					setError(err);
+				}
+				setLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
-	const { departments, loading, error } = useSelector(
-		(state) => state.departments,
-	);
+	const { departments } = useSelector((state) => state.departments);
 
-	const onSubmitDate = async (props) => {
-		dispatch(createDepartmentAction(props));
-		// try {
-		//     await axios.post(`${process.env.REACT_APP_API_URL}/department`, props)
-		//     window.location.reload()
-		//     console.log('submit');
-		//     // setAddMatError(false)
-		// }
-		// catch (error) {
-		//     console.log(error);
-		//     // setAddMatError(true)
-		// }
+	const onSubmit = (values, actions) => {
+		setAddLoading(true);
+		dispatch(
+			createDepartmentAction(values, (err) => {
+				if (err) {
+					setAddError(err);
+					setTimeout(() => {
+						setAddError('');
+					}, 4000);
+				} else {
+					actions.resetForm();
+				}
+				setAddLoading(false);
+			}),
+		);
 	};
-
-	const [open, setOpen] = useState(false);
 
 	const handleClose = (props) => {
 		setOpen(props);
@@ -162,119 +175,148 @@ const Department = () => {
 		setOpen(true);
 	};
 
-	const deleteDept = async (params) => {
-		dispatch(deleteDepartmentAction(params));
-		// try {
-		//     await axios.delete(`${process.env.REACT_APP_API_URL}/department/${params}`)
-		//     window.location.reload()
-		// }
-		// catch (error) {
-		//     console.log(error);
-		//     console.log('catch');
-		// }
+	const deleteDept = (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteDepartmentAction(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
 
 	return (
 		<Sidenav title={'Departments'}>
-			{/* ============Edit Category form component */}
-			<EditDepartment
-				show={open}
-				handler={handleClose}
-				// categories={categories}
-				department={dept}
-			/>
-			{/* ============Edit category form component */}
+			<EditDepartment show={open} handler={handleClose} department={dept} />
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Department Name*'
-							variant='outlined'
-							type='text'
-							size='small'
-							autocomplete='off'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('name', { required: true })}
-						/>
-						{/* {
-                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                    categories.map(category => (
-                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                    ))
-                            } */}
-						{errors.name?.type === 'required' && (
-							<p className='mt-3 text-danger'>Department Name must be required</p>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Department Name*'
+									variant='outlined'
+									type='text'
+									size='small'
+									autocomplete='off'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										classNames={classes.addButton}
+										text='Add'
+										loading={addLoading}
+										loaderColor='#333'
+									/>
+								</div>
+								{addError && <p>{addError}</p>}
+							</Form>
 						)}
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
+					</Formik>
 				</Container>
-				{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Departments</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : departments && departments.length ? (
-									departments.map((department, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{department.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
-													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
-														onClick={() => handleOpen(department)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
-													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
-														onClick={() => deleteDept(department._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{loading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							width: '100%',
+							marginTop: '4rem',
+						}}>
+						<Loader type='TailSpin' />
+					</div>
+				) : error ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							width: '100%',
+							marginTop: '4rem',
+						}}>
+						<p style={{ fontSize: '3rem', textTransform: 'uppercase' }}>{error}</p>
+					</div>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Departments</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{departments && departments.length ? (
+										departments.map((el, i) => (
+											<StyledTableRow key={i}>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<div style={{ display: 'flex', justifyContent: 'center' }}>
+														<Button
+															variant='contained'
+															text='Edit'
+															size='small'
+															classNames='bg-dark text-light'
+															onClick={() => handleOpen(el)}
+														/>
+														<Button
+															variant='contained'
+															text='Delete'
+															size='small'
+															color='secondary'
+															onClick={() => deleteDept(el._id)}
+															style={{ marginLeft: '1rem' }}
+														/>
+													</div>
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									) : (
+										<h5>Not Found</h5>
+									)}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

@@ -3,9 +3,9 @@ import {
 	PERSON_REQUEST,
 	PERSON_FETCH_SUCCESS,
 	PERSON_FAIL,
-	PERSON_CREATE_SUCCESS,
-	PERSON_DELETE_SUCCESS,
-	PERSON_UPDATE_SUCCESS,
+	// PERSON_CREATE_SUCCESS,
+	// PERSON_DELETE_SUCCESS,
+	// PERSON_UPDATE_SUCCESS,
 } from '../constants/ContactPerson';
 
 export const fetchPersonAction = () => async (dispatch) => {

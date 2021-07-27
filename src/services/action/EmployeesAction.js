@@ -1,4 +1,3 @@
-import { FormatBoldTwoTone } from '@material-ui/icons';
 import axios from 'axios';
 import {
 	EMPLOYEE_CREATE_SUCCESS,

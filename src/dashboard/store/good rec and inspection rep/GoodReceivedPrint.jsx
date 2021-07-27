@@ -1,42 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import React, { useEffect } from 'react';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
 import Loading from '../../purchase/material/Loading';
 import Grid from '@material-ui/core/Grid';
-
-
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
-
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
-
-const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -52,22 +22,20 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: 300,
 	},
 	tableContainer: {
-		marginTop: '30px'
-	}
+		marginTop: '30px',
+	},
 }));
 
 const GoodReceivedPrint = (props) => {
 	const classes = useStyles();
 
-	const { history } = props
-
 	const id = props.match.params.id;
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchSinglePurchaseOrderAction(id));
-	}, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchSinglePurchaseOrderAction(id));
+	}, [dispatch, id]);
 
 	const { order, loading, error } = useSelector((state) => state.orders);
 
@@ -85,12 +53,16 @@ const GoodReceivedPrint = (props) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph.No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-4' style={{ textDecoration: 'underline' }}>Goods Received and Inspection Report</h5>
+				<h5 className='mt-4' style={{ textDecoration: 'underline' }}>
+					Goods Received and Inspection Report
+				</h5>
 			</div>
-			<div className="container-fluid" style={{ textAlign: 'left', marginTop: 70 }}>
+			<div
+				className='container-fluid'
+				style={{ textAlign: 'left', marginTop: 70 }}>
 				<Grid container spacing={1}>
 					<Grid item lg={2} md={2} sm={2} xs={2}>
-						<div className="col-lg-6 col-md-6 col-sm-6">
+						<div className='col-lg-6 col-md-6 col-sm-6'>
 							<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>Date:</p>
 						</div>
 					</Grid>
@@ -101,22 +73,23 @@ const GoodReceivedPrint = (props) => {
 						</p>
 					</Grid>
 					<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
-					<Grid item lg={2} md={2} sm={2} xs={2} id="printBtn">
-						<Button variant="contained" size="small"
-							className="bg-dark text-light"
-							onClick={() => window.print()}
-						>
+					<Grid item lg={2} md={2} sm={2} xs={2} id='printBtn'>
+						<Button
+							variant='contained'
+							size='small'
+							className='bg-dark text-light'
+							onClick={() => window.print()}>
 							Print
 						</Button>
 					</Grid>
 				</Grid>
 			</div>
 			<div className={classes.dataTable}>
-				<TableContainer >
+				<TableContainer>
 					<h5>Inspected Orders</h5>
-					<div className='container-fluid' style={{ textAlign: 'left', }}>
-						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-							<thead >
+					<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+							<thead>
 								<tr>
 									<th>Date/Time</th>
 									<th>P.R. No.</th>
@@ -128,28 +101,14 @@ const GoodReceivedPrint = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								<tr >
-									<td>
-										asd
-									</td>
-									<td>
-										asd
-									</td>
-									<td>
-										asd
-									</td>
-									<td>
-										asd
-									</td>
-									<td>
-										asd
-									</td>
-									<td>
-										asd
-									</td>
-									<td>
-										asd
-									</td>
+								<tr>
+									<td>asd</td>
+									<td>asd</td>
+									<td>asd</td>
+									<td>asd</td>
+									<td>asd</td>
+									<td>asd</td>
+									<td>asd</td>
 								</tr>
 							</tbody>
 						</table>
@@ -159,9 +118,9 @@ const GoodReceivedPrint = (props) => {
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					<h6>Purchase Inspection Materials</h6>
-					<div className='container-fluid' style={{ textAlign: 'left', }}>
-						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-							<thead >
+					<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+							<thead>
 								<tr>
 									<th>Sr.No</th>
 									<th>Material Name</th>
@@ -171,35 +130,23 @@ const GoodReceivedPrint = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<span>Error</span>
-									) : !order.materials || !order.materials.length ? (
-										<span>Not Found</span>
-									) : (
-										order.materials.map((material, i) => (
-											<tr key={1}>
-												<td>
-													asd
-												</td>
-												<td>
-													asd
-												</td>
-												<td>
-													asd
-												</td>
-												<td>
-													asd
-												</td>
-												<td>
-													asd
-												</td>
-											</tr>
-										))
-									)
-								}
+								{loading ? (
+									<Loading />
+								) : error ? (
+									<span>Error</span>
+								) : !order.materials || !order.materials.length ? (
+									<span>Not Found</span>
+								) : (
+									order.materials.map((material, i) => (
+										<tr key={1}>
+											<td>asd</td>
+											<td>asd</td>
+											<td>asd</td>
+											<td>asd</td>
+											<td>asd</td>
+										</tr>
+									))
+								)}
 							</tbody>
 						</table>
 					</div>

@@ -27,19 +27,19 @@ import Loading from '../material/Loading';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+// import axios from 'axios';
 import FormGroup from '@material-ui/core/FormGroup';
 import EditVendor from './EditVendor';
 
-const GreenCheckbox = withStyles({
-	root: {
-		//   color: black[400],
-		'&$checked': {
-			// color: green[600],
-		},
-	},
-	checked: {},
-})((props) => <Checkbox color='default' {...props} />);
+// const GreenCheckbox = withStyles({
+// 	root: {
+// 		//   color: black[400],
+// 		'&$checked': {
+// 			// color: green[600],
+// 		},
+// 	},
+// 	checked: {},
+// })((props) => <Checkbox color='default' {...props} />);
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -59,11 +59,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -170,7 +170,7 @@ const Vendors = () => {
 		getValues,
 	} = useForm();
 
-	useEffect(async () => {
+	useEffect(() => {
 		dispatch(getVendorAction());
 		dispatch(getMaterialCategoryAction());
 	}, [dispatch]);

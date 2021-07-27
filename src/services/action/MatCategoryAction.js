@@ -8,7 +8,7 @@ import {
 	CATEGORY_UPDATE_SUCCESS,
 } from '../constants/MatCategoryConst';
 
-export const getMaterialCategoryAction = () => async (dispatch) => {
+export const getMaterialCategoryAction = (cb) => async (dispatch) => {
 	dispatch({
 		type: CATEGORY_REQUEST,
 	});
@@ -16,12 +16,17 @@ export const getMaterialCategoryAction = () => async (dispatch) => {
 	try {
 		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/category`);
 
-		dispatch({
-			type: CATEGORY_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		console.log(data);
+
+		if (data.success) {
+			dispatch({
+				type: CATEGORY_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -77,22 +82,26 @@ export const updateMatCategoryAction = (id, data, cb) => async (dispatch) => {
 	}
 };
 
-export const deleteMatCategoryAction = (params) => async (dispatch) => {
+export const deleteMatCategoryAction = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: CATEGORY_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/category/${params}`);
+		const res = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/category/${params}`,
+		);
 
-		dispatch({
-			type: CATEGORY_DELETE_SUCCESS,
-			payload: params,
-		});
+		if (res.status === 200) {
+			dispatch({
+				type: CATEGORY_DELETE_SUCCESS,
+				payload: params,
+			});
 
-		// console.log(data);
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 

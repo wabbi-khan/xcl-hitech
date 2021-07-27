@@ -4,13 +4,13 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+// import TableCell from '@material-ui/core/TableCell';
+// import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+// import Select from '@material-ui/core/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import {
@@ -18,41 +18,41 @@ import {
 	updateVendorAction,
 } from '../../../services/action/VendorAction';
 import { fetchPersonAction } from '../../../services/action/PersonAction';
-import axios from 'axios';
+// import axios from 'axios';
 
-const GreenCheckbox = withStyles({
-	root: {
-		//   color: black[400],
-		'&$checked': {
-			// color: green[600],
-		},
-	},
-	checked: {},
-})((props) => <Checkbox color='default' {...props} />);
+// const GreenCheckbox = withStyles({
+// 	root: {
+// 		//   color: black[400],
+// 		'&$checked': {
+// 			// color: green[600],
+// 		},
+// 	},
+// 	checked: {},
+// })((props) => <Checkbox color='default' {...props} />);
 
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
+// const StyledTableCell = withStyles((theme) => ({
+// 	head: {
+// 		backgroundColor: theme.palette.common.black,
+// 		color: theme.palette.common.white,
+// 	},
+// 	body: {
+// 		fontSize: 14,
+// 	},
+// }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
+// const StyledTableRow = withStyles((theme) => ({
+// 	root: {
+// 		'&:nth-of-type(odd)': {
+// 			backgroundColor: theme.palette.action.hover,
+// 		},
+// 	},
+// }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -141,9 +141,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:before': {
 			borderColor: 'red',
 		},
-		'&:before': {
-			borderColor: 'red',
-		},
 		'&:hover:not(.Mui-disabled):before': {
 			borderColor: 'red',
 		},
@@ -171,21 +168,21 @@ const CssTextField = withStyles({
 		},
 	},
 })(TextField);
-const select = withStyles({
-	root: {
-		'& label.Mui-focused': {
-			color: 'black',
-		},
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'black',
-			},
-			'&.Mui-focused fieldset': {
-				borderColor: 'black',
-			},
-		},
-	},
-})(Select);
+// const select = withStyles({
+// 	root: {
+// 		'& label.Mui-focused': {
+// 			color: 'black',
+// 		},
+// 		'& .MuiOutlinedInput-root': {
+// 			'& fieldset': {
+// 				borderColor: 'black',
+// 			},
+// 			'&.Mui-focused fieldset': {
+// 				borderColor: 'black',
+// 			},
+// 		},
+// 	},
+// })(Select);
 
 const SupplierEvalForm = () => {
 	const classes = useStyles();

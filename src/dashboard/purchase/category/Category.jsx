@@ -11,10 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
+import Loader from 'react-loader-spinner';
 import {
 	getMaterialCategoryAction,
 	createMatCategoryAction,
@@ -42,11 +39,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -128,26 +125,37 @@ const validationSchema = yup.object({
 
 const Category = () => {
 	const classes = useStyles();
-	const [category, setCategory] = useState();
+	const [category, setCategory] = useState({});
+	const [loading, setLoading] = React.useState(true);
 	const [addLoading, setAddLoading] = React.useState(false);
+	const [addError, setAddError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState(false);
 	const [error, setError] = React.useState('');
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		dispatch(getMaterialCategoryAction());
+	useEffect(() => {
+		dispatch(
+			getMaterialCategoryAction((err) => {
+				if (err) {
+					setError(err);
+				}
+				setLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
-	const { categories, loading } = useSelector((state) => state.categories);
+	const { categories } = useSelector((state) => state.categories);
 
 	const onSubmit = async (values, actions) => {
 		setAddLoading(true);
 		dispatch(
 			createMatCategoryAction(values, (err) => {
 				if (err) {
-					setError(err);
+					setAddError(err);
 					setTimeout(() => {
-						setError('');
+						setAddError('');
 					}, 4000);
 				} else {
 					actions.resetForm();
@@ -169,12 +177,33 @@ const Category = () => {
 	};
 
 	const deleteCategory = async (params) => {
-		dispatch(deleteMatCategoryAction(params));
+		setDeleteLoading(true);
+		dispatch(
+			deleteMatCategoryAction(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
 
 	return (
 		<Sidenav title={'Categories'}>
 			<EditCategory show={open} handler={handleClose} category={category} />
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
 					<Formik
@@ -209,64 +238,83 @@ const Category = () => {
 										loaderColor='#333'
 									/>
 								</div>
-								{error && <p>{error}</p>}
+								{addError && <p>{addError}</p>}
 							</Form>
 						)}
 					</Formik>
 				</Container>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Categories</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : categories.length ? (
-									categories.map((category, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{category.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<div style={{ display: 'flex', justifyContent: 'center' }}>
-													<Button
-														variant='contained'
-														text='Edit'
-														size='small'
-														classNames='bg-dark text-light'
-														onClick={() => handleOpen(category)}
-													/>
-													<Button
-														variant='contained'
-														text='Delete'
-														size='small'
-														color='secondary'
-														onClick={() => deleteCategory(category._id)}
-														style={{ marginLeft: '1rem' }}
-													/>
-												</div>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{loading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							width: '100%',
+							marginTop: '4rem',
+						}}>
+						<Loader type='TailSpin' />
+					</div>
+				) : error ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							width: '100%',
+							marginTop: '4rem',
+						}}>
+						<p style={{ fontSize: '3rem', textTransform: 'uppercase' }}>{error}</p>
+					</div>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Categories</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{categories.length &&
+										categories.map((category, i) => (
+											<StyledTableRow key={i}>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{category.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<div style={{ display: 'flex', justifyContent: 'center' }}>
+														<Button
+															variant='contained'
+															text='Edit'
+															size='small'
+															classNames='bg-dark text-light'
+															onClick={() => handleOpen(category)}
+														/>
+														<Button
+															variant='contained'
+															text='Delete'
+															size='small'
+															color='secondary'
+															onClick={() => deleteCategory(category._id)}
+															style={{ marginLeft: '1rem' }}
+														/>
+													</div>
+												</StyledTableCell>
+											</StyledTableRow>
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

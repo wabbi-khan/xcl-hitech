@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -82,8 +82,8 @@ export const PurchaseOrderList = ({ history }) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchPurchaseOrderAction());
+	useEffect(() => {
+		dispatch(fetchPurchaseOrderAction());
 	}, [dispatch]);
 
 	const { orders, loading, error } = useSelector((state) => state.orders);
