@@ -928,8 +928,7 @@ const PrintEmpDetails = (props) => {
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					For Office Use Only
 				</h5>
-				<table class="table table-responsive table-bordered border-dark text-center mt-3">
-
+				<table class="table table-responsive table-bordered text-center mt-3">
 					<tbody>
 						<tr >
 							<td style={{ fontWeight: 'bold' }}>
@@ -985,6 +984,35 @@ const PrintEmpDetails = (props) => {
 								<h5>Not Found</h5>
 							)
 						} */}
+					</tbody>
+				</table>
+			</div>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+					Assigned Final Details
+				</h5>
+				<table class="table table-responsive table-bordered text-center mt-3">
+					<tbody>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Department
+							</td>
+							<td colspan='3'>
+								dept
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Designation
+							</td>
+							<td colspan='3'>
+								designation
+							</td>
+							<td style={{ fontWeight: 'bold' }}>
+								Salary
+							</td>
+							<td colspan='3'>
+								sal
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

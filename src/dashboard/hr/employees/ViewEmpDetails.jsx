@@ -127,7 +127,7 @@ const ViewEmpDetails = (props) => {
 				<div style={{ display: 'flex', }}>
 					<CssTextField
 						id='outlined-basic'
-						label='Search Hired Employees'
+						label='Search Un-Hired Employees'
 						variant='outlined'
 						type='search'
 						size='small'
