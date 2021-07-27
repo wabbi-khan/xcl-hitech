@@ -587,9 +587,11 @@ const Employees = ({ history }) => {
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('nationality', { required: true })}>
-									{countries.map((country) => (
-										<MenuItem value={country}>{country}</MenuItem>
-									))}
+									{
+										countries.map((country) => (
+											<MenuItem value={country}>{country}</MenuItem>
+										))
+									}
 								</CssTextField>
 							</Grid>
 						</Grid>
@@ -628,7 +630,7 @@ const Employees = ({ history }) => {
 									type='file'
 									className={classes.uploadImgBtn}
 									onChange={(event) => picUploadFunc(event)}
-									// {...register("name", { required: true })}
+								// {...register("name", { required: true })}
 								></input>
 								<img
 									src={image.path}
@@ -809,7 +811,7 @@ const Employees = ({ history }) => {
 										color='primary'
 										className={classes.addMoreButton}
 										onClick={addMoreAcademicQualification}
-										// style={{ marginLeft: 'auto', marginRight: 'auto' }}
+									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
 									>
 										Add More
 									</Button>
@@ -916,7 +918,7 @@ const Employees = ({ history }) => {
 										color='primary'
 										className={classes.addMoreButton}
 										onClick={addMoreProfessionalQualification}
-										// style={{ marginLeft: 'auto', marginRight: 'auto' }}
+									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
 									>
 										Add More
 									</Button>
@@ -1096,7 +1098,7 @@ const Employees = ({ history }) => {
 										color='primary'
 										className={classes.addMoreButton}
 										onClick={addMoreExperience}
-										// style={{ marginLeft: 'auto', marginRight: 'auto' }}
+									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
 									>
 										Add More
 									</Button>
