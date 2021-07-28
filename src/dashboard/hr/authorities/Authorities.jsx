@@ -137,7 +137,6 @@ const Authorities = ({ authorities, setAuthorities }, props) => {
 										autocomplete='off'
 										size='small'
 										style={{ width: '50%' }}
-										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										value={props.values.name}
 										InputLabelProps={{ style: { fontSize: 14 } }}

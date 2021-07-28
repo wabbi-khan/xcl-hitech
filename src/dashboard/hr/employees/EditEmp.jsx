@@ -9,8 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	getSingleEmployee,
-	hireEmployee,
+    getSingleEmployee,
+    hireEmployee,
 } from '../../../services/action/EmployeesAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { getDesignation } from '../../../services/action/DesignationAction';
@@ -301,7 +301,7 @@ const EditEmp = ({ match }) => {
                             <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
-                                    label='DOB'
+                                    // label='DOB'
                                     variant='outlined'
                                     type='date'
                                     autocomplete='off'
@@ -437,7 +437,6 @@ const EditEmp = ({ match }) => {
                         </div>
                         <Container className={classes.mainContainer}>
                             <h5 style={{ textAlign: 'left', }}>Next To Kin</h5>
-                            <div class='container'>
                                 <Grid container spacing={1} style={{ marginTop: 15 }}>
                                     <Grid item lg={3} md={2} sm={12} xs={12}>
                                         <CssTextField
@@ -449,7 +448,7 @@ const EditEmp = ({ match }) => {
                                             value={nextToKin?.name}
                                             disabled
                                             autocomplete='off'
-                                            style={{ width: '90%' }}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
@@ -464,7 +463,7 @@ const EditEmp = ({ match }) => {
                                             disabled
                                             size='small'
                                             autocomplete='off'
-                                            style={{ width: '90%' }}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
@@ -479,7 +478,7 @@ const EditEmp = ({ match }) => {
                                             autocomplete='off'
                                             value={nextToKin?.address}
                                             disabled
-                                            style={{ width: '90%' }}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
@@ -494,21 +493,20 @@ const EditEmp = ({ match }) => {
                                             value={nextToKin?.contact}
                                             disabled
                                             autocomplete='off'
-                                            style={{ width: '90%' }}
+                                            style={{ width: '100%' }}
                                             inputProps={{ style: { fontSize: 14 } }}
                                             InputLabelProps={{ style: { fontSize: 14 } }}
                                         />
                                     </Grid>
-
                                 </Grid>
-                            </div>
                         </Container>
                         {/* ) : null */}
                         <div style={{ marginTop: 30, marginBottom: 30 }}>
                             <hr />
                         </div>
                         <h5 style={{ textAlign: 'left', }}>Academic Qualifications</h5>
-                        {academicQualification &&
+                        {
+                            academicQualification &&
                             academicQualification.map((value, i) => {
                                 const no = i + 1;
                                 return (
@@ -577,7 +575,8 @@ const EditEmp = ({ match }) => {
                                         </Grid>
                                     </Grid>
                                 );
-                            })}
+                            })
+                        }
                         <div style={{ marginTop: 30, marginBottom: 30 }}>
                             <hr />
                         </div>
@@ -781,10 +780,7 @@ const EditEmp = ({ match }) => {
                         </div>
                         <h5 style={{ textAlign: 'left', }}>Reference</h5>
                         <Grid container spacing={1} style={{ marginTop: 15 }}>
-                            <Grid item lg={1} md={1}>
-                                {/* <h5 className={classes.itemHeading}>1.</h5> */}
-                            </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Name'
@@ -799,7 +795,7 @@ const EditEmp = ({ match }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                 />
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Address'
@@ -814,7 +810,7 @@ const EditEmp = ({ match }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                 />
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Contact No.'
@@ -835,8 +831,7 @@ const EditEmp = ({ match }) => {
                         </div>
                         <h5 style={{ textAlign: 'left', }}>For Office Use Only</h5>
                         <Grid container spacing={1} style={{ marginTop: 15 }}>
-                            <Grid item lg={1} md={1}></Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     variant='outlined'
@@ -850,7 +845,7 @@ const EditEmp = ({ match }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                 />
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Remarks'
@@ -865,7 +860,7 @@ const EditEmp = ({ match }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                 />
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Recommend For Employment'
@@ -879,7 +874,7 @@ const EditEmp = ({ match }) => {
                                     inputProps={{ style: { fontSize: 14 } }}
                                     InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Job Title'
@@ -896,8 +891,7 @@ const EditEmp = ({ match }) => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={1} style={{ marginTop: 15 }}>
-                            <Grid item lg={1} md={1}></Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Recommendations Dept'
@@ -913,7 +907,7 @@ const EditEmp = ({ match }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
                             </Grid>
 
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Recommended Salary'
@@ -928,7 +922,7 @@ const EditEmp = ({ match }) => {
                                     InputLabelProps={{ style: { fontSize: 14 } }}
                                 />
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Recommendations Approved'
@@ -948,10 +942,7 @@ const EditEmp = ({ match }) => {
                         </div>
                         <h5 style={{ textAlign: 'left', }}>Assigned Final Details</h5>
                         <Grid container spacing={1} style={{ marginTop: 15 }}>
-                            <Grid item lg={1} md={1}>
-                                {/* <h5 className={classes.itemHeading}>1.</h5> */}
-                            </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Select Desired Dept'
@@ -972,7 +963,7 @@ const EditEmp = ({ match }) => {
                                         ))}
                                 </CssTextField>
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Designation'
@@ -996,7 +987,7 @@ const EditEmp = ({ match }) => {
                                     )}
                                 </CssTextField>
                             </Grid>
-                            <Grid item lg={2} md={2} sm={12} xs={12}>
+                            <Grid item lg={3} md={3} sm={12} xs={12}>
                                 <CssTextField
                                     id='outlined-basic'
                                     label='Salary'

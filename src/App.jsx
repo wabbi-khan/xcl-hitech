@@ -114,6 +114,7 @@ import { loginUser, getUser } from './services/action/UserAction';
 import PrivateRoute from './components/PrivateRoute';
 import CeiledRoute from './components/CeiledRoute';
 import EditEmp from './dashboard/hr/employees/EditEmp';
+import Units from './dashboard/purchase/units/Units';
 
 dotenv.config();
 
@@ -163,6 +164,7 @@ function App() {
 			</PrivateRoute>
 			{/* ===================================================================== */}
 			<Route exact path='/purchasedashboard' component={PurchaseDashboard} />
+			<Route exact path='/purchase/units' component={Units} />
 			<Route exact path='/purchase/category' component={Category} />
 			<Route exact path='/purchase/department' component={Department} />
 			<Route exact path='/purchase/material' component={Material} />

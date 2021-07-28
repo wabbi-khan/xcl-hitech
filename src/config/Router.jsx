@@ -97,6 +97,7 @@ import DeliveryOrder from '../dashboard/marketing-sales/deliveryOrder/DeliveryOr
 import Responsibilities from '../dashboard/hr/responsibilities/Responsibilities';
 import Authorities from '../dashboard/hr/authorities/Authorities';
 import EditEmp from '../dashboard/hr/employees/EditEmp';
+import Units from '../dashboard/purchase/units/Units';
 
 
 
@@ -108,6 +109,7 @@ const Router = () => {
                 <Router exact path="/sidenav" component={Sidenav}/>
                 {/* ===================================================================== */}
                 <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>       //Purchase Module Routes
+                <Router exact path="/purchase/units" component={Units}/>
                 <Router exact path="/purchase/category" component={Category}/>
                 <Router exact path="/purchase/department" component={Department}/>
                 <Router exact path="/purchase/material" component={Material}/>
