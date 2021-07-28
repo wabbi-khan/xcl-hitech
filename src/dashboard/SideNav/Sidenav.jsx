@@ -937,21 +937,21 @@ function Sidenav(props) {
 					<Collapse in={open2} timeout='auto' unmountOnExit>
 						<Divider />
 						<List component='div' disablePadding>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/store_categories');
 								}}>
 								<ListItemText inset primary='Categories' />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/products');
 								}}>
-								<ListItemText inset primary='Products' />
+								<ListItemText inset primary='Finished Products' />
 							</ListItem>
 							<ListItem
 								button

@@ -101,7 +101,7 @@ const CssTextField = withStyles({
     },
 })(TextField);
 
-const EditUnit = () => {
+const EditUnit = ( props ) => {
     const { show, handler, training } = props;
     const dispatch = useDispatch();
 
@@ -122,12 +122,12 @@ const EditUnit = () => {
     }, [show]);
 
     const onSubmit = async (data) => {
-        try {
-            dispatch(updateTraining(training._id, data));
-            setIsUpdate(true);
-        } catch (error) {
-            setIsError(true);
-        }
+        // try {
+        //     dispatch(updateTraining(training._id, data));
+        //     setIsUpdate(true);
+        // } catch (error) {
+        //     setIsError(true);
+        // }
     };
 
     const handleClose = () => {
@@ -148,54 +148,56 @@ const EditUnit = () => {
                 }}>
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h5 className='text-center mt-4'>Update</h5>
+                        <h5 className='text-center mt-4'>Edit/Update</h5>
                         <Container className={classes.mainContainer}>
                             {/* Form */}
-                            {training ? (
-                                <form onSubmit={handleSubmit(onSubmit)}>
-                                    <Grid container spacing={1}>
-                                        <Grid lg={12} md={12} sm={12}>
-                                            <CssTextField
-                                                id='outlined-basic'
-                                                label='Designation Name'
-                                                variant='outlined'
-                                                type='text'
-                                                size='small'
-                                                autoComplete='off'
-                                                defaultValue={training.name}
-                                                className={classes.inputFieldStyle1}
-                                                inputProps={{ style: { fontSize: 14 } }}
-                                                InputLabelProps={{ style: { fontSize: 14 } }}
-                                                {...register('name')}
-                                            />
-                                            {errors.name?.type === 'required' && (
-                                                <p className='text-danger'>Training Name is required</p>
-                                            )}
-                                            {isUpdate ? (
-                                                <p className='text-success mt-2'>Training Update Successfully</p>
-                                            ) : isError ? (
-                                                <p className='text-danger mt-2'>Training Update Failed </p>
-                                            ) : null}
+                            {/* {
+                                training ? ( */}
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <Grid container spacing={1}>
+                                            <Grid lg={12} md={12} sm={12}>
+                                                <CssTextField
+                                                    id='outlined-basic'
+                                                    label='Unit'
+                                                    variant='outlined'
+                                                    type='text'
+                                                    size='small'
+                                                    autoComplete='off'
+                                                    // defaultValue={training.name}
+                                                    style={{ width: '75%' }}
+                                                    inputProps={{ style: { fontSize: 14 } }}
+                                                    InputLabelProps={{ style: { fontSize: 14 } }}
+                                                    {...register('name')}
+                                                />
+                                                {errors.name?.type === 'required' && (
+                                                    <p className='text-danger'>Unit is required</p>
+                                                )}
+                                                {isUpdate ? (
+                                                    <p className='text-success mt-2'>Unit Update Successfully</p>
+                                                ) : isError ? (
+                                                    <p className='text-danger mt-2'>Unit Update Failed </p>
+                                                ) : null}
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <div>
-                                        <Button
-                                            variant='outlined'
-                                            color='primary'
-                                            className={classes.addButton}
-                                            type='submit'>
-                                            Update
-                                        </Button>
-                                        <Button
-                                            variant='outlined'
-                                            color='primary'
-                                            className={classes.closeButton}
-                                            onClick={handleClose}>
-                                            close
-                                        </Button>
-                                    </div>
-                                </form>
-                            ) : null}
+                                        <div>
+                                            <Button
+                                                variant='outlined'
+                                                color='primary'
+                                                className={classes.addButton}
+                                                type='submit'>
+                                                Update
+                                            </Button>
+                                            <Button
+                                                variant='outlined'
+                                                color='primary'
+                                                className={classes.closeButton}
+                                                onClick={handleClose}>
+                                                close
+                                            </Button>
+                                        </div>
+                                    </form>
+                                {/* ) : null
+                            } */}
                         </Container>
                     </div>
                 </Fade>

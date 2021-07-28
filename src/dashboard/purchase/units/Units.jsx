@@ -7,6 +7,7 @@ import { Formik, Form } from 'formik'
 import * as yup from 'yup';
 import axios from 'axios';
 import Button from '../../../components/utils/Button'
+import EditUnit from './EditUnit';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -180,6 +181,8 @@ const Units = () => {
                                         <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
                                     ))
                             } */}
+				<EditUnit show={open} handler={handleClose} />
+                
                 </Container>
             </div>
             <div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
