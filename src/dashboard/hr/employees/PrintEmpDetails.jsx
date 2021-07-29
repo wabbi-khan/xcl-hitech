@@ -149,19 +149,10 @@ const PrintEmpDetails = (props) => {
 				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-<<<<<<< HEAD
 				<h5 className='mt-5' style={{ textDecoration: 'underline', }}>Employment Form</h5>
 			</div>
 			<div className='container-fluid'>
 				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
-=======
-				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>
-					Employment Form
-				</h5>
-			</div>
-			<div className='container-fluid'>
-				<div className='row ' style={{ marginTop: 70, textAlign: 'left' }}>
->>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 					<div className='col-lg-4 col-md-4 col-sm-6 mt-4'>
 						<div className='row no-gutters mt-2'>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
@@ -170,7 +161,6 @@ const PrintEmpDetails = (props) => {
 							<div className='col-lg-6 col-md-6 col-sm-6'>
 								<p>
 									{fullDate}
-<<<<<<< HEAD
 									<hr style={{ border: '1px solid green', borderColor: 'black', width: '100px', marginTop: 0 }} />
 								</p>
 							</div>
@@ -184,12 +174,6 @@ const PrintEmpDetails = (props) => {
 							onClick={() => window.print()}>
 							Print
 						</Button>
-=======
-									<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-								</p>
-							</div>
-						</div>
->>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 					</div>
 					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
 						<Button
@@ -202,15 +186,8 @@ const PrintEmpDetails = (props) => {
 					</div>
 				</div>
 			</div>
-<<<<<<< HEAD
 			<div className='container-fluid' style={{ marginTop: '20px' }}>
 				<table class="table table-responsive table-bordered mt-3" style={{ textAlign: 'left' }}>
-=======
-			<div className='container-fluid' style={{ marginTop: '50px' }}>
-				<table
-					class='table table-responsive table-bordered border-dark mt-3'
-					style={{ textAlign: 'left' }}>
->>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 					<tbody>
 						{/* {
 							loading ? (
@@ -1075,13 +1052,8 @@ const PrintEmpDetails = (props) => {
 						/>
 					</Grid>
 				</Grid>
-<<<<<<< HEAD
 			</div> */}
 			<Grid container spacing={1} style={{ marginTop: 150, }} >
-=======
-			</div>
-			<Grid container spacing={1} style={{ marginTop: 150 }}>
->>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 				<Grid item lg={2} md={2} sm={2} xs={2}>
 					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
 					<hr style={{ border: '1px solid green', borderColor: 'black', }} />

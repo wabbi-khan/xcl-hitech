@@ -162,52 +162,6 @@ function App() {
 			<PrivateRoute path='/dashboard' exact>
 				<Dashboard />
 			</PrivateRoute>
-<<<<<<< HEAD
-			{/* ===================================================================== */}
-			<Route exact path='/purchasedashboard' component={PurchaseDashboard} />
-			<Route exact path='/purchase/units' component={Units} />
-			<Route exact path='/purchase/category' component={Category} />
-			<Route exact path='/purchase/department' component={Department} />
-			<Route exact path='/purchase/material' component={Material} />
-			<Route exact path='/purchase/vendors' component={Vendors} />
-			<Route
-				exact
-				path='/purchase/vendors/vendor_details/:id'
-				component={ViewVendorDetails}
-			/>
-			<Route
-				exact
-				path='/purchase/supplier_evaluation_form'
-				component={SupplierEvalForm}
-			/>
-			<Route
-				exact
-				path='/purchase/approved_supplier_list'
-				component={AppSupplier}
-			/>
-			<Route
-				exact
-				path='/purchase/approved_supplier_list/view_approved_supplier_details/:id'
-				component={ViewAppSuppDetails}
-			/>
-			<Route exact path='/purchase/purchase_order' component={PurchaseOrder} />
-			<Route
-				exact
-				path='/purchase/purchase_order/print_order'
-				component={PrintPurchaseOrder}
-			/>
-			<Route
-				exact
-				path='/purchase/purchase_order_list'
-				component={PurchaseOrderList}
-			/>
-			<Route
-				exact
-				path='/purchase/purchase_order_list/order_details/:id'
-				component={FullOrderDetails}
-			/>
-			<Route
-=======
 			<PrivateRoute exact path='/purchasedashboard'>
 				<PurchaseDashboard />
 			</PrivateRoute>
@@ -233,7 +187,6 @@ function App() {
 				<AppSupplier />
 			</PrivateRoute>
 			<PrivateRoute
->>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 				exact
 				path='/purchase/approved_supplier_list/view_approved_supplier_details/:id'>
 				<ViewAppSuppDetails />

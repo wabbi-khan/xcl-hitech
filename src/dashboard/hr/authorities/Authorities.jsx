@@ -207,24 +207,10 @@ const Authorities = (props) => {
 								<div>
 									<Button
 										variant='outlined'
-<<<<<<< HEAD
-										type='text'
-										autocomplete='off'
-										size='small'
-										style={{ width: '50%' }}
-										inputProps={{ style: { fontSize: 14 } }}
-										value={props.values.name}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										onChange={props.handleChange('name')}
-										onBlur={props.handleBlur('name')}
-										helperText={props.touched.name && props.errors.name}
-										error={props.touched.name && props.errors.name}
-=======
 										classNames={classes.addMoreRes}
 										text='Add'
 										loading={createLoading}
 										loaderColor='#333'
->>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 									/>
 									{createError && <p>{createError}</p>}
 								</div>
