@@ -20,7 +20,7 @@ import {
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import MaterialError from './MaterialError';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+// import axios from 'axios';
 import Loading from './Loading';
 import EditMaterial from './EditMaterial';
 
@@ -132,9 +132,9 @@ const Material = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(getMaterialAction());
-		await dispatch(getMaterialCategoryAction());
+	useEffect(() => {
+		dispatch(getMaterialAction());
+		dispatch(getMaterialCategoryAction());
 	}, [dispatch]);
 
 	const onSubmitDate = async (props) => {
@@ -206,11 +206,9 @@ const Material = () => {
 								))
 							)}
 						</CssTextField>
-						{
-							errors.category?.type === 'required' && (
-								<p className='mt-3 text-danger'>Category must be required</p>
-							)
-						}
+						{errors.category?.type === 'required' && (
+							<p className='mt-3 text-danger'>Category must be required</p>
+						)}
 						{/* Material Name */}
 						<CssTextField
 							id='outlined-basic'

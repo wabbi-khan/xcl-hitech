@@ -3,11 +3,8 @@ import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import avatar from '../assests/user.svg';
 import {
@@ -20,6 +17,14 @@ import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { TableCell, TableRow } from '@material-ui/core';
+import { Formik, Form, useFormik, FastField } from 'formik';
+import * as yup from 'yup';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import Button from '../../../components/utils/Button';
+import NextToKin from './NextToKin';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -177,14 +182,182 @@ const countries = ['Pakistan'];
 const genders = ['Male', 'Female'];
 const martialStatus = ['Single', 'Married'];
 
+const initialValues2 = {
+	status: '',
+	age: '',
+	dateOfBirth: '',
+	placeOfBirth: '',
+	email: '',
+	cnic: '',
+	DatePlaceOfIssue: '',
+	nationality: '',
+	bankAccount: '',
+	bankNameAndBranch: '',
+	isExecutive: '',
+	empType: '',
+	finalDepartment: '',
+	finalDesignation: '',
+	finalSal: '',
+};
+
+const initialValues1 = {
+	name: '',
+	fatherName_husbandName: '',
+	jobAppliedFor: '',
+	presentAddress: '',
+	permanentAddress: '',
+	telephoneNo: '',
+	mobileNo: '',
+	gender: '',
+};
+
+const validationSchema1 = yup.object({
+	name: yup.string().required(),
+	fatherName_husbandName: yup.string().required(),
+	jobAppliedFor: yup.string().required(),
+	presentAddress: yup.string().required(),
+	permanentAddress: yup.string().required(),
+	telephoneNo: yup.string().required(),
+	mobileNo: yup.string().required(),
+	gender: yup.string().required(),
+});
+
+const validationSchema2 = yup.object({
+	age: yup.string().required(),
+	dateOfBirth: yup.string().required(),
+	placeOfBirth: yup.string().required(),
+	nationality: yup.string().required(),
+	bankAccount: yup.string().required(),
+	bankNameAndBranch: yup.string().required(),
+	isExecutive: yup.string().required(),
+	empType: yup.string().required(),
+	finalDepartment: yup.string(),
+	finalDesignation: yup.string(),
+	finalSal: yup.string(),
+	DatePlaceOfIssue: yup.string(),
+	email: yup.string().required(),
+	cnic: yup.string().required(),
+	isHired: yup.string(),
+	status: yup.string().required(),
+});
+
+const initialValuesForNextToKin = {
+	name: '',
+	relation: '',
+	contact: '',
+	address: '',
+};
+
+const validationForNextToKin = yup.object({
+	name: yup.string().required(),
+	relation: yup.string().required(),
+	contact: yup.string().required(),
+	address: yup.string().required(),
+});
+
+const initialValuesForReference = {
+	name: '',
+	contact: '',
+	address: '',
+};
+
+const validationForReference = yup.object({
+	name: yup.string().required(),
+	contact: yup.string().required(),
+	address: yup.string().required(),
+});
+
+const initialValuesForOfficeUse = {
+	dateOfInterviewed: '',
+	remarks: '',
+	recommended: '',
+	jobTitle: '',
+	recommendedSalary: '',
+	approved: '',
+	dateOfApproved: '',
+	department: '',
+};
+
+const validationForOfficeUse = yup.object({
+	dateOfInterviewed: yup.string().required(),
+	remarks: yup.string().required(),
+	recommended: yup.string().required(),
+	jobTitle: yup.string().required(),
+	recommendedSalary: yup.string().required(),
+	approved: yup.string().required(),
+	dateOfApproved: yup.string(),
+	department: yup.string().required(),
+});
+
+const validationSchemaForAcademicQualification = yup.object({
+	degree: yup.string().required(),
+	university: yup.string().required(),
+	yearOfPassing: yup.string().required(),
+	division: yup.string().required(),
+});
+
+const validationSchemaForProfessionalQualification = yup.object({
+	degree: yup.string().required(),
+	university: yup.string().required(),
+	yearOfPassing: yup.string().required(),
+	division: yup.string().required(),
+});
+
+const validationSchemaForExperience = yup.object({
+	companyName: yup.string().required(),
+	companyAddress: yup.string().required(),
+	from: yup.string().required(),
+	to: yup.string().required(),
+	lastSalary: yup.string().required(),
+	reasonOfLeft: yup.string().required(),
+	experienceLevel: yup.string().required(),
+});
+
 const Employees = ({ history }) => {
 	const classes = useStyles();
 	const [image, setImage] = useState({ path: avatar });
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	let nextToKinForm = {};
+	let referenceForm = {};
+	let officeUseForm = {};
+	let initialValues1Form = {};
+	let initialValues2Form = {};
+	const [academicQualifications, setAcademicQualification] = React.useState([]);
+	const [academicQualificationsEdit, setAcademicQualificationsEdit] =
+		React.useState(false);
+	const [professionalQualificationEdit, setProfessionalQualificationEdit] =
+		React.useState(false);
+	const [experienceEdit, setExperienceEdit] = React.useState(false);
+	const [professionalQualification, setProfessionalQualification] =
+		React.useState([]);
+	const [experience, setExperience] = React.useState([]);
+	const [
+		initialValuesForAcademicQualification,
+		setInitialValuesForAcademicQualification,
+	] = React.useState({
+		degree: '',
+		university: '',
+		yearOfPassing: '',
+		division: '',
+	});
+	const [
+		initialValuesForProfessionalQualification,
+		setInitialValuesForProfessionalQualification,
+	] = React.useState({
+		degree: '',
+		university: '',
+		yearOfPassing: '',
+		division: '',
+	});
+	const [initialValuesForExperience, setInitialValuesForExperience] =
+		React.useState({
+			companyName: '',
+			companyAddress: '',
+			from: '',
+			to: '',
+			lastSalary: '',
+			reasonOfLeft: '',
+			experienceLevel: '',
+		});
 
 	const picUploadFunc = (event) => {
 		if (event.target.files && event.target.files[0]) {
@@ -197,10 +370,10 @@ const Employees = ({ history }) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(getEmployees());
-		await dispatch(getExperiences());
-		await dispatch(fetchDepartmentsAction());
+	useEffect(() => {
+		dispatch(getEmployees());
+		dispatch(getExperiences());
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { experiences: experiencesState } = useSelector(
@@ -208,149 +381,133 @@ const Employees = ({ history }) => {
 	);
 	const { departments } = useSelector((state) => state.departments);
 
-	const [academicQualification, setAcademicQualification] = useState([
-		{
-			degree: '',
-			university: '',
-			yearOfPassing: '',
-			division: '',
-		},
-	]);
-	const [professionalQualification, setProfessionalQualification] = useState([
-		{
-			degree: '',
-			university: '',
-			yearOfPassing: '',
-			division: '',
-		},
-	]);
-	const [experience, setExperience] = useState([
-		{
-			companyName: '',
-			companyAddress: '',
-			from: '',
-			to: '',
-			lastSalary: '',
-			reasonOfLeft: '',
-			experienceLevel: '',
-		},
-	]);
+	const { employees } = useSelector((state) => state.employees);
 
-	const { employees, loading, error } = useSelector((state) => state.employees);
-
-	const onSubmitData = (props) => {
-		console.log(props);
-		dispatch(
-			createEmployee({
-				...props,
-				picture: image.image,
-				nextToKin: {
-					name: props.kinName,
-					address: props.kinAddress,
-					contact: props.kinContact,
-					relation: props.kinRelation,
-				},
-				academicQualification,
-				professionalQualification,
-				experience,
-				reference: {
-					name: props.refName,
-					address: props.refAddress,
-					contactNo: props.refContact,
-				},
-				officeUse: {
-					dateOfInterviewed: props.dateOfInterviewed,
-					remarks: props.remarks,
-					recommended: props.recommended,
-					jobTitle: props.jobTitle,
-					recommendedSalary: props.recommendedSalary,
-					approved: props.approved,
-					dateOfApproved: props.dateOfApproved,
-					department: props.department,
-				},
-			}),
-		);
-	};
-
-	const addMoreAcademicQualification = () => {
-		setAcademicQualification([
-			...academicQualification,
-			{
+	const addMoreAcademicQualification = (values, actions) => {
+		setAcademicQualification((prev) => {
+			if (academicQualificationsEdit) {
+				return prev.map((el) => (el.id === values.id ? values : el));
+			} else {
+				return [...prev, { ...values, id: prev.length + 1 }];
+			}
+		});
+		setAcademicQualificationsEdit(false);
+		actions.resetForm({
+			values: {
 				degree: '',
 				university: '',
 				yearOfPassing: '',
 				division: '',
 			},
-		]);
+		});
 	};
 
-	const onChangeAcademicQualification = (e, index) => {
-		const temp2 = [...academicQualification];
-		temp2[index][e.target.name] = e.target.value;
-		setAcademicQualification(temp2);
+	const editAcademicQualification = (values) => {
+		setAcademicQualificationsEdit(true);
+		setInitialValuesForAcademicQualification(values);
 	};
 
-	const deleteAcademicQualification = (i) => {
-		const temp = [...academicQualification];
-		temp.splice(i, 1);
-		setAcademicQualification(temp);
+	const deleteAcademicQualification = (id) => {
+		setAcademicQualification((prev) => prev.filter((el) => el.id !== id));
 	};
 
-	const addMoreProfessionalQualification = () => {
-		setProfessionalQualification([
-			...professionalQualification,
-			{
+	const addMoreProfessionalQualification = (values, actions) => {
+		setProfessionalQualification((prev) => {
+			if (professionalQualificationEdit) {
+				return prev.map((el) => (el.id === values.id ? values : el));
+			} else {
+				return [...prev, { ...values, id: prev.length + 1 }];
+			}
+		});
+		setProfessionalQualificationEdit(false);
+		actions.resetForm({
+			values: {
 				degree: '',
 				university: '',
 				yearOfPassing: '',
 				division: '',
 			},
-		]);
+		});
 	};
 
-	const onChangeProfessionalQualification = (e, index) => {
-		const temp2 = [...professionalQualification];
-		temp2[index][e.target.name] = e.target.value;
-		setProfessionalQualification(temp2);
+	const editProfessionalQualification = (values) => {
+		setProfessionalQualificationEdit(true);
+
+		setInitialValuesForProfessionalQualification(values);
 	};
 
-	const deleteProfessionalQualification = (i) => {
-		const temp = [...professionalQualification];
-		temp.splice(i, 1);
-		setProfessionalQualification(temp);
+	const deleteProfessionalQualification = (id) => {
+		setProfessionalQualification((prev) => prev.filter((el) => el.id !== id));
 	};
 
-	const addMoreExperience = () => {
-		setExperience([
-			...experience,
-			{
+	const addMoreExperience = (values, actions) => {
+		setExperience((prev) => {
+			if (experienceEdit) {
+				return prev.map((el) => (el.id === values.id ? values : el));
+			} else {
+				return [...prev, { ...values, id: prev.length + 1 }];
+			}
+		});
+		setExperienceEdit(false);
+		actions.resetForm({
+			values: {
 				companyName: '',
 				companyAddress: '',
 				from: '',
 				to: '',
 				lastSalary: '',
-				reasonOnLeft: '',
+				reasonOfLeft: '',
 				experienceLevel: '',
 			},
-		]);
+		});
 	};
 
-	const onChangeExperience = (e, index) => {
-		const temp2 = [...experience];
-		temp2[index][e.target.name] = e.target.value;
-		setExperience(temp2);
+	const editExperience = (values) => {
+		setExperienceEdit(true);
+		setInitialValuesForExperience(values);
 	};
 
-	const deleteExperience = (i) => {
-		const temp = [...experience];
-		temp.splice(i, 1);
-		setExperience(temp);
+	const deleteExperience = (id) => {
+		setExperience((prev) => prev.filter((el) => el.id !== id));
+	};
+
+	const onSubmit = async (values) => {
+		const nextToKinErrors = await nextToKinForm.validateForm();
+		nextToKinForm.setTouched(nextToKinErrors);
+		const referenceErrors = await referenceForm.validateForm();
+		referenceForm.setTouched(referenceErrors);
+		const officeUseErrors = await officeUseForm.validateForm();
+		officeUseForm.setTouched(officeUseErrors);
+		const initialValues1Error = await initialValues1Form.validateForm();
+		initialValues1Form.setTouched(initialValues1Error);
+		const initialValues2Error = await initialValues2Form.validateForm();
+		initialValues2Form.setTouched(initialValues2Error);
+
+		if (
+			nextToKinErrors &&
+			referenceErrors &&
+			officeUseErrors &&
+			initialValues1Error &&
+			initialValues2Error
+		) {
+			console.log('error');
+		}
+
+		// dispatch(
+		// 	createEmployee({
+		// 		...values,
+		// 		experience,
+		// 		professionalQualification,
+		// 		academicQualification,
+		// 	}),
+		// );
 	};
 
 	return (
 		<Sidenav title={'Employees'}>
 			<div>
 				<Container className={classes.mainContainer}>
+<<<<<<< HEAD
 					<form onSubmit={handleSubmit(onSubmitData)}>
 						{/* employee ? ( */}
 						<Grid container spacing={1}>
@@ -641,166 +798,590 @@ const Employees = ({ history }) => {
 									align='left'
 								/>
 							</Grid>
-						</Grid>
-						<div style={{ marginTop: 30, marginBottom: 30 }}>
-							<hr />
-						</div>
-
-						<Container className={classes.mainContainer}>
-							<h5 className='text-left'>Next To Kin</h5>
-							<Grid container spacing={1} style={{ marginTop: 15 }}>
-								<Grid item lg={1} md={1}>
-									<h5 className={classes.itemHeading}>1.</h5>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Name'
-										variant='outlined'
-										type='text'
-										size='small'
-										autocomplete='off'
-										name='name'
-										className={classes.inputFieldStyle}
-										inputProps={{ style: { fontSize: 14 } }}
-										{...register('kinName', { required: true })}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Relationship'
-										variant='outlined'
-										type='text'
-										name='relation'
-										size='small'
-										autocomplete='off'
-										className={classes.inputFieldStyle1}
-										inputProps={{ style: { fontSize: 14 } }}
-										{...register('kinRelation', { required: true })}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Address'
-										variant='outlined'
-										type='text'
-										name='address'
-										size='small'
-										autocomplete='off'
-										className={classes.inputFieldStyle2}
-										inputProps={{ style: { fontSize: 14 } }}
-										{...register('kinAddress', { required: true })}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='Contact No.'
-										variant='outlined'
-										type='number'
-										name='contact'
-										size='small'
-										autocomplete='off'
-										className={classes.inputFieldStyle3}
-										inputProps={{ style: { fontSize: 14 } }}
-										{...register('kinContact', { required: true })}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-									/>
-								</Grid>
-							</Grid>
-						</Container>
-						<div style={{ marginTop: 30, marginBottom: 30 }}>
-							<hr />
-						</div>
-						<Container className={classes.mainContainer}>
-							<h5 className='text-left'>Academic Qualification</h5>
-							{academicQualification.map((value, i) => {
-								const no = i + 1;
-								return (
-									<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
-										<Grid item lg={1} md={1}>
-											<h5 className={classes.itemHeading}>{no}</h5>
+=======
+					<Formik
+						initialValues={initialValues1}
+						validationSchema={validationSchema1}
+						onSubmit={onSubmit}>
+						{(props) => {
+							initialValues1Form = props;
+							return (
+								<Form>
+									<Grid container spacing={1}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='name'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Name'
+														variant='outlined'
+														type='text'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='fatherName_husbandName'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Father Name OR Husband Name'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='jobAppliedFor'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Job Applied For'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														variant='outlined'
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='presentAddress'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Present Address'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='permanentAddress'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Permanent Address'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='telephoneNo'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Telephone No'
+														variant='outlined'
+														type='number'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='mobileNo'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Mobile No'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='number'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='gender'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Gender'
+														variant='outlined'
+														type='text'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														size='small'
+														select
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}>
+														{genders.map((gender) => (
+															<MenuItem value={gender}>{gender}</MenuItem>
+														))}
+													</CssTextField>
+												)}
+											</FastField>
+										</Grid>
+									</Grid>
+								</Form>
+							);
+						}}
+					</Formik>
+					<Formik
+						initialValues={initialValues2}
+						validationSchema={validationSchema2}>
+						{(props) => {
+							initialValues2Form = props;
+							return (
+								<Form>
+									<Grid container spacing={1}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='status'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Status'
+														variant='outlined'
+														type='text'
+														size='small'
+														select
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}>
+														{martialStatus.map((status) => (
+															<MenuItem value={status}>{status}</MenuItem>
+														))}
+													</CssTextField>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='age'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Age'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='number'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='dateOfBirth'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														variant='outlined'
+														type='date'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='placeOfBirth'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														label='Place Of Birth'
+														variant='outlined'
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='email'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Email'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='cnic'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='CNIC'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='DatePlaceOfIssue'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														variant='outlined'
+														type='date'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='nationality'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Nationality'
+														variant='outlined'
+														type='text'
+														size='small'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														select
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}>
+														{countries.map((country) => (
+															<MenuItem value={country}>{country}</MenuItem>
+														))}
+													</CssTextField>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='bankAccount'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Bank Account'
+														variant='outlined'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														type='text'
+														size='small'
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='bankNameAndBranch'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Bank Name And Branch'
+														variant='outlined'
+														type='text'
+														size='small'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}
+													/>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='isExecutive'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Executive OR Non-Executive'
+														variant='outlined'
+														type='text'
+														size='small'
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														select
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}>
+														<MenuItem value='Executive'>Executive</MenuItem>
+														<MenuItem value='Non Executive'>Non Executive</MenuItem>
+													</CssTextField>
+												)}
+											</FastField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<FastField name='empType'>
+												{({ meta, field }) => (
+													<CssTextField
+														id='outlined-basic'
+														label='Employee Type'
+														variant='outlined'
+														type='text'
+														size='small'
+														select
+														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														autocomplete='off'
+														inputProps={{ style: { fontSize: 14 } }}
+														InputLabelProps={{ style: { fontSize: 14 } }}
+														{...field}
+														helperText={meta.touched && meta.error}
+														error={meta.touched && meta.error}>
+														<MenuItem value='Executive'>Executive</MenuItem>
+														<MenuItem value='Electrician'>Electrician</MenuItem>
+														<MenuItem value='Skilled Employee'>Skilled Employee</MenuItem>
+														<MenuItem value='Final Labour'>Final Labour</MenuItem>
+													</CssTextField>
+												)}
+											</FastField>
+										</Grid>
+									</Grid>
+								</Form>
+							);
+						}}
+					</Formik>
+					<Grid container spacing={1} className='mt-5'>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<input
+								type='file'
+								className={classes.uploadImgBtn}
+								onChange={(event) => picUploadFunc(event)}></input>
+							<img
+								src={image.path}
+								alt='Employee Picture'
+								width='150'
+								height='150'
+								className='mt-4 ml-3'
+								align='left'
+							/>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
+						</Grid>
+					</Grid>
+
+					<div style={{ marginTop: 30, marginBottom: 30 }}>
+						<hr />
+					</div>
+
+					<Formik
+						initialValues={initialValuesForNextToKin}
+						validationSchema={validationForNextToKin}>
+						{(props) => {
+							nextToKinForm = props;
+							return (
+								<Form>
+									<NextToKin />
+								</Form>
+							);
+						}}
+					</Formik>
+
+					<div style={{ marginTop: 30, marginBottom: 30 }}>
+						<hr />
+					</div>
+					<Container className={classes.mainContainer}>
+						<h5 className='text-left'>Academic Qualification</h5>
+						<Formik
+							initialValues={initialValuesForAcademicQualification}
+							validationSchema={validationSchemaForAcademicQualification}
+							enableReinitialize
+							onSubmit={addMoreAcademicQualification}>
+							{(props) => (
+								<Form>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Degree/Certification'
 												variant='outlined'
 												type='text'
 												size='small'
+												style={{ width: '100%' }}
 												name='degree'
-												value={value.degree}
-												onChange={(e) => {
-													onChangeAcademicQualification(e, i);
-												}}
-												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('degree')}
+												onBlur={props.handleBlur('degree')}
+												value={props.values.degree}
+												helperText={props.touched.degree && props.errors.degree}
+												error={props.touched.degree && props.errors.degree}
+											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Board/University'
 												variant='outlined'
 												type='text'
+												style={{ width: '100%' }}
 												size='small'
 												name='university'
-												value={value.university}
-												onChange={(e) => {
-													onChangeAcademicQualification(e, i);
-												}}
-												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('university')}
+												onBlur={props.handleBlur('university')}
+												value={props.values.university}
+												helperText={props.touched.university && props.errors.university}
+												error={props.touched.university && props.errors.university}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Year of Passing'
 												variant='outlined'
 												type='text'
 												name='yearOfPassing'
-												value={value.yearOfPassing}
+												style={{ width: '100%' }}
 												size='small'
-												onChange={(e) => {
-													onChangeAcademicQualification(e, i);
-												}}
-												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('yearOfPassing')}
+												onBlur={props.handleBlur('yearOfPassing')}
+												value={props.values.yearOfPassing}
+												helperText={
+													props.touched.yearOfPassing && props.errors.yearOfPassing
+												}
+												error={props.touched.yearOfPassing && props.errors.yearOfPassing}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Division'
 												variant='outlined'
+												style={{ width: '100%' }}
 												type='text'
 												size='small'
 												name='division'
-												value={value.division}
-												onChange={(e) => {
-													onChangeAcademicQualification(e, i);
-												}}
-												className={classes.inputFieldStyle3}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('division')}
+												onBlur={props.handleBlur('division')}
+												value={props.values.division}
+												helperText={props.touched.division && props.errors.division}
+												error={props.touched.division && props.errors.division}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid
+											item
+											lg={12}
+											md={12}
+											sm={10}
+											xs={11}
+											style={{ marginTop: '1rem', marginBottom: '3rem' }}>
 											<Button
-												onClick={() => deleteAcademicQualification(i)}
-												className={classes.deleteRowBtn}>
-												<DeleteOutlineIcon className={classes.delete} />
-											</Button>
+												variant='outlined'
+												color='primary'
+												classNames={classes.addMoreButton}
+												text={academicQualificationsEdit ? 'Edit' : 'Add More'}
+											/>
 										</Grid>
 									</Grid>
+<<<<<<< HEAD
 								);
 							})}
 
@@ -824,91 +1405,160 @@ const Employees = ({ history }) => {
                                 AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
                             } */}
 						</Container>
+=======
+								</Form>
+							)}
+						</Formik>
+						{academicQualifications.length >= 1 && (
+							<div className={classes.dataTable}>
+								<TableContainer className={classes.tableContainer}>
+									<Table
+										stickyHeader
+										className='table table-dark'
+										style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+										<TableHead>
+											<TableRow hover role='checkbox'>
+												<StyledTableCell align='center'>Sr.No</StyledTableCell>
+												<StyledTableCell align='center'>Degree</StyledTableCell>
+												<StyledTableCell align='center'>University</StyledTableCell>
+												<StyledTableCell align='center'>Year Of Passing</StyledTableCell>
+												<StyledTableCell align='center'>Division</StyledTableCell>
+												<StyledTableCell align='center'>Action</StyledTableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{academicQualifications.length &&
+												academicQualifications.map((el, i) => (
+													<StyledTableRow key={i}>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{i + 1}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.degree}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.university}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.yearOfPassing}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.division}
+														</StyledTableCell>
+														<StyledTableCell className='text-light bg-light' align='center'>
+															<div style={{ display: 'flex', justifyContent: 'center' }}>
+																<Button
+																	variant='contained'
+																	text='Edit'
+																	size='small'
+																	classNames='bg-dark text-light'
+																	onClick={() => editAcademicQualification(el)}
+																/>
+																<Button
+																	variant='contained'
+																	text='Delete'
+																	size='small'
+																	color='secondary'
+																	onClick={() => deleteAcademicQualification(el.id)}
+																	style={{ marginLeft: '1rem' }}
+																/>
+															</div>
+														</StyledTableCell>
+													</StyledTableRow>
+												))}
+										</TableBody>
+									</Table>
+								</TableContainer>
+							</div>
+						)}
+					</Container>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 
-						<Container className={classes.mainContainer}>
-							<h5 className='text-left'>Professional Qualification</h5>
-							{professionalQualification.map((value, i) => {
-								const no = i + 1;
-								return (
-									<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
-										<Grid item lg={1} md={1}>
-											<h5 className={classes.itemHeading}>{no}</h5>
-										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+					<Container className={classes.mainContainer}>
+						<h5 className='text-left'>Professional Qualification</h5>
+						<Formik
+							initialValues={initialValuesForProfessionalQualification}
+							validationSchema={validationSchemaForProfessionalQualification}
+							onSubmit={addMoreProfessionalQualification}>
+							{(props) => (
+								<Form>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Degree/Certification'
 												variant='outlined'
 												type='text'
+												style={{ width: '100%' }}
 												size='small'
-												value={value.degree}
 												name='degree'
-												onChange={(e) => {
-													onChangeProfessionalQualification(e, i);
-												}}
-												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('degree')}
+												onBlur={props.handleBlur('degree')}
+												value={props.values.degree}
+												helperText={props.touched.degree && props.errors.degree}
+												error={props.touched.degree && props.errors.degree}
+											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Board/University'
 												variant='outlined'
 												type='text'
 												size='small'
-												value={value.university}
+												style={{ width: '100%' }}
 												name='university'
-												onChange={(e) => {
-													onChangeProfessionalQualification(e, i);
-												}}
-												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('university')}
+												onBlur={props.handleBlur('university')}
+												value={props.values.university}
+												helperText={props.touched.university && props.errors.university}
+												error={props.touched.university && props.errors.university}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Year of Passing'
 												variant='outlined'
+												style={{ width: '100%' }}
 												type='text'
 												size='small'
-												value={value.yearOfPassing}
 												name='yearOfPassing'
-												onChange={(e) => {
-													onChangeProfessionalQualification(e, i);
-												}}
-												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('yearOfPassing')}
+												onBlur={props.handleBlur('yearOfPassing')}
+												value={props.values.yearOfPassing}
+												helperText={
+													props.touched.yearOfPassing && props.errors.yearOfPassing
+												}
+												error={props.touched.yearOfPassing && props.errors.yearOfPassing}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Division'
 												variant='outlined'
 												type='text'
 												size='small'
-												value={value.division}
+												style={{ width: '100%' }}
 												name='division'
-												onChange={(e) => {
-													onChangeProfessionalQualification(e, i);
-												}}
-												className={classes.inputFieldStyle3}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('division')}
+												onBlur={props.handleBlur('division')}
+												value={props.values.division}
+												helperText={props.touched.division && props.errors.division}
+												error={props.touched.division && props.errors.division}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<Button
-												onClick={() => deleteProfessionalQualification(i)}
-												className={classes.deleteRowBtn}>
-												<DeleteOutlineIcon className={classes.delete} />
-											</Button>
-										</Grid>
 									</Grid>
+<<<<<<< HEAD
 								);
 							})}
 							<Grid container spacing={1}>
@@ -931,144 +1581,232 @@ const Employees = ({ history }) => {
                                 AddOrderSuccess ? <p className="mt-3 text-success"> Purchase Order Added Successfully</p> : null
                             } */}
 						</Container>
+=======
+									<Grid
+										item
+										lg={12}
+										md={12}
+										sm={10}
+										xs={11}
+										style={{ marginTop: '1rem', marginBottom: '3rem' }}>
+										<Button
+											variant='outlined'
+											color='primary'
+											classNames={classes.addMoreButton}
+											text={professionalQualificationEdit ? 'Edit' : 'Add Mote'}
+										/>
+									</Grid>
+								</Form>
+							)}
+						</Formik>
+						{professionalQualification.length >= 1 && (
+							<div className={classes.dataTable}>
+								<TableContainer className={classes.tableContainer}>
+									<Table
+										stickyHeader
+										className='table table-dark'
+										style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+										<TableHead>
+											<TableRow hover role='checkbox'>
+												<StyledTableCell align='center'>Sr.No</StyledTableCell>
+												<StyledTableCell align='center'>Degree</StyledTableCell>
+												<StyledTableCell align='center'>University</StyledTableCell>
+												<StyledTableCell align='center'>Year Of Passing</StyledTableCell>
+												<StyledTableCell align='center'>Division</StyledTableCell>
+												<StyledTableCell align='center'>Action</StyledTableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{professionalQualification.length &&
+												professionalQualification.map((el, i) => (
+													<StyledTableRow key={i}>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{i + 1}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.degree}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.university}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.yearOfPassing}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.division}
+														</StyledTableCell>
+														<StyledTableCell className='text-light bg-light' align='center'>
+															<div style={{ display: 'flex', justifyContent: 'center' }}>
+																<Button
+																	variant='contained'
+																	text='Edit'
+																	size='small'
+																	classNames='bg-dark text-light'
+																	onClick={() => editProfessionalQualification(el)}
+																/>
+																<Button
+																	variant='contained'
+																	text='Delete'
+																	size='small'
+																	color='secondary'
+																	onClick={() => deleteProfessionalQualification(el.id)}
+																	style={{ marginLeft: '1rem' }}
+																/>
+															</div>
+														</StyledTableCell>
+													</StyledTableRow>
+												))}
+										</TableBody>
+									</Table>
+								</TableContainer>
+							</div>
+						)}
+					</Container>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 
-						<div style={{ marginTop: 30, marginBottom: 30 }}>
-							<hr />
-						</div>
-						<Container className={classes.mainContainer}>
-							<h5 className='text-left'>
-								Experience (Recent First) in Relevant Field
-							</h5>
-							{experience.map((value, i) => {
-								const no = i + 1;
-								return (
-									<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
-										<Grid item lg={1} md={1}>
-											<h5 className={classes.itemHeading}>{no}</h5>
-										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+					<div style={{ marginTop: 30, marginBottom: 30 }}>
+						<hr />
+					</div>
+					<Container className={classes.mainContainer}>
+						<h5 className='text-left'>Experience (Recent First) in Relevant Field</h5>
+						<Formik
+							initialValues={initialValuesForExperience}
+							validationSchema={validationSchemaForExperience}
+							enableReinitialize
+							onSubmit={addMoreExperience}>
+							{(props) => (
+								<Form>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Company Name'
 												variant='outlined'
 												type='text'
 												size='small'
-												value={value.companyName}
+												style={{ width: '100%' }}
 												name='companyName'
-												onChange={(e) => {
-													onChangeExperience(e, i);
-												}}
-												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('companyName')}
+												onBlur={props.handleBlur('companyName')}
+												value={props.values.companyName}
+												helperText={props.touched.companyName && props.errors.companyName}
+												error={props.touched.companyName && props.errors.companyName}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Company Address'
 												variant='outlined'
 												type='text'
 												size='small'
-												value={value.companyAddress}
+												style={{ width: '100%' }}
 												name='companyAddress'
-												onChange={(e) => {
-													onChangeExperience(e, i);
-												}}
-												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('companyAddress')}
+												onBlur={props.handleBlur('companyAddress')}
+												value={props.values.companyAddress}
+												helperText={
+													props.touched.companyAddress && props.errors.companyAddress
+												}
+												error={props.touched.companyAddress && props.errors.companyAddress}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Last Salary'
 												variant='outlined'
 												type='number'
 												size='small'
-												value={value.from}
+												style={{ width: '100%' }}
 												name='from'
-												onChange={(e) => {
-													onChangeExperience(e, i);
-												}}
-												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('lastSalary')}
+												onBlur={props.handleBlur('lastSalary')}
+												value={props.values.lastSalary}
+												helperText={props.touched.lastSalary && props.errors.lastSalary}
+												error={props.touched.lastSalary && props.errors.lastSalary}
 											/>
 										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
 												label='Reason of Left'
 												variant='outlined'
 												type='text'
 												size='small'
-												value={value.to}
+												style={{ width: '100%' }}
 												name='to'
-												onChange={(e) => {
-													onChangeExperience(e, i);
-												}}
-												className={classes.inputFieldStyle3}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('reasonOfLeft')}
+												onBlur={props.handleBlur('reasonOfLeft')}
+												value={props.values.reasonOfLeft}
+												helperText={props.touched.reasonOfLeft && props.errors.reasonOfLeft}
+												error={props.touched.reasonOfLeft && props.errors.reasonOfLeft}
 											/>
 										</Grid>
 										<Grid container spacing={1} className='mt-1'>
-											<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 											<Grid item lg={3} md={3} sm={12} xs={12}>
 												<CssTextField
 													id='outlined-basic'
-													// label="From"
 													variant='outlined'
 													type='date'
-													style={{ width: '100%' }}
 													size='small'
-													value={value.lastSalary}
+													style={{ width: '100%' }}
 													name='lastSalary'
-													onChange={(e) => {
-														onChangeExperience(e, i);
-													}}
-													className={classes.inputFieldStyle5}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('from')}
+													onBlur={props.handleBlur('from')}
+													value={props.values.from}
+													helperText={props.touched.from && props.errors.from}
+													error={props.touched.from && props.errors.from}
 												/>
 											</Grid>
-											<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 											<Grid item lg={3} md={3} sm={12} xs={12}>
 												<CssTextField
 													id='outlined-basic'
-													// label="To Date"
 													variant='outlined'
 													type='date'
 													size='small'
-													value={value.reasonOfLeft}
 													name='reasonOfLeft'
-													onChange={(e) => {
-														onChangeExperience(e, i);
-													}}
 													style={{ width: '100%' }}
-													className={classes.inputFieldStyle4}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('to')}
+													onBlur={props.handleBlur('to')}
+													value={props.values.to}
+													helperText={props.touched.to && props.errors.to}
+													error={props.touched.to && props.errors.to}
 												/>
 											</Grid>
 											<Grid item lg={3} md={3} sm={12} xs={12}>
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
+													label='Select Experience level'
 													type='text'
 													size='small'
 													select
-													value={value.experienceLevel}
 													style={{ width: '100%' }}
 													name='experienceLevel'
-													onChange={(e) => {
-														onChangeExperience(e, i);
-													}}
-													className={classes.inputFieldStyle4}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}>
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('experienceLevel')}
+													onBlur={props.handleBlur('experienceLevel')}
+													value={props.values.experienceLevel}
+													helperText={
+														props.touched.experienceLevel && props.errors.experienceLevel
+													}
+													error={
+														props.touched.experienceLevel && props.errors.experienceLevel
+													}>
 													{!experiencesState || !experiencesState.length ? (
 														<p>Data Not Found</p>
 													) : (
@@ -1080,15 +1818,17 @@ const Employees = ({ history }) => {
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid item lg={1} md={2} sm={12} xs={12}>
+											<Grid item lg={12} md={12} sm={10} xs={11}>
 												<Button
-													onClick={() => deleteExperience(i)}
-													className={classes.deleteRowBtn}>
-													<DeleteOutlineIcon className={classes.delete} />
-												</Button>
+													variant='outlined'
+													color='primary'
+													classNames={classes.addMoreButton}
+													text={experienceEdit ? 'Edit' : 'Add'}
+												/>
 											</Grid>
 										</Grid>
 									</Grid>
+<<<<<<< HEAD
 								);
 							})}
 							<Grid container spacing={1}>
@@ -1318,37 +2058,347 @@ const Employees = ({ history }) => {
 									</CssTextField>
 								</Grid>
 								<Grid item lg={1} md={1}></Grid>
+=======
+								</Form>
+							)}
+						</Formik>
+						{experience.length >= 1 && (
+							<div className={classes.dataTable}>
+								<TableContainer className={classes.tableContainer}>
+									<Table
+										stickyHeader
+										className='table table-dark'
+										style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+										<TableHead>
+											<TableRow hover role='checkbox'>
+												<StyledTableCell align='center'>Sr.No</StyledTableCell>
+												<StyledTableCell align='center'>Company Name</StyledTableCell>
+												<StyledTableCell align='center'>Company Address</StyledTableCell>
+												<StyledTableCell align='center'>Last Salary</StyledTableCell>
+												<StyledTableCell align='center'>Reason Of Left</StyledTableCell>
+												<StyledTableCell align='center'>From</StyledTableCell>
+												<StyledTableCell align='center'>To</StyledTableCell>
+												<StyledTableCell align='center'>Experience Level</StyledTableCell>
+												<StyledTableCell align='center'>Action</StyledTableCell>
+											</TableRow>
+										</TableHead>
+										<TableBody>
+											{experience.length &&
+												experience.map((el, i) => (
+													<StyledTableRow key={i}>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{i + 1}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.companyName}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.companyAddress}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.lastSalary}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.reasonOfLeft}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.from}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.to}
+														</StyledTableCell>
+														<StyledTableCell className='text-dark bg-light' align='center'>
+															{el.experienceLevel}
+														</StyledTableCell>
+														<StyledTableCell className='text-light bg-light' align='center'>
+															<div style={{ display: 'flex', justifyContent: 'center' }}>
+																<Button
+																	variant='contained'
+																	text='Edit'
+																	size='small'
+																	classNames='bg-dark text-light'
+																	onClick={() => editExperience(el)}
+																/>
+																<Button
+																	variant='contained'
+																	text='Delete'
+																	size='small'
+																	color='secondary'
+																	onClick={() => deleteExperience(el.id)}
+																	style={{ marginLeft: '1rem' }}
+																/>
+															</div>
+														</StyledTableCell>
+													</StyledTableRow>
+												))}
+										</TableBody>
+									</Table>
+								</TableContainer>
+							</div>
+						)}
+					</Container>
+					<div style={{ marginTop: 30, marginBottom: 30 }}>
+						<hr />
+					</div>
+					<Formik
+						initialValues={initialValuesForReference}
+						validationSchema={validationForReference}>
+						{(props) => {
+							referenceForm = props;
+							return (
+								<Form>
+									<Container className={classes.mainContainer}>
+										<h5 className='text-left'>Reference</h5>
+										<Grid container spacing={1} style={{ marginTop: 15 }}>
+											<Grid item lg={4} md={4} sm={12} xs={12}>
+												<FastField name='name'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Name'
+															variant='outlined'
+															type='text'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={4} md={4} sm={12} xs={12}>
+												<FastField name='contact'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Contact'
+															variant='outlined'
+															type='text'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={4} md={4} sm={12} xs={12}>
+												<FastField name='address'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Address'
+															variant='outlined'
+															type='text'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+										</Grid>
+									</Container>
+								</Form>
+							);
+						}}
+					</Formik>
+					<div style={{ marginTop: 30, marginBottom: 30 }}>
+						<hr />
+					</div>
+					<Formik>
+						{(props) => {
+							officeUseForm = props;
+							return (
+								<Form>
+									<Container className={classes.mainContainer}>
+										<h5 className='text-left'>For Office Use Only</h5>
+										<Grid container spacing={1} style={{ marginTop: 15 }}>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='dateOfInterviewed'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															variant='outlined'
+															type='date'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='remarks'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Remarks'
+															variant='outlined'
+															type='text'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='recommended'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Recommended'
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															<MenuItem value='true'>Yes</MenuItem>
+															<MenuItem value='false'>No</MenuItem>
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='jobTitle'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Job Title'
+															variant='outlined'
+															type='text'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+										</Grid>
+										<Grid container spacing={1} style={{ marginTop: 15 }}>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='department'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Department'
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															{!departments || !departments.length ? (
+																<p>Data Not Found</p>
+															) : (
+																departments.map((department, i) => (
+																	<MenuItem value={department._id} key={i}>
+																		{department.name}
+																	</MenuItem>
+																))
+															)}
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 
-								<Grid item lg={2} md={2} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										variant='outlined'
-										type='text'
-										size='small'
-										select
-										label='Employee Type'
-										autocomplete='off'
-										className={classes.inputFieldStyle}
-										inputProps={{ style: { fontSize: 14 } }}
-										{...register('empType', { required: true })}
-										InputLabelProps={{ style: { fontSize: 14 } }}>
-										<MenuItem value='Executive'>Executive</MenuItem>
-										<MenuItem value='Electrician'>Electrician</MenuItem>
-										<MenuItem value='Skilled Employee'>Skilled Employee</MenuItem>
-										<MenuItem value='Final Labour'>Final Labour</MenuItem>
-									</CssTextField>
-								</Grid>
-							</Grid>
-						</Container>
-						{error && <p style={{ margin: '20px 0px', color: 'red' }}>{error}</p>}
-						<Button
-							variant='outlined'
-							color='primary'
-							type='submit'
-							className={classes.addButton}>
-							Add
-						</Button>
-					</form>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='recommendedSalary'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Recommended Salary'
+															variant='outlined'
+															type='number'
+															size='small'
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='approved'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Approved'
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															autocomplete='off'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															<MenuItem value='Yes'>Yes</MenuItem>
+															<MenuItem value='No'>No</MenuItem>
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+										</Grid>
+									</Container>
+								</Form>
+							);
+						}}
+					</Formik>
+					<Button
+						variant='outlined'
+						color='primary'
+						text='Add'
+						classNames={classes.addButton}
+						onClick={onSubmit}
+					/>
 				</Container>
 			</div>
 		</Sidenav>

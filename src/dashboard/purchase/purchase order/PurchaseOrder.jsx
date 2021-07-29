@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import axios from 'axios';
+// import axios from 'axios';
 import { getVendorAction } from '../../../services/action/VendorAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseOrderAction } from '../../../services/action/OrdersAction';
@@ -120,9 +120,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:before': {
 			borderColor: 'red',
 		},
-		'&:before': {
-			borderColor: 'red',
-		},
 		'&:hover:not(.Mui-disabled):before': {
 			borderColor: 'red',
 		},
@@ -171,7 +168,6 @@ const CssTextField = withStyles({
 
 const PurchaseOrder = ({ history }) => {
 	const classes = useStyles();
-	const [unit, setUnit] = useState();
 
 	const dispatch = useDispatch();
 
@@ -191,8 +187,8 @@ const PurchaseOrder = ({ history }) => {
 		formState: { errors },
 	} = useForm();
 
-	useEffect(async () => {
-		await dispatch(getVendorAction('verified=true'));
+	useEffect(() => {
+		dispatch(getVendorAction('verified=true'));
 		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 

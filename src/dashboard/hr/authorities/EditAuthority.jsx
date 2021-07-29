@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { updateDepartmentAction } from '../../../services/action/DepartmentAction';
-import { useDispatch } from 'react-redux';
-import { Formik, Form } from 'formik';
 import Button from '../../../components/utils/Button';
+import { useDispatch } from 'react-redux';
+import { updateAuthorities } from '../../../services/action/authorityAction';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -101,45 +101,48 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const EditDepartment = (props) => {
+const validationSchema = yup.object({
+	name: yup.string().required(),
+});
+
+const EditResponsibility = (props) => {
+	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [open, setOpen] = useState(false);
+	const [initialValues, setInitialValues] = React.useState(props?.authority);
+	const { show, handler, authority } = props;
+	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	const { show, handler, department } = props;
-
-	const classes = useStyles();
-
-	const [open, setOpen] = useState(false);
-	const [isUpdate, setIsUpdate] = useState(false);
-	const [error, setError] = useState(false);
-	const [initialValues, setInitialValues] = useState({ name: '' });
-	const [loading, setLoading] = React.useState(false);
+	useEffect(() => {
+		if (authority) setInitialValues({ name: authority.name });
+	}, [authority]);
 
 	useEffect(() => {
 		setOpen(show);
 	}, [show]);
 
-	useEffect(() => {
-		if (department) setInitialValues({ name: department.name });
-	}, [department]);
-
 	const onSubmit = async (values) => {
+		console.log(values);
 		setLoading(true);
 		dispatch(
-			updateDepartmentAction(department._id, values, (err) => {
+			updateAuthorities(authority._id, values, (err) => {
 				if (err) {
 					setError(err);
 					setTimeout(() => {
 						setError('');
 					}, 4000);
 				} else {
-					setIsUpdate(true);
+					setLoading(false);
+					setSuccess(true);
 					setTimeout(() => {
-						setIsUpdate('');
+						setSuccess(false);
 					}, 4000);
 				}
-				setLoading(false);
 			}),
 		);
+		setLoading(true);
 	};
 
 	const handleClose = () => {
@@ -160,62 +163,59 @@ const EditDepartment = (props) => {
 				}}>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Update</h5>
+						<h5 className='text-center mt-4'>Edit/Update</h5>
 						<Container className={classes.mainContainer}>
-							{department ? (
-								<Formik initialValues={initialValues} onSubmit={onSubmit}>
-									{(props) => (
-										<Form>
-											<Grid container spacing={1}>
-												<Grid lg={12} md={12} sm={12}>
-													<CssTextField
-														id='outlined-basic'
-														label='Enter Department Name'
-														variant='outlined'
-														type='text'
-														autocomplete='off'
-														size='small'
-														autoComplete='off'
-														className={classes.inputFieldStyle1}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														onChange={props.handleChange('name')}
-														onBlur={props.handleBlur('name')}
-														value={props.values.name}
-														helperText={props.touched.name && props.errors.name}
-														error={props.touched.name && props.errors.name}
-													/>
-												</Grid>
-											</Grid>
-											<div
-												style={{
-													marginTop: '2rem',
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center',
-												}}>
-												<Button
-													variant='contained'
-													color='primary'
-													style={{ marginRight: '1rem' }}
-													loading={loading}
-													text='Update'
-												/>
-												<Button
-													variant='outlined'
-													color='dark'
-													onClick={handleClose}
-													text='Close'
-													type='button'
-													classNames='bg-danger text-light'
-												/>
-											</div>
-											{error && <p>{error}</p>}
-											{isUpdate && <p>Category Successfully Updated</p>}
-										</Form>
-									)}
-								</Formik>
-							) : null}
+							<Formik
+								initialValues={initialValues}
+								validationSchema={validationSchema}
+								enableReinitialize
+								onSubmit={onSubmit}>
+								{(props) => (
+									<Form>
+										<CssTextField
+											id='outlined-basic'
+											label='Responsibility Name'
+											variant='outlined'
+											type='text'
+											size='small'
+											autoComplete='off'
+											style={{ width: '75%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('name')}
+											onBlur={props.handleBlur('name')}
+											value={props?.values?.name}
+											helperText={props.touched.name && props.errors.name}
+											error={props.touched.name && props.errors.name}
+										/>
+									</Form>
+								)}
+							</Formik>
+							<div
+								style={{
+									marginTop: '2rem',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+								}}>
+								<Button
+									variant='contained'
+									color='primary'
+									text='Update'
+									style={{ marginRight: '1rem' }}
+									loading={loading}
+								/>
+								<Button
+									variant='outlined'
+									color='dark'
+									onClick={handleClose}
+									text='Close'
+									type='button'
+									classNames='bg-danger text-light'
+								/>
+							</div>
+							{error && <p>{error}</p>}
+							{success && <p>Responsibility Successfully Updated</p>}
 						</Container>
 					</div>
 				</Fade>
@@ -224,4 +224,4 @@ const EditDepartment = (props) => {
 	);
 };
 
-export default EditDepartment;
+export default EditResponsibility;

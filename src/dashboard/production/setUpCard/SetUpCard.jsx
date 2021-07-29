@@ -40,11 +40,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -126,10 +126,10 @@ const SetUpCard = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchCardAction());
-		await dispatch(getMaterialAction());
-		await dispatch(getVendorAction());
+	useEffect(() => {
+		dispatch(fetchCardAction());
+		dispatch(getMaterialAction());
+		dispatch(getVendorAction());
 	}, [dispatch]);
 
 	const { cards, loading, error } = useSelector((state) => state.cards);
@@ -170,11 +170,10 @@ const SetUpCard = () => {
 		date: sortedDate,
 	});
 
-	const onChangeHandler = (e, placeholder) => {
-		console.log(placeholder);
-		if (placeholder !== 'date')
-			setInputFields({ ...inputFields, [placeholder]: e.target.value });
-	};
+	// const onChangeHandler = (e, placeholder) => {
+	// 	if (placeholder !== 'date')
+	// 		setInputFields({ ...inputFields, [placeholder]: e.target.value });
+	// };
 
 	const handleClose = () => {
 		setOpen(!open);

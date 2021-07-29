@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -83,17 +83,13 @@ const CssTextField = withStyles({
 
 const EditShifts = (props) => {
 	const classes = useStyles();
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 
 	const { show, close, shift, onSubmit } = props;
 
 	const [open, setOpen] = useState(false);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { handleSubmit } = useForm();
 	const [inputFields, setInputFields] = useState(shift);
 
 	useEffect(() => {

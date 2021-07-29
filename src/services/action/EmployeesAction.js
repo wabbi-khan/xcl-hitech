@@ -1,4 +1,3 @@
-import { FormatBoldTwoTone } from '@material-ui/icons';
 import axios from 'axios';
 import {
 	EMPLOYEE_CREATE_SUCCESS,
@@ -201,6 +200,7 @@ export const getEmployeeByDesignationAndDepartment =
 			const { data } = await axios.get(
 				`${process.env.REACT_APP_API_URL}/employees/?finalDesignation=${designation}&finalDepartment=${department}`,
 			);
+			console.log(data);
 
 			dispatch({
 				type: EMPLOYEE_FETCH_SUCCESS,

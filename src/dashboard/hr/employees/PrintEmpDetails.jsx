@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../purchase/material/Loading';
 import { getSingleEmployee } from '../../../services/action/EmployeesAction';
-import logo from '../../../images/logo.png'
+import logo from '../../../images/logo.png';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -149,10 +149,19 @@ const PrintEmpDetails = (props) => {
 				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
+<<<<<<< HEAD
 				<h5 className='mt-5' style={{ textDecoration: 'underline', }}>Employment Form</h5>
 			</div>
 			<div className='container-fluid'>
 				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
+=======
+				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>
+					Employment Form
+				</h5>
+			</div>
+			<div className='container-fluid'>
+				<div className='row ' style={{ marginTop: 70, textAlign: 'left' }}>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 					<div className='col-lg-4 col-md-4 col-sm-6 mt-4'>
 						<div className='row no-gutters mt-2'>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
@@ -161,6 +170,7 @@ const PrintEmpDetails = (props) => {
 							<div className='col-lg-6 col-md-6 col-sm-6'>
 								<p>
 									{fullDate}
+<<<<<<< HEAD
 									<hr style={{ border: '1px solid green', borderColor: 'black', width: '100px', marginTop: 0 }} />
 								</p>
 							</div>
@@ -174,11 +184,33 @@ const PrintEmpDetails = (props) => {
 							onClick={() => window.print()}>
 							Print
 						</Button>
+=======
+									<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+								</p>
+							</div>
+						</div>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
+					</div>
+					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
+						<Button
+							variant='contained'
+							size='small'
+							className='bg-dark text-light'
+							onClick={() => window.print()}>
+							Print
+						</Button>
 					</div>
 				</div>
 			</div>
+<<<<<<< HEAD
 			<div className='container-fluid' style={{ marginTop: '20px' }}>
 				<table class="table table-responsive table-bordered mt-3" style={{ textAlign: 'left' }}>
+=======
+			<div className='container-fluid' style={{ marginTop: '50px' }}>
+				<table
+					class='table table-responsive table-bordered border-dark mt-3'
+					style={{ textAlign: 'left' }}>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 					<tbody>
 						{/* {
 							loading ? (
@@ -187,159 +219,89 @@ const PrintEmpDetails = (props) => {
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Name
-							</td>
-							<td colspan='3'>
-								{name}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Name</td>
+							<td colspan='3'>{name}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Father/Husband Name
 							</td>
-							<td colspan='3'>
-								{fatherName_husbandName}
-							</td>
+							<td colspan='3'>{fatherName_husbandName}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Job Applied For
-							</td>
-							<td colspan='3'>
-								{jobAppliedFor}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Job Applied For</td>
+							<td colspan='3'>{jobAppliedFor}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Present Address
 							</td>
-							<td colspan='3'>
-								{presentAddress}
-							</td>
+							<td colspan='3'>{presentAddress}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Gender
-							</td>
-							<td colspan='3'>
-								{gender}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Gender</td>
+							<td colspan='3'>{gender}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Permanent Address
 							</td>
-							<td colspan='3'>
-								{permanentAddress}
-							</td>
+							<td colspan='3'>{permanentAddress}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Mobile No.
-							</td>
-							<td colspan='3'>
-								{mobileNo}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Mobile No.</td>
+							<td colspan='3'>{mobileNo}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Telephone No.
 							</td>
-							<td colspan='3'>
-								{telephoneNo}
-							</td>
+							<td colspan='3'>{telephoneNo}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Merital Status
-							</td>
-							<td colspan='3'>
-								{status}
-							</td>
-							<td style={{ fontWeight: 'bold' }}>
-								Age
-							</td>
-							<td colspan='3'>
-								{age}
-							</td>
-							<td style={{ fontWeight: 'bold' }}>
-								DOB
-							</td>
-							<td colspan='3'>
-								{dateOfBirth}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Merital Status</td>
+							<td colspan='3'>{status}</td>
+							<td style={{ fontWeight: 'bold' }}>Age</td>
+							<td colspan='3'>{age}</td>
+							<td style={{ fontWeight: 'bold' }}>DOB</td>
+							<td colspan='3'>{dateOfBirth}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Place of Birth
-							</td>
-							<td colspan='3'>
-								{placeOfBirth}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Place of Birth</td>
+							<td colspan='3'>{placeOfBirth}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Email Address
 							</td>
-							<td colspan='3'>
-								{email}
-							</td>
+							<td colspan='3'>{email}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								CNIC No.
-							</td>
-							<td colspan='3'>
-								{cnic}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>CNIC No.</td>
+							<td colspan='3'>{cnic}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Date & Place of Issue
 							</td>
-							<td colspan='3'>
-								{DatePlaceOfIssue}
-							</td>
+							<td colspan='3'>{DatePlaceOfIssue}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Nationality
-							</td>
-							<td colspan='3'>
-								{nationality}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Nationality</td>
+							<td colspan='3'>{nationality}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Bank Account No.
 							</td>
-							<td colspan='3'>
-								{bankAccount}
-							</td>
+							<td colspan='3'>{bankAccount}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Account Name & Branch
-							</td>
-							<td colspan="5">
-								{bankNameAndBranch}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Account Name & Branch</td>
+							<td colspan='5'>{bankNameAndBranch}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Next to Kin(Name)
-							</td>
-							<td colspan='3'>
-								{nextToKin?.name}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Next to Kin(Name)</td>
+							<td colspan='3'>{nextToKin?.name}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Relationship
 							</td>
-							<td colspan='3'>
-								{nextToKin?.relation}
-							</td>
+							<td colspan='3'>{nextToKin?.relation}</td>
 						</tr>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Contact No.
-							</td>
-							<td colspan='3'>
-								{nextToKin?.contact}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Contact No.</td>
+							<td colspan='3'>{nextToKin?.contact}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Address
 							</td>
-							<td colspan='3'>
-								{nextToKin?.address}
-							</td>
+							<td colspan='3'>{nextToKin?.address}</td>
 						</tr>
 						{/* ))
 							) : (
@@ -1056,7 +1018,7 @@ const PrintEmpDetails = (props) => {
 						<p style={{ fontWeight: 'bold' }}>Recommended For Employment</p>
 					</Grid>
 					<Grid item lg={1} md={1} sm={1} xs={1}>
-						<p>{officeUse?.recommended}</p>
+						<p>{officeUse?.recommended ? 'Yes' : 'No'}</p>
 						<hr
 							style={{
 								paddingBottom: 4,
@@ -1113,8 +1075,13 @@ const PrintEmpDetails = (props) => {
 						/>
 					</Grid>
 				</Grid>
+<<<<<<< HEAD
 			</div> */}
 			<Grid container spacing={1} style={{ marginTop: 150, }} >
+=======
+			</div>
+			<Grid container spacing={1} style={{ marginTop: 150 }}>
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 				<Grid item lg={2} md={2} sm={2} xs={2}>
 					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
 					<hr style={{ border: '1px solid green', borderColor: 'black', }} />

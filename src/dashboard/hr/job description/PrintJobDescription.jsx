@@ -84,10 +84,8 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintJobDescription = ({ location }) => {
 	const classes = useStyles();
-	// const id = props.match.params.id
-
-	console.log(location);
 	const description = location.state.description;
+	console.log(description);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -200,16 +198,16 @@ const PrintJobDescription = ({ location }) => {
 					<h5 align='left' style={{ marginTop: 60 }}>
 						Responsibilities
 					</h5>
-					{description?.employee?.finalDesignation?.responsibilities?.map((el) => (
-						<p style={{ width: '75%', marginTop: 15 }}>{el}</p>
+					{description?.responsibilities?.map((el) => (
+						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
 					))}
 				</div>
 				<div className={classes.mainContainer1}>
 					<h5 align='left' style={{ marginTop: 60 }}>
 						Authorities
 					</h5>
-					{description?.employee?.finalDesignation?.authorities?.map((el) => (
-						<p style={{ width: '75%', marginTop: 15 }}>{el}</p>
+					{description?.authorities?.map((el) => (
+						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
 					))}
 				</div>
 			</div>

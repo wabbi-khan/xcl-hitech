@@ -5,21 +5,11 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '../../../components/utils/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import {
 	getStoreCategory,
 	createStoreCategory,
 	deleteStoreCategory,
 } from '../../../services/action/StoreCategoryAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
 import EditCategories from './EditCategories';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
@@ -114,7 +104,7 @@ const Categories = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
+	useEffect(() => {
 		setLoading(true);
 		dispatch(
 			getStoreCategory(null, (err) => {

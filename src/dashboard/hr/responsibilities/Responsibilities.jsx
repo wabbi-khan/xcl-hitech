@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '../../../components/utils/Button';
-import { useForm } from 'react-hook-form';
 import Sidenav from '../../SideNav/Sidenav';
-import { Formik, Form } from 'formik'
+import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
 import EditResponsibility from './EditResponsibility';
+import {
+	createResponsibilities,
+	deleteResponsibilities,
+	getResponsibilities,
+} from '../../../services/action/responsibilityAction';
+import Loader from 'react-loader-spinner';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	mainContainer: {
 		marginTop: 20,
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	addMoreRes: {
 		marginTop: 20,
@@ -71,175 +76,206 @@ const CssTextField = withStyles({
 })(TextField);
 
 const initialValue = {
-	name: ''
+	name: '',
 };
 
 const validationSchema = yup.object({
-	name: yup.string().required('Responsibility is required')
+	name: yup.string().required('Responsibility is required'),
 });
 
-const Responsibilities = ({ responsibilities, setResponsibilities }) => {
-	const classes = useStyles();
-	const [resString, setResString] = useState('');
-
-	const {
-		formState: { errors },
-	} = useForm();
-
-	const onSubmit = async (props) => {
-		// dispatch(createTraining(props));
-	};
-
-	const deleteProduct = async (params) => {
-		try {
-			await axios.delete(`${process.env.REACT_APP_API_URL}/product/${params}`);
-			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
+const Responsibilities = () => {
 	const [open, setOpen] = useState(false);
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [fetchLoading, setFetchLoading] = React.useState('');
+	const [fetchError, setFetchError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [responsibility, setResponsibility] = React.useState({});
+	const classes = useStyles();
+	const dispatch = useDispatch();
+	const { responsibilities } = useSelector((state) => state.responsibilities);
+
+	React.useEffect(() => {
+		setFetchLoading(true);
+		dispatch(
+			getResponsibilities(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
+	}, [dispatch]);
+
+	const onSubmit = async (values) => {
+		setCreateLoading(true);
+		dispatch(
+			createResponsibilities(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
+	};
+
+	const deleteResponsibility = async (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteResponsibilities(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
+	};
 
 	const handleClose = (props) => {
 		setOpen(props);
 	};
 
-	const handleOpen = async (product) => {
-		// setproduct(product);
+	const handleOpen = async (responsibility) => {
+		setResponsibility(responsibility);
 		setOpen(true);
 	};
-	// const getValue = (e) => {
-	// 	setResponsibilities([...responsibilities, resString]);
-	// 	setResString('');
-	// };
-
-	// const removeRes = (index) => {
-	// 	const temp = [...responsibilities];
-	// 	temp.splice(index, 1);
-	// 	setResponsibilities(temp);
-	// };
 
 	return (
 		<Sidenav title={'Responsibilities'}>
-			<EditResponsibility show={open} handler={handleClose} />
+			<EditResponsibility
+				show={open}
+				handler={handleClose}
+				responsibility={responsibility}
+			/>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
-				{/* <div style={{ marginTop: 30, marginBottom: 30 }}>
-				<hr />
-			</div> */}
 				<Container className={classes.mainContainer}>
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}
-					>
-						{
-							(props) => (
-								<Form>
-									{/* <h4 className='text-left'>Responsibilities</h4> */}
-									<CssTextField
-										id='outlined-basic'
-										label='Add Resposibilities'
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Add Resposibilities'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									style={{ width: '50%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
 										variant='outlined'
-										type='text'
-										autocomplete='off'
-										size='small'
-										value={resString}
-										onChange={(e) => {
-											setResString(e.target.value);
-										}}
-										style={{ width: '50%' }}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										onChange={props.handleChange('name')}
-										onBlur={props.handleBlur('name')}
-										value={props.values.name}
-										helperText={props.touched.name && props.errors.name}
-										error={props.touched.name && props.errors.name}
+										classNames={classes.addMoreRes}
+										text='Add'
+										loading={createLoading}
+										loaderColor='#333'
 									/>
-									<div>
-										<Button
-											variant="outlined"
-											classNames={classes.addMoreRes}
-											text='Add'
-											loading={true}
-											loaderColor="#333"
-										/>
-									</div>
-								</Form>
-							)
-						}
-					</Formik>
-					{/* {responsibilities.map((res, i) => (
-					<p className={classes.resStyle}>
-						<span style={{ fontSize: 13 }}>{i + 1}. </span>
-						{res}
-						<DeleteOutlineIcon
-							type='button'
-							className={classes.delete}
-							onClick={() => removeRes(i)}
-						/>
-					</p>
-				))} */}
-					{/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
-				</Container>
-			</div>
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
-				<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-					<thead class="bg-dark text-light">
-						<tr>
-							<th>S.No.</th>
-							<th>Responsibilities</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						{/* {
-							loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : products.length ? (
-								products.map((product, i) => ( */}
-						<tr >
-							<td>
-								{1}
-							</td>
-							<td>
-								{ }
-							</td>
-							<td>
-								<div style={{ display: 'flex', justifyContent: 'center' }}>
-									<Button
-										variant='contained'
-										text='Edit'
-										size='small'
-										classNames='bg-dark text-light'
-										onClick={() => handleOpen()}
-									/>
-									<Button
-										variant='contained'
-										text='Delete'
-										size='small'
-										color='secondary'
-										// onClick={() => delete(category._id)}
-										style={{ marginLeft: '5px' }}
-									/>
+									{createError && <p>{createError}</p>}
 								</div>
-							</td>
-						</tr>
-						{/* ))
-							) : (
-								<h5>Not Found</h5>
-							)
-						} */}
-					</tbody>
-				</table>
+							</Form>
+						)}
+					</Formik>
+				</Container>
+				<div
+					className='container-fluid'
+					style={{ textAlign: 'left', marginTop: '50px' }}>
+					{fetchLoading ? (
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '3rem',
+							}}>
+							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						</div>
+					) : responsibilities?.length === 0 ? (
+						<p>There are no Responsibilities</p>
+					) : (
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+							{responsibilities?.map((el, i) => (
+								<>
+									{i === 0 && (
+										<thead class='bg-dark text-light'>
+											<tr>
+												<th>S.No.</th>
+												<th>Name</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+									)}
+									<tbody>
+										<tr>
+											<td>{i + 1}</td>
+											<td>{el?.name}</td>
+											<td>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														onClick={() => handleOpen(el)}
+														text='Edit'
+													/>
+
+													<Button
+														variant='contained'
+														color='secondary'
+														size='small'
+														onClick={() => deleteResponsibility(el._id)}
+														style={{ marginLeft: 10 }}
+														text='Delete'
+													/>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</>
+							))}
+						</table>
+					)}
+				</div>
 			</div>
 		</Sidenav>
 	);

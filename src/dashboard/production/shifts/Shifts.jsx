@@ -5,7 +5,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -37,11 +37,11 @@ const StyledTableRow = withStyles((theme) => ({
 	},
 }))(TableRow);
 
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
+// function createData(No, name, Action) {
+// 	return { No, name, Action };
+// }
 
-const rows = [createData(1, 'Item1')];
+// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -115,16 +115,12 @@ const CssTextField = withStyles({
 
 const Shifts = () => {
 	const classes = useStyles();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { handleSubmit } = useForm();
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchShiftAction());
+	useEffect(() => {
+		dispatch(fetchShiftAction());
 	}, [dispatch]);
 
 	const { shifts, loading, error } = useSelector((state) => state.shifts);
@@ -165,13 +161,6 @@ const Shifts = () => {
 			console.log(error);
 		}
 	};
-
-	const todaysDate = new Date(Date.now()).toLocaleTimeString([], {
-		hour: '2-digit',
-		minute: '2-digit',
-		second: '2-digit',
-		hour12: false,
-	});
 
 	// console.log(todaysDate);
 

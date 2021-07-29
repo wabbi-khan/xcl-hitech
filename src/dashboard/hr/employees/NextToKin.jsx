@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { FastField, Field } from 'formik';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -143,20 +139,106 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const AcademicQualification = ({}) => {
+const NextToKin = ({ formik }) => {
 	const classes = useStyles();
-	const [nextToKin, setNextToKin] = useState({
-		name: '',
-		relation: '',
-		contact: '',
-		address: '',
-	});
 
-	const onChangeHandler = (e) => {
-		setNextToKin({ ...nextToKin, [e.target.name]: e.target.value });
-	};
-
-	return <div></div>;
+	return (
+		<Container className={classes.mainContainer}>
+			<h5 className='text-left'>Next To Kin</h5>
+			<Grid container spacing={1} style={{ marginTop: 15 }}>
+				<Grid item lg={3} md={3} sm={12} xs={12}>
+					<FastField name='name'>
+						{({ meta, field }) => (
+							<CssTextField
+								id='outlined-basic'
+								label='Name'
+								variant='outlined'
+								type='text'
+								style={{ width: '100%' }}
+								size='small'
+								autocomplete='off'
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+								{...field}
+								helperText={meta.touched && meta.error}
+								error={meta.touched && meta.error}
+							/>
+						)}
+					</FastField>
+				</Grid>
+				<Grid item lg={3} md={3} sm={12} xs={12}>
+					<FastField name='relation'>
+						{(props) => {
+							const { field, meta } = props;
+							console.log(meta);
+							return (
+								<CssTextField
+									id='outlined-basic'
+									style={{ width: '100%' }}
+									label='Relation'
+									variant='outlined'
+									type='text'
+									size='small'
+									autocomplete='off'
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...field}
+									helperText={meta.touched && meta.error}
+									error={meta.touched && meta.error}
+								/>
+							);
+						}}
+					</FastField>
+				</Grid>
+				<Grid item lg={3} md={3} sm={12} xs={12}>
+					<FastField name='address'>
+						{(props) => {
+							const { field, meta } = props;
+							return (
+								<CssTextField
+									id='outlined-basic'
+									label='Address'
+									style={{ width: '100%' }}
+									variant='outlined'
+									type='text'
+									size='small'
+									autocomplete='off'
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...field}
+									helperText={meta.touched && meta.error}
+									error={meta.touched && meta.error}
+								/>
+							);
+						}}
+					</FastField>
+				</Grid>
+				<Grid item lg={3} md={3} sm={12} xs={12}>
+					<FastField name='contact'>
+						{(props) => {
+							const { field, meta } = props;
+							return (
+								<CssTextField
+									id='outlined-basic'
+									label='Contact No'
+									variant='outlined'
+									type='number'
+									size='small'
+									style={{ width: '100%' }}
+									autocomplete='off'
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...field}
+									helperText={meta.touched && meta.error}
+									error={meta.touched && meta.error}
+								/>
+							);
+						}}
+					</FastField>
+				</Grid>
+			</Grid>
+		</Container>
+	);
 };
 
-export default AcademicQualification;
+export default NextToKin;

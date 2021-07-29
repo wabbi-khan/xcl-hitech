@@ -8,7 +8,7 @@ import {
 	DEPARTMENT_UPDATE_SUCCESS,
 } from '../constants/DepartmentConst';
 
-export const fetchDepartmentsAction = () => async (dispatch) => {
+export const fetchDepartmentsAction = (cb) => async (dispatch) => {
 	dispatch({
 		type: DEPARTMENT_REQUEST,
 	});
@@ -18,16 +18,19 @@ export const fetchDepartmentsAction = () => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/department`,
 		);
 
-		dispatch({
-			type: DEPARTMENT_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: DEPARTMENT_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createDepartmentAction = (department) => async (dispatch) => {
+export const createDepartmentAction = (department, cb) => async (dispatch) => {
 	dispatch({
 		type: DEPARTMENT_REQUEST,
 	});
@@ -38,16 +41,21 @@ export const createDepartmentAction = (department) => async (dispatch) => {
 			department,
 		);
 
-		dispatch({
-			type: DEPARTMENT_CREATE_SUCCESS,
-			payload: res.data.department,
-		});
+		console.log(res);
+
+		if (res.status === 200) {
+			dispatch({
+				type: DEPARTMENT_CREATE_SUCCESS,
+				payload: res.data.department,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateDeaprtmentAction = (id, data) => async (dispatch) => {
+export const updateDepartmentAction = (id, data, cb) => async (dispatch) => {
 	dispatch({
 		type: DEPARTMENT_REQUEST,
 	});
@@ -58,43 +66,51 @@ export const updateDeaprtmentAction = (id, data) => async (dispatch) => {
 			data,
 		);
 
-		dispatch({
-			type: DEPARTMENT_UPDATE_SUCCESS,
-			payload: res.data.department,
-		});
+		console.log(res);
 
-		// console.log(data);
+		if (res.status === 200) {
+			dispatch({
+				type: DEPARTMENT_UPDATE_SUCCESS,
+				payload: res.data.department,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteDepartmentAction = (id) => async (dispatch) => {
+export const deleteDepartmentAction = (id, cb) => async (dispatch) => {
 	dispatch({
 		type: DEPARTMENT_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/department/${id}`);
+		const res = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/department/${id}`,
+		);
 
-		dispatch({
-			type: DEPARTMENT_DELETE_SUCCESS,
-			payload: id,
-		});
-
-		// console.log(data);
+		if (res.status === 200) {
+			dispatch({
+				type: DEPARTMENT_DELETE_SUCCESS,
+				payload: id,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: DEPARTMENT_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: DEPARTMENT_FAIL,
 			payload: 'Network Error',

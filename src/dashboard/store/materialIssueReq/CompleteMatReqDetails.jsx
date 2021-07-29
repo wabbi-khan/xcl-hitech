@@ -1,35 +1,11 @@
 import React, { useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import { makeStyles } from '@material-ui/core/styles';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import { fetchSingleRequisitionAction } from '../../../services/action/PurchaseReqAction';
-
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -70,9 +46,9 @@ const CompleteMatReqDetails = (props) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchSingleRequisitionAction(id));
-	}, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchSingleRequisitionAction(id));
+	}, [dispatch, id]);
 
 	const { purchaseRequisition, loading, error } = useSelector(
 		(state) => state.purchaseRequisitions,
@@ -84,9 +60,9 @@ const CompleteMatReqDetails = (props) => {
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}
-					<div className='container-fluid' style={{ textAlign: 'left', }}>
-						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
-							<thead class="bg-dark text-light">
+					<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
+							<thead class='bg-dark text-light'>
 								<tr>
 									<th>S.No.</th>
 									<th>Department</th>
@@ -95,34 +71,24 @@ const CompleteMatReqDetails = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : purchaseRequisition ? (
-										<tr >
-											<td>
-												{1}
-											</td>
-											<td>
-												{
-													!purchaseRequisition.department
-														? null
-														: purchaseRequisition.department.name
-												}
-											</td>
-											<td>
-												{purchaseRequisition.purpose}
-											</td>
-											<td>
-												{purchaseRequisition.reqDate}
-											</td>
-										</tr>
-									) : (
-										<h5>Not Found</h5>
-									)
-								}
+								{loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : purchaseRequisition ? (
+									<tr>
+										<td>{1}</td>
+										<td>
+											{!purchaseRequisition.department
+												? null
+												: purchaseRequisition.department.name}
+										</td>
+										<td>{purchaseRequisition.purpose}</td>
+										<td>{purchaseRequisition.reqDate}</td>
+									</tr>
+								) : (
+									<h5>Not Found</h5>
+								)}
 							</tbody>
 						</table>
 					</div>
@@ -131,9 +97,9 @@ const CompleteMatReqDetails = (props) => {
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}
-					<div className='container-fluid' style={{ textAlign: 'left', }}>
-						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
-							<thead class="bg-dark text-light">
+					<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
+							<thead class='bg-dark text-light'>
 								<tr>
 									<th>S.No.</th>
 									<th>Material Name</th>
@@ -143,38 +109,24 @@ const CompleteMatReqDetails = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : !purchaseRequisition.materials ||
-										!purchaseRequisition.materials.length ? (
-										<h5>Not Found</h5>
-									) : (
-										purchaseRequisition.materials.map((material, i) => (
-											<tr key={i}>
-												<td>
-													{i + 1}
-												</td>
-												<td>
-													{
-														!material.material ? null : material.material.name
-													}
-												</td>
-												<td>
-													{material.quantity}
-												</td>
-												<td>
-													{material.unitValue}
-												</td>
-												<td>
-													{material.remarks}
-												</td>
-											</tr>
-										))
-									)
-								}
+								{loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : !purchaseRequisition.materials ||
+								  !purchaseRequisition.materials.length ? (
+									<h5>Not Found</h5>
+								) : (
+									purchaseRequisition.materials.map((material, i) => (
+										<tr key={i}>
+											<td>{i + 1}</td>
+											<td>{!material.material ? null : material.material.name}</td>
+											<td>{material.quantity}</td>
+											<td>{material.unitValue}</td>
+											<td>{material.remarks}</td>
+										</tr>
+									))
+								)}
 							</tbody>
 						</table>
 					</div>

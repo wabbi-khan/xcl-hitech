@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -16,7 +15,6 @@ import {
 	fetchSingleRequisitionAction,
 	updatePurchaseReqAction,
 } from '../../../services/action/PurchaseReqAction';
-import axios from 'axios';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -96,22 +94,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CssTextField = withStyles({
-	root: {
-		'& label.Mui-focused': {
-			color: 'black',
-		},
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'black',
-			},
-			'&.Mui-focused fieldset': {
-				borderColor: 'black',
-			},
-		},
-	},
-})(TextField);
-
 const MaterialReqDetails = (props) => {
 	const classes = useStyles();
 
@@ -122,20 +104,19 @@ const MaterialReqDetails = (props) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchSingleRequisitionAction(id));
-	}, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchSingleRequisitionAction(id));
+	}, [dispatch, id]);
 
 	const { purchaseRequisition, loading, error } = useSelector(
 		(state) => state.purchaseRequisitions,
 	);
 
-	const completeReqFunc = async () => {
+	const completeReqFunc = () => {
 		try {
-			await dispatch(updatePurchaseReqAction(id, { isComplete: true }));
+			dispatch(updatePurchaseReqAction(id, { isComplete: true }));
 			setIsComplete(true);
 		} catch (error) {
-			console.log(error);
 			setIsError(true);
 		}
 	};
@@ -145,9 +126,9 @@ const MaterialReqDetails = (props) => {
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}
-					<div className='container-fluid' style={{ textAlign: 'left', }}>
-						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
-							<thead class="bg-dark text-light">
+					<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
+							<thead class='bg-dark text-light'>
 								<tr>
 									<th>S.No.</th>
 									<th>Department</th>
@@ -157,33 +138,75 @@ const MaterialReqDetails = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : purchaseRequisition ? (
-										<tr >
-											<td>
-												{1}
-											</td>
-											<td>
-												{
-													!purchaseRequisition.department
-														? null
-														: purchaseRequisition.department.name
-												}
-											</td>
-											<td>
-												{
-													purchaseRequisition.purpose
-												}
-											</td>
-											<td>
-												{
-													purchaseRequisition.reqDate
-												}
-											</td>
+								{loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : purchaseRequisition ? (
+									<tr>
+										<td>{1}</td>
+										<td>
+											{!purchaseRequisition.department
+												? null
+												: purchaseRequisition.department.name}
+										</td>
+										<td>{purchaseRequisition.purpose}</td>
+										<td>{purchaseRequisition.reqDate}</td>
+										{/* <td>
+													<Button
+														variant='contained'
+														size='small'
+														class='btn btn-sm bg-dark text-light'
+														onClick={() => {
+															history.push(
+																`/storedashboard/material_issue_requisition/material_requisition_details/${request._id}`,
+															);
+														}} */}
+										{/* // style={{ backgroundColor: 'red', color: 'whitesmoke', }} */}
+										{/* // > */}
+										{/* View Requisition */}
+										{/* {switchButton} */}
+										{/* </Button> */}
+										{/* </td> */}
+									</tr>
+								) : (
+									<h5>Not Found</h5>
+								)}
+							</tbody>
+						</table>
+					</div>
+				</TableContainer>
+			</div>
+			<div className={classes.dataTable}>
+				<TableContainer className={classes.tableContainer}>
+					{/* <h5>Inspected Orders</h5> */}
+					<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
+							<thead class='bg-dark text-light'>
+								<tr>
+									<th>S.No.</th>
+									<th>Material Name</th>
+									<th>Quantity</th>
+									<th>Unit Value</th>
+									<th>Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								{loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : !purchaseRequisition.materials ||
+								  !purchaseRequisition.materials.length ? (
+									<h5>Not Found</h5>
+								) : (
+									purchaseRequisition.materials.map((material, i) => (
+										<tr key={i}>
+											<td>{i + 1}</td>
+											<td>{!material.material ? null : material.material.name}</td>
+											<td>{material.quantity}</td>
+											<td>{material.unitValue}</td>
+											<td>{material.remarks}</td>
 											{/* <td>
 													<Button
 														variant='contained'
@@ -201,78 +224,8 @@ const MaterialReqDetails = (props) => {
 											{/* </Button> */}
 											{/* </td> */}
 										</tr>
-									) : (
-										<h5>Not Found</h5>
-									)
-								}
-							</tbody>
-						</table>
-					</div>
-				</TableContainer>
-			</div>
-			<div className={classes.dataTable}>
-				<TableContainer className={classes.tableContainer}>
-					{/* <h5>Inspected Orders</h5> */}
-					<div className='container-fluid' style={{ textAlign: 'left', }}>
-						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
-							<thead class="bg-dark text-light">
-								<tr>
-									<th>S.No.</th>
-									<th>Material Name</th>
-									<th>Quantity</th>
-									<th>Unit Value</th>
-									<th>Remarks</th>
-								</tr>
-							</thead>
-							<tbody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : !purchaseRequisition.materials ||
-										!purchaseRequisition.materials.length ? (
-										<h5>Not Found</h5>
-									) : (
-										purchaseRequisition.materials.map((material, i) => (
-											<tr key={i}>
-												<td>
-													{i + 1}
-												</td>
-												<td>
-													{
-														!material.material ? null : material.material.name
-													}
-												</td>
-												<td>
-													{material.quantity}
-												</td>
-												<td>
-													{material.unitValue}
-												</td>
-												<td>
-													{material.remarks}
-												</td>
-												{/* <td>
-													<Button
-														variant='contained'
-														size='small'
-														class='btn btn-sm bg-dark text-light'
-														onClick={() => {
-															history.push(
-																`/storedashboard/material_issue_requisition/material_requisition_details/${request._id}`,
-															);
-														}} */}
-												{/* // style={{ backgroundColor: 'red', color: 'whitesmoke', }} */}
-												{/* // > */}
-												{/* View Requisition */}
-												{/* {switchButton} */}
-												{/* </Button> */}
-												{/* </td> */}
-											</tr>
-										))
-									)
-								}
+									))
+								)}
 							</tbody>
 						</table>
 					</div>
@@ -341,38 +294,34 @@ const MaterialReqDetails = (props) => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{
-								loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : !purchaseRequisition.materials ||
-									!purchaseRequisition.materials.length ? (
-									<h5>Not Found</h5>
-								) : (
-									purchaseRequisition.materials.map((material, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{
-													!material.material ? null : material.material.name
-												}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.quantity}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.unitValue}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.remarks}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)
-							}
+							{loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : !purchaseRequisition.materials ||
+							  !purchaseRequisition.materials.length ? (
+								<h5>Not Found</h5>
+							) : (
+								purchaseRequisition.materials.map((material, i) => (
+									<StyledTableRow key={i}>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{i + 1}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{!material.material ? null : material.material.name}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{material.quantity}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{material.unitValue}
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											{material.remarks}
+										</StyledTableCell>
+									</StyledTableRow>
+								))
+							)}
 						</TableBody>
 					</Table>
 				</TableContainer>
@@ -384,32 +333,16 @@ const MaterialReqDetails = (props) => {
 						Complete Requisition
 					</Button>
 				</div>
-				{
-					IsComplete ? (
-						<span className='text-success'>
-							Purchase Requisition has been Completed Successfully
-						</span>
-					) : IsError ? (
-						<span className='text-danger'>Internal Server Error</span>
-					) : null
-				}
+				{IsComplete ? (
+					<span className='text-success'>
+						Purchase Requisition has been Completed Successfully
+					</span>
+				) : IsError ? (
+					<span className='text-danger'>Internal Server Error</span>
+				) : null}
 			</div>
 		</Sidenav>
 	);
 };
 
 export default MaterialReqDetails;
-
-// <StyledTableCell className = "text-light" align = "center" >
-//     <Button variant="contained" size="small"
-//         onClick={() => {
-// history.push(`/storedashboard/material_issue_requisition/material_requisition_details/${request._id}`)
-// }}
-// style={{ backgroundColor: 'red', color: 'whitesmoke', }}
-// >
-// View Requisition
-{
-	/* {switchButton} */
-}
-//     </Button>
-// </StyledTableCell >

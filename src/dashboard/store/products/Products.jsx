@@ -4,13 +4,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductsAction } from '../../../services/action/ProductsAction';
@@ -21,30 +14,6 @@ import EditProducts from './EditProducts';
 import { getStoreCategory } from '../../../services/action/StoreCategoryAction';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
-
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
-
-function createData(No, name, Action) {
-	return { No, name, Action };
-}
-
-const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -133,13 +102,12 @@ const Products = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchProductsAction());
-		await dispatch(getStoreCategory());
+	useEffect(() => {
+		dispatch(fetchProductsAction());
+		dispatch(getStoreCategory());
 	}, [dispatch]);
 
 	const { loading, products, error } = useSelector((state) => state.products);
-	const { categories } = useSelector((state) => state.categories);
 
 	const onSubmit = async (props) => {
 		// dispatch(createTraining(props));

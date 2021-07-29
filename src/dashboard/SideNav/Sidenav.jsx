@@ -458,11 +458,11 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import IconExpandLess from '@material-ui/icons/ExpandLess';
 import IconExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-import LabelIcon from '@material-ui/icons/Label';
+// import LabelIcon from '@material-ui/icons/Label';
 import StoreIcon from '@material-ui/icons/Store';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
-import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+// import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import BusinessIcon from '@material-ui/icons/Business';
 import { useSelector } from 'react-redux';
 
@@ -549,7 +549,7 @@ function Sidenav(props) {
 	const [open4, setOpen4] = React.useState(false);
 	const [open5, setOpen5] = React.useState(false);
 
-	const { user } = useSelector((state) => state.user);
+	// const { user } = useSelector((state) => state.user);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -598,8 +598,7 @@ function Sidenav(props) {
 						[classes.drawerOpen]: open,
 						[classes.drawerClose]: !open,
 					}),
-				}}
-			>
+				}}>
 				<div className={classes.toolbar}>
 					<IconButton
 						onClick={handleDrawerClose}
@@ -611,18 +610,17 @@ function Sidenav(props) {
 				<List>
 					{['Dashboard'].map((text, index) => (
 						<ListItem button key={text}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
 								onClick={() => {
 									handleDrawerOpen();
-								}}
-							>
+								}}>
 								{index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
 								primary={text}
 								onClick={() => {
 									history.push('/dashboard');
-
 								}}
 							/>
 						</ListItem>
@@ -637,11 +635,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen1(!open1);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
 								onClick={() => {
 									handleDrawerOpen();
-								}}
-							>
+								}}>
 								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -831,11 +829,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen5(!open5);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
 								onClick={() => {
 									handleDrawerOpen();
-								}}
-							>
+								}}>
 								{index % 2 === 0 ? <BusinessIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -918,11 +916,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen2(!open2);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
 								onClick={() => {
 									handleDrawerOpen();
-								}}
-							>
+								}}>
 								{index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText
@@ -1069,11 +1067,11 @@ function Sidenav(props) {
 							onClick={() => {
 								setOpen3(!open3);
 							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}
+							<ListItemIcon
+								style={{ background: 'black', color: 'whitesmoke' }}
 								onClick={() => {
 									handleDrawerOpen();
-								}}
-							>
+								}}>
 								{index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
 							</ListItemIcon>
 							<ListItemText

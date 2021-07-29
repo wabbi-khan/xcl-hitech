@@ -10,7 +10,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
-import axios from 'axios';
+// import axios from 'axios';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseReqAction } from '../../../services/action/PurchaseReqAction';
 
@@ -110,9 +110,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:before': {
 			borderColor: 'red',
 		},
-		'&:before': {
-			borderColor: 'red',
-		},
 		'&:hover:not(.Mui-disabled):before': {
 			borderColor: 'red',
 		},
@@ -196,15 +193,13 @@ const PurchaseRequisition = ({ history }) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(getMaterialAction());
-		await dispatch(fetchDepartmentsAction());
+	useEffect(() => {
+		dispatch(getMaterialAction());
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { materials } = useSelector((state) => state.materials);
-	const { departments, loading, error } = useSelector(
-		(state) => state.departments,
-	);
+	const { departments } = useSelector((state) => state.departments);
 
 	const onSubmitDate = async (props) => {
 		console.log({ ...props, materials: ItemCounter });

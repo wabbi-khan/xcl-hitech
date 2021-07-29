@@ -13,15 +13,11 @@ export const loginUser = (user, cb) => async (dispatch) => {
 		type: USER_REQUEST,
 	});
 
-	console.log(user);
-
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/auth/login`,
 			user,
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -50,8 +46,6 @@ export const getUser = (cb) => async (dispatch) => {
 				authorization: `Bearer ${localStorage.getItem('token')}`,
 			},
 		});
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({

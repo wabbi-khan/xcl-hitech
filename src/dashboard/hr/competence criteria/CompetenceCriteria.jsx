@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
+// import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,7 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -23,7 +23,6 @@ import { getEducations } from '../../../services/action/EducationAction';
 import { getSkills } from '../../../services/action/SkillsAction';
 import { getExperiences } from '../../../services/action/ExperienceAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
-import EditCompCriteria from './EditCompCriteria';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -103,22 +102,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CssTextField = withStyles({
-	root: {
-		'& label.Mui-focused': {
-			color: 'black',
-		},
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'black',
-			},
-			'&.Mui-focused fieldset': {
-				borderColor: 'black',
-			},
-		},
-	},
-})(TextField);
-
 const CompetenceCriteria = ({ history }) => {
 	const classes = useStyles();
 	const [Criteria, setCriteria] = useState();
@@ -131,13 +114,13 @@ const CompetenceCriteria = ({ history }) => {
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(fetchCompCriteriaAction());
-		await dispatch(getDesignation());
-		await dispatch(getEducations());
-		await dispatch(getSkills());
-		await dispatch(getExperiences());
-		await dispatch(fetchDepartmentsAction());
+	useEffect(() => {
+		dispatch(fetchCompCriteriaAction());
+		dispatch(getDesignation());
+		dispatch(getEducations());
+		dispatch(getSkills());
+		dispatch(getExperiences());
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { loading, criteria, error } = useSelector((state) => state.criteria);
@@ -164,8 +147,7 @@ const CompetenceCriteria = ({ history }) => {
 		try {
 			await axios.delete(`${process.env.REACT_APP_API_URL}/criteria/${params}`);
 			window.location.reload();
-		} 
-		catch (error) {
+		} catch (error) {
 			console.log(error);
 		}
 	};
@@ -199,62 +181,58 @@ const CompetenceCriteria = ({ history }) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{
-									loading ? (
-										<Loading />
-									) :
-										error ? (
-											<MaterialError />
-										) :
-											criteria.length ? (
-												criteria.map((criteria, i) => (
-													<StyledTableRow key={i}>
-														<StyledTableCell className='text-dark' align='center'>
-															{i + 1}
-														</StyledTableCell>
-														<StyledTableCell className='text-dark' align='center'>
-															{!criteria.department ? null : criteria.department.name}
-														</StyledTableCell>
-														<StyledTableCell className='text-dark' align='center'>
-															{!criteria.designation ? null : criteria.designation.name}
-														</StyledTableCell>
-														<StyledTableCell className='text-dark' align='center'>
-															{!criteria.education ? null : criteria.education.name}
-														</StyledTableCell>
-														<StyledTableCell className='text-dark' align='center'>
-															{!criteria.experience ? null : criteria.experience.name}
-														</StyledTableCell>
-														<StyledTableCell className='text-dark' align='center'>
-															{!criteria.skill ? null : criteria.skill.skill}
-														</StyledTableCell>
-														<StyledTableCell className='text-light' align='center'>
-															<>
-																<Button
-																	variant='contained'
-																	className='bg-dark text-light'
-																	size='small'
-																	onClick={() => {
-																		handleOpen(criteria);
-																	}}
-																	style={{ marginTop: 2 }}>
-																	Edit
-																</Button>
-																<Button
-																	variant='contained'
-																	color='secondary'
-																	size='small'
-																	onClick={() => deleteCriteria(criteria._id)}
-																	style={{ marginLeft: 2, marginTop: 2 }}>
-																	Delete
-																</Button>
-															</>
-														</StyledTableCell>
-													</StyledTableRow>
-												))
-											) : (
-												<h5>Not Found</h5>
-											)
-								}
+								{loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : criteria.length ? (
+									criteria.map((criteria, i) => (
+										<StyledTableRow key={i}>
+											<StyledTableCell className='text-dark' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{!criteria.department ? null : criteria.department.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{!criteria.designation ? null : criteria.designation.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{!criteria.education ? null : criteria.education.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{!criteria.experience ? null : criteria.experience.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{!criteria.skill ? null : criteria.skill.skill}
+											</StyledTableCell>
+											<StyledTableCell className='text-light' align='center'>
+												<>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														onClick={() => {
+															handleOpen(criteria);
+														}}
+														style={{ marginTop: 2 }}>
+														Edit
+													</Button>
+													<Button
+														variant='contained'
+														color='secondary'
+														size='small'
+														onClick={() => deleteCriteria(criteria._id)}
+														style={{ marginLeft: 2, marginTop: 2 }}>
+														Delete
+													</Button>
+												</>
+											</StyledTableCell>
+										</StyledTableRow>
+									))
+								) : (
+									<h5>Not Found</h5>
+								)}
 								{/* {
                                     loading ? (
                                         <Loading />
@@ -303,18 +281,15 @@ const CompetenceCriteria = ({ history }) => {
 				</div>
 			</div>
 			<div>
-				<Grid container spacing={1} >
+				<Grid container spacing={1}>
 					<Grid item lg={5} md={5} sm={12} xs={12}></Grid>
 					<Grid item lg={6} md={6} sm={12} xs={12}>
 						<Button
-							variant="outlined"
-							color="primary"
-							type="submit"
+							variant='outlined'
+							color='primary'
+							type='submit'
 							className={classes.addButton}
-							onClick={() =>
-								history.push('/hr/competence_criteria_print')
-							}
-						>
+							onClick={() => history.push('/hr/competence_criteria_print')}>
 							Print
 						</Button>
 					</Grid>

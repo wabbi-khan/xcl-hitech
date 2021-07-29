@@ -1,12 +1,6 @@
 import React from 'react';
 import './App.css';
-import {
-	BrowserRouter,
-	Switch,
-	Route,
-	Link,
-	withRouter,
-} from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './login/Login';
 import PurchaseDashboard from './dashboard/purchase/PurchaseDashboard';
@@ -14,7 +8,7 @@ import Material from './dashboard/purchase/material/Material';
 import Dashboard from './dashboard/Dashboard';
 import Loader from 'react-loader-spinner';
 import Vendors from './dashboard/purchase/vendors/Vendors';
-import { createMuiTheme } from '@material-ui/core/styles';
+// import { createMuiTheme } from '@material-ui/core/styles';
 import SupplierEvalForm from './dashboard/purchase/supplier eval form/SupplierEvalForm';
 import AppSupplier from './dashboard/purchase/approve supplier list/AppSupplier';
 import PurchaseOrder from './dashboard/purchase/purchase order/PurchaseOrder';
@@ -110,7 +104,7 @@ import Categories from './dashboard/store/storecategories/Categories';
 import Responsibilities from './dashboard/hr/responsibilities/Responsibilities';
 import Authorities from './dashboard/hr/authorities/Authorities';
 
-import { loginUser, getUser } from './services/action/UserAction';
+import { getUser } from './services/action/UserAction';
 import PrivateRoute from './components/PrivateRoute';
 import CeiledRoute from './components/CeiledRoute';
 import EditEmp from './dashboard/hr/employees/EditEmp';
@@ -118,24 +112,28 @@ import Units from './dashboard/purchase/units/Units';
 
 dotenv.config();
 
-const theme = createMuiTheme({
-	palette: {
-		primary: {
-			main: '#22a19a',
-			secondary: '#00726c',
-			contrastText: '#fff',
-		},
-	},
-});
+// const theme = createMuiTheme({
+// 	palette: {
+// 		primary: {
+// 			main: '#22a19a',
+// 			secondary: '#00726c',
+// 			contrastText: '#fff',
+// 		},
+// 	},
+// });
 
 function App() {
 	const [appLoading, setAppLoading] = React.useState(true);
+	const [error, setError] = React.useState('');
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		if (localStorage.getItem('token')) {
 			dispatch(
 				getUser((err) => {
+					if (err) {
+						setError(err);
+					}
 					setAppLoading(false);
 				}),
 			);
@@ -154,6 +152,8 @@ function App() {
 			}}>
 			<Loader type='TailSpin' width='8rem' height='8rem' />
 		</div>
+	) : error ? (
+		<p>{error}</p>
 	) : (
 		<Switch>
 			<CeiledRoute path='/' exact>
@@ -162,6 +162,7 @@ function App() {
 			<PrivateRoute path='/dashboard' exact>
 				<Dashboard />
 			</PrivateRoute>
+<<<<<<< HEAD
 			{/* ===================================================================== */}
 			<Route exact path='/purchasedashboard' component={PurchaseDashboard} />
 			<Route exact path='/purchase/units' component={Units} />
@@ -206,20 +207,62 @@ function App() {
 				component={FullOrderDetails}
 			/>
 			<Route
+=======
+			<PrivateRoute exact path='/purchasedashboard'>
+				<PurchaseDashboard />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/category'>
+				<Category />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/department'>
+				<Department />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/material'>
+				<Material />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/vendors'>
+				<Vendors />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/vendors/vendor_details/:id'>
+				<ViewVendorDetails />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/supplier_evaluation_form'>
+				<SupplierEvalForm />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/approved_supplier_list'>
+				<AppSupplier />
+			</PrivateRoute>
+			<PrivateRoute
+>>>>>>> 93ea41bdb5c203b51b591222276975f6cbd54666
 				exact
-				path='/purchase/purchase_order_list/print_order_details/:id'
-				component={PrintVendorOrderList}
-			/>
-			<Route
+				path='/purchase/approved_supplier_list/view_approved_supplier_details/:id'>
+				<ViewAppSuppDetails />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/purchase_order'>
+				<PurchaseOrder />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/purchase_order/print_order'>
+				<PrintPurchaseOrder />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/purchase_order_list'>
+				<PurchaseOrderList />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/purchase_order_list/order_details/:id'>
+				<FullOrderDetails />
+			</PrivateRoute>
+			<PrivateRoute
 				exact
-				path='/purchase/purchase_requisition'
-				component={PurchaseRequisition}
-			/>
-			<Route
+				path='/purchase/purchase_order_list/print_order_details/:id'>
+				<PrintVendorOrderList />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/purchase_requisition'>
+				<PurchaseRequisition />
+			</PrivateRoute>
+			<PrivateRoute
 				exact
-				path='/purchase/purchase_requisition/print_purchase_requisition'
-				component={PurchaseReqPrint}
-			/>
+				path='/purchase/purchase_requisition/print_purchase_requisition'>
+				<PurchaseReqPrint />
+			</PrivateRoute>
 			{/* ===================================================================== */}
 			<Route exact path='/storedashboard' component={Store} />
 			<Route
