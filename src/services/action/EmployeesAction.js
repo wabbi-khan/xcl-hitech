@@ -200,6 +200,7 @@ export const getEmployeeByDesignationAndDepartment =
 			const { data } = await axios.get(
 				`${process.env.REACT_APP_API_URL}/employees/?finalDesignation=${designation}&finalDepartment=${department}`,
 			);
+			console.log(data);
 
 			dispatch({
 				type: EMPLOYEE_FETCH_SUCCESS,

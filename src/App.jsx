@@ -122,12 +122,16 @@ dotenv.config();
 
 function App() {
 	const [appLoading, setAppLoading] = React.useState(true);
+	const [error, setError] = React.useState('');
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		if (localStorage.getItem('token')) {
 			dispatch(
 				getUser((err) => {
+					if (err) {
+						setError(err);
+					}
 					setAppLoading(false);
 				}),
 			);
@@ -146,6 +150,8 @@ function App() {
 			}}>
 			<Loader type='TailSpin' width='8rem' height='8rem' />
 		</div>
+	) : error ? (
+		<p>{error}</p>
 	) : (
 		<Switch>
 			<CeiledRoute path='/' exact>

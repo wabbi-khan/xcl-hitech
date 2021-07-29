@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 600,
 	},
 	tableContainer: {
-		marginTop: '10px'
+		marginTop: '10px',
 	},
 }));
 
@@ -124,7 +124,7 @@ const ViewEmpDetails = (props) => {
 		<Sidenav title={'Employee Details'}>
 			<div className={classes.dataTable}>
 				{/* <h5>Un-Hired</h5> */}
-				<div style={{ display: 'flex', }}>
+				<div style={{ display: 'flex' }}>
 					<CssTextField
 						id='outlined-basic'
 						label='Search Hired Employees'
@@ -148,10 +148,9 @@ const ViewEmpDetails = (props) => {
 						// onChange={handleChange}
 						style={{ width: '15%', marginTop: '5px', marginLeft: '3px' }}
 						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}
-					>
-						<MenuItem value="0">By Id</MenuItem>
-						<MenuItem value="0">By Name</MenuItem>
+						InputLabelProps={{ style: { fontSize: 14 } }}>
+						<MenuItem value='0'>By Id</MenuItem>
+						<MenuItem value='0'>By Name</MenuItem>
 					</CssTextField>
 				</div>
 				<TableContainer className={classes.tableContainer}>
@@ -229,7 +228,7 @@ const ViewEmpDetails = (props) => {
 			</div>
 			<div className={classes.dataTable}>
 				{/* <h5>Hired</h5> */}
-				<div style={{ display: 'flex', }}>
+				<div style={{ display: 'flex' }}>
 					<CssTextField
 						id='outlined-basic'
 						label='Search Hired Employees'
@@ -253,10 +252,9 @@ const ViewEmpDetails = (props) => {
 						// onChange={handleChange}
 						style={{ width: '15%', marginTop: '30px', marginLeft: '3px' }}
 						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}
-					>
-						<MenuItem value="0">By Id</MenuItem>
-						<MenuItem value="0">By Name</MenuItem>
+						InputLabelProps={{ style: { fontSize: 14 } }}>
+						<MenuItem value='0'>By Id</MenuItem>
+						<MenuItem value='0'>By Name</MenuItem>
 					</CssTextField>
 				</div>
 				<TableContainer className={classes.tableContainer}>
@@ -293,7 +291,7 @@ const ViewEmpDetails = (props) => {
 											{employee?.finalDesignation?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{employee?.officeUse?.department?.name}
+											{employee?.finalDepartment?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
 											<Button
