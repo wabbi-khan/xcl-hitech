@@ -13,6 +13,7 @@ import {
 } from '../../../services/action/EmployeesAction';
 import { getExperiences } from '../../../services/action/ExperienceAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
+import { getDesignation } from '../../../services/action/DesignationAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -195,8 +196,8 @@ const initialValues2 = {
 	bankNameAndBranch: '',
 	isExecutive: '',
 	empType: '',
-	finalDepartment: '',
-	finalDesignation: '',
+	finalDepartment: undefined,
+	finalDesignation: undefined,
 	finalSal: '',
 };
 
@@ -257,13 +258,13 @@ const validationForNextToKin = yup.object({
 
 const initialValuesForReference = {
 	name: '',
-	contact: '',
+	contactNo: '',
 	address: '',
 };
 
 const validationForReference = yup.object({
 	name: yup.string().required(),
-	contact: yup.string().required(),
+	contactNo: yup.string().required(),
 	address: yup.string().required(),
 });
 
@@ -314,6 +315,9 @@ const validationSchemaForExperience = yup.object({
 });
 
 const Employees = ({ history }) => {
+	const [success, setSuccess] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
 	const classes = useStyles();
 	const [image, setImage] = useState({ path: avatar });
 	let nextToKinForm = {};
@@ -374,14 +378,14 @@ const Employees = ({ history }) => {
 		dispatch(getEmployees());
 		dispatch(getExperiences());
 		dispatch(fetchDepartmentsAction());
+		dispatch(getDesignation());
 	}, [dispatch]);
 
 	const { experiences: experiencesState } = useSelector(
 		(state) => state.experiences,
 	);
 	const { departments } = useSelector((state) => state.departments);
-
-	const { employees } = useSelector((state) => state.employees);
+	const { designations } = useSelector((state) => state.designations);
 
 	const addMoreAcademicQualification = (values, actions) => {
 		setAcademicQualification((prev) => {
@@ -471,7 +475,15 @@ const Employees = ({ history }) => {
 		setExperience((prev) => prev.filter((el) => el.id !== id));
 	};
 
-	const onSubmit = async (values) => {
+	function isEmpty(obj) {
+		for (var x in obj) {
+			if (obj.hasOwnProperty(x)) return false;
+		}
+		return true;
+	}
+
+	const onSubmit = async (e) => {
+		e.preventDefault();
 		const nextToKinErrors = await nextToKinForm.validateForm();
 		nextToKinForm.setTouched(nextToKinErrors);
 		const referenceErrors = await referenceForm.validateForm();
@@ -483,38 +495,64 @@ const Employees = ({ history }) => {
 		const initialValues2Error = await initialValues2Form.validateForm();
 		initialValues2Form.setTouched(initialValues2Error);
 
-		if (
-			nextToKinErrors &&
-			referenceErrors &&
-			officeUseErrors &&
-			initialValues1Error &&
-			initialValues2Error
-		) {
-			console.log('error');
-		}
+		const data = {
+			picture: image.image,
+			...initialValues1Form.values,
+			...initialValues2Form.values,
+			nextToKin: {
+				...nextToKinForm.values,
+			},
+			reference: {
+				...referenceForm.values,
+			},
+			officeUse: {
+				...officeUseForm.values,
+			},
+			academicQualification: academicQualifications,
+			professionalQualification,
+			experience,
+		};
 
-		// dispatch(
-		// 	createEmployee({
-		// 		...values,
-		// 		experience,
-		// 		professionalQualification,
-		// 		academicQualification,
-		// 	}),
-		// );
+		console.log(data);
+
+		if (
+			isEmpty(nextToKinErrors) &&
+			isEmpty(referenceErrors) &&
+			isEmpty(officeUseErrors) &&
+			isEmpty(initialValues1Error) &&
+			isEmpty(initialValues2Error)
+		) {
+			setCreateLoading(true);
+			dispatch(
+				createEmployee(data, (err) => {
+					if (err) {
+						setCreateError(err);
+						setTimeout(() => {
+							setCreateError('');
+						}, 4000);
+					} else {
+						setSuccess('Employee added successfully');
+						setTimeout(() => {
+							setSuccess('');
+						}, 4000);
+					}
+					setCreateLoading(false);
+				}),
+			);
+		}
 	};
 
 	return (
 		<Sidenav title={'Employees'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					<Formik
-						initialValues={initialValues1}
-						validationSchema={validationSchema1}
-						onSubmit={onSubmit}>
-						{(props) => {
-							initialValues1Form = props;
-							return (
-								<Form>
+					<form onSubmit={onSubmit}>
+						<Formik
+							initialValues={initialValues1}
+							validationSchema={validationSchema1}>
+							{(props) => {
+								initialValues1Form = props;
+								return (
 									<Grid container spacing={1}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<FastField name='name'>
@@ -566,13 +604,17 @@ const Employees = ({ history }) => {
 														variant='outlined'
 														type='text'
 														size='small'
+														select
 														autocomplete='off'
 														inputProps={{ style: { fontSize: 14 } }}
 														InputLabelProps={{ style: { fontSize: 14 } }}
 														{...field}
 														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
+														error={meta.touched && meta.error}>
+														{designations.map((el) => (
+															<MenuItem value={el._id}>{el.name}</MenuItem>
+														))}
+													</CssTextField>
 												)}
 											</FastField>
 										</Grid>
@@ -681,17 +723,15 @@ const Employees = ({ history }) => {
 											</FastField>
 										</Grid>
 									</Grid>
-								</Form>
-							);
-						}}
-					</Formik>
-					<Formik
-						initialValues={initialValues2}
-						validationSchema={validationSchema2}>
-						{(props) => {
-							initialValues2Form = props;
-							return (
-								<Form>
+								);
+							}}
+						</Formik>
+						<Formik
+							initialValues={initialValues2}
+							validationSchema={validationSchema2}>
+							{(props) => {
+								initialValues2Form = props;
+								return (
 									<Grid container spacing={1}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<FastField name='status'>
@@ -864,7 +904,7 @@ const Employees = ({ history }) => {
 												{({ meta, field }) => (
 													<CssTextField
 														id='outlined-basic'
-														label='Bank Account'
+														label='Bank Account No.'
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='text'
@@ -948,43 +988,46 @@ const Employees = ({ history }) => {
 											</FastField>
 										</Grid>
 									</Grid>
-								</Form>
-							);
-						}}
-					</Formik>
-					<Grid container spacing={1} className='mt-5'>
-						<Grid item lg={3} md={3} sm={12} xs={12}>
-							<input
-								type='file'
-								className={classes.uploadImgBtn}
-								onChange={(event) => picUploadFunc(event)}></input>
-							<img
-								src={image.path}
-								alt='Employee Picture'
-								width='150'
-								height='150'
-								className='mt-4 ml-3'
-								align='left'
-							/>
+								);
+							}}
+						</Formik>
+						<Button
+							variant='outlined'
+							color='primary'
+							text='Add'
+							classNames={classes.addButton}
+							style={{ display: 'none' }}
+						/>
+						<Grid container spacing={1} className='mt-5'>
+							<Grid item lg={3} md={3} sm={12} xs={12}>
+								<input
+									type='file'
+									className={classes.uploadImgBtn}
+									onChange={(event) => picUploadFunc(event)}></input>
+								<img
+									src={image.path}
+									alt='Employee Picture'
+									width='150'
+									height='150'
+									className='mt-4 ml-3'
+									align='left'
+								/>
+							</Grid>
 						</Grid>
-					</Grid>
 
-					<div style={{ marginTop: 30, marginBottom: 30 }}>
-						<hr />
-					</div>
+						<div style={{ marginTop: 30, marginBottom: 30 }}>
+							<hr />
+						</div>
 
-					<Formik
-						initialValues={initialValuesForNextToKin}
-						validationSchema={validationForNextToKin}>
-						{(props) => {
-							nextToKinForm = props;
-							return (
-								<Form>
-									<NextToKin />
-								</Form>
-							);
-						}}
-					</Formik>
+						<Formik
+							initialValues={initialValuesForNextToKin}
+							validationSchema={validationForNextToKin}>
+							{(props) => {
+								nextToKinForm = props;
+								return <NextToKin />;
+							}}
+						</Formik>
+					</form>
 
 					<div style={{ marginTop: 30, marginBottom: 30 }}>
 						<hr />
@@ -1565,13 +1608,13 @@ const Employees = ({ history }) => {
 					<div style={{ marginTop: 30, marginBottom: 30 }}>
 						<hr />
 					</div>
-					<Formik
-						initialValues={initialValuesForReference}
-						validationSchema={validationForReference}>
-						{(props) => {
-							referenceForm = props;
-							return (
-								<Form>
+					<form onSubmit={onSubmit}>
+						<Formik
+							initialValues={initialValuesForReference}
+							validationSchema={validationForReference}>
+							{(props) => {
+								referenceForm = props;
+								return (
 									<Container className={classes.mainContainer}>
 										<h5 className='text-left'>Reference</h5>
 										<Grid container spacing={1} style={{ marginTop: 15 }}>
@@ -1596,13 +1639,13 @@ const Employees = ({ history }) => {
 												</FastField>
 											</Grid>
 											<Grid item lg={4} md={4} sm={12} xs={12}>
-												<FastField name='contact'>
+												<FastField name='contactNo'>
 													{({ meta, field }) => (
 														<CssTextField
 															id='outlined-basic'
-															label='Contact'
+															label='Contact No'
 															variant='outlined'
-															type='text'
+															type='number'
 															size='small'
 															autocomplete='off'
 															style={{ width: '100%' }}
@@ -1637,18 +1680,18 @@ const Employees = ({ history }) => {
 											</Grid>
 										</Grid>
 									</Container>
-								</Form>
-							);
-						}}
-					</Formik>
-					<div style={{ marginTop: 30, marginBottom: 30 }}>
-						<hr />
-					</div>
-					<Formik>
-						{(props) => {
-							officeUseForm = props;
-							return (
-								<Form>
+								);
+							}}
+						</Formik>
+						<div style={{ marginTop: 30, marginBottom: 30 }}>
+							<hr />
+						</div>
+						<Formik
+							initialValues={initialValuesForOfficeUse}
+							validationSchema={validationForOfficeUse}>
+							{(props) => {
+								officeUseForm = props;
+								return (
 									<Container className={classes.mainContainer}>
 										<h5 className='text-left'>For Office Use Only</h5>
 										<Grid container spacing={1} style={{ marginTop: 15 }}>
@@ -1812,17 +1855,19 @@ const Employees = ({ history }) => {
 											</Grid>
 										</Grid>
 									</Container>
-								</Form>
-							);
-						}}
-					</Formik>
-					<Button
-						variant='outlined'
-						color='primary'
-						text='Add'
-						classNames={classes.addButton}
-						onClick={onSubmit}
-					/>
+								);
+							}}
+						</Formik>
+						<Button
+							variant='outlined'
+							color='primary'
+							text='Add'
+							classNames={classes.addButton}
+							loading={createLoading}
+							loaderColor='#333'
+						/>
+						{createError && <p className='text-light bg-danger'>{createError}</p>}
+					</form>
 				</Container>
 			</div>
 		</Sidenav>

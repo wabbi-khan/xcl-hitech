@@ -10,20 +10,25 @@ import {
 	EMPLOYEE_UPDATE_SUCCESS,
 } from '../constants/EmployeesConst';
 
-export const getEmployees = (query) => async (dispatch) => {
+export const getEmployees = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: EMPLOYEE_REQUEST,
 	});
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/employees?isHired=true`,
+			`${process.env.REACT_APP_API_URL}/employees?isHired=true${
+				query ? `&${query}` : ''
+			}`,
 		);
 
-		dispatch({
-			type: EMPLOYEE_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: EMPLOYEE_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -48,27 +53,31 @@ export const getSingleEmployee = (id) => async (dispatch) => {
 	}
 };
 
-export const getUnHiredEmployees = (query) => async (dispatch) => {
+export const getUnHiredEmployees = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: EMPLOYEE_REQUEST,
 	});
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/employees?isHired=false`,
+			`${process.env.REACT_APP_API_URL}/employees?isHired=false${
+				query ? `&${query}` : ''
+			}`,
 		);
-		console.log(data);
 
-		dispatch({
-			type: EMPLOYEE_UNHIRED_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: EMPLOYEE_UNHIRED_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
 };
 
-export const createEmployee = (data) => async (dispatch) => {
+export const createEmployee = (data, cb) => async (dispatch) => {
 	dispatch({
 		type: EMPLOYEE_REQUEST,
 	});
@@ -85,6 +94,7 @@ export const createEmployee = (data) => async (dispatch) => {
 			);
 
 			data.picture = img.data.url;
+			console.log(img.data.url);
 		}
 
 		let res = await axios.post(
@@ -92,12 +102,15 @@ export const createEmployee = (data) => async (dispatch) => {
 			data,
 		);
 
-		dispatch({
-			type: EMPLOYEE_CREATE_SUCCESS,
-			payload: res.data.employee,
-		});
+		if (res.data.status === 'OK') {
+			dispatch({
+				type: EMPLOYEE_CREATE_SUCCESS,
+				payload: res.data.employee,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -211,14 +224,15 @@ export const getEmployeeByDesignationAndDepartment =
 		}
 	};
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: EMPLOYEE_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: EMPLOYEE_FAIL,
 			payload: 'Network Error',

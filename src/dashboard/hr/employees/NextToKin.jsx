@@ -139,7 +139,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const NextToKin = ({ formik }) => {
+const NextToKin = ({}) => {
 	const classes = useStyles();
 
 	return (
@@ -170,7 +170,6 @@ const NextToKin = ({ formik }) => {
 					<FastField name='relation'>
 						{(props) => {
 							const { field, meta } = props;
-							console.log(meta);
 							return (
 								<CssTextField
 									id='outlined-basic'
