@@ -185,6 +185,41 @@ const Products = () => {
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
+											label='Select Sub-Category'
+											variant='outlined'
+											type='email'
+											size='small'
+											autoComplete='off'
+											select
+											required
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('category')}
+											onBlur={props.handleBlur('category')}
+											value={props.values.category}
+											helperText={props.touched.category && props.errors.category}
+											error={props.touched.category && props.errors.category}>
+											{/* {
+										!categories || !categories.length ? (
+											<p>Data Not Found</p>
+										) : (
+											categories.map((cat) => (
+												<MenuItem
+													value={cat._id}
+													key={cat._id}
+												// onClick={() => setCodeCategory(cat.name) }
+												>
+													{cat.name}
+												</MenuItem>
+											))
+										)
+									} */}
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
 											label='Product Name'
 											variant='outlined'
 											type='text'
@@ -229,6 +264,8 @@ const Products = () => {
 									)
 									} */}
 									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -256,8 +293,6 @@ const Products = () => {
 									)
 								} */}
 									</Grid>
-								</Grid>
-								<Grid container spacing={1} style={{ marginTop: 15 }}>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -297,7 +332,8 @@ const Products = () => {
 				</Container>
 				<div
 					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: '50px' }}>
+					style={{ textAlign: 'left', marginTop: '50px' }}
+				>
 					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 						<thead class='bg-dark text-light'>
 							<tr>

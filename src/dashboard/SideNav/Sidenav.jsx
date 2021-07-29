@@ -658,6 +658,14 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
+									history.push('/purchase/units');
+								}}>
+								<ListItemText inset primary='Units' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
 									history.push('/purchase/category');
 								}}>
 								<ListItemText inset primary='Categories' />
@@ -927,21 +935,21 @@ function Sidenav(props) {
 					<Collapse in={open2} timeout='auto' unmountOnExit>
 						<Divider />
 						<List component='div' disablePadding>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/store_categories');
 								}}>
 								<ListItemText inset primary='Categories' />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/products');
 								}}>
-								<ListItemText inset primary='Products' />
+								<ListItemText inset primary='Finished Products' />
 							</ListItem>
 							<ListItem
 								button
@@ -1045,7 +1053,7 @@ function Sidenav(props) {
 								onClick={() => {
 									history.push('/storedashboard/stock_assessment_report');
 								}}>
-								<ListItemText inset primary='Stock Assessment Rep...' />
+								<ListItemText inset primary='Stock Assessment Rep..' />
 							</ListItem>
 						</List>
 					</Collapse>

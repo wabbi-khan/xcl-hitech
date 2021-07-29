@@ -201,7 +201,7 @@ const TrainingPlan = ({ history }) => {
 											size='small'
 											select
 											autocomplete='off'
-											style={{ width: '80%' }}
+											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('topic')}
 											onBlur={props.handleBlur('topic')}
@@ -229,7 +229,7 @@ const TrainingPlan = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
-											style={{ width: '80%' }}
+											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('needIdentifiedBy')}
 											onBlur={props.handleBlur('needIdentifiedBy')}
@@ -241,15 +241,51 @@ const TrainingPlan = ({ history }) => {
 												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
 											}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{!designations || !designations.length ? (
-												<p>Data Not Found</p>
-											) : (
-												designations.map((el, i) => (
-													<MenuItem value={el._id} key={i}>
-														{el.name}
-													</MenuItem>
-												))
-											)}
+											{
+												!designations || !designations.length ? (
+													<p>Data Not Found</p>
+												) : (
+													designations.map((el, i) => (
+														<MenuItem value={el._id} key={i}>
+															{el.name}
+														</MenuItem>
+													))
+												)
+											}
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Employee'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											select
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('needIdentifiedBy')}
+											onBlur={props.handleBlur('needIdentifiedBy')}
+											value={props.values.needIdentifiedBy}
+											helperText={
+												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
+											}
+											error={
+												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}>
+											{
+												!designations || !designations.length ? (
+													<p>Data Not Found</p>
+												) : (
+													designations.map((el, i) => (
+														<MenuItem value={el._id} key={i}>
+															{el.name}
+														</MenuItem>
+													))
+												)
+											}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -261,7 +297,7 @@ const TrainingPlan = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
-											style={{ width: '80%' }}
+											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('participants')}
 											onBlur={props.handleBlur('participants')}
@@ -280,6 +316,8 @@ const TrainingPlan = ({ history }) => {
 											)}
 										</CssTextField>
 									</Grid>
+								</Grid>
+								<Grid container spacing={1} className='mt-2'>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -289,7 +327,7 @@ const TrainingPlan = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
-											style={{ width: '80%' }}
+											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('trainer')}
@@ -308,8 +346,6 @@ const TrainingPlan = ({ history }) => {
 											)}
 										</CssTextField>
 									</Grid>
-								</Grid>
-								<Grid container spacing={1} className='mt-4'>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -319,7 +355,7 @@ const TrainingPlan = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
-											style={{ width: '80%' }}
+											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('venue')}

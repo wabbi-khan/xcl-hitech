@@ -149,12 +149,10 @@ const PrintEmpDetails = (props) => {
 				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>
-					Employment Form
-				</h5>
+				<h5 className='mt-5' style={{ textDecoration: 'underline', }}>Employment Form</h5>
 			</div>
 			<div className='container-fluid'>
-				<div className='row ' style={{ marginTop: 70, textAlign: 'left' }}>
+				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
 					<div className='col-lg-4 col-md-4 col-sm-6 mt-4'>
 						<div className='row no-gutters mt-2'>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
@@ -163,7 +161,7 @@ const PrintEmpDetails = (props) => {
 							<div className='col-lg-6 col-md-6 col-sm-6'>
 								<p>
 									{fullDate}
-									<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+									<hr style={{ border: '1px solid green', borderColor: 'black', width: '100px', marginTop: 0 }} />
 								</p>
 							</div>
 						</div>
@@ -177,12 +175,19 @@ const PrintEmpDetails = (props) => {
 							Print
 						</Button>
 					</div>
+					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
+						<Button
+							variant='contained'
+							size='small'
+							className='bg-dark text-light'
+							onClick={() => window.print()}>
+							Print
+						</Button>
+					</div>
 				</div>
 			</div>
-			<div className='container-fluid' style={{ marginTop: '50px' }}>
-				<table
-					class='table table-responsive table-bordered border-dark mt-3'
-					style={{ textAlign: 'left' }}>
+			<div className='container-fluid' style={{ marginTop: '20px' }}>
+				<table class="table table-responsive table-bordered mt-3" style={{ textAlign: 'left' }}>
 					<tbody>
 						{/* {
 							loading ? (
@@ -628,12 +633,184 @@ const PrintEmpDetails = (props) => {
 					</Grid>
 				</div>
 			</div> */}
-			<div className={classes.table1}>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+					Academic Qualification
+				</h5>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<thead class="">
+						<tr>
+							<th>S.No.</th>
+							<th>Certificate/Degree</th>
+							<th>Board/University</th>
+							<th>Year of Passing</th>
+							<th>Division</th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+						{
+							!academicQualification || !academicQualification.length ? (
+								<span>Not Found</span>
+							) : (
+								academicQualification.map((el, i) => (
+									<tr >
+										<td>
+											{i + 1}
+										</td>
+										<td>
+											{el.degree}
+										</td>
+										<td>
+											{el.university}
+										</td>
+										<td>
+											{el.yearOfPassing}
+										</td>
+										<td>
+											{el.division}
+										</td>
+									</tr>
+								))
+							)
+						}
+						{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
+			</div>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+					Professional Qualification
+				</h5>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<thead class="">
+						<tr>
+							<th>S.No.</th>
+							<th>Certificate/Degree</th>
+							<th>Board/University</th>
+							<th>Year of Passing</th>
+							<th>Division</th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+						{
+							!professionalQualification || !professionalQualification.length ? (
+								<span>Not Found</span>
+							) : (
+								professionalQualification.map((el, i) => (
+									<tr >
+										<td>
+											{i + 1}
+										</td>
+										<td>
+											{el.degree}
+										</td>
+										<td>
+											{el.university}
+										</td>
+										<td>
+											{el.yearOfPassing}
+										</td>
+										<td>
+											{el.division}
+										</td>
+									</tr>
+								))
+							)
+						}
+						{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
+			</div>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+					Experience (Recent First)
+				</h5>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<thead class="">
+						<tr>
+							<th>S.No.</th>
+							<th>Company Name</th>
+							<th>Company Address</th>
+							<th>Last Salary</th>
+							<th>Reason to Left</th>
+							<th>From</th>
+							<th>To</th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+						{
+							!experience || !experience.length ? (
+								<span>Not Found</span>
+							) : (
+								experience.map((el, i) => (
+									<tr >
+										<td>
+											{i + 1}
+										</td>
+										<td>
+											{el.companyName}
+										</td>
+										<td>
+											{el.companyAddress}
+										</td>
+										<td>
+											{el.lastSalary}
+										</td>
+										<td>
+											{el.reasonOfLeft}
+										</td>
+										<td>
+											{el.from}
+										</td>
+										<td>
+											{el.to}
+										</td>
+									</tr>
+								))
+							)
+						}
+						{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
+			</div>
+			{/* <div className={classes.table1}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					Academic Qualification
 				</h5>
 				<div className='table ml-auto mr-auto mt-4'>
-					{/* <h6>Purchase Inspection Materials</h6> */}
 					<TableContainer>
 						<Table>
 							<TableHead>
@@ -656,171 +833,129 @@ const PrintEmpDetails = (props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{!academicQualification || !academicQualification.length ? (
-									<span>Not Found</span>
-								) : (
-									academicQualification.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.degree}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.university}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.yearOfPassing}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.division}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)}
+								{
+									!academicQualification || !academicQualification.length ? (
+										<span>Not Found</span>
+									) : (
+										academicQualification.map((el, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{el.degree}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{el.university}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{el.yearOfPassing}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{el.division}
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									)
+								}
 							</TableBody>
 						</Table>
 					</TableContainer>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
 				</div>
-			</div>
-			<div className={classes.table1}>
+			</div> */}
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
-					Professional Qualification
+					For Office Use Only
 				</h5>
-				<div className='table ml-auto mr-auto mt-4'>
-					{/* <h6>Purchase Inspection Materials</h6> */}
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Certificate/Degree
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Board/University
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Year of Passing
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Division
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!professionalQualification || !professionalQualification.length ? (
-									<span>Not Found</span>
-								) : (
-									professionalQualification.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.degree}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.university}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.yearOfPassing}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.division}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				<table class="table table-responsive table-bordered text-center mt-3">
+					<tbody>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Date of Interviewed
+							</td>
+							<td colspan='3'>
+								{officeUse?.dateOfInterviewed}
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Recommend For Employment
+							</td>
+							<td colspan='3'>
+								{officeUse?.recommended}
+							</td>
+							<td style={{ fontWeight: 'bold' }}>
+								Job Title
+							</td>
+							<td colspan='3'>
+								{officeUse?.jobTitle}
+							</td>
+						</tr>
+						<tr >
+							<td colspan='2' style={{ fontWeight: 'bold' }}>
+								Recommended Salary
+							</td>
+							<td colspan='2'>
+								{officeUse?.recommendedSalary}
+							</td>
+							<td colspan='2' style={{ fontWeight: 'bold' }}>
+								Recommendations Approved
+							</td>
+							<td colspan='2'>
+								{officeUse?.approved}
+							</td>
+						</tr>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>
+								Remarks
+							</td>
+							<td colspan='5'>
+								{officeUse?.remarks}
+							</td>
+						</tr>
+						{/* {
+							loading ? (
+								<Loading />
+							) : error ? (
+								<MaterialError />
+							) : products.length ? (
+								products.map((product, i) => ( */}
+						{/* ))
+							) : (
+								<h5>Not Found</h5>
+							)
+						} */}
+					</tbody>
+				</table>
 			</div>
-			<div className={classes.table1}>
+			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
-					Experience: (Recent First)
+					Assigned Final Details
 				</h5>
-				<div className='table ml-auto mr-auto mt-4'>
-					{/* <h6>Purchase Inspection Materials</h6> */}
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Company Name
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Company Address
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Last Salary
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Reason To Left
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										From
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										To
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!experience || !experience.length ? (
-									<span>Not Found</span>
-								) : (
-									experience.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.companyName}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.companyAddress}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.lastSalary}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.reasonOfLeft}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.from}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{el.to}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				<table class="table table-responsive table-bordered text-center mt-3">
+					<tbody>
+						<tr >
+							<td style={{ fontWeight: 'bold' }}>
+								Department
+							</td>
+							<td colspan='3'>
+								dept
+							</td>
+							<td colspan='3' style={{ fontWeight: 'bold' }}>
+								Designation
+							</td>
+							<td colspan='3'>
+								designation
+							</td>
+							<td style={{ fontWeight: 'bold' }}>
+								Salary
+							</td>
+							<td colspan='3'>
+								sal
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-			<div className={classes.table1}>
+			{/* <div className={classes.table1}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					For Office Use Only
 				</h5>
@@ -917,31 +1052,32 @@ const PrintEmpDetails = (props) => {
 						/>
 					</Grid>
 				</Grid>
-			</div>
-			<Grid container spacing={1} style={{ marginTop: 150 }}>
+			</div> */}
+			<Grid container spacing={1} style={{ marginTop: 150, }} >
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
+					<hr style={{ border: '1px solid green', borderColor: 'black', }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Applicant Signature
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+				<hr style={{ border: '1px solid green', borderColor: 'black', }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Interviewer Signature
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+				<hr style={{ border: '1px solid green', borderColor: 'black', }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Approved By
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+				<hr style={{ border: '1px solid green', borderColor: 'black', }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Date of Approval
 					</p>

@@ -96,6 +96,8 @@ import PrintEmpCompEval from '../dashboard/hr/emp competence eval/PrintEmpCompEv
 import DeliveryOrder from '../dashboard/marketing-sales/deliveryOrder/DeliveryOrder';
 import Responsibilities from '../dashboard/hr/responsibilities/Responsibilities';
 import Authorities from '../dashboard/hr/authorities/Authorities';
+import EditEmp from '../dashboard/hr/employees/EditEmp';
+import Units from '../dashboard/purchase/units/Units';
 
 
 
@@ -107,6 +109,7 @@ const Router = () => {
                 <Router exact path="/sidenav" component={Sidenav}/>
                 {/* ===================================================================== */}
                 <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>       //Purchase Module Routes
+                <Router exact path="/purchase/units" component={Units}/>
                 <Router exact path="/purchase/category" component={Category}/>
                 <Router exact path="/purchase/department" component={Department}/>
                 <Router exact path="/purchase/material" component={Material}/>
@@ -159,6 +162,7 @@ const Router = () => {
                 <Router exact path="/hr/emp_competency_evaluation" component={EmpCompetencEval}/>
                 <Router exact path="/hr/print_emp_competency_evaluation" component={PrintEmpCompEval}/>
                 <Router exact path="/hr/employees" component={Employees}/>
+                <Router exact path="/hr/edit_emp_details" component={EditEmp}/>
                 <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
                 <Router exact path="/hr/employees/print_emp_details" component={PrintEmpDetails}/>
                 <Router exact path="/hr/employees/hired_employee_details" component={HiredEmpDetails}/>

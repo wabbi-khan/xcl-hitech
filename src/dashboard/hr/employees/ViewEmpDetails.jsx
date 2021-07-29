@@ -165,7 +165,7 @@ const ViewEmpDetails = (props) => {
 				<div style={{ display: 'flex' }}>
 					<CssTextField
 						id='outlined-basic'
-						label='Search Hired Employees'
+						label='Search Un-Hired Employees'
 						variant='outlined'
 						type='search'
 						size='small'
@@ -239,34 +239,51 @@ const ViewEmpDetails = (props) => {
 											{unHiredEmployee?.officeUse?.department?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
-											<StyledTableCell
-												style={{
-													alignItems: 'center',
-													justifyContent: 'center',
-													display: 'flex',
+											<Button
+												variant='contained'
+												className='bg-dark text-light'
+												size='small'
+												onClick={() => {
+													history.push(
+														`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
+													);
 												}}>
+												Print
+											</Button>
+											<Button
+												variant='contained'
+												className='bg-dark text-light'
+												size='small'
+												onClick={() => {
+													history.push(
+														// `/hr/edit_emp_details/${unHiredEmployee._id}`,
+														`/hr/edit_emp_details`,
+													);
+												}}>
+												Edit
+											</Button>
+											<Button
+												variant='contained'
+												className='bg-dark text-light'
+												size='small'
+												style={{ marginLeft: 3 }}
+												onClick={() => {
+													history.push(
+														`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
+													);
+												}}>
+												View Details
+											</Button>
+											<Link
+												to={`/hr/employees/hired_employee_details/${unHiredEmployee._id}`}>
 												<Button
 													variant='contained'
-													className='bg-dark text-light'
+													className='bg-success text-light'
 													size='small'
-													onClick={() => {
-														history.push(
-															`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
-														);
-													}}>
-													View Details
+													style={{ marginLeft: 3 }}>
+													Hired
 												</Button>
-												<Link
-													to={`/hr/employees/hired_employee_details/${unHiredEmployee._id}`}>
-													<Button
-														variant='contained'
-														className='bg-success text-light'
-														size='small'
-														style={{ marginLeft: 3 }}>
-														Hired
-													</Button>
-												</Link>
-											</StyledTableCell>
+											</Link>
 										</StyledTableCell>
 									</StyledTableRow>
 								))}
