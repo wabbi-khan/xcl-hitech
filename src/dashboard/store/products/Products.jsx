@@ -364,7 +364,8 @@ const Products = () => {
 				</Container>
 				<div
 					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: '50px' }}>
+					style={{ textAlign: 'left', marginTop: '50px' }}
+				>
 					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 						<thead class='bg-dark text-light'>
 							<tr>

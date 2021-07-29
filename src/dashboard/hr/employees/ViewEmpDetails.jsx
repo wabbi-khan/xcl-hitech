@@ -154,7 +154,88 @@ const ViewEmpDetails = (props) => {
 						<MenuItem value="0">By Name</MenuItem>
 					</CssTextField>
 				</div>
-				<TableContainer className={classes.tableContainer}>
+				<div
+					className='container-fluid'
+					style={{ textAlign: 'left', marginTop: '20px', padding6Left: 0 }}
+				>
+					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center'>
+						<thead class='bg-dark text-light'>
+							<tr>
+								<th>S.No.</th>
+								<th>Name</th>
+								<th>Designation</th>
+								<th>Department</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+								loading ? (
+									<Loading />
+								) : error ? (
+									<MaterialError />
+								) : !unHiredEmployees || !unHiredEmployees.length ? (
+									<h5>Not Found</h5>
+								) : (
+									unHiredEmployees.map((unHiredEmployee, i) => (
+										<tr key={i}>
+											<td>{i + 1}</td>
+											<td>
+												{unHiredEmployee?.name}
+											</td>
+											<td>
+												{unHiredEmployee?.officeUse?.jobTitle}
+											</td>
+											<td>
+												{unHiredEmployee?.officeUse?.department?.name}
+											</td>
+											<td>
+												<>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														onClick={() => {
+															history.push(
+																// `/hr/edit_emp_details/${unHiredEmployee._id}`,
+																`/hr/edit_emp_details`,
+															);
+														}}>
+														Edit
+													</Button>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														style={{ marginLeft: 3 }}
+														onClick={() => {
+															history.push(
+																`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
+															);
+														}}
+													>
+														View Details
+													</Button>
+													<Link
+														to={`/hr/employees/hired_employee_details/${unHiredEmployee._id}`}>
+														<Button
+															variant='contained'
+															className='bg-success text-light'
+															size='small'
+															style={{ marginLeft: 3 }}>
+															Hired
+														</Button>
+													</Link>
+												</>
+											</td>
+										</tr>
+									))
+								)
+							}
+						</tbody>
+					</table>
+				</div>
+				{/* <TableContainer className={classes.tableContainer}>
 					<Table
 						stickyHeader
 						className='table table-dark'
@@ -220,7 +301,7 @@ const ViewEmpDetails = (props) => {
 																`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
 															);
 														}}
-														>
+													>
 														View Details
 													</Button>
 													<Link
@@ -241,7 +322,7 @@ const ViewEmpDetails = (props) => {
 							}
 						</TableBody>
 					</Table>
-				</TableContainer>
+				</TableContainer> */}
 			</div>
 			<div className={classes.dataTable}>
 				{/* <h5>Hired</h5> */}
