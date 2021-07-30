@@ -165,6 +165,9 @@ function App() {
 			<PrivateRoute exact path='/purchasedashboard'>
 				<PurchaseDashboard />
 			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/units'>
+				<Units />
+			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/category'>
 				<Category />
 			</PrivateRoute>
