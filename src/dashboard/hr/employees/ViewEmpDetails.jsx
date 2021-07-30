@@ -125,6 +125,7 @@ const ViewEmpDetails = (props) => {
 	);
 
 	const searchUnHired = (value) => {
+		console.log(value.length);
 		setUnHiredLoading(true);
 		if (value.length > 0) {
 			dispatch(
@@ -254,6 +255,7 @@ const ViewEmpDetails = (props) => {
 												variant='contained'
 												className='bg-dark text-light'
 												size='small'
+												style={{ marginLeft: 3 }}
 												onClick={() => {
 													history.push(
 														// `/hr/edit_emp_details/${unHiredEmployee._id}`,

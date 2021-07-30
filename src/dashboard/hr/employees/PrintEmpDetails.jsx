@@ -149,7 +149,9 @@ const PrintEmpDetails = (props) => {
 				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5' style={{ textDecoration: 'underline', }}>Employment Form</h5>
+				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>
+					Employment Form
+				</h5>
 			</div>
 			<div className='container-fluid'>
 				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
@@ -161,7 +163,14 @@ const PrintEmpDetails = (props) => {
 							<div className='col-lg-6 col-md-6 col-sm-6'>
 								<p>
 									{fullDate}
-									<hr style={{ border: '1px solid green', borderColor: 'black', width: '100px', marginTop: 0 }} />
+									<hr
+										style={{
+											border: '1px solid green',
+											borderColor: 'black',
+											width: '100px',
+											marginTop: 0,
+										}}
+									/>
 								</p>
 							</div>
 						</div>
@@ -187,7 +196,9 @@ const PrintEmpDetails = (props) => {
 				</div>
 			</div>
 			<div className='container-fluid' style={{ marginTop: '20px' }}>
-				<table class="table table-responsive table-bordered mt-3" style={{ textAlign: 'left' }}>
+				<table
+					class='table table-responsive table-bordered mt-3'
+					style={{ textAlign: 'left' }}>
 					<tbody>
 						{/* {
 							loading ? (
@@ -633,12 +644,14 @@ const PrintEmpDetails = (props) => {
 					</Grid>
 				</div>
 			</div> */}
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+			<div
+				className='container-fluid'
+				style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					Academic Qualification
 				</h5>
-				<table class="table table-responsive table-bordered border-dark text-center mt-3">
-					<thead class="">
+				<table class='table table-responsive table-bordered border-dark text-center mt-3'>
+					<thead class=''>
 						<tr>
 							<th>S.No.</th>
 							<th>Certificate/Degree</th>
@@ -655,31 +668,19 @@ const PrintEmpDetails = (props) => {
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-						{
-							!academicQualification || !academicQualification.length ? (
-								<span>Not Found</span>
-							) : (
-								academicQualification.map((el, i) => (
-									<tr >
-										<td>
-											{i + 1}
-										</td>
-										<td>
-											{el.degree}
-										</td>
-										<td>
-											{el.university}
-										</td>
-										<td>
-											{el.yearOfPassing}
-										</td>
-										<td>
-											{el.division}
-										</td>
-									</tr>
-								))
-							)
-						}
+						{!academicQualification || !academicQualification.length ? (
+							<span>Not Found</span>
+						) : (
+							academicQualification.map((el, i) => (
+								<tr>
+									<td>{i + 1}</td>
+									<td>{el.degree}</td>
+									<td>{el.university}</td>
+									<td>{el.yearOfPassing}</td>
+									<td>{el.division}</td>
+								</tr>
+							))
+						)}
 						{/* ))
 							) : (
 								<h5>Not Found</h5>
@@ -688,12 +689,14 @@ const PrintEmpDetails = (props) => {
 					</tbody>
 				</table>
 			</div>
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+			<div
+				className='container-fluid'
+				style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					Professional Qualification
 				</h5>
-				<table class="table table-responsive table-bordered border-dark text-center mt-3">
-					<thead class="">
+				<table class='table table-responsive table-bordered border-dark text-center mt-3'>
+					<thead class=''>
 						<tr>
 							<th>S.No.</th>
 							<th>Certificate/Degree</th>
@@ -710,31 +713,19 @@ const PrintEmpDetails = (props) => {
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-						{
-							!professionalQualification || !professionalQualification.length ? (
-								<span>Not Found</span>
-							) : (
-								professionalQualification.map((el, i) => (
-									<tr >
-										<td>
-											{i + 1}
-										</td>
-										<td>
-											{el.degree}
-										</td>
-										<td>
-											{el.university}
-										</td>
-										<td>
-											{el.yearOfPassing}
-										</td>
-										<td>
-											{el.division}
-										</td>
-									</tr>
-								))
-							)
-						}
+						{!professionalQualification || !professionalQualification.length ? (
+							<span>Not Found</span>
+						) : (
+							professionalQualification.map((el, i) => (
+								<tr>
+									<td>{i + 1}</td>
+									<td>{el.degree}</td>
+									<td>{el.university}</td>
+									<td>{el.yearOfPassing}</td>
+									<td>{el.division}</td>
+								</tr>
+							))
+						)}
 						{/* ))
 							) : (
 								<h5>Not Found</h5>
@@ -743,12 +734,14 @@ const PrintEmpDetails = (props) => {
 					</tbody>
 				</table>
 			</div>
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+			<div
+				className='container-fluid'
+				style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					Experience (Recent First)
 				</h5>
-				<table class="table table-responsive table-bordered border-dark text-center mt-3">
-					<thead class="">
+				<table class='table table-responsive table-bordered border-dark text-center mt-3'>
+					<thead class=''>
 						<tr>
 							<th>S.No.</th>
 							<th>Company Name</th>
@@ -767,37 +760,21 @@ const PrintEmpDetails = (props) => {
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-						{
-							!experience || !experience.length ? (
-								<span>Not Found</span>
-							) : (
-								experience.map((el, i) => (
-									<tr >
-										<td>
-											{i + 1}
-										</td>
-										<td>
-											{el.companyName}
-										</td>
-										<td>
-											{el.companyAddress}
-										</td>
-										<td>
-											{el.lastSalary}
-										</td>
-										<td>
-											{el.reasonOfLeft}
-										</td>
-										<td>
-											{el.from}
-										</td>
-										<td>
-											{el.to}
-										</td>
-									</tr>
-								))
-							)
-						}
+						{!experience || !experience.length ? (
+							<span>Not Found</span>
+						) : (
+							experience.map((el, i) => (
+								<tr>
+									<td>{i + 1}</td>
+									<td>{el.companyName}</td>
+									<td>{el.companyAddress}</td>
+									<td>{el.lastSalary}</td>
+									<td>{el.reasonOfLeft}</td>
+									<td>{el.from}</td>
+									<td>{el.to}</td>
+								</tr>
+							))
+						)}
 						{/* ))
 							) : (
 								<h5>Not Found</h5>
@@ -863,53 +840,37 @@ const PrintEmpDetails = (props) => {
 					</TableContainer>
 				</div>
 			</div> */}
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+			<div
+				className='container-fluid'
+				style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					For Office Use Only
 				</h5>
-				<table class="table table-responsive table-bordered text-center mt-3">
+				<table class='table table-responsive table-bordered text-center mt-3'>
 					<tbody>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Date of Interviewed
-							</td>
-							<td colspan='3'>
-								{officeUse?.dateOfInterviewed}
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Date of Interviewed</td>
+							<td colspan='3'>{officeUse?.dateOfInterviewed}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Recommend For Employment
 							</td>
-							<td colspan='3'>
-								{officeUse?.recommended}
-							</td>
-							<td style={{ fontWeight: 'bold' }}>
-								Job Title
-							</td>
-							<td colspan='3'>
-								{officeUse?.jobTitle}
-							</td>
+							<td colspan='3'>{officeUse?.recommended ? 'Yes' : 'No'}</td>
+							<td style={{ fontWeight: 'bold' }}>Job Title</td>
+							<td colspan='3'>{officeUse?.jobTitle}</td>
 						</tr>
-						<tr >
+						<tr>
 							<td colspan='2' style={{ fontWeight: 'bold' }}>
 								Recommended Salary
 							</td>
-							<td colspan='2'>
-								{officeUse?.recommendedSalary}
-							</td>
+							<td colspan='2'>{officeUse?.recommendedSalary}</td>
 							<td colspan='2' style={{ fontWeight: 'bold' }}>
 								Recommendations Approved
 							</td>
-							<td colspan='2'>
-								{officeUse?.approved}
-							</td>
+							<td colspan='2'>{officeUse?.approved}</td>
 						</tr>
 						<tr>
-							<td style={{ fontWeight: 'bold' }}>
-								Remarks
-							</td>
-							<td colspan='5'>
-								{officeUse?.remarks}
-							</td>
+							<td style={{ fontWeight: 'bold' }}>Remarks</td>
+							<td colspan='5'>{officeUse?.remarks}</td>
 						</tr>
 						{/* {
 							loading ? (
@@ -926,31 +887,23 @@ const PrintEmpDetails = (props) => {
 					</tbody>
 				</table>
 			</div>
-			<div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
+			<div
+				className='container-fluid'
+				style={{ textAlign: 'left', marginTop: '50px' }}>
 				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
 					Assigned Final Details
 				</h5>
-				<table class="table table-responsive table-bordered text-center mt-3">
+				<table class='table table-responsive table-bordered text-center mt-3'>
 					<tbody>
-						<tr >
-							<td style={{ fontWeight: 'bold' }}>
-								Department
-							</td>
-							<td colspan='3'>
-								dept
-							</td>
+						<tr>
+							<td style={{ fontWeight: 'bold' }}>Department</td>
+							<td colspan='3'>dept</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Designation
 							</td>
-							<td colspan='3'>
-								designation
-							</td>
-							<td style={{ fontWeight: 'bold' }}>
-								Salary
-							</td>
-							<td colspan='3'>
-								sal
-							</td>
+							<td colspan='3'>designation</td>
+							<td style={{ fontWeight: 'bold' }}>Salary</td>
+							<td colspan='3'>sal</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1053,31 +1006,31 @@ const PrintEmpDetails = (props) => {
 					</Grid>
 				</Grid>
 			</div> */}
-			<Grid container spacing={1} style={{ marginTop: 150, }} >
+			<Grid container spacing={1} style={{ marginTop: 150 }}>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
 					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
-					<hr style={{ border: '1px solid green', borderColor: 'black', }} />
+					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Applicant Signature
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-				<hr style={{ border: '1px solid green', borderColor: 'black', }} />
+					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Interviewer Signature
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-				<hr style={{ border: '1px solid green', borderColor: 'black', }} />
+					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Approved By
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-				<hr style={{ border: '1px solid green', borderColor: 'black', }} />
+					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Date of Approval
 					</p>
