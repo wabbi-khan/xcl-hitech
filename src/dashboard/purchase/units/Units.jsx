@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { Formik, Form } from 'formik'
@@ -8,6 +9,13 @@ import * as yup from 'yup';
 import axios from 'axios';
 import Button from '../../../components/utils/Button'
 import EditUnit from './EditUnit';
+import {
+    createUnit,
+    deleteUnit,
+    getUnits,
+} from '../../../services/action/unitAction';
+import Loader from 'react-loader-spinner';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -88,34 +96,100 @@ const validationSchema = yup.object({
 
 const Units = () => {
     const classes = useStyles();
-    const [resString, setResString] = useState('');
 
-    const onSubmit = async (props) => {
-        // dispatch(createTraining(props));
-    };
-
-    const deleteProduct = async (params) => {
-        // try {
-        //     await axios.delete(`${process.env.REACT_APP_API_URL}/product/${params}`);
-        //     window.location.reload();
-        // } catch (error) {
-        //     console.log(error);
-        // }
-    };
+    const dispatch = useDispatch();
 
     const [open, setOpen] = useState(false);
+    const [createLoading, setCreateLoading] = React.useState(false);
+    const [createError, setCreateError] = React.useState('');
+    const [deleteLoading, setDeleteLoading] = React.useState(false);
+    const [deleteError, setDeleteError] = React.useState('');
+    const [fetchLoading, setFetchLoading] = React.useState('');
+    const [fetchError, setFetchError] = React.useState('');
+    const [success, setSuccess] = React.useState('');
+    const [unit, setUnit] = React.useState({});
+    const { units } = useSelector((state) => state.responsibilities);
+
+    React.useEffect(() => {
+        setFetchLoading(true);
+        dispatch(
+            getUnits(null, (err) => {
+                if (err) {
+                    setFetchError(err);
+                    setTimeout(() => {
+                        setFetchError('');
+                    }, 4000);
+                }
+                setFetchLoading(false);
+            }),
+        );
+    }, [dispatch]);
+
+    const onSubmit = async (values) => {
+        setCreateLoading(true);
+        dispatch(
+            createUnit(values, (err) => {
+                if (err) {
+                    setCreateError(err);
+                    setTimeout(() => {
+                        setCreateError('');
+                    }, 4000);
+                } else {
+                    setSuccess('Unit added successfully');
+                    setTimeout(() => {
+                        setSuccess('');
+                    }, 4000);
+                }
+                setCreateLoading(false);
+            }),
+        );
+    };
+
+    const deleteUnit = async (params) => {
+        setDeleteLoading(true);
+        dispatch(
+            deleteUnit(params, (err) => {
+                if (err) {
+                    setDeleteError(err);
+                    setTimeout(() => {
+                        setDeleteError('');
+                    }, 4000);
+                }
+                setDeleteLoading(false);
+            }),
+        );
+    };
 
     const handleClose = (props) => {
         setOpen(props);
     };
 
-    const handleOpen = async (product) => {
-        // setproduct(product);
+    const handleOpen = async (responsibility) => {
+        setUnit(unit);
         setOpen(true);
     };
 
     return (
         <Sidenav title={'Units'}>
+            <EditUnit
+                show={open}
+                handler={handleClose}
+                unit={unit}
+            />
+            {
+                deleteLoading && (
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Loader type='TailSpin' width='2rem' height='2rem' />
+                    </div>
+                )
+            }
+            {
+                deleteError && (
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <span>{deleteError}</span>
+                    </div>
+                )
+            }
             <div>
                 {/* <div style={{ marginTop: 30, marginBottom: 30 }}>
 				<hr />
@@ -151,9 +225,12 @@ const Units = () => {
                                             variant="outlined"
                                             classNames={classes.addMoreRes}
                                             text='Add'
-                                            loading={true}
+                                            loading={createLoading}
                                             loaderColor="#333"
                                         />
+                                        {
+                                            createError && <p>{createError}</p>
+                                        }
                                     </div>
                                 </Form>
                             )
@@ -181,61 +258,89 @@ const Units = () => {
                                         <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
                                     ))
                             } */}
-				<EditUnit show={open} handler={handleClose} />
-                
+
                 </Container>
             </div>
-            <div className='container-fluid' style={{ textAlign: 'left', marginTop: '50px' }}>
-                <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-                    <thead class="bg-dark text-light">
-                        <tr>
-                            <th>S.No.</th>
-                            <th>Units</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* {
+            <div
+                className='container-fluid'
+                style={{ textAlign: 'left', marginTop: '50px' }}
+            >
+                {
+                    fetchLoading ? (
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginTop: '3rem',
+                            }}>
+                            <Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+                        </div>
+                    ) : units?.length === 0 ? (
+                        <p>There are no Units Found</p>
+                    ) : (
+                        <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                            {
+                                units?.map((el, i) => (
+                                    <>
+                                        {
+                                            i === 0 && (
+                                                <thead class="bg-dark text-light">
+                                                    <tr>
+                                                        <th>S.No.</th>
+                                                        <th>Units</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                            )
+                                        }
+                                        <tbody>
+                                            {/* {
 							loading ? (
 								<Loading />
 							) : error ? (
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-                        <tr >
-                            <td>
-                                {1}
-                            </td>
-                            <td>
-                                { }
-                            </td>
-                            <td>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button
-                                        variant='contained'
-                                        text='Edit'
-                                        size='small'
-                                        classNames='bg-dark text-light'
-                                        onClick={() => handleOpen()}
-                                    />
-                                    <Button
-                                        variant='contained'
-                                        text='Delete'
-                                        size='small'
-                                        color='secondary'
-                                        // onClick={() => delete(category._id)}
-                                        style={{ marginLeft: '5px' }}
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                        {/* ))
+                                            <tr >
+                                                <td>
+                                                    {1}
+                                                </td>
+                                                <td>
+                                                    { }
+                                                </td>
+                                                <td>
+                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                        <Button
+                                                            variant='contained'
+                                                            text='Edit'
+                                                            size='small'
+                                                            classNames='bg-dark text-light'
+                                                            onClick={() => handleOpen()}
+                                                        />
+                                                        <Button
+                                                            variant='contained'
+                                                            text='Delete'
+                                                            size='small'
+                                                            color='secondary'
+                                                            // onClick={() => delete(category._id)}
+                                                            style={{ marginLeft: '5px' }}
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {/* ))
 							) : (
 								<h5>Not Found</h5>
 							)
 						} */}
-                    </tbody>
-                </table>
+                                        </tbody>
+                                    </>
+                                ))
+                            }
+                        </table>
+                    )
+                }
             </div>
         </Sidenav>
     )

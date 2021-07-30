@@ -5,6 +5,7 @@ import {
 	USER_FETCH_SUCCESS,
 	USER_REQUEST,
 	USER_UPDATE_SUCCESS,
+	USER_LOGOUT,
 } from '../constants/UserConstant';
 
 export const getUserReducer = (state = { user: {} }, action) => {
@@ -14,6 +15,11 @@ export const getUserReducer = (state = { user: {} }, action) => {
 				...state,
 				error: '',
 				loading: true,
+			};
+		case USER_LOGOUT:
+			return {
+				...state,
+				user: action.payload,
 			};
 		case USER_FAIL:
 			return {

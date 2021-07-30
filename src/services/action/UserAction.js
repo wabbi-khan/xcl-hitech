@@ -6,6 +6,7 @@ import {
 	USER_FETCH_SUCCESS,
 	USER_REQUEST,
 	USER_UPDATE_SUCCESS,
+	USER_LOGOUT,
 } from '../constants/UserConstant';
 
 export const loginUser = (user, cb) => async (dispatch) => {
@@ -27,6 +28,24 @@ export const loginUser = (user, cb) => async (dispatch) => {
 			localStorage.setItem('token', data.token);
 			if (cb) cb();
 		}
+	} catch (err) {
+		if (cb) cb(err?.response?.data?.error);
+		dispatchError(err, dispatch, cb);
+	}
+};
+
+export const logOutUser = (user, cb) => async (dispatch) => {
+	dispatch({
+		type: USER_REQUEST,
+	});
+
+	try {
+		dispatch({
+			type: USER_LOGOUT,
+			payload: {},
+		});
+		localStorage.removeItem('token');
+		if (cb) cb();
 	} catch (err) {
 		if (cb) cb(err?.response?.data?.error);
 		dispatchError(err, dispatch, cb);

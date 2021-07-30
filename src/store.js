@@ -38,6 +38,7 @@ import { getUserReducer } from './services/reducer/UserReducer';
 import { fetchStoreCategory } from './services/reducer/StoreCatReducer';
 import { responsibilityReducer } from './services/reducer/ResponsibilityReducer';
 import { authorityReducer } from './services/reducer/authorityReducer';
+import { unitReducer } from './services/reducer/UnitReducer';
 
 const initialState = {};
 
@@ -80,6 +81,7 @@ const reducer = combineReducers({
 	user: getUserReducer,
 	responsibilities: responsibilityReducer,
 	authorities: authorityReducer,
+	units: unitReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

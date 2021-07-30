@@ -464,7 +464,9 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { withRouter } from 'react-router-dom';
 // import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import BusinessIcon from '@material-ui/icons/Business';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from '../../components/utils/Button';
+import { logOutUser } from '../../services/action/UserAction';
 
 const drawerWidth = 270;
 
@@ -536,6 +538,28 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: 'whitesmoke',
 		minHeight: 770,
 	},
+	addMoreRes: {
+		marginTop: 5,
+		padding: 5,
+		width: '10%',
+		color: '#22A19A',
+		backgroundColor: 'whitesmoke',
+		fontWeight: '500',
+		textTransform: 'none',
+		borderRadius: '4px',
+		'&:hover': {
+			backgroundColor: 'black',
+			color: 'whitesmoke',
+			border: 'none',
+			// borderColor: '#22A19A',
+		},
+		// [theme.breakpoints.up('md')]: {
+		//     width: '10%',
+		// },
+		// [theme.breakpoints.down('sm')]: {
+		//     // width: '12%',
+		// },
+	},
 }));
 
 function Sidenav(props) {
@@ -548,8 +572,9 @@ function Sidenav(props) {
 	const [open3, setOpen3] = React.useState(false);
 	const [open4, setOpen4] = React.useState(false);
 	const [open5, setOpen5] = React.useState(false);
+	const dispatch = useDispatch();
 
-	// const { user } = useSelector((state) => state.user);
+	const { user } = useSelector((state) => state.user);
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -562,6 +587,10 @@ function Sidenav(props) {
 	// function handleDropdown1() {
 	//     setOpen1(!open1);
 	// }
+
+	const logOut = () => {
+		dispatch(logOutUser());
+	};
 
 	return (
 		<div className={classes.root}>
@@ -584,6 +613,16 @@ function Sidenav(props) {
 					</IconButton>
 					<Typography variant='h6' noWrap>
 						{title}
+					</Typography>
+					<Typography variant='h6' noWrap style={{ marginLeft: 'auto' }}>
+						<Button
+							variant='outlined'
+							size='small'
+							classNames={classes.addMoreRes}
+							text='Logout'
+							onClick={logOut}>
+							Logout
+						</Button>
 					</Typography>
 				</Toolbar>
 			</AppBar>
