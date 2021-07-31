@@ -100,7 +100,10 @@ const CssTextField = withStyles({
 const GoodReceived = (props) => {
 	const classes = useStyles();
 
-	const { history } = props;
+	const { history, location } = props;
+	console.log(props)
+
+	const { order } = location.state
 
 	const id = props.match.params.id;
 
@@ -112,7 +115,8 @@ const GoodReceived = (props) => {
 		dispatch(fetchDepartmentsAction());
 	}, [dispatch, id]);
 
-	const { order } = useSelector((state) => state.orders);
+	// const { order } = useSelector((state) => state.orders);
+	console.log(order);
 
 	// const onSubmitDate = async (props) => {
 	// 	// try {
@@ -130,73 +134,96 @@ const GoodReceived = (props) => {
 	return (
 		<Sidenav title={'Good Received and Inspection Report (Inspected)'}>
 			<div>
-				{!order ? null : (
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='P.R. No.'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									disabled
-									defaultValue={order?.prNum}
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='P.O. No.'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									disabled
-									defaultValue={order?.poNum}
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-								/>
-							</Grid>
-							{!order.vendor ? null : (
+				{
+					!order ? null : (
+						<Container className={classes.mainContainer}>
+							<Grid container spacing={1} style={{ marginTop: 15 }}>
 								<Grid item lg={3} md={3} sm={12} xs={12}>
 									<CssTextField
 										id='outlined-basic'
-										label='Received From'
+										label='P.R. No.'
 										variant='outlined'
 										type='text'
 										size='small'
 										autoComplete='off'
 										disabled
-										defaultValue={order?.vendor.name}
-										className={classes.inputFieldStyle1}
+										defaultValue={order?.prNum}
+										style={{ width: '100%' }}
+										inputProps={{ style: { fontSize: 14 } }}
+										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+								</Grid>
+								<Grid item lg={3} md={3} sm={12} xs={12}>
+									<CssTextField
+										id='outlined-basic'
+										label='P.O. No.'
+										variant='outlined'
+										type='text'
+										size='small'
+										autoComplete='off'
+										disabled
+										defaultValue={order?.poNum}
+										style={{ width: '100%' }}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 									/>
 								</Grid>
-							)}
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Description'
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-								/>
+								{
+									!order.vendor ? null : (
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Received From'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												disabled
+												defaultValue={order?.vendor.name}
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												/>
+										</Grid>
+									)
+								}
+								{
+									!order.department ? null : (
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Department'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												disabled
+												defaultValue={order?.department.name}
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+									)
+								}
 							</Grid>
-						</Grid>
-					</Container>
-				)}
+						</Container>
+					)
+				}
 				<Container className={classes.mainContainer}>
 					<Grid container spacing={1} style={{ marginTop: 15 }}>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<CssTextField
+								id='outlined-basic'
+								label='Description'
+								variant='outlined'
+								type='text'
+								size='small'
+								autoComplete='off'
+								style={{ width: '100%' }}
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+							/>
+						</Grid>
 						<Grid item lg={3} md={3} sm={12} xs={12}>
 							<CssTextField
 								id='outlined-basic'
@@ -206,7 +233,7 @@ const GoodReceived = (props) => {
 								size='small'
 								select
 								autoComplete='off'
-								className={classes.inputFieldStyle1}
+								style={{ width: '100%' }}
 								inputProps={{ style: { fontSize: 14 } }}
 								InputLabelProps={{ style: { fontSize: 14 } }}>
 								<MenuItem value=''>
@@ -225,7 +252,7 @@ const GoodReceived = (props) => {
 								type='text'
 								size='small'
 								autoComplete='off'
-								className={classes.inputFieldStyle1}
+								style={{ width: '100%' }}
 								inputProps={{ style: { fontSize: 14 } }}
 								InputLabelProps={{ style: { fontSize: 14 } }}
 							/>
@@ -252,6 +279,7 @@ const GoodReceived = (props) => {
 										<th>P.R. No.</th>
 										<th>P.O. No.</th>
 										<th>Received From</th>
+										<th>Department</th>
 										<th>Description</th>
 										<th>Status of Inspection</th>
 										<th>Remarks</th>
@@ -263,7 +291,8 @@ const GoodReceived = (props) => {
 										<td>{order?.inspectionDate}</td>
 										<td>{order?.prNum}</td>
 										<td>{order?.poNum}</td>
-										<td>{order?.vendor.name}</td>
+										<td>{order?.vendor?.name}</td>
+										<td>{order?.department?.name}</td>
 										<td>{order?.description}</td>
 										<td>{order?.inspectionStatus}</td>
 										<td>{order?.remarks}</td>

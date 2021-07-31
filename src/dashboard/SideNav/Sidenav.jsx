@@ -996,17 +996,17 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/storedashboard/good_received_and_inspection_form');
+									history.push('/storedashboard/products_bin_card');
 								}}>
-								<ListItemText inset primary='Goods Received(GRIN)' />
+								<ListItemText inset primary='Products Bin Card' />
 							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/storedashboard/products_bin_card');
+									history.push('/storedashboard/good_received_and_inspection_form');
 								}}>
-								<ListItemText inset primary='Products Bin Card' />
+								<ListItemText inset primary='Goods Received(GRIN)' />
 							</ListItem>
 							{/* <ListItem button
                                 className={classes.menuItem}
