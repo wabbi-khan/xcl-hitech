@@ -109,6 +109,7 @@ import PrivateRoute from './components/PrivateRoute';
 import CeiledRoute from './components/CeiledRoute';
 import EditEmp from './dashboard/hr/employees/EditEmp';
 import Units from './dashboard/purchase/units/Units';
+import SubCategory from './dashboard/purchase/subCategory/SubCategory';
 
 dotenv.config();
 
@@ -170,6 +171,9 @@ function App() {
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/category'>
 				<Category />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/sub_categories'>
+				<SubCategory />
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/department'>
 				<Department />
