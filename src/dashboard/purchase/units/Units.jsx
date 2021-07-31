@@ -108,7 +108,8 @@ const Units = () => {
     const [fetchError, setFetchError] = React.useState('');
     const [success, setSuccess] = React.useState('');
     const [unit, setUnit] = React.useState({});
-    const { units } = useSelector((state) => state.responsibilities);
+    const { units } = useSelector((state) => state.units);
+    console.log(units);
 
     React.useEffect(() => {
         setFetchLoading(true);
@@ -134,7 +135,8 @@ const Units = () => {
                     setTimeout(() => {
                         setCreateError('');
                     }, 4000);
-                } else {
+                }
+                else {
                     setSuccess('Unit added successfully');
                     setTimeout(() => {
                         setSuccess('');
@@ -145,7 +147,7 @@ const Units = () => {
         );
     };
 
-    const deleteUnit = async (params) => {
+    const deleteUnitFunc = async (params) => {
         setDeleteLoading(true);
         dispatch(
             deleteUnit(params, (err) => {
@@ -164,7 +166,7 @@ const Units = () => {
         setOpen(props);
     };
 
-    const handleOpen = async (responsibility) => {
+    const handleOpen = async (unit) => {
         setUnit(unit);
         setOpen(true);
     };
@@ -277,7 +279,7 @@ const Units = () => {
                             <Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
                         </div>
                     ) : units?.length === 0 ? (
-                        <p>There are no Units Found</p>
+                        <p>There are no units found</p>
                     ) : (
                         <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
                             {
@@ -295,19 +297,12 @@ const Units = () => {
                                             )
                                         }
                                         <tbody>
-                                            {/* {
-							loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : products.length ? (
-								products.map((product, i) => ( */}
                                             <tr >
                                                 <td>
-                                                    {1}
+                                                    {i + 1}
                                                 </td>
                                                 <td>
-                                                    { }
+                                                    {el.name}
                                                 </td>
                                                 <td>
                                                     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -316,24 +311,20 @@ const Units = () => {
                                                             text='Edit'
                                                             size='small'
                                                             classNames='bg-dark text-light'
-                                                            onClick={() => handleOpen()}
+                                                            onClick={() => handleOpen(el)}
                                                         />
                                                         <Button
                                                             variant='contained'
                                                             text='Delete'
                                                             size='small'
                                                             color='secondary'
-                                                            // onClick={() => delete(category._id)}
+                                                            onClick={() => deleteUnitFunc(el._id)}
                                                             style={{ marginLeft: '5px' }}
                                                         />
                                                     </div>
                                                 </td>
                                             </tr>
-                                            {/* ))
-							) : (
-								<h5>Not Found</h5>
-							)
-						} */}
+
                                         </tbody>
                                     </>
                                 ))

@@ -6,10 +6,12 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
+import { updateUnit } from '../../../services/action/unitAction';
+import { Form, Formik } from 'formik'
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -101,8 +103,13 @@ const CssTextField = withStyles({
     },
 })(TextField);
 
-const EditUnit = ( props ) => {
-    const { show, handler, training } = props;
+const validationSchema = yup.object({
+    name: yup.string().required(),
+});
+
+const EditUnit = (props) => {
+    const { show, handler, unit } = props;
+    // console.log(unit);
     const dispatch = useDispatch();
 
     const classes = useStyles();
@@ -114,20 +121,47 @@ const EditUnit = ( props ) => {
     } = useForm();
 
     const [open, setOpen] = useState(false);
-    const [isUpdate, setIsUpdate] = useState(false);
-    const [isError, setIsError] = useState(false);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
+    const [success, setSuccess] = React.useState('');
+    const [initialValues, setInitialValues] = React.useState(
+        props?.responsibility,
+    );
+    // const [isUpdate, setIsUpdate] = useState(false);
+    // const [isError, setIsError] = useState(false);
+
+    useEffect(() => {
+        if (unit) setInitialValues({ name: unit.name });
+    }, [unit]);
 
     useEffect(() => {
         setOpen(show);
     }, [show]);
 
-    const onSubmit = async (data) => {
-        // try {
-        //     dispatch(updateTraining(training._id, data));
-        //     setIsUpdate(true);
-        // } catch (error) {
-        //     setIsError(true);
-        // }
+    // useEffect(() => {
+    //     setOpen(show);
+    // }, [show]);
+
+    const onSubmit = async (values) => {
+        // console.log(values);
+        setLoading(true);
+        dispatch(
+            updateUnit(unit._id, values, (err) => {
+                if (err) {
+                    setError(err);
+                    setTimeout(() => {
+                        setError('');
+                    }, 4000);
+                } else {
+                    setLoading(false);
+                    setSuccess(true);
+                    setTimeout(() => {
+                        setSuccess(false);
+                    }, 4000);
+                }
+            }),
+        );
+        setLoading(true);
     };
 
     const handleClose = () => {
@@ -150,53 +184,107 @@ const EditUnit = ( props ) => {
                     <div className={classes.paper}>
                         <h5 className='text-center mt-4'>Edit/Update</h5>
                         <Container className={classes.mainContainer}>
-                            {/* Form */}
-                            {/* {
-                                training ? ( */}
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <Grid container spacing={1}>
-                                            <Grid lg={12} md={12} sm={12}>
-                                                <CssTextField
-                                                    id='outlined-basic'
-                                                    label='Unit'
-                                                    variant='outlined'
-                                                    type='text'
-                                                    size='small'
-                                                    autoComplete='off'
-                                                    // defaultValue={training.name}
-                                                    style={{ width: '75%' }}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                    {...register('name')}
+                            <Formik
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                enableReinitialize
+                                onSubmit={onSubmit}>
+                                {
+                                    (props) => (
+                                        <Form>
+                                            <CssTextField
+                                                id='outlined-basic'
+                                                label='Unit'
+                                                variant='outlined'
+                                                type='text'
+                                                size='small'
+                                                autoComplete='off'
+                                                style={{ width: '75%' }}
+                                                inputProps={{ style: { fontSize: 14 } }}
+                                                InputLabelProps={{ style: { fontSize: 14 } }}
+                                                onChange={props.handleChange('name')}
+                                                onBlur={props.handleBlur('name')}
+                                                value={props?.values?.name}
+                                                helperText={props.touched.name && props.errors.name}
+                                                error={props.touched.name && props.errors.name}
+                                            />
+                                            <div
+                                                style={{
+                                                    marginTop: '2rem',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                }}>
+                                                <Button
+                                                    variant='contained'
+                                                    color='primary'
+                                                    text='Update'
+                                                    style={{ marginRight: '1rem' }}
+                                                    loading={loading}
                                                 />
-                                                {errors.name?.type === 'required' && (
-                                                    <p className='text-danger'>Unit is required</p>
-                                                )}
-                                                {isUpdate ? (
-                                                    <p className='text-success mt-2'>Unit Update Successfully</p>
-                                                ) : isError ? (
-                                                    <p className='text-danger mt-2'>Unit Update Failed </p>
-                                                ) : null}
-                                            </Grid>
-                                        </Grid>
-                                        <div>
-                                            <Button
-                                                variant='outlined'
-                                                color='primary'
-                                                className={classes.addButton}
-                                                type='submit'>
-                                                Update
-                                            </Button>
-                                            <Button
-                                                variant='outlined'
-                                                color='primary'
-                                                className={classes.closeButton}
-                                                onClick={handleClose}>
-                                                close
-                                            </Button>
-                                        </div>
-                                    </form>
-                                {/* ) : null
+                                                <Button
+                                                    variant='outlined'
+                                                    color='dark'
+                                                    onClick={handleClose}
+                                                    text='Close'
+                                                    type='button'
+                                                    classNames='bg-danger text-light'
+                                                />
+                                            </div>
+                                        </Form>
+                                    )
+                                }
+                            </Formik>
+                            {
+                                error && <p>{error}</p>
+                            }
+                            {
+                                success && <p className='mt-2'>Unit Successfully Updated</p>
+                            }
+                            {/* <form onSubmit={handleSubmit(onSubmit)}>
+                                <Grid container spacing={1}>
+                                    <Grid lg={12} md={12} sm={12}>
+                                        <CssTextField
+                                            id='outlined-basic'
+                                            label='Unit'
+                                            variant='outlined'
+                                            type='text'
+                                            size='small'
+                                            autoComplete='off'
+                                            // defaultValue={training.name}
+                                            style={{ width: '75%' }}
+                                            inputProps={{ style: { fontSize: 14 } }}
+                                            InputLabelProps={{ style: { fontSize: 14 } }}
+                                            {...register('name')}
+                                        />
+                                        {errors.name?.type === 'required' && (
+                                            <p className='text-danger'>Unit is required</p>
+                                        )}
+                                        {isUpdate ? (
+                                            <p className='text-success mt-2'>Unit Update Successfully</p>
+                                        ) : isError ? (
+                                            <p className='text-danger mt-2'>Unit Update Failed </p>
+                                        ) : null}
+                                    </Grid>
+                                </Grid>
+                                <div>
+                                    <Button
+                                        variant='outlined'
+                                        color='primary'
+                                        className={classes.addButton}
+                                        type='submit'>
+                                        Update
+                                    </Button>
+                                    <Button
+                                        variant='outlined'
+                                        color='primary'
+                                        className={classes.closeButton}
+                                        onClick={handleClose}>
+                                        close
+                                    </Button>
+                                </div>
+                            </form> */}
+                            {/* ) : null
                             } */}
                         </Container>
                     </div>

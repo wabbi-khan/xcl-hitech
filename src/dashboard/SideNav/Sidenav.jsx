@@ -616,9 +616,7 @@ function Sidenav(props) {
 							text='Logout'
 							// loading={createLoading}
 							loaderColor="#333"
-						>
-							Logout
-						</Button>
+						/>
 					</Typography>
 				</Toolbar>
 			</AppBar>

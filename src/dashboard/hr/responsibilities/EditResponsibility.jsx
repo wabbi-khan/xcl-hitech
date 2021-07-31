@@ -172,26 +172,28 @@ const EditResponsibility = (props) => {
 								validationSchema={validationSchema}
 								enableReinitialize
 								onSubmit={onSubmit}>
-								{(props) => (
-									<Form>
-										<CssTextField
-											id='outlined-basic'
-											label='Responsibility Name'
-											variant='outlined'
-											type='text'
-											size='small'
-											autoComplete='off'
-											style={{ width: '75%' }}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('name')}
-											onBlur={props.handleBlur('name')}
-											value={props?.values?.name}
-											helperText={props.touched.name && props.errors.name}
-											error={props.touched.name && props.errors.name}
-										/>
-									</Form>
-								)}
+								{
+									(props) => (
+										<Form>
+											<CssTextField
+												id='outlined-basic'
+												label='Responsibility Name'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												style={{ width: '75%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('name')}
+												onBlur={props.handleBlur('name')}
+												value={props?.values?.name}
+												helperText={props.touched.name && props.errors.name}
+												error={props.touched.name && props.errors.name}
+											/>
+										</Form>
+									)
+								}
 							</Formik>
 							<div
 								style={{
@@ -216,8 +218,12 @@ const EditResponsibility = (props) => {
 									classNames='bg-danger text-light'
 								/>
 							</div>
-							{error && <p>{error}</p>}
-							{success && <p>Responsibility Successfully Updated</p>}
+							{
+								error && <p>{error}</p>
+							}
+							{
+								success && <p>Responsibility Successfully Updated</p>
+							}
 						</Container>
 					</div>
 				</Fade>
