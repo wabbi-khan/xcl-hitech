@@ -4,7 +4,6 @@ import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,17 +11,21 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 import {
 	getMaterialAction,
 	createMaterialAction,
 	deleteMaterialAction,
 } from '../../../services/action/MaterialDataHandle';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
+import { getSubCategories } from '../../../services/action/subCategoryAction';
+import { getUnits } from '../../../services/action/unitAction';
 import MaterialError from './MaterialError';
-import { useForm } from 'react-hook-form';
-// import axios from 'axios';
-import Loading from './Loading';
 import EditMaterial from './EditMaterial';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -115,238 +118,364 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+	category: '',
+	subCategory: '',
+	unit: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+	category: yup.string().required(),
+	subCategory: yup.string(),
+	unit: yup.string().required(),
+});
+
 const Material = () => {
-	// For Add and Delete
-	const [AddMatError, setAddMatError] = useState(false);
-	const [AddMatErrMsg, setAddMatErrMsg] = useState('internal server error');
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [selectedCategory, setSelectedCategory] = useState('');
 	const [material, setMaterial] = useState();
-	// const [input, setInput] = useState();
+	const [open, setOpen] = useState(false);
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [initialValuesState, setInitialValuesState] = React.useState({
+		...initialValues,
+	});
 
 	const classes = useStyles();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		reset,
-	} = useForm();
 
 	const dispatch = useDispatch();
 
+	const { materials } = useSelector((state) => state.materials);
+	const { categories } = useSelector((state) => state.categories);
+	const { units } = useSelector((state) => state.units);
+	const { subCategories } = useSelector((state) => state.subCategories);
+
+	console.log(materials);
+
+	React.useEffect(() => {
+		if (selectedCategory) {
+			dispatch(getSubCategories(`parent=${selectedCategory}`));
+			setInitialValuesState((prev) => {
+				return {
+					...prev,
+					category: selectedCategory,
+					subCategory: undefined,
+				};
+			});
+		}
+	}, [selectedCategory]);
+
 	useEffect(() => {
-		dispatch(getMaterialAction());
+		setFetchLoading(true);
+		dispatch(
+			getMaterialAction(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 		dispatch(getMaterialCategoryAction());
+		dispatch(getUnits());
 	}, [dispatch]);
 
-	const onSubmitDate = async (props) => {
-		try {
-			await dispatch(createMaterialAction(props));
-			reset({});
-			setAddMatError(false);
-		} catch (error) {
-			setAddMatError(true);
-		}
+	const onSubmit = async (values) => {
+		setCreateLoading(true);
+		dispatch(
+			createMaterialAction(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
-
-	const { loading, materials, error } = useSelector((state) => state.materials);
-	const { categories } = useSelector((state) => state.categories);
 
 	const deleteMaterial = async (params) => {
-		dispatch(deleteMaterialAction(params));
+		setDeleteLoading(true);
+		dispatch(
+			deleteMaterialAction(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
-
-	const [open, setOpen] = useState(false);
 
 	const handleClose = (props) => {
 		setOpen(props);
 	};
+
 	const handleOpen = async (material) => {
 		setMaterial(material);
 		setOpen(true);
 	};
 
-	const handleChange = async (e) => {
-		e.preventDefault();
-		dispatch(getMaterialAction(`name[regex]=${e.target.value}`));
-	};
-
 	return (
 		<Sidenav title={'Material'}>
-			{/* ============edit material form component */}
-			<EditMaterial
-				show={open}
-				handler={handleClose}
-				categories={categories}
-				material={material}
-			/>
-			{/* ============edit material form component */}
+			<EditMaterial show={open} handler={handleClose} material={material} />
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
-				{/* ===============ADD material form======================================= */}
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Select Category'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							select
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('category', { required: true })}>
-							{!categories || !categories.length ? (
-								<p>Data Not Found</p>
-							) : (
-								categories.map((category) => (
-									<MenuItem value={category._id} key={category._id}>
-										{category.name}
-									</MenuItem>
-								))
-							)}
-						</CssTextField>
-						{errors.category?.type === 'required' && (
-							<p className='mt-3 text-danger'>Category must be required</p>
+					<Formik
+						initialValues={initialValuesState}
+						validationSchema={validationSchema}
+						enableReinitialize
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<Grid container spacing={1}>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Category'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											style={{ width: '100%' }}
+											select
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('category')}
+											onBlur={props.handleBlur('category')}
+											value={props.values.category}
+											helperText={props.touched.category && props.errors.category}
+											error={props.touched.category && props.errors.category}>
+											{!categories || !categories.length ? (
+												<p>Data Not Found</p>
+											) : (
+												categories.map((el) => (
+													<MenuItem
+														value={el._id}
+														key={el._id}
+														onClick={() => setSelectedCategory(el._id)}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Sub Category'
+											variant='outlined'
+											type='text'
+											style={{ width: '100%' }}
+											autocomplete='off'
+											size='small'
+											select
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('subCategory')}
+											onBlur={props.handleBlur('subCategory')}
+											value={props.values.subCategory}
+											helperText={props.touched.subCategory && props.errors.subCategory}
+											error={props.touched.subCategory && props.errors.subCategory}>
+											{!subCategories || !subCategories.length ? (
+												<p>Data Not Found</p>
+											) : (
+												subCategories.map((el) => (
+													<MenuItem value={el._id} key={el._id}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Enter Material Name'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											style={{ width: '100%' }}
+											autoComplete='off'
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('name')}
+											onBlur={props.handleBlur('name')}
+											value={props.values.name}
+											helperText={props.touched.name && props.errors.name}
+											error={props.touched.name && props.errors.name}
+										/>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Select Unit'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											select
+											autoComplete='off'
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('unit')}
+											onBlur={props.handleBlur('unit')}
+											value={props.values.unit}
+											helperText={props.touched.unit && props.errors.unit}
+											error={props.touched.unit && props.errors.unit}>
+											{!units || !units.length ? (
+												<p>Data Not Found</p>
+											) : (
+												units.map((el) => (
+													<MenuItem value={el._id} key={el._id}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
+										</CssTextField>
+									</Grid>
+								</Grid>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										text='Add'
+										classNames={classes.addButton}
+										loading={createLoading}
+										loaderColor='#333'
+									/>
+									{createError && <p>{createError}</p>}
+								</div>
+							</Form>
 						)}
-						{/* Material Name */}
-						<CssTextField
-							id='outlined-basic'
-							label='Enter Material Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							autoComplete='off'
-							className={classes.inputFieldStyle1}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('name', { required: true, maxLength: 30 })}
-						/>
-						{errors.name?.type === 'required' && (
-							<p className='text-danger'>Material name is required</p>
-						)}
-						{errors.name?.type === 'maxLength' && (
-							<p className='text-danger'>Length must be less than 30</p>
-						)}
-						<CssTextField
-							id='outlined-basic'
-							label='Enter Unit'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							autoComplete='off'
-							className={classes.inputFieldStyle1}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('unit', { required: true, maxLength: 15 })}
-						/>
-						{errors.unit?.type === 'required' && (
-							<p className='text-danger'>Unit is required</p>
-						)}
-						<br />
-						{errors.unit?.type === 'maxLength' && (
-							<p className='text-danger'>Length must be less than 30</p>
-						)}
-						{AddMatError ? <p className='mt-3 text-danger'> {AddMatErrMsg}</p> : null}
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
-					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+					</Formik>
 				</Container>
 
-				<div className={classes.dataTable}>
-					<CssTextField
-						id='outlined-basic'
-						label='Search Materials'
-						variant='outlined'
-						type='search'
-						size='small'
-						autoComplete='off'
-						onChange={handleChange}
-						className={classes.inputFieldStyle1}
-						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}
-					/>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Category</StyledTableCell>
-									<StyledTableCell align='center'>Material Name</StyledTableCell>
-									<StyledTableCell align='center'>Unit</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : materials.length ? (
-									materials.map((material, i) => (
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : materials?.length === 0 ? (
+					<p>There are no Responsibilities</p>
+				) : (
+					<div className={classes.dataTable}>
+						<CssTextField
+							id='outlined-basic'
+							label='Search Materials'
+							variant='outlined'
+							type='search'
+							size='small'
+							autoComplete='off'
+							className={classes.inputFieldStyle1}
+							inputProps={{ style: { fontSize: 14 } }}
+							InputLabelProps={{ style: { fontSize: 14 } }}
+						/>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Material Name</StyledTableCell>
+										<StyledTableCell align='center'>Category</StyledTableCell>
+										<StyledTableCell align='center'>Sub Category</StyledTableCell>
+										<StyledTableCell align='center'>Unit</StyledTableCell>
+										<StyledTableCell align='center'>Code</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{materials.map((material, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.category ? (
-													material.category.name
-												) : (
-													<span className='text-danger'>Not Found</span>
-												)}
+												{material?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.name}
+												{material?.category?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.unit}
+												{material?.subCategory?.name
+													? material?.subCategory?.name
+													: '------'}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.code}
+												{material?.unit?.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{material?.code}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div
+													style={{
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													<Button
 														variant='contained'
-														className='bg-dark text-light'
+														classNames='bg-dark text-light'
 														size='small'
 														onClick={() => handleOpen(material)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
+														text='Edit'
+														style={{ marginTop: 2 }}
+													/>
+
 													<Button
 														variant='contained'
 														color='secondary'
 														size='small'
 														onClick={() => deleteMaterial(material._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
+														text='Delete'
+														style={{ marginLeft: 2, marginTop: 2 }}
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

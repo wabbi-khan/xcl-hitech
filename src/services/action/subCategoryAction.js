@@ -15,7 +15,7 @@ export const getSubCategories = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/subCategory`,
+			`${process.env.REACT_APP_API_URL}/subCategory${query ? `?${query}` : ''}`,
 		);
 
 		if (data.success) {

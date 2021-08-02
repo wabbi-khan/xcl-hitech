@@ -8,7 +8,7 @@ import {
 	MATERIAL_DELETE_SUCCESS,
 } from '../constants/MaterialConst';
 
-export const getMaterialAction = (query) => async (dispatch) => {
+export const getMaterialAction = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: MATERIAL_REQUEST,
 	});
@@ -18,88 +18,95 @@ export const getMaterialAction = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/material${query ? `?${query}` : ''}`,
 		);
 
-		console.log(data)
-
-		dispatch({
-			type: MATERIAL_FETCH_SUCCESS,
-			payload: data.data,
-		});
-
-		// console.log(fetchApiData.data.material);
+		if (data.success) {
+			dispatch({
+				type: MATERIAL_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch)
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createMaterialAction = (material) => async (dispatch) => {
+export const createMaterialAction = (material, cb) => async (dispatch) => {
 	dispatch({
 		type: MATERIAL_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/material`,
 			material,
 		);
 
-		dispatch({
-			type: MATERIAL_CREATE_SUCCESS,
-			payload: res.data.material,
-		});
+		if (data.success) {
+			dispatch({
+				type: MATERIAL_CREATE_SUCCESS,
+				payload: data.material,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateMaterialAction = (id, data) => async (dispatch) => {
+export const updateMaterialAction = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: MATERIAL_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/material/${id}`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: MATERIAL_UPDATE_SUCCESS,
-			payload: res.data.material,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: MATERIAL_UPDATE_SUCCESS,
+				payload: data.material,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteMaterialAction = (params) => async (dispatch) => {
+export const deleteMaterialAction = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: MATERIAL_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/material/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/material/${params}`,
+		);
 
-		dispatch({
-			type: MATERIAL_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: MATERIAL_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response.data.error);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: MATERIAL_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: MATERIAL_FAIL,
 			payload: 'Network Error',

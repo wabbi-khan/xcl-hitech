@@ -4,14 +4,17 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
-// import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { updateMaterialAction } from '../../../services/action/MaterialDataHandle';
+import { getSubCategories } from '../../../services/action/subCategoryAction';
+import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
+import { getUnits } from '../../../services/action/unitAction';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -103,55 +106,97 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+	category: '',
+	subCategory: '',
+	unit: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+	category: yup.string().required(),
+	subCategory: yup.string(),
+	unit: yup.string().required(),
+});
+
 const EditMaterial = (props) => {
-	const { show, handler, categories, material } = props;
+	const { show, handler, material } = props;
+	const [initialValuesState, setInitialValuesState] = React.useState({
+		...initialValues,
+	});
+	const [updateLoading, setUpdateLoading] = React.useState(false);
+	const [updateError, setUpdateError] = React.useState('');
+	const [selectedCategory, setSelectedCategory] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [open, setOpen] = useState(false);
+
 	const dispatch = useDispatch();
-	// const { _id, name, category } = material
 
 	const classes = useStyles();
-	const {
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
 
-	const [open, setOpen] = useState(false);
-	const [isUpdate, setIsUpdate] = useState(false);
-	const [isError, setIsError] = useState(false);
-	const [inputFields, setInputFields] = useState({
-		category: '',
-		name: '',
-		unit: '',
-	});
+	const { subCategories } = useSelector((state) => state.subCategories);
+	const { categories } = useSelector((state) => state.categories);
+	const { units } = useSelector((state) => state.units);
+
+	useEffect(() => {
+		if (selectedCategory) {
+			dispatch(getSubCategories(`parent=${selectedCategory}`));
+			setInitialValuesState((prev) => {
+				return {
+					...prev,
+					category: selectedCategory,
+					subCategory: undefined,
+				};
+			});
+		}
+	}, [selectedCategory]);
+
+	useEffect(() => {
+		dispatch(getSubCategories());
+		dispatch(getMaterialCategoryAction());
+		dispatch(getUnits());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (material) {
+			setInitialValuesState({
+				...material,
+				category: material?.category?._id,
+				subCategory: material?.subCategory?._id,
+				unit: material?.unit?._id,
+			});
+		}
+	}, [material]);
 
 	useEffect(() => {
 		setOpen(show);
 	}, [show]);
 
-	useEffect(() => {
-		console.log(material);
-		if (material)
-			setInputFields({
-				...material,
-				category: material.category._id,
-			});
-	}, [material]);
+	const onSubmit = async (values) => {
+		console.log(values);
+		setUpdateLoading(true);
 
-	const onSubmit = async () => {
-		console.log(material._id);
-		try {
-			await dispatch(updateMaterialAction(material._id, inputFields));
-			setIsUpdate(true);
-		} catch (error) {
-			setIsError(true);
-		}
+		dispatch(
+			updateMaterialAction(material._id, values, (err) => {
+				if (err) {
+					setUpdateError(err);
+					setTimeout(() => {
+						setUpdateError('');
+					}, 4000);
+				} else {
+					setSuccess(true);
+					setTimeout(() => {
+						setSuccess(false);
+					}, 4000);
+				}
+				setUpdateLoading(false);
+			}),
+		);
 	};
 
 	const handleClose = () => {
 		handler(false);
-	};
-
-	const onChangeHandler = (value, placeholder) => {
-		setInputFields({ ...inputFields, [placeholder]: value });
 	};
 
 	return (
@@ -169,116 +214,153 @@ const EditMaterial = (props) => {
 				<div className={classes.paper}>
 					<h5 className='text-center mt-4'>Update</h5>
 					<Container className={classes.mainContainer}>
-						{/* Form */}
 						{material ? (
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<Grid container spacing={1}>
-									<Grid lg={12} md={12} sm={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Category'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											select
-											value={inputFields.category}
-											onChange={(e) => onChangeHandler(e.target.value, 'category')}
-											className={classes.inputFieldStyle}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											// defaultValue={material.category._id}
-											// {...register("category", { required: true })}
-										>
-											{!categories || !categories.length ? (
-												<p>Data Not Found</p>
-											) : (
-												categories.map((category) => (
-													<MenuItem value={category._id} key={category._id}>
-														{category.name}
-													</MenuItem>
-												))
-											)}
-										</CssTextField>
-										{errors.category?.type === 'required' && (
-											<p className='mt-3 text-danger'>Category must be required</p>
-										)}
-									</Grid>
-									<Grid lg={12} md={12} sm={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Enter Material Name'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											value={inputFields.name}
-											onChange={(e) => onChangeHandler(e.target.value, 'name')}
-											autoComplete='off'
-											className={classes.inputFieldStyle1}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											// {...register("name", { required: true, maxLength: 30 })}
-										/>
+							<Formik
+								initialValues={initialValuesState}
+								validationSchema={validationSchema}
+								enableReinitialize
+								onSubmit={onSubmit}>
+								{(props) => (
+									<Form>
+										<Grid container spacing={1}>
+											<Grid lg={12} md={12} sm={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Enter Material Name'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													onChange={props.handleChange('name')}
+													onBlur={props.handleBlur('name')}
+													value={props.values.name}
+													style={{ width: '100%', marginTop: 20 }}
+													helperText={props.touched.name && props.errors.name}
+													error={props.touched.name && props.errors.name}
+													size='small'
+													autoComplete='off'
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+												/>
+											</Grid>
+											<Grid lg={12} md={12} sm={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Select Category'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													style={{ width: '100%', marginTop: 20 }}
+													inputProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('category')}
+													onBlur={props.handleBlur('category')}
+													value={props.values.category}
+													helperText={props.touched.category && props.errors.category}
+													error={props.touched.category && props.errors.category}
+													InputLabelProps={{ style: { fontSize: 14 } }}>
+													{!categories || !categories.length ? (
+														<p>Data Not Found</p>
+													) : (
+														categories.map((el) => (
+															<MenuItem
+																value={el._id}
+																key={el._id}
+																onClick={() => setSelectedCategory(el?._id)}>
+																{el.name}
+															</MenuItem>
+														))
+													)}
+												</CssTextField>
+											</Grid>
 
-										<br />
-										{errors.name?.type === 'required' && (
-											<p className='text-danger'>Material name is required</p>
-										)}
-										<br />
-										{errors.name?.type === 'maxLength' && (
-											<p className='text-danger'>Length must be less than 30</p>
-										)}
-										<CssTextField
-											id='outlined-basic'
-											label='Enter Unit'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											value={inputFields.unit}
-											onChange={(e) => onChangeHandler(e.target.value, 'unit')}
-											autoComplete='off'
-											className={classes.inputFieldStyle1}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											// {...register("unit", { required: true, maxLength: 30 })}
-										/>
-
-										<br />
-										{errors.unit?.type === 'required' && (
-											<p className='text-danger'>Unit is required</p>
-										)}
-										<br />
-										{errors.unit?.type === 'maxLength' && (
-											<p className='text-danger'>Length must be less than 15</p>
-										)}
-										{isUpdate ? (
-											<p className='text-success'>Material Edit Success</p>
-										) : isError ? (
-											<p className='text-danger'>
-												Material Edit Fail Internal Server Error
-											</p>
-										) : null}
-									</Grid>
-								</Grid>
-								<div>
-									<Button
-										variant='outlined'
-										color='primary'
-										className={classes.addButton}
-										type='submit'>
-										Update
-									</Button>
-									<Button
-										variant='outlined'
-										color='primary'
-										className={classes.closeButton}
-										onClick={handleClose}>
-										close
-									</Button>
-								</div>
-							</form>
+											<Grid lg={12} md={12} sm={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Select Sub Category'
+													variant='outlined'
+													type='text'
+													select
+													onChange={props.handleChange('subCategory')}
+													onBlur={props.handleBlur('subCategory')}
+													value={props.values.subCategory}
+													style={{ width: '100%', marginTop: 20 }}
+													helperText={props.touched.subCategory && props.errors.subCategory}
+													error={props.touched.subCategory && props.errors.subCategory}
+													autocomplete='off'
+													size='small'
+													autoComplete='off'
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}>
+													{!subCategories || !subCategories.length ? (
+														<p>Data Not Found</p>
+													) : (
+														subCategories.map((category) => (
+															<MenuItem value={category._id} key={category._id}>
+																{category.name}
+															</MenuItem>
+														))
+													)}
+												</CssTextField>
+											</Grid>
+											<Grid lg={12} md={12} sm={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Select Unit'
+													variant='outlined'
+													type='text'
+													select
+													onChange={props.handleChange('unit')}
+													onBlur={props.handleBlur('unit')}
+													value={props.values.unit}
+													style={{ width: '100%', marginTop: 20 }}
+													helperText={props.touched.unit && props.errors.unit}
+													error={props.touched.unit && props.errors.unit}
+													autocomplete='off'
+													size='small'
+													autoComplete='off'
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}>
+													{!units || !units.length ? (
+														<p>Data Not Found</p>
+													) : (
+														units.map((category) => (
+															<MenuItem value={category._id} key={category._id}>
+																{category.name}
+															</MenuItem>
+														))
+													)}
+												</CssTextField>
+											</Grid>
+										</Grid>
+										<div
+											style={{
+												marginTop: '2rem',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}>
+											<Button
+												variant='contained'
+												color='primary'
+												text='Update'
+												style={{ marginRight: '1rem' }}
+												loading={updateLoading}
+											/>
+											<Button
+												variant='outlined'
+												color='dark'
+												onClick={handleClose}
+												text='Close'
+												type='button'
+												classNames='bg-danger text-light'
+											/>
+										</div>
+										{success && <p>Successfully Updated</p>}
+										{updateError && <p>{updateError}</p>}
+									</Form>
+								)}
+							</Formik>
 						) : null}
 					</Container>
 				</div>
