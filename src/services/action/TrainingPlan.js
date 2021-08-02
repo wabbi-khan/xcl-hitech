@@ -18,6 +18,8 @@ export const getTrainingsPlanes = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings/planes`,
 		);
 
+		console.log(data);
+
 		dispatch({
 			type: TRAININGPLAN_FETCH_SUCCESS,
 			payload: data.data,
@@ -27,27 +29,26 @@ export const getTrainingsPlanes = (query) => async (dispatch) => {
 	}
 };
 
-export const createTrainingPlanes = (data) => async (dispatch) => {
+export const createTrainingPlanes = (values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPLAN_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/planes`,
-			data,
+			values,
 		);
 
-		console.log(res);
-
-		dispatch({
-			type: TRAININGPLAN_CREATE_SUCCESS,
-			payload: res.data.plane,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAININGPLAN_CREATE_SUCCESS,
+				payload: data.plane,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -145,13 +146,16 @@ export const deleteTrainingPlanes = (params) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: TRAININGPLAN_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
+
 		dispatch({
 			type: TRAININGPLAN_FAIL,
 			payload: 'Network Error',

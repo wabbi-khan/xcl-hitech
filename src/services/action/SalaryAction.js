@@ -49,23 +49,49 @@ export const createSalariesAction = () => async (dispatch) => {
 	}
 };
 
-export const updateSalaryAction = (el) => async (dispatch) => {
+export const paidSalaryAction = (el, cb) => async (dispatch) => {
 	dispatch({
 		type: SALARY_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/salary/${el._id}`,
+		const { data } = await axios.patch(
+			`${process.env.REACT_APP_API_URL}/salary/paid/${el._id}`,
 		);
 
-		console.log(res.data);
+		console.log(data);
 
-		dispatch({
-			type: SALARY_UPDATE_SUCCESS,
-			payload: { salary: res.data.salary },
-		});
+		if (data.success) {
+			dispatch({
+				type: SALARY_UPDATE_SUCCESS,
+				payload: { salary: data.salary },
+			});
 
+			if (cb) cb();
+		}
+	} catch (err) {
+		dispatchError(err, dispatch);
+	}
+};
+
+export const unpaidSalaryAction = (el, cb) => async (dispatch) => {
+	dispatch({
+		type: SALARY_REQUEST,
+	});
+
+	try {
+		const { data } = await axios.patch(
+			`${process.env.REACT_APP_API_URL}/salary/unPaid/${el._id}`,
+		);
+
+		if (data.success) {
+			dispatch({
+				type: SALARY_UPDATE_SUCCESS,
+				payload: { salary: data.salary },
+			});
+
+			if (cb) cb();
+		}
 		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);

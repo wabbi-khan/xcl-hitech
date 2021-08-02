@@ -10,12 +10,12 @@ import avatar from '../assests/user.svg';
 import {
 	createEmployee,
 	getEmployees,
+	hireEmployee,
+	updateEmployee,
 } from '../../../services/action/EmployeesAction';
 import { getExperiences } from '../../../services/action/ExperienceAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { getDesignation } from '../../../services/action/DesignationAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { TableCell, TableRow } from '@material-ui/core';
 import { Formik, Form, useFormik, FastField } from 'formik';
@@ -198,7 +198,7 @@ const initialValues2 = {
 	empType: '',
 	finalDepartment: undefined,
 	finalDesignation: undefined,
-	finalSal: '',
+	finalSal: undefined,
 };
 
 const initialValues1 = {
@@ -232,9 +232,9 @@ const validationSchema2 = yup.object({
 	bankNameAndBranch: yup.string().required(),
 	isExecutive: yup.string().required(),
 	empType: yup.string().required(),
-	finalDepartment: yup.string(),
-	finalDesignation: yup.string(),
-	finalSal: yup.string(),
+	finalDepartment: yup.string().nullable(),
+	finalDesignation: yup.string().nullable(),
+	finalSal: yup.string().nullable(),
 	DatePlaceOfIssue: yup.string(),
 	email: yup.string().required(),
 	cnic: yup.string().required(),
@@ -314,7 +314,20 @@ const validationSchemaForExperience = yup.object({
 	experienceLevel: yup.string().required(),
 });
 
-const Employees = ({ history }) => {
+const Employees = ({ history, location }) => {
+	const [hireError, setHireError] = React.useState('');
+	const [hireLoading, setHireLoading] = React.useState('');
+	const [initialValues1State, setInitialValues1State] =
+		React.useState(initialValues1);
+	const [initialValues2State, setInitialValues2State] =
+		React.useState(initialValues2);
+	const [initialValueStateForNextToKin, setInitialValueStateForNextToKin] =
+		React.useState(initialValuesForNextToKin);
+	const [initialValueStateForReference, setInitialValueStateForReference] =
+		React.useState(initialValuesForReference);
+	const [initialValueStateForOfficeUse, setInitialValueStateForOfficeUse] =
+		React.useState(initialValuesForOfficeUse);
+	const [updateLoading, setUpdateLoading] = React.useState(false);
 	const [success, setSuccess] = React.useState('');
 	const [createLoading, setCreateLoading] = React.useState(false);
 	const [createError, setCreateError] = React.useState('');
@@ -362,6 +375,42 @@ const Employees = ({ history }) => {
 			reasonOfLeft: '',
 			experienceLevel: '',
 		});
+
+	React.useEffect(() => {
+		if (location.state?.user) {
+			const {
+				name,
+				fatherName_husbandName,
+				jobAppliedFor,
+				presentAddress,
+				permanentAddress,
+				telephoneNo,
+				mobileNo,
+				gender,
+				...rest
+			} = location.state?.user;
+			setInitialValues1State({
+				name,
+				fatherName_husbandName,
+				jobAppliedFor,
+				presentAddress,
+				permanentAddress,
+				telephoneNo,
+				mobileNo,
+				gender,
+			});
+			setInitialValues2State({ ...rest });
+			setAcademicQualification(location.state?.user.academicQualification);
+			setExperience(location.state?.user.experience);
+			setProfessionalQualification(location.state?.user.professionalQualification);
+			setInitialValueStateForNextToKin(location.state?.user.nextToKin);
+			setInitialValueStateForReference(location.state?.user.reference);
+			setInitialValueStateForOfficeUse({
+				...location.state?.user.officeUse,
+				department: location.state?.user.officeUse.department._id,
+			});
+		}
+	}, [location]);
 
 	const picUploadFunc = (event) => {
 		if (event.target.files && event.target.files[0]) {
@@ -484,6 +533,7 @@ const Employees = ({ history }) => {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
+
 		const nextToKinErrors = await nextToKinForm.validateForm();
 		nextToKinForm.setTouched(nextToKinErrors);
 		const referenceErrors = await referenceForm.validateForm();
@@ -522,33 +572,115 @@ const Employees = ({ history }) => {
 			isEmpty(initialValues1Error) &&
 			isEmpty(initialValues2Error)
 		) {
-			setCreateLoading(true);
-			dispatch(
-				createEmployee(data, (err) => {
-					if (err) {
-						setCreateError(err);
-						setTimeout(() => {
-							setCreateError('');
-						}, 4000);
-					} else {
-						setSuccess('Employee added successfully');
-						setTimeout(() => {
-							setSuccess('');
-						}, 4000);
-					}
-					setCreateLoading(false);
-				}),
-			);
+			if (location.state?.isHiring) {
+				console.log(initialValues2Form.values.finalDepartment);
+				console.log(initialValues2Form.values.finalDesignation);
+				console.log(initialValues2Form.values.finalSal);
+				if (
+					initialValues2Form.values.finalDepartment &&
+					initialValues2Form.values.finalDesignation &&
+					initialValues2Form.values.finalSal
+				) {
+					hireEmployeeFunc(data);
+				} else {
+					console.log('not ok');
+					setHireError(
+						'Please check Final Department, Final Designation and Final Sal fields are filled to hire employee',
+					);
+					setTimeout(() => {
+						setHireError('');
+					}, 4000);
+				}
+			} else if (location.state?.toUpdate) {
+				onUpdateEmployee(data);
+			} else {
+				onCreateEmployee(data);
+			}
 		}
+	};
+
+	const onCreateEmployee = (data) => {
+		setCreateLoading(true);
+		dispatch(
+			createEmployee(data, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Employee added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+					clearForm();
+				}
+				setCreateLoading(false);
+			}),
+		);
+	};
+
+	const clearForm = () => {
+		nextToKinForm.resetForm();
+		referenceForm.resetForm();
+		officeUseForm.resetForm();
+		initialValues1Form.resetForm();
+		initialValues2Form.resetForm();
+		setAcademicQualification([]);
+		setProfessionalQualification([]);
+		setExperience([]);
+	};
+
+	const onUpdateEmployee = (data) => {
+		setUpdateLoading(true);
+		dispatch(
+			updateEmployee(location.state?.user._id, data, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Employee Updated successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setUpdateLoading(false);
+			}),
+		);
+	};
+
+	const hireEmployeeFunc = (data) => {
+		console.log('hiring');
+		setHireLoading(true);
+		dispatch(
+			hireEmployee(location.state?.user._id, data, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Employee Hired successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setHireLoading(false);
+			}),
+		);
 	};
 
 	return (
 		<Sidenav title={'Employees'}>
 			<div>
 				<Container className={classes.mainContainer}>
+					{success && <p>{success}</p>}
 					<form onSubmit={onSubmit}>
 						<Formik
-							initialValues={initialValues1}
+							initialValues={initialValues1State}
+							enableReinitialize
 							validationSchema={validationSchema1}>
 							{(props) => {
 								initialValues1Form = props;
@@ -564,6 +696,7 @@ const Employees = ({ history }) => {
 														type='text'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														size='small'
+														disabled={location.state?.isHiring ? true : false}
 														autocomplete='off'
 														inputProps={{ style: { fontSize: 14 } }}
 														InputLabelProps={{ style: { fontSize: 14 } }}
@@ -581,6 +714,7 @@ const Employees = ({ history }) => {
 														id='outlined-basic'
 														label='Father Name OR Husband Name'
 														variant='outlined'
+														disabled={location.state?.isHiring ? true : false}
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='text'
 														size='small'
@@ -600,6 +734,7 @@ const Employees = ({ history }) => {
 													<CssTextField
 														id='outlined-basic'
 														label='Job Applied For'
+														disabled={location.state?.isHiring ? true : false}
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														variant='outlined'
 														type='text'
@@ -623,6 +758,7 @@ const Employees = ({ history }) => {
 												{({ meta, field }) => (
 													<CssTextField
 														id='outlined-basic'
+														disabled={location.state?.isHiring ? true : false}
 														label='Present Address'
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
@@ -647,6 +783,7 @@ const Employees = ({ history }) => {
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='text'
+														disabled={location.state?.isHiring ? true : false}
 														size='small'
 														autocomplete='off'
 														inputProps={{ style: { fontSize: 14 } }}
@@ -666,6 +803,7 @@ const Employees = ({ history }) => {
 														label='Telephone No'
 														variant='outlined'
 														type='number'
+														disabled={location.state?.isHiring ? true : false}
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														size='small'
 														autocomplete='off'
@@ -684,6 +822,7 @@ const Employees = ({ history }) => {
 													<CssTextField
 														id='outlined-basic'
 														label='Mobile No'
+														disabled={location.state?.isHiring ? true : false}
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='number'
@@ -703,6 +842,7 @@ const Employees = ({ history }) => {
 												{({ meta, field }) => (
 													<CssTextField
 														id='outlined-basic'
+														disabled={location.state?.isHiring ? true : false}
 														label='Gender'
 														variant='outlined'
 														type='text'
@@ -727,7 +867,8 @@ const Employees = ({ history }) => {
 							}}
 						</Formik>
 						<Formik
-							initialValues={initialValues2}
+							initialValues={initialValues2State}
+							enableReinitialize
 							validationSchema={validationSchema2}>
 							{(props) => {
 								initialValues2Form = props;
@@ -739,6 +880,7 @@ const Employees = ({ history }) => {
 													<CssTextField
 														id='outlined-basic'
 														label='Status'
+														disabled={location.state?.isHiring ? true : false}
 														variant='outlined'
 														type='text'
 														size='small'
@@ -763,6 +905,7 @@ const Employees = ({ history }) => {
 													<CssTextField
 														id='outlined-basic'
 														label='Age'
+														disabled={location.state?.isHiring ? true : false}
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='number'
@@ -787,6 +930,7 @@ const Employees = ({ history }) => {
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														size='small'
 														autocomplete='off'
+														disabled={location.state?.isHiring ? true : false}
 														inputProps={{ style: { fontSize: 14 } }}
 														InputLabelProps={{ style: { fontSize: 14 } }}
 														{...field}
@@ -804,6 +948,7 @@ const Employees = ({ history }) => {
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														label='Place Of Birth'
 														variant='outlined'
+														disabled={location.state?.isHiring ? true : false}
 														type='text'
 														size='small'
 														autocomplete='off'
@@ -824,6 +969,7 @@ const Employees = ({ history }) => {
 														label='Email'
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														disabled={location.state?.isHiring ? true : false}
 														type='text'
 														size='small'
 														autocomplete='off'
@@ -845,6 +991,7 @@ const Employees = ({ history }) => {
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='text'
+														disabled={location.state?.isHiring ? true : false}
 														size='small'
 														autocomplete='off'
 														inputProps={{ style: { fontSize: 14 } }}
@@ -864,6 +1011,7 @@ const Employees = ({ history }) => {
 														variant='outlined'
 														type='date'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+														disabled={location.state?.isHiring ? true : false}
 														size='small'
 														autocomplete='off'
 														inputProps={{ style: { fontSize: 14 } }}
@@ -882,6 +1030,7 @@ const Employees = ({ history }) => {
 														id='outlined-basic'
 														label='Nationality'
 														variant='outlined'
+														disabled={location.state?.isHiring ? true : false}
 														type='text'
 														size='small'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
@@ -905,6 +1054,7 @@ const Employees = ({ history }) => {
 													<CssTextField
 														id='outlined-basic'
 														label='Bank Account No.'
+														disabled={location.state?.isHiring ? true : false}
 														variant='outlined'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														type='text'
@@ -927,6 +1077,7 @@ const Employees = ({ history }) => {
 														label='Bank Name And Branch'
 														variant='outlined'
 														type='text'
+														disabled={location.state?.isHiring ? true : false}
 														size='small'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														autocomplete='off'
@@ -945,6 +1096,7 @@ const Employees = ({ history }) => {
 													<CssTextField
 														id='outlined-basic'
 														label='Executive OR Non-Executive'
+														disabled={location.state?.isHiring ? true : false}
 														variant='outlined'
 														type='text'
 														size='small'
@@ -972,6 +1124,7 @@ const Employees = ({ history }) => {
 														type='text'
 														size='small'
 														select
+														disabled={location.state?.isHiring ? true : false}
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														autocomplete='off'
 														inputProps={{ style: { fontSize: 14 } }}
@@ -987,6 +1140,90 @@ const Employees = ({ history }) => {
 												)}
 											</FastField>
 										</Grid>
+										{location.state?.isHiring && (
+											<>
+												<Grid item lg={3} md={3} sm={12} xs={12}>
+													<FastField name='finalDepartment'>
+														{({ meta, field }) => (
+															<CssTextField
+																id='outlined-basic'
+																label='Final Department'
+																variant='outlined'
+																type='text'
+																size='small'
+																select
+																style={{
+																	marginTop: '1rem',
+																	marginLeft: '1rem',
+																	width: '100%',
+																}}
+																autocomplete='off'
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+																{...field}
+																helperText={meta.touched && meta.error}
+																error={meta.touched && meta.error}>
+																{departments.map((el) => (
+																	<MenuItem value={el._id}>{el.name}</MenuItem>
+																))}
+															</CssTextField>
+														)}
+													</FastField>
+												</Grid>
+												<Grid item lg={3} md={3} sm={12} xs={12}>
+													<FastField name='finalDesignation'>
+														{({ meta, field }) => (
+															<CssTextField
+																id='outlined-basic'
+																label='Final Designation'
+																variant='outlined'
+																type='text'
+																size='small'
+																select
+																style={{
+																	marginTop: '1rem',
+																	marginLeft: '1rem',
+																	width: '100%',
+																}}
+																autocomplete='off'
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+																{...field}
+																helperText={meta.touched && meta.error}
+																error={meta.touched && meta.error}>
+																{designations.map((el) => (
+																	<MenuItem value={el._id}>{el.name}</MenuItem>
+																))}
+															</CssTextField>
+														)}
+													</FastField>
+												</Grid>
+												<Grid item lg={3} md={3} sm={12} xs={12}>
+													<FastField name='finalSal'>
+														{({ meta, field }) => (
+															<CssTextField
+																id='outlined-basic'
+																label='Final Sal'
+																variant='outlined'
+																type='number'
+																size='small'
+																style={{
+																	marginTop: '1rem',
+																	marginLeft: '1rem',
+																	width: '100%',
+																}}
+																autocomplete='off'
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+																{...field}
+																helperText={meta.touched && meta.error}
+																error={meta.touched && meta.error}
+															/>
+														)}
+													</FastField>
+												</Grid>
+											</>
+										)}
 									</Grid>
 								);
 							}}
@@ -1001,11 +1238,14 @@ const Employees = ({ history }) => {
 						<Grid container spacing={1} className='mt-5'>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<input
+									disabled={location.state?.isHiring ? true : false}
 									type='file'
 									className={classes.uploadImgBtn}
 									onChange={(event) => picUploadFunc(event)}></input>
 								<img
-									src={image.path}
+									src={
+										location.state?.toUpdate ? location.state?.user?.picture : image.path
+									}
 									alt='Employee Picture'
 									width='150'
 									height='150'
@@ -1020,11 +1260,12 @@ const Employees = ({ history }) => {
 						</div>
 
 						<Formik
-							initialValues={initialValuesForNextToKin}
+							initialValues={initialValueStateForNextToKin}
+							enableReinitialize
 							validationSchema={validationForNextToKin}>
 							{(props) => {
 								nextToKinForm = props;
-								return <NextToKin />;
+								return <NextToKin isHiring={location.state?.isHiring} />;
 							}}
 						</Formik>
 					</form>
@@ -1047,6 +1288,7 @@ const Employees = ({ history }) => {
 												id='outlined-basic'
 												label='Degree/Certification'
 												variant='outlined'
+												disabled={location.state?.isHiring ? true : false}
 												type='text'
 												size='small'
 												style={{ width: '100%' }}
@@ -1069,6 +1311,7 @@ const Employees = ({ history }) => {
 												style={{ width: '100%' }}
 												size='small'
 												name='university'
+												disabled={location.state?.isHiring ? true : false}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('university')}
@@ -1088,6 +1331,7 @@ const Employees = ({ history }) => {
 												style={{ width: '100%' }}
 												size='small'
 												inputProps={{ style: { fontSize: 14 } }}
+												disabled={location.state?.isHiring ? true : false}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('yearOfPassing')}
 												onBlur={props.handleBlur('yearOfPassing')}
@@ -1109,6 +1353,7 @@ const Employees = ({ history }) => {
 												name='division'
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
+												disabled={location.state?.isHiring ? true : false}
 												onChange={props.handleChange('division')}
 												onBlur={props.handleBlur('division')}
 												value={props.values.division}
@@ -1127,7 +1372,7 @@ const Employees = ({ history }) => {
 												variant='outlined'
 												color='primary'
 												classNames={classes.addMoreButton}
-												text={academicQualificationsEdit ? 'Edit' : 'Add More'}
+												text={academicQualificationsEdit ? 'Edit' : 'Add'}
 											/>
 										</Grid>
 									</Grid>
@@ -1213,6 +1458,7 @@ const Employees = ({ history }) => {
 												label='Degree/Certification'
 												variant='outlined'
 												type='text'
+												disabled={location.state?.isHiring ? true : false}
 												style={{ width: '100%' }}
 												size='small'
 												name='degree'
@@ -1235,6 +1481,7 @@ const Employees = ({ history }) => {
 												style={{ width: '100%' }}
 												name='university'
 												inputProps={{ style: { fontSize: 14 } }}
+												disabled={location.state?.isHiring ? true : false}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('university')}
 												onBlur={props.handleBlur('university')}
@@ -1251,6 +1498,7 @@ const Employees = ({ history }) => {
 												style={{ width: '100%' }}
 												type='text'
 												size='small'
+												disabled={location.state?.isHiring ? true : false}
 												name='yearOfPassing'
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
@@ -1267,6 +1515,7 @@ const Employees = ({ history }) => {
 											<CssTextField
 												id='outlined-basic'
 												label='Division'
+												disabled={location.state?.isHiring ? true : false}
 												variant='outlined'
 												type='text'
 												size='small'
@@ -1293,7 +1542,7 @@ const Employees = ({ history }) => {
 											variant='outlined'
 											color='primary'
 											classNames={classes.addMoreButton}
-											text={professionalQualificationEdit ? 'Edit' : 'Add Mote'}
+											text={professionalQualificationEdit ? 'Edit' : 'Add'}
 										/>
 									</Grid>
 								</Form>
@@ -1381,6 +1630,7 @@ const Employees = ({ history }) => {
 												id='outlined-basic'
 												label='Company Name'
 												variant='outlined'
+												disabled={location.state?.isHiring ? true : false}
 												type='text'
 												size='small'
 												style={{ width: '100%' }}
@@ -1400,6 +1650,7 @@ const Employees = ({ history }) => {
 												label='Company Address'
 												variant='outlined'
 												type='text'
+												disabled={location.state?.isHiring ? true : false}
 												size='small'
 												style={{ width: '100%' }}
 												name='companyAddress'
@@ -1419,6 +1670,7 @@ const Employees = ({ history }) => {
 												id='outlined-basic'
 												label='Last Salary'
 												variant='outlined'
+												disabled={location.state?.isHiring ? true : false}
 												type='number'
 												size='small'
 												style={{ width: '100%' }}
@@ -1438,6 +1690,7 @@ const Employees = ({ history }) => {
 												label='Reason of Left'
 												variant='outlined'
 												type='text'
+												disabled={location.state?.isHiring ? true : false}
 												size='small'
 												style={{ width: '100%' }}
 												name='to'
@@ -1457,6 +1710,7 @@ const Employees = ({ history }) => {
 													variant='outlined'
 													type='date'
 													size='small'
+													disabled={location.state?.isHiring ? true : false}
 													style={{ width: '100%' }}
 													name='lastSalary'
 													inputProps={{ style: { fontSize: 14 } }}
@@ -1472,6 +1726,7 @@ const Employees = ({ history }) => {
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
+													disabled={location.state?.isHiring ? true : false}
 													type='date'
 													size='small'
 													name='reasonOfLeft'
@@ -1492,6 +1747,7 @@ const Employees = ({ history }) => {
 													label='Select Experience level'
 													type='text'
 													size='small'
+													disabled={location.state?.isHiring ? true : false}
 													select
 													style={{ width: '100%' }}
 													name='experienceLevel'
@@ -1510,7 +1766,7 @@ const Employees = ({ history }) => {
 														<p>Data Not Found</p>
 													) : (
 														experiencesState.map((experience, i) => (
-															<MenuItem value={experience._id} key={i}>
+															<MenuItem value={experience.name} key={i}>
 																{experience.name}
 															</MenuItem>
 														))
@@ -1576,7 +1832,9 @@ const Employees = ({ history }) => {
 															{el.to}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark bg-light' align='center'>
-															{el.experienceLevel}
+															{location.state?.toUpdate
+																? el.experienceLevel.name
+																: el.experienceLevel}
 														</StyledTableCell>
 														<StyledTableCell className='text-light bg-light' align='center'>
 															<div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -1610,7 +1868,8 @@ const Employees = ({ history }) => {
 					</div>
 					<form onSubmit={onSubmit}>
 						<Formik
-							initialValues={initialValuesForReference}
+							initialValues={initialValueStateForReference}
+							enableReinitialize
 							validationSchema={validationForReference}>
 							{(props) => {
 								referenceForm = props;
@@ -1623,6 +1882,7 @@ const Employees = ({ history }) => {
 													{({ meta, field }) => (
 														<CssTextField
 															id='outlined-basic'
+															disabled={location.state?.isHiring ? true : false}
 															label='Name'
 															variant='outlined'
 															type='text'
@@ -1645,6 +1905,7 @@ const Employees = ({ history }) => {
 															id='outlined-basic'
 															label='Contact No'
 															variant='outlined'
+															disabled={location.state?.isHiring ? true : false}
 															type='number'
 															size='small'
 															autocomplete='off'
@@ -1667,6 +1928,7 @@ const Employees = ({ history }) => {
 															variant='outlined'
 															type='text'
 															size='small'
+															disabled={location.state?.isHiring ? true : false}
 															autocomplete='off'
 															style={{ width: '100%' }}
 															inputProps={{ style: { fontSize: 14 } }}
@@ -1687,7 +1949,8 @@ const Employees = ({ history }) => {
 							<hr />
 						</div>
 						<Formik
-							initialValues={initialValuesForOfficeUse}
+							initialValues={initialValueStateForOfficeUse}
+							enableReinitialize
 							validationSchema={validationForOfficeUse}>
 							{(props) => {
 								officeUseForm = props;
@@ -1704,6 +1967,7 @@ const Employees = ({ history }) => {
 															type='date'
 															size='small'
 															autocomplete='off'
+															disabled={location.state?.isHiring ? true : false}
 															style={{ width: '100%' }}
 															inputProps={{ style: { fontSize: 14 } }}
 															InputLabelProps={{ style: { fontSize: 14 } }}
@@ -1726,6 +1990,7 @@ const Employees = ({ history }) => {
 															autocomplete='off'
 															style={{ width: '100%' }}
 															inputProps={{ style: { fontSize: 14 } }}
+															disabled={location.state?.isHiring ? true : false}
 															InputLabelProps={{ style: { fontSize: 14 } }}
 															{...field}
 															helperText={meta.touched && meta.error}
@@ -1742,6 +2007,7 @@ const Employees = ({ history }) => {
 															label='Recommended'
 															variant='outlined'
 															type='text'
+															disabled={location.state?.isHiring ? true : false}
 															size='small'
 															select
 															autocomplete='off'
@@ -1761,6 +2027,7 @@ const Employees = ({ history }) => {
 												<FastField name='jobTitle'>
 													{({ meta, field }) => (
 														<CssTextField
+															disabled={location.state?.isHiring ? true : false}
 															id='outlined-basic'
 															label='Job Title'
 															variant='outlined'
@@ -1783,6 +2050,7 @@ const Employees = ({ history }) => {
 												<FastField name='department'>
 													{({ meta, field }) => (
 														<CssTextField
+															disabled={location.state?.isHiring ? true : false}
 															id='outlined-basic'
 															label='Department'
 															variant='outlined'
@@ -1818,6 +2086,7 @@ const Employees = ({ history }) => {
 															label='Recommended Salary'
 															variant='outlined'
 															type='number'
+															disabled={location.state?.isHiring ? true : false}
 															size='small'
 															autocomplete='off'
 															style={{ width: '100%' }}
@@ -1840,6 +2109,7 @@ const Employees = ({ history }) => {
 															type='text'
 															size='small'
 															select
+															disabled={location.state?.isHiring ? true : false}
 															autocomplete='off'
 															style={{ width: '100%' }}
 															inputProps={{ style: { fontSize: 14 } }}
@@ -1861,12 +2131,20 @@ const Employees = ({ history }) => {
 						<Button
 							variant='outlined'
 							color='primary'
-							text='Add'
+							text={
+								location.state?.isHiring
+									? 'Hire'
+									: location.state?.toUpdate
+									? 'Update'
+									: 'Add'
+							}
 							classNames={classes.addButton}
-							loading={createLoading}
+							loading={location.state?.toUpdate ? updateLoading : createLoading}
 							loaderColor='#333'
 						/>
+						{success && <p>{success}</p>}
 						{createError && <p className='text-light bg-danger'>{createError}</p>}
+						{hireError && <p className='text-light bg-danger'>{hireError}</p>}
 					</form>
 				</Container>
 			</div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,7 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import {
 	getSalariesAction,
 	createSalariesAction,
-	updateSalaryAction,
+	paidSalaryAction,
+	unpaidSalaryAction,
 } from '../../../services/action/SalaryAction';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -94,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
 const EmpSalaries = () => {
 	const classes = useStyles();
 	const [IsPaid, setIsPaid] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const { salaries, error } = useSelector((state) => state.salaries);
 
@@ -108,7 +110,20 @@ const EmpSalaries = () => {
 	};
 
 	const paySal = (el) => {
-		dispatch(updateSalaryAction(el));
+		setLoading(true);
+		dispatch(
+			paidSalaryAction(el, () => {
+				setLoading(false);
+			}),
+		);
+	};
+	const unPaySal = (el) => {
+		setLoading(true);
+		dispatch(
+			unpaidSalaryAction(el, () => {
+				setLoading(false);
+			}),
+		);
 	};
 
 	return (
@@ -120,9 +135,10 @@ const EmpSalaries = () => {
 							variant='contained'
 							style={{ marginBottom: '1rem', backgroundColor: 'lightBlue' }}
 							size='small'
-							onClick={createSalaries}>
-							Create Salaries
-						</Button>
+							text='Create Salaries'
+							onClick={createSalaries}
+						/>
+
 						{error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
 					</div>
 					<TableContainer className={classes.tableContainer}>
@@ -166,14 +182,16 @@ const EmpSalaries = () => {
 												<Button
 													variant='contained'
 													size='small'
-													className={
+													classNames={
 														el.isPaid ? `${classes.paidBtn1}` : `${classes.paidBtn}`
 													}
 													onClick={() => {
-														paySal(el);
-													}}>
-													{el.isPaid ? 'Is paid' : 'pay'}
-												</Button>
+														el.isPaid ? unPaySal(el) : paySal(el);
+													}}
+													text={el.isPaid ? 'Is paid' : 'pay'}
+													loading={loading}
+													loaderColor='#fff'
+												/>
 											</StyledTableCell>
 										</StyledTableRow>
 									))

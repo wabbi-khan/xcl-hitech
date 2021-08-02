@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -21,6 +21,7 @@ import { fetchDepartmentsAction } from '../../../services/action/DepartmentActio
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { getTrainingVenues } from '../../../services/action/TrainingVenue';
 import { getTrainings } from '../../../services/action/TrainingAction';
+import { getEmployeeByDesignation } from '../../../services/action/EmployeesAction';
 import {
 	createTrainingPlanes,
 	deleteTrainingPlanes,
@@ -119,30 +120,66 @@ const CssTextField = withStyles({
 
 const initialValues = {
 	topic: '',
-	needIdentifiedBy: '',
+	needIdentifiedByDesignation: '',
+	needIdentifiedByEmployee: '',
 	participants: '',
-	trainer: '',
+	trainerDesignation: '',
+	trainerName: '',
 	venue: '',
 };
 
 const validationSchema = yup.object({
 	topic: yup.string().required(),
-	needIdentifiedBy: yup.string().required(),
+	needIdentifiedByDesignation: yup.string().required(),
+	needIdentifiedByEmployee: yup.string().required(),
 	participants: yup.string().required(),
-	trainer: yup.string().required(),
+	trainerDesignation: yup.string().required(),
+	trainerName: yup.string().required(),
 	venue: yup.string().required(),
 });
 
 const TrainingPlan = ({ history }) => {
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
 	const [plan, setPlan] = React.useState();
 	const [loading, setLoading] = React.useState(false);
 	const [error, setError] = React.useState(false);
+	const [selectedTrainerDesignation, setSelectedTrainerDesignation] =
+		React.useState('');
+	const [
+		selectedTrainerIdentifierDesignation,
+		setSelectedTrainerIdentifierDesignation,
+	] = React.useState('');
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { designations } = useSelector((state) => state.designations);
 	const { venues } = useSelector((state) => state.venues);
 	const { trainings } = useSelector((state) => state.trainings);
 	const { plans } = useSelector((state) => state.trainingPlanes);
+	// const { employees } = useSelector((state) => state.employees);
+	const [trainers, setTrainers] = React.useState([]);
+	const [trainingIdentifiers, setTrainingIdentifiers] = React.useState([]);
+
+	React.useEffect(() => {
+		if (selectedTrainerDesignation) {
+			dispatch(
+				getEmployeeByDesignation(selectedTrainerDesignation, (data) => {
+					setTrainers(data);
+				}),
+			);
+		}
+	}, [selectedTrainerDesignation]);
+
+	React.useEffect(() => {
+		if (selectedTrainerIdentifierDesignation) {
+			dispatch(
+				getEmployeeByDesignation(selectedTrainerIdentifierDesignation, (data) => {
+					setTrainingIdentifiers(data);
+				}),
+			);
+		}
+	}, [selectedTrainerIdentifierDesignation]);
 
 	console.log(plans);
 
@@ -154,8 +191,23 @@ const TrainingPlan = ({ history }) => {
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
-		console.log(values);
-		dispatch(createTrainingPlanes(values));
+		setCreateLoading(true);
+		dispatch(
+			createTrainingPlanes(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Training Plan added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 	const deleteCategory = async (params) => {
 		dispatch(deleteTrainingPlanes(params));
@@ -192,7 +244,7 @@ const TrainingPlan = ({ history }) => {
 							<Form>
 								{/* Material category selector */}
 								<Grid container spacing={1}>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
+									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
 											label='Select Topic'
@@ -220,10 +272,10 @@ const TrainingPlan = ({ history }) => {
 											)}
 										</CssTextField>
 									</Grid>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
+									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
-											label='Training Needs Identified By'
+											label='Training Needs Identified By Employee Designation'
 											variant='outlined'
 											type='text'
 											autocomplete='off'
@@ -231,33 +283,38 @@ const TrainingPlan = ({ history }) => {
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('needIdentifiedBy')}
-											onBlur={props.handleBlur('needIdentifiedBy')}
-											value={props.values.needIdentifiedBy}
+											onChange={props.handleChange('needIdentifiedByDesignation')}
+											onBlur={props.handleBlur('needIdentifiedByDesignation')}
+											value={props.values.needIdentifiedByDesignation}
 											helperText={
-												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
+												props.touched.needIdentifiedByDesignation &&
+												props.errors.needIdentifiedByDesignation
 											}
 											error={
-												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
+												props.touched.needIdentifiedByDesignation &&
+												props.errors.needIdentifiedByDesignation
 											}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{
-												!designations || !designations.length ? (
-													<p>Data Not Found</p>
-												) : (
-													designations.map((el, i) => (
-														<MenuItem value={el._id} key={i}>
-															{el.name}
-														</MenuItem>
-													))
-												)
-											}
+											{!designations || !designations.length ? (
+												<p>Data Not Found</p>
+											) : (
+												designations.map((el, i) => (
+													<MenuItem
+														value={el._id}
+														key={i}
+														onClick={() => {
+															setSelectedTrainerIdentifierDesignation(el._id);
+														}}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
+									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
-											label='Select Employee'
+											label='Training Needs Identified By Employee Name'
 											variant='outlined'
 											type='text'
 											autocomplete='off'
@@ -265,27 +322,27 @@ const TrainingPlan = ({ history }) => {
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('needIdentifiedBy')}
-											onBlur={props.handleBlur('needIdentifiedBy')}
-											value={props.values.needIdentifiedBy}
+											onChange={props.handleChange('needIdentifiedByEmployee')}
+											onBlur={props.handleBlur('needIdentifiedByEmployee')}
+											value={props.values.needIdentifiedByEmployee}
 											helperText={
-												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
+												props.touched.needIdentifiedByEmployee &&
+												props.errors.needIdentifiedByEmployee
 											}
 											error={
-												props.touched.needIdentifiedBy && props.errors.needIdentifiedBy
+												props.touched.needIdentifiedByEmployee &&
+												props.errors.needIdentifiedByEmployee
 											}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{
-												!designations || !designations.length ? (
-													<p>Data Not Found</p>
-												) : (
-													designations.map((el, i) => (
-														<MenuItem value={el._id} key={i}>
-															{el.name}
-														</MenuItem>
-													))
-												)
-											}
+											{!trainingIdentifiers || !trainingIdentifiers.length ? (
+												<p>Data Not Found</p>
+											) : (
+												trainingIdentifiers.map((el, i) => (
+													<MenuItem value={el._id} key={i}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -316,12 +373,10 @@ const TrainingPlan = ({ history }) => {
 											)}
 										</CssTextField>
 									</Grid>
-								</Grid>
-								<Grid container spacing={1} className='mt-2'>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
-											label='Trainer'
+											label='Trainer Designation'
 											variant='outlined'
 											type='text'
 											autocomplete='off'
@@ -330,15 +385,52 @@ const TrainingPlan = ({ history }) => {
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('trainer')}
-											onBlur={props.handleBlur('trainer')}
-											value={props.values.trainer}
-											helperText={props.touched.trainer && props.errors.trainer}
-											error={props.touched.trainer && props.errors.trainer}>
+											onChange={props.handleChange('trainerDesignation')}
+											onBlur={props.handleBlur('trainerDesignation')}
+											value={props.values.trainerDesignation}
+											helperText={
+												props.touched.trainerDesignation && props.errors.trainerDesignation
+											}
+											error={
+												props.touched.trainerDesignation && props.errors.trainerDesignation
+											}>
 											{!designations || !designations.length ? (
 												<p>Data Not Found</p>
 											) : (
 												designations.map((el, i) => (
+													<MenuItem
+														value={el._id}
+														key={i}
+														onClick={() => {
+															setSelectedTrainerDesignation(el._id);
+														}}>
+														{el.name}
+													</MenuItem>
+												))
+											)}
+										</CssTextField>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CssTextField
+											id='outlined-basic'
+											label='Trainer Name'
+											variant='outlined'
+											type='text'
+											autocomplete='off'
+											size='small'
+											select
+											style={{ width: '100%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('trainerName')}
+											onBlur={props.handleBlur('trainerName')}
+											value={props.values.trainerName}
+											helperText={props.touched.trainerName && props.errors.trainerName}
+											error={props.touched.trainerName && props.errors.trainerName}>
+											{!trainers || !trainers.length ? (
+												<p>Data Not Found</p>
+											) : (
+												trainers.map((el, i) => (
 													<MenuItem value={el._id} key={i}>
 														{el.name}
 													</MenuItem>
@@ -379,10 +471,11 @@ const TrainingPlan = ({ history }) => {
 									<Button
 										variant='outlined'
 										color='primary'
-										type='submit'
-										className={classes.addButton}>
-										Add Plan
-									</Button>
+										loading={createLoading}
+										loaderColor='#333'
+										classNames={classes.addButton}
+										text='Submit'
+									/>
 								</div>
 							</Form>
 						)}
@@ -425,13 +518,17 @@ const TrainingPlan = ({ history }) => {
 												{el?.topic?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.needIdentifiedBy?.name}
+												{el?.needIdentifiedByEmployee?.name}
+												<p style={{ fontSize: 10 }}>
+													({el?.needIdentifiedByDesignation?.name})
+												</p>
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el?.participants?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.trainer?.name}
+												{el?.trainerName?.name}
+												<p style={{ fontSize: 10 }}>({el?.trainerDesignation?.name})</p>
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el?.startDate ? el?.startDate : '-----'}
@@ -443,7 +540,7 @@ const TrainingPlan = ({ history }) => {
 												<>
 													<Button
 														variant='contained'
-														className='bg-dark text-light'
+														classNames='bg-dark text-light'
 														size='small'
 														onClick={() =>
 															history.push({
@@ -451,27 +548,29 @@ const TrainingPlan = ({ history }) => {
 																status: { plane: el },
 															})
 														}
-														style={{ marginTop: 2 }}>
-														View
-													</Button>
+														text='View'
+														style={{ marginTop: 2 }}
+													/>
+
 													{el?.status === 'a' && (
 														<>
 															<Button
 																variant='contained'
-																className='bg-dark text-light'
+																classNames='bg-dark text-light'
 																size='small'
 																onClick={() => handleOpen()}
-																style={{ marginLeft: 2, marginTop: 2 }}>
-																Edit
-															</Button>
+																text='Edit'
+																style={{ marginLeft: 2, marginTop: 2 }}
+															/>
+
 															<Button
 																variant='contained'
 																color='secondary'
 																size='small'
+																text='Delete'
 																onClick={() => deleteCategory(el?._id)}
-																style={{ marginLeft: 2, marginTop: 2 }}>
-																Delete
-															</Button>
+																style={{ marginLeft: 2, marginTop: 2 }}
+															/>
 														</>
 													)}
 													<Button
@@ -483,11 +582,16 @@ const TrainingPlan = ({ history }) => {
 															el?.status === 'a' && startTraining(el?._id);
 															el?.status === 'b' && endTraining(el?._id);
 														}}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														{el?.status === 'a' && 'Start'}
-														{el?.status === 'b' && 'End'}
-														{el?.status === 'c' && 'Done'}
-													</Button>
+														style={{ marginLeft: 2, marginTop: 2 }}
+														text={
+															el?.status === 'a'
+																? 'Start'
+																: el?.status === 'b'
+																? 'End'
+																: 'Done'
+														}
+													/>
+
 													{el?.status !== 'a' && (
 														<Link to={{ pathname: '/hr/training_attendance', state: el }}>
 															<Button
@@ -498,9 +602,9 @@ const TrainingPlan = ({ history }) => {
 																	marginLeft: 2,
 																	marginTop: 2,
 																	backgroundColor: 'rgb(34, 161, 154)',
-																}}>
-																Attendance
-															</Button>
+																}}
+																text='Attendance'
+															/>
 														</Link>
 													)}
 												</>

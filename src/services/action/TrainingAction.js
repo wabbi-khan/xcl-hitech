@@ -18,6 +18,8 @@ export const getTrainings = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings`,
 		);
 
+		console.log(data);
+
 		dispatch({
 			type: TRAINING_FETCH_SUCCESS,
 			payload: data.data,

@@ -139,7 +139,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const NextToKin = ({}) => {
+const NextToKin = ({ isHiring }) => {
 	const classes = useStyles();
 
 	return (
@@ -154,6 +154,7 @@ const NextToKin = ({}) => {
 								label='Name'
 								variant='outlined'
 								type='text'
+								disabled={isHiring ? true : false}
 								style={{ width: '100%' }}
 								size='small'
 								autocomplete='off'
@@ -176,6 +177,7 @@ const NextToKin = ({}) => {
 									style={{ width: '100%' }}
 									label='Relation'
 									variant='outlined'
+									disabled={isHiring ? true : false}
 									type='text'
 									size='small'
 									autocomplete='off'
@@ -197,6 +199,7 @@ const NextToKin = ({}) => {
 								<CssTextField
 									id='outlined-basic'
 									label='Address'
+									disabled={isHiring ? true : false}
 									style={{ width: '100%' }}
 									variant='outlined'
 									type='text'
@@ -220,6 +223,7 @@ const NextToKin = ({}) => {
 								<CssTextField
 									id='outlined-basic'
 									label='Contact No'
+									disabled={isHiring ? true : false}
 									variant='outlined'
 									type='number'
 									size='small'

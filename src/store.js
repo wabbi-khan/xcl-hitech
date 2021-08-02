@@ -39,6 +39,7 @@ import { fetchStoreCategory } from './services/reducer/StoreCatReducer';
 import { responsibilityReducer } from './services/reducer/ResponsibilityReducer';
 import { authorityReducer } from './services/reducer/authorityReducer';
 import { unitReducer } from './services/reducer/UnitReducer';
+import { getTrainingEvaluations } from './services/reducer/trainingEvaluationReducer';
 
 const initialState = {};
 
@@ -82,6 +83,7 @@ const reducer = combineReducers({
 	responsibilities: responsibilityReducer,
 	authorities: authorityReducer,
 	units: unitReducer,
+	trainingEvaluations: getTrainingEvaluations,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

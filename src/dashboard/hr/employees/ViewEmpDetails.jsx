@@ -159,7 +159,7 @@ const ViewEmpDetails = (props) => {
 		}
 	};
 
-	console.log(employees);
+	console.log(unHiredEmployees);
 	return (
 		<Sidenav title={'Employee Details'}>
 			<div className={classes.dataTable}>
@@ -257,10 +257,10 @@ const ViewEmpDetails = (props) => {
 												size='small'
 												style={{ marginLeft: 3 }}
 												onClick={() => {
-													history.push(
-														// `/hr/edit_emp_details/${unHiredEmployee._id}`,
-														`/hr/edit_emp_details`,
-													);
+													history.push({
+														pathname: `/hr/employees`,
+														state: { user: unHiredEmployee, toUpdate: true },
+													});
 												}}>
 												Edit
 											</Button>
@@ -277,13 +277,16 @@ const ViewEmpDetails = (props) => {
 												View Details
 											</Button>
 											<Link
-												to={`/hr/employees/hired_employee_details/${unHiredEmployee._id}`}>
+												to={{
+													pathname: `/hr/employees`,
+													state: { user: unHiredEmployee, toUpdate: true, isHiring: true },
+												}}>
 												<Button
 													variant='contained'
 													className='bg-success text-light'
 													size='small'
 													style={{ marginLeft: 3 }}>
-													Hired
+													Hire Now
 												</Button>
 											</Link>
 										</StyledTableCell>
@@ -336,7 +339,7 @@ const ViewEmpDetails = (props) => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : employees.length === 0 ? (
-					<p>There are no Un Hired Employees</p>
+					<p>There are no Employees</p>
 				) : (
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -383,6 +386,19 @@ const ViewEmpDetails = (props) => {
 														history.push(`/hr/employees/print_emp_details/${employee._id}`);
 													}}>
 													View Report
+												</Button>
+												<Button
+													variant='contained'
+													className='bg-dark text-light'
+													size='small'
+													style={{ marginLeft: 3 }}
+													onClick={() => {
+														history.push({
+															pathname: `/hr/employees`,
+															state: { user: employee, toUpdate: true },
+														});
+													}}>
+													Edit
 												</Button>
 											</StyledTableCell>
 										</StyledTableRow>
