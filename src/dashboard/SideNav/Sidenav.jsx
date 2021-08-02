@@ -620,15 +620,7 @@ function Sidenav(props) {
 							size='small'
 							classNames={classes.addMoreRes}
 							text='Logout'
-<<<<<<< HEAD
-							onClick={logOut}>
-							Logout
-						</Button>
-=======
-							// loading={createLoading}
-							loaderColor="#333"
 						/>
->>>>>>> 500e338b6acd25dd99c7bb1a9c8d83e3e03d2e0e
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -721,7 +713,7 @@ function Sidenav(props) {
 								onClick={() => {
 									history.push('/purchase/sub_categories');
 								}}>
-								<ListItemText inset primary='Sub-eCategories' />
+								<ListItemText inset primary='Sub-Categories' />
 							</ListItem>
 							<ListItem
 								button
