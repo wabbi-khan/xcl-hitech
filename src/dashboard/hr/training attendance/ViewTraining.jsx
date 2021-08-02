@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -17,12 +16,10 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { withRouter } from 'react-router';
 import { getTrainings } from '../../../services/action/TrainingAction';
-import {
-	createTrainingAttendance,
-	getTrainingsAttendance,
-	markAsAbsent,
-} from '../../../services/action/TrainingAttedance';
+import { getTrainingsAttendance } from '../../../services/action/TrainingAttedance';
 import moment from 'moment';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -95,6 +92,8 @@ const CssTextField = withStyles({
 })(TextField);
 
 const TrainingAttendance = ({ history, match, location }) => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [trainingPlan, setTrainingPlan] = React.useState();
@@ -108,58 +107,98 @@ const TrainingAttendance = ({ history, match, location }) => {
 	const { attendance } = useSelector((state) => state.trainingAttendance);
 
 	React.useEffect(() => {
-		dispatch(getTrainings());
-		dispatch(getTrainingsAttendance(`training=${trainingPlan}`));
+		setFetchLoading(true);
+		dispatch(
+			getTrainingsAttendance(`training=${trainingPlan}`, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [trainingPlan]);
 
 	return (
 		<Sidenav title={'Training Attendance'}>
 			<div>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Date</StyledTableCell>
-									<StyledTableCell align='center'>Status</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{attendance &&
-									attendance.length > 0 &&
-									attendance.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.training?.topic?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.training?.participants?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.training?.trainer?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.date}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.isPresent ? 'Absent' : 'Present'}
-											</StyledTableCell>
-										</StyledTableRow>
-									))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : attendance?.length === 0 ? (
+					<p>There are no Attendances</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Training Name</StyledTableCell>
+										<StyledTableCell align='center'>Trainee Name</StyledTableCell>
+										<StyledTableCell align='center'>Trainee</StyledTableCell>
+										<StyledTableCell align='center'>Trainer</StyledTableCell>
+										<StyledTableCell align='center'>Venue</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{attendance &&
+										attendance.length > 0 &&
+										attendance.map((el, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.topic?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.employee?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.participants?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.trainerName?.name}
+													<p style={{ fontSize: 10 }}>
+														({el?.training?.trainerDesignation?.name})
+													</p>
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.venue?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<Button
+														variant='contained'
+														disabled
+														size='small'
+														classNames={`${
+															el?.isPresent ? 'bg-danger' : 'bg-success'
+														} text-light`}
+														text={el?.isPresent ? 'Was Absent' : 'Was Present'}
+														style={{ marginLeft: 2, marginTop: 2 }}
+													/>
+												</StyledTableCell>
+											</StyledTableRow>
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

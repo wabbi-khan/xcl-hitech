@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -16,13 +15,14 @@ import TableRow from '@material-ui/core/TableRow';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { withRouter } from 'react-router';
-import { getTrainings } from '../../../services/action/TrainingAction';
 import {
 	createTrainingAttendance,
 	getTrainingsAttendance,
 	markAsAbsent,
 } from '../../../services/action/TrainingAttedance';
 import moment from 'moment';
+import Loader from 'react-loader-spinner';
+import Button from '../../../components/utils/Button';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -95,6 +95,12 @@ const CssTextField = withStyles({
 })(TextField);
 
 const TrainingAttendance = ({ history, match, location }) => {
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [updateLoading, setUpdateLoading] = React.useState(false);
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const [initialValueState, setInitialValueState] = React.useState(
@@ -105,9 +111,20 @@ const TrainingAttendance = ({ history, match, location }) => {
 	console.log(attendance);
 
 	React.useEffect(() => {
-		dispatch(getTrainings());
-		dispatch(getTrainingsAttendance(`date=${moment().format('MMM Do YY')}`));
-	}, []);
+		setFetchLoading(true);
+		dispatch(
+			getTrainingsAttendance(`date=${moment().format('MMM Do YY')}`, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
+		// dispatch(getTrainingsAttendance(``));
+	}, [dispatch]);
 
 	React.useEffect(() => {
 		setInitialValueState(location.state);
@@ -115,18 +132,38 @@ const TrainingAttendance = ({ history, match, location }) => {
 	}, [location?.state]);
 
 	const onSubmit = async (values) => {
-		console.log(values);
+		setCreateLoading(true);
+		values = {
+			participants: values?.participants?._id,
+			trainingPlan: values._id,
+		};
 		dispatch(
-			createTrainingAttendance({
-				participants: values?.participants?._id,
-				trainingPlan: values._id,
+			createTrainingAttendance(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Attendance generated successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
 			}),
 		);
 	};
 
 	const toggleAbsentFunc = (id) => {
-		console.log(id);
-		dispatch(markAsAbsent(id));
+		setUpdateLoading(true);
+		dispatch(
+			markAsAbsent(id, null, (err) => {
+				if (!err) {
+					setUpdateLoading(false);
+				}
+			}),
+		);
 	};
 
 	return (
@@ -135,17 +172,17 @@ const TrainingAttendance = ({ history, match, location }) => {
 				<Button
 					variant='contained'
 					size='small'
-					type='submit'
 					onClick={() => {
 						history.push({
 							pathname: '/hr/training_attendance/view',
 							params: initialValueState._id,
 						});
 					}}
-					className='bg-primary text-light'
-					style={{ marginLeft: 2, marginTop: 2 }}>
-					View All Attendance
-				</Button>
+					classNames='bg-primary text-light'
+					text='View All Attendance'
+					style={{ marginLeft: 2, marginTop: 2 }}
+				/>
+
 				<Container className={classes.mainContainer}>
 					<Formik
 						initialValues={initialValueState}
@@ -179,74 +216,103 @@ const TrainingAttendance = ({ history, match, location }) => {
 											autocomplete='off'
 											size='small'
 											style={{ width: '100%' }}
+											disabled
 											inputProps={{ style: { fontSize: 14 } }}
-											value={props?.values?.trainer?.name}
+											value={props?.values?.trainerName?.name}
 											InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 									</Grid>
 								</Grid>
 								<Button
 									variant='contained'
 									size='small'
-									type='submit'
-									className='bg-primary text-light'
-									style={{ marginLeft: 2, marginTop: 2 }}>
-									Generate Attendance
-								</Button>
+									classNames='bg-primary text-light'
+									text='Generate Attendance'
+									loading={createLoading}
+								/>
 							</Form>
 						)}
 					</Formik>
 				</Container>
 
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{attendance &&
-									attendance.length > 0 &&
-									attendance.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.training?.topic?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.training?.participants?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.training?.trainer?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<Button
-													variant='contained'
-													size='small'
-													className='bg-danger text-light'
-													onClick={() => {
-														toggleAbsentFunc(el._id);
-													}}
-													style={{ marginLeft: 2, marginTop: 2 }}>
-													{el?.isPresent ? 'Mark as Absent' : 'Mark as Present'}
-												</Button>
-											</StyledTableCell>
-										</StyledTableRow>
-									))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : attendance?.length === 0 ? (
+					<p>There are no Responsibilities</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Training Name</StyledTableCell>
+										<StyledTableCell align='center'>Trainee Name</StyledTableCell>
+										<StyledTableCell align='center'>Trainee</StyledTableCell>
+										<StyledTableCell align='center'>Trainer</StyledTableCell>
+										<StyledTableCell align='center'>Venue</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{attendance &&
+										attendance.length > 0 &&
+										attendance.map((el, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.topic?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.employee?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.participants?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.trainerName?.name}
+													<p style={{ fontSize: 10 }}>
+														({el?.training?.trainerDesignation?.name})
+													</p>
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.training?.venue?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<Button
+														variant='contained'
+														size='small'
+														classNames={`${
+															el?.isPresent ? 'bg-danger' : 'bg-success'
+														} text-light`}
+														onClick={() => {
+															toggleAbsentFunc(el._id);
+														}}
+														text={el?.isPresent ? 'Mark as Absent' : 'Mark as Present'}
+														style={{ marginLeft: 2, marginTop: 2 }}
+														loading={updateLoading}
+														loaderColor='#fff'
+													/>
+												</StyledTableCell>
+											</StyledTableRow>
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

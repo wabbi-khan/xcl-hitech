@@ -13,6 +13,7 @@ const Button = ({
 	size,
 	style,
 	loaderColor = '#fff',
+	disabled,
 }) => {
 	return (
 		<div
@@ -27,20 +28,19 @@ const Button = ({
 				className={classNames}
 				type={type}
 				size={size}
+				disabled={disabled ? true : false}
 				style={style}
 				onClick={onClick}>
 				<span style={{ marginTop: '.1rem' }}>{text}</span>
-				{
-					loading && (
-						<Loader
-							type='TailSpin'
-							width='1rem'
-							height='1rem'
-							style={{ marginLeft: '1rem' }}
-							color={loaderColor}
-						/>
-					)
-				}
+				{loading && (
+					<Loader
+						type='TailSpin'
+						width='1rem'
+						height='1rem'
+						style={{ marginLeft: '1rem' }}
+						color={loaderColor}
+					/>
+				)}
 			</MuiButton>
 		</div>
 	);
