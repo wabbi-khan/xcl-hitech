@@ -132,6 +132,8 @@ const validationSchema = yup.object({
 	unit: yup.string().required(),
 });
 
+const searchOptions = ['code', 'name'];
+
 const Material = () => {
 	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const [fetchError, setFetchError] = React.useState('');
@@ -143,6 +145,8 @@ const Material = () => {
 	const [open, setOpen] = useState(false);
 	const [deleteLoading, setDeleteLoading] = React.useState(false);
 	const [deleteError, setDeleteError] = React.useState('');
+	const [searchText, setSearchText] = React.useState('');
+	const [searchBy, setSearchBy] = React.useState('code');
 	const [initialValuesState, setInitialValuesState] = React.useState({
 		...initialValues,
 	});
@@ -157,6 +161,36 @@ const Material = () => {
 	const { subCategories } = useSelector((state) => state.subCategories);
 
 	console.log(materials);
+
+	React.useEffect(() => {
+		if (searchText) {
+			setFetchLoading(true);
+			dispatch(
+				getMaterialAction(`${searchBy}[regex]=${searchText}`, (err) => {
+					if (err) {
+						setFetchError(err);
+						setTimeout(() => {
+							setFetchError('');
+						}, 4000);
+					}
+					setFetchLoading(false);
+				}),
+			);
+		} else {
+			setFetchLoading(true);
+			dispatch(
+				getMaterialAction(null, (err) => {
+					if (err) {
+						setFetchError(err);
+						setTimeout(() => {
+							setFetchError('');
+						}, 4000);
+					}
+					setFetchLoading(false);
+				}),
+			);
+		}
+	}, [searchText]);
 
 	React.useEffect(() => {
 		if (selectedCategory) {
@@ -379,6 +413,43 @@ const Material = () => {
 					</Formik>
 				</Container>
 
+				<div style={{ marginTop: '3rem' }}></div>
+
+				<CssTextField
+					id='outlined-basic'
+					label='Search Materials'
+					variant='outlined'
+					type='search'
+					size='small'
+					autoComplete='off'
+					style={{ width: '20%', marginRight: 20 }}
+					inputProps={{ style: { fontSize: 14 } }}
+					InputLabelProps={{ style: { fontSize: 14 } }}
+					onChange={(e) => setSearchText(e.target.value)}
+				/>
+				<CssTextField
+					id='outlined-basic'
+					label='Search By'
+					variant='outlined'
+					type='search'
+					size='small'
+					select
+					style={{ width: '20%' }}
+					onChange={(e) => setSearchBy(e.target.value)}
+					autoComplete='off'
+					value={searchBy}
+					inputProps={{ style: { fontSize: 14 } }}
+					InputLabelProps={{ style: { fontSize: 14 } }}>
+					{!searchOptions || !searchOptions.length ? (
+						<p>Data Not Found</p>
+					) : (
+						searchOptions.map((el) => (
+							<MenuItem value={el} key={el} style={{ textTransform: 'capitalize' }}>
+								{el}
+							</MenuItem>
+						))
+					)}
+				</CssTextField>
 				{fetchLoading ? (
 					<div
 						style={{
@@ -393,17 +464,6 @@ const Material = () => {
 					<p>There are no Responsibilities</p>
 				) : (
 					<div className={classes.dataTable}>
-						<CssTextField
-							id='outlined-basic'
-							label='Search Materials'
-							variant='outlined'
-							type='search'
-							size='small'
-							autoComplete='off'
-							className={classes.inputFieldStyle1}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-						/>
 						<TableContainer className={classes.tableContainer}>
 							<Table
 								stickyHeader

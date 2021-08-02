@@ -2064,15 +2064,11 @@ const Employees = ({ history, location }) => {
 															{...field}
 															helperText={meta.touched && meta.error}
 															error={meta.touched && meta.error}>
-															{!departments || !departments.length ? (
-																<p>Data Not Found</p>
-															) : (
-																departments.map((department, i) => (
-																	<MenuItem value={department._id} key={i}>
-																		{department.name}
-																	</MenuItem>
-																))
-															)}
+															{departments.map((department, i) => (
+																<MenuItem value={department._id} key={i}>
+																	{department.name}
+																</MenuItem>
+															))}
 														</CssTextField>
 													)}
 												</FastField>
