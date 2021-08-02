@@ -18,6 +18,8 @@ export const getUnits = (query, cb) => async (dispatch) => {
             `${process.env.REACT_APP_API_URL}/unit`,
         );
 
+        console.log(data)
+
         if (data.success) {
             dispatch({
                 type: UNIT_FETCH_SUCCESS,
@@ -34,6 +36,8 @@ export const createUnit = (values, cb) => async (dispatch) => {
     dispatch({
         type: UNIT_REQUEST,
     });
+
+    console.log('object')
 
     try {
         const { data } = await axios.post(
@@ -102,7 +106,7 @@ export const deleteUnit = (params, cb) => async (dispatch) => {
 
 const dispatchError = (err, dispatch, cb) => {
     if (err.response) {
-        if (cb) cb(err.response);
+        if (cb) cb(err.response.data.error);
         dispatch({
             type: UNIT_FAIL,
             payload: err.response.data.error,

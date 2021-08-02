@@ -98,6 +98,7 @@ import Responsibilities from '../dashboard/hr/responsibilities/Responsibilities'
 import Authorities from '../dashboard/hr/authorities/Authorities';
 import EditEmp from '../dashboard/hr/employees/EditEmp';
 import Units from '../dashboard/purchase/units/Units';
+import SubCategory from '../dashboard/purchase/subCategory/SubCategory';
 
 
 
@@ -111,6 +112,7 @@ const Router = () => {
                 <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>       //Purchase Module Routes
                 <Router exact path="/purchase/units" component={Units}/>
                 <Router exact path="/purchase/category" component={Category}/>
+                <Router exact path="/purchase/sub_categories" component={SubCategory}/>
                 <Router exact path="/purchase/department" component={Department}/>
                 <Router exact path="/purchase/material" component={Material}/>
                 <Router exact path="/purchase/vendors" component={Vendors}/>

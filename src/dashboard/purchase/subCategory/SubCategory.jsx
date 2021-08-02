@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,11 +8,10 @@ import { Formik, Form } from 'formik'
 import * as yup from 'yup';
 import axios from 'axios';
 import Button from '../../../components/utils/Button'
-import EditUnit from './EditUnit';
 import {
-    createUnit,
-    deleteUnit,
-    getUnits,
+    // createUnit,
+    // deleteUnit,
+    // getUnits,
 } from '../../../services/action/unitAction';
 import Loader from 'react-loader-spinner';
 
@@ -90,10 +89,10 @@ const initialValue = {
 };
 
 const validationSchema = yup.object({
-    name: yup.string().required('Unit is required')
+    name: yup.string().required('Sub-Category is required')
 });
 
-const Units = () => {
+const SubCategory = () => {
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -110,55 +109,55 @@ const Units = () => {
     const { units } = useSelector((state) => state.units);
     console.log(units);
 
-    React.useEffect(() => {
-        setFetchLoading(true);
-        dispatch(
-            getUnits(null, (err) => {
-                if (err) {
-                    setFetchError(err);
-                    setTimeout(() => {
-                        setFetchError('');
-                    }, 4000);
-                }
-                setFetchLoading(false);
-            }),
-        );
-    }, [dispatch]);
+    // React.useEffect(() => {
+    //     setFetchLoading(true);
+    //     dispatch(
+    //         getUnits(null, (err) => {
+    //             if (err) {
+    //                 setFetchError(err);
+    //                 setTimeout(() => {
+    //                     setFetchError('');
+    //                 }, 4000);
+    //             }
+    //             setFetchLoading(false);
+    //         }),
+    //     );
+    // }, [dispatch]);
 
     const onSubmit = async (values) => {
-        setCreateLoading(true);
-        dispatch(
-            createUnit(values, (err) => {
-                if (err) {
-                    setCreateError(err);
-                    setTimeout(() => {
-                        setCreateError('');
-                    }, 4000);
-                }
-                else {
-                    setSuccess('Unit added successfully');
-                    setTimeout(() => {
-                        setSuccess('');
-                    }, 4000);
-                }
-                setCreateLoading(false);
-            }),
-        );
+        // setCreateLoading(true);
+        // dispatch(
+        //     createUnit(values, (err) => {
+        //         if (err) {
+        //             setCreateError(err);
+        //             setTimeout(() => {
+        //                 setCreateError('');
+        //             }, 4000);
+        //         }
+        //         else {
+        //             setSuccess('Unit added successfully');
+        //             setTimeout(() => {
+        //                 setSuccess('');
+        //             }, 4000);
+        //         }
+        //         setCreateLoading(false);
+        //     }),
+        // );
     };
 
     const deleteUnitFunc = async (params) => {
-        setDeleteLoading(true);
-        dispatch(
-            deleteUnit(params, (err) => {
-                if (err) {
-                    setDeleteError(err);
-                    setTimeout(() => {
-                        setDeleteError('');
-                    }, 4000);
-                }
-                setDeleteLoading(false);
-            }),
-        );
+        // setDeleteLoading(true);
+        // dispatch(
+        //     deleteUnit(params, (err) => {
+        //         if (err) {
+        //             setDeleteError(err);
+        //             setTimeout(() => {
+        //                 setDeleteError('');
+        //             }, 4000);
+        //         }
+        //         setDeleteLoading(false);
+        //     }),
+        // );
     };
 
     const handleClose = (props) => {
@@ -171,8 +170,8 @@ const Units = () => {
     };
 
     return (
-        <Sidenav title={'Units'}>
-            <EditUnit
+        <Sidenav title={'Sub Categories'}>
+            {/* <EditUnit
                 show={open}
                 handler={handleClose}
                 unit={unit}
@@ -190,13 +189,9 @@ const Units = () => {
                         <span>{deleteError}</span>
                     </div>
                 )
-            }
+            } */}
             <div>
-                {/* <div style={{ marginTop: 30, marginBottom: 30 }}>
-				<hr />
-			</div> */}
                 <Container className={classes.mainContainer}>
-                    {/* <h4 className='text-left'>Authorities</h4> */}
                     <Formik
                         initialValues={initialValue}
                         validationSchema={validationSchema}
@@ -207,7 +202,7 @@ const Units = () => {
                                 <Form>
                                     <CssTextField
                                         id='outlined-basic'
-                                        label='Units'
+                                        label='Sub Categories'
                                         variant='outlined'
                                         type='text'
                                         autocomplete='off'
@@ -237,36 +232,13 @@ const Units = () => {
                             )
                         }
                     </Formik>
-                    {/* {authorities.map((authority, i) => (
-					<p className={classes.resStyle}>
-						<span style={{ fontSize: 13 }}>{i + 1}. </span>
-						{authority}
-						<DeleteOutlineIcon
-							type='button'
-							className={classes.delete}
-							onClick={() => removeRes(i)}
-						/>
-						<Button
-                                variant="outlined" size="small"
-                                className={classes.deleteResBtn}
-                            >
-                            </Button>
-					</p>
-				))} */}
-                    {/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
-
                 </Container>
             </div>
             <div
                 className='container-fluid'
                 style={{ textAlign: 'left', marginTop: '50px' }}
             >
-                {
+                {/* {
                     fetchLoading ? (
                         <div
                             style={{
@@ -278,62 +250,62 @@ const Units = () => {
                             <Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
                         </div>
                     ) : units?.length === 0 ? (
-                        <p>There are no units found</p>
-                    ) : (
-                        <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-                            {
+                        <p>There are no sub categories found</p>
+                    ) : ( */}
+                <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+                    {/* {
                                 units?.map((el, i) => (
                                     <>
                                         {
-                                            i === 0 && (
-                                                <thead class="bg-dark text-light">
-                                                    <tr>
-                                                        <th>S.No.</th>
-                                                        <th>Units</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                            )
-                                        }
-                                        <tbody>
-                                            <tr >
-                                                <td>
-                                                    {i + 1}
-                                                </td>
-                                                <td>
-                                                    {el.name}
-                                                </td>
-                                                <td>
-                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                        <Button
-                                                            variant='contained'
-                                                            text='Edit'
-                                                            size='small'
-                                                            classNames='bg-dark text-light'
-                                                            onClick={() => handleOpen(el)}
-                                                        />
-                                                        <Button
-                                                            variant='contained'
-                                                            text='Delete'
-                                                            size='small'
-                                                            color='secondary'
-                                                            onClick={() => deleteUnitFunc(el._id)}
-                                                            style={{ marginLeft: '5px' }}
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            i === 0 && ( */}
+                    <thead class="bg-dark text-light">
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Units</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    {/* )
+                                        } */}
+                    <tbody>
+                        <tr >
+                            <td>
+                                {/* {i + 1} */}
+                            </td>
+                            <td>
+                                {/* {el.name} */}
+                            </td>
+                            <td>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button
+                                        variant='contained'
+                                        text='Edit'
+                                        size='small'
+                                        classNames='bg-dark text-light'
+                                    // onClick={() => handleOpen(el)}
+                                    />
+                                    <Button
+                                        variant='contained'
+                                        text='Delete'
+                                        size='small'
+                                        color='secondary'
+                                        // onClick={() => deleteUnitFunc(el._id)}
+                                        style={{ marginLeft: '5px' }}
+                                    />
+                                </div>
+                            </td>
+                        </tr>
 
-                                        </tbody>
-                                    </>
+                    </tbody>
+                    {/* </>
                                 ))
-                            }
-                        </table>
-                    )
-                }
+                            } */}
+                </table>
+                {/* )
+                } */}
             </div>
         </Sidenav>
     )
 }
 
-export default Units
+export default SubCategory

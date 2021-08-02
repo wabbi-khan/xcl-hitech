@@ -88,7 +88,7 @@ const validationSchema = yup.object({
     name: yup.string().required(),
 });
 
-const EditUnit = (props) => {
+const EditSubCategory = () => {
     const { show, handler, unit } = props;
     // console.log(unit);
     const dispatch = useDispatch();
@@ -175,7 +175,7 @@ const EditUnit = (props) => {
                                         <Form>
                                             <CssTextField
                                                 id='outlined-basic'
-                                                label='Sub Category'
+                                                label='Unit'
                                                 variant='outlined'
                                                 type='text'
                                                 size='small'
@@ -220,7 +220,7 @@ const EditUnit = (props) => {
                                 error && <p>{error}</p>
                             }
                             {
-                                success && <p className='mt-2'>Sub Category Successfully Updated</p>
+                                success && <p className='mt-2'>Unit Successfully Updated</p>
                             }
                             {/* <form onSubmit={handleSubmit(onSubmit)}>
                                 <Grid container spacing={1}>
@@ -275,4 +275,4 @@ const EditUnit = (props) => {
     )
 }
 
-export default EditUnit
+export default EditSubCategory

@@ -620,9 +620,15 @@ function Sidenav(props) {
 							size='small'
 							classNames={classes.addMoreRes}
 							text='Logout'
+<<<<<<< HEAD
 							onClick={logOut}>
 							Logout
 						</Button>
+=======
+							// loading={createLoading}
+							loaderColor="#333"
+						/>
+>>>>>>> 500e338b6acd25dd99c7bb1a9c8d83e3e03d2e0e
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -708,6 +714,14 @@ function Sidenav(props) {
 									history.push('/purchase/category');
 								}}>
 								<ListItemText inset primary='Categories' />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/purchase/sub_categories');
+								}}>
+								<ListItemText inset primary='Sub-eCategories' />
 							</ListItem>
 							<ListItem
 								button
@@ -994,17 +1008,17 @@ function Sidenav(props) {
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/storedashboard/good_received_and_inspection_form');
+									history.push('/storedashboard/products_bin_card');
 								}}>
-								<ListItemText inset primary='Goods Received(GRIN)' />
+								<ListItemText inset primary='Products Bin Card' />
 							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
-									history.push('/storedashboard/products_bin_card');
+									history.push('/storedashboard/good_received_and_inspection_form');
 								}}>
-								<ListItemText inset primary='Products Bin Card' />
+								<ListItemText inset primary='Goods Received(GRIN)' />
 							</ListItem>
 							{/* <ListItem button
                                 className={classes.menuItem}

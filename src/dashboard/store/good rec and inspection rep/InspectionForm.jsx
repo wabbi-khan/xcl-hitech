@@ -71,6 +71,7 @@ const InspectionForm = ({ history }) => {
 								<TableRow hover role='checkbox'>
 									<StyledTableCell align='center'>Sr.No</StyledTableCell>
 									<StyledTableCell align='center'>Order#</StyledTableCell>
+									<StyledTableCell align='center'>Department</StyledTableCell>
 									<StyledTableCell align='center'>Vendor Name</StyledTableCell>
 									<StyledTableCell align='center'>Items</StyledTableCell>
 									<StyledTableCell align='center'>Qty</StyledTableCell>
@@ -95,6 +96,9 @@ const InspectionForm = ({ history }) => {
 												{order.poNum}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
+												{!order.department ? null : order.department.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
 												{!order.vendor ? null : order.vendor.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
@@ -116,9 +120,10 @@ const InspectionForm = ({ history }) => {
 												<Button
 													className='btn bg-dark text-light'
 													onClick={() => {
-														history.push(
-															`/storedashboard/good_received_and_inspection_report/${order._id}`,
-														);
+														history.push({
+															pathname: `/storedashboard/good_received_and_inspection_report/${order._id}`,
+															state: { order }
+														});
 													}}>
 													Inspection
 												</Button>

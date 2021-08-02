@@ -95,6 +95,7 @@ const GoodReceivedPrint = (props) => {
 									<th>P.R. No.</th>
 									<th>P.O. No.</th>
 									<th>Received From</th>
+									<th>Department</th>
 									<th>Description</th>
 									<th>Status of Inspection</th>
 									<th>Remarks</th>
@@ -102,6 +103,7 @@ const GoodReceivedPrint = (props) => {
 							</thead>
 							<tbody>
 								<tr>
+									<td>asd</td>
 									<td>asd</td>
 									<td>asd</td>
 									<td>asd</td>
@@ -125,7 +127,7 @@ const GoodReceivedPrint = (props) => {
 									<th>Sr.No</th>
 									<th>Material Name</th>
 									<th>Quantity</th>
-									<th>Unit Value</th>
+									<th>Unit</th>
 									<th>Remarks</th>
 								</tr>
 							</thead>
