@@ -182,12 +182,12 @@ const GoodReceived = (props) => {
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												/>
+											/>
 										</Grid>
 									)
 								}
-								{
-									!order.department ? null : (
+								{/* {
+									!order.department ? null : ( */}
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
 												id='outlined-basic'
@@ -197,14 +197,14 @@ const GoodReceived = (props) => {
 												size='small'
 												autoComplete='off'
 												disabled
-												defaultValue={order?.department.name}
+												// defaultValue={order?.department.name}
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
 										</Grid>
-									)
-								}
+									{/* )
+								} */}
 							</Grid>
 						</Container>
 					)
