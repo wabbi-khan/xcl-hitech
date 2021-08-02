@@ -7,7 +7,7 @@ import {
 	LEAVE_UPDATE_SUCCESS,
 } from '../constants/LeaveConstant';
 
-export const getLeavesAction = (query) => async (dispatch) => {
+export const getLeavesAction = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: LEAVE_REQUEST,
 	});
@@ -19,36 +19,38 @@ export const getLeavesAction = (query) => async (dispatch) => {
 
 		console.log(data);
 
-		dispatch({
-			type: LEAVE_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: LEAVE_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createLeavesAction = (leave) => async (dispatch) => {
+export const createLeavesAction = (leave, cb) => async (dispatch) => {
 	dispatch({
 		type: LEAVE_REQUEST,
 	});
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/leaves`,
 			leave,
 		);
 
-		console.log(res);
+		if (data.success) {
+			dispatch({
+				type: LEAVE_CREATE_SUCCESS,
+				payload: data.leave,
+			});
 
-		dispatch({
-			type: LEAVE_CREATE_SUCCESS,
-			payload: res.data.leave,
-		});
-
-		// console.log(data);
+			if (cb) cb();
+		}
 	} catch (err) {
-		console.log('object');
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -75,15 +77,16 @@ export const updateLeavesAction = (el) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
-	console.log(err);
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response.data);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: LEAVE_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
+
 		dispatch({
 			type: LEAVE_FAIL,
 			payload: 'Network Error',

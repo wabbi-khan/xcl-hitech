@@ -103,6 +103,7 @@ import DeliveryOrder from './dashboard/marketing-sales/deliveryOrder/DeliveryOrd
 import Categories from './dashboard/store/storecategories/Categories';
 import Responsibilities from './dashboard/hr/responsibilities/Responsibilities';
 import Authorities from './dashboard/hr/authorities/Authorities';
+import ViewAllLeaves from './dashboard/hr/employees leave/ViewLeaves';
 
 import { getUser } from './services/action/UserAction';
 import PrivateRoute from './components/PrivateRoute';
@@ -368,6 +369,7 @@ function App() {
 			/>
 			<Route exact path='/hr/employees_salaries' component={EmpSalaries} />
 			<Route exact path='/hr/employees_leave' component={EmpLeave} />
+			<Route exact path='/hr/employees_leave/view' component={ViewAllLeaves} />
 			<Route exact path='/hr/employees_attendance' component={EmpAttendance} />
 			<Route
 				exact

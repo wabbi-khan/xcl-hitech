@@ -3,7 +3,6 @@ import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Form, Formik } from 'formik'
+import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
@@ -23,6 +22,8 @@ import {
 import { getEmployeeByDesignationAndDepartment } from '../../../services/action/EmployeesAction';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import Loader from 'react-loader-spinner';
+import Button from '../../../components/utils/Button';
 
 const initialValues = {
 	department: '',
@@ -138,7 +139,13 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const EmpLeave = () => {
+const EmpLeave = ({ history }) => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [success, setSuccess] = React.useState('');
+
+	const [createError, setCreateError] = React.useState('');
 	const classes = useStyles();
 	const [selectedDepartment, setSelectedDepartment] = React.useState('');
 	const [selectedDesignation, setSelectedDesignation] = React.useState('');
@@ -146,23 +153,49 @@ const EmpLeave = () => {
 	const { departments } = useSelector((state) => state.departments);
 	const { designations } = useSelector((state) => state.designations);
 	const { employees } = useSelector((state) => state.employees);
-	const { leaves, error } = useSelector((state) => state.leaves);
+	const { leaves } = useSelector((state) => state.leaves);
+
+	console.log(employees);
 
 	React.useEffect(() => {
 		dispatch(getDesignation());
 		dispatch(fetchDepartmentsAction());
-		dispatch(getLeavesAction());
+		dispatch(
+			getLeavesAction(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, []);
 
 	console.log(leaves);
 
 	const onSubmitData = (values) => {
-		console.log('object');
-		dispatch(createLeavesAction(values));
+		setCreateLoading(true);
+		dispatch(
+			createLeavesAction(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	React.useEffect(() => {
-		console.log('object');
 		dispatch(
 			getEmployeeByDesignationAndDepartment(
 				selectedDesignation,
@@ -174,8 +207,16 @@ const EmpLeave = () => {
 	return (
 		<Sidenav title={'Employees Leave'}>
 			<div>
+				<Button
+					variant='outlined'
+					color='primary'
+					text='View All Leaves'
+					classNames='bg-success text-light'
+					onClick={() => {
+						history.push('/hr/employees_leave/view');
+					}}
+				/>
 				<Container className={classes.mainContainer}>
-					{error && <p>{error}</p>}
 					<Formik
 						initialValues={initialValues}
 						onSubmit={onSubmitData}
@@ -190,6 +231,7 @@ const EmpLeave = () => {
 											variant='outlined'
 											type='text'
 											size='small'
+											style={{ width: '100%' }}
 											autocomplete='off'
 											select
 											onBlur={props.handleBlur('department')}
@@ -199,7 +241,6 @@ const EmpLeave = () => {
 												props.setFieldValue('department', e.target.value);
 												setSelectedDepartment(e.target.value);
 											}}
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											{departments &&
@@ -221,6 +262,7 @@ const EmpLeave = () => {
 											type='text'
 											autocomplete='off'
 											size='small'
+											style={{ width: '100%' }}
 											onBlur={props.handleBlur('designation')}
 											value={props.values.designation}
 											onChange={(e) => {
@@ -228,7 +270,6 @@ const EmpLeave = () => {
 												setSelectedDesignation(e.target.value);
 											}}
 											select
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											{designations &&
@@ -248,13 +289,13 @@ const EmpLeave = () => {
 											label='Emp Name'
 											variant='outlined'
 											type='text'
+											style={{ width: '100%' }}
 											autocomplete='off'
 											onBlur={props.handleBlur('employee')}
 											value={props.values.employee}
 											onChange={props.handleChange('employee')}
 											size='small'
 											select
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											{selectedDesignation === '' && selectedDepartment === '' ? (
@@ -281,10 +322,10 @@ const EmpLeave = () => {
 											type='text'
 											autocomplete='off'
 											size='small'
+											style={{ width: '100%' }}
 											onBlur={props.handleBlur('purpose')}
 											value={props.values.purpose}
 											onChange={props.handleChange('purpose')}
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										{props.touched.purpose && (
@@ -304,8 +345,8 @@ const EmpLeave = () => {
 											select
 											onBlur={props.handleBlur('isPaid')}
 											value={props.values.isPaid}
+											style={{ width: '100%' }}
 											onChange={props.handleChange('isPaid')}
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											<MenuItem value='true'>Paid</MenuItem>
@@ -316,107 +357,138 @@ const EmpLeave = () => {
 										)}
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											// label="From Date"
-											variant='outlined'
-											type='date'
-											size='small'
-											autocomplete='off'
-											onBlur={props.handleBlur('from')}
-											value={props.values.from}
-											onChange={props.handleChange('from')}
-											className={classes.inputFieldStyle}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-										{props.touched.from && (
-											<p className='text-danger'>{props.errors.from}</p>
-										)}
+										<div
+											style={{
+												display: 'flex',
+												flexDirection: 'column',
+												alignItems: 'center',
+											}}>
+											<span style={{ alignSelf: 'flex-start', marginBottom: 1 }}>
+												From
+											</span>
+											<CssTextField
+												id='outlined-basic'
+												variant='outlined'
+												type='date'
+												size='small'
+												autocomplete='off'
+												style={{ width: '100%' }}
+												onBlur={props.handleBlur('from')}
+												value={props.values.from}
+												onChange={props.handleChange('from')}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+											{props.touched.from && (
+												<p className='text-danger'>{props.errors.from}</p>
+											)}
+										</div>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											// label="To Date"
-											variant='outlined'
-											type='date'
-											autocomplete='off'
-											onBlur={props.handleBlur('to')}
-											value={props.values.to}
-											onChange={props.handleChange('to')}
-											size='small'
-											className={classes.inputFieldStyle}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-										{props.touched.to && <p className='text-danger'>{props.errors.to}</p>}
+										<div
+											style={{
+												display: 'flex',
+												flexDirection: 'column',
+												alignItems: 'center',
+											}}>
+											<span style={{ alignSelf: 'flex-start', marginBottom: 1 }}>To</span>
+											<CssTextField
+												id='outlined-basic'
+												variant='outlined'
+												style={{ width: '100%' }}
+												type='date'
+												autocomplete='off'
+												onBlur={props.handleBlur('to')}
+												value={props.values.to}
+												onChange={props.handleChange('to')}
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+											{props.touched.to && (
+												<p className='text-danger'>{props.errors.to}</p>
+											)}
+										</div>
 									</Grid>
 								</Grid>
 								<div>
 									<Button
 										variant='outlined'
 										color='primary'
-										type='submit'
-										className={classes.addButton}
-										onClick={() => {
-											// history.push('')
-										}}>
-										Add
-									</Button>
+										classNames={classes.addButton}
+										text='Add'
+										loading={createLoading}
+										loaderColor='#333'
+									/>
 								</div>
+								{createError && <p>{createError}</p>}
 							</Form>
 						)}
 					</Formik>
 				</Container>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Employee Name</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Purpose</StyledTableCell>
-									<StyledTableCell align='center'>From Date</StyledTableCell>
-									<StyledTableCell align='center'>To Date</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{leaves && leaves.length > 0 ? (
-									leaves.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.employee?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.employee?.finalDepartment?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.employee?.finalDesignation?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.purpose}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{moment(el?.from).format('Do - MMMM - YYYY')}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{moment(el?.to).format('Do - MMMM - YYYY')}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h1>Not found</h1>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : leaves?.length === 0 ? (
+					<p>There are no Leaves</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Employee Name</StyledTableCell>
+										<StyledTableCell align='center'>Department</StyledTableCell>
+										<StyledTableCell align='center'>Designation</StyledTableCell>
+										<StyledTableCell align='center'>Purpose</StyledTableCell>
+										<StyledTableCell align='center'>From Date</StyledTableCell>
+										<StyledTableCell align='center'>To Date</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{leaves && leaves.length > 0 ? (
+										leaves.map((el, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.employee?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.employee?.finalDepartment?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.employee?.finalDesignation?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el?.purpose}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{moment(el?.from).format('Do - MMMM - YYYY')}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{moment(el?.to).format('Do - MMMM - YYYY')}
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									) : (
+										<h1>Not found</h1>
+									)}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

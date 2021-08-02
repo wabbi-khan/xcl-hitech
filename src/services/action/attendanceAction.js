@@ -8,7 +8,7 @@ import {
 	ATTENDANCE_DELETE_SUCCESS,
 } from '../constants/attendanceConstant';
 
-export const getAttendanceAction = (query) => async (dispatch) => {
+export const getAttendanceAction = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: ATTENDANCE_REQUEST,
 	});
@@ -18,12 +18,15 @@ export const getAttendanceAction = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/attendance${query ? `?${query}` : ''}`,
 		);
 
-		dispatch({
-			type: ATTENDANCE_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: ATTENDANCE_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -51,51 +54,60 @@ export const attendanceToggler = (attendance) => async (dispatch) => {
 	}
 };
 
-export const createAttendanceAction = (attendance) => async (dispatch) => {
+export const createAttendanceAction = (attendance, cb) => async (dispatch) => {
 	dispatch({
 		type: ATTENDANCE_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(`${process.env.REACT_APP_API_URL}/attendance`);
+		const { data } = await axios.post(
+			`${process.env.REACT_APP_API_URL}/attendance`,
+		);
 
-		console.log(res.data.todayAttendance);
+		console.log(data.todayAttendance);
 
-		dispatch({
-			type: ATTENDANCE_CREATE_SUCCESS,
-			payload: res.data.todayAttendance,
-		});
+		if (data.success) {
+			dispatch({
+				type: ATTENDANCE_CREATE_SUCCESS,
+				payload: data.todayAttendance,
+			});
+
+			if (cb) cb();
+		}
 
 		// console.log(data);
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateAttendanceAction = (id, data) => async (dispatch) => {
+export const updateAttendanceAction = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: ATTENDANCE_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/attendance/${id}`,
-			data,
+			values,
 		);
 
-		console.log(res.data);
+		console.log(data);
 
-		dispatch({
-			type: ATTENDANCE_UPDATE_SUCCESS,
-			payload: {
-				attendance: res.data.attendance,
-				verifiedMsg: res.data.verifiedMsg,
-			},
-		});
+		if (data.success) {
+			dispatch({
+				type: ATTENDANCE_UPDATE_SUCCESS,
+				payload: {
+					attendance: data.attendance,
+					verifiedMsg: data.verifiedMsg,
+				},
+			});
+			if (cb) cb();
+		}
 
 		// console.log(data);
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -118,13 +130,15 @@ export const deleteAttendanceAction = (params) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: ATTENDANCE_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: ATTENDANCE_FAIL,
 			payload: 'Network Error',

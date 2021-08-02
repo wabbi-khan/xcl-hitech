@@ -12,10 +12,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAttendanceAction } from '../../../services/action/attendanceAction';
 import moment from 'moment';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -129,24 +129,27 @@ const CssTextField = withStyles({
 })(TextField);
 
 const EmpAttendance = ({ history }) => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
 	const classes = useStyles();
 	const [searchText, setSearchText] = React.useState('');
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const onSubmitData = () => {
-		console.log('data submit');
-	};
 	const dispatch = useDispatch();
-	const { attendances, error } = useSelector((state) => state.attendances);
+	const { attendances } = useSelector((state) => state.attendances);
 
 	React.useEffect(() => {
-		dispatch(getAttendanceAction());
-	}, []);
+		setFetchLoading(true);
+		dispatch(
+			getAttendanceAction(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
+	}, [dispatch]);
 
 	React.useEffect(() => {
 		const date = new Date(searchText);
@@ -172,7 +175,7 @@ const EmpAttendance = ({ history }) => {
 	}, [searchText]);
 
 	return (
-		<Sidenav title={'Employees Attendance'}>
+		<Sidenav title={'Employees Attendances'}>
 			<div>
 				<div
 					style={{
@@ -210,73 +213,86 @@ const EmpAttendance = ({ history }) => {
 						style={{ backgroundColor: 'lightBlue' }}>
 						Mark Todays Attendance
 					</Button>
-					<p>{error}</p>
 				</div>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Employee Name</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Date</StyledTableCell>
-									<StyledTableCell align='center'>Present/Absent</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!attendances ? (
-									<h1>Network Error</h1>
-								) : attendances.length > 0 ? (
-									attendances.map((el, i) => (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.employee?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.employee?.finalDesignation?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.employee?.finalDepartment?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.date}
-											</StyledTableCell>
+				{fetchError && <p>{fetchError}</p>}
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : attendances?.length === 0 ? (
+					<p>There are no Attendances</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Employee Name</StyledTableCell>
+										<StyledTableCell align='center'>Designation</StyledTableCell>
+										<StyledTableCell align='center'>Department</StyledTableCell>
+										<StyledTableCell align='center'>Date</StyledTableCell>
+										<StyledTableCell align='center'>Present/Absent</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{!attendances ? (
+										<h1>Network Error</h1>
+									) : attendances.length > 0 ? (
+										attendances.map((el, i) => (
+											<StyledTableRow>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el.employee?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el.employee?.finalDesignation?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el.employee?.finalDepartment?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark bg-light' align='center'>
+													{el.date}
+												</StyledTableCell>
 
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<Button
-													style={{
-														backgroundColor: el?.isPresent
-															? '#C81D25'
-															: el?.isLeave
+												<StyledTableCell className='text-light bg-light' align='center'>
+													<Button
+														style={{
+															backgroundColor: el?.isPresent
+																? '#C81D25'
+																: el?.isLeave
 																? '#333'
 																: '#008BF8',
-													}}
-													variant='contained'
-													className={`text-light ${!el.isPresent ? 'bg-danger' : 'bg-success'}`}
-													size='small'
-												>
-													{
-														el.isPresent ? 'Present' : el?.isLeave ? 'On Leave' : 'Absent'
-													}
-												</Button>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h1>Not found</h1>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+														}}
+														variant='contained'
+														className={`text-light ${
+															!el.isPresent ? 'bg-danger' : 'bg-success'
+														}`}
+														size='small'>
+														{el.isPresent ? 'Present' : el?.isLeave ? 'On Leave' : 'Absent'}
+													</Button>
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									) : (
+										<h1>Not found</h1>
+									)}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

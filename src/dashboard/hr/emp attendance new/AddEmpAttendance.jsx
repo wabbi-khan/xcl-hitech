@@ -4,7 +4,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
 import { useSelector, useDispatch } from 'react-redux';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,12 +12,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
 import {
 	getAttendanceAction,
 	attendanceToggler,
 	createAttendanceAction,
 } from '../../../services/action/attendanceAction';
+import Loader from 'react-loader-spinner';
+import Button from '../../../components/utils/Button';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -133,6 +133,11 @@ const CssTextField = withStyles({
 })(TextField);
 
 const AddEmpAttendance = () => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
@@ -156,19 +161,45 @@ const AddEmpAttendance = () => {
 	const today = date.getDate();
 	const completeDate = `${today}-${month}-${year}`;
 
-	const { attendances, error } = useSelector((state) => state.attendances);
-	console.log(error);
+	const { attendances } = useSelector((state) => state.attendances);
 
 	React.useEffect(() => {
-		dispatch(getAttendanceAction(`date=${completeDate}`));
-	}, []);
+		setFetchLoading(true);
+		dispatch(
+			getAttendanceAction(`date=${completeDate}`, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
+	}, [dispatch]);
 
 	const markPresentOrAbsent = (attendance) => {
 		dispatch(attendanceToggler(attendance));
 	};
 
 	const generateTodaysAttendance = () => {
-		dispatch(createAttendanceAction());
+		setCreateLoading(true);
+		dispatch(
+			createAttendanceAction(null, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	return (
@@ -178,105 +209,123 @@ const AddEmpAttendance = () => {
 					<Button
 						variant='contained'
 						style={{ backgroundColor: 'lightBlue' }}
-						className='text-dark'
+						classNames='text-dark'
 						onClick={generateTodaysAttendance}
-						size='small'>
-						Generate todays attendance
-					</Button>
-					<p>{error}</p>
-					<div className={classes.dataTable}>
-						<TableContainer className={classes.tableContainer}>
-							<Table
-								stickyHeader
-								className='table table-dark'
-								style={{
-									backgroundColor: '#d0cfcf',
-									border: '1px solid black',
-									width: '100%',
-								}}>
-								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Employee Name</StyledTableCell>
-										<StyledTableCell align='center'>Department</StyledTableCell>
-										<StyledTableCell align='center'>Date</StyledTableCell>
-										<StyledTableCell align='center'>Present/Absent</StyledTableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{!attendances ? (
-										<h1>Network Error</h1>
-									) : attendances.length > 0 ? (
-										attendances.map((el, i) => (
-											<StyledTableRow>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													<div
-														style={{
-															display: 'flex',
-															alignItems: 'center',
-															justifyContent: 'center',
-															position: 'relative',
-														}}>
-														{i + 1}
+						loading={createLoading}
+						loaderColor='#333'
+						text='Generate Todays Attendances'
+						size='small'
+					/>
+					{createError && <p>{createError}</p>}
+					{fetchLoading ? (
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '3rem',
+							}}>
+							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						</div>
+					) : attendances?.length === 0 ? (
+						<p>There are no Attendances</p>
+					) : (
+						<div className={classes.dataTable}>
+							<TableContainer className={classes.tableContainer}>
+								<Table
+									stickyHeader
+									className='table table-dark'
+									style={{
+										backgroundColor: '#d0cfcf',
+										border: '1px solid black',
+										width: '100%',
+									}}>
+									<TableHead>
+										<TableRow hover role='checkbox'>
+											<StyledTableCell align='center'>Sr.No</StyledTableCell>
+											<StyledTableCell align='center'>Employee Name</StyledTableCell>
+											<StyledTableCell align='center'>Department</StyledTableCell>
+											<StyledTableCell align='center'>Date</StyledTableCell>
+											<StyledTableCell align='center'>Present/Absent</StyledTableCell>
+										</TableRow>
+									</TableHead>
+									<TableBody>
+										{!attendances ? (
+											<h1>Network Error</h1>
+										) : attendances.length > 0 ? (
+											attendances.map((el, i) => (
+												<StyledTableRow>
+													<StyledTableCell className='text-dark bg-light' align='center'>
 														<div
 															style={{
-																width: '.5rem',
-																height: '.5rem',
-																position: 'absolute',
-																top: '-3px',
-																right: '36px',
-																borderRadius: '50%',
-																backgroundColor: el?.isPresent ? 'lightGreen' : 'red',
-															}}></div>
-													</div>
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.employee?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.employee?.finalDepartment?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.date}
-												</StyledTableCell>
+																display: 'flex',
+																alignItems: 'center',
+																justifyContent: 'center',
+																position: 'relative',
+															}}>
+															{i + 1}
+															<div
+																style={{
+																	width: '.5rem',
+																	height: '.5rem',
+																	position: 'absolute',
+																	top: '-3px',
+																	right: '36px',
+																	borderRadius: '50%',
+																	backgroundColor: el?.isPresent ? 'lightGreen' : 'red',
+																}}></div>
+														</div>
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.employee?.name}
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.employee?.finalDepartment?.name}
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.date}
+													</StyledTableCell>
 
-												<StyledTableCell className='text-light bg-light' align='center'>
-													<div
-														style={{
-															display: 'flex',
-															alignItems: 'center',
-															gap: '1rem',
-															justifyContent: 'center',
-														}}>
-														<Button
-															variant='contained'
-															className='text-light'
+													<StyledTableCell className='text-light bg-light' align='center'>
+														<div
 															style={{
-																backgroundColor: el?.isPresent
-																	? '#C81D25'
-																	: el?.isLeave
-																	? '#333'
-																	: '#008BF8',
-															}}
-															size='small'
-															onClick={() => markPresentOrAbsent(el)}>
-															{el?.isPresent
-																? 'Mark Absent'
-																: el?.isLeave
-																? 'On Leave'
-																: 'Mark Present'}
-														</Button>
-													</div>
-												</StyledTableCell>
-											</StyledTableRow>
-										))
-									) : (
-										<h1>Not Found</h1>
-									)}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</div>
+																display: 'flex',
+																alignItems: 'center',
+																gap: '1rem',
+																justifyContent: 'center',
+															}}>
+															<Button
+																variant='contained'
+																classNames='text-light'
+																style={{
+																	backgroundColor: el?.isPresent
+																		? '#C81D25'
+																		: el?.isLeave
+																		? '#333'
+																		: '#008BF8',
+																}}
+																size='small'
+																text={
+																	el?.isPresent
+																		? 'Mark Absent'
+																		: el?.isLeave
+																		? 'On Leave'
+																		: 'Mark Present'
+																}
+																onClick={() => markPresentOrAbsent(el)}
+															/>
+														</div>
+													</StyledTableCell>
+												</StyledTableRow>
+											))
+										) : (
+											<h1>Not Found</h1>
+										)}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</div>
+					)}
 				</Container>
 			</div>
 		</Sidenav>
