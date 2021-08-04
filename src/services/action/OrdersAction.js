@@ -8,7 +8,7 @@ import {
 	PURCHASE_ORDER_SINGLE_FETCH_SUCCESS,
 } from '../constants/OrderConstant';
 
-export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
+export const fetchPurchaseOrderAction = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: PURCHASE_ORDER_REQUEST,
 	});
@@ -20,12 +20,16 @@ export const fetchPurchaseOrderAction = (query) => async (dispatch) => {
 
 		console.log(data);
 
-		dispatch({
-			type: PURCHASE_ORDER_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: PURCHASE_ORDER_FETCH_SUCCESS,
+				payload: data.data,
+			});
+
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -72,15 +76,15 @@ export const createPurchaseOrderAction =
 		}
 	};
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response.data.error);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: PURCHASE_ORDER_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
-		console.log(err);
+		if (cb) cb('Network Error');
 		dispatch({
 			type: PURCHASE_ORDER_FAIL,
 			payload: 'Network Error',

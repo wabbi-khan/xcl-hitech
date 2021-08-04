@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 // import axios from 'axios';
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
+import { withRouter } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -95,18 +96,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const PrintVendorOrderList = (props) => {
-	const id = props.match.params.id;
-
+const PrintVendorOrderList = ({ location }) => {
+	const { order } = location?.state;
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(fetchSinglePurchaseOrderAction(id));
-	}, [dispatch, id]);
-
-	const { order } = useSelector((state) => state.orders);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -285,4 +279,4 @@ const PrintVendorOrderList = (props) => {
 	);
 };
 
-export default PrintVendorOrderList;
+export default withRouter(PrintVendorOrderList);

@@ -10,10 +10,11 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPurchaseOrderAction } from '../../../services/action/OrdersAction';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
+import Loader from 'react-loader-spinner';
 
 import TextField from '@material-ui/core/TextField';
+import { MenuItem } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -78,65 +79,118 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-export const PurchaseOrderList = ({ history }) => {
+const searchOptions = [
+	{ key: 'prNum', value: 'PR No' },
+	{ key: 'poNum', value: 'Order No' },
+];
+
+export const PurchaseOrderList = () => {
+	const [searchText, setSearchText] = React.useState('');
+	const [searchBy, setSearchBy] = React.useState('prNum');
+	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
+	const history = useHistory();
+
 	useEffect(() => {
-		dispatch(fetchPurchaseOrderAction());
+		setFetchLoading(true);
+		dispatch(
+			fetchPurchaseOrderAction(null, () => {
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
-	const { orders, loading, error } = useSelector((state) => state.orders);
+	useEffect(() => {
+		setFetchLoading(true);
+		if (searchText) {
+			dispatch(
+				fetchPurchaseOrderAction(`${searchBy}[regex]=${searchText}`, () => {
+					setFetchLoading(false);
+				}),
+			);
+		} else {
+			dispatch(
+				fetchPurchaseOrderAction(null, () => {
+					setFetchLoading(false);
+				}),
+			);
+		}
+	}, [searchText]);
+
+	const { orders } = useSelector((state) => state.orders);
 
 	console.log(orders);
-
-	const handleChange = async (e) => {
-		e.preventDefault();
-		dispatch(fetchPurchaseOrderAction(`poNum[regex]=${e.target.value}`));
-	};
 
 	return (
 		<Sidenav title={'Purchase Order List'}>
 			<div>
-				<div className={classes.dataTable}>
-					<h4>Uninspected Orders List</h4>
-					<CssTextField
-						id='outlined-basic'
-						label='Search Orders'
-						variant='outlined'
-						type='search'
-						size='small'
-						autoComplete='off'
-						onChange={handleChange}
-						className={classes.inputFieldStyle1}
-						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}
-					/>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className={classes.table}
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Order#</StyledTableCell>
-									<StyledTableCell align='center'>Vendor Name</StyledTableCell>
-									<StyledTableCell align='center'>Items</StyledTableCell>
-									<StyledTableCell align='center'>Qty</StyledTableCell>
-									<StyledTableCell align='center'>Date</StyledTableCell>
-									<StyledTableCell align='center'>View Details</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : !orders || !orders.length ? (
-									<h5>Not Found</h5>
-								) : (
-									orders.map((order, i) => {
+				<h4>Uninspected Orders List</h4>
+				<CssTextField
+					id='outlined-basic'
+					label='Search Orders'
+					variant='outlined'
+					type='search'
+					size='small'
+					onChange={(e) => setSearchText(e.target.value)}
+					autoComplete='off'
+					className={classes.inputFieldStyle1}
+					inputProps={{ style: { fontSize: 14 } }}
+					InputLabelProps={{ style: { fontSize: 14 } }}
+				/>
+				<CssTextField
+					id='outlined-basic'
+					label='Search Orders'
+					variant='outlined'
+					type='search'
+					size='small'
+					select
+					value={searchBy}
+					autoComplete='off'
+					onChange={(e) => setSearchBy(e.target.value)}
+					className={classes.inputFieldStyle1}
+					inputProps={{ style: { fontSize: 14 } }}
+					InputLabelProps={{ style: { fontSize: 14 } }}>
+					{searchOptions.map((el, i) => (
+						<MenuItem value={el.key} key={i}>
+							{el.value}
+						</MenuItem>
+					))}
+				</CssTextField>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : orders?.length === 0 ? (
+					<p>There are no Responsibilities</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className={classes.table}
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Order#</StyledTableCell>
+										<StyledTableCell align='center'>PR No</StyledTableCell>
+										<StyledTableCell align='center'>Vendor Name</StyledTableCell>
+										<StyledTableCell align='center'>Items</StyledTableCell>
+										<StyledTableCell align='center'>Qty</StyledTableCell>
+										<StyledTableCell align='center'>Date</StyledTableCell>
+										<StyledTableCell align='center'>View Details</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{orders.map((order, i) => {
 										// console.log(order)
 										return (
 											<StyledTableRow key={i}>
@@ -145,6 +199,9 @@ export const PurchaseOrderList = ({ history }) => {
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
 													{order?.poNum}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{order?.prNum}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
 													{!order?.vendor ? null : order?.vendor?.name}
@@ -168,21 +225,22 @@ export const PurchaseOrderList = ({ history }) => {
 													<Button
 														className='btn bg-dark text-light'
 														onClick={() => {
-															history.push(
-																`/purchase/purchase_order_list/order_details/${order?._id}`,
-															);
+															history.push({
+																pathname: `/purchase/purchase_order_list/order_details/${order?._id}`,
+																state: { order },
+															});
 														}}>
 														View Details
 													</Button>
 												</StyledTableCell>
 											</StyledTableRow>
 										);
-									})
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									})}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

@@ -6,9 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -17,24 +15,23 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
 import { updateVendorAction } from '../../../services/action/VendorAction';
+import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
+import { getSubCategories } from '../../../services/action/subCategoryAction';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
 		display: 'flex',
-		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	paper: {
-		backgroundColor: theme.palette.background.paper,
-		border: '2px solid #000',
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
 		height: 'auto',
-		width: '80%',
+		width: '60%',
 	},
 	mainContainer: {
 		textAlign: 'center',
-		marginTop: 20,
 	},
 	addButton: {
 		marginTop: 20,
@@ -89,285 +86,400 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+	email: '',
+	phone: '',
+	location: '',
+	category: '',
+	subCategory: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+	email: yup.string().required().email(),
+	phone: yup.string().required(),
+	location: yup.string().required(),
+	category: yup.string(),
+	subCategory: yup.string(),
+});
+
 const EditVendor = (props) => {
-	const classes = useStyles();
-
-	const dispatch = useDispatch();
-
-	const { show, handler, vendor, categories } = props;
-	// console.log(vendor);
-	// console.log(categories);
-	const [open, setOpen] = useState(false);
-	const [materialsSelect, setMaterialsSelect] = useState([]);
-	const [isUpdate, setIsUpdate] = useState(false);
-	const [isError, setIsError] = useState(false);
-	const [inputField, setInputField] = useState({
-		name: '',
-		email: '',
-		location: '',
-		phone: '',
-		category: '',
+	const [initialValuesState, setInitialValuesState] = React.useState({
+		...initialValues,
 	});
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const [open, setOpen] = useState(false);
+	const [selectedMaterials, setSelectedMaterials] = useState([]);
+	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [selectedCategory, setSelectedCategory] = React.useState('');
+	const [selectedSubCategory, setSelectedSubCategory] = React.useState('');
+
+	console.log(selectedMaterials);
 
 	const { materials } = useSelector((state) => state.materials);
+	const { categories } = useSelector((state) => state.categories);
+	const { subCategories } = useSelector((state) => state.subCategories);
+	const dispatch = useDispatch();
+	const classes = useStyles();
+
+	let form = null;
+
+	const { show, handler, vendor } = props;
+
+	console.log(vendor);
+	useEffect(() => {
+		dispatch(
+			getMaterialAction(
+				`${selectedCategory ? `category=${selectedCategory}` : ''}${
+					selectedSubCategory ? `&subCategory=${selectedSubCategory}` : ''
+				}`,
+			),
+		);
+	}, [selectedCategory, selectedSubCategory]);
 
 	useEffect(() => {
-		setOpen(show);
-	}, [show, materialsSelect]);
+		dispatch(getMaterialCategoryAction());
+	}, [dispatch]);
 
 	useEffect(() => {
+		if (selectedCategory) {
+			dispatch(getSubCategories(`parent=${selectedCategory}`));
+			if (form) {
+				setInitialValuesState((prev) => {
+					return {
+						...form.values,
+						category: selectedCategory,
+						subCategory: undefined,
+					};
+				});
+				setSelectedSubCategory('');
+			}
+		}
+	}, [selectedCategory]);
+
+	useEffect(() => {
+		setInitialValuesState({
+			...vendor,
+		});
+
 		if (vendor) {
-			fetchMaterials(vendor.category._id);
-			setInputField({ ...vendor, category: vendor.category._id });
-			const allMaterials = [];
-			vendor.material.forEach((material) => allMaterials.push(material._id));
-			setMaterialsSelect([...allMaterials]);
+			setSelectedMaterials([...vendor.materials]);
 		}
 	}, [vendor]);
 
+	useEffect(() => {
+		setOpen(show);
+	}, [show]);
+
 	const handleClose = () => {
 		handler(false);
+		setSelectedCategory('');
+		setSelectedSubCategory('');
 	};
 
-	const onSubmitData = () => {
-		try {
-			dispatch(
-				updateVendorAction(vendor._id, {
-					...inputField,
-					material: materialsSelect,
-				}),
-			);
-			setIsUpdate(true);
-		} catch (error) {
-			setIsError(true);
-		}
+	const onSubmit = (values) => {
+		setLoading(true);
+		values.materials = selectedMaterials;
+		dispatch(
+			updateVendorAction(vendor._id, values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setLoading(false);
+					setSuccess(true);
+					setTimeout(() => {
+						setSuccess(false);
+					}, 4000);
+				}
+			}),
+		);
+		setLoading(true);
 	};
 
-	const fetchMaterials = async (id) => {
-		setMaterialsSelect([]);
-		dispatch(getMaterialAction(`category=${id}`));
-	};
-
-	const getMaterials = async (event) => {
-		// console.log(event.target);
+	const getMaterials = async (event, material) => {
 		if (event.target.checked) {
-			console.log(event.target.value);
-			setMaterialsSelect([...materialsSelect, event.target.value]);
+			setSelectedMaterials([...selectedMaterials, material]);
 		}
 		if (event.target.checked === false) {
-			setMaterialsSelect(
-				materialsSelect.filter((value) => value._id !== event.target.value),
+			setSelectedMaterials(
+				selectedMaterials.filter((value) => value._id !== material._id),
 			);
 		}
-	};
-
-	const onChangeHandler = (value, placeholder) => {
-		setInputField({ ...inputField, [placeholder]: value });
 	};
 
 	return (
-		<div>
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
-				open={open}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}>
-				<Fade in={open}>
-					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit Vendor</h5>
-						<Container className={classes.mainContainer}>
-							{/* ========================================= */}
+		<Modal
+			aria-labelledby='transition-modal-title'
+			aria-describedby='transition-modal-description'
+			className={classes.modal}
+			open={open}
+			style={{ overflowY: 'scroll' }}
+			closeAfterTransition
+			BackdropComponent={Backdrop}
+			BackdropProps={{
+				timeout: 500,
+			}}>
+			<Fade in={open}>
+				<div className={classes.paper}>
+					<Container className={classes.mainContainer}>
+						<div
+							style={{
+								backgroundColor: '#fff',
+								border: '2px solid #000',
+								padding: '10px 30px 10px 30px',
+								marginTop: '10px',
+								marginBottom: '10px',
+							}}>
+							<h5 className='text-center mt-4'>Edit Vendor</h5>
 							{vendor ? (
-								<form onSubmit={handleSubmit(onSubmitData)}>
-									<Grid container spacing={1}>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Enter Vendor Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
-												className={classes.inputFieldStyle}
-												value={inputField.name}
-												onChange={(e) => onChangeHandler(e.target.value, 'name')}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												// {...register('name', { maxLength: 22 })}
-											/>
-										</Grid>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Email'
-												variant='outlined'
-												autocomplete='off'
-												size='small'
-												className={classes.inputFieldStyle}
-												value={inputField.email}
-												onChange={(e) => onChangeHandler(e.target.value, 'email')}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												// {...register('email', {
-												// 	pattern: {
-												// 		value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-												// 		message: 'Enter a valid e-mail address',
-												// 	},
-												// })}
-											/>
-										</Grid>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Phone No.'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												value={inputField.phone}
-												onChange={(e) => onChangeHandler(e.target.value, 'phone')}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												// {...register('phone', { maxLength: 24 })}
-											/>
-										</Grid>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Address'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
-												className={classes.inputFieldStyle}
-												value={inputField.location}
-												onChange={(e) => onChangeHandler(e.target.value, 'location')}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												// {...register('location', { maxLength: 70 })}
-											/>
-										</Grid>
-									</Grid>
-									<Grid container spacing={1} style={{ marginTop: 8 }}>
-										<Grid item lg={12} md={12} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Select Category'
-												variant='outlined'
-												type='text'
-												autoComplete='off'
-												size='small'
-												select
-												value={inputField.category}
-												onChange={(e) => onChangeHandler(e.target.value, 'category')}
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												// {...register('category')}
-											>
-												{!categories || !categories.length ? (
-													<p>Data Not Found</p>
-												) : (
-													categories.map((category, i) => (
-														<MenuItem
-															value={category._id}
-															onClick={(e) => fetchMaterials(category._id)}
-															key={i}>
-															{category.name}
-														</MenuItem>
-													))
-												)}
-											</CssTextField>
-										</Grid>
-										<Grid item lg={12} md={12} sm={6} xs={6} className={classes.ckeckBox}>
-											<FormGroup row>
-												{!materials || !materials.length ? (
-													<p className='mt-2 ml-4'>
-														No Materials found for the selected Category
-													</p>
-												) : (
-													materials.map((material, i) => (
-														<FormControlLabel
-															key={i}
-															control={
-																<Checkbox
-																	icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-																	checkedIcon={<CheckBoxIcon fontSize='small' />}
-																	onChange={(e) => getMaterials(e)}
-																	checked={
-																		materialsSelect.find((selectedMaterials) =>
-																			selectedMaterials === material._id ? material : null,
-																		)
-																			? true
-																			: false
-																	}
-																/>
-															}
-															name={material.name}
-															value={material._id}
-															label={material.name}
-															{...register('material')}
+								<Formik
+									initialValues={initialValuesState}
+									validationSchema={validationSchema}
+									onSubmit={onSubmit}
+									enableReinitialize>
+									{(props) => {
+										form = props;
+										return (
+											<Form>
+												<Grid container spacing={1}>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Enter Vendor Name'
+															variant='outlined'
+															type='text'
+															size='small'
+															style={{ width: '100%', marginTop: 20 }}
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('name')}
+															onBlur={props.handleBlur('name')}
+															value={props.values.name}
+															helperText={props.touched.name && props.errors.name}
+															error={props.touched.name && props.errors.name}
 														/>
-													))
-												)}
-											</FormGroup>
-										</Grid>
-									</Grid>
-									{/* ============================================================= */}
-									{errors?.email && (
-										<span className='text-danger'>{errors.email.message}</span>
-									)}
-									{/* ============================================================= */}
-									<div>
-										<Button className='bg-warning text-light' type='submit'>
-											Update
-										</Button>
-										<Button className='bg-danger text-light ml-1' onClick={handleClose}>
-											Close
-										</Button>
-									</div>
-								</form>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Email'
+															style={{ width: '100%', marginTop: 20 }}
+															variant='outlined'
+															autocomplete='off'
+															size='small'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('email')}
+															onBlur={props.handleBlur('email')}
+															value={props.values.email}
+															helperText={props.touched.email && props.errors.email}
+															error={props.touched.email && props.errors.email}
+														/>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Phone No.'
+															variant='outlined'
+															style={{ width: '100%', marginTop: 20 }}
+															type='text'
+															autocomplete='off'
+															size='small'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('phone')}
+															onBlur={props.handleBlur('phone')}
+															value={props.values.phone}
+															helperText={props.touched.phone && props.errors.phone}
+															error={props.touched.phone && props.errors.phone}
+														/>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Address'
+															variant='outlined'
+															type='text'
+															style={{ width: '100%', marginTop: 20 }}
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('location')}
+															onBlur={props.handleBlur('location')}
+															value={props.values.location}
+															helperText={props.touched.location && props.errors.location}
+															error={props.touched.location && props.errors.location}
+														/>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Select Category'
+															variant='outlined'
+															type='text'
+															autoComplete='off'
+															style={{ width: '100%', marginTop: 20 }}
+															size='small'
+															select
+															inputProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('category')}
+															onBlur={props.handleBlur('category')}
+															value={props.values.category}
+															helperText={props.touched.category && props.errors.category}
+															error={props.touched.category && props.errors.category}
+															InputLabelProps={{ style: { fontSize: 14 } }}>
+															{!categories || !categories.length ? (
+																<p>Data Not Found</p>
+															) : (
+																categories.map((el, i) => (
+																	<MenuItem
+																		value={el._id}
+																		onClick={() => setSelectedCategory(el?._id)}
+																		key={i}>
+																		{el.name}
+																	</MenuItem>
+																))
+															)}
+														</CssTextField>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Select Sub Category'
+															variant='outlined'
+															type='text'
+															autoComplete='off'
+															style={{ width: '100%', marginTop: 20 }}
+															size='small'
+															select
+															inputProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('subCategory')}
+															onBlur={props.handleBlur('subCategory')}
+															value={props.values.subCategory}
+															helperText={
+																props.touched.subCategory && props.errors.subCategory
+															}
+															error={props.touched.subCategory && props.errors.subCategory}
+															InputLabelProps={{ style: { fontSize: 14 } }}>
+															{!subCategories || !subCategories.length ? (
+																<p>Data Not Found</p>
+															) : (
+																subCategories.map((el, i) => (
+																	<MenuItem
+																		value={el._id}
+																		onClick={() => setSelectedSubCategory(el?._id)}
+																		key={i}>
+																		{el.name}
+																	</MenuItem>
+																))
+															)}
+														</CssTextField>
+													</Grid>
+													<Grid
+														item
+														lg={12}
+														md={12}
+														sm={6}
+														xs={6}
+														className={classes.ckeckBox}>
+														<FormGroup row>
+															{(selectedCategory || selectedSubCategory) &&
+																materials.map((el, i) => (
+																	<FormControlLabel
+																		key={i}
+																		control={
+																			<Checkbox
+																				icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+																				checkedIcon={<CheckBoxIcon fontSize='small' />}
+																				onChange={(e) => getMaterials(e, el)}
+																				checked={
+																					selectedMaterials.find((selectedMaterial) =>
+																						selectedMaterial._id === el._id ? el : null,
+																					)
+																						? true
+																						: false
+																				}
+																			/>
+																		}
+																		name={el.name}
+																		value={el._id}
+																		label={el.name}
+																	/>
+																))}
+														</FormGroup>
+													</Grid>
+													<Grid
+														item
+														lg={12}
+														md={12}
+														sm={6}
+														xs={6}
+														style={{
+															marginTop: 30,
+														}}>
+														{selectedMaterials?.map((el) => (
+															<div
+																style={{
+																	textAlign: 'left',
+																	paddingBottom: 10,
+																	paddingTop: 10,
+																	borderBottom: '1px solid #333',
+																}}>
+																<p style={{ margin: 0, padding: 0 }}>
+																	Material Name: {el?.name}
+																</p>
+																<p style={{ margin: 0, padding: 0 }}>
+																	Category Name: {el?.category?.name}
+																</p>
+																<p style={{ margin: 0, padding: 0 }}>
+																	Sub Category Name: {el?.subCategory?.name}
+																</p>
+															</div>
+														))}
+													</Grid>
+												</Grid>
+												<div
+													style={{
+														marginTop: '2rem',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Button
+														variant='contained'
+														color='primary'
+														text='Update'
+														style={{ marginRight: '1rem' }}
+														loading={loading}
+													/>
+													<Button
+														variant='outlined'
+														color='dark'
+														onClick={handleClose}
+														text='Close'
+														type='button'
+														classNames='bg-danger text-light'
+													/>
+												</div>
+												{error && <p>{error}</p>}
+												{success && <p>Successfully Updated</p>}
+											</Form>
+										);
+									}}
+								</Formik>
 							) : null}
-							<br />
-							{errors.category?.type === 'required' && (
-								<p className='mt-3 text-danger'>Category must be required</p>
-							)}
-							<br />
-							{/* {
-                                errors.name?.type === 'required' && <p className="text-danger">Material name is required</p>
-                            } */}
-							<br />
-							{/* {
-                                errors.name?.type === 'maxLength' && <p className="text-danger">Length must be less than 30</p>
-                            } */}
-							{/* {
-                                isUpdate ? <p className="text-success">Material Edit Success</p> : (
-                                    isError ? <p className="text-danger">Material Edit Fail Internal Server Error</p> : null
-                                )
-                            } */}
-						</Container>
-						{isUpdate ? (
-							<p className='text-success'>Category Edit Success</p>
-						) : isError ? (
-							<p className='text-danger'>
-								Category Edit Failed! Internal Server Error
-							</p>
-						) : null}
-					</div>
-				</Fade>
-			</Modal>
-		</div>
+						</div>
+					</Container>
+				</div>
+			</Fade>
+		</Modal>
 	);
 };
 

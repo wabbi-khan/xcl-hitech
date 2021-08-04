@@ -18,6 +18,8 @@ export const getSubCategories = (query, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/subCategory${query ? `?${query}` : ''}`,
 		);
 
+		console.log(data);
+
 		if (data.success) {
 			dispatch({
 				type: SUB_CATEGORY_FETCH_SUCCESS,

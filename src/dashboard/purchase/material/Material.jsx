@@ -151,6 +151,8 @@ const Material = () => {
 		...initialValues,
 	});
 
+	let form = null;
+
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
@@ -197,7 +199,7 @@ const Material = () => {
 			dispatch(getSubCategories(`parent=${selectedCategory}`));
 			setInitialValuesState((prev) => {
 				return {
-					...prev,
+					...form.values,
 					category: selectedCategory,
 					subCategory: undefined,
 				};
@@ -286,130 +288,133 @@ const Material = () => {
 						validationSchema={validationSchema}
 						enableReinitialize
 						onSubmit={onSubmit}>
-						{(props) => (
-							<Form>
-								<Grid container spacing={1}>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Category'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											style={{ width: '100%' }}
-											select
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('category')}
-											onBlur={props.handleBlur('category')}
-											value={props.values.category}
-											helperText={props.touched.category && props.errors.category}
-											error={props.touched.category && props.errors.category}>
-											{!categories || !categories.length ? (
-												<p>Data Not Found</p>
-											) : (
-												categories.map((el) => (
-													<MenuItem
-														value={el._id}
-														key={el._id}
-														onClick={() => setSelectedCategory(el._id)}>
-														{el.name}
-													</MenuItem>
-												))
-											)}
-										</CssTextField>
+						{(props) => {
+							form = props;
+							return (
+								<Form>
+									<Grid container spacing={1}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Category'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												style={{ width: '100%' }}
+												select
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('category')}
+												onBlur={props.handleBlur('category')}
+												value={props.values.category}
+												helperText={props.touched.category && props.errors.category}
+												error={props.touched.category && props.errors.category}>
+												{!categories || !categories.length ? (
+													<p>Data Not Found</p>
+												) : (
+													categories.map((el) => (
+														<MenuItem
+															value={el._id}
+															key={el._id}
+															onClick={() => setSelectedCategory(el._id)}>
+															{el.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Sub Category'
+												variant='outlined'
+												type='text'
+												style={{ width: '100%' }}
+												autocomplete='off'
+												size='small'
+												select
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('subCategory')}
+												onBlur={props.handleBlur('subCategory')}
+												value={props.values.subCategory}
+												helperText={props.touched.subCategory && props.errors.subCategory}
+												error={props.touched.subCategory && props.errors.subCategory}>
+												{!subCategories || !subCategories.length ? (
+													<p>Data Not Found</p>
+												) : (
+													subCategories.map((el) => (
+														<MenuItem value={el._id} key={el._id}>
+															{el.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Enter Material Name'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												style={{ width: '100%' }}
+												autoComplete='off'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('name')}
+												onBlur={props.handleBlur('name')}
+												value={props.values.name}
+												helperText={props.touched.name && props.errors.name}
+												error={props.touched.name && props.errors.name}
+											/>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Unit'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												select
+												autoComplete='off'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('unit')}
+												onBlur={props.handleBlur('unit')}
+												value={props.values.unit}
+												helperText={props.touched.unit && props.errors.unit}
+												error={props.touched.unit && props.errors.unit}>
+												{!units || !units.length ? (
+													<p>Data Not Found</p>
+												) : (
+													units.map((el) => (
+														<MenuItem value={el._id} key={el._id}>
+															{el.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
 									</Grid>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Sub Category'
+									<div>
+										<Button
 											variant='outlined'
-											type='text'
-											style={{ width: '100%' }}
-											autocomplete='off'
-											size='small'
-											select
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('subCategory')}
-											onBlur={props.handleBlur('subCategory')}
-											value={props.values.subCategory}
-											helperText={props.touched.subCategory && props.errors.subCategory}
-											error={props.touched.subCategory && props.errors.subCategory}>
-											{!subCategories || !subCategories.length ? (
-												<p>Data Not Found</p>
-											) : (
-												subCategories.map((el) => (
-													<MenuItem value={el._id} key={el._id}>
-														{el.name}
-													</MenuItem>
-												))
-											)}
-										</CssTextField>
-									</Grid>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Enter Material Name'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											style={{ width: '100%' }}
-											autoComplete='off'
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('name')}
-											onBlur={props.handleBlur('name')}
-											value={props.values.name}
-											helperText={props.touched.name && props.errors.name}
-											error={props.touched.name && props.errors.name}
+											color='primary'
+											text='Add'
+											classNames={classes.addButton}
+											loading={createLoading}
+											loaderColor='#333'
 										/>
-									</Grid>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Unit'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
-											select
-											autoComplete='off'
-											style={{ width: '100%' }}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('unit')}
-											onBlur={props.handleBlur('unit')}
-											value={props.values.unit}
-											helperText={props.touched.unit && props.errors.unit}
-											error={props.touched.unit && props.errors.unit}>
-											{!units || !units.length ? (
-												<p>Data Not Found</p>
-											) : (
-												units.map((el) => (
-													<MenuItem value={el._id} key={el._id}>
-														{el.name}
-													</MenuItem>
-												))
-											)}
-										</CssTextField>
-									</Grid>
-								</Grid>
-								<div>
-									<Button
-										variant='outlined'
-										color='primary'
-										text='Add'
-										classNames={classes.addButton}
-										loading={createLoading}
-										loaderColor='#333'
-									/>
-									{createError && <p>{createError}</p>}
-								</div>
-							</Form>
-						)}
+										{createError && <p>{createError}</p>}
+									</div>
+								</Form>
+							);
+						}}
 					</Formik>
 				</Container>
 

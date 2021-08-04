@@ -15,6 +15,7 @@ import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersA
 import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 import Button from '@material-ui/core/Button';
+import { withRouter } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -121,29 +122,18 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const FullOrderDetails = (props) => {
-	const id = props.match.params.id;
-	const { history } = props;
+const FullOrderDetails = ({ location, history }) => {
 	const classes = useStyles();
+	console.log(location);
+	const order = location?.state?.order;
 
-	const dispatch = useDispatch();
-	useEffect(() => {
-		dispatch(fetchSinglePurchaseOrderAction(id));
-	}, [dispatch, id]);
-
-	const { order, loading, error } = useSelector((state) => state.orders);
+	console.log(order);
 
 	return (
 		<Sidenav title={'Order Details'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					{loading ? (
-						<Loading />
-					) : error ? (
-						<MaterialError />
-					) : !order || !order.vendor ? (
-						<h5>Not Found</h5>
-					) : (
+					{
 						<>
 							<Grid container spacing={1}>
 								<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -155,7 +145,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										autocomplete='off'
 										disabled
-										value={order.vendor.name}
+										value={order?.vendor.name}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
@@ -171,7 +161,7 @@ const FullOrderDetails = (props) => {
 										autocomplete='off'
 										size='small'
 										disabled
-										value={order.poNum}
+										value={order?.poNum}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -186,7 +176,7 @@ const FullOrderDetails = (props) => {
 										autocomplete='off'
 										size='small'
 										disabled
-										value={order.prNum}
+										value={order?.prNum}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -201,7 +191,7 @@ const FullOrderDetails = (props) => {
 										autocomplete='off'
 										size='small'
 										disabled
-										value={order.paymentTerm}
+										value={order?.paymentTerm}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -217,7 +207,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										autocomplete='off'
 										disabled
-										value={order.paymentSubject}
+										value={order?.paymentSubject}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
@@ -232,7 +222,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										disabled
 										className={classes.inputFieldStyle}
-										value={order.reference}
+										value={order?.reference}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 								</Grid>
@@ -246,7 +236,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										disabled
 										className={classes.inputFieldStyle}
-										value={order.date}
+										value={order?.date}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 								</Grid>
@@ -260,7 +250,7 @@ const FullOrderDetails = (props) => {
 										size='small'
 										disabled
 										className={classes.inputFieldStyle}
-										value={order.totalQuantity}
+										value={order?.totalQuantity}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 								</Grid>
@@ -310,7 +300,7 @@ const FullOrderDetails = (props) => {
 								</TableContainer>
 							</div>
 						</>
-					)}
+					}
 					<Grid container spacing={1} className='mt-2'>
 						<Grid item lg={10} md={10}></Grid>
 						<Grid item lg={2} md={2} sm={12} xs={12}>
@@ -319,9 +309,10 @@ const FullOrderDetails = (props) => {
 								size='small'
 								className={classes.printBtn}
 								onClick={() => {
-									history.push(
-										`/purchase/purchase_order_list/print_order_details/${order?._id}`,
-									);
+									history.push({
+										pathname: `/purchase/purchase_order_list/print_order_details/${order?._id}`,
+										state: { order },
+									});
 								}}>
 								Print
 							</Button>
@@ -333,4 +324,4 @@ const FullOrderDetails = (props) => {
 	);
 };
 
-export default FullOrderDetails;
+export default withRouter(FullOrderDetails);

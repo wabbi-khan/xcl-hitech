@@ -4,7 +4,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,14 +21,15 @@ import {
 	createVendorAction,
 	deleteVendorAction,
 } from '../../../services/action/VendorAction';
-import MaterialError from '../material/MaterialError';
-import Loading from '../material/Loading';
 import { getMaterialCategoryAction } from '../../../services/action/MatCategoryAction';
 import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
-import { useForm } from 'react-hook-form';
-// import axios from 'axios';
+import { getSubCategories } from '../../../services/action/subCategoryAction';
 import FormGroup from '@material-ui/core/FormGroup';
 import EditVendor from './EditVendor';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 // const GreenCheckbox = withStyles({
 // 	root: {
@@ -154,358 +154,512 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: '',
+	email: '',
+	phone: '',
+	location: '',
+	category: '',
+	subCategory: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+	email: yup.string().required().email(),
+	phone: yup.string().required(),
+	location: yup.string().required(),
+	category: yup.string().required(),
+	subCategory: yup.string(),
+});
+
 const Vendors = () => {
-	const classes = useStyles();
-	const [Materials, setMaterials] = useState([]);
-	const [addVendorSuccess, setAddVendorSuccess] = useState(false);
-	const [addVendorFail, setAddVendorFail] = useState(false);
+	const [materialsState, setMaterialsState] = useState([]);
 	const [vendor, setVendor] = useState();
+	const [selectedCategory, setSelectedCategory] = useState('');
+	const [selectedSubCategory, setSelectedSubCategory] = useState('');
+	const [open, setOpen] = useState(false);
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [initialValuesState, setInitialValuesState] = React.useState({
+		...initialValues,
+	});
+
+	let form = null;
+
+	const { vendors } = useSelector((state) => state.vendors);
+	const { categories } = useSelector((state) => state.categories);
+	const { materials } = useSelector((state) => state.materials);
+	const { subCategories } = useSelector((state) => state.subCategories);
+
+	console.log(vendors);
+
+	const classes = useStyles();
 
 	const dispatch = useDispatch();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		getValues,
-	} = useForm();
+	useEffect(() => {
+		if (selectedCategory) {
+			dispatch(getSubCategories(`parent=${selectedCategory}`));
+			setInitialValuesState((prev) => {
+				return {
+					...form.values,
+					category: selectedCategory,
+					subCategory: undefined,
+				};
+			});
+			setSelectedSubCategory('');
+		}
+	}, [selectedCategory]);
 
 	useEffect(() => {
-		dispatch(getVendorAction());
+		dispatch(
+			getMaterialAction(
+				`${selectedCategory ? `category=${selectedCategory}` : ''}${
+					selectedSubCategory ? `&subCategory=${selectedSubCategory}` : ''
+				}`,
+			),
+		);
+	}, [selectedCategory, selectedSubCategory]);
+
+	useEffect(() => {
+		setFetchLoading(true);
+		dispatch(
+			getVendorAction(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 		dispatch(getMaterialCategoryAction());
 	}, [dispatch]);
 
-	const { loading, vendors, error } = useSelector((state) => state.vendors);
-	const fetchMatCategory = useSelector((state) => state.categories);
-	const { materials } = useSelector((state) => state.materials);
-
-	const fetchMaterials = async (id) => {
-		setMaterials([]);
-		console.log('object');
-		dispatch(getMaterialAction(`category=${id}`));
-	};
-
-	const getMaterials = async (event) => {
-		// console.log(event.target);
+	const getMaterials = async (event, material) => {
 		if (event.target.checked) {
-			setMaterials([...Materials, event.target.value]);
+			setMaterialsState([...materialsState, material]);
 		}
 		if (event.target.checked === false) {
-			setMaterials(Materials.filter((value) => value !== event.target.value));
+			setMaterialsState(
+				materialsState.filter((value) => value._id !== material._id),
+			);
 		}
 	};
 
-	const onSubmitData = async (data) => {
-		data.material = Materials;
-		try {
-			dispatch(createVendorAction(data));
-			setAddVendorSuccess(true);
-		} catch (error) {
-			setAddVendorFail(true);
-		}
+	const onSubmit = (values) => {
+		values.materials = materialsState;
+		setCreateLoading(true);
+		dispatch(
+			createVendorAction(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+					form.resetForm({
+						values: {
+							...initialValues,
+						},
+					});
+					setMaterialsState([]);
+					setSelectedCategory('');
+					setSelectedSubCategory('');
+				}
+				setCreateLoading(false);
+			}),
+		);
+		dispatch(createVendorAction(values));
 	};
 
-	const deleteVendor = async (params) => {
-		dispatch(deleteVendorAction(params));
+	const deleteVendor = (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteVendorAction(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
-
-	const [open, setOpen] = useState(false);
 
 	const handleClose = (props) => {
 		setOpen(props);
 	};
 
-	const handleOpen = async (vendor) => {
+	const handleOpen = (vendor) => {
 		setOpen(true);
 		setVendor(vendor);
 	};
 
-	const handleChange = async (e) => {
-		e.preventDefault();
-		dispatch(getVendorAction(`name[regex]=${e.target.value}`));
-	};
-
 	return (
 		<Sidenav title={'Vendors'}>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form onSubmit={handleSubmit(onSubmitData)}>
-						<Grid container spacing={1}>
-							{/* ============Vendor Name======================== */}
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Enter Vendor Name'
-									variant='outlined'
-									type='text'
-									size='small'
-									autocomplete='off'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('name', { required: true })}
-								/>
-								<br />
-								{errors.name?.type === 'required' && (
-									<p className='text-danger mt-2'>Vendor name is required</p>
-								)}
-							</Grid>
-
-							{/* ============Vendor email======================== */}
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Email'
-									variant='outlined'
-									type='email'
-									autocomplete='off'
-									size='small'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('email', {
-										required: true,
-										pattern: {
-											value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-											message: 'Enter a valid Email Address',
-										},
-									})}
-								/>
-								<br />
-								{errors?.email && (
-									<span className='text-danger mt-2'>{errors.email.message}</span>
-								)}
-								<br />
-								{errors.email?.type === 'required' && (
-									<p className='text-danger'>Vendor email is required</p>
-								)}
-							</Grid>
-
-							{/* ============Vendor phone======================== */}
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Phone No.'
-									variant='outlined'
-									type='text'
-									autocomplete='off'
-									size='small'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('phone', { required: true })}
-								/>
-								<br />
-								{errors.phone?.type === 'required' && (
-									<p className='text-danger mt-2'>Phone No is required</p>
-								)}
-							</Grid>
-
-							{/* ============Vendor location======================== */}
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Address'
-									variant='outlined'
-									type='text'
-									size='small'
-									autocomplete='off'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('location', { required: true })}
-								/>
-								<br />
-								{errors.location?.type === 'required' && (
-									<p className='text-danger mt-2'>Address is required</p>
-								)}
-							</Grid>
-						</Grid>
-						<Grid container spacing={1} style={{ marginTop: 8 }}>
-							{/* ============Vendor category======================== */}
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Select Category'
-									variant='outlined'
-									type='text'
-									autoComplete='off'
-									size='small'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('category', { required: true })}>
-									{!fetchMatCategory.categories ||
-									!fetchMatCategory.categories.length ? (
-										<p>Data Not Found</p>
-									) : (
-										fetchMatCategory.categories.map((category, i) => (
-											<MenuItem
-												value={category._id}
-												onClick={(e) => fetchMaterials(category._id)}
-												key={i}>
-												{category.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-								{errors.category?.type === 'required' && (
-									<p className='text-danger mt-2'>Please select category</p>
-								)}
-							</Grid>
-
-							{/* ============Vendor category material======================== */}
-							<Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
-								<FormGroup row>
-									{!getValues('category') ? (
-										<p className='mt-2 ml-4'>Please Select Any Category</p>
-									) : !materials || !materials.length ? (
-										<p className='mt-2 ml-4'>
-											No Materials found for the selected Category
-										</p>
-									) : (
-										materials.map((material, i) => (
-											<FormControlLabel
-												key={i}
-												control={
-													<Checkbox
-														icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-														checkedIcon={<CheckBoxIcon fontSize='small' />}
-														onChange={(e) => getMaterials(e)}
-													/>
-												}
-												name={material.name}
-												value={material._id}
-												label={material.name}
-												{...register('material')}
+					<Formik
+						initialValues={initialValuesState}
+						enableReinitialize
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => {
+							form = props;
+							return (
+								<Form>
+									<Grid container spacing={1}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Enter Vendor Name'
+												variant='outlined'
+												type='text'
+												style={{ width: '100%' }}
+												size='small'
+												autocomplete='off'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('name')}
+												onBlur={props.handleBlur('name')}
+												value={props.values.name}
+												helperText={props.touched.name && props.errors.name}
+												error={props.touched.name && props.errors.name}
 											/>
-										))
-									)}
-								</FormGroup>
-							</Grid>
-						</Grid>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Email'
+												variant='outlined'
+												type='email'
+												autocomplete='off'
+												style={{ width: '100%' }}
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('email')}
+												onBlur={props.handleBlur('email')}
+												value={props.values.email}
+												helperText={props.touched.email && props.errors.email}
+												error={props.touched.email && props.errors.email}
+											/>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Phone No.'
+												variant='outlined'
+												type='text'
+												autocomplete='off'
+												size='small'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('phone')}
+												onBlur={props.handleBlur('phone')}
+												value={props.values.phone}
+												helperText={props.touched.phone && props.errors.phone}
+												error={props.touched.phone && props.errors.phone}
+											/>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Address'
+												style={{ width: '100%' }}
+												variant='outlined'
+												type='text'
+												size='small'
+												autocomplete='off'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('location')}
+												onBlur={props.handleBlur('location')}
+												value={props.values.location}
+												helperText={props.touched.location && props.errors.location}
+												error={props.touched.location && props.errors.location}
+											/>
+										</Grid>
 
-						{/* ============All msg show here about add vendor succsese / fail========= */}
-						{addVendorSuccess ? <span>Vendor Added Successfully</span> : null}
-						{addVendorFail ? <span>Vendor Added Failed</span> : null}
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add Vendor
-							</Button>
-						</div>
-					</form>
-					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Category'
+												variant='outlined'
+												type='text'
+												autoComplete='off'
+												size='small'
+												select
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('category')}
+												onBlur={props.handleBlur('category')}
+												value={props.values.category}
+												helperText={props.touched.category && props.errors.category}
+												error={props.touched.category && props.errors.category}
+												InputLabelProps={{ style: { fontSize: 14 } }}>
+												{!categories || !categories.length ? (
+													<p>Data Not Found</p>
+												) : (
+													categories.map((el, i) => (
+														<MenuItem
+															value={el._id}
+															onClick={() => setSelectedCategory(el._id)}
+															key={i}>
+															{el.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Sub Category'
+												variant='outlined'
+												type='text'
+												autoComplete='off'
+												size='small'
+												select
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('subCategory')}
+												onBlur={props.handleBlur('subCategory')}
+												value={props.values.subCategory}
+												helperText={props.touched.subCategory && props.errors.subCategory}
+												error={props.touched.subCategory && props.errors.subCategory}
+												InputLabelProps={{ style: { fontSize: 14 } }}>
+												{!subCategories || !subCategories.length ? (
+													<p>Data Not Found</p>
+												) : (
+													subCategories.map((el, i) => (
+														<MenuItem
+															value={el._id}
+															onClick={(e) => setSelectedSubCategory(el?._id)}
+															key={i}>
+															{el.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={6} xs={6} className={classes.ckeckBox}>
+											<FormGroup row>
+												{(selectedCategory || selectedSubCategory) &&
+													materials.map((el, i) => (
+														<FormControlLabel
+															key={i}
+															control={
+																<Checkbox
+																	icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
+																	checkedIcon={<CheckBoxIcon fontSize='small' />}
+																	onChange={(e) => getMaterials(e, el)}
+																	checked={
+																		materialsState.find((selectedMaterials) =>
+																			selectedMaterials._id === el._id ? el : null,
+																		)
+																			? true
+																			: false
+																	}
+																/>
+															}
+															name={el.name}
+															value={el._id}
+															label={el.name}
+														/>
+													))}
+											</FormGroup>
+										</Grid>
+										<Grid
+											item
+											lg={12}
+											md={12}
+											sm={6}
+											xs={6}
+											style={{
+												marginTop: 30,
+											}}>
+											{materialsState?.map((el) => (
+												<div
+													style={{
+														textAlign: 'left',
+														paddingBottom: 10,
+														paddingTop: 10,
+														borderBottom: '1px solid #333',
+													}}>
+													<p style={{ margin: 0, padding: 0 }}>Material Name: {el?.name}</p>
+													<p style={{ margin: 0, padding: 0 }}>
+														Category Name: {el?.category?.name}
+													</p>
+													<p style={{ margin: 0, padding: 0 }}>
+														Sub Category Name: {el?.subCategory?.name}
+													</p>
+												</div>
+											))}
+										</Grid>
+									</Grid>
+									<div>
+										<Button
+											variant='outlined'
+											color='primary'
+											text='Add'
+											loading={createLoading}
+											loaderColor='#333'
+											classNames={classes.addButton}
+										/>
+									</div>
+									{createError && <p>{createError}</p>}
+								</Form>
+							);
+						}}
+					</Formik>
 				</Container>
-				{/* ============edit vendor form component */}
 				<EditVendor
 					show={open}
 					handler={handleClose}
 					vendor={vendor}
-					categories={fetchMatCategory.categories}
+					categories={categories}
 					materials={materials}
 				/>
-				{/* ============edit vendor form component */}
-				<div className={classes.dataTable}>
-					<CssTextField
-						id='outlined-basic'
-						label='Search Vendors'
-						variant='outlined'
-						type='search'
-						size='small'
-						autoComplete='off'
-						// value={input}
-						onChange={handleChange}
-						className={classes.inputFieldStyle1}
-						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}
-					/>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Vendor Name</StyledTableCell>
-									<StyledTableCell align='center'>Phone No.</StyledTableCell>
-									<StyledTableCell align='center'>Address</StyledTableCell>
-									<StyledTableCell align='center'>Category</StyledTableCell>
-									<StyledTableCell align='center'>Items</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : !vendors || !vendors.length ? (
-									<p>Not Found</p>
-								) : (
-									vendors.map((vendor, i) => (
+				<CssTextField
+					id='outlined-basic'
+					label='Search Vendors'
+					variant='outlined'
+					type='search'
+					size='small'
+					autoComplete='off'
+					className={classes.inputFieldStyle1}
+					inputProps={{ style: { fontSize: 14 } }}
+					InputLabelProps={{ style: { fontSize: 14 } }}
+				/>
+
+				{fetchError && <p>{fetchError}</p>}
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : vendors?.length === 0 ? (
+					<p>There are no Vendors</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Vendor Name</StyledTableCell>
+										<StyledTableCell align='center'>Phone No.</StyledTableCell>
+										<StyledTableCell align='center'>Address</StyledTableCell>
+										<StyledTableCell align='center'>Items</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{vendors.map((el, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{vendor.name}
+												{el.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{vendor.phone}
+												{el.phone}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{vendor.location}
+												{el.location}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{!vendor.category ? null : vendor.category.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{!vendor.material || !vendor.material.length ? (
+												{!el.materials || !el.materials.length ? (
 													<p>Not Found</p>
 												) : (
-													vendor.material.map(
-														(value, i) =>
-															i < 3 && (
-																<span key={i} className='ml-1'>
-																	{value.name},
-																</span>
-															),
-													)
+													el.materials.map((el, i) => (
+														<div
+															style={{
+																textAlign: 'left',
+																borderBottom: '2px solid #ccc',
+																paddingTop: '5px',
+																paddingBottom: '5px',
+															}}>
+															<p key={i} style={{ margin: 0, padding: 0 }} className='ml-1'>
+																Material Name: {el?.name}
+															</p>
+															<p key={i} style={{ margin: 0, padding: 0 }} className='ml-1'>
+																Category Name: {el?.category?.name}
+															</p>
+															<p key={i} style={{ margin: 0, padding: 0 }} className='ml-1'>
+																Sub Category Name: {el?.subCategory?.name}
+															</p>
+														</div>
+													))
 												)}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													<Button
 														variant='contained'
-														className='bg-dark text-light'
+														classNames='bg-dark text-light'
+														text='Update'
 														size='small'
-														onClick={() => handleOpen(vendor)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
+														onClick={() => handleOpen(el)}
+														style={{ marginTop: 2 }}
+													/>
+
 													<Button
 														variant='contained'
 														color='secondary'
 														size='small'
-														onClick={() => deleteVendor(vendor._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
+														text='Delete'
+														onClick={() => deleteVendor(el._id)}
+														style={{ marginLeft: 2, marginTop: 2 }}
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

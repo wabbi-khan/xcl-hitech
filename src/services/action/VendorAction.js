@@ -8,7 +8,7 @@ import {
 	VENDOR_DELETE_SUCCESS,
 } from '../constants/VendorConstant';
 
-export const getVendorAction = (query) => async (dispatch) => {
+export const getVendorAction = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: VENDOR_REQUEST,
 	});
@@ -18,90 +18,97 @@ export const getVendorAction = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/vendor${query ? `?${query}` : ''}`,
 		);
 
-
-		dispatch({
-			type: VENDOR_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: VENDOR_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createVendorAction = (vendor) => async (dispatch) => {
+export const createVendorAction = (vendor, cb) => async (dispatch) => {
 	dispatch({
 		type: VENDOR_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/vendor`,
 			vendor,
 		);
 
-		console.log(res.data.vendor);
+		console.log(data);
 
-		dispatch({
-			type: VENDOR_CREATE_SUCCESS,
-			payload: res.data.vendor,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: VENDOR_CREATE_SUCCESS,
+				payload: data.vendor,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateVendorAction = (id, data) => async (dispatch) => {
+export const updateVendorAction = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: VENDOR_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/vendor/${id}`,
-			data,
+			values,
 		);
 
-		console.log(res.data);
-
-		dispatch({
-			type: VENDOR_UPDATE_SUCCESS,
-			payload: { vendor: res.data.vendor, verifiedMsg: res.data.verifiedMsg },
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: VENDOR_UPDATE_SUCCESS,
+				payload: { vendor: data.vendor },
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteVendorAction = (params) => async (dispatch) => {
+export const deleteVendorAction = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: VENDOR_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/vendor/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/vendor/${params}`,
+		);
 
-		dispatch({
-			type: VENDOR_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: VENDOR_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: VENDOR_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: VENDOR_FAIL,
 			payload: 'Network Error',
