@@ -142,9 +142,9 @@ const CompetenceCriteria = ({ compCriteria, setCompCriteria }) => {
 				<hr />
 			</div>
 			<Container className={classes.mainContainer}>
-				<h4 className='text-left'>Competency Criteria</h4>
+				<h4 className='text-left'>Designation</h4>
 				<h6 className='text-left' style={{ margin: '15px 0px' }}>
-					Education
+					Educat
 				</h6>
 				<CssTextField
 					id='outlined-basic'

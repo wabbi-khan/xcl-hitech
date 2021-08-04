@@ -8,7 +8,7 @@ import {
 	DESIGNATION_UPDATE_SUCCESS,
 } from '../constants/DesignationConst';
 
-export const getDesignation = (query) => async (dispatch) => {
+export const getDesignation = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: DESIGNATION_REQUEST,
 	});
@@ -18,86 +18,96 @@ export const getDesignation = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/designation${query ? `?${query}` : ''}`,
 		);
 
-		dispatch({
-			type: DESIGNATION_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: DESIGNATION_FETCH_SUCCESS,
+				payload: data.data,
+			});
 
-		// console.log(fetchApiData.data.material);
+			if (cb) cb();
+		}
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
 };
 
-export const createDesignation = (material) => async (dispatch) => {
+export const createDesignation = (material, cb) => async (dispatch) => {
 	dispatch({
 		type: DESIGNATION_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/designation`,
 			material,
 		);
 
-		dispatch({
-			type: DESIGNATION_CREATE_SUCCESS,
-			payload: res.data.designation,
-		});
+		if (data.success) {
+			dispatch({
+				type: DESIGNATION_CREATE_SUCCESS,
+				payload: data.designation,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateDesignation = (id, data) => async (dispatch) => {
+export const updateDesignation = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: DESIGNATION_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/designation/${id}`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: DESIGNATION_UPDATE_SUCCESS,
-			payload: res.data.designation,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: DESIGNATION_UPDATE_SUCCESS,
+				payload: data.designation,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteDesignation = (params) => async (dispatch) => {
+export const deleteDesignation = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: DESIGNATION_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/designation/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/designation/${params}`,
+		);
 
-		dispatch({
-			type: DESIGNATION_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: DESIGNATION_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response.data.error);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: DESIGNATION_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: DESIGNATION_FAIL,
 			payload: 'Network Error',

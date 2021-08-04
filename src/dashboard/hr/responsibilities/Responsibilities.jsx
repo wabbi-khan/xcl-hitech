@@ -165,133 +165,118 @@ const Responsibilities = () => {
 				handler={handleClose}
 				responsibility={responsibility}
 			/>
-			{
-				deleteLoading && (
-					<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-						<Loader type='TailSpin' width='2rem' height='2rem' />
-					</div>
-				)
-			}
-			{
-				deleteError && (
-					<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-						<span>{deleteError}</span>
-					</div>
-				)
-			}
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}>
-						{
-							(props) => (
-								<Form>
-									<CssTextField
-										id='outlined-basic'
-										label='Add Resposibilities'
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Add Resposibilities'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									style={{ width: '50%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
 										variant='outlined'
-										type='text'
-										autocomplete='off'
-										size='small'
-										style={{ width: '50%' }}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										onChange={props.handleChange('name')}
-										onBlur={props.handleBlur('name')}
-										value={props.values.name}
-										helperText={props.touched.name && props.errors.name}
-										error={props.touched.name && props.errors.name}
+										classNames={classes.addMoreRes}
+										text='Add'
+										loading={createLoading}
+										loaderColor='#333'
 									/>
-									<div>
-										<Button
-											variant='outlined'
-											classNames={classes.addMoreRes}
-											text='Add'
-											loading={createLoading}
-											loaderColor='#333'
-										/>
-										{
-											createError && <p>{createError}</p>
-										}
-									</div>
-								</Form>
-							)
-						}
+									{createError && <p>{createError}</p>}
+								</div>
+							</Form>
+						)}
 					</Formik>
 				</Container>
 				<div
 					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: '50px' }}
-				>
-					{
-						fetchLoading ? (
-							<div
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-									marginTop: '3rem',
-								}}>
-								<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
-							</div>
-						) : responsibilities?.length === 0 ? (
-							<p>There are no Responsibilities</p>
-						) : (
-							<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
-								{
-									responsibilities?.map((el, i) => (
-										<>
-											{
-												i === 0 && (
-													<thead class='bg-dark text-light'>
-														<tr>
-															<th>S.No.</th>
-															<th>Name</th>
-															<th>Action</th>
-														</tr>
-													</thead>
-												)
-											}
-											<tbody>
-												<tr>
-													<td>{i + 1}</td>
-													<td>{el?.name}</td>
-													<td>
-														<div
-															style={{
-																display: 'flex',
-																flexDirection: 'row',
-																alignItems: 'center',
-																justifyContent: 'center',
-															}}>
-															<Button
-																variant='contained'
-																className='bg-dark text-light'
-																size='small'
-																onClick={() => handleOpen(el)}
-																text='Edit'
-															/>
+					style={{ textAlign: 'left', marginTop: '50px' }}>
+					{fetchLoading ? (
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '3rem',
+							}}>
+							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						</div>
+					) : responsibilities?.length === 0 ? (
+						<p>There are no Responsibilities</p>
+					) : (
+						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+							{responsibilities?.map((el, i) => (
+								<>
+									{i === 0 && (
+										<thead class='bg-dark text-light'>
+											<tr>
+												<th>S.No.</th>
+												<th>Name</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+									)}
+									<tbody>
+										<tr>
+											<td>{i + 1}</td>
+											<td>{el?.name}</td>
+											<td>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														onClick={() => handleOpen(el)}
+														text='Edit'
+													/>
 
-															<Button
-																variant='contained'
-																color='secondary'
-																size='small'
-																onClick={() => deleteResponsibility(el._id)}
-																style={{ marginLeft: 10 }}
-																text='Delete'
-															/>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</>
-									))
-								}
-							</table>
-						)
-					}
+													<Button
+														variant='contained'
+														color='secondary'
+														size='small'
+														onClick={() => deleteResponsibility(el._id)}
+														style={{ marginLeft: 10 }}
+														text='Delete'
+													/>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</>
+							))}
+						</table>
+					)}
 				</div>
 			</div>
 		</Sidenav>

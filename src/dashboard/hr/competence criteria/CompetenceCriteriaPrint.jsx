@@ -53,6 +53,7 @@ const CompetenceCriteriaPrint = ({ location }) => {
 	const classes = useStyles();
 
 	const designation = location?.state?.designation;
+	console.log(location);
 	console.log(designation);
 
 	const date = new Date();
@@ -69,7 +70,7 @@ const CompetenceCriteriaPrint = ({ location }) => {
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
 				<h5 className='mt-4' style={{ textDecorationLine: 'underline' }}>
-					COMPETENCE CRITERIA
+					DESIGNATION
 				</h5>
 			</div>
 			<div
@@ -117,17 +118,17 @@ const CompetenceCriteriaPrint = ({ location }) => {
 							<tr>
 								<td>{designation?.name}</td>
 								<td>
-									{designation?.criteria['educations']?.req?.map((el) => (
+									{designation?.educations?.map((el) => (
 										<span>{el?.name}/</span>
 									))}
 								</td>
 								<td>
-									{designation?.criteria['experiences']?.req?.map((el) => (
+									{designation?.experiences?.map((el) => (
 										<span>{el?.name}/</span>
 									))}
 								</td>
 								<td>
-									{designation?.criteria['skills']?.req?.map((el) => (
+									{designation?.skills?.map((el) => (
 										<span>{el?.skill}/</span>
 									))}
 								</td>

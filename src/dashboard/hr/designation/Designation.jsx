@@ -12,14 +12,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
-
 import {
 	getDesignation,
 	deleteDesignation,
 	createDesignation,
 } from '../../../services/action/DesignationAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
+import Loader from 'react-loader-spinner';
 import EditDesignation from './EditDesignation';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
@@ -100,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: 40,
 	},
 	delete: {
-		color: 'red'
+		color: 'red',
 	},
 	resStyle: {
 		marginTop: 10,
-	}
+	},
 }));
 
 const CssTextField = withStyles({
@@ -131,21 +129,6 @@ const validationSchema = yup.object({
 	name: yup.string().required(),
 });
 
-const responsibilityInitialValues = {
-	value: '',
-};
-
-const responsibilityValidationSchema = yup.object({
-	value: yup.string().required(),
-});
-
-const authorityInitialValues = {
-	value: '',
-};
-
-const authorityValidationSchema = yup.object({
-	value: yup.string().required(),
-});
 const educationInitialValues = {
 	value: '',
 };
@@ -153,6 +136,7 @@ const educationInitialValues = {
 const educationValidationSchema = yup.object({
 	value: yup.string().required(),
 });
+
 const skillInitialValues = {
 	value: '',
 };
@@ -160,6 +144,7 @@ const skillInitialValues = {
 const skillValidationSchema = yup.object({
 	value: yup.string().required(),
 });
+
 const experienceInitialValues = {
 	value: '',
 };
@@ -169,35 +154,46 @@ const experienceValidationSchema = yup.object({
 });
 
 const Designation = ({ history }) => {
-	const classes = useStyles();
 	const [designation, setDesignation] = useState();
-	const [responsibilities, setResponsibilities] = useState([]);
-	const [authorities, setAuthorities] = useState([]);
 	const [educationsState, setEducations] = useState([]);
 	const [skillsState, setSkills] = useState([]);
 	const [experiencesState, setExperiences] = useState([]);
+	const [createLoading, setCreateLoading] = useState(false);
+	const [createError, setCreateError] = useState('');
+	const [success, setSuccess] = useState('');
+	const [fetchLoading, setFetchLoading] = useState(true);
+	const [fetchError, setFetchError] = useState('');
+	const [deleteLoading, setDeleteLoading] = useState(false);
+	const [deleteError, setDeleteError] = useState('');
+	const [pageError, setPageError] = useState('');
+	const [open, setOpen] = useState(false);
+
 	const { skills } = useSelector((state) => state.skills);
 	const { educations } = useSelector((state) => state.educations);
 	const { experiences } = useSelector((state) => state.experiences);
+	const { designations } = useSelector((state) => state.designations);
+
+	const classes = useStyles();
 
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
-		dispatch(getDesignation());
+		setFetchLoading(true);
+		dispatch(
+			getDesignation(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 		dispatch(getSkills());
 		dispatch(getEducations());
 		dispatch(getExperiences());
 	}, [dispatch]);
-
-	const { designations, loading, error } = useSelector(
-		(state) => state.designations,
-	);
-
-	const handleDeleteDesignation = async (params) => {
-		dispatch(deleteDesignation(params));
-	};
-
-	const [open, setOpen] = useState(false);
 
 	const handleClose = (props) => {
 		setOpen(props);
@@ -208,79 +204,113 @@ const Designation = ({ history }) => {
 		setOpen(true);
 	};
 
-	function addRes(value) {
-		setResponsibilities((prev) => [...prev, value.value]);
-	}
-	function addAuth(value) {
-		setAuthorities((prev) => [...prev, value.value]);
-	}
-	function addEdu(value) {
-		setAuthorities((prev) => [...prev, value.value]);
-	}
-	function addSkill(value) {
-		setAuthorities((prev) => [...prev, value.value]);
-	}
-	function addExp(value) {
-		setAuthorities((prev) => [...prev, value.value]);
+	const setError = (error) => {
+		setPageError(error);
+		setTimeout(() => {
+			setPageError('');
+		}, 4000);
+	};
+
+	function addEdu(el) {
+		const index = educationsState.indexOf(el);
+		if (index === -1) {
+			setEducations((prev) => [...prev, el]);
+		} else {
+			setError(`${el?.name} is already added in the Educations`);
+		}
 	}
 
-	function removeRes(index) {
-		setResponsibilities((prev) => {
-			prev.splice(index, 1);
-			console.log(prev);
-			return [...prev];
-		});
-	}
-	function removeAuth(index) {
-		setAuthorities((prev) => {
-			prev.splice(index, 1);
-			console.log(prev);
-			return [...prev];
-		});
-	}
-	function removeEdu(index) {
-		setEducations((prev) => {
-			prev.splice(index, 1);
-			console.log(prev);
-			return [...prev];
-		});
-	}
-	function removeSkill(index) {
-		setSkills((prev) => {
-			prev.splice(index, 1);
-			console.log(prev);
-			return [...prev];
-		});
-	}
-	function removeExp(index) {
-		setExperiences((prev) => {
-			prev.splice(index, 1);
-			console.log(prev);
-			return [...prev];
-		});
+	function addSkill(el) {
+		const index = skillsState.indexOf(el);
+		if (index === -1) {
+			setSkills((prev) => [...prev, el]);
+		} else {
+			setError(`${el?.skill} is already added in the Skills`);
+		}
 	}
 
-	const onSubmit = async (props) => {
+	function addExp(el) {
+		const index = experiencesState.indexOf(el);
+
+		if (index === -1) {
+			setExperiences((prev) => [...prev, el]);
+		} else {
+			setError(`${el?.name} is already added in the Experiences`);
+		}
+	}
+
+	function removeEdu(el) {
+		setEducations((prev) => prev.filter((value) => value._id !== el?._id));
+	}
+
+	function removeSkill(el) {
+		setSkills((prev) => prev.filter((value) => value._id !== el?._id));
+	}
+
+	function removeExp(el) {
+		setExperiences((prev) => prev.filter((value) => value._id !== el?._id));
+	}
+
+	const onSubmit = async (values) => {
+		values = {
+			...values,
+			educations: educationsState,
+			skills: skillsState,
+			experiences: experiencesState,
+		};
+		setCreateLoading(true);
 		dispatch(
-			createDesignation({
-				...props,
-				responsibilities: [...responsibilities],
-				authorities: [...authorities],
-				criteria: { educationsState, skillsState, experiencesState },
+			createDesignation(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
+	};
+
+	const handleDeleteDesignation = async (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteDesignation(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
 			}),
 		);
 	};
 
 	return (
 		<Sidenav title={'Designation'}>
-			{/* ============products form component */}
 			<EditDesignation
 				show={open}
 				handler={handleClose}
 				designation={designation}
 			/>
-			{/* ============products form component */}
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
+				{pageError && <p>{pageError}</p>}
 				<Container className={classes.mainContainer}>
 					<Formik
 						initialValues={initialValues}
@@ -306,283 +336,266 @@ const Designation = ({ history }) => {
 										error={props.touched.name && props.errors.name}
 									/>
 								</Form>
-								<div style={{ margin: '3rem 0rem 2rem 0rem', textDecoration: 'underline' }}>
+								<div
+									style={{ margin: '3rem 0rem 2rem 0rem', textDecoration: 'underline' }}>
 									<h4>Competence Criteria</h4>
 								</div>
 								<Formik
 									initialValues={educationInitialValues}
 									validationSchema={educationValidationSchema}
 									onSubmit={addEdu}>
-									{
-										(props) => (
-											<Form>
-												<h5>Educations</h5>
-												<div style={{ display: 'flex', }}>
-													<CssTextField
-														id='outlined-basic'
-														label='Education'
-														variant='outlined'
-														type='text'
-														autocomplete='off'
-														size='small'
-														select
-														style={{ width: '25%' }}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														onChange={props.handleChange('value')}
-														onBlur={props.handleBlur('value')}
-														value={props.values.value}
-														helperText={props.touched.value && props.errors.value}
-														error={props.touched.value && props.errors.value}>
-														{
-															educations &&
-															educations.map((education, i) => (
-																<MenuItem value={education._id} key={i}>
-																	{education.name}
-																</MenuItem>
-															))
-														}
-													</CssTextField>
-													{/* <div style={{ margin: '0rem 1rem', display: 'inline-block' }}></div> */}
-													<Button
-														variant="outlined"
-														classNames={classes.addMoreRes}
-														text='Add'
-														// loading={true}
-														loaderColor="#333"
+									{(props) => (
+										<Form>
+											<h5>Educations</h5>
+											<div style={{ display: 'flex' }}>
+												<CssTextField
+													id='outlined-basic'
+													label='Education'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													style={{ width: '25%' }}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('value')}
+													onBlur={props.handleBlur('value')}
+													value={props.values.value}
+													helperText={props.touched.value && props.errors.value}
+													error={props.touched.value && props.errors.value}>
+													{educations &&
+														educations.map((education, i) => (
+															<MenuItem
+																value={education._id}
+																key={i}
+																onClick={() => addEdu(education)}>
+																{education.name}
+															</MenuItem>
+														))}
+												</CssTextField>
+											</div>
+											{educationsState.map((el, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{el?.name}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeEdu(el)}
 													/>
-
-												</div>
-												{
-													authorities.map((res, i) => (
-														<p className={classes.resStyle}>
-															<span style={{ fontSize: 13 }}>{i + 1}. </span>
-															{res}
-															<DeleteOutlineIcon
-																type='button'
-																className={classes.delete}
-																onClick={() => removeRes(i)}
-															/>
-														</p>
-													))
-												}
-											</Form>
-										)
-									}
+												</p>
+											))}
+										</Form>
+									)}
 								</Formik>
 								<div style={{ margin: '2rem 0rem' }}></div>
 
 								<Formik
-									initialValues={authorityInitialValues}
-									validationSchema={authorityValidationSchema}
-									onSubmit={addAuth}>
-									{
-										(props) => (
-											<Form>
-												<h5>Skills</h5>
-												<div style={{ display: 'flex', }}>
-													<CssTextField
-														id='outlined-basic'
-														label='Skills'
-														variant='outlined'
-														type='text'
-														autocomplete='off'
-														size='small'
-														select
-														style={{ width: '25%' }}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														onChange={props.handleChange('value')}
-														onBlur={props.handleBlur('value')}
-														value={props.values.value}
-														helperText={props.touched.value && props.errors.value}
-														error={props.touched.value && props.errors.value}>
-														{
-															skills &&
-															skills.map((skill, i) => (
-																<MenuItem value={skill._id} key={i}>
-																	{skill.skill}
-																</MenuItem>
-															))
-														}
-													</CssTextField>
-													<Button
-														variant="outlined"
-														text='Add'
-														loaderColor="#333"
-														// loading={true}
-														classNames={classes.addMoreRes}
+									initialValues={skillInitialValues}
+									validationSchema={skillValidationSchema}
+									onSubmit={addSkill}>
+									{(props) => (
+										<Form>
+											<h5>Skills</h5>
+											<div style={{ display: 'flex' }}>
+												<CssTextField
+													id='outlined-basic'
+													label='Skills'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													style={{ width: '25%' }}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('value')}
+													onBlur={props.handleBlur('value')}
+													value={props.values.value}
+													helperText={props.touched.value && props.errors.value}
+													error={props.touched.value && props.errors.value}>
+													{skills &&
+														skills.map((el, i) => (
+															<MenuItem value={el._id} key={i} onClick={() => addSkill(el)}>
+																{el.skill}
+															</MenuItem>
+														))}
+												</CssTextField>
+											</div>
+											{skillsState.map((el, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{el?.skill}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeSkill(el)}
 													/>
-												</div>
-												{
-													authorities.map((res, i) => (
-														<p className={classes.resStyle}>
-															<span style={{ fontSize: 13 }}>{i + 1}. </span>
-															{res}
-															<DeleteOutlineIcon
-																type='button'
-																className={classes.delete}
-																onClick={() => removeRes(i)}
-															/>
-														</p>
-													))
-												}
-											</Form>
-										)
-									}
+												</p>
+											))}
+										</Form>
+									)}
 								</Formik>
 								<div style={{ margin: '2rem 0rem' }}></div>
 								<Formik
-									initialValues={authorityInitialValues}
-									validationSchema={authorityValidationSchema}
-									onSubmit={addAuth}>
-									{
-										(props) => (
-											<Form>
-												<h5>Experiences</h5>
-												<div style={{ display: 'flex', }}>
-													<CssTextField
-														id='outlined-basic'
-														label='Experience'
-														variant='outlined'
-														type='text'
-														autocomplete='off'
-														size='small'
-														select
-														style={{ width: '25%' }}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														onChange={props.handleChange('value')}
-														onBlur={props.handleBlur('value')}
-														value={props.values.value}
-														helperText={props.touched.value && props.errors.value}
-														error={props.touched.value && props.errors.value}>
-														{
-															experiences &&
-															experiences.map((skill, i) => (
-																<MenuItem value={skill._id} key={i}>
-																	{skill.name}
-																</MenuItem>
-															))
-														}
-													</CssTextField>
-													<Button
-														variant="outlined"
-														text='Add'
-														loaderColor="#333"
-														// loading={true}
-														classNames={classes.addMoreRes}
+									initialValues={experienceInitialValues}
+									validationSchema={experienceValidationSchema}
+									onSubmit={addExp}>
+									{(props) => (
+										<Form>
+											<h5>Experiences</h5>
+											<div style={{ display: 'flex' }}>
+												<CssTextField
+													id='outlined-basic'
+													label='Experience'
+													variant='outlined'
+													type='text'
+													autocomplete='off'
+													size='small'
+													select
+													style={{ width: '25%' }}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('value')}
+													onBlur={props.handleBlur('value')}
+													value={props.values.value}
+													helperText={props.touched.value && props.errors.value}
+													error={props.touched.value && props.errors.value}>
+													{experiences &&
+														experiences.map((el, i) => (
+															<MenuItem value={el._id} key={i} onClick={() => addExp(el)}>
+																{el.name}
+															</MenuItem>
+														))}
+												</CssTextField>
+											</div>
+											{experiencesState.map((el, i) => (
+												<p className={classes.resStyle}>
+													<span style={{ fontSize: 13 }}>{i + 1}. </span>
+													{el?.name}
+													<DeleteOutlineIcon
+														type='button'
+														className={classes.delete}
+														onClick={() => removeExp(el)}
 													/>
-												</div>
-												{
-													authorities.map((res, i) => (
-														<p className={classes.resStyle}>
-															<span style={{ fontSize: 13 }}>{i + 1}. </span>
-															{res}
-															<DeleteOutlineIcon
-																type='button'
-																className={classes.delete}
-																onClick={() => removeRes(i)}
-															/>
-														</p>
-													))
-												}
-											</Form>
-										)
-									}
+												</p>
+											))}
+										</Form>
+									)}
 								</Formik>
 								<Form>
 									<div>
 										<Button
-											variant="outlined"
+											variant='outlined'
 											classNames={classes.addButton}
 											text='Add'
-											loading={true}
-											loaderColor="#22A19A"
+											loading={createLoading}
+											loaderColor='#22A19A'
 										/>
 									</div>
+									{createError && <p>{createError}</p>}
 								</Form>
 							</>
 						)}
 					</Formik>
 				</Container>
 
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : designations.length ? (
-										designations.map((designation, i) => (
-											<StyledTableRow>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{designation.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-light bg-light' align='center'>
-													<div style={{ display: 'flex', justifyContent: 'center' }}>
-														<Button
-															variant='contained'
-															size='small'
-															text='View'
-															classNames='btn btn-sm bg-dark text-light'
-															style={{ marginTop: 2 }}
-															onClick={() =>
-																history.push({
-																	pathname: '/hr/competence_criteria_print',
-																	state: { designation },
-																})
-															}
-															/>
-														<Button
-															variant='contained'
-															classNames='bg-dark text-light'
-															size='small'
-															text='Edit'
-															style={{ marginTop: 2, marginLeft: 2 }}
-															onClick={() => 
-																handleOpen(designation)
-															}
-															/>
-														<Button
-															variant='contained'
-															color='secondary'
-															size='small'
-															text='Delete'
-															classNames='bg-danger text-light'
-															style={{ marginLeft: 2, marginTop: 2 }}
-															onClick={() => 
-																handleDeleteDesignation(designation._id)
-															}
-														/>
-													</div>
-												</StyledTableCell>
-											</StyledTableRow>
-										))
-									) : (
-										<h5>Not Found</h5>
-									)
-								}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{fetchError && <p>{fetchError}</p>}
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : designations?.length === 0 ? (
+					<p>There are no Designation</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Designation</StyledTableCell>
+										<StyledTableCell align='center'>Educations</StyledTableCell>
+										<StyledTableCell align='center'>Experiences</StyledTableCell>
+										<StyledTableCell align='center'>Skills</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{designations.map((el, i) => (
+										<StyledTableRow>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.educations?.map((el) => (
+													<p style={{ margin: '0', padding: '0' }}>{el?.name}</p>
+												))}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.skills?.map((el) => (
+													<p style={{ margin: '0', padding: '0' }}>{el?.skill}</p>
+												))}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el?.experiences?.map((el) => (
+													<p style={{ margin: '0', padding: '0' }}>{el?.name}</p>
+												))}
+											</StyledTableCell>
+											<StyledTableCell className='text-light bg-light' align='center'>
+												<div style={{ display: 'flex', justifyContent: 'center' }}>
+													<Button
+														variant='contained'
+														size='small'
+														text='View'
+														classNames='btn btn-sm bg-dark text-light'
+														style={{ marginTop: 2 }}
+														onClick={() =>
+															history.push({
+																pathname: '/hr/competence_criteria_print',
+																state: { designation: el },
+															})
+														}
+													/>
+													<Button
+														variant='contained'
+														classNames='bg-dark text-light'
+														size='small'
+														text='Edit'
+														style={{ marginTop: 2, marginLeft: 2 }}
+														onClick={() => handleOpen(el)}
+													/>
+													<Button
+														variant='contained'
+														color='secondary'
+														size='small'
+														text='Delete'
+														classNames='bg-danger text-light'
+														style={{ marginLeft: 2, marginTop: 2 }}
+														onClick={() => handleDeleteDesignation(el._id)}
+													/>
+												</div>
+											</StyledTableCell>
+										</StyledTableRow>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);
