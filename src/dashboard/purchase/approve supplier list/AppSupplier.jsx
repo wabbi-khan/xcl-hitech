@@ -132,7 +132,7 @@ const AppSupplier = ({ history }) => {
 												{!vendor.materials.length ? (
 													<span>Not Found</span>
 												) : (
-													vendor.material.map((material, i) => (
+													vendor.materials.map((material, i) => (
 														<span key={i}>{material.name}, </span>
 													))
 												)}
