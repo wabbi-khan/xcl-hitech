@@ -197,7 +197,7 @@ const MaterialReqDetails = (props) => {
 								) : error ? (
 									<MaterialError />
 								) : !purchaseRequisition.materials ||
-								  !purchaseRequisition.materials.length ? (
+									!purchaseRequisition.materials.length ? (
 									<h5>Not Found</h5>
 								) : (
 									purchaseRequisition.materials.map((material, i) => (
@@ -279,52 +279,6 @@ const MaterialReqDetails = (props) => {
 				</TableContainer>
 			</div> */}
 			<div className={classes.dataTable}>
-				<TableContainer className={classes.tableContainer}>
-					<Table
-						stickyHeader
-						className='table table-dark'
-						style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-						<TableHead>
-							<TableRow hover role='checkbox'>
-								<StyledTableCell align='center'>Sr.No</StyledTableCell>
-								<StyledTableCell align='center'>Material Name</StyledTableCell>
-								<StyledTableCell align='center'>Quantity</StyledTableCell>
-								<StyledTableCell align='center'>Unit Value</StyledTableCell>
-								<StyledTableCell align='center'>Remarks</StyledTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : !purchaseRequisition.materials ||
-							  !purchaseRequisition.materials.length ? (
-								<h5>Not Found</h5>
-							) : (
-								purchaseRequisition.materials.map((material, i) => (
-									<StyledTableRow key={i}>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{i + 1}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{!material.material ? null : material.material.name}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{material.quantity}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{material.unitValue}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{material.remarks}
-										</StyledTableCell>
-									</StyledTableRow>
-								))
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
 				<div className='text-center'>
 					<Button
 						variant='contained'
@@ -333,13 +287,15 @@ const MaterialReqDetails = (props) => {
 						Complete Requisition
 					</Button>
 				</div>
-				{IsComplete ? (
-					<span className='text-success'>
-						Purchase Requisition has been Completed Successfully
-					</span>
-				) : IsError ? (
-					<span className='text-danger'>Internal Server Error</span>
-				) : null}
+				{
+					IsComplete ? (
+						<span className='text-success'>
+							Purchase Requisition has been Completed Successfully
+						</span>
+					) : IsError ? (
+						<span className='text-danger'>Internal Server Error</span>
+					) : null
+				}
 			</div>
 		</Sidenav>
 	);
