@@ -227,7 +227,7 @@ const Responsibilities = () => {
 							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 						</div>
 					) : responsibilities?.length === 0 ? (
-						<p>There are no Responsibilities</p>
+						<p>There is no data found.</p>
 					) : (
 						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 							{responsibilities?.map((el, i) => (

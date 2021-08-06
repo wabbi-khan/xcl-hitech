@@ -71,7 +71,7 @@ export const updateVendorAction = (id, values, cb) => async (dispatch) => {
 				type: VENDOR_UPDATE_SUCCESS,
 				payload: { vendor: data.vendor },
 			});
-			if (cb) cb();
+			if (cb) cb(null, data.vendorVerified);
 		}
 	} catch (err) {
 		dispatchError(err, dispatch, cb);

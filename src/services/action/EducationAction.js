@@ -8,7 +8,7 @@ import {
 	EDUCATION_UPDATE_SUCCESS,
 } from '../constants/EducationConst';
 
-export const getEducations = () => async (dispatch) => {
+export const getEducations = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: EDUCATION_REQUEST,
 	});
@@ -18,85 +18,96 @@ export const getEducations = () => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/education`,
 		);
 
-		dispatch({
-			type: EDUCATION_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: EDUCATION_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createEducation = (education) => async (dispatch) => {
+export const createEducation = (values, cb) => async (dispatch) => {
 	dispatch({
 		type: EDUCATION_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/education`,
-			education,
+			values,
 		);
 
-		dispatch({
-			type: EDUCATION_CREATE_SUCCESS,
-			payload: res.data.education,
-		});
+		if (data.success) {
+			dispatch({
+				type: EDUCATION_CREATE_SUCCESS,
+				payload: data.education,
+			});
 
-		// console.log(data);
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateEducation = (id, data) => async (dispatch) => {
+export const updateEducation = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: EDUCATION_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/education/${id}`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: EDUCATION_UPDATE_SUCCESS,
-			payload: res.data.education,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: EDUCATION_UPDATE_SUCCESS,
+				payload: data.education,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteEducation = (params) => async (dispatch) => {
+export const deleteEducation = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: EDUCATION_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/education/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/education/${params}`,
+		);
 
-		dispatch({
-			type: EDUCATION_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: EDUCATION_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: EDUCATION_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: EDUCATION_FAIL,
 			payload: 'Network Error',

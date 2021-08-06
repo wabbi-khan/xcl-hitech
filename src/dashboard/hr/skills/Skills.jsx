@@ -4,15 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import {
 	getSkills,
 	deleteSkill,
@@ -21,6 +18,10 @@ import {
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import EditSkills from './EditSkills';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -116,33 +117,80 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const Skills = () => {
-	const classes = useStyles();
-	const [Skill, setSkill] = useState('');
+const initialValues = {
+	skill: '',
+};
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+const validationSchema = yup.object({
+	skill: yup.string().required(),
+});
+
+const Skills = () => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [open, setOpen] = useState(false);
+	const [skill, setSkill] = useState('');
+
+	const classes = useStyles();
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(getSkills());
+	useEffect(() => {
+		setFetchLoading(true);
+		dispatch(
+			getSkills(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
-	const { skills, loading, error } = useSelector((state) => state.skills);
+	const { skills } = useSelector((state) => state.skills);
 
-	const onSubmitDate = async (props) => {
-		dispatch(createSkill(props));
+	const onSubmit = (values) => {
+		setCreateLoading(true);
+		dispatch(
+			createSkill(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
-	const deleteSkillFunc = async (params) => {
-		dispatch(deleteSkill(params));
+	const deleteSkillFunc = (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteSkill(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
-
-	const [open, setOpen] = useState(false);
 
 	const handleClose = (props) => {
 		setOpen(props);
@@ -155,65 +203,85 @@ const Skills = () => {
 
 	return (
 		<Sidenav title={'Skills'}>
-			{/* ============products form component */}
-			<EditSkills show={open} handler={handleClose} skill={Skill} />
-			{/* ============products form component */}
+			<EditSkills show={open} handler={handleClose} skill={skill} />
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<CssTextField
-							id='outlined-basic'
-							label='Enter Skill Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-							{...register('skill', { required: true })}
-						/>
-						{errors.skill?.type === 'required' && (
-							<p className='mt-1 text-danger'>Skill Name is required</p>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Enter Skill Name'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('skill')}
+									onBlur={props.handleBlur('skill')}
+									value={props.values.skill}
+									helperText={props.touched.skill && props.errors.skill}
+									error={props.touched.skill && props.errors.skill}
+								/>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										text='Submit'
+										loading={createLoading}
+										loaderColor='#333'
+										classNames={classes.addButton}
+									/>
+								</div>
+							</Form>
 						)}
-						{/* {
-                                !categories || !categories.length ? <p>Data Not Found</p> :
-                                    categories.map(category => (
-                                        <MenuItem value={category._id} key={category._id}>{category.name}</MenuItem>
-                                    ))
-                            } */}
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
-					{error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
+					</Formik>
 				</Container>
 
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Skills</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : skills.length ? (
-									skills.map((skill, i) => (
+				{fetchError && <p>{fetchError}</p>}
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : skills?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Skills</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{skills.map((skill, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
@@ -222,34 +290,39 @@ const Skills = () => {
 												{skill.skill}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													<Button
 														variant='contained'
-														className='bg-dark text-light'
+														classNames='bg-dark text-light'
+														text='Edit'
 														size='small'
 														onClick={() => handleOpen(skill)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
+														style={{ marginTop: 2 }}
+													/>
+
 													<Button
 														variant='contained'
 														color='secondary'
 														size='small'
+														text='Delete'
 														onClick={() => deleteSkillFunc(skill._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
+														style={{ marginLeft: 2, marginTop: 2 }}
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

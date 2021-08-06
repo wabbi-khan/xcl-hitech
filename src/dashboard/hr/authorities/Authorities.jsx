@@ -233,7 +233,7 @@ const Authorities = (props) => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : authorities?.length === 0 ? (
-					<p>There are no Authorities</p>
+					<p>There is no data found.</p>
 				) : (
 					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 						{authorities?.map((el, i) => (

@@ -264,6 +264,8 @@ const Department = () => {
 						}}>
 						<p style={{ fontSize: '3rem', textTransform: 'uppercase' }}>{error}</p>
 					</div>
+				) : departments?.length === 0 ? (
+					<p>There is no data found</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
@@ -279,39 +281,35 @@ const Department = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{departments && departments.length ? (
-										departments.map((el, i) => (
-											<StyledTableRow key={i}>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-light bg-light' align='center'>
-													<div style={{ display: 'flex', justifyContent: 'center' }}>
-														<Button
-															variant='contained'
-															text='Edit'
-															size='small'
-															classNames='bg-dark text-light'
-															onClick={() => handleOpen(el)}
-														/>
-														<Button
-															variant='contained'
-															text='Delete'
-															size='small'
-															color='secondary'
-															onClick={() => deleteDept(el._id)}
-															style={{ marginLeft: '1rem' }}
-														/>
-													</div>
-												</StyledTableCell>
-											</StyledTableRow>
-										))
-									) : (
-										<h5>Not Found</h5>
-									)}
+									{departments.map((el, i) => (
+										<StyledTableRow key={i}>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-light bg-light' align='center'>
+												<div style={{ display: 'flex', justifyContent: 'center' }}>
+													<Button
+														variant='contained'
+														text='Edit'
+														size='small'
+														classNames='bg-dark text-light'
+														onClick={() => handleOpen(el)}
+													/>
+													<Button
+														variant='contained'
+														text='Delete'
+														size='small'
+														color='secondary'
+														onClick={() => deleteDept(el._id)}
+														style={{ marginLeft: '1rem' }}
+													/>
+												</div>
+											</StyledTableCell>
+										</StyledTableRow>
+									))}
 								</TableBody>
 							</Table>
 						</TableContainer>

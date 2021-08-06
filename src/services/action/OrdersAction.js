@@ -54,7 +54,7 @@ export const fetchSinglePurchaseOrderAction = (_id) => async (dispatch) => {
 };
 
 export const createPurchaseOrderAction =
-	(purchaseOrder) => async (dispatch) => {
+	(purchaseOrder, cb) => async (dispatch) => {
 		dispatch({
 			type: PURCHASE_ORDER_REQUEST,
 		});
@@ -67,12 +67,15 @@ export const createPurchaseOrderAction =
 
 			console.log(res.data.order);
 
-			dispatch({
-				type: PURCHASE_ORDER_CREATE_SUCCESS,
-				payload: res.data.order,
-			});
+			if (res.data.success) {
+				dispatch({
+					type: PURCHASE_ORDER_CREATE_SUCCESS,
+					payload: res.data.order,
+				});
+				if (cb) cb();
+			}
 		} catch (err) {
-			dispatchError(err, dispatch);
+			dispatchError(err, dispatch, cb);
 		}
 	};
 

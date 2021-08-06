@@ -265,6 +265,8 @@ const Category = () => {
 						}}>
 						<p style={{ fontSize: '3rem', textTransform: 'uppercase' }}>{error}</p>
 					</div>
+				) : categories?.length === 0 ? (
+					<p>There is no data found</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
@@ -280,36 +282,35 @@ const Category = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{categories.length &&
-										categories.map((category, i) => (
-											<StyledTableRow key={i}>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{category.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-light bg-light' align='center'>
-													<div style={{ display: 'flex', justifyContent: 'center' }}>
-														<Button
-															variant='contained'
-															text='Edit'
-															size='small'
-															classNames='bg-dark text-light'
-															onClick={() => handleOpen(category)}
-														/>
-														<Button
-															variant='contained'
-															text='Delete'
-															size='small'
-															color='secondary'
-															onClick={() => deleteCategory(category._id)}
-															style={{ marginLeft: '1rem' }}
-														/>
-													</div>
-												</StyledTableCell>
-											</StyledTableRow>
-										))}
+									{categories.map((category, i) => (
+										<StyledTableRow key={i}>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{category.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-light bg-light' align='center'>
+												<div style={{ display: 'flex', justifyContent: 'center' }}>
+													<Button
+														variant='contained'
+														text='Edit'
+														size='small'
+														classNames='bg-dark text-light'
+														onClick={() => handleOpen(category)}
+													/>
+													<Button
+														variant='contained'
+														text='Delete'
+														size='small'
+														color='secondary'
+														onClick={() => deleteCategory(category._id)}
+														style={{ marginLeft: '1rem' }}
+													/>
+												</div>
+											</StyledTableCell>
+										</StyledTableRow>
+									))}
 								</TableBody>
 							</Table>
 						</TableContainer>

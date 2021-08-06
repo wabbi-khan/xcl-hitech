@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -97,27 +98,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ViewAppSuppDetails = (props) => {
-	const id = props.match.params.id;
+	const vendor = props?.location?.state?.vendor;
+	console.log(props.location);
 
 	const classes = useStyles();
-
-	const [vendor, setVendor] = useState({});
-
-	const getSingleVendor = async (id) => {
-		try {
-			const { data } = await axios.get(
-				`${process.env.REACT_APP_API_URL}/vendor/id/${id}`,
-			);
-			console.log(data.vendor);
-			setVendor(data.vendor);
-		} catch (error) {
-			document.write('Internal Server Error: ' + error);
-		}
-	};
-
-	useEffect(() => {
-		getSingleVendor(id);
-	}, [id]);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -132,7 +116,7 @@ const ViewAppSuppDetails = (props) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5'>Goods Received and Inspection Report</h5>
+				<h5 className='mt-5'>Vendor</h5>
 			</div>
 			<div className='container-fluid'>
 				<div className='row'>
@@ -185,7 +169,7 @@ const ViewAppSuppDetails = (props) => {
 										Rating
 									</StyledTableCell>
 									<StyledTableCell className='text-dark bg-light' align='center'>
-										Category
+										Categories
 									</StyledTableCell>
 								</TableRow>
 							</TableHead>
@@ -223,7 +207,11 @@ const ViewAppSuppDetails = (props) => {
 											)}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark' align='center'>
-											{!vendor.category ? null : vendor.category.name}
+											{
+												!vendor.categories?.map((el) => (
+													<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+												))
+											}
 										</StyledTableCell>
 									</StyledTableRow>
 								)}
@@ -262,10 +250,10 @@ const ViewAppSuppDetails = (props) => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{!vendor.material || !vendor.material.length ? (
+								{!vendor?.materials || !vendor?.materials.length ? (
 									<span>Not Found</span>
 								) : (
-									vendor.material.map((mat, i) => (
+									vendor?.materials.map((mat, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark' align='center'>
 												{i + 1}
@@ -311,4 +299,4 @@ const ViewAppSuppDetails = (props) => {
 	);
 };
 
-export default ViewAppSuppDetails;
+export default withRouter(ViewAppSuppDetails);

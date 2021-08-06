@@ -13,6 +13,9 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { getVendorAction } from '../../../services/action/VendorAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseOrderAction } from '../../../services/action/OrdersAction';
+import { fetchRequisitionAction } from '../../../services/action/PurchaseReqAction';
+import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
+import MyButton from '../../../components/utils/Button';
 
 // import MaterialAddRow from './commponent/materialAddRow'
 
@@ -167,6 +170,10 @@ const CssTextField = withStyles({
 })(TextField);
 
 const PurchaseOrder = ({ history }) => {
+	const [selectedRequest, setSelectedRequests] = React.useState({});
+
+	console.log(selectedRequest);
+
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
@@ -180,6 +187,16 @@ const PurchaseOrder = ({ history }) => {
 	const [vendorMaterial, setVendorMaterial] = useState([]);
 	const [AddOrderSuccess, setAddOrderSuccess] = useState(false);
 	const [AddOrderError, setAddOrderError] = useState(false);
+	const [materialsState, setMaterials] = useState([]);
+	const [createLoading, setCreateLoading] = useState(false);
+	const [success, setSuccess] = useState();
+	const [createError, setCreateError] = useState();
+
+	useEffect(() => {
+		if (selectedRequest) {
+			setMaterials(selectedRequest?.materials);
+		}
+	}, [selectedRequest]);
 
 	const {
 		register,
@@ -190,38 +207,46 @@ const PurchaseOrder = ({ history }) => {
 	useEffect(() => {
 		dispatch(getVendorAction('verified=true'));
 		dispatch(fetchDepartmentsAction());
+		dispatch(fetchRequisitionAction());
+		dispatch(getMaterialAction());
 	}, [dispatch]);
 
 	const { vendors } = useSelector((state) => state.vendors);
 	const { departments } = useSelector((state) => state.departments);
-
-	const addMoreFunc = () => {
-		setItemCounter([
-			...ItemCounter,
-			{ material: '', quantity: '', unitValue: '', remarks: '' },
-		]);
-	};
-
-	const deleteItem = (i) => {
-		const temp = [...ItemCounter];
-		temp.splice(i, 1);
-		setItemCounter(temp);
-	};
-
-	const onChangeHandler = (value, placeholder, index) => {
-		const tempFields = ItemCounter.map((item, i) => {
-			if (i === index) {
-				return { ...item, [placeholder]: value };
-			} else {
-				return { ...item };
-			}
-		});
-		setItemCounter([...tempFields]);
-	};
+	const { purchaseRequisitions } = useSelector(
+		(state) => state.purchaseRequisitions,
+	);
+	const { materials } = useSelector((state) => state.materials);
 
 	const onSubmitDate = async (props) => {
+		const tempMaterials = [];
+		materialsState.forEach((el) => {
+			tempMaterials.push({
+				material: el.material._id,
+				quantity: el?.quantity,
+				unitValue: el?.unitValue,
+				remarks: el?.remarks,
+			});
+		});
+		console.log(tempMaterials);
 		try {
-			dispatch(createPurchaseOrderAction({ ...props, materials: ItemCounter }));
+			setCreateLoading(true);
+			dispatch(
+				createPurchaseOrderAction({ ...props, materials: tempMaterials }, (err) => {
+					if (err) {
+						setCreateError(err);
+						setTimeout(() => {
+							setCreateError('');
+						}, 4000);
+					} else {
+						setSuccess(true);
+						setTimeout(() => {
+							setSuccess(false);
+						}, 4000);
+					}
+					setCreateLoading(false);
+				}),
+			);
 			setAddOrderSuccess(true);
 			setAddOrderError(false);
 		} catch (error) {
@@ -233,7 +258,6 @@ const PurchaseOrder = ({ history }) => {
 	return (
 		<Sidenav title={'Purchase Order'}>
 			<div>
-				{/* <form onSubmit={handleSubmit(onAdd)}> */}
 				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
 					<Container className={classes.mainContainer}>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
@@ -252,16 +276,16 @@ const PurchaseOrder = ({ history }) => {
 									{!vendors || !vendors.length ? (
 										<p>Data Not Found</p>
 									) : (
-										vendors.map((vendor) => (
+										vendors.map((el) => (
 											<MenuItem
-												value={vendor._id}
-												key={vendor._id}
+												value={el?._id}
+												key={el?._id}
 												onClick={() => {
-													setVendorId(vendor._id);
-													setVendorAddress(vendor.location);
-													setVendorMaterial(vendor.material);
+													setVendorId(el?._id);
+													setVendorAddress(el?.location);
+													setVendorMaterial(el?.materials);
 												}}>
-												{vendor.name}
+												{el?.name}
 											</MenuItem>
 										))
 									)}
@@ -295,7 +319,6 @@ const PurchaseOrder = ({ history }) => {
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									// {...register("address", { required: true })}
 								/>
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -345,11 +368,21 @@ const PurchaseOrder = ({ history }) => {
 									variant='outlined'
 									type='text'
 									size='small'
+									select
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('prNum', { required: true })}
-								/>
+									{...register('prNum', { required: true })}>
+									{purchaseRequisitions &&
+										purchaseRequisitions.map((el) => (
+											<MenuItem
+												key={el._id}
+												value={el._id}
+												onClick={() => setSelectedRequests(el)}>
+												{el.code}
+											</MenuItem>
+										))}
+								</CssTextField>
 								{errors.prNum?.type === 'required' && (
 									<p className='mt-1 text-danger'>P.R. No. is required</p>
 								)}
@@ -386,18 +419,6 @@ const PurchaseOrder = ({ history }) => {
 									<p className='mt-1 text-danger'>Payment Subject is required</p>
 								)}
 							</Grid>
-							{/* <Grid item lg={3} md={3} sm={12} xs={12}>
-                                <CssTextField id="outlined-basic"
-                                    // label="Your Reference"
-                                    variant="outlined"
-                                    type="date"
-                                    size="small"
-                                    className={classes.inputFieldStyle1}
-                                    inputProps={{ style: { fontSize: 14 } }}
-                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                    {...register("date")}
-                                />
-                            </Grid> */}
 						</Grid>
 					</Container>
 					<div style={{ marginTop: 30, marginBottom: 30 }}>
@@ -405,7 +426,7 @@ const PurchaseOrder = ({ history }) => {
 					</div>
 					<Container className={classes.mainContainer}>
 						<h4 className='text-left'>Items</h4>
-						{ItemCounter.map((value, i) => {
+						{materialsState?.map((el, i) => {
 							const no = i + 1;
 							return (
 								<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
@@ -419,37 +440,21 @@ const PurchaseOrder = ({ history }) => {
 											variant='outlined'
 											type='text'
 											size='small'
-											select
-											onChange={(e) => {
-												onChangeHandler(e.target.value, 'material', i);
-												const material = vendorMaterial.find(
-													(el) => el._id === e.target.value,
-												);
-												const tempFields = ItemCounter.map((item, myI) => {
-													if (myI === i) {
-														return {
-															...item,
-															material: e.target.value,
-															unitValue: material.unit,
-														};
-													} else {
-														return { ...item };
-													}
-												});
-												setItemCounter([...tempFields]);
-											}}
 											className={classes.inputFieldStyle2}
+											value={el?.material?._id}
+											disabled
+											select
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{!vendorMaterial.length ? (
-												<MenuItem>Please Select Vendor Name</MenuItem>
-											) : (
-												vendorMaterial.map((material) => (
-													<MenuItem value={material._id} key={material._id}>
-														{material.name}
+											{materials &&
+												materials.map((el) => (
+													<MenuItem
+														key={el._id}
+														value={el._id}
+														onClick={() => setSelectedRequests(el)}>
+														{el.name}
 													</MenuItem>
-												))
-											)}
+												))}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
@@ -460,10 +465,8 @@ const PurchaseOrder = ({ history }) => {
 											variant='outlined'
 											type='number'
 											size='small'
-											value={value.quantity}
-											onChange={(e) => {
-												onChangeHandler(e.target.value, 'quantity', i);
-											}}
+											value={el.quantity}
+											disabled
 											className={classes.inputFieldStyle3}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
@@ -476,7 +479,8 @@ const PurchaseOrder = ({ history }) => {
 											variant='outlined'
 											type='text'
 											size='small'
-											value={ItemCounter[i].unitValue}
+											value={el.unitValue}
+											disabled
 											className={classes.inputFieldStyle4}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
@@ -489,38 +493,16 @@ const PurchaseOrder = ({ history }) => {
 											variant='outlined'
 											type='text'
 											size='small'
-											value={value.remarks}
-											onChange={(e) => {
-												onChangeHandler(e.target.value, 'remarks', i);
-											}}
+											value={el.remarks}
+											disabled
 											className={classes.inputFieldStyle5}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 										/>
 									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<Button
-											onClick={() => deleteItem(i)}
-											className={classes.deleteRowBtn}>
-											<DeleteOutlineIcon className={classes.delete} />
-										</Button>
-									</Grid>
 								</Grid>
 							);
 						})}
-						<Grid container spacing={1}>
-							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<Button
-									variant='outlined'
-									color='primary'
-									className={classes.addButton}
-									onClick={addMoreFunc}
-									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
-								>
-									Add More
-								</Button>
-							</Grid>
-						</Grid>
 						{AddOrderError ? (
 							<p className='mt-3 text-danger'>
 								{' '}
@@ -533,24 +515,19 @@ const PurchaseOrder = ({ history }) => {
 						<Grid container spacing={1}>
 							<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
 							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<Button
+								<MyButton
 									variant='outlined'
 									color='primary'
-									type='submit'
-									className={classes.addButton}
-									onClick={() => {
-										// console.log(ItemCounter)
-										// history.push('/purchase/purchase_requisition/print_purchase_requisition')
-									}}
-									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
-								>
-									Submit
-								</Button>
+									text='Submit'
+									loading={createLoading}
+									loaderColor='#333'
+									classNames={classes.addButton}
+								/>
+								{createError && <p>{createError}</p>}
 							</Grid>
 						</Grid>
 					</Container>
 				</form>
-				{/* </form> */}
 			</div>
 		</Sidenav>
 	);

@@ -51,6 +51,7 @@ import JobDescription from './dashboard/hr/job description/JobDescription';
 import EmployeePromotion from './dashboard/hr/employees promotion/EmployeePromotion';
 import CompetenceCriteriaPrint from './dashboard/hr/competence criteria/CompetenceCriteriaPrint';
 import FullOrderDetails from './dashboard/purchase/purchase order list/FullOrderDetails';
+import ContactPerson from './dashboard/purchase/contactPerson/ContactPerson';
 import ViewEmpDetails from './dashboard/hr/employees/ViewEmpDetails';
 import AddEmpAttendance from './dashboard/hr/emp attendance new/AddEmpAttendance';
 import Category from './dashboard/purchase/category/Category';
@@ -169,6 +170,9 @@ function App() {
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/units'>
 				<Units />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/contactPerson'>
+				<ContactPerson />
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/category'>
 				<Category />

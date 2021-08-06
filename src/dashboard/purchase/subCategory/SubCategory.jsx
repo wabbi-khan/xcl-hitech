@@ -277,7 +277,7 @@ const SubCategory = () => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : subCategories?.length === 0 ? (
-					<p>There are no sub categories found</p>
+					<p>There is no data found</p>
 				) : (
 					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 						{subCategories?.map((el, i) => (

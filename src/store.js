@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { fetchMaterialReducer } from './services/reducer/MaterialReducer';
 import { fetchCategoryReducer } from './services/reducer/MatCategoryReducer';
 import { fetchVendorReducer } from './services/reducer/VendorReducer';
-import { fetchPersonsReducer } from './services/reducer/PersonReducer';
+import { fetchPersons } from './services/reducer/PersonReducer';
 import { fetchPurchaseOrderReducer } from './services/reducer/OrdersReducer';
 import { fetchProductsReducer } from './services/reducer/ProductsReducer';
 import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
@@ -49,7 +49,7 @@ const reducer = combineReducers({
 	categories: fetchCategoryReducer,
 	storeCategories: fetchStoreCategory,
 	vendors: fetchVendorReducer,
-	persons: fetchPersonsReducer,
+	persons: fetchPersons,
 	orders: fetchPurchaseOrderReducer,
 	products: fetchProductsReducer,
 	vehicles: fetchVehiclesReducer,

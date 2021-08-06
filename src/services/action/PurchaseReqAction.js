@@ -47,7 +47,7 @@ export const fetchSingleRequisitionAction = (id) => async (dispatch) => {
 	}
 };
 
-export const createPurchaseReqAction = (data) => async (dispatch) => {
+export const createPurchaseReqAction = (data, cb) => async (dispatch) => {
 	dispatch({
 		type: PURCHASE_REQ_REQUEST,
 	});
@@ -58,14 +58,17 @@ export const createPurchaseReqAction = (data) => async (dispatch) => {
 			data,
 		);
 
-		dispatch({
-			type: PURCHASE_REQ_CREATE_SUCCESS,
-			payload: res.data.request,
-		});
+		if (res.data.success) {
+			dispatch({
+				type: PURCHASE_REQ_CREATE_SUCCESS,
+				payload: res.data.request,
+			});
+			if (cb) cb();
+		}
 
 		// console.log(data);
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -93,15 +96,15 @@ export const updatePurchaseReqAction = (id, data) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response.data.error);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: PURCHASE_REQ_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
-		console.log(err);
+		if (cb) cb('Network Error');
 		dispatch({
 			type: PURCHASE_REQ_FAIL,
 			payload: 'Network Error',

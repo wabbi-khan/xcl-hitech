@@ -466,7 +466,7 @@ const Material = () => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : materials?.length === 0 ? (
-					<p>There are no Responsibilities</p>
+					<p>There is no data found.</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>

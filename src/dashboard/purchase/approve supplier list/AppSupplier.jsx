@@ -12,6 +12,8 @@ import Loading from '../material/Loading';
 import MaterialError from '../material/MaterialError';
 import Button from '@material-ui/core/Button';
 import { getVendorAction } from '../../../services/action/VendorAction';
+import Loader from 'react-loader-spinner';
+import { withRouter } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -55,45 +57,64 @@ const useStyles = makeStyles((theme) => ({
 
 const AppSupplier = ({ history }) => {
 	const classes = useStyles();
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getVendorAction('verified=true'));
+		setFetchLoading(true);
+		dispatch(
+			getVendorAction('verified=true', (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
-	const { loading, vendors, error } = useSelector((state) => state.vendors);
+	const { vendors } = useSelector((state) => state.vendors);
 
 	return (
 		<Sidenav title={'Approved Supplier List'}>
 			<div>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Vendor Name</StyledTableCell>
-									<StyledTableCell align='center'>Contact No.</StyledTableCell>
-									<StyledTableCell align='center'>Contact Person</StyledTableCell>
-									<StyledTableCell align='center'>Items Supplied</StyledTableCell>
-									<StyledTableCell align='center'>Approving Date</StyledTableCell>
-									<StyledTableCell align='center'>Rating</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : !vendors || !vendors.length ? (
-									<h5>Not Found</h5>
-								) : (
-									vendors.map((vendor, i) => (
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : vendors?.length === 0 ? (
+					<p>There are no Approved Vendors</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Vendor Name</StyledTableCell>
+										<StyledTableCell align='center'>Contact No.</StyledTableCell>
+										<StyledTableCell align='center'>Contact Person</StyledTableCell>
+										<StyledTableCell align='center'>Items Supplied</StyledTableCell>
+										<StyledTableCell align='center'>Approving Date</StyledTableCell>
+										<StyledTableCell align='center'>Rating</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{vendors.map((vendor, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
@@ -108,7 +129,7 @@ const AppSupplier = ({ history }) => {
 												{!vendor.contactPerson ? null : vendor.contactPerson.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{!vendor.material.length ? (
+												{!vendor.materials.length ? (
 													<span>Not Found</span>
 												) : (
 													vendor.material.map((material, i) => (
@@ -138,24 +159,25 @@ const AppSupplier = ({ history }) => {
 													className='bg-dark text-light'
 													size='small'
 													onClick={() =>
-														history.push(
-															`/purchase/approved_supplier_list/view_approved_supplier_details/${vendor._id}`,
-														)
+														history.push({
+															pathname: `/purchase/approved_supplier_list/view_approved_supplier_details/${vendor._id}`,
+															state: { vendor },
+														})
 													}
 													style={{ marginTop: 2 }}>
 													View
 												</Button>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);
 };
 
-export default AppSupplier;
+export default withRouter(AppSupplier);

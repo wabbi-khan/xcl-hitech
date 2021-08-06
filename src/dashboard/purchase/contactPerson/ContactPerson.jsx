@@ -4,22 +4,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import {
-	getEducations,
-	createEducation,
-	deleteEducation,
-} from '../../../services/action/EducationAction';
-import EditEducation from './EditEducation';
+	createPerson,
+	getPersons,
+	deletePerson,
+} from '../../../services/action/PersonAction';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
 import Loader from 'react-loader-spinner';
+import EditContactPerson from './EditContactPerson';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -38,6 +38,12 @@ const StyledTableRow = withStyles((theme) => ({
 		},
 	},
 }))(TableRow);
+
+function createData(No, name, Action) {
+	return { No, name, Action };
+}
+
+const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -109,26 +115,33 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const Education = () => {
-	const [education, setEducation] = useState();
-	const [open, setOpen] = useState(false);
+const initialValues = {
+	name: '',
+};
+
+const validationSchema = yup.object({
+	name: yup.string().required(),
+});
+
+const ContactPerson = () => {
 	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const [fetchError, setFetchError] = React.useState('');
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [open, setOpen] = useState(false);
+	const [person, setPerson] = useState('');
 
 	const classes = useStyles();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setFetchLoading(true);
 		dispatch(
-			getEducations(null, (err) => {
+			getPersons(null, (err) => {
 				if (err) {
 					setFetchError(err);
 					setTimeout(() => {
@@ -140,54 +153,106 @@ const Education = () => {
 		);
 	}, [dispatch]);
 
-	const { educations } = useSelector((state) => state.educations);
+	const { persons } = useSelector((state) => state.persons);
 
-	const onSubmitDate = async (props) => {
-		dispatch(createEducation(props));
+	const onSubmit = (values) => {
+		setCreateLoading(true);
+		dispatch(
+			createPerson(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
-	const deleteCategory = async (params) => {
-		dispatch(deleteEducation(params));
+	const deleteSkillFunc = (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deletePerson(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
 
 	const handleClose = (props) => {
 		setOpen(props);
 	};
 
-	const handleOpen = async (edu) => {
-		setEducation(edu);
+	const handleOpen = async (person) => {
+		setPerson(person);
 		setOpen(true);
 	};
 
 	return (
-		<Sidenav title={'Education'}>
-			<EditEducation show={open} handler={handleClose} edu={education} />
+		<Sidenav title={'Contact Person'}>
+			<EditContactPerson show={open} handler={handleClose} person={person} />
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						<CssTextField
-							id='outlined-basic'
-							label='Education Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-						/>
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmit}>
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Enter Contact Person Name'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										text='Submit'
+										loading={createLoading}
+										loaderColor='#333'
+										classNames={classes.addButton}
+									/>
+								</div>
+								{createError && <p>{createError}</p>}
+							</Form>
+						)}
+					</Formik>
 				</Container>
 
+				{fetchError && <p>{fetchError}</p>}
 				{fetchLoading ? (
 					<div
 						style={{
@@ -198,8 +263,8 @@ const Education = () => {
 						}}>
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
-				) : educations?.length === 0 ? (
-					<p>There is no data found</p>
+				) : persons?.length === 0 ? (
+					<p>There is no data found.</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
@@ -210,12 +275,12 @@ const Education = () => {
 								<TableHead>
 									<TableRow hover role='checkbox'>
 										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Education</StyledTableCell>
+										<StyledTableCell align='center'>Name</StyledTableCell>
 										<StyledTableCell align='center'>Action</StyledTableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{educations.map((el, i) => (
+									{persons.map((el, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
@@ -224,24 +289,31 @@ const Education = () => {
 												{el.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													<Button
 														variant='contained'
-														className='bg-dark text-light'
+														classNames='bg-dark text-light'
+														text='Edit'
 														size='small'
 														onClick={() => handleOpen(el)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
+														style={{ marginTop: 2 }}
+													/>
+
 													<Button
 														variant='contained'
 														color='secondary'
 														size='small'
-														onClick={() => deleteCategory(el._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
+														text='Delete'
+														onClick={() => deleteSkillFunc(el._id)}
+														style={{ marginLeft: 2, marginTop: 2 }}
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
 									))}
@@ -255,4 +327,4 @@ const Education = () => {
 	);
 };
 
-export default Education;
+export default ContactPerson;

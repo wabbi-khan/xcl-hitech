@@ -8,7 +8,7 @@ import {
 	SKILL_UPDATE_SUCCESS,
 } from '../constants/SkillsConst';
 
-export const getSkills = (query) => async (dispatch) => {
+export const getSkills = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: SKILL_REQUEST,
 	});
@@ -16,89 +16,98 @@ export const getSkills = (query) => async (dispatch) => {
 	try {
 		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/skills`);
 
-		console.log(data);
-
-		dispatch({
-			type: SKILL_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: SKILL_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createSkill = (skill) => async (dispatch) => {
+export const createSkill = (skill, cb) => async (dispatch) => {
 	dispatch({
 		type: SKILL_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/skills`,
 			skill,
 		);
 
-		console.log(res);
-
-		if (res.success || res.status === 200) {
+		if (data.success) {
 			dispatch({
 				type: SKILL_CREATE_SUCCESS,
-				payload: res.data.skill,
+				payload: data.skill,
 			});
+			if (cb) cb();
 		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateSkill = (id, data) => async (dispatch) => {
+export const updateSkill = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: SKILL_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/skills/${id}`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: SKILL_UPDATE_SUCCESS,
-			payload: res.data.skill,
-		});
+		if (data.success) {
+			dispatch({
+				type: SKILL_UPDATE_SUCCESS,
+				payload: data.skill,
+			});
+
+			if (cb) cb();
+		}
 
 		// console.log(data);
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteSkill = (params) => async (dispatch) => {
+export const deleteSkill = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: SKILL_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/skills/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/skills/${params}`,
+		);
 
-		dispatch({
-			type: SKILL_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: SKILL_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: SKILL_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: SKILL_FAIL,
 			payload: 'Network Error',

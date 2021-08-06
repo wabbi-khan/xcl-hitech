@@ -13,6 +13,7 @@ import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
 // import axios from 'axios';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseReqAction } from '../../../services/action/PurchaseReqAction';
+import MyButton from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -160,6 +161,9 @@ const PurchaseRequisition = ({ history }) => {
 	const [ItemCounter, setItemCounter] = useState([
 		{ material: '', quantity: '', unitValue: '', remarks: '' },
 	]);
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [error, setError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
 
 	const {
 		register,
@@ -203,19 +207,17 @@ const PurchaseRequisition = ({ history }) => {
 
 	const onSubmitDate = async (props) => {
 		console.log({ ...props, materials: ItemCounter });
-		dispatch(createPurchaseReqAction({ ...props, materials: ItemCounter }));
-		// try {
-		//     await axios.post(`${process.env.REACT_APP_API_URL}/request`, {
-		//         department: props.department,
-		//         purpose: props.purpose,
-		//         materials: ItemCounter,
-		//     })
-		//     window.location.reload()
-		// }
-		// catch (error) {
-		//     console.log(error);
-
-		// }
+		setCreateLoading(true);
+		dispatch(
+			createPurchaseReqAction({ ...props, materials: ItemCounter }, (err) => {
+				if (err) {
+					setError(err);
+				} else {
+					setSuccess('Successfully requested');
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	return (
@@ -224,7 +226,6 @@ const PurchaseRequisition = ({ history }) => {
 				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
 					<Container className={classes.mainContainer}>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							{/* <Grid item lg={1}></Grid> */}
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
 									id='outlined-basic'
@@ -241,13 +242,7 @@ const PurchaseRequisition = ({ history }) => {
 										<MenuItem>Not Found</MenuItem>
 									) : (
 										departments.map((department) => (
-											<MenuItem
-												value={department._id}
-												key={department._id}
-												// onClick={() => {
-
-												// }}
-											>
+											<MenuItem value={department._id} key={department._id}>
 												{department.name}
 											</MenuItem>
 										))
@@ -302,13 +297,7 @@ const PurchaseRequisition = ({ history }) => {
 												<MenuItem>Please Select Vendor Name</MenuItem>
 											) : (
 												materials.map((material) => (
-													<MenuItem
-														value={material._id}
-														key={material._id}
-														// onClick={() => {
-
-														// }}
-													>
+													<MenuItem value={material._id} key={material._id}>
 														{material.name}
 													</MenuItem>
 												))
@@ -380,9 +369,7 @@ const PurchaseRequisition = ({ history }) => {
 									variant='outlined'
 									color='primary'
 									className={classes.addButton}
-									onClick={addMoreFunc}
-									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
-								>
+									onClick={addMoreFunc}>
 									Add More
 								</Button>
 							</Grid>
@@ -390,19 +377,15 @@ const PurchaseRequisition = ({ history }) => {
 						<Grid container spacing={1}>
 							<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
 							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<Button
+								<MyButton
 									variant='outlined'
 									color='primary'
-									type='submit'
-									className={classes.addButton}
-									onClick={() => {
-										// console.log(ItemCounter)
-										// history.push('/purchase/purchase_requisition/print_purchase_requisition')
-									}}
-									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
-								>
-									Submit
-								</Button>
+									classNames={classes.addButton}
+									loading={createLoading}
+									loaderColor='#333'
+									text='Submit'
+								/>
+								{success && <p>{success}</p>}
 							</Grid>
 						</Grid>
 					</Container>

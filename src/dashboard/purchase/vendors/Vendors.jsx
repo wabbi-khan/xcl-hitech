@@ -568,7 +568,7 @@ const Vendors = () => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : vendors?.length === 0 ? (
-					<p>There are no Vendors</p>
+					<p>There is no data found.</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
