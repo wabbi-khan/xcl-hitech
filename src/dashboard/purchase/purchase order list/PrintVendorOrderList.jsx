@@ -115,7 +115,7 @@ const PrintVendorOrderList = ({ location }) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5'>Goods Received and Inspection Report</h5>
+				<h5 className='mt-5' style={{ textDecoration: 'underline', fontWeight: 'bold' }}>PURCHASE ORDER</h5>
 			</div>
 			<div className='container-fluid'>
 				<div className='row'>
