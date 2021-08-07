@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import './index.css'
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './login/Login';

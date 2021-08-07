@@ -20,6 +20,8 @@ import {
 } from '../../../services/action/EducationAction';
 import EditEducation from './EditEducation';
 import Loader from 'react-loader-spinner';
+import { Formik, Form } from 'formik'
+import * as yup from 'yup'
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -109,6 +111,14 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	name: ''
+}
+
+const validationSchema = yup.object({
+	name: yup.string().required()
+})
+
 const Education = () => {
 	const [education, setEducation] = useState();
 	const [open, setOpen] = useState(false);
@@ -117,11 +127,6 @@ const Education = () => {
 
 	const classes = useStyles();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
 
 	const dispatch = useDispatch();
 
@@ -164,28 +169,37 @@ const Education = () => {
 			<EditEducation show={open} handler={handleClose} edu={education} />
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-						<CssTextField
-							id='outlined-basic'
-							label='Education Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
-							className={classes.inputFieldStyle}
-							inputProps={{ style: { fontSize: 14 } }}
-							InputLabelProps={{ style: { fontSize: 14 } }}
-						/>
-						<div>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
-								Add
-							</Button>
-						</div>
-					</form>
+					<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmitDate}>
+						{props => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Education Name'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
+										variant='outlined'
+										color='primary'
+										type='submit'
+										className={classes.addButton}>
+										Add
+									</Button>
+								</div>
+							</Form>
+						)}
+					</Formik>
 				</Container>
 
 				{fetchLoading ? (
