@@ -3,7 +3,6 @@ import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -13,7 +12,9 @@ import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
 // import axios from 'axios';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseReqAction } from '../../../services/action/PurchaseReqAction';
-import MyButton from '../../../components/utils/Button';
+import Button from '../../../components/utils/Button';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -156,43 +157,76 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValues = {
+	department: '',
+	purpose: '',
+};
+
+const validationSchema = yup.object({
+	department: yup.string().required(),
+	purpose: yup.string().required(),
+});
+
+const initialValuesForItems = {
+	material: '',
+	quantity: '',
+	unitValue: '',
+	remarks: '',
+};
+
+const validationSchemaForItems = yup.object({
+	material: yup.string().required(),
+	quantity: yup.number().required(),
+	unitValue: yup.string(),
+	remarks: yup.string().required(),
+});
+
 const PurchaseRequisition = ({ history }) => {
 	const classes = useStyles();
-	const [ItemCounter, setItemCounter] = useState([
-		{ material: '', quantity: '', unitValue: '', remarks: '' },
-	]);
+	const [items, setItems] = useState([]);
 	const [createLoading, setCreateLoading] = React.useState(false);
 	const [error, setError] = React.useState('');
 	const [success, setSuccess] = React.useState('');
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const addMoreFunc = () => {
-		setItemCounter([
-			...ItemCounter,
-			{ material: '', quantity: '', unitValue: '', remarks: '' },
-		]);
-	};
-
-	const deleteItem = (i) => {
-		const temp = [...ItemCounter];
-		temp.splice(i, 1);
-		setItemCounter(temp);
-	};
-
-	const onChangeHandler = (e, placeholder, index) => {
-		const tempFields = ItemCounter.map((item, i) => {
-			if (i === index) {
-				return { ...item, [placeholder]: e.target.value };
-			} else {
-				return { ...item };
-			}
+	const [selectedMaterial, setSelectedMaterial] = React.useState('');
+	const [isEditMode, setIsEditMode] = React.useState(false);
+	const [initialValuesStateForItem, setInitialValuesStateForItem] =
+		React.useState({
+			...initialValuesForItems,
 		});
-		setItemCounter(tempFields);
+	const [editIndex, setEditIndex] = React.useState('');
+
+	let form = null;
+
+	React.useEffect(() => {
+		if (selectedMaterial) {
+			console.log(selectedMaterial);
+			setInitialValuesStateForItem({
+				...form?.values,
+				unitValue: selectedMaterial?.unit?.name,
+			});
+		}
+	}, [selectedMaterial]);
+
+	const addItems = (values, actions) => {
+		console.log(values);
+		setItems([...items, values]);
+		actions.resetForm({
+			values: { ...initialValuesForItems },
+		});
+	};
+
+	const onEdit = (i, item) => {
+		setIsEditMode(true);
+		setEditIndex(i);
+		setInitialValuesStateForItem({
+			...item,
+		});
+	};
+
+	const onDelete = (i) => {
+		const temp = [...items];
+		temp.splice(i, 1);
+		setItems(temp);
 	};
 
 	const dispatch = useDispatch();
@@ -205,11 +239,10 @@ const PurchaseRequisition = ({ history }) => {
 	const { materials } = useSelector((state) => state.materials);
 	const { departments } = useSelector((state) => state.departments);
 
-	const onSubmitDate = async (props) => {
-		console.log({ ...props, materials: ItemCounter });
+	const onSubmit = async (values) => {
 		setCreateLoading(true);
 		dispatch(
-			createPurchaseReqAction({ ...props, materials: ItemCounter }, (err) => {
+			createPurchaseReqAction({ ...values, materials: items }, (err) => {
 				if (err) {
 					setError(err);
 				} else {
@@ -220,176 +253,294 @@ const PurchaseRequisition = ({ history }) => {
 		);
 	};
 
+	const onEditSubmit = (values, actions) => {
+		setItems((items) => items.map((el, i) => (i === editIndex ? values : el)));
+		setIsEditMode(false);
+		actions.resetForm({
+			values: { ...initialValuesForItems },
+		});
+	};
+
 	return (
 		<Sidenav title={'Purchase Requisition'}>
 			<div>
-				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Select Department*'
-									variant='outlined'
-									type='select'
-									size='small'
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('department', { required: true })}>
-									{!departments || !departments.length ? (
-										<MenuItem>Not Found</MenuItem>
-									) : (
-										departments.map((department) => (
-											<MenuItem value={department._id} key={department._id}>
-												{department.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id='outlined-basic'
-									label='Purpose'
-									variant='outlined'
-									type='text'
-									size='small'
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('purpose', { required: true })}
-								/>
-								{errors.purpose?.type === 'required' && (
-									<p className='mt-1 text-danger'>Purpose is required</p>
-								)}
-							</Grid>
-						</Grid>
-					</Container>
-					<div style={{ marginTop: 30, marginBottom: 30 }}>
-						<hr />
-					</div>
-					<Container className={classes.mainContainer}>
-						<h4 className='text-left'>Items</h4>
-						{ItemCounter.map((value, i) => {
-							const no = i + 1;
-							return (
-								<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
-									<Grid item lg={1} md={1}>
-										<h5 className={classes.itemHeading}>{no}</h5>
+				<Formik
+					initialValues={initialValues}
+					validationSchema={validationSchema}
+					onSubmit={onSubmit}>
+					{(props) => (
+						<>
+							<Form autoComplete='off'>
+								<Container className={classes.mainContainer}>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Department*'
+												variant='outlined'
+												type='select'
+												size='small'
+												select
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('department')}
+												onBlur={props.handleBlur('department')}
+												value={props.values.department}
+												helperText={props.touched.department && props.errors.department}
+												error={props.touched.department && props.errors.department}>
+												{!departments || !departments.length ? (
+													<MenuItem>Not Found</MenuItem>
+												) : (
+													departments.map((department) => (
+														<MenuItem value={department._id} key={department._id}>
+															{department.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Purpose'
+												variant='outlined'
+												type='text'
+												size='small'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('purpose')}
+												onBlur={props.handleBlur('purpose')}
+												value={props.values.purpose}
+												helperText={props.touched.purpose && props.errors.purpose}
+												error={props.touched.purpose && props.errors.purpose}
+											/>
+										</Grid>
 									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Item'
-											variant='outlined'
-											type='text'
-											size='small'
-											select
-											onChange={(e) => {
-												onChangeHandler(e, 'material', i);
-											}}
-											className={classes.inputFieldStyle2}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{!materials || !materials.length ? (
-												<MenuItem>Please Select Vendor Name</MenuItem>
-											) : (
-												materials.map((material) => (
-													<MenuItem value={material._id} key={material._id}>
-														{material.name}
-													</MenuItem>
-												))
-											)}
-										</CssTextField>
+								</Container>
+							</Form>
+							<div style={{ marginTop: 30, marginBottom: 30 }}>
+								<hr />
+							</div>
+							<Container className={classes.mainContainer}>
+								<h4 className='text-left'>Items</h4>
+								<Formik
+									initialValues={initialValuesStateForItem}
+									validationSchema={validationSchemaForItems}
+									enableReinitialize
+									onSubmit={isEditMode ? onEditSubmit : addItems}>
+									{(props) => {
+										form = props;
+										return (
+											<Form>
+												<Grid container spacing={1} style={{ marginTop: 15 }}>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Select Item'
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('material')}
+															onBlur={props.handleBlur('material')}
+															value={props.values.material}
+															helperText={props.touched.material && props.errors.material}
+															error={props.touched.material && props.errors.material}>
+															{!materials || !materials.length ? (
+																<MenuItem>Please Select Vendor Name</MenuItem>
+															) : (
+																materials.map((el) => (
+																	<MenuItem
+																		value={el._id}
+																		key={el._id}
+																		onClick={() => setSelectedMaterial(el)}>
+																		{el.name}
+																	</MenuItem>
+																))
+															)}
+														</CssTextField>
+													</Grid>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Quantity'
+															variant='outlined'
+															type='number'
+															style={{ width: '100%' }}
+															size='small'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('quantity')}
+															onBlur={props.handleBlur('quantity')}
+															value={props.values.quantity}
+															helperText={props.touched.quantity && props.errors.quantity}
+															error={props.touched.quantity && props.errors.quantity}
+														/>
+													</Grid>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Unit Value'
+															variant='outlined'
+															type='text'
+															disabled
+															size='small'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('unitValue')}
+															onBlur={props.handleBlur('unitValue')}
+															value={props.values.unitValue}
+															helperText={props.touched.unitValue && props.errors.unitValue}
+															error={props.touched.unitValue && props.errors.unitValue}
+														/>
+													</Grid>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Remarks'
+															variant='outlined'
+															type='text'
+															style={{ width: '100%' }}
+															size='small'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('remarks')}
+															onBlur={props.handleBlur('remarks')}
+															value={props.values.remarks}
+															helperText={props.touched.remarks && props.errors.remarks}
+															error={props.touched.remarks && props.errors.remarks}
+														/>
+													</Grid>
+													<Grid item lg={12} md={12} sm={10} xs={11}>
+														<Button
+															variant='outlined'
+															color='primary'
+															classNames={classes.addButton}
+															text={isEditMode ? 'Edit' : 'Add'}
+														/>
+													</Grid>
+												</Grid>
+											</Form>
+										);
+									}}
+								</Formik>
+								{items.map((el, i) => (
+									<Grid key={i} container spacing={1} style={{ marginTop: '2rem' }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Item'
+												variant='outlined'
+												type='text'
+												size='small'
+												select
+												disabled
+												style={{ width: '100%' }}
+												value={el?.material}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}>
+												{!materials || !materials.length ? (
+													<MenuItem>Please Select Vendor Name</MenuItem>
+												) : (
+													materials.map((el) => (
+														<MenuItem
+															value={el._id}
+															key={el._id}
+															onClick={() => setSelectedMaterial(el)}>
+															{el.name}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Quantity'
+												variant='outlined'
+												disabled
+												type='number'
+												style={{ width: '100%' }}
+												size='small'
+												value={el.quantity}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Unit Value'
+												variant='outlined'
+												type='text'
+												disabled
+												size='small'
+												style={{ width: '100%' }}
+												value={el?.unitValue}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Remarks'
+												variant='outlined'
+												type='text'
+												style={{ width: '100%' }}
+												size='small'
+												disabled
+												value={el.remarks}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+										<Grid item lg={12} md={12} sm={12} xs={12}>
+											<div style={{ display: 'flex', justifyContent: 'center' }}>
+												<Button
+													variant='outlined'
+													color='primary'
+													classNames={classes.addButton}
+													text='Edit'
+													onClick={() => onEdit(i, el)}
+												/>
+												<Button
+													variant='outlined'
+													color='primary'
+													classNames={classes.addButton}
+													text='Delete'
+													onClick={() => onDelete(i)}
+												/>
+											</div>
+										</Grid>
 									</Grid>
-									<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Quantity'
-											variant='outlined'
-											type='number'
-											size='small'
-											value={value.quantity}
-											onChange={(e) => {
-												onChangeHandler(e, 'quantity', i);
-											}}
-											className={classes.inputFieldStyle3}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-										/>
+								))}
+
+								<Form>
+									<Grid container spacing={1} style={{ marginTop: '4rem' }}>
+										<Grid item lg={12} md={12} sm={10} xs={11}>
+											<Button
+												variant='outlined'
+												color='primary'
+												classNames={classes.addButton}
+												loading={createLoading}
+												loaderColor='#333'
+												text='Submit'
+											/>
+											{success && <p>{success}</p>}
+										</Grid>
 									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Unit Value'
-											variant='outlined'
-											type='number'
-											size='small'
-											value={value.unitValue}
-											onChange={(e) => {
-												onChangeHandler(e, 'unitValue', i);
-											}}
-											className={classes.inputFieldStyle4}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Remarks'
-											variant='outlined'
-											type='text'
-											size='small'
-											value={value.remarks}
-											onChange={(e) => {
-												onChangeHandler(e, 'remarks', i);
-											}}
-											className={classes.inputFieldStyle5}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<Button
-											onClick={() => deleteItem(i)}
-											className={classes.deleteRowBtn}>
-											<DeleteOutlineIcon className={classes.delete} />
-										</Button>
-									</Grid>
-								</Grid>
-							);
-						})}
-						<Grid container spacing={1}>
-							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<Button
-									variant='outlined'
-									color='primary'
-									className={classes.addButton}
-									onClick={addMoreFunc}>
-									Add More
-								</Button>
-							</Grid>
-						</Grid>
-						<Grid container spacing={1}>
-							<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
-							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<MyButton
-									variant='outlined'
-									color='primary'
-									classNames={classes.addButton}
-									loading={createLoading}
-									loaderColor='#333'
-									text='Submit'
-								/>
-								{success && <p>{success}</p>}
-							</Grid>
-						</Grid>
-					</Container>
-				</form>
+								</Form>
+							</Container>
+						</>
+					)}
+				</Formik>
 			</div>
 		</Sidenav>
 	);

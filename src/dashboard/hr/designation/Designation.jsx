@@ -526,8 +526,8 @@ const Designation = ({ history }) => {
 										<StyledTableCell align='center'>Sr.No</StyledTableCell>
 										<StyledTableCell align='center'>Designation</StyledTableCell>
 										<StyledTableCell align='center'>Educations</StyledTableCell>
-										<StyledTableCell align='center'>Experiences</StyledTableCell>
 										<StyledTableCell align='center'>Skills</StyledTableCell>
+										<StyledTableCell align='center'>Experiences</StyledTableCell>
 										<StyledTableCell align='center'>Action</StyledTableCell>
 									</TableRow>
 								</TableHead>
