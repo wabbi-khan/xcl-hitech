@@ -119,56 +119,25 @@ const ViewAppSuppDetails = (props) => {
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
 				<h5 className='mt-5' style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>Vendor Details</h5>
 			</div>
-			<div className='container'>
+			<div className='container mt-5'>
 				<div class='dateContainer'>
-					<div class=''>
+					<div class='dateContainer'>
 						<p style={{ fontWeight: 'bold', }}>Date:</p>
-						<div>
+						<div style={{ marginLeft: '1rem' }}> 
 							<p>
 								{fullDate}
-								{/* <hr
+								<hr
 									style={{
 										border: '1px solid green',
 										borderColor: 'black',
 										width: '100px',
 										marginTop: 0,
 									}}
-								/> */}
+								/>
 							</p>
 						</div>
 					</div>
-					<div id='printBtn'>
-						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
-							Print
-						</Button>
-					</div>
-				</div>
-				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
-					<div className='col-lg-4 col-md-4 col-sm-4 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold', }}>Date:</p>
-							</div>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p>
-									{fullDate}
-									<hr
-										style={{
-											border: '1px solid green',
-											borderColor: 'black',
-											width: '100px',
-											marginTop: 0,
-										}}
-									/>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
+					<div id='printBtn' style={{ marginLeft: 'auto' }}>
 						<Button
 							variant='contained'
 							size='small'
