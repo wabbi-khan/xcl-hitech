@@ -291,7 +291,7 @@ const SupplierEvalForm = () => {
 												variant='outlined'
 												type='text'
 												size='small'
-												select
+												disabled
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
@@ -301,17 +301,8 @@ const SupplierEvalForm = () => {
 												helperText={
 													props.touched.contactPerson && props.errors.contactPerson
 												}
-												error={props.touched.contactPerson && props.errors.contactPerson}>
-												{!personsData.persons || !personsData.persons.length ? (
-													<p>Data Not Found</p>
-												) : (
-													personsData.persons.map((person) => (
-														<MenuItem value={person._id} key={person._id}>
-															{person.name}
-														</MenuItem>
-													))
-												)}
-											</CssTextField>
+												error={props.touched.contactPerson && props.errors.contactPerson}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField

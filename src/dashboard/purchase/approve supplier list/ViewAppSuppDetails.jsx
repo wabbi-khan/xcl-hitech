@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
 import { withRouter } from 'react-router';
+import Grid from '@material-ui/core/Grid';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -116,24 +117,58 @@ const ViewAppSuppDetails = (props) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5'>Vendor</h5>
+				<h5 className='mt-5' style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>Vendor Details</h5>
 			</div>
-			<div className='container-fluid'>
-				<div className='row'>
-					<div className='col-lg-6 col-md-6 mt-4'>
+			<div className='container'>
+				<div class='dateContainer'>
+					<div class=''>
+						<p style={{ fontWeight: 'bold', }}>Date:</p>
+						<div>
+							<p>
+								{fullDate}
+								{/* <hr
+									style={{
+										border: '1px solid green',
+										borderColor: 'black',
+										width: '100px',
+										marginTop: 0,
+									}}
+								/> */}
+							</p>
+						</div>
+					</div>
+					<div id='printBtn'>
+						<Button
+							variant='contained'
+							size='small'
+							className='bg-dark text-light'
+							onClick={() => window.print()}>
+							Print
+						</Button>
+					</div>
+				</div>
+				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
+					<div className='col-lg-4 col-md-4 col-sm-4 mt-4'>
 						<div className='row no-gutters mt-2'>
-							<div className='col-lg-4 col-md-4' align='right'>
-								<p>Date</p>
+							<div className='col-lg-6 col-md-6 col-sm-6'>
+								<p style={{ fontWeight: 'bold', }}>Date:</p>
 							</div>
-							<div className='col-lg-4 col-md-4 ml-3'>
-								<p>{fullDate}</p>
-								<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+							<div className='col-lg-6 col-md-6 col-sm-6'>
+								<p>
+									{fullDate}
+									<hr
+										style={{
+											border: '1px solid green',
+											borderColor: 'black',
+											width: '100px',
+											marginTop: 0,
+										}}
+									/>
+								</p>
 							</div>
 						</div>
 					</div>
-					<div
-						className='offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4'
-						id='printBtn'>
+					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
 						<Button
 							variant='contained'
 							size='small'
@@ -144,57 +179,43 @@ const ViewAppSuppDetails = (props) => {
 					</div>
 				</div>
 			</div>
-			<div className={classes.table}>
-				<div className='table ml-auto mr-auto mt-4'>
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Vendor Name
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Contact No.
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Contact Person
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Approving Date
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Rating
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Categories
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!vendor ? (
-									<span>Data Not Found</span>
-								) : (
-									<StyledTableRow>
-										<StyledTableCell className='text-dark' align='center'>
-											1.
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{vendor.name}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{vendor.phone}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{!vendor.contactPerson ? null : vendor.contactPerson.name}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{vendor.approveDate}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{vendor.rating == 3 ? (
+			<div className="" style={{ marginTop: 30, marginLeft: 'auto', }}>
+				<table class="table table-bordered border-dark table-responsive table-hover">
+					<thead class="thead-inverse">
+						<tr>
+							<th>S.No.</th>
+							<th>Vendor Name</th>
+							<th>Contact No.</th>
+							<th>Contact Person</th>
+							<th>Approving Date</th>
+							<th>Rating</th>
+							<th>Categories</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							!vendor ? (
+								<span>Data Not Found</span>
+							) : (
+								<tr>
+									<td scope="row">
+										1
+									</td>
+									<td>
+										{vendor.name}
+									</td>
+									<td>
+										{vendor.phone}
+									</td>
+									<td>
+										{!vendor.contactPerson ? null : vendor.contactPerson.name}
+									</td>
+									<td>
+										{vendor.approveDate}
+									</td>
+									<td>
+										{
+											vendor.rating == 3 ? (
 												<span>High</span>
 											) : vendor.rating == 2 ? (
 												<span>Medium</span>
@@ -204,97 +225,72 @@ const ViewAppSuppDetails = (props) => {
 												<span>Bad</span>
 											) : (
 												<span>None of these</span>
-											)}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{
-												!vendor.categories?.map((el) => (
-													<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
-												))
-											}
-										</StyledTableCell>
-									</StyledTableRow>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
-				</div>
+											)
+										}
+									</td>
+									<td>
+										{
+											!vendor.categories?.map((el) => (
+												<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+											))
+										}
+									</td>
+								</tr>
+							)
+						}
+					</tbody>
+				</table>
 			</div>
-			<div className={classes.table1}>
-				<div className='table ml-auto mr-auto mt-4'>
-					{/* <h6>Purchase Inspection Materials</h6> */}
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Material Name
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Unit
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!vendor?.materials || !vendor?.materials.length ? (
-									<span>Not Found</span>
-								) : (
-									vendor?.materials.map((mat, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{mat.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{mat.unit}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
-				</div>
+
+			<div className="" style={{ marginTop: 30, marginLeft: 'auto', }}>
+				<table class="table table-bordered border-dark table-responsive table-hover">
+					<thead class="thead-inverse">
+						<tr>
+							<th>S.No.</th>
+							<th>Material Name</th>
+							<th>Unit</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							!vendor?.materials || !vendor?.materials.length ? (
+								<span>Not Found</span>
+							) : (
+								vendor?.materials.map((mat, i) => (
+									<tr key={i}>
+										<td scope="row">
+											{i + 1}
+										</td>
+										<td>
+											{mat.name}
+										</td>
+										<td>
+											{mat.unit}
+										</td>
+									</tr>
+								))
+							)
+						}
+					</tbody>
+				</table>
 			</div>
-			<div className='container mt-5'>
-				<div className='row'>
-					<div className='col-lg-3 col-md-3 mt-4'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10 }}>Store Incharge</p>
-					</div>
-					<div className='offset-lg-6 offset-md-6 col-lg-3 col-md-3 mt-4'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10 }}>Q.A Dept</p>
-					</div>
-				</div>
-			</div>
+			<Grid container spacing={1} style={{ marginTop: 120 }}>
+				<Grid item lg={3} md={3} sm={3} xs={3}>
+					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
+					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
+						Store Incharge
+					</p>
+				</Grid>
+				<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+				<Grid item lg={3} md={3} sm={3} xs={3}>
+					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
+						Q.A Dept
+					</p>
+				</Grid>
+			</Grid>
+
 		</div>
 	);
 };
