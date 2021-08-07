@@ -113,6 +113,7 @@ import CeiledRoute from './components/CeiledRoute';
 import EditEmp from './dashboard/hr/employees/EditEmp';
 import Units from './dashboard/purchase/units/Units';
 import SubCategory from './dashboard/purchase/subCategory/SubCategory';
+import PrintAllAppSuppList from './dashboard/purchase/approve supplier list/PrintAllAppSuppList';
 
 dotenv.config();
 
@@ -189,6 +190,9 @@ function App() {
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/vendors'>
 				<Vendors />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/print_all_approved_supplier_list'>
+				<PrintAllAppSuppList />
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/vendors/vendor_details/:id'>
 				<ViewVendorDetails />
