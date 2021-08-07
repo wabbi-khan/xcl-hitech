@@ -117,12 +117,16 @@ const ViewAppSuppDetails = (props) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5' style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>Vendor Details</h5>
+				<h5
+					className='mt-5'
+					style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>
+					Vendor Details
+				</h5>
 			</div>
 			<div className='container'>
 				<div class='dateContainer'>
 					<div class=''>
-						<p style={{ fontWeight: 'bold', }}>Date:</p>
+						<p style={{ fontWeight: 'bold' }}>Date:</p>
 						<div>
 							<p>
 								{fullDate}
@@ -151,7 +155,7 @@ const ViewAppSuppDetails = (props) => {
 					<div className='col-lg-4 col-md-4 col-sm-4 mt-4'>
 						<div className='row no-gutters mt-2'>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold', }}>Date:</p>
+								<p style={{ fontWeight: 'bold' }}>Date:</p>
 							</div>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
 								<p>
@@ -179,9 +183,9 @@ const ViewAppSuppDetails = (props) => {
 					</div>
 				</div>
 			</div>
-			<div className="" style={{ marginTop: 30, marginLeft: 'auto', }}>
-				<table class="table table-bordered border-dark table-responsive table-hover">
-					<thead class="thead-inverse">
+			<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
+				<table class='table table-bordered border-dark table-responsive table-hover'>
+					<thead class='thead-inverse'>
 						<tr>
 							<th>S.No.</th>
 							<th>Vendor Name</th>
@@ -190,61 +194,51 @@ const ViewAppSuppDetails = (props) => {
 							<th>Approving Date</th>
 							<th>Rating</th>
 							<th>Categories</th>
+							<th>Sub Categories</th>
 						</tr>
 					</thead>
 					<tbody>
-						{
-							!vendor ? (
-								<span>Data Not Found</span>
-							) : (
-								<tr>
-									<td scope="row">
-										1
-									</td>
-									<td>
-										{vendor.name}
-									</td>
-									<td>
-										{vendor.phone}
-									</td>
-									<td>
-										{!vendor.contactPerson ? null : vendor.contactPerson.name}
-									</td>
-									<td>
-										{vendor.approveDate}
-									</td>
-									<td>
-										{
-											vendor.rating == 3 ? (
-												<span>High</span>
-											) : vendor.rating == 2 ? (
-												<span>Medium</span>
-											) : vendor.rating == 1 ? (
-												<span>Low</span>
-											) : vendor.rating == 0 ? (
-												<span>Bad</span>
-											) : (
-												<span>None of these</span>
-											)
-										}
-									</td>
-									<td>
-										{
-											!vendor.categories?.map((el) => (
-												<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
-											))
-										}
-									</td>
-								</tr>
-							)
-						}
+						{!vendor ? (
+							<span>Data Not Found</span>
+						) : (
+							<tr>
+								<td scope='row'>1</td>
+								<td>{vendor.name}</td>
+								<td>{vendor.phone}</td>
+								<td>{!vendor.contactPerson ? null : vendor.contactPerson.name}</td>
+								<td>{vendor.approveDate}</td>
+								<td>
+									{vendor.rating == 3 ? (
+										<span>High</span>
+									) : vendor.rating == 2 ? (
+										<span>Medium</span>
+									) : vendor.rating == 1 ? (
+										<span>Low</span>
+									) : vendor.rating == 0 ? (
+										<span>Bad</span>
+									) : (
+										<span>None of these</span>
+									)}
+								</td>
+								<td>
+									{vendor.categories?.map((el) => (
+										<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+									))}
+								</td>
+								<td>
+									{vendor.subCategories?.map((el) => (
+										<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+									))}
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
 
-			<div className="" style={{ marginTop: 30, marginLeft: 'auto', }}>
-				<table class="table table-bordered border-dark table-responsive table-hover">
-					<thead class="thead-inverse">
+			<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
+				<table class='table table-bordered border-dark table-responsive table-hover'>
+					<thead class='thead-inverse'>
 						<tr>
 							<th>S.No.</th>
 							<th>Material Name</th>
@@ -252,25 +246,17 @@ const ViewAppSuppDetails = (props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{
-							!vendor?.materials || !vendor?.materials.length ? (
-								<span>Not Found</span>
-							) : (
-								vendor?.materials.map((mat, i) => (
-									<tr key={i}>
-										<td scope="row">
-											{i + 1}
-										</td>
-										<td>
-											{mat.name}
-										</td>
-										<td>
-											{mat.unit}
-										</td>
-									</tr>
-								))
-							)
-						}
+						{!vendor?.materials || !vendor?.materials.length ? (
+							<span>Not Found</span>
+						) : (
+							vendor?.materials.map((mat, i) => (
+								<tr key={i}>
+									<td scope='row'>{i + 1}</td>
+									<td>{mat.name}</td>
+									<td>{mat?.unit?.name}</td>
+								</tr>
+							))
+						)}
 					</tbody>
 				</table>
 			</div>
@@ -290,7 +276,6 @@ const ViewAppSuppDetails = (props) => {
 					</p>
 				</Grid>
 			</Grid>
-
 		</div>
 	);
 };
