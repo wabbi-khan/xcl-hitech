@@ -49,6 +49,18 @@ const useStyles = makeStyles((theme) => ({
 	mainContainer: {
 		textAlign: 'center',
 	},
+	viewBtn: {
+		backgroundColor: '#22A19A',
+		color: 'whitesmoke',
+		borderColor: '#22A19A',
+		textTransform: 'capitalize',
+		'&:hover': {
+			backgroundColor: '#22A19A',
+			color: 'whitesmoke',
+			opacity: '.9',
+		},
+		
+	},
 	table: {
 		minWidth: 600,
 	},
@@ -104,7 +116,7 @@ const AppSupplier = ({ history }) => {
 								<TableHead>
 									<TableRow hover role='checkbox'>
 										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Vendor Name</StyledTableCell>
+										<StyledTableCell align='center'>Supplier Name</StyledTableCell>
 										<StyledTableCell align='center'>Contact No.</StyledTableCell>
 										<StyledTableCell align='center'>Contact Person</StyledTableCell>
 										<StyledTableCell align='center'>Items Supplied</StyledTableCell>
@@ -156,7 +168,7 @@ const AppSupplier = ({ history }) => {
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
 													variant='contained'
-													className='bg-dark text-light'
+													className={classes.viewBtn}
 													size='small'
 													onClick={() =>
 														history.push({
@@ -176,6 +188,14 @@ const AppSupplier = ({ history }) => {
 					</div>
 				)}
 			</div>
+			<Button 
+				class='btn bg-dark text-light'
+				onClick={() => {
+					history.push('/purchase/print_all_approved_supplier_list')
+					}}
+			>
+				Print List
+			</Button>
 		</Sidenav>
 	);
 };

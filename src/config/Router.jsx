@@ -99,6 +99,7 @@ import Authorities from '../dashboard/hr/authorities/Authorities';
 import EditEmp from '../dashboard/hr/employees/EditEmp';
 import Units from '../dashboard/purchase/units/Units';
 import SubCategory from '../dashboard/purchase/subCategory/SubCategory';
+import PrintAllAppSuppList from '../dashboard/purchase/approve supplier list/PrintAllAppSuppList';
 
 
 
@@ -119,6 +120,7 @@ const Router = () => {
                 <Router exact path="/purchase/vendors/vendor_details/:id" component={ViewVendorDetails}/>
                 <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>
                 <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
+                <Router exact path="/purchase/print_all_approved_supplier_list" component={PrintAllAppSuppList}/>
                 <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details/:id" component={ViewAppSuppDetails}/>
                 <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
                 <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>

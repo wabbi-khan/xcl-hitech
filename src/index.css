@@ -14,6 +14,6 @@ code {
 
 .dateContainer {
   display: flex;
-  justifyContent: flex-end;
-
+  justify-content: flex-start;
+  
 }

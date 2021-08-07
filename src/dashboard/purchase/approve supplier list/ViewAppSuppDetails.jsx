@@ -1,33 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import axios from 'axios';
 import { withRouter } from 'react-router';
 import Grid from '@material-ui/core/Grid';
-
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
 
 // function createData(No, name, Action) {
 //     return { No, name, Action };
@@ -123,56 +100,25 @@ const ViewAppSuppDetails = (props) => {
 					Vendor Details
 				</h5>
 			</div>
-			<div className='container'>
+			<div className='container mt-5'>
 				<div class='dateContainer'>
-					<div class=''>
-						<p style={{ fontWeight: 'bold' }}>Date:</p>
-						<div>
+					<div class='dateContainer'>
+						<p style={{ fontWeight: 'bold', }}>Date:</p>
+						<div style={{ marginLeft: '1rem' }}> 
 							<p>
 								{fullDate}
-								{/* <hr
+								<hr
 									style={{
 										border: '1px solid green',
 										borderColor: 'black',
 										width: '100px',
 										marginTop: 0,
 									}}
-								/> */}
+								/>
 							</p>
 						</div>
 					</div>
-					<div id='printBtn'>
-						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
-							Print
-						</Button>
-					</div>
-				</div>
-				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
-					<div className='col-lg-4 col-md-4 col-sm-4 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold' }}>Date:</p>
-							</div>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p>
-									{fullDate}
-									<hr
-										style={{
-											border: '1px solid green',
-											borderColor: 'black',
-											width: '100px',
-											marginTop: 0,
-										}}
-									/>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
+					<div id='printBtn' style={{ marginLeft: 'auto' }}>
 						<Button
 							variant='contained'
 							size='small'
