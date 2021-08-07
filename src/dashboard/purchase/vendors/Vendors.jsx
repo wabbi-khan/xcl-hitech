@@ -161,6 +161,7 @@ const initialValues = {
 	location: '',
 	category: '',
 	subCategory: '',
+	contactPerson: '',
 };
 
 const validationSchema = yup.object({
@@ -170,6 +171,7 @@ const validationSchema = yup.object({
 	location: yup.string().required(),
 	category: yup.string().required(),
 	subCategory: yup.string(),
+	contactPerson: yup.string().required(),
 });
 
 const Vendors = () => {
@@ -329,7 +331,7 @@ const Vendors = () => {
 						{(props) => {
 							form = props;
 							return (
-								<Form>
+								<Form autocomplete='off'>
 									<Grid container spacing={1}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
@@ -341,7 +343,6 @@ const Vendors = () => {
 												size='small'
 												inputProps={{
 													style: { fontSize: 14 },
-													autoComplete: 'nope',
 												}}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('name')}
@@ -417,9 +418,13 @@ const Vendors = () => {
 												size='small'
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												onBlur={props.handleBlur('category')}
-												helperText={props.touched.category && props.errors.category}
-												error={props.touched.category && props.errors.category}
+												onChange={props.handleChange('contactPerson')}
+												onBlur={props.handleBlur('contactPerson')}
+												value={props.values.contactPerson}
+												helperText={
+													props.touched.contactPerson && props.errors.contactPerson
+												}
+												error={props.touched.contactPerson && props.errors.contactPerson}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -605,7 +610,7 @@ const Vendors = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{vendors.map((el, i) => (
+									{vendors?.map((el, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
