@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 			color: 'whitesmoke',
 			opacity: '.9',
 		},
-		
 	},
 	table: {
 		minWidth: 600,
@@ -188,12 +187,14 @@ const AppSupplier = ({ history }) => {
 					</div>
 				)}
 			</div>
-			<Button 
+			<Button
 				class='btn bg-dark text-light'
 				onClick={() => {
-					history.push('/purchase/print_all_approved_supplier_list')
-					}}
-			>
+					history.push({
+						pathname: '/purchase/print_all_approved_supplier_list',
+						state: { vendors },
+					});
+				}}>
 				Print List
 			</Button>
 		</Sidenav>
