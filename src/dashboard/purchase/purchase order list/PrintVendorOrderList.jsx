@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 // import axios from 'axios';
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
 import { withRouter } from 'react-router';
+import Grid from '@material-ui/core/Grid';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -126,7 +127,14 @@ const PrintVendorOrderList = ({ location }) => {
 							</div>
 							<div className='col-lg-4 col-md-4 ml-3'>
 								<p>{fullDate}</p>
-								<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
+								<hr
+									style={{
+										border: '1px solid green',
+										borderColor: 'black',
+										width: '100px',
+										marginTop: 0,
+									}}
+								/>
 							</div>
 						</div>
 					</div>
@@ -142,6 +150,66 @@ const PrintVendorOrderList = ({ location }) => {
 						</Button>
 					</div>
 				</div>
+			</div>
+			<div class='container'>
+				<Grid container spacing={1} >
+					<Grid item lg={6} md={6} sm={6} xs={6}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<h6 style={{ marginTop: '-10px' }}>
+								Mr/s.
+							</h6>
+							<hr
+								style={{
+									borderTop: '1.5px dotted black',
+									borderColor: 'black',
+									width: '50%',
+									marginLeft: '7px'
+								}}
+							/>
+						</div>
+						<div style={{ display: 'flex', alignItems: 'center', marginTop: '2rem' }}>
+							<h6 style={{ marginTop: '-10px' }}>
+								Address
+							</h6>
+							<hr
+								style={{
+									borderTop: '1.5px dotted black',
+									borderColor: 'black',
+									width: '50%',
+									marginLeft: '10px'
+								}}
+							/>
+						</div>
+					</Grid>
+					<Grid item lg={6} md={6} sm={6} xs={6}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<h6 style={{ marginTop: '-10px' }}>
+								Mr/s.
+							</h6>
+							<hr
+								style={{
+									borderTop: '1.5px dotted black',
+									borderColor: 'black',
+									width: '50%',
+									marginLeft: '7px'
+								}}
+							/>
+						</div>
+						<div style={{ display: 'flex', alignItems: 'center', marginTop: '2rem' }}>
+							<h6 style={{ marginTop: '-10px' }}>
+								Address
+							</h6>
+							<hr
+								style={{
+									borderTop: '1.5px dotted black',
+									borderColor: 'black',
+									width: '50%',
+									marginLeft: '10px'
+								}}
+							/>
+						</div>
+					</Grid>
+				</Grid>
 			</div>
 			<div className={classes.table}>
 				<div className='table ml-auto mr-auto mt-4'>
