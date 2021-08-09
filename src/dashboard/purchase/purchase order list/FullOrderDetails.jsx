@@ -145,7 +145,7 @@ const FullOrderDetails = ({ location, history }) => {
 										size='small'
 										autocomplete='off'
 										disabled
-										value={order?.vendor.name}
+										value={order?.vendor?.name}
 										className={classes.inputFieldStyle}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
