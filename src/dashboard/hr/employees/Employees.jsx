@@ -399,7 +399,11 @@ const Employees = ({ history, location }) => {
 				mobileNo,
 				gender,
 			});
-			setInitialValues2State({ ...rest });
+			setInitialValues2State({
+				...rest,
+				finalDepartment: rest?.finalDepartment?._id,
+				finalDesignation: rest?.finalDesignation?._id,
+			});
 			setAcademicQualification(location.state?.user.academicQualification);
 			setExperience(location.state?.user.experience);
 			setProfessionalQualification(location.state?.user.professionalQualification);
@@ -563,7 +567,11 @@ const Employees = ({ history, location }) => {
 			experience,
 		};
 
-		console.log(data);
+		console.log(nextToKinErrors);
+		console.log(referenceErrors);
+		console.log(officeUseErrors);
+		console.log(initialValues1Error);
+		console.log(initialValues2Error);
 
 		if (
 			isEmpty(nextToKinErrors) &&
@@ -572,6 +580,7 @@ const Employees = ({ history, location }) => {
 			isEmpty(initialValues1Error) &&
 			isEmpty(initialValues2Error)
 		) {
+			console.log('object 1');
 			if (location.state?.isHiring) {
 				console.log(initialValues2Form.values.finalDepartment);
 				console.log(initialValues2Form.values.finalDesignation);
@@ -591,11 +600,14 @@ const Employees = ({ history, location }) => {
 						setHireError('');
 					}, 4000);
 				}
-			} else if (location.state?.toUpdate) {
+			} else if (location?.state?.toUpdate) {
+				console.log('object');
 				onUpdateEmployee(data);
 			} else {
 				onCreateEmployee(data);
 			}
+		} else {
+			console.log('object 2');
 		}
 	};
 
@@ -926,6 +938,7 @@ const Employees = ({ history, location }) => {
 													<CssTextField
 														id='outlined-basic'
 														variant='outlined'
+														label='Date of birth'
 														type='date'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														size='small'
@@ -1009,6 +1022,7 @@ const Employees = ({ history, location }) => {
 													<CssTextField
 														id='outlined-basic'
 														variant='outlined'
+														label='Date of Issuse'
 														type='date'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														disabled={location.state?.isHiring ? true : false}
@@ -1708,6 +1722,7 @@ const Employees = ({ history, location }) => {
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
+													label='From'
 													type='date'
 													size='small'
 													disabled={location.state?.isHiring ? true : false}
@@ -1730,6 +1745,7 @@ const Employees = ({ history, location }) => {
 													type='date'
 													size='small'
 													name='reasonOfLeft'
+													label='To'
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}
@@ -1964,6 +1980,7 @@ const Employees = ({ history, location }) => {
 														<CssTextField
 															id='outlined-basic'
 															variant='outlined'
+															label='Date of Interviewd'
 															type='date'
 															size='small'
 															autocomplete='off'

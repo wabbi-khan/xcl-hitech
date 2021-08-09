@@ -184,7 +184,6 @@ export const PurchaseOrderList = () => {
 										<StyledTableCell align='center'>PR No</StyledTableCell>
 										<StyledTableCell align='center'>Vendor Name</StyledTableCell>
 										<StyledTableCell align='center'>Items</StyledTableCell>
-										<StyledTableCell align='center'>Qty</StyledTableCell>
 										<StyledTableCell align='center'>Date</StyledTableCell>
 										<StyledTableCell align='center'>View Details</StyledTableCell>
 									</TableRow>
@@ -201,7 +200,7 @@ export const PurchaseOrderList = () => {
 													{order?.poNum}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{order?.prNum}
+													{order?.prNum?.code}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
 													{!order?.vendor ? null : order?.vendor?.name}
@@ -215,9 +214,7 @@ export const PurchaseOrderList = () => {
 														})
 													)}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{order?.totalQuantity}
-												</StyledTableCell>
+
 												<StyledTableCell className='text-dark' align='center'>
 													{order?.date}
 												</StyledTableCell>

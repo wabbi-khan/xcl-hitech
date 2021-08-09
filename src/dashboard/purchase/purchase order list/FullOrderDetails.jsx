@@ -267,7 +267,7 @@ const FullOrderDetails = ({ location, history }) => {
 												<StyledTableCell align='center'>Sr.No</StyledTableCell>
 												<StyledTableCell align='center'>Material Name</StyledTableCell>
 												<StyledTableCell align='center'>Quantity</StyledTableCell>
-												<StyledTableCell align='center'>Unit Value</StyledTableCell>
+												<StyledTableCell align='center'>Unit</StyledTableCell>
 												<StyledTableCell align='center'>Remarks</StyledTableCell>
 											</TableRow>
 										</TableHead>
@@ -287,7 +287,7 @@ const FullOrderDetails = ({ location, history }) => {
 															{material?.quantity}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark' align='center'>
-															{material?.unitValue}
+															{material?.material?.unit?.name}
 														</StyledTableCell>
 														<StyledTableCell className='text-dark' align='center'>
 															{material?.remarks}

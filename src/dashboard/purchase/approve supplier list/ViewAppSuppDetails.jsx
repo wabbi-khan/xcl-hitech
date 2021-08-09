@@ -103,8 +103,8 @@ const ViewAppSuppDetails = (props) => {
 			<div className='container mt-5'>
 				<div class='dateContainer'>
 					<div class='dateContainer'>
-						<p style={{ fontWeight: 'bold', }}>Date:</p>
-						<div style={{ marginLeft: '1rem' }}> 
+						<p style={{ fontWeight: 'bold' }}>Date:</p>
+						<div style={{ marginLeft: '1rem' }}>
 							<p>
 								{fullDate}
 								<hr
@@ -151,7 +151,7 @@ const ViewAppSuppDetails = (props) => {
 								<td scope='row'>1</td>
 								<td>{vendor.name}</td>
 								<td>{vendor.phone}</td>
-								<td>{!vendor.contactPerson ? null : vendor.contactPerson.name}</td>
+								<td>{vendor.contactPerson}</td>
 								<td>{vendor.approveDate}</td>
 								<td>
 									{vendor.rating == 3 ? (

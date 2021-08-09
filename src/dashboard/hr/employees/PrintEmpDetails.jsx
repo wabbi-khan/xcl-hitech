@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../purchase/material/Loading';
 import { getSingleEmployee } from '../../../services/action/EmployeesAction';
 import logo from '../../../images/logo.png';
+import { withRouter } from 'react-router';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -94,15 +95,16 @@ const useStyles = makeStyles((theme) => ({
 const PrintEmpDetails = (props) => {
 	const { match } = props;
 	const classes = useStyles();
-	const id = props.match.params.id;
 	const dispatch = useDispatch();
 
 	const { employee, error, loading } = useSelector((state) => state.employees);
 
 	console.log(employee);
 	React.useEffect(() => {
-		dispatch(getSingleEmployee(match.params.id));
-	}, []);
+		if (match.params.id) {
+			dispatch(getSingleEmployee(match.params.id));
+		}
+	}, [props.match.params.id]);
 
 	const {
 		name,
@@ -128,6 +130,9 @@ const PrintEmpDetails = (props) => {
 		professionalQualification,
 		experience,
 		officeUse,
+		finalDepartment,
+		finalDesignation,
+		finalSal,
 	} = employee;
 
 	// const { address, contact, name: kinName, relation } = employee.nextToKin;
@@ -184,15 +189,6 @@ const PrintEmpDetails = (props) => {
 							Print
 						</Button>
 					</div>
-					<div className='offset-lg-6 col-lg-2 col-md-2 mt-4' id='printBtn'>
-						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
-							Print
-						</Button>
-					</div>
 				</div>
 			</div>
 			<div className='container-fluid' style={{ marginTop: '20px' }}>
@@ -217,7 +213,7 @@ const PrintEmpDetails = (props) => {
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Job Applied For</td>
-							<td colspan='3'>{jobAppliedFor}</td>
+							<td colspan='3'>{jobAppliedFor?.name}</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Present Address
 							</td>
@@ -897,13 +893,17 @@ const PrintEmpDetails = (props) => {
 					<tbody>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Department</td>
-							<td colspan='3'>dept</td>
+							<td colspan='3'>
+								{finalDepartment ? finalDepartment?.name : officeUse?.department?.name}
+							</td>
 							<td colspan='3' style={{ fontWeight: 'bold' }}>
 								Designation
 							</td>
-							<td colspan='3'>designation</td>
+							<td colspan='3'>
+								{finalDesignation ? finalDesignation?.name : jobAppliedFor?.name}
+							</td>
 							<td style={{ fontWeight: 'bold' }}>Salary</td>
-							<td colspan='3'>sal</td>
+							<td colspan='3'>{finalSal ? finalSal : 'Not yet decided'}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1040,4 +1040,4 @@ const PrintEmpDetails = (props) => {
 	);
 };
 
-export default PrintEmpDetails;
+export default withRouter(PrintEmpDetails);

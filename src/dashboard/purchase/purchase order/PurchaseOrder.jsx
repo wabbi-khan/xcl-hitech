@@ -9,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-// import axios from 'axios';
 import { getVendorAction } from '../../../services/action/VendorAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { createPurchaseOrderAction } from '../../../services/action/OrdersAction';
@@ -192,6 +191,7 @@ const PurchaseOrder = ({ history }) => {
 	const [success, setSuccess] = useState();
 	const [createError, setCreateError] = useState();
 
+	console.log(materialsState);
 	useEffect(() => {
 		if (selectedRequest) {
 			setMaterials(selectedRequest?.materials);
@@ -425,82 +425,84 @@ const PurchaseOrder = ({ history }) => {
 						<hr />
 					</div>
 					<Container className={classes.mainContainer}>
-						<h4 className='text-left'>Items</h4>
 						{materialsState?.map((el, i) => {
 							const no = i + 1;
 							return (
-								<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
-									<Grid item lg={1} md={1}>
-										<h5 className={classes.itemHeading}>{no}</h5>
+								<>
+									<h4 className='text-left'>Items</h4>
+									<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={1} md={1}>
+											<h5 className={classes.itemHeading}>{no}</h5>
+										</Grid>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Item'
+												variant='outlined'
+												type='text'
+												size='small'
+												className={classes.inputFieldStyle2}
+												value={el?.material?._id}
+												disabled
+												select
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}>
+												{materials &&
+													materials.map((el) => (
+														<MenuItem
+															key={el._id}
+															value={el._id}
+															onClick={() => setSelectedRequests(el)}>
+															{el.name}
+														</MenuItem>
+													))}
+											</CssTextField>
+										</Grid>
+										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Quantity'
+												variant='outlined'
+												type='number'
+												size='small'
+												value={el.quantity}
+												disabled
+												className={classes.inputFieldStyle3}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Unit'
+												variant='outlined'
+												type='text'
+												size='small'
+												value={el?.material?.unit?.name}
+												disabled
+												className={classes.inputFieldStyle4}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Remarks'
+												variant='outlined'
+												type='text'
+												size='small'
+												value={el.remarks}
+												disabled
+												className={classes.inputFieldStyle5}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
 									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Item'
-											variant='outlined'
-											type='text'
-											size='small'
-											className={classes.inputFieldStyle2}
-											value={el?.material?._id}
-											disabled
-											select
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{materials &&
-												materials.map((el) => (
-													<MenuItem
-														key={el._id}
-														value={el._id}
-														onClick={() => setSelectedRequests(el)}>
-														{el.name}
-													</MenuItem>
-												))}
-										</CssTextField>
-									</Grid>
-									<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Quantity'
-											variant='outlined'
-											type='number'
-											size='small'
-											value={el.quantity}
-											disabled
-											className={classes.inputFieldStyle3}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Unit'
-											variant='outlined'
-											type='text'
-											size='small'
-											value={el.unitValue}
-											disabled
-											className={classes.inputFieldStyle4}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Remarks'
-											variant='outlined'
-											type='text'
-											size='small'
-											value={el.remarks}
-											disabled
-											className={classes.inputFieldStyle5}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-										/>
-									</Grid>
-								</Grid>
+								</>
 							);
 						})}
 						{AddOrderError ? (
