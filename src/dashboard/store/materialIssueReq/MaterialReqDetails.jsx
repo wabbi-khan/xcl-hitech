@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MaterialReqDetails = (props) => {
 	const classes = useStyles();
-
+	const { history } = props
 	const [IsComplete, setIsComplete] = useState(false);
 	const [IsError, setIsError] = useState(false);
 
@@ -123,6 +123,15 @@ const MaterialReqDetails = (props) => {
 
 	return (
 		<Sidenav title={'Material Issue Requisition Details'}>
+			<Button
+				variant='contained'
+				className='bg-dark text-light'
+				onClick={() => {
+					history.push('/storedashboard/print_purchase_issue_requisition')
+				}}
+			>
+				Print Purchase Req
+			</Button>
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}

@@ -100,6 +100,7 @@ import EditEmp from '../dashboard/hr/employees/EditEmp';
 import Units from '../dashboard/purchase/units/Units';
 import SubCategory from '../dashboard/purchase/subCategory/SubCategory';
 import PrintAllAppSuppList from '../dashboard/purchase/approve supplier list/PrintAllAppSuppList';
+import PrintPurchaseReq from '../dashboard/store/materialIssueReq/PrintPurchaseReq';
 
 
 
@@ -145,6 +146,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport}/>
                 <Router exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory}/>
                 <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq}/>
+                <Router exact path="/storedashboard/print_purchase_issue_requisition" component={PrintPurchaseReq}/>
                 <Router exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails}/>
                 <Router exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq}/>
                 <Router exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails}/>

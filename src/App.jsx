@@ -114,6 +114,7 @@ import EditEmp from './dashboard/hr/employees/EditEmp';
 import Units from './dashboard/purchase/units/Units';
 import SubCategory from './dashboard/purchase/subCategory/SubCategory';
 import PrintAllAppSuppList from './dashboard/purchase/approve supplier list/PrintAllAppSuppList';
+import PrintPurchaseReq from './dashboard/store/materialIssueReq/PrintPurchaseReq';
 
 dotenv.config();
 
@@ -297,6 +298,11 @@ function App() {
 				exact
 				path='/storedashboard/material_issue_requisition'
 				component={MaterialIssueReq}
+			/>
+			<Route
+				exact
+				path='/storedashboard/print_purchase_issue_requisition'
+				component={PrintPurchaseReq}
 			/>
 			<Route
 				exact

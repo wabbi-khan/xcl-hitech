@@ -122,7 +122,7 @@ const PrintVendorOrderList = ({ location }) => {
 				<div
 					className='mt-4'
 					id='printBtn'
-					style={{ textAlign: 'right', marginRight: '2rem'}}
+					style={{ textAlign: 'right', marginRight: '2rem' }}
 				>
 					<Button
 						variant='contained'
@@ -132,13 +132,14 @@ const PrintVendorOrderList = ({ location }) => {
 						Print
 					</Button>
 				</div>
-				<div class='container mt-5'>
+				<div class='container-fluid mt-5'>
 					<Grid container spacing={1} >
 						<Grid item lg={6} md={6} sm={6} xs={6} style={{ border: '1px solid black', padding: '1.5rem' }}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
 								<h6 style={{ marginTop: '-10px' }}>
 									Mr/s.
 								</h6>
+
 								<hr
 									style={{
 										borderTop: '1.5px dotted black',
@@ -178,7 +179,7 @@ const PrintVendorOrderList = ({ location }) => {
 									Your Ref:
 								</h6>
 							</div>
-							<div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', borderBottom: '1px solid black' }}>
+							<div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', }}>
 								<h6 >
 									P.R. No:
 								</h6>
@@ -187,140 +188,74 @@ const PrintVendorOrderList = ({ location }) => {
 					</Grid>
 				</div>
 				<div className={classes.table}>
-					<div className='table ml-auto mr-auto mt-4'>
-						<TableContainer>
-							<Table>
-								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Sr.No
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Vendor Name
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											P.O. No.
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											P.R. No.
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Payment Terms
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Payment Subject
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Reference
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Total Qty.
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Approve Date
-										</StyledTableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{!order ? (
-										<span>Data Not Found</span>
-									) : (
-										<StyledTableRow>
-											<StyledTableCell className='text-dark' align='center'>
-												1.
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!order?.vendor ? null : order?.vendor?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.poNum}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.prNum}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.paymentTerm}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.paymentSubject}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.reference}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.totalQuantity}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.date}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{/* {
-                                                    !vendor.category ? null : vendor.category.name
-                                                } */}
-											</StyledTableCell>
-										</StyledTableRow>
-									)}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</div>
+					<table class='table table-bordered border-dark table-responsive mt-5'>
+						<thead class='thead-inverse'>
+							<tr>
+								<th>S.No.</th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th>Unit</th>
+								<th>Remarks</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr>
+								<td scope='row'>1</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+
+						</tbody>
+					</table>
 				</div>
-				<div className={classes.table1}>
-					<div className='table ml-auto mr-auto mt-4'>
-						{/* <h6>Purchase Inspection Materials</h6> */}
-						<TableContainer>
-							<Table>
-								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Sr.No
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Material Name
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											Unit
-										</StyledTableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{!order?.materials || !order?.materials?.length ? (
-										<span>Not Found</span>
-									) : (
-										order?.materials?.map((mat, i) => (
-											<StyledTableRow key={i}>
-												<StyledTableCell className='text-dark' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{mat?.material?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark' align='center'>
-													{mat?.unitValue}
-												</StyledTableCell>
-											</StyledTableRow>
-										))
-									)}
-								</TableBody>
-							</Table>
-						</TableContainer>
+				<div style={{ textAlign: 'left' }}>
+					<div class='d-flex '>
+						<p>- Payment terms:</p>
+						<p>	</p>
+					</div>
+					<div class='d-flex '>
+						<p>- Payment terms:</p>
+						<p>	</p>
+					</div>
+					<div class='d-flex '>
+						<p>- Payment terms:</p>
+						<p>	</p>
 					</div>
 				</div>
 				<div className='container mt-5'>
 					<div className='row'>
-						<div className='col-lg-3 col-md-3 mt-5'>
-							<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-							<p style={{ marginTop: -10 }}>Store Incharge</p>
+						<div className='col-lg-3 col-md-3 col-sm-3 mt-5'>
+							{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
+							<hr
+								style={{
+									borderTop: '1.5px dotted black',
+									borderColor: 'black',
+									// width: '50%',
+									// marginLeft: '7px'
+								}}
+							/>
+							<p style={{ marginTop: -10 }}>Purchase Officer</p>
 						</div>
-						<div className='offset-lg-6 offset-md-6 col-lg-3 col-md-3 mt-5'>
-							<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-							<p style={{ marginTop: -10 }}>Q.A Dept</p>
+						<div className='offset-lg-6 offset-md-6 offset-sm-6 col-lg-3 col-md-3 col-sm-3 mt-5'>
+							{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
+							<hr
+								style={{
+									borderTop: '1.5px dotted black',
+									borderColor: 'black',
+									// width: '50%',
+									// marginLeft: '7px'
+								}}
+							/>
+							<p style={{ marginTop: -10 }}>Approved By</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-			);
+	);
 };
 
-			export default withRouter(PrintVendorOrderList);
+export default withRouter(PrintVendorOrderList);
