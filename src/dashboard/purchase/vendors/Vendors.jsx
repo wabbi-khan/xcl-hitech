@@ -282,7 +282,6 @@ const Vendors = () => {
 				setCreateLoading(false);
 			}),
 		);
-		dispatch(createVendorAction(values));
 	};
 
 	const deleteVendor = (params) => {

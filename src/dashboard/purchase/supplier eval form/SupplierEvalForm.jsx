@@ -143,12 +143,12 @@ const validationSchema = yup.object({
 });
 
 const initialValuesForQualityCheck = {
-	registered: '',
-	quality: '',
-	testingIncoming: '',
-	testingProcess: '',
-	testingFinal: '',
-	rating: '',
+	registered: false,
+	quality: false,
+	testingIncoming: false,
+	testingProcess: false,
+	testingFinal: false,
+	rating: 1,
 	question: '',
 };
 
@@ -208,6 +208,7 @@ const SupplierEvalForm = () => {
 						setTimeout(() => {
 							setSuccess(false);
 						}, 4000);
+						dispatch(getVendorAction(`verified=false`));
 					}
 				}
 				setLoading(false);
@@ -258,6 +259,7 @@ const SupplierEvalForm = () => {
 																	name: el?._id,
 																	location: el?.location,
 																	phone: el?.phone,
+																	contactPerson: el?.contactPerson,
 																});
 															}}>
 															{el.name}

@@ -620,6 +620,7 @@ function Sidenav(props) {
 							size='small'
 							classNames={classes.addMoreRes}
 							text='Logout'
+							onClick={logOut}
 						/>
 					</Typography>
 				</Toolbar>

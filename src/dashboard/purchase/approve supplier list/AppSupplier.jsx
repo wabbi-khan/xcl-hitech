@@ -137,7 +137,7 @@ const AppSupplier = ({ history }) => {
 												{vendor.phone}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{!vendor.contactPerson ? null : vendor.contactPerson.name}
+												{!vendor.contactPerson ? null : vendor.contactPerson}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{!vendor.materials.length ? (

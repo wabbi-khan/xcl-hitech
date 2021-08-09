@@ -286,7 +286,7 @@ const SubCategory = () => {
 									<thead class='bg-dark text-light'>
 										<tr>
 											<th>S.No.</th>
-											<th>Sub Category Name</th>
+											<th>Category Name</th>
 											<th>Sub of</th>
 											<th>Action</th>
 										</tr>

@@ -151,12 +151,12 @@ const PrintAllAppSuppList = (props) => {
 						{!vendors ? (
 							<span>Data Not Found</span>
 						) : (
-							vendors?.map((el) => (
+							vendors?.map((el, i) => (
 								<tr>
-									<td scope='row'>1</td>
+									<td scope='row'>{i + 1}</td>
 									<td>{el.name}</td>
 									<td>{el.phone}</td>
-									<td>{!el.contactPerson ? null : el.contactPerson.name}</td>
+									<td>{!el.contactPerson ? null : el.contactPerson}</td>
 									<td>{el.approveDate}</td>
 									<td>
 										{el.rating == 3 ? (
