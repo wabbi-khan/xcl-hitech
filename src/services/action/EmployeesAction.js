@@ -39,11 +39,13 @@ export const getSingleEmployee = (id) => async (dispatch) => {
 		type: EMPLOYEE_REQUEST,
 	});
 
+	console.log(id);
 	try {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/employees/${id}`,
 		);
 
+		console.log(data);
 		dispatch({
 			type: EMPLOYEE_SINGLE_FETCH_SUCCESS,
 			payload: data.data,

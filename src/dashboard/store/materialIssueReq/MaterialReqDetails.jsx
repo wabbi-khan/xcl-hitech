@@ -121,6 +121,8 @@ const MaterialReqDetails = (props) => {
 		}
 	};
 
+	console.log(purchaseRequisition);
+
 	return (
 		<Sidenav title={'Material Issue Requisition Details'}>
 			<div className={classes.dataTable}>
@@ -134,7 +136,6 @@ const MaterialReqDetails = (props) => {
 									<th>Department</th>
 									<th>Purpose</th>
 									<th>Req. Date</th>
-									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -197,7 +198,7 @@ const MaterialReqDetails = (props) => {
 								) : error ? (
 									<MaterialError />
 								) : !purchaseRequisition.materials ||
-									!purchaseRequisition.materials.length ? (
+								  !purchaseRequisition.materials.length ? (
 									<h5>Not Found</h5>
 								) : (
 									purchaseRequisition.materials.map((material, i) => (
@@ -205,7 +206,7 @@ const MaterialReqDetails = (props) => {
 											<td>{i + 1}</td>
 											<td>{!material.material ? null : material.material.name}</td>
 											<td>{material.quantity}</td>
-											<td>{material.unitValue}</td>
+											<td>{material.material?.unit?.name}</td>
 											<td>{material.remarks}</td>
 											{/* <td>
 													<Button
@@ -287,15 +288,13 @@ const MaterialReqDetails = (props) => {
 						Complete Requisition
 					</Button>
 				</div>
-				{
-					IsComplete ? (
-						<span className='text-success'>
-							Purchase Requisition has been Completed Successfully
-						</span>
-					) : IsError ? (
-						<span className='text-danger'>Internal Server Error</span>
-					) : null
-				}
+				{IsComplete ? (
+					<span className='text-success'>
+						Purchase Requisition has been Completed Successfully
+					</span>
+				) : IsError ? (
+					<span className='text-danger'>Internal Server Error</span>
+				) : null}
 			</div>
 		</Sidenav>
 	);
