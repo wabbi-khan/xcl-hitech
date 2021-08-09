@@ -8,12 +8,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
-import Loading from '../material/Loading';
-import MaterialError from '../material/MaterialError';
 import Button from '@material-ui/core/Button';
 import { getVendorAction } from '../../../services/action/VendorAction';
 import Loader from 'react-loader-spinner';
 import { withRouter } from 'react-router';
+import TextField from '@material-ui/core/TextField';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -32,6 +31,22 @@ const StyledTableRow = withStyles((theme) => ({
 		},
 	},
 }))(TableRow);
+
+const CssTextField = withStyles({
+	root: {
+		'& label.Mui-focused': {
+			color: 'black',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'black',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'black',
+			},
+		},
+	},
+})(TextField);
 
 // function createData(No, name, Action) {
 // 	return { No, name, Action };
@@ -70,6 +85,37 @@ const AppSupplier = ({ history }) => {
 	const classes = useStyles();
 	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const [fetchError, setFetchError] = React.useState('');
+	const [searchText, setSearchText] = React.useState('');
+
+	React.useEffect(() => {
+		if (searchText) {
+			setFetchLoading(true);
+			dispatch(
+				getVendorAction(`verified=true&name[regex]=${searchText}`, (err) => {
+					if (err) {
+						setFetchError(err);
+						setTimeout(() => {
+							setFetchError('');
+						}, 4000);
+					}
+					setFetchLoading(false);
+				}),
+			);
+		} else {
+			setFetchLoading(true);
+			dispatch(
+				getVendorAction(`verified=true`, (err) => {
+					if (err) {
+						setFetchError(err);
+						setTimeout(() => {
+							setFetchError('');
+						}, 4000);
+					}
+					setFetchLoading(false);
+				}),
+			);
+		}
+	}, [searchText]);
 
 	const dispatch = useDispatch();
 
@@ -92,6 +138,20 @@ const AppSupplier = ({ history }) => {
 
 	return (
 		<Sidenav title={'Approved Supplier List'}>
+			<div style={{ marginBottom: '1rem' }}>
+				<CssTextField
+					id='outlined-basic'
+					label='Search By Name...'
+					variant='outlined'
+					type='text'
+					autocomplete='off'
+					onChange={(e) => setSearchText(e.target.value)}
+					size='small'
+					style={{ width: '50%' }}
+					inputProps={{ style: { fontSize: 14 } }}
+					InputLabelProps={{ style: { fontSize: 14 } }}
+				/>
+			</div>
 			<div>
 				{fetchLoading ? (
 					<div

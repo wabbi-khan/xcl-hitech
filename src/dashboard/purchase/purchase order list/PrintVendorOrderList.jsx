@@ -116,14 +116,17 @@ const PrintVendorOrderList = ({ location }) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-4' style={{ textDecoration: 'underline', fontWeight: 'bold' }}>PURCHASE ORDER</h5>
+				<h5
+					className='mt-4'
+					style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+					PURCHASE ORDER
+				</h5>
 			</div>
 			<div className='container-fluid'>
 				<div
 					className='mt-4'
 					id='printBtn'
-					style={{ textAlign: 'right', marginRight: '2rem'}}
-				>
+					style={{ textAlign: 'right', marginRight: '2rem' }}>
 					<Button
 						variant='contained'
 						size='small'
@@ -133,55 +136,76 @@ const PrintVendorOrderList = ({ location }) => {
 					</Button>
 				</div>
 				<div class='container mt-5'>
-					<Grid container spacing={1} >
-						<Grid item lg={6} md={6} sm={6} xs={6} style={{ border: '1px solid black', padding: '1.5rem' }}>
+					<Grid container spacing={1}>
+						<Grid
+							item
+							lg={6}
+							md={6}
+							sm={6}
+							xs={6}
+							style={{ border: '1px solid black', padding: '1.5rem' }}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<h6 style={{ marginTop: '-10px' }}>
-									Mr/s.
-								</h6>
+								<h6 style={{ marginTop: '-10px' }}>Mr/s. {order?.vendor?.name}</h6>
 								<hr
 									style={{
 										borderTop: '1.5px dotted black',
 										borderColor: 'black',
 										width: '50%',
-										marginLeft: '7px'
+										marginLeft: '7px',
 									}}
 								/>
 							</div>
-							<div style={{ display: 'flex', alignItems: 'center', marginTop: '2rem', }}>
+							<div
+								style={{ display: 'flex', alignItems: 'center', marginTop: '2rem' }}>
 								<h6 style={{ marginTop: '-10px' }}>
-									Address
+									Address: {order?.vendor?.location}{' '}
 								</h6>
 								<hr
 									style={{
 										borderTop: '1.5px dotted black',
 										borderColor: 'black',
 										width: '50%',
-										marginLeft: '10px'
+										marginLeft: '10px',
 									}}
 								/>
 							</div>
 						</Grid>
-						<Grid item lg={6} md={6} sm={6} xs={6} style={{ border: '1px solid black', padding: '1rem' }}>
+						<Grid
+							item
+							lg={6}
+							md={6}
+							sm={6}
+							xs={6}
+							style={{ border: '1px solid black', padding: '1rem' }}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<h6 >
-									P.O. No:
-								</h6>
+								<h6>P.O. No: {order?.poNum}</h6>
 							</div>
-							<div style={{ display: 'flex', alignItems: 'center', marginTop: '0.2rem', borderBottom: '1px solid black' }}>
-								<h6 >
-									Date:
-								</h6>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									marginTop: '0.2rem',
+									borderBottom: '1px solid black',
+								}}>
+								<h6>Date:</h6>
 							</div>
-							<div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', borderBottom: '1px solid black' }}>
-								<h6 >
-									Your Ref:
-								</h6>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									marginTop: '1rem',
+									borderBottom: '1px solid black',
+								}}>
+								<h6>Your Ref:</h6>
 							</div>
-							<div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', borderBottom: '1px solid black' }}>
-								<h6 >
-									P.R. No:
-								</h6>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									marginTop: '1rem',
+									borderBottom: '1px solid black',
+								}}>
+								<h6>P.R. No: {order?.prNum?.code}</h6>
 							</div>
 						</Grid>
 					</Grid>
@@ -214,9 +238,6 @@ const PrintVendorOrderList = ({ location }) => {
 											Reference
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											Total Qty.
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
 											Approve Date
 										</StyledTableCell>
 									</TableRow>
@@ -236,7 +257,7 @@ const PrintVendorOrderList = ({ location }) => {
 												{order?.poNum}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
-												{order?.prNum}
+												{order?.prNum?.code}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
 												{order?.paymentTerm}
@@ -246,9 +267,6 @@ const PrintVendorOrderList = ({ location }) => {
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
 												{order?.reference}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{order?.totalQuantity}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark' align='center'>
 												{order?.date}
@@ -287,16 +305,16 @@ const PrintVendorOrderList = ({ location }) => {
 									{!order?.materials || !order?.materials?.length ? (
 										<span>Not Found</span>
 									) : (
-										order?.materials?.map((mat, i) => (
+										order?.materials?.map((el, i) => (
 											<StyledTableRow key={i}>
 												<StyledTableCell className='text-dark' align='center'>
 													{i + 1}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{mat?.material?.name}
+													{el?.material?.name}
 												</StyledTableCell>
 												<StyledTableCell className='text-dark' align='center'>
-													{mat?.unitValue}
+													{el?.material?.unit?.name}
 												</StyledTableCell>
 											</StyledTableRow>
 										))
@@ -320,7 +338,7 @@ const PrintVendorOrderList = ({ location }) => {
 				</div>
 			</div>
 		</div>
-			);
+	);
 };
 
-			export default withRouter(PrintVendorOrderList);
+export default withRouter(PrintVendorOrderList);

@@ -926,6 +926,7 @@ const Employees = ({ history, location }) => {
 													<CssTextField
 														id='outlined-basic'
 														variant='outlined'
+														label='Date of birth'
 														type='date'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														size='small'
@@ -1009,6 +1010,7 @@ const Employees = ({ history, location }) => {
 													<CssTextField
 														id='outlined-basic'
 														variant='outlined'
+														label='Date of Issuse'
 														type='date'
 														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 														disabled={location.state?.isHiring ? true : false}
@@ -1708,6 +1710,7 @@ const Employees = ({ history, location }) => {
 												<CssTextField
 													id='outlined-basic'
 													variant='outlined'
+													label='From'
 													type='date'
 													size='small'
 													disabled={location.state?.isHiring ? true : false}
@@ -1730,6 +1733,7 @@ const Employees = ({ history, location }) => {
 													type='date'
 													size='small'
 													name='reasonOfLeft'
+													label='To'
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
 													InputLabelProps={{ style: { fontSize: 14 } }}
@@ -1964,6 +1968,7 @@ const Employees = ({ history, location }) => {
 														<CssTextField
 															id='outlined-basic'
 															variant='outlined'
+															label='Date of Interviewd'
 															type='date'
 															size='small'
 															autocomplete='off'

@@ -129,16 +129,46 @@ const EmpCompetencEval = ({ history }) => {
 
 	React.useEffect(() => {
 		if (designation) {
-			let temp = Object.keys(designation?.criteria);
-			temp = temp.map((el, i) => {
-				return {
-					name: el,
-					required: designation?.criteria[el].req,
-					capability: '',
-					remarks: '',
-					summary: '',
-				};
+			// let temp = Object.keys(designation?.criteria);
+			// temp = temp.map((el, i) => {
+			// 	return {
+			// 		name: el,
+			// 		required: designation?.criteria[el].req,
+			// 		capability: '',
+			// 		remarks: '',
+			// 		summary: '',
+			// 	};
+			// });
+			// setCriteria(temp);
+			let temp = {};
+			temp.educations = {
+				remarks: '',
+				summary: '',
+				capability: '',
+				names: [],
+			};
+			temp.experiences = {
+				remarks: '',
+				summary: '',
+				capability: '',
+				names: [],
+			};
+			temp.skills = {
+				remarks: '',
+				summary: '',
+				capability: '',
+				names: [],
+			};
+			designation?.educations?.map((el) => {
+				temp.educations.names.push(el?.name);
 			});
+			designation?.skills?.map((el) => {
+				temp.skills.names.push(el?.skill);
+			});
+			designation?.experiences?.map((el) => {
+				temp.experiences.names.push(el?.name);
+			});
+			console.log(temp);
 			setCriteria(temp);
 		}
 	}, [designation]);
@@ -163,12 +193,19 @@ const EmpCompetencEval = ({ history }) => {
 		});
 	};
 
-	const onChange = (value, index, key) => {
-		const temp = criteria.map((el, i) =>
-			i === index ? { ...el, [key]: value } : el,
-		);
-		setCriteria(temp);
+	const onChange = (value, parentKey, innerKey) => {
+		setCriteria((prev) => {
+			return {
+				...prev,
+				[parentKey]: {
+					...prev[parentKey],
+					[innerKey]: value,
+				},
+			};
+		});
 	};
+
+	console.log(criteria);
 
 	return (
 		<Sidenav title={"Employee's Competency Evaluation"}>
@@ -290,7 +327,245 @@ const EmpCompetencEval = ({ history }) => {
 										/>
 									</Grid>
 								</Grid>
-								{criteria &&
+								<div
+									className='container-fluid'
+									style={{ textAlign: 'left', marginTop: '50px' }}>
+									<h5 style={{ textDecoration: 'underline' }}>Evaluation:</h5>
+									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+										<tbody>
+											{criteria && (
+												<>
+													<tr style={{ fontWeight: 'bold' }}>
+														<td>Parameter</td>
+														<td>Minimum Required</td>
+													</tr>
+													<tr>
+														<td style={{ fontWeight: 'bold' }}>Education</td>
+														<td>
+															{criteria?.educations?.names?.map((el) => (
+																<p style={{ margin: 0, padding: 0 }}>{el}</p>
+															))}
+														</td>
+													</tr>
+													<Grid
+														container
+														spacing={1}
+														style={{ marginTop: 15, marginBottom: '10px' }}>
+														<Grid item lg={6} md={6} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Capability'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																style={{ width: '100%' }}
+																onChange={(e) =>
+																	onChange(e.target.value, 'educations', 'capability')
+																}
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+														<Grid item lg={6} md={6} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Remarks'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																onChange={(e) =>
+																	onChange(e.target.value, 'educations', 'remarks')
+																}
+																style={{ width: '100%' }}
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+														<Grid item lg={6} md={8} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Evaluation Summary'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																style={{ width: '100%' }}
+																inputProps={{ style: { fontSize: 14 } }}
+																onChange={(e) =>
+																	onChange(e.target.value, 'educations', 'summary')
+																}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+													</Grid>
+												</>
+											)}
+										</tbody>
+									</table>
+									<div style={{ marginTop: 30, marginBottom: 30 }}>
+										<hr />
+									</div>
+								</div>
+
+								<div
+									className='container-fluid'
+									style={{ textAlign: 'left', marginTop: '50px' }}>
+									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+										<tbody>
+											{criteria && (
+												<>
+													<tr style={{ fontWeight: 'bold' }}>
+														<td>Parameter</td>
+														<td>Minimum Required</td>
+													</tr>
+													<tr>
+														<td style={{ fontWeight: 'bold' }}>Skills</td>
+														<td>
+															{criteria?.skills?.names?.map((el) => (
+																<p style={{ margin: 0, padding: 0 }}>{el}</p>
+															))}
+														</td>
+													</tr>
+													<Grid
+														container
+														spacing={1}
+														style={{ marginTop: 15, marginBottom: '10px' }}>
+														<Grid item lg={6} md={6} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Capability'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																style={{ width: '100%' }}
+																onChange={(e) =>
+																	onChange(e.target.value, 'skills', 'capability')
+																}
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+														<Grid item lg={6} md={6} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Remarks'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																onChange={(e) => onChange(e.target.value, 'skills', 'remarks')}
+																style={{ width: '100%' }}
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+														<Grid item lg={6} md={8} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Evaluation Summary'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																style={{ width: '100%' }}
+																inputProps={{ style: { fontSize: 14 } }}
+																onChange={(e) => onChange(e.target.value, 'skills', 'summary')}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+													</Grid>
+												</>
+											)}
+										</tbody>
+									</table>
+									<div style={{ marginTop: 30, marginBottom: 30 }}>
+										<hr />
+									</div>
+								</div>
+								<div
+									className='container-fluid'
+									style={{ textAlign: 'left', marginTop: '50px' }}>
+									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+										<tbody>
+											{criteria && (
+												<>
+													<tr style={{ fontWeight: 'bold' }}>
+														<td>Parameter</td>
+														<td>Minimum Required</td>
+													</tr>
+													<tr>
+														<td style={{ fontWeight: 'bold' }}>Experience</td>
+														<td>
+															{criteria?.experiences?.names?.map((el) => (
+																<p style={{ margin: 0, padding: 0 }}>{el}</p>
+															))}
+														</td>
+													</tr>
+													<Grid
+														container
+														spacing={1}
+														style={{ marginTop: 15, marginBottom: '10px' }}>
+														<Grid item lg={6} md={6} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Capability'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																style={{ width: '100%' }}
+																onChange={(e) =>
+																	onChange(e.target.value, 'experiences', 'capability')
+																}
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+														<Grid item lg={6} md={6} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Remarks'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																onChange={(e) =>
+																	onChange(e.target.value, 'experiences', 'remarks')
+																}
+																style={{ width: '100%' }}
+																inputProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+														<Grid item lg={6} md={8} sm={12} xs={12}>
+															<CssTextField
+																id='outlined-basic'
+																label='Evaluation Summary'
+																variant='outlined'
+																type='text'
+																size='small'
+																autocomplete='off'
+																style={{ width: '100%' }}
+																inputProps={{ style: { fontSize: 14 } }}
+																onChange={(e) =>
+																	onChange(e.target.value, 'experiences', 'summary')
+																}
+																InputLabelProps={{ style: { fontSize: 14 } }}
+															/>
+														</Grid>
+													</Grid>
+												</>
+											)}
+										</tbody>
+									</table>
+									<div style={{ marginTop: 30, marginBottom: 30 }}>
+										<hr />
+									</div>
+								</div>
+								{/* {criteria &&
 									criteria.length > 0 &&
 									criteria.map((el, i) => (
 										<div
@@ -376,7 +651,7 @@ const EmpCompetencEval = ({ history }) => {
 												</Grid>
 											</Grid>
 										</div>
-									))}
+									))} */}
 								<div>
 									<Button
 										variant='outlined'

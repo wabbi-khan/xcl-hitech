@@ -117,43 +117,77 @@ const PrintEmpCompEval = ({ location }) => {
 					<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
 						<table class='table table-responsive table-bordered border-dark text-center mt-3'>
 							<tbody>
-								{criteria?.map((el, i) => (
+								<tr>
+									<th scope='col' colspan='2'>
+										Competency Requirements
+									</th>
+									<th rowspan='2'>Actual Compatibility</th>
+									<th rowspan='2'>Remarks</th>
+								</tr>
+								<tr style={{ fontWeight: 'bold' }}>
+									<td>Parameter</td>
+									<td>Minimum Required</td>
+								</tr>
+								{criteria?.educations && (
 									<>
-										{i === 0 && (
-											<>
-												<tr>
-													<th scope='col' colspan='2'>
-														Competency Requirements
-													</th>
-													<th rowspan='2'>Actual Compatibility</th>
-													<th rowspan='2'>Remarks</th>
-												</tr>
-												<tr style={{ fontWeight: 'bold' }}>
-													<td>Parameter</td>
-													<td>Minimum Required</td>
-												</tr>
-											</>
-										)}
 										<tr>
-											<td style={{ fontWeight: 'bold' }}>{el?.name}</td>
+											<td style={{ fontWeight: 'bold' }}>Educations</td>
 											<td>
-												{el?.required?.map((el, i) => (
-													<span>
-														{el?.name && el?.name} {el?.skill && el?.skill} /
-													</span>
+												{criteria?.educations?.names?.map((el, i) => (
+													<p style={{ margin: 0, padding: 0 }}>{el}</p>
 												))}
 											</td>
-											<td>{el?.capability}</td>
-											<td>{el?.remarks}</td>
+											<td>{criteria?.educations?.capability}</td>
+											<td>{criteria?.educations?.remarks}</td>
 										</tr>
 										<tr>
 											<td style={{ fontWeight: 'bold' }}>Evaluation Summary:</td>
 											<td colspan='3' style={{ textAlign: 'left', fontWeight: 'bold' }}>
-												{el?.summary}
+												{criteria?.educations?.summary}
 											</td>
 										</tr>
 									</>
-								))}
+								)}
+								{criteria?.skills && (
+									<>
+										<tr>
+											<td style={{ fontWeight: 'bold' }}>Skills</td>
+											<td>
+												{criteria?.skills?.names?.map((el, i) => (
+													<p style={{ margin: 0, padding: 0 }}>{el}</p>
+												))}
+											</td>
+											<td>{criteria?.skills?.capability}</td>
+											<td>{criteria?.skills?.remarks}</td>
+										</tr>
+										<tr>
+											<td style={{ fontWeight: 'bold' }}>Evaluation Summary:</td>
+											<td colspan='3' style={{ textAlign: 'left', fontWeight: 'bold' }}>
+												{criteria?.skills?.summary}
+											</td>
+										</tr>
+									</>
+								)}
+								{criteria?.experiences && (
+									<>
+										<tr>
+											<td style={{ fontWeight: 'bold' }}>Skills</td>
+											<td>
+												{criteria?.experiences?.names?.map((el, i) => (
+													<p style={{ margin: 0, padding: 0 }}>{el}</p>
+												))}
+											</td>
+											<td>{criteria?.experiences?.capability}</td>
+											<td>{criteria?.experiences?.remarks}</td>
+										</tr>
+										<tr>
+											<td style={{ fontWeight: 'bold' }}>Evaluation Summary:</td>
+											<td colspan='3' style={{ textAlign: 'left', fontWeight: 'bold' }}>
+												{criteria?.experiences?.summary}
+											</td>
+										</tr>
+									</>
+								)}
 							</tbody>
 						</table>
 						<div

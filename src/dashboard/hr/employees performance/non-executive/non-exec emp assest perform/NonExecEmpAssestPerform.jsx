@@ -295,7 +295,6 @@ const NonExecEmpAssestPerform = ({ history }) => {
 						onSubmit={onSubmit}>
 						{(props) => (
 							<Form>
-								{/* employee ? ( */}
 								<Grid container spacing={1}>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
@@ -306,7 +305,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
-											className={classes.inputFieldStyle}
+											style={{ width: '100%', marginBottom: '1rem' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('department')}
 											onBlur={props.handleBlur('department')}
@@ -336,8 +335,8 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											type='text'
 											autocomplete='off'
 											size='small'
+											style={{ width: '100%', marginBottom: '1rem' }}
 											select
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('designation')}
@@ -368,12 +367,12 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											select
+											style={{ width: '100%', marginBottom: '1rem' }}
 											onChange={props.handleChange('employeeName')}
 											onBlur={props.handleBlur('employeeName')}
 											value={props.values.employeeName}
 											helperText={props.touched.employeeName && props.errors.employeeName}
 											error={props.touched.employeeName && props.errors.employeeName}
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
 											{employees && employees.length > 0 ? (
@@ -390,8 +389,6 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											)}
 										</CssTextField>
 									</Grid>
-								</Grid>
-								<Grid container spacing={1} className='mt-3'>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -401,7 +398,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											size='small'
 											disabled
 											autocomplete='off'
-											className={classes.inputFieldStyle}
+											style={{ width: '100%', marginBottom: '1rem' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('_id')}
@@ -420,9 +417,9 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											autocomplete='off'
 											size='small'
 											disabled
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
+											style={{ width: '100%', marginBottom: '1rem' }}
 											onChange={props.handleChange('dateOfBirth')}
 											onBlur={props.handleBlur('dateOfBirth')}
 											value={props.values.dateOfBirth}
@@ -438,8 +435,8 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											type='number'
 											autocomplete='off'
 											size='small'
+											style={{ width: '100%', marginBottom: '1rem' }}
 											disabled
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('age')}
@@ -457,8 +454,8 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											type='text'
 											autocomplete='off'
 											size='small'
+											style={{ width: '100%', marginBottom: '1rem' }}
 											disabled
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('finalSal')}
@@ -468,8 +465,6 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											error={props.touched.finalSal && props.errors.finalSal}
 										/>
 									</Grid>
-								</Grid>
-								<Grid container spacing={1} className='mt-3'>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
 											id='outlined-basic'
@@ -478,8 +473,8 @@ const NonExecEmpAssestPerform = ({ history }) => {
 											type='text'
 											size='small'
 											disabled
+											style={{ width: '100%', marginBottom: '1rem' }}
 											autocomplete='off'
-											className={classes.inputFieldStyle}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('createdAt')}
@@ -506,7 +501,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 													<h6>{el?.heading}</h6>
 												</Grid>
 												{el?.list?.map((el, i2) => (
-													<>
+													<Grid container spacing={1} style={{ marginTop: 15 }}>
 														<p>{el?.value}</p>
 														<Grid item lg={2} md={2} sm={12} xs={12}>
 															<CssTextField
@@ -518,7 +513,6 @@ const NonExecEmpAssestPerform = ({ history }) => {
 																autocomplete='off'
 																disabled
 																value={el?.marks}
-																className={classes.inputFieldStyle1}
 																inputProps={{ style: { fontSize: 14 } }}
 																InputLabelProps={{ style: { fontSize: 14 } }}
 															/>
@@ -532,12 +526,11 @@ const NonExecEmpAssestPerform = ({ history }) => {
 																size='small'
 																autocomplete='off'
 																onChange={(e) => onMarksChange(e, i1, i2)}
-																className={classes.inputFieldStyle2}
 																inputProps={{ style: { fontSize: 14 } }}
 																InputLabelProps={{ style: { fontSize: 14 } }}
 															/>
 														</Grid>
-													</>
+													</Grid>
 												))}
 											</Grid>
 										))}

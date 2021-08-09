@@ -240,17 +240,24 @@ const PurchaseRequisition = ({ history }) => {
 	const { departments } = useSelector((state) => state.departments);
 
 	const onSubmit = async (values) => {
-		setCreateLoading(true);
-		dispatch(
-			createPurchaseReqAction({ ...values, materials: items }, (err) => {
-				if (err) {
-					setError(err);
-				} else {
-					setSuccess('Successfully requested');
-				}
-				setCreateLoading(false);
-			}),
-		);
+		if (items.length > 0) {
+			setCreateLoading(true);
+			dispatch(
+				createPurchaseReqAction({ ...values, materials: items }, (err) => {
+					if (err) {
+						setError(err);
+					} else {
+						setSuccess('Successfully requested');
+					}
+					setCreateLoading(false);
+				}),
+			);
+		} else {
+			setError('Must add atleast one item to the request');
+			setTimeout(() => {
+				setError('');
+			}, 4000);
+		}
 	};
 
 	const onEditSubmit = (values, actions) => {
@@ -534,6 +541,7 @@ const PurchaseRequisition = ({ history }) => {
 												text='Submit'
 											/>
 											{success && <p>{success}</p>}
+											{error && <p>{error}</p>}
 										</Grid>
 									</Grid>
 								</Form>
