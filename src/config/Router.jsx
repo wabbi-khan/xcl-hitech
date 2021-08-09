@@ -101,6 +101,7 @@ import Units from '../dashboard/purchase/units/Units';
 import SubCategory from '../dashboard/purchase/subCategory/SubCategory';
 import PrintAllAppSuppList from '../dashboard/purchase/approve supplier list/PrintAllAppSuppList';
 import PrintPurchaseReq from '../dashboard/store/materialIssueReq/PrintPurchaseReq';
+import PrintAllComMatIssueReq from '../dashboard/store/materialIssueReq/PrintAllComMatIssueReq';
 
 
 
@@ -150,6 +151,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails}/>
                 <Router exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq}/>
                 <Router exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails}/>
+                <Router exact path="/storedashboard/material_issue_requisition/print_all_complete_requisition_details" component={PrintAllComMatIssueReq}/>
                 <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails}/>
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>

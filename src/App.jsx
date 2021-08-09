@@ -115,6 +115,7 @@ import Units from './dashboard/purchase/units/Units';
 import SubCategory from './dashboard/purchase/subCategory/SubCategory';
 import PrintAllAppSuppList from './dashboard/purchase/approve supplier list/PrintAllAppSuppList';
 import PrintPurchaseReq from './dashboard/store/materialIssueReq/PrintPurchaseReq';
+import PrintAllComMatIssueReq from './dashboard/store/materialIssueReq/PrintAllComMatIssueReq';
 
 dotenv.config();
 
@@ -318,6 +319,11 @@ function App() {
 				exact
 				path='/storedashboard/material_issue_requisition/complete_requisition_details/:id'
 				component={CompleteMatReqDetails}
+			/>
+			<Route
+				exact
+				path='/storedashboard/material_issue_requisition/print_all_complete_requisition_details'
+				component={PrintAllComMatIssueReq}
 			/>
 			<Route
 				exact
