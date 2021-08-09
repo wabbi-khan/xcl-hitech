@@ -467,6 +467,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/utils/Button';
 import { logOutUser } from '../../services/action/UserAction';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const drawerWidth = 270;
 
@@ -615,13 +616,23 @@ function Sidenav(props) {
 						{title}
 					</Typography>
 					<Typography variant='h6' noWrap style={{ marginLeft: 'auto' }}>
-						<Button
+						<ExitToAppIcon
+							onClick={() => {
+								// console.log('logout');
+							}}
+							style={{ cursor: 'pointer' }}
+						/>
+						{/* <Button
 							variant='outlined'
 							size='small'
 							classNames={classes.addMoreRes}
 							text='Logout'
+<<<<<<< HEAD
 							onClick={logOut}
 						/>
+=======
+						/> */}
+>>>>>>> 3faa42b988b3bf0c7fc6b9091abeac29ac36a8f1
 					</Typography>
 				</Toolbar>
 			</AppBar>

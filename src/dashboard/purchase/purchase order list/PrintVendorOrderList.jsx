@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 // import axios from 'axios';
 import { fetchSinglePurchaseOrderAction } from '../../../services/action/OrdersAction';
 import { withRouter } from 'react-router';
+import Grid from '@material-ui/core/Grid';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -115,168 +116,211 @@ const PrintVendorOrderList = ({ location }) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5'>Goods Received and Inspection Report</h5>
+				<h5 className='mt-4' style={{ textDecoration: 'underline', fontWeight: 'bold' }}>PURCHASE ORDER</h5>
 			</div>
 			<div className='container-fluid'>
-				<div className='row'>
-					<div className='col-lg-6 col-md-6 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-4 col-md-4' align='right'>
-								<p>Date</p>
-							</div>
-							<div className='col-lg-4 col-md-4 ml-3'>
-								<p>{fullDate}</p>
-								<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-							</div>
-						</div>
-					</div>
-					<div
-						className='offset-lg-4 offset-md-4 col-lg-2 col-md-2 mt-4'
-						id='printBtn'>
-						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
-							Print
-						</Button>
-					</div>
+				<div
+					className='mt-4'
+					id='printBtn'
+					style={{ textAlign: 'right', marginRight: '2rem'}}
+				>
+					<Button
+						variant='contained'
+						size='small'
+						className='bg-dark text-light'
+						onClick={() => window.print()}>
+						Print
+					</Button>
 				</div>
-			</div>
-			<div className={classes.table}>
-				<div className='table ml-auto mr-auto mt-4'>
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Vendor Name
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										P.O. No.
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										P.R. No.
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Payment Terms
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Payment Subject
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Reference
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Total Qty.
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Approve Date
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!order ? (
-									<span>Data Not Found</span>
-								) : (
-									<StyledTableRow>
-										<StyledTableCell className='text-dark' align='center'>
-											1.
+				<div class='container mt-5'>
+					<Grid container spacing={1} >
+						<Grid item lg={6} md={6} sm={6} xs={6} style={{ border: '1px solid black', padding: '1.5rem' }}>
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<h6 style={{ marginTop: '-10px' }}>
+									Mr/s.
+								</h6>
+								<hr
+									style={{
+										borderTop: '1.5px dotted black',
+										borderColor: 'black',
+										width: '50%',
+										marginLeft: '7px'
+									}}
+								/>
+							</div>
+							<div style={{ display: 'flex', alignItems: 'center', marginTop: '2rem', }}>
+								<h6 style={{ marginTop: '-10px' }}>
+									Address
+								</h6>
+								<hr
+									style={{
+										borderTop: '1.5px dotted black',
+										borderColor: 'black',
+										width: '50%',
+										marginLeft: '10px'
+									}}
+								/>
+							</div>
+						</Grid>
+						<Grid item lg={6} md={6} sm={6} xs={6} style={{ border: '1px solid black', padding: '1rem' }}>
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<h6 >
+									P.O. No:
+								</h6>
+							</div>
+							<div style={{ display: 'flex', alignItems: 'center', marginTop: '0.2rem', borderBottom: '1px solid black' }}>
+								<h6 >
+									Date:
+								</h6>
+							</div>
+							<div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', borderBottom: '1px solid black' }}>
+								<h6 >
+									Your Ref:
+								</h6>
+							</div>
+							<div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', borderBottom: '1px solid black' }}>
+								<h6 >
+									P.R. No:
+								</h6>
+							</div>
+						</Grid>
+					</Grid>
+				</div>
+				<div className={classes.table}>
+					<div className='table ml-auto mr-auto mt-4'>
+						<TableContainer>
+							<Table>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Sr.No
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{!order?.vendor ? null : order?.vendor?.name}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Vendor Name
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.poNum}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											P.O. No.
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.prNum}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											P.R. No.
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.paymentTerm}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Payment Terms
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.paymentSubject}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Payment Subject
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.reference}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Reference
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.totalQuantity}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Total Qty.
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{order?.date}
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Approve Date
 										</StyledTableCell>
-										<StyledTableCell className='text-dark' align='center'>
-											{/* {
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{!order ? (
+										<span>Data Not Found</span>
+									) : (
+										<StyledTableRow>
+											<StyledTableCell className='text-dark' align='center'>
+												1.
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{!order?.vendor ? null : order?.vendor?.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.poNum}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.prNum}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.paymentTerm}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.paymentSubject}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.reference}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.totalQuantity}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{order?.date}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark' align='center'>
+												{/* {
                                                     !vendor.category ? null : vendor.category.name
                                                 } */}
-										</StyledTableCell>
-									</StyledTableRow>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
-			</div>
-			<div className={classes.table1}>
-				<div className='table ml-auto mr-auto mt-4'>
-					{/* <h6>Purchase Inspection Materials</h6> */}
-					<TableContainer>
-						<Table>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Material Name
-									</StyledTableCell>
-									<StyledTableCell className='text-dark bg-light' align='center'>
-										Unit
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{!order?.materials || !order?.materials?.length ? (
-									<span>Not Found</span>
-								) : (
-									order?.materials?.map((mat, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{mat?.material?.name}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{mat?.unitValue}
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
-			</div>
-			<div className='container mt-5'>
-				<div className='row'>
-					<div className='col-lg-3 col-md-3 mt-5'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10 }}>Store Incharge</p>
+									)}
+								</TableBody>
+							</Table>
+						</TableContainer>
 					</div>
-					<div className='offset-lg-6 offset-md-6 col-lg-3 col-md-3 mt-5'>
-						<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-						<p style={{ marginTop: -10 }}>Q.A Dept</p>
+				</div>
+				<div className={classes.table1}>
+					<div className='table ml-auto mr-auto mt-4'>
+						{/* <h6>Purchase Inspection Materials</h6> */}
+						<TableContainer>
+							<Table>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Sr.No
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Material Name
+										</StyledTableCell>
+										<StyledTableCell className='text-dark bg-light' align='center'>
+											Unit
+										</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{!order?.materials || !order?.materials?.length ? (
+										<span>Not Found</span>
+									) : (
+										order?.materials?.map((mat, i) => (
+											<StyledTableRow key={i}>
+												<StyledTableCell className='text-dark' align='center'>
+													{i + 1}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{mat?.material?.name}
+												</StyledTableCell>
+												<StyledTableCell className='text-dark' align='center'>
+													{mat?.unitValue}
+												</StyledTableCell>
+											</StyledTableRow>
+										))
+									)}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				</div>
+				<div className='container mt-5'>
+					<div className='row'>
+						<div className='col-lg-3 col-md-3 mt-5'>
+							<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+							<p style={{ marginTop: -10 }}>Store Incharge</p>
+						</div>
+						<div className='offset-lg-6 offset-md-6 col-lg-3 col-md-3 mt-5'>
+							<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+							<p style={{ marginTop: -10 }}>Q.A Dept</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	);
+			);
 };
 
-export default withRouter(PrintVendorOrderList);
+			export default withRouter(PrintVendorOrderList);
