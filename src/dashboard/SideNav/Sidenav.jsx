@@ -616,23 +616,7 @@ function Sidenav(props) {
 						{title}
 					</Typography>
 					<Typography variant='h6' noWrap style={{ marginLeft: 'auto' }}>
-						<ExitToAppIcon
-							onClick={() => {
-								// console.log('logout');
-							}}
-							style={{ cursor: 'pointer' }}
-						/>
-						{/* <Button
-							variant='outlined'
-							size='small'
-							classNames={classes.addMoreRes}
-							text='Logout'
-<<<<<<< HEAD
-							onClick={logOut}
-						/>
-=======
-						/> */}
->>>>>>> 3faa42b988b3bf0c7fc6b9091abeac29ac36a8f1
+						<ExitToAppIcon onClick={logOut} style={{ cursor: 'pointer' }} />
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -649,9 +633,7 @@ function Sidenav(props) {
 					}),
 				}}>
 				<div className={classes.toolbar}>
-					<IconButton
-						onClick={handleDrawerClose}
-						style={{ background: 'black', color: 'whitesmoke' }}>
+					<IconButton style={{ background: 'black', color: 'whitesmoke' }}>
 						{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 					</IconButton>
 				</div>

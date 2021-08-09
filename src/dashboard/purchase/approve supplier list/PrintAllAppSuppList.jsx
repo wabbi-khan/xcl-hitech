@@ -157,8 +157,12 @@ const PrintAllAppSuppList = (props) => {
 									<td>{el.name}</td>
 									<td>{el.phone}</td>
 									<td>{!el.contactPerson ? null : el.contactPerson}</td>
-									<td>{el.approveDate}</td>
 									<td>
+										{el.materials?.map((el) => (
+											<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+										))}
+									</td>
+									{/* <td>
 										{el.rating == 3 ? (
 											<span>High</span>
 										) : el.rating == 2 ? (
@@ -170,7 +174,8 @@ const PrintAllAppSuppList = (props) => {
 										) : (
 											<span>None of these</span>
 										)}
-									</td>
+									</td> */}
+									<td>{el?.approveDate}</td>
 									<td></td>
 								</tr>
 							))
