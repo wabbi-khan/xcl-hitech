@@ -363,9 +363,6 @@ const EmpLeave = ({ history }) => {
 												flexDirection: 'column',
 												alignItems: 'center',
 											}}>
-											<span style={{ alignSelf: 'flex-start', marginBottom: 1 }}>
-												From
-											</span>
 											<CssTextField
 												id='outlined-basic'
 												variant='outlined'
@@ -377,10 +374,14 @@ const EmpLeave = ({ history }) => {
 												value={props.values.from}
 												onChange={props.handleChange('from')}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											></CssTextField>
 											{props.touched.from && (
 												<p className='text-danger'>{props.errors.from}</p>
 											)}
+											<span style={{ alignSelf: 'flex-start', marginLeft: '0.3rem', }}>
+												From
+											</span>
 										</div>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -390,7 +391,6 @@ const EmpLeave = ({ history }) => {
 												flexDirection: 'column',
 												alignItems: 'center',
 											}}>
-											<span style={{ alignSelf: 'flex-start', marginBottom: 1 }}>To</span>
 											<CssTextField
 												id='outlined-basic'
 												variant='outlined'
@@ -406,6 +406,7 @@ const EmpLeave = ({ history }) => {
 											{props.touched.to && (
 												<p className='text-danger'>{props.errors.to}</p>
 											)}
+											<span style={{ alignSelf: 'flex-start', marginLeft: '0.3rem', marginTop: '0.1rem' }}>To</span>
 										</div>
 									</Grid>
 								</Grid>

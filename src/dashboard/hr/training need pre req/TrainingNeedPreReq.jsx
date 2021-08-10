@@ -52,8 +52,10 @@ const useStyles = makeStyles((theme) => ({
 	mainContainer: {
 		marginTop: 20,
 	},
-	addButton: {
-		marginTop: 20,
+	addMoreButton: {
+		padding: '7.5px',
+		marginTop: '-0.2rem',
+		marginLeft: '0.5rem',
 		color: '#22A19A',
 		borderColor: '#22A19A',
 		fontWeight: 'bold',
@@ -62,11 +64,18 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: '#22A19A',
 			color: 'whitesmoke',
 		},
-		[theme.breakpoints.up('md')]: {
-			width: '10%',
-		},
-		[theme.breakpoints.down('sm')]: {
-			// width: '12%',
+	},
+	addButton: {
+		padding: '7.5px',
+		marginTop: '2rem',
+		width: '10%',
+		color: '#22A19A',
+		borderColor: '#22A19A',
+		fontWeight: 'bold',
+		'&:hover': {
+			border: 'none',
+			backgroundColor: '#22A19A',
+			color: 'whitesmoke',
 		},
 	},
 	table: {
@@ -74,24 +83,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	dataTable: {
 		marginTop: 40,
-	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			marginLeft: 10,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
-		},
 	},
 }));
 
@@ -211,7 +202,7 @@ const TrainingNeedPreReq = () => {
 										size='small'
 										select
 										autocomplete='off'
-										className={classes.inputFieldStyle}
+										style={{ width: '25%', }}
 										inputProps={{
 											style: {
 												fontSize: 14,
@@ -245,7 +236,7 @@ const TrainingNeedPreReq = () => {
 										size='small'
 										select
 										autocomplete='off'
-										className={classes.inputFieldStyle1}
+										style={{ width: '25%', marginLeft: '0.5rem' }}
 										inputProps={{
 											style: {
 												fontSize: 14,
@@ -278,7 +269,7 @@ const TrainingNeedPreReq = () => {
 										type='text'
 										size='small'
 										autocomplete='off'
-										className={classes.inputFieldStyle1}
+										style={{ width: '25%', marginLeft: '0.5rem' }}
 										inputProps={{
 											style: {
 												fontSize: 14,
@@ -318,7 +309,7 @@ const TrainingNeedPreReq = () => {
 														type='text'
 														size='small'
 														autocomplete='off'
-														className={classes.inputFieldStyle1}
+														style={{ width: '25%', }}
 														inputProps={{
 															style: {
 																fontSize: 14,
@@ -337,8 +328,9 @@ const TrainingNeedPreReq = () => {
 													<Button
 														variant='outlined'
 														type='submit'
-														className={classes.addButton}>
-														Add
+														size='small'
+														className={classes.addMoreButton}>
+														Add More
 													</Button>
 												</Form>
 											</Container>

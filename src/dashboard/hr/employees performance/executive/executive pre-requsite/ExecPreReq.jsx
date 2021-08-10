@@ -73,9 +73,9 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	addMoreParaBtn: {
-		marginTop: 1,
+		marginTop: '-0.2rem',
 		marginLeft: 5,
-		padding: 6,
+		padding: 8,
 		backgroundColor: '#22A19A',
 		color: 'whitesmoke',
 		'&:hover': {
@@ -92,24 +92,6 @@ const useStyles = makeStyles((theme) => ({
 			color: '#22A19A',
 			fontWeight: 'bold',
 			backgroundColor: 'whitesmoke',
-		},
-	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			marginLeft: 5,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
 		},
 	},
 }));
@@ -222,7 +204,7 @@ const ExecPreReq = () => {
 												type='text'
 												autocomplete='off'
 												size='small'
-												className={classes.inputFieldStyle}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('heading')}

@@ -354,7 +354,7 @@ const TrainingRecord = ({ history }) => {
 							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 						</div>
 					) : trainingEvaluations?.length === 0 ? (
-						<p>There are no Responsibilities</p>
+						<p>There are no Records for Evaluation</p>
 					) : (
 						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 							{trainingEvaluations?.map((el, i) => (

@@ -92,24 +92,6 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: 'whitesmoke',
 		},
 	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			marginLeft: 5,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
-		},
-	},
 }));
 
 const CssTextField = withStyles({
@@ -187,7 +169,7 @@ const ExecEmpRatings = ({ history }) => {
 	return (
 		<Sidenav title={'Non-Executive Emplolyees Ratings'}>
 			<div>
-				<Container className={classes.mainContainer}>
+				<div class='container-fluid text-center mt-3'>
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
@@ -275,7 +257,7 @@ const ExecEmpRatings = ({ history }) => {
 											type='number'
 											autocomplete='off'
 											size='small'
-											style={{ width: '125%', marginLeft: 150 }}
+											style={{ width: '125%', marginLeft: 200 }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('calculated')}
@@ -298,7 +280,7 @@ const ExecEmpRatings = ({ history }) => {
 							</Form>
 						)}
 					</Formik>
-				</Container>
+				</div>
 				<EditExecEmpRat show={open} handler={handleClose} rating={rating} />
 				<div className={classes.dataTable} style={{ marginTop: '1rem' }}>
 					<TableContainer className={classes.tableContainer}>
