@@ -154,16 +154,16 @@ const PrintAllComMatIssueReq = (props) => {
 							) : (
 								vendors?.map((el, i) => ( */}
                         <tr>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
-                            <td >{  }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
+                            <td >{ }asd</td>
                             {/* <td>{el.name}</td> */}
                             {/* <td>{el.name}</td> */}
                             {/* <td>{!el.contactPerson ? null : el.contactPerson}</td> */}
@@ -222,10 +222,28 @@ const PrintAllComMatIssueReq = (props) => {
                             1. Hi Tech Item Code. Cost Centre Number, Quantities / Required / Return & Replacement Status must be stated clearly.
                         </p>
                         <p
-                            style={{ fontSize: '11px', fontWeight: 'bold', marginTop: '-12px'}}
+                            style={{ fontSize: '11px', fontWeight: 'bold', marginTop: '-12px' }}
                         >
-                            2. Hi Tech Item Code. Cost Centre Number, Quantities / Required / Return & Replacement Status must be stated clearly.
+                            2. There must not be any alternation or overwriting to any word of the figure of an MIR, except where the unit in which
+                            the stock records are maintained in such cases quantities and unit be changed by Store Officer.
                         </p>
+                        <div class='d-flex align-items-center'>
+                            <h6>DISTRIBUTION: </h6>
+                            <div style={{ marginLeft: '2rem' }}>
+                                <p style={{ marginTop: 10 }}>White = "Main Store"</p>
+                                <p style={{ marginTop: -10 }}>Yellow = "Originator"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-lg-4 col-md-4 col-sm-4'>
+                        <div class='text-center ' style={{ border: '1px solid black' }}>
+                            <h6 style={{ borderBottom: '1px solid black', padding: '0.7rem' }}>RULES</h6>
+                            <div class=''>
+                                <div>
+                                    <input type="checkbox" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
