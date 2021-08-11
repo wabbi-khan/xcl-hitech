@@ -279,7 +279,10 @@ const ViewEmpDetails = (props) => {
 												className='bg-dark text-light'
 												size='small'
 												onClick={() => {
-													history.push(`/hr/employees/print_emp_details/${el._id}`);
+													history.push({
+														pathname: `/hr/employees/print_emp_details/${el._id}`,
+														state: { employee: el },
+													});
 												}}>
 												Print
 											</Button>
@@ -302,7 +305,10 @@ const ViewEmpDetails = (props) => {
 												size='small'
 												style={{ marginLeft: 3 }}
 												onClick={() => {
-													history.push(`/hr/employees/print_emp_details/${el._id}`);
+													history.push({
+														pathname: `/hr/employees/print_emp_details/${el._id}`,
+														state: { employee: el },
+													});
 												}}>
 												View Details
 											</Button>
@@ -421,7 +427,10 @@ const ViewEmpDetails = (props) => {
 													className='bg-dark text-light'
 													size='small'
 													onClick={() => {
-														history.push(`/hr/employees/print_emp_details/${el._id}`);
+														history.push({
+															pathname: `/hr/employees/print_emp_details/${el._id}`,
+															state: { employee: el },
+														});
 													}}>
 													View Report
 												</Button>

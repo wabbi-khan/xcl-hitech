@@ -97,7 +97,9 @@ const PrintEmpDetails = (props) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	const { employee, error, loading } = useSelector((state) => state.employees);
+	const employee = props?.location?.state?.employee;
+
+	const { error, loading } = useSelector((state) => state.employees);
 
 	console.log(employee);
 	React.useEffect(() => {
@@ -133,8 +135,10 @@ const PrintEmpDetails = (props) => {
 		finalDepartment,
 		finalDesignation,
 		finalSal,
+		picture,
 	} = employee;
 
+	console.log(employee);
 	// const { address, contact, name: kinName, relation } = employee.nextToKin;
 
 	const date = new Date();
@@ -182,8 +186,8 @@ const PrintEmpDetails = (props) => {
 					</div>
 					<div className='offset-lg-5 offset-md-5 offset-sm-5 col-lg-2 col-md-2 col-sm-2'>
 						<img
-							src="" 
-							alt=""
+							src={picture ? picture : ''}
+							alt='Profile'
 							width='150'
 							height='150'
 						/>
@@ -198,7 +202,6 @@ const PrintEmpDetails = (props) => {
 								Print
 							</Button>
 						</div>
-						
 					</div>
 				</div>
 			</div>
