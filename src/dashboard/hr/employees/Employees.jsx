@@ -595,6 +595,8 @@ const Employees = ({ history, location }) => {
 			picture: image.image,
 		};
 
+		console.log(data);
+
 		if (!data.finalDepartment) {
 			console.log('object');
 			data.finalDepartment = undefined;
