@@ -235,7 +235,7 @@ const JobDescription = ({ history }) => {
 												size='small'
 												select
 												autocomplete='off'
-												style={{ width: '75%' }}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('department')}
 												onBlur={props.handleBlur('department')}
@@ -266,7 +266,7 @@ const JobDescription = ({ history }) => {
 												size='small'
 												select
 												autocomplete='off'
-												style={{ width: '75%' }}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('designation')}
 												onBlur={props.handleBlur('designation')}
@@ -297,7 +297,7 @@ const JobDescription = ({ history }) => {
 												autocomplete='off'
 												size='small'
 												select
-												style={{ width: '75%' }}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('employee')}
 												onBlur={props.handleBlur('employee')}
@@ -325,7 +325,7 @@ const JobDescription = ({ history }) => {
 												autocomplete='off'
 												size='small'
 												select
-												style={{ width: '75%' }}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('reportTo')}
 												onBlur={props.handleBlur('reportTo')}
@@ -355,7 +355,7 @@ const JobDescription = ({ history }) => {
 												size='small'
 												select
 												autocomplete='off'
-												style={{ width: '75%' }}
+												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												onChange={props.handleChange('interactionWith')}
 												onBlur={props.handleBlur('interactionWith')}
@@ -428,6 +428,7 @@ const JobDescription = ({ history }) => {
 														color='primary'
 														text='Add'
 														classNames='bg-success text-light'
+														style={{ marginLeft: '0.5rem', padding: '7.5px', marginTop: '-0.2rem' }}
 													/>
 													{addResError && <p>{addResError}</p>}
 												</div>
@@ -447,8 +448,8 @@ const JobDescription = ({ history }) => {
 												variant='outlined'
 												color='primary'
 												text='Delete'
-												classNames='bg-danger text-light'
 												size='small'
+												classNames='bg-danger text-light'
 												onClick={() => deleteRes(el?.name)}
 											/>
 										</div>
@@ -505,6 +506,7 @@ const JobDescription = ({ history }) => {
 														color='primary'
 														text='Add'
 														classNames='bg-success text-light'
+														style={{ marginLeft: '0.5rem', padding: '7.5px', marginTop: '-0.2rem' }}
 													/>
 													{addAuthError && <p>{addAuthError}</p>}
 												</div>
@@ -540,7 +542,7 @@ const JobDescription = ({ history }) => {
 											variant='outlined'
 											color='primary'
 											classNames={classes.addButton}
-											text='Print'
+											text='Add'
 										/>
 									</div>
 								</Form>

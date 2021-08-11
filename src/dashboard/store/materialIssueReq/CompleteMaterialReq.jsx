@@ -73,6 +73,17 @@ const CompleteMaterialReq = ({ history }) => {
 
 	return (
 		<Sidenav title={'Completed Material Issue Requisitions'}>
+			<Button
+				variant='contained'
+				size='small'
+				className='bg-dark text-light'
+				style={{ marginLeft: '0.8rem' }}
+				onClick={() => {
+					history.push('/storedashboard/material_issue_requisition/print_all_complete_requisition_details')
+				}}
+			>
+				Print Purchase Req
+			</Button>
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}
