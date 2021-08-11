@@ -125,6 +125,20 @@ export const updateEmployee = (id, values, cb) => async (dispatch) => {
 
 	console.log(values);
 	try {
+		if (values.picture) {
+			const formData = new FormData();
+
+			formData.append('file', values.picture);
+			formData.append('upload_preset', 'q2yuodxb');
+			let img = await axios.post(
+				`https://api.cloudinary.com/v1_1/dcbwrkyux/image/upload`,
+				formData,
+			);
+
+			values.picture = img.data.url;
+			console.log(values.picture);
+		}
+
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/employees/${id}`,
 			values,
@@ -193,22 +207,25 @@ export const hireEmployee = (id, values, cb) => async (dispatch) => {
 	}
 };
 
-export const deleteEmployee = (params) => async (dispatch) => {
+export const deleteEmployee = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: EMPLOYEE_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/employees/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/employees/${params}`,
+		);
 
-		dispatch({
-			type: EMPLOYEE_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: EMPLOYEE_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 

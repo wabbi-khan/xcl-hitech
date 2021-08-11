@@ -14,7 +14,10 @@ import Button from '@material-ui/core/Button';
 import {
 	getEmployees,
 	getUnHiredEmployees,
+	deleteEmployee,
 } from '../../../services/action/EmployeesAction';
+import { getDesignation } from '../../../services/action/DesignationAction';
+import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
 
@@ -99,6 +102,8 @@ const ViewEmpDetails = (props) => {
 	const [hiredSearchBy, setHiredSearchBy] = React.useState('code');
 	const [unHiredLoading, setUnHiredLoading] = React.useState(true);
 	const [hiredLoading, setHiredLoading] = React.useState(true);
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
 	const { history } = props;
 	const id = props.match.params.id;
 
@@ -118,6 +123,8 @@ const ViewEmpDetails = (props) => {
 				setUnHiredLoading(false);
 			}),
 		);
+		dispatch(getDesignation());
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { employees, unHiredEmployees } = useSelector(
@@ -159,9 +166,36 @@ const ViewEmpDetails = (props) => {
 		}
 	};
 
+	const deleteEmp = (id) => {
+		console.log(id);
+		setDeleteLoading(true);
+		dispatch(
+			deleteEmployee(id, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
+	};
+
 	console.log(unHiredEmployees);
+
 	return (
 		<Sidenav title={'Employee Details'}>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div className={classes.dataTable}>
 				<div style={{ display: 'flex' }}>
 					<CssTextField
@@ -216,28 +250,28 @@ const ViewEmpDetails = (props) => {
 									<StyledTableCell align='center'>Sr.No</StyledTableCell>
 									<StyledTableCell align='center'>Name</StyledTableCell>
 									<StyledTableCell align='center'>Code</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
+									<StyledTableCell align='center'>Job Applied For</StyledTableCell>
 									<StyledTableCell align='center'>Department</StyledTableCell>
 									<StyledTableCell align='center'>Action</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{unHiredEmployees.map((unHiredEmployee, i) => (
+								{unHiredEmployees.map((el, i) => (
 									<StyledTableRow>
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{i + 1}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee?.name}
+											{el?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee?.code}
+											{el?.code}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee?.officeUse?.jobTitle}
+											{el?.jobAppliedFor?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{unHiredEmployee?.officeUse?.department?.name}
+											{el?.officeUse?.department?.name}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
 											<Button
@@ -245,9 +279,7 @@ const ViewEmpDetails = (props) => {
 												className='bg-dark text-light'
 												size='small'
 												onClick={() => {
-													history.push(
-														`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
-													);
+													history.push(`/hr/employees/print_emp_details/${el._id}`);
 												}}>
 												Print
 											</Button>
@@ -259,7 +291,7 @@ const ViewEmpDetails = (props) => {
 												onClick={() => {
 													history.push({
 														pathname: `/hr/employees`,
-														state: { user: unHiredEmployee, toUpdate: true },
+														state: { user: el, toUpdate: true },
 													});
 												}}>
 												Edit
@@ -270,16 +302,14 @@ const ViewEmpDetails = (props) => {
 												size='small'
 												style={{ marginLeft: 3 }}
 												onClick={() => {
-													history.push(
-														`/hr/employees/print_emp_details/${unHiredEmployee._id}`,
-													);
+													history.push(`/hr/employees/print_emp_details/${el._id}`);
 												}}>
 												View Details
 											</Button>
 											<Link
 												to={{
 													pathname: `/hr/employees`,
-													state: { user: unHiredEmployee, toUpdate: true, isHiring: true },
+													state: { user: el, toUpdate: true, isHiring: true },
 												}}>
 												<Button
 													variant='contained'
@@ -289,6 +319,14 @@ const ViewEmpDetails = (props) => {
 													Hire Now
 												</Button>
 											</Link>
+											<Button
+												variant='contained'
+												className='bg-danger text-light'
+												size='small'
+												style={{ marginLeft: 3 }}
+												onClick={() => deleteEmp(el._id)}>
+												Delete
+											</Button>
 										</StyledTableCell>
 									</StyledTableRow>
 								))}
@@ -360,22 +398,22 @@ const ViewEmpDetails = (props) => {
 								{!employees || !employees.length ? (
 									<h5>Not Found</h5>
 								) : (
-									employees.map((employee, i) => (
+									employees.map((el, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{employee?.name}
+												{el?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{employee?.code}
+												{el?.code}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{employee?.finalDesignation?.name}
+												{el?.finalDesignation?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{employee?.finalDepartment?.name}
+												{el?.finalDepartment?.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button
@@ -383,7 +421,7 @@ const ViewEmpDetails = (props) => {
 													className='bg-dark text-light'
 													size='small'
 													onClick={() => {
-														history.push(`/hr/employees/print_emp_details/${employee._id}`);
+														history.push(`/hr/employees/print_emp_details/${el._id}`);
 													}}>
 													View Report
 												</Button>
@@ -395,10 +433,18 @@ const ViewEmpDetails = (props) => {
 													onClick={() => {
 														history.push({
 															pathname: `/hr/employees`,
-															state: { user: employee, toUpdate: true },
+															state: { user: el, toUpdate: true },
 														});
 													}}>
 													Edit
+												</Button>
+												<Button
+													variant='contained'
+													className='bg-danger text-light'
+													size='small'
+													style={{ marginLeft: 3 }}
+													onClick={() => deleteEmp(el._id)}>
+													Delete
 												</Button>
 											</StyledTableCell>
 										</StyledTableRow>
