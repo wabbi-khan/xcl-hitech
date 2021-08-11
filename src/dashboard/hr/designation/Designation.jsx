@@ -541,8 +541,13 @@ const Designation = ({ history }) => {
 												{el.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.educations?.map((el) => (
-													<p style={{ margin: '0', padding: '0' }}>{el?.name}</p>
+												{el?.educations?.map((bottomEl, i) => (
+													<>
+														<p style={{ margin: '0', padding: '0' }}>
+															{bottomEl?.name}
+															{el?.educations?.length - 1 > i && <span>/</span>}
+														</p>
+													</>
 												))}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
