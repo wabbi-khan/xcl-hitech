@@ -17,9 +17,9 @@ export const getEmployees = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/employees?isHired=true${
-				query ? `&${query}` : ''
-			}`,
+			`${
+				process.env.REACT_APP_API_URL
+			}/employees?isHired=true&sort=finalDesignation${query ? `&${query}` : ''}`,
 		);
 
 		if (data.success) {

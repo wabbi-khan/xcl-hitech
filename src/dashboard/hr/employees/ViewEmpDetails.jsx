@@ -26,6 +26,7 @@ const StyledTableCell = withStyles((theme) => ({
 		backgroundColor: theme.palette.common.black,
 		color: theme.palette.common.white,
 	},
+
 	body: {
 		fontSize: 14,
 	},
@@ -184,6 +185,15 @@ const ViewEmpDetails = (props) => {
 
 	console.log(unHiredEmployees);
 
+	function capitalize(string) {
+		const words = string.split(' ');
+		let result = '';
+		words.forEach((word) => {
+			if (word)
+				result += word[0].toUpperCase() + word.substring(1).toLowerCase() + ' ';
+		});
+		return result;
+	}
 	return (
 		<Sidenav title={'Employee Details'}>
 			{deleteLoading && (
@@ -261,17 +271,20 @@ const ViewEmpDetails = (props) => {
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{i + 1}
 										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.name}
+										<StyledTableCell
+											className='text-dark bg-light'
+											align='center'
+											style={{ textTransform: 'capitalize' }}>
+											{capitalize(el?.name)}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{el?.code}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.jobAppliedFor?.name}
+											{capitalize(el?.jobAppliedFor?.name)}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.officeUse?.department?.name}
+											{capitalize(el?.officeUse?.department?.name)}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
 											<Button
@@ -410,16 +423,16 @@ const ViewEmpDetails = (props) => {
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.name}
+												{capitalize(el?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el?.code}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.finalDesignation?.name}
+												{capitalize(el?.finalDesignation?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.finalDepartment?.name}
+												{capitalize(el?.finalDepartment?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button

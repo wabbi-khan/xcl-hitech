@@ -20,8 +20,8 @@ import {
 } from '../../../services/action/EducationAction';
 import EditEducation from './EditEducation';
 import Loader from 'react-loader-spinner';
-import { Formik, Form } from 'formik'
-import * as yup from 'yup'
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -112,12 +112,12 @@ const CssTextField = withStyles({
 })(TextField);
 
 const initialValues = {
-	name: ''
-}
+	name: '',
+};
 
 const validationSchema = yup.object({
-	name: yup.string().required()
-})
+	name: yup.string().required(),
+});
 
 const Education = () => {
 	const [education, setEducation] = useState();
@@ -126,7 +126,6 @@ const Education = () => {
 	const [fetchError, setFetchError] = React.useState('');
 
 	const classes = useStyles();
-
 
 	const dispatch = useDispatch();
 
@@ -169,8 +168,11 @@ const Education = () => {
 			<EditEducation show={open} handler={handleClose} edu={education} />
 			<div>
 				<Container className={classes.mainContainer}>
-					<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmitDate}>
-						{props => (
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={onSubmitDate}>
+						{(props) => (
 							<Form>
 								<CssTextField
 									id='outlined-basic'

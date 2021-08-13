@@ -133,6 +133,10 @@ const JobDescription = ({ history }) => {
 		responsibilities: [],
 		authorities: [],
 	});
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+
 	const [department, setDepartment] = React.useState('');
 	const { departments } = useSelector((state) => state.departments);
 	const { designations } = useSelector((state) => state.designations);
@@ -197,13 +201,23 @@ const JobDescription = ({ history }) => {
 	};
 
 	const addResponsibility = (values) => {
-		responsibilitiesState.indexOf(values) === -1
+		let exist = false;
+		responsibilitiesState.forEach((el) => {
+			if (el.name === values.name) exist = true;
+		});
+
+		!exist
 			? setResponsibilitiesState((prev) => [...prev, values])
 			: setAddResError('Already Added');
 	};
 
 	const addAuthority = (values) => {
-		authoritiesState.indexOf(values) === -1
+		let exist = false;
+		authoritiesState.forEach((el) => {
+			if (el.name === values.name) exist = true;
+		});
+
+		!exist
 			? setAuthoritiesState((prev) => [...prev, values])
 			: setAddAuthError('Already Added');
 	};
@@ -417,19 +431,16 @@ const JobDescription = ({ history }) => {
 															<p>Data Not Found</p>
 														) : (
 															responsibilities.map((el, i) => (
-																<MenuItem value={el.name} key={i}>
+																<MenuItem
+																	value={el.name}
+																	key={i}
+																	onClick={() => addResponsibility({ name: el?.name })}>
 																	{el.name}
 																</MenuItem>
 															))
 														)}
 													</CssTextField>
-													<Button
-														variant='outlined'
-														color='primary'
-														text='Add'
-														classNames='bg-success text-light'
-														style={{ marginLeft: '0.5rem', padding: '7.5px', marginTop: '-0.2rem' }}
-													/>
+
 													{addResError && <p>{addResError}</p>}
 												</div>
 											</Form>
@@ -495,19 +506,16 @@ const JobDescription = ({ history }) => {
 															<p>Data Not Found</p>
 														) : (
 															authorities.map((el, i) => (
-																<MenuItem value={el.name} key={i}>
+																<MenuItem
+																	value={el.name}
+																	key={i}
+																	onClick={() => addAuthority({ name: el?.name })}>
 																	{el.name}
 																</MenuItem>
 															))
 														)}
 													</CssTextField>
-													<Button
-														variant='outlined'
-														color='primary'
-														text='Add'
-														classNames='bg-success text-light'
-														style={{ marginLeft: '0.5rem', padding: '7.5px', marginTop: '-0.2rem' }}
-													/>
+
 													{addAuthError && <p>{addAuthError}</p>}
 												</div>
 											</Form>

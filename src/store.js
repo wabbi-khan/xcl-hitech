@@ -41,6 +41,7 @@ import { authorityReducer } from './services/reducer/authorityReducer';
 import { unitReducer } from './services/reducer/UnitReducer';
 import { getTrainingEvaluations } from './services/reducer/trainingEvaluationReducer';
 import { subCategoryReducer } from './services/reducer/subCategoryReducer';
+import { jobDescriptionReducer } from './services/reducer/jobDescriptionReducer';
 
 const initialState = {};
 
@@ -86,6 +87,7 @@ const reducer = combineReducers({
 	units: unitReducer,
 	trainingEvaluations: getTrainingEvaluations,
 	subCategories: subCategoryReducer,
+	jobDescriptions: jobDescriptionReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
