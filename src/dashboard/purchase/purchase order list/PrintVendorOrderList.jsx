@@ -128,7 +128,7 @@ const PrintVendorOrderList = ({ location }) => {
 						width: '100px',
 						marginLeft: 'auto',
 						paddingRight: '10px',
-						marginRight: '0.7rem'
+						marginRight: '0.7rem',
 					}}>
 					<h6>FM-23</h6>
 					<h6>Issue.02</h6>
@@ -153,12 +153,16 @@ const PrintVendorOrderList = ({ location }) => {
 					</Button>
 				</div>
 				<div class='container-fluid mt-5'>
-					<Grid container spacing={1} >
-						<Grid item lg={6} md={6} sm={6} xs={6} style={{ border: '1px solid black', padding: '1.5rem' }}>
+					<Grid container spacing={1}>
+						<Grid
+							item
+							lg={6}
+							md={6}
+							sm={6}
+							xs={6}
+							style={{ border: '1px solid black', padding: '1.5rem' }}>
 							<div style={{ display: 'flex', alignItems: 'center' }}>
-								<h6 style={{ marginTop: '-10px' }}>
-									Mr/s.
-								</h6>
+								<h6 style={{ marginTop: '-10px' }}>Mr/s. {order?.vendor?.name}</h6>
 
 								<hr
 									style={{
@@ -201,7 +205,7 @@ const PrintVendorOrderList = ({ location }) => {
 									marginTop: '0.2rem',
 									borderBottom: '1px solid black',
 								}}>
-								<h6>Date:</h6>
+								<h6>Date: {fullDate}</h6>
 							</div>
 							<div
 								style={{
@@ -236,62 +240,47 @@ const PrintVendorOrderList = ({ location }) => {
 							</tr>
 						</thead>
 						<tbody>
-							{
-								!order?.materials || !order?.materials?.length ? (
-									<span>Not Found</span>
-								) : (
-									order?.materials?.map((el, i) => (
-										<tr key={i}>
-											<td >{i + 1}</td>
-											<td >{el?.material?.name}</td>
-											<td >{el?.quantity}</td>
-											<td >{el?.material?.unit?.name}</td>
-											<td >{ }</td>
-											{/* <td>{el.name}</td> */}
-											{/* <td>{el.name}</td> */}
-											{/* <td>{!el.contactPerson ? null : el.contactPerson}</td> */}
-											{/* <td>
+							{!order?.materials || !order?.materials?.length ? (
+								<span>Not Found</span>
+							) : (
+								order?.materials?.map((el, i) => (
+									<tr key={i}>
+										<td>{i + 1}</td>
+										<td>{el?.material?.name}</td>
+										<td>{el?.quantity}</td>
+										<td>{el?.material?.unit?.name}</td>
+										<td>{el?.remarks}</td>
+										{/* <td>{el.name}</td> */}
+										{/* <td>{el.name}</td> */}
+										{/* <td>{!el.contactPerson ? null : el.contactPerson}</td> */}
+										{/* <td>
 											{el.materials?.map((el) => (
 												<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
 											))}
 										</td> */}
-										</tr>
-									))
-								)}
+									</tr>
+								))
+							)}
 						</tbody>
 					</table>
-					{
-						!order ? (
-							<span>Data Not Found</span>
-						) : (
-							<div >
-								<div style={{ textAlign: 'left', display: 'flex' }}>
-									<p>- Payment Terms: </p>
-									<p
-										style={{ marginLeft: '0.5rem' }}
-									>
-										{ order?.paymentTerm }
-									</p>
-								</div>
-								<div style={{ textAlign: 'left', display: 'flex' }}>
-									<p>- Payment Subject to: </p>
-									<p
-										style={{ marginLeft: '0.5rem' }}
-									>
-										{ order?.paymentSubject }
-									</p>
-								</div>
-								<div style={{ textAlign: 'left', display: 'flex' }}>
-									<p>- Delivery Schedule: </p>
-									<p
-										style={{ marginLeft: '0.5rem' }}
-									>
-										{ }asd
-									</p>
-								</div>
+					{!order ? (
+						<span>Data Not Found</span>
+					) : (
+						<div>
+							<div style={{ textAlign: 'left', display: 'flex' }}>
+								<p>- Payment Terms: </p>
+								<p style={{ marginLeft: '0.5rem' }}>{order?.paymentTerm}</p>
 							</div>
-						)
-					}
+							<div style={{ textAlign: 'left', display: 'flex' }}>
+								<p>- Payment Subject to: </p>
+								<p style={{ marginLeft: '0.5rem' }}>{order?.paymentSubject}</p>
+							</div>
+							<div style={{ textAlign: 'left', display: 'flex' }}>
+								<p>- Delivery Schedule: </p>
+								<p style={{ marginLeft: '0.5rem' }}>{}asd</p>
+							</div>
+						</div>
+					)}
 				</div>
 				<div className='container mt-4'>
 					<div className='row'>

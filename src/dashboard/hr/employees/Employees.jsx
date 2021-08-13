@@ -196,8 +196,8 @@ const initialValues2 = {
 	bankNameAndBranch: '',
 	isExecutive: '',
 	empType: '',
-	finalDepartment: undefined,
-	finalDesignation: undefined,
+	finalDepartment: '',
+	finalDesignation: '',
 	finalSal: undefined,
 };
 
@@ -319,8 +319,9 @@ const Employees = ({ history, location }) => {
 	const [hireLoading, setHireLoading] = React.useState('');
 	const [initialValues1State, setInitialValues1State] =
 		React.useState(initialValues1);
-	const [initialValues2State, setInitialValues2State] =
-		React.useState(initialValues2);
+	const [initialValues2State, setInitialValues2State] = React.useState({
+		...initialValues2,
+	});
 	const [initialValueStateForNextToKin, setInitialValueStateForNextToKin] =
 		React.useState(initialValuesForNextToKin);
 	const [initialValueStateForReference, setInitialValueStateForReference] =
@@ -377,32 +378,59 @@ const Employees = ({ history, location }) => {
 		});
 
 	React.useEffect(() => {
+		console.log(location?.state?.user);
 		if (location.state?.user) {
 			const {
 				name,
 				fatherName_husbandName,
-				jobAppliedFor,
 				presentAddress,
+				jobAppliedFor,
 				permanentAddress,
 				telephoneNo,
 				mobileNo,
 				gender,
-				...rest
+				status,
+				age,
+				dateOfBirth,
+				placeOfBirth,
+				email,
+				cnic,
+				DatePlaceOfIssue,
+				nationality,
+				bankAccount,
+				bankNameAndBranch,
+				isExecutive,
+				empType,
+				finalDepartment,
+				finalDesignation,
+				finalSal,
 			} = location.state?.user;
 			setInitialValues1State({
 				name,
 				fatherName_husbandName,
-				jobAppliedFor,
 				presentAddress,
 				permanentAddress,
 				telephoneNo,
 				mobileNo,
 				gender,
+				jobAppliedFor: jobAppliedFor?._id,
 			});
 			setInitialValues2State({
-				...rest,
-				finalDepartment: rest?.finalDepartment?._id,
-				finalDesignation: rest?.finalDesignation?._id,
+				status,
+				age,
+				email,
+				cnic,
+				dateOfBirth,
+				placeOfBirth,
+				DatePlaceOfIssue,
+				nationality,
+				bankAccount,
+				bankNameAndBranch,
+				isExecutive,
+				empType,
+				finalSal,
+				finalDepartment: finalDepartment ? finalDepartment._id : '',
+				finalDesignation: finalDesignation ? finalDesignation._id : '',
 			});
 			setAcademicQualification(location.state?.user.academicQualification);
 			setExperience(location.state?.user.experience);
@@ -414,7 +442,9 @@ const Employees = ({ history, location }) => {
 				department: location.state?.user.officeUse.department._id,
 			});
 		}
-	}, [location]);
+	}, [location?.state?.user]);
+
+	console.log(initialValues2State);
 
 	const picUploadFunc = (event) => {
 		if (event.target.files && event.target.files[0]) {
@@ -430,8 +460,6 @@ const Employees = ({ history, location }) => {
 	useEffect(() => {
 		dispatch(getEmployees());
 		dispatch(getExperiences());
-		dispatch(fetchDepartmentsAction());
-		dispatch(getDesignation());
 	}, [dispatch]);
 
 	const { experiences: experiencesState } = useSelector(
@@ -550,7 +578,6 @@ const Employees = ({ history, location }) => {
 		initialValues2Form.setTouched(initialValues2Error);
 
 		const data = {
-			picture: image.image,
 			...initialValues1Form.values,
 			...initialValues2Form.values,
 			nextToKin: {
@@ -565,7 +592,19 @@ const Employees = ({ history, location }) => {
 			academicQualification: academicQualifications,
 			professionalQualification,
 			experience,
+			picture: image.image,
 		};
+
+		console.log(data);
+
+		if (!data.finalDepartment) {
+			console.log('object');
+			data.finalDepartment = undefined;
+			data.finalDesignation = undefined;
+			// initialValues2Form.values.finalDesignation = undefined;
+		} else {
+			console.log('asd');
+		}
 
 		console.log(nextToKinErrors);
 		console.log(referenceErrors);
@@ -601,7 +640,6 @@ const Employees = ({ history, location }) => {
 					}, 4000);
 				}
 			} else if (location?.state?.toUpdate) {
-				console.log('object');
 				onUpdateEmployee(data);
 			} else {
 				onCreateEmployee(data);
@@ -883,7 +921,7 @@ const Employees = ({ history, location }) => {
 							enableReinitialize
 							validationSchema={validationSchema2}>
 							{(props) => {
-								initialValues2Form = props;
+								initialValues2Form = { ...props };
 								return (
 									<Grid container spacing={1}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -1154,7 +1192,7 @@ const Employees = ({ history, location }) => {
 												)}
 											</FastField>
 										</Grid>
-										{location.state?.isHiring && (
+										{(location.state?.isHiring || location.state?.user?.isHired) && (
 											<>
 												<Grid item lg={3} md={3} sm={12} xs={12}>
 													<FastField name='finalDepartment'>
@@ -1162,15 +1200,11 @@ const Employees = ({ history, location }) => {
 															<CssTextField
 																id='outlined-basic'
 																label='Final Department'
+																style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
 																variant='outlined'
 																type='text'
 																size='small'
 																select
-																style={{
-																	marginTop: '1rem',
-																	marginLeft: '1rem',
-																	width: '100%',
-																}}
 																autocomplete='off'
 																inputProps={{ style: { fontSize: 14 } }}
 																InputLabelProps={{ style: { fontSize: 14 } }}
@@ -1199,12 +1233,11 @@ const Employees = ({ history, location }) => {
 																	marginLeft: '1rem',
 																	width: '100%',
 																}}
-																autocomplete='off'
 																inputProps={{ style: { fontSize: 14 } }}
 																InputLabelProps={{ style: { fontSize: 14 } }}
-																{...field}
 																helperText={meta.touched && meta.error}
-																error={meta.touched && meta.error}>
+																error={meta.touched && meta.error}
+																{...field}>
 																{designations.map((el) => (
 																	<MenuItem value={el._id}>{el.name}</MenuItem>
 																))}
