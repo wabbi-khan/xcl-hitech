@@ -84,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintJobDescription = ({ location }) => {
 	const classes = useStyles();
-	const description = location.state.description;
-	console.log(description);
+	// const description = location.state.description;
+	// console.log(description);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -100,6 +100,21 @@ const PrintJobDescription = ({ location }) => {
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
+				<div
+					class=''
+					style={{
+						display: 'flex',
+						alignItems: 'flex-end',
+						flexDirection: 'column',
+						border: '2px solid #333',
+						width: '100px',
+						marginLeft: 'auto',
+						paddingRight: '5px',
+						marginRight: '-3rem'
+					}}>
+					<h6>FM-56</h6>
+					<h6>Issue.01</h6>
+				</div>
 				<h5
 					className='mt-4'
 					style={{
@@ -112,7 +127,7 @@ const PrintJobDescription = ({ location }) => {
 			</div>
 			<div className='container-fluid'>
 				<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-					<Grid item lg={4} md={4} sm={4} xs={4}>
+					{/* <Grid item lg={4} md={4} sm={4} xs={4}>
 						<Grid container spacing={1}>
 							<Grid item lg={6} md={6} sm={6} xs={6}>
 								<p style={{ fontWeight: 'bold', marginLeft: '10px' }}>Date:</p>
@@ -124,12 +139,13 @@ const PrintJobDescription = ({ location }) => {
 								</p>
 							</Grid>
 						</Grid>
-					</Grid>
-					<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+					</Grid> */}
+					<Grid item lg={10} md={10} sm={10} xs={10}></Grid>
 					<Grid item lg={2} md={2} sm={2} xs={2}>
 						<Button
 							variant='contained'
 							size='small'
+							id='printBtn'
 							className='bg-dark text-light'
 							onClick={() => window.print()}>
 							Print
@@ -141,45 +157,50 @@ const PrintJobDescription = ({ location }) => {
 				<div className='table ml-auto mr-auto mt-4'>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ fontWeight: 'bold' }}>Name</p>
+							<p style={{ fontWeight: 'bold' }}>Name:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.employee?.name}</p>
-							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+							<p>asdasd</p>
+							{/* <p>{description?.employee?.name}</p> */}
+							<hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p style={{ fontWeight: 'bold' }}>Designation</p>
+							<p style={{ fontWeight: 'bold' }}>Designation:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p>{description?.employee?.finalDesignation?.name}</p>
-							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+							<p>asdasd</p>
+							{/* <p>{description?.employee?.finalDesignation?.name}</p> */}
+							<hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
 						</Grid>
 					</Grid>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ fontWeight: 'bold' }}>Department</p>
+							<p style={{ fontWeight: 'bold' }}>Department:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.employee?.finalDepartment?.name}</p>
-							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+							<p>asdasd</p>
+							{/* <p>{description?.employee?.finalDepartment?.name}</p> */}
+							<hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p style={{ fontWeight: 'bold' }}>Reports To</p>
+							<p style={{ fontWeight: 'bold' }}>Reports To:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.reportTo?.name}</p>
-							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+							<p>asdasd</p>
+							{/* <p>{description?.reportTo?.name}</p> */}
+							<hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
 						</Grid>
 					</Grid>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ fontWeight: 'bold' }}>Interaction With</p>
+							<p style={{ fontWeight: 'bold' }}>Interaction With:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.interactionWith?.name}</p>
-							<hr style={{ borderTop: '3px double black', marginTop: '-20px' }} />
+							<p>asdasd</p>
+							{/* <p>{description?.interactionWith?.name}</p> */}
+							<hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
 						</Grid>
 					</Grid>
 					{/* <thead class="thead-dark">
@@ -195,20 +216,20 @@ const PrintJobDescription = ({ location }) => {
                 </thead> */}
 				</div>
 				<div className={classes.mainContainer1}>
-					<h5 align='left' style={{ marginTop: 60 }}>
-						Responsibilities
+					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold'}}>
+						Responsibilities:
 					</h5>
-					{description?.responsibilities?.map((el) => (
+					{/* {description?.responsibilities?.map((el) => (
 						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))}
+					))} */}
 				</div>
 				<div className={classes.mainContainer1}>
-					<h5 align='left' style={{ marginTop: 60 }}>
-						Authorities
+					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
+						Authorities:
 					</h5>
-					{description?.authorities?.map((el) => (
+					{/* {description?.authorities?.map((el) => (
 						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))}
+					))} */}
 				</div>
 			</div>
 			<Grid container spacing={1} style={{ marginTop: 220 }}>
