@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
 import Button from '../../../components/utils/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
@@ -15,6 +13,14 @@ import { getDesignation } from '../../../services/action/DesignationAction';
 import { getEmployeeByDesignationAndDepartment } from '../../../services/action/EmployeesAction';
 import { getResponsibilities } from '../../../services/action/responsibilityAction';
 import { getAuthorities } from '../../../services/action/authorityAction';
+import {
+	createJobDescriptions,
+	getJobDescriptions,
+	deleteJobDescriptions,
+} from '../../../services/action/jobDescriptionAction';
+import Loader from 'react-loader-spinner';
+import { capitalize } from '../../../utils/capitalize';
+import EditJobDescription from './EditJobDescription';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -125,28 +131,31 @@ const authorityValidationSchema = yup.object({
 });
 
 const JobDescription = ({ history }) => {
+	const [open, setOpen] = useState(false);
 	const [responsibilitiesState, setResponsibilitiesState] = React.useState([]);
 	const [addResError, setAddResError] = React.useState('');
 	const [addAuthError, setAddAuthError] = React.useState('');
 	const [authoritiesState, setAuthoritiesState] = React.useState([]);
-	const [designation, setDesignation] = React.useState({
-		responsibilities: [],
-		authorities: [],
-	});
+	const [designation, setDesignation] = React.useState('');
 	const [createLoading, setCreateLoading] = React.useState(false);
 	const [createError, setCreateError] = React.useState('');
 	const [success, setSuccess] = React.useState('');
-
+	const [fetchLoading, setFetchLoading] = React.useState(false);
+	const [fetchError, setFetchError] = React.useState('');
+	const [description, setDescription] = React.useState('');
 	const [department, setDepartment] = React.useState('');
+	const [deleteError, setDeleteError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState('');
+
 	const { departments } = useSelector((state) => state.departments);
 	const { designations } = useSelector((state) => state.designations);
 	const { employees } = useSelector((state) => state.employees);
 	const { responsibilities } = useSelector((state) => state.responsibilities);
 	const { authorities } = useSelector((state) => state.authorities);
-
-	console.log(employees);
+	const { jobDescriptions } = useSelector((state) => state.jobDescriptions);
 
 	const classes = useStyles();
+
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
@@ -172,32 +181,59 @@ const JobDescription = ({ history }) => {
 		dispatch(fetchDepartmentsAction());
 		dispatch(getResponsibilities());
 		dispatch(getAuthorities());
+		setFetchLoading(true);
+		dispatch(
+			getJobDescriptions(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
+		if (responsibilitiesState.length === 0) {
+			setCreateError('Please add at least one responsibility');
+			setTimeout(() => {
+				setCreateError('');
+			}, 4000);
+			return;
+		}
+
+		if (authoritiesState.length === 0) {
+			setCreateError('Please add at least one authority');
+			setTimeout(() => {
+				setCreateError('');
+			}, 4000);
+			return;
+		}
+
 		values = {
 			...values,
 			responsibilities: responsibilitiesState,
 			authorities: authoritiesState,
 		};
-		try {
-			const res = await axios.post(
-				`${process.env.REACT_APP_API_URL}/job-description`,
-				values,
-			);
-
-			console.log(res);
-
-			if (res.status == 200) {
-				console.log('object');
-				history.push({
-					pathname: '/hr/print_job_description',
-					state: { description: res.data.description },
-				});
-			}
-		} catch (error) {
-			console.log(error.response.data.error);
-		}
+		setCreateLoading(true);
+		dispatch(
+			createJobDescriptions(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	const addResponsibility = (values) => {
@@ -228,8 +264,48 @@ const JobDescription = ({ history }) => {
 	const deleteRes = (name) =>
 		setResponsibilitiesState((prev) => prev.filter((el) => el.name !== name));
 
+	const handleClose = (props) => {
+		setOpen(props);
+	};
+
+	const handleOpen = async (description) => {
+		setDescription(description);
+		setOpen(true);
+	};
+
+	const deleteResponsibility = async (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteJobDescriptions(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
+	};
+
 	return (
 		<Sidenav title={'Job Description'}>
+			<EditJobDescription
+				show={open}
+				handler={handleClose}
+				description={description}
+			/>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
+
 			<div>
 				<div className='text-center mt-3'>
 					<Formik
@@ -551,61 +627,87 @@ const JobDescription = ({ history }) => {
 											color='primary'
 											classNames={classes.addButton}
 											text='Add'
+											loading={createLoading}
+											loaderColor='#333'
 										/>
+										{createError && <p>{createError}</p>}
 									</div>
 								</Form>
 							</>
 						)}
 					</Formik>
 				</div>
-				<table class='table table-bordered border-dark table-responsive text-center mt-5'>
-					<thead class='thead-inverse'>
-						<tr class='bg-dark text-light'>
-							<th>Department</th>
-							<th>Designation</th>
-							<th>Emp Name</th>
-							<th>Reports To</th>
-							<th>Interaction With</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						{/* First Row */}
-						{/* {
-							!vendors ? (
-								<span>Data Not Found</span>
-							) : (
-								vendors?.map((el, i) => ( */}
-						<tr>
-							<td >{ }</td>
-							<td >{ }</td>
-							<td >{ }</td>
-							<td >{ }</td>
-							<td >{ }</td>
-							<td>
-								<Button
-									variant='outlined'
-									color='primary'
-									text='View'
-									size='small'
-									classNames='bg-dark text-light'
-									// classNames={classes.addButton}
-									onClick={() => {
-										history.push(`/hr/print_job_description`);
-									}}
-								/>
-							</td>
-							{/* <td>{el.name}</td> */}
-							{/* <td>{el.name}</td> */}
-							{/* <td>{!el.contactPerson ? null : el.contactPerson}</td> */}
-							{/* <td>
-											{el.materials?.map((el) => (
-												<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
-											))}
-										</td> */}
-						</tr>
-					</tbody>
-				</table>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : jobDescriptions?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<table class='table table-bordered border-dark table-responsive text-center mt-5'>
+						<thead class='thead-inverse'>
+							<tr class='bg-dark text-light'>
+								<th>Department</th>
+								<th>Designation</th>
+								<th>Emp Name</th>
+								<th>Reports To</th>
+								<th>Interaction With</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{jobDescriptions?.map((el) => (
+								<tr>
+									<td>{capitalize(el?.employee?.finalDepartment?.name)}</td>
+									<td>{capitalize(el?.employee?.finalDesignation?.name)}</td>
+									<td>{capitalize(el?.employee?.name)}</td>
+									<td>{capitalize(el?.reportTo?.name)}</td>
+									<td>{capitalize(el?.interactionWith?.name)}</td>
+									<td>
+										<div
+											style={{ display: 'flex', gap: '.5rem', justifyContent: 'center' }}>
+											<Button
+												variant='outlined'
+												color='primary'
+												text='View'
+												size='small'
+												classNames='bg-dark text-light'
+												onClick={() => {
+													history.push({
+														pathname: `/hr/print_job_description`,
+														state: { description: el },
+													});
+												}}
+											/>
+											<Button
+												variant='outlined'
+												color='primary'
+												text='Edit'
+												size='small'
+												onClick={() => handleOpen(el)}
+												classNames='bg-warning text-dark'
+											/>
+											<Button
+												variant='outlined'
+												color='primary'
+												text='Delete'
+												size='small'
+												onClick={() => deleteResponsibility(el?._id)}
+												classNames='bg-danger text-light'
+											/>
+										</div>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				)}
 			</div>
 		</Sidenav>
 	);

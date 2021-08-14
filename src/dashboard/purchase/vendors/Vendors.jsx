@@ -30,16 +30,7 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import Button from '../../../components/utils/Button';
 import Loader from 'react-loader-spinner';
-
-// const GreenCheckbox = withStyles({
-// 	root: {
-// 		//   color: black[400],
-// 		'&$checked': {
-// 			// color: green[600],
-// 		},
-// 	},
-// 	checked: {},
-// })((props) => <Checkbox color='default' {...props} />);
+import { capitalize } from '../../../utils/capitalize';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -58,12 +49,6 @@ const StyledTableRow = withStyles((theme) => ({
 		},
 	},
 }))(TableRow);
-
-// function createData(No, name, Action) {
-// 	return { No, name, Action };
-// }
-
-// const rows = [createData(1, 'Item1')];
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -615,13 +600,13 @@ const Vendors = () => {
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.name}
+												{capitalize(el.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el.phone}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.location}
+												{capitalize(el.location)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{!el.materials || !el.materials.length ? (
@@ -630,19 +615,12 @@ const Vendors = () => {
 													el.materials.map((el, i) => (
 														<div
 															style={{
-																textAlign: 'left',
-																borderBottom: '2px solid #ccc',
-																paddingTop: '5px',
-																paddingBottom: '5px',
+																textAlign: 'center',
+																paddingTop: '2px',
+																paddingBottom: '2px',
 															}}>
 															<p key={i} style={{ margin: 0, padding: 0 }} className='ml-1'>
-																Material Name: {el?.name}
-															</p>
-															<p key={i} style={{ margin: 0, padding: 0 }} className='ml-1'>
-																Category: {el?.category?.name}
-															</p>
-															<p key={i} style={{ margin: 0, padding: 0 }} className='ml-1'>
-																Sub Category: {el?.subCategory?.name}
+																{el?.name}
 															</p>
 														</div>
 													))

@@ -43,7 +43,7 @@ export const createJobDescriptions = (values, cb) => async (dispatch) => {
 
 		console.log(data);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: JOB_DESCRIPTION_CREATE_SUCCESS,
 				payload: data.description,
@@ -66,7 +66,7 @@ export const updateJobDescriptions = (id, values, cb) => async (dispatch) => {
 			values,
 		);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: JOB_DESCRIPTION_UPDATE_SUCCESS,
 				payload: data.description,
@@ -88,7 +88,7 @@ export const deleteJobDescriptions = (params, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/job-description/${params}`,
 		);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: JOB_DESCRIPTION_DELETE_SUCCESS,
 				payload: params,
@@ -102,7 +102,7 @@ export const deleteJobDescriptions = (params, cb) => async (dispatch) => {
 
 const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		if (cb) cb(err.response);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: JOB_DESCRIPTION_FAIL,
 			payload: err.response.data.error,

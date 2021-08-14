@@ -20,6 +20,7 @@ import { getDesignation } from '../../../services/action/DesignationAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import { capitalize } from '../../../utils/capitalize';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -185,15 +186,6 @@ const ViewEmpDetails = (props) => {
 
 	console.log(unHiredEmployees);
 
-	function capitalize(string) {
-		const words = string.split(' ');
-		let result = '';
-		words.forEach((word) => {
-			if (word)
-				result += word[0].toUpperCase() + word.substring(1).toLowerCase() + ' ';
-		});
-		return result;
-	}
 	return (
 		<Sidenav title={'Employee Details'}>
 			{deleteLoading && (

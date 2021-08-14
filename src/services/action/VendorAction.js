@@ -15,17 +15,17 @@ export const getVendorAction = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/vendor${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/vendor?sort=name${
+				query ? `&${query}` : ''
+			}`,
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
 				type: VENDOR_FETCH_SUCCESS,
 				payload: data.data,
 			});
-			if (cb) cb();
+			if (cb) cb(null, data.data);
 		}
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
@@ -111,6 +111,7 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
+		console.log(err);
 		dispatch({
 			type: VENDOR_FAIL,
 			payload: 'Network Error',

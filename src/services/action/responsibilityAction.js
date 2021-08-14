@@ -102,7 +102,7 @@ export const deleteResponsibilities = (params, cb) => async (dispatch) => {
 
 const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		if (cb) cb(err.response);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: RESPONSIBILITY_FAIL,
 			payload: err.response.data.error,
