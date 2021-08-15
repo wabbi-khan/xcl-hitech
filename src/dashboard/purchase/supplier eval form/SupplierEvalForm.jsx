@@ -428,7 +428,7 @@ const SupplierEvalForm = () => {
 												</Grid>
 												<Grid container spacing={1}>
 													<Grid item lg={3} md={3} sm={12} xs={12}></Grid>
-													<Grid item lg={7} md={3} sm={12} xs={12}>
+													<Grid item lg={7} md={3} sm={12} xs={12} style={{ marginTop: '0.5rem' }}>
 														<h6 className={classes.questinOne}>a. Incoming stage?</h6>
 													</Grid>
 													<Grid item lg={2} md={3} sm={12} xs={12}>
@@ -461,7 +461,7 @@ const SupplierEvalForm = () => {
 												</Grid>
 												<Grid container spacing={1}>
 													<Grid item lg={3} md={3} sm={12} xs={12}></Grid>
-													<Grid item lg={7} md={3} sm={12} xs={12}>
+													<Grid item lg={7} md={3} sm={12} xs={12} style={{ marginTop: '0.5rem' }}>
 														<h6 className={classes.questinOne}>b. In process state?</h6>
 													</Grid>
 													<Grid item lg={2} md={3} sm={12} xs={12}>
@@ -494,7 +494,7 @@ const SupplierEvalForm = () => {
 												</Grid>
 												<Grid container spacing={1}>
 													<Grid item lg={3} md={3} sm={12} xs={12}></Grid>
-													<Grid item lg={7} md={3} sm={12} xs={12}>
+													<Grid item lg={7} md={3} sm={12} xs={12} style={{ marginTop: '0.5rem' }}>
 														<h6 className={classes.questinOne}>c. Final state?</h6>
 													</Grid>
 													<Grid item lg={2} md={3} sm={12} xs={12}>
@@ -577,6 +577,122 @@ const SupplierEvalForm = () => {
 															<MenuItem value={2}>Medium</MenuItem>
 															<MenuItem value={3}>High</MenuItem>
 														</CssTextField>
+													</Grid>
+												</Grid>
+												<Grid container spacing={1} style={{ marginTop: 15 }}>
+													<Grid item lg={3} md={3} sm={12} xs={12}></Grid>
+													<Grid item lg={7} md={3} sm={12} xs={12}>
+														<h6 className={classes.questinOne}>
+															6. Do you have a customer complaint system?
+														</h6>
+													</Grid>
+													<Grid item lg={2} md={3} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Ans'
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															className={classes.inputFieldStyle2}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('rating')}
+															onBlur={props.handleBlur('rating')}
+															value={props.values.rating}
+															helperText={props.touched.rating && props.errors.rating}
+															error={props.touched.rating && props.errors.rating}>
+															<MenuItem value=''>
+																<em>None</em>
+															</MenuItem>
+															<MenuItem value={true}>Yes</MenuItem>
+															<MenuItem value={false}>No</MenuItem>
+														</CssTextField>
+													</Grid>
+												</Grid>
+												<Grid container spacing={1} style={{ marginTop: 15 }}>
+													<Grid item lg={3} md={3} sm={12} xs={12}></Grid>
+													<Grid item lg={7} md={3} sm={12} xs={12}>
+														<h6 className={classes.questinOne}>
+															7. What are your major customers?
+														</h6>
+													</Grid>
+													<Grid item lg={2} md={3} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Ans'
+															variant='outlined'
+															type='text'
+															size='small'
+															className={classes.inputFieldStyle2}
+															inputProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('question')}
+															onBlur={props.handleBlur('question')}
+															value={props.values.question}
+															helperText={props.touched.question && props.errors.question}
+															error={props.touched.question && props.errors.question}
+															InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+													</Grid>
+												</Grid>
+												<Grid container spacing={1} style={{ marginTop: 15 }}>
+													<Grid item lg={3} md={3} sm={12} xs={12}></Grid>
+													<Grid item lg={7} md={3} sm={12} xs={12}>
+														<h6 className={classes.questinOne}>
+															8. Information provided by:
+														</h6>
+													</Grid>
+													{/* <Grid item lg={2} md={3} sm={12} xs={12}>
+														<CssTextField
+														id='outlined-basic'
+														label='Ans'
+														variant='outlined'
+															type='text'
+															size='small'
+															className={classes.inputFieldStyle2}
+															inputProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('question')}
+															onBlur={props.handleBlur('question')}
+															value={props.values.question}
+															helperText={props.touched.question && props.errors.question}
+															error={props.touched.question && props.errors.question}
+															InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+														</Grid> */}
+												</Grid>
+												<Grid container spacing={1} style={{ marginTop: '10px' }}>
+													<Grid item lg={4} md={4} sm={4} xs={4}></Grid>
+													<Grid item lg={2} md={2} sm={2}>
+														<CssTextField
+															id='outlined-basic'
+															label='Enter Name'
+															variant='outlined'
+															type='text'
+															size='small'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															// onChange={props.handleChange('question')}
+															onBlur={props.handleBlur('question')}
+															// value={props.values.question}
+															helperText={props.touched.question && props.errors.question}
+															error={props.touched.question && props.errors.question}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+														/>
+													</Grid>
+													<Grid item lg={2} md={2} sm={2}>
+														<CssTextField
+															id='outlined-basic'
+															label='Enter Position/Designation'
+															variant='outlined'
+															type='text'
+															size='small'
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															// onChange={props.handleChange('question')}
+															onBlur={props.handleBlur('question')}
+															// value={props.values.question}
+															helperText={props.touched.question && props.errors.question}
+															error={props.touched.question && props.errors.question}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+														/>
 													</Grid>
 												</Grid>
 											</Container>

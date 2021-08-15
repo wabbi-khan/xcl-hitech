@@ -216,7 +216,7 @@ const PrintJobDescription = ({ location }) => {
                 </thead> */}
 				</div>
 				<div className={classes.mainContainer1}>
-					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold'}}>
+					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
 						Responsibilities:
 					</h5>
 					{/* {description?.responsibilities?.map((el) => (
