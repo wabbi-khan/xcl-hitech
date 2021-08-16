@@ -143,6 +143,92 @@ const PrintSuppEvalForm = () => {
             <div className='container text-center mt-3' style={{ border: '1px solid black' }}>
                 <h4>Section - A (COMPANY DATA)</h4>
                 <h6>To be completed by the Purchasing Department</h6>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: '1rem',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ fontWeight: 'bold' }}>Vendor's Name:</p>
+                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
+                        {}asd
+                    </p>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ fontWeight: 'bold' }}>Address</p>
+                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
+                        {}asd
+                    </p>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ fontWeight: 'bold' }}>Contact No.</p>
+                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
+                        {}asd
+                    </p>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ fontWeight: 'bold' }}>Contact Person</p>
+                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
+                        {}asd
+                    </p>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ fontWeight: 'bold' }}>Product / Services</p>
+                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
+                        {}asd
+                    </p>
+                </div>
             </div>
             <div className={classes.table}>
                 <div className='table ml-auto mr-auto mt-4'>
