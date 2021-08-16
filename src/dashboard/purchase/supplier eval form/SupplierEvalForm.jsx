@@ -162,7 +162,7 @@ const validationSchemaForQualityCheck = yup.object({
 	question: yup.string(),
 });
 
-const SupplierEvalForm = () => {
+const SupplierEvalForm = ({ history }) => {
 	const classes = useStyles();
 	const [initialValuesState, setInitialValuesState] = useState({
 		...initialValues,
@@ -219,6 +219,21 @@ const SupplierEvalForm = () => {
 	return (
 		<Sidenav title={'Supplier Evaluation Form'}>
 			<div>
+				<Grid container spacing={1}>
+					<Grid item lg={10} md={10} sm={2} xs={2}></Grid>
+					<Grid item lg={2} md={2} sm={2} xs={2}>
+						<Button
+							variant="contained"
+							size='small'
+							text='View Supplier Eval Forms'
+							classNames='bg-dark text-light'
+							style={{ textTransform: 'capitalize' }}
+							onClick={() => {
+								history.push('/purchase/supplier_eval/view_supplier_evaluation_form')
+							}}
+						/>
+					</Grid>
+				</Grid>
 				<h5 className='text-center'>Section-A (Company Data)</h5>
 				<Formik
 					initialValues={initialValuesState}

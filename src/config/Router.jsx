@@ -102,6 +102,8 @@ import SubCategory from '../dashboard/purchase/subCategory/SubCategory';
 import PrintAllAppSuppList from '../dashboard/purchase/approve supplier list/PrintAllAppSuppList';
 import PrintPurchaseReq from '../dashboard/store/materialIssueReq/PrintPurchaseReq';
 import PrintAllComMatIssueReq from '../dashboard/store/materialIssueReq/PrintAllComMatIssueReq';
+import ViewSuppEvalForms from '../dashboard/purchase/supplier eval form/ViewSuppEvalForms';
+import PrintSuppEvalForm from '../dashboard/purchase/supplier eval form/PrintSuppEvalForm';
 
 
 
@@ -121,6 +123,8 @@ const Router = () => {
                 <Router exact path="/purchase/vendors" component={Vendors}/>
                 <Router exact path="/purchase/vendors/vendor_details/:id" component={ViewVendorDetails}/>
                 <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>
+                <Router exact path="/purchase/supplier_eval/view_supplier_evaluation_form" component={ViewSuppEvalForms}/>
+                <Router exact path="/purchase/supplier_eval/print_supplier_evaluation_form" component={PrintSuppEvalForm}/>
                 <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
                 <Router exact path="/purchase/print_all_approved_supplier_list" component={PrintAllAppSuppList}/>
                 <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details/:id" component={ViewAppSuppDetails}/>
