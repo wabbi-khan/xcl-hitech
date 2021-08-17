@@ -116,6 +116,8 @@ import SubCategory from './dashboard/purchase/subCategory/SubCategory';
 import PrintAllAppSuppList from './dashboard/purchase/approve supplier list/PrintAllAppSuppList';
 import PrintPurchaseReq from './dashboard/store/materialIssueReq/PrintPurchaseReq';
 import PrintAllComMatIssueReq from './dashboard/store/materialIssueReq/PrintAllComMatIssueReq';
+import ViewSuppEvalForms from './dashboard/purchase/supplier eval form/ViewSuppEvalForms';
+import PrintSuppEvalForm from './dashboard/purchase/supplier eval form/PrintSuppEvalForm';
 
 dotenv.config();
 
@@ -201,6 +203,12 @@ function App() {
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/supplier_evaluation_form'>
 				<SupplierEvalForm />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/supplier_eval/view_supplier_evaluation_form'>
+				<ViewSuppEvalForms />
+			</PrivateRoute>
+			<PrivateRoute exact path='/purchase/supplier_eval/print_supplier_evaluation_form'>
+				<PrintSuppEvalForm />
 			</PrivateRoute>
 			<PrivateRoute exact path='/purchase/approved_supplier_list'>
 				<AppSupplier />

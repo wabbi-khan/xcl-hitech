@@ -8,24 +8,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import { withRouter } from 'react-router';
 import { capitalize } from '../../../utils/capitalize';
 
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& > *': {
