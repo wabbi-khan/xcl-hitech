@@ -178,6 +178,13 @@ const ViewEmpDetails = (props) => {
 					setTimeout(() => {
 						setDeleteError('');
 					}, 4000);
+				} else {
+					setUnHiredLoading(true);
+					dispatch(
+						getUnHiredEmployees(null, () => {
+							setUnHiredLoading(false);
+						}),
+					);
 				}
 				setDeleteLoading(false);
 			}),
@@ -251,7 +258,6 @@ const ViewEmpDetails = (props) => {
 								<TableRow hover role='checkbox'>
 									<StyledTableCell align='center'>Sr.No</StyledTableCell>
 									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
 									<StyledTableCell align='center'>Job Applied For</StyledTableCell>
 									<StyledTableCell align='center'>Department</StyledTableCell>
 									<StyledTableCell align='center'>Action</StyledTableCell>
@@ -268,9 +274,6 @@ const ViewEmpDetails = (props) => {
 											align='center'
 											style={{ textTransform: 'capitalize' }}>
 											{capitalize(el?.name)}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.code}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{capitalize(el?.jobAppliedFor?.name)}

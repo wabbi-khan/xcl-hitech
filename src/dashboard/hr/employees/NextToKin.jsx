@@ -149,23 +149,21 @@ const NextToKin = ({ isHiring }) => {
 				<Grid item lg={3} md={3} sm={12} xs={12}>
 					<FastField name='name'>
 						{({ meta, field }) => (
-							<Form autoComplete='off'>
-								<CssTextField
-									id='outlined-basic'
-									label='Name'
-									variant='outlined'
-									type='text'
-									disabled={isHiring ? true : false}
-									style={{ width: '100%' }}
-									size='small'
-									autocomplete='off'
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...field}
-									helperText={meta.touched && meta.error}
-									error={meta.touched && meta.error}
-								/>
-							</Form>
+							<CssTextField
+								id='outlined-basic'
+								label='Name'
+								variant='outlined'
+								type='text'
+								disabled={isHiring ? true : false}
+								style={{ width: '100%' }}
+								size='small'
+								autocomplete='off'
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+								{...field}
+								helperText={meta.touched && meta.error}
+								error={meta.touched && meta.error}
+							/>
 						)}
 					</FastField>
 				</Grid>
@@ -174,23 +172,21 @@ const NextToKin = ({ isHiring }) => {
 						{(props) => {
 							const { field, meta } = props;
 							return (
-								<Form autoComplete='off'>
-									<CssTextField
-										id='outlined-basic'
-										style={{ width: '100%' }}
-										label='Relation'
-										variant='outlined'
-										disabled={isHiring ? true : false}
-										type='text'
-										size='small'
-										autocomplete='off'
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										{...field}
-										helperText={meta.touched && meta.error}
-										error={meta.touched && meta.error}
-									/>
-								</Form>
+								<CssTextField
+									id='outlined-basic'
+									style={{ width: '100%' }}
+									label='Relation'
+									variant='outlined'
+									disabled={isHiring ? true : false}
+									type='text'
+									size='small'
+									autocomplete='off'
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...field}
+									helperText={meta.touched && meta.error}
+									error={meta.touched && meta.error}
+								/>
 							);
 						}}
 					</FastField>
@@ -200,23 +196,21 @@ const NextToKin = ({ isHiring }) => {
 						{(props) => {
 							const { field, meta } = props;
 							return (
-								<Form autoComplete='off'>
-									<CssTextField
-										id='outlined-basic'
-										label='Address'
-										disabled={isHiring ? true : false}
-										style={{ width: '100%' }}
-										variant='outlined'
-										type='text'
-										size='small'
-										autocomplete='off'
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										{...field}
-										helperText={meta.touched && meta.error}
-										error={meta.touched && meta.error}
-									/>
-								</Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Address'
+									disabled={isHiring ? true : false}
+									style={{ width: '100%' }}
+									variant='outlined'
+									type='text'
+									size='small'
+									autocomplete='off'
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...field}
+									helperText={meta.touched && meta.error}
+									error={meta.touched && meta.error}
+								/>
 							);
 						}}
 					</FastField>
@@ -226,23 +220,21 @@ const NextToKin = ({ isHiring }) => {
 						{(props) => {
 							const { field, meta } = props;
 							return (
-								<Form autoComplete='off'>
-									<CssTextField
-										id='outlined-basic'
-										label='Contact No'
-										disabled={isHiring ? true : false}
-										variant='outlined'
-										type='number'
-										size='small'
-										style={{ width: '100%' }}
-										autocomplete='off'
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										{...field}
-										helperText={meta.touched && meta.error}
-										error={meta.touched && meta.error}
-									/>
-								</Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Contact No'
+									disabled={isHiring ? true : false}
+									variant='outlined'
+									type='number'
+									size='small'
+									style={{ width: '100%' }}
+									autocomplete='off'
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									{...field}
+									helperText={meta.touched && meta.error}
+									error={meta.touched && meta.error}
+								/>
 							);
 						}}
 					</FastField>
