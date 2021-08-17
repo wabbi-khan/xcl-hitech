@@ -150,9 +150,17 @@ const PrintTrainingPlan = ({ location }) => {
 								<tr>
 									<td scope='row'>1</td>
 									<td>{plane?.topic?.name}</td>
-									<td>{plane?.needIdentifiedBy?.name}</td>
+									<td>
+										{plane?.needIdentifiedByEmployee?.name}
+										<p style={{ fontSize: 10 }}>
+											({plane?.needIdentifiedByDesignation?.name})
+										</p>
+									</td>
 									<td>{plane?.participants?.name}</td>
-									<td>{plane?.trainer?.name}</td>
+									<td>
+										{plane?.trainerName?.name}
+										<p style={{ fontSize: 10 }}>({plane?.trainerDesignation?.name})</p>
+									</td>
 									<td>{plane?.startDate ? plane?.startDate : '----'}</td>
 									<td>{plane?.venue?.name}</td>
 									<td>

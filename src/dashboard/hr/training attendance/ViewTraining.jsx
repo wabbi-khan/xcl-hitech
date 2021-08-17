@@ -135,7 +135,7 @@ const TrainingAttendance = ({ history, match, location }) => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : attendance?.length === 0 ? (
-					<p>There are no Attendances</p>
+					<p>There is no data found.</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
@@ -186,9 +186,9 @@ const TrainingAttendance = ({ history, match, location }) => {
 														disabled
 														size='small'
 														classNames={`${
-															el?.isPresent ? 'bg-danger' : 'bg-success'
+															el?.isPresent ? 'bg-success' : 'bg-danger'
 														} text-light`}
-														text={el?.isPresent ? 'Was Absent' : 'Was Present'}
+														text={el?.isPresent ? 'Was Present' : 'Was Absent'}
 														style={{ marginLeft: 2, marginTop: 2 }}
 													/>
 												</StyledTableCell>

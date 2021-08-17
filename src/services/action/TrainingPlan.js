@@ -8,7 +8,7 @@ import {
 	TRAININGPLAN_UPDATE_SUCCESS,
 } from '../constants/TrainingPlan';
 
-export const getTrainingsPlanes = (query) => async (dispatch) => {
+export const getTrainingsPlanes = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPLAN_REQUEST,
 	});
@@ -18,14 +18,15 @@ export const getTrainingsPlanes = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings/planes`,
 		);
 
-		console.log(data);
-
-		dispatch({
-			type: TRAININGPLAN_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAININGPLAN_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -52,28 +53,27 @@ export const createTrainingPlanes = (values, cb) => async (dispatch) => {
 	}
 };
 
-export const updateTrainingPlanes = (id, data) => async (dispatch) => {
+export const updateTrainingPlanes = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPLAN_REQUEST,
 	});
 
-	console.log('s');
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/${id}`,
-			data,
+			values,
 		);
 
-		console.log(res);
+		if (data.success) {
+			dispatch({
+				type: TRAININGPLAN_UPDATE_SUCCESS,
+				payload: data.plane,
+			});
 
-		dispatch({
-			type: TRAININGPLAN_UPDATE_SUCCESS,
-			payload: res.data.plane,
-		});
-
-		// console.log(data);
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 export const startTrainingPlane = (id, data) => async (dispatch) => {
@@ -81,7 +81,6 @@ export const startTrainingPlane = (id, data) => async (dispatch) => {
 		type: TRAININGPLAN_REQUEST,
 	});
 
-	console.log('s');
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/start/${id}`,
@@ -94,8 +93,6 @@ export const startTrainingPlane = (id, data) => async (dispatch) => {
 			type: TRAININGPLAN_UPDATE_SUCCESS,
 			payload: res.data.plane,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -105,44 +102,40 @@ export const endTrainingPlane = (id, data) => async (dispatch) => {
 		type: TRAININGPLAN_REQUEST,
 	});
 
-	console.log('s');
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/end/${id}`,
 			data,
 		);
 
-		console.log(res);
-
 		dispatch({
 			type: TRAININGPLAN_UPDATE_SUCCESS,
 			payload: res.data.plane,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
 };
 
-export const deleteTrainingPlanes = (params) => async (dispatch) => {
+export const deleteTrainingPlanes = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPLAN_REQUEST,
 	});
 
 	try {
-		await axios.delete(
+		const { data } = await axios.delete(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/${params}`,
 		);
 
-		dispatch({
-			type: TRAININGPLAN_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAININGPLAN_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 

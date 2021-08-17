@@ -229,6 +229,7 @@ const TrainingAttendance = ({ history, match, location }) => {
 									text='Generate Attendance'
 									loading={createLoading}
 								/>
+								{createError && <p>{createError}</p>}
 							</Form>
 						)}
 					</Formik>
@@ -245,7 +246,7 @@ const TrainingAttendance = ({ history, match, location }) => {
 						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
 					</div>
 				) : attendance?.length === 0 ? (
-					<p>There are no Responsibilities</p>
+					<p>There is no data found</p>
 				) : (
 					<div className={classes.dataTable}>
 						<TableContainer className={classes.tableContainer}>
@@ -258,7 +259,7 @@ const TrainingAttendance = ({ history, match, location }) => {
 										<StyledTableCell align='center'>Sr.No</StyledTableCell>
 										<StyledTableCell align='center'>Training Name</StyledTableCell>
 										<StyledTableCell align='center'>Trainee Name</StyledTableCell>
-										<StyledTableCell align='center'>Trainee</StyledTableCell>
+										<StyledTableCell align='center'>Trainee Designation</StyledTableCell>
 										<StyledTableCell align='center'>Trainer</StyledTableCell>
 										<StyledTableCell align='center'>Venue</StyledTableCell>
 										<StyledTableCell align='center'>Action</StyledTableCell>
