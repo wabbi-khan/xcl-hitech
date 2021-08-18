@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
@@ -130,13 +130,13 @@ const PrintSuppEvalForm = () => {
                     <Grid item lg={10} md={10} sm={10} xs={10}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
                         <Button
+                            text='Print'
                             variant='contained'
                             size='small'
                             id='printBtn'
-                            className='bg-dark text-light'
-                            onClick={() => window.print()}>
-                            Print
-                        </Button>
+                            classNames='bg-dark text-light'
+                            onClick={() => window.print()}
+                        />
                     </Grid>
                 </Grid>
             </div>
@@ -228,6 +228,62 @@ const PrintSuppEvalForm = () => {
                     <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
                         {}asd
                     </p>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ fontWeight: 'bold' }}>Supplier Status</p>
+                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
+                        {}
+                    </p>
+                </div>
+            </div>
+            <div className='container text-center mt-4' style={{  }}>
+                <h4>Section - B (QUALITY SYSTEM)</h4>
+                <h6 style={{ textDecoration: 'underline' }}>Information to be provided by the supplier</h6>
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-evenly',
+                        marginTop: '1rem',
+                        // flexDirection: 'column',
+                        // border: '2px solid #333',
+                        // width: '100px',
+                        // marginLeft: 'auto',
+                        // paddingRight: '5px',
+                        // marginRight: '-3rem'
+                    }}>
+                    <p style={{ textAlign: 'left' }}>
+                        1. Are you registered to ISO 9000/API? <br /> If so, please supply photocopy of your certificate. No further evaluation. <br />
+                        If the answer to (1) is "No", please answer following questions
+                    </p>
+                    <div style={{ display: 'flex', }}>
+                        <Button 
+                            variant='outlined'
+                            // color='primary'
+                            text='Yes'
+                            size='small'
+                            classNames='btn yesBtn btn-outline-dark'
+                        />
+                        <Button 
+                            variant='outlined'
+                            // color='primary'
+                            text='No'
+                            size='small'
+                            classNames='btn yesBtn btn-outline-dark'
+                            style={{ marginLeft: '1rem' }}
+                        />
+                    </div>
                 </div>
             </div>
             <div className={classes.table}>
