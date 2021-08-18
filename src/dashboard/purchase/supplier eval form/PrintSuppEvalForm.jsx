@@ -281,7 +281,7 @@ const PrintSuppEvalForm = () => {
                             text='No'
                             size='small'
                             classNames='btn yesBtn btn-outline-dark'
-                            style={{ marginLeft: '1rem' }}
+                            style={{ marginLeft: '1.1rem' }}
                         />
                     </div>
                 </div>
