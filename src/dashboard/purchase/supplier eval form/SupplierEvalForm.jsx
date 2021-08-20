@@ -161,6 +161,15 @@ const sectionBFormInitialValues = {
 	informationProvidedByDesignation: '',
 };
 
+const sectionCFormInitialValues = {
+	goodServicesToTheCompany: '',
+	qualityRequirements: false,
+	onTimeDelivery: false,
+	salesServices: false,
+	prompt: '',
+	goodMarketReputation: '',
+};
+
 const SupplierEvalForm = ({ history }) => {
 	const classes = useStyles();
 	const [initialValuesState, setInitialValuesState] = useState({
@@ -402,6 +411,7 @@ const SupplierEvalForm = ({ history }) => {
 										/>
 									</Grid>
 								</Grid>
+								<Button style={{ display: 'none' }} />
 							</Container>
 						</Form>
 					)}
@@ -409,9 +419,8 @@ const SupplierEvalForm = ({ history }) => {
 				<Formik
 					initialValues={sectionBFormInitialValues}
 					// validationSchema={validationSchemaForQualityCheck}
-				>
+					onSumbmit={onSubmit}>
 					{(props) => {
-						sectionB = props;
 						return (
 							<Form autoComplete='off'>
 								<h5 className='text-center mt-5'>Section-B (Quality System)</h5>
@@ -775,22 +784,18 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												// value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
 										</Grid>
 									</Grid>
 								</Container>
+								<Button style={{ display: 'none' }} />
 							</Form>
 						);
 					}}
 				</Formik>
 				<Formik
-					initialValues={sectionBFormInitialValues}
+					initialValues={sectionCFormInitialValues}
 					// validationSchema={validationSchemaForQualityCheck}
 				>
 					{(props) => {
@@ -1058,7 +1063,7 @@ const SupplierEvalForm = ({ history }) => {
 					}}
 				</Formik>
 				<Formik
-					initialValues={sectionBFormInitialValues}
+					initialValues={sectionCFormInitialValues}
 					// validationSchema={validationSchemaForQualityCheck}
 				>
 					{(props) => {
@@ -1324,7 +1329,7 @@ const SupplierEvalForm = ({ history }) => {
 					}}
 				</Formik>
 				<Formik
-					initialValues={sectionBFormInitialValues}
+					initialValues={sectionCFormInitialValues}
 					// validationSchema={validationSchemaForQualityCheck}
 				>
 					{(props) => {
@@ -1614,7 +1619,7 @@ const SupplierEvalForm = ({ history }) => {
 										</Grid>
 									</Grid>
 									<Formik
-										initialValues={sectionBFormInitialValues}
+										initialValues={sectionCFormInitialValues}
 										// validationSchema={validationSchemaForQualityCheck}
 									>
 										{(props) => {
@@ -1791,27 +1796,21 @@ const SupplierEvalForm = ({ history }) => {
 					}}
 				</Formik>
 
-				<Formik onSubmit={onSubmit}>
-					{(props) => (
-						<Form>
-							<Grid container spacing={1} style={{ marginTop: 15 }}>
-								<Grid item lg={12} md={12} sm={3} xs={3}>
-									<Button
-										variant='outlined'
-										color='primary'
-										classNames={classes.submitButton}
-										text='Submit'
-										loading={loading}
-										loaderColor='#333'
-									/>
-								</Grid>
-								{success && <p>{success}</p>}
-								{error && <p>{error}</p>}
-							</Grid>
-							<br />
-						</Form>
-					)}
-				</Formik>
+				<Grid container spacing={1} style={{ marginTop: 15 }}>
+					<Grid item lg={12} md={12} sm={3} xs={3}>
+						<Button
+							variant='outlined'
+							color='primary'
+							classNames={classes.submitButton}
+							text='Submit'
+							loading={loading}
+							loaderColor='#333'
+						/>
+					</Grid>
+					{success && <p>{success}</p>}
+					{error && <p>{error}</p>}
+				</Grid>
+				<br />
 			</div>
 		</Sidenav>
 	);

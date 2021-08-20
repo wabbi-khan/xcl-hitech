@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		width: 500,
 	},
 	mainContainer: {
-		marginTop: 20,
+		marginTop: 800,
 	},
 	addButton: {
 		marginTop: 20,
@@ -186,7 +186,6 @@ const EditJobDescription = (props) => {
 			responsibilities: responsibilitiesState,
 			authorities: authoritiesState,
 		};
-		console.log(values);
 		setLoading(true);
 		dispatch(
 			updateJobDescriptions(description._id, values, (err) => {
@@ -202,9 +201,9 @@ const EditJobDescription = (props) => {
 						setSuccess(false);
 					}, 4000);
 				}
+				setLoading(false);
 			}),
 		);
-		setLoading(true);
 	};
 
 	const handleClose = () => {
