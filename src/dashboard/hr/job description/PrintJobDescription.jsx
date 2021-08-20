@@ -143,8 +143,9 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Name:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.employee?.name}</p> */}
+							<p style={{ textDecoration: 'underline' }}>
+								{description?.employee?.name}
+							</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
@@ -152,8 +153,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Designation:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.employee?.finalDesignation?.name}</p> */}
+							<p>{description?.employee?.finalDesignation?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -162,8 +162,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Department:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.employee?.finalDepartment?.name}</p> */}
+							<p>{description?.employee?.finalDepartment?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
@@ -171,8 +170,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Reports To:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.reportTo?.name}</p> */}
+							<p>{description?.reportTo?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -181,8 +179,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Interaction With:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.interactionWith?.name}</p> */}
+							<p>{description?.interactionWith?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>

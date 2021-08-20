@@ -15,6 +15,7 @@ import {
 	unpaidSalaryAction,
 } from '../../../services/action/SalaryAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { capitalize } from '../../../utils/capitalize';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -95,9 +96,13 @@ const useStyles = makeStyles((theme) => ({
 const EmpSalaries = () => {
 	const classes = useStyles();
 	const [IsPaid, setIsPaid] = useState(false);
+	const [createLoading, setCreateLoading] = useState(false);
+	const [createError, setCreateError] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [success, setSuccess] = useState('');
+
 	const dispatch = useDispatch();
-	const { salaries, error } = useSelector((state) => state.salaries);
+	const { salaries } = useSelector((state) => state.salaries);
 
 	console.log(salaries);
 
@@ -106,7 +111,23 @@ const EmpSalaries = () => {
 	}, []);
 
 	const createSalaries = () => {
-		dispatch(createSalariesAction());
+		setCreateLoading(true);
+		dispatch(
+			createSalariesAction((err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	const paySal = (el) => {
@@ -137,9 +158,12 @@ const EmpSalaries = () => {
 							size='small'
 							text='Create Salaries'
 							onClick={createSalaries}
+							loading={createLoading}
 						/>
 
-						{error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
+						{createError && (
+							<p style={{ color: 'red', fontWeight: 'bold' }}>{createError}</p>
+						)}
 					</div>
 					<TableContainer className={classes.tableContainer}>
 						<Table
@@ -166,13 +190,13 @@ const EmpSalaries = () => {
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.employee?.name}
+												{capitalize(el.employee?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.employee?.finalDesignation?.name}
+												{capitalize(el.employee?.finalDesignation?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el.employee?.finalDepartment?.name}
+												{capitalize(el.employee?.finalDepartment?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el.employee?.finalSal}

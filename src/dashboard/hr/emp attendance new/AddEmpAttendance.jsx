@@ -19,6 +19,7 @@ import {
 } from '../../../services/action/attendanceAction';
 import Loader from 'react-loader-spinner';
 import Button from '../../../components/utils/Button';
+import { capitalize } from '../../../utils/capitalize';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -277,10 +278,10 @@ const AddEmpAttendance = () => {
 														</div>
 													</StyledTableCell>
 													<StyledTableCell className='text-dark bg-light' align='center'>
-														{el?.employee?.name}
+														{capitalize(el?.employee?.name)}
 													</StyledTableCell>
 													<StyledTableCell className='text-dark bg-light' align='center'>
-														{el?.employee?.finalDepartment?.name}
+														{capitalize(el?.employee?.finalDepartment?.name)}
 													</StyledTableCell>
 													<StyledTableCell className='text-dark bg-light' align='center'>
 														{el?.date}
