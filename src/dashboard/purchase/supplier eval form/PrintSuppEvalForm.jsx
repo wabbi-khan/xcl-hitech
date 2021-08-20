@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
@@ -102,7 +102,7 @@ const PrintSuppEvalForm = () => {
                         </div>
                     </div>
                 </div>
-                <h3
+                <h4
                     className='mt-4'
                     style={{
                         textDecoration: 'underline',
@@ -110,7 +110,7 @@ const PrintSuppEvalForm = () => {
                         marginBottom: 40,
                     }}>
                     Supplier Evaluation Form
-                </h3>
+                </h4>
             </div>
             <div className='container-fluid'>
                 <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
@@ -130,24 +130,351 @@ const PrintSuppEvalForm = () => {
                     <Grid item lg={10} md={10} sm={10} xs={10}></Grid>
                     <Grid item lg={2} md={2} sm={2} xs={2}>
                         <Button
+                            text='Print'
                             variant='contained'
                             size='small'
                             id='printBtn'
-                            className='bg-dark text-light'
-                            onClick={() => window.print()}>
-                            Print
-                        </Button>
+                            classNames='bg-dark text-light'
+                            onClick={() => window.print()}
+                        />
                     </Grid>
                 </Grid>
             </div>
-            <div className='container text-center mt-3' style={{ border: '1px solid black' }}>
+            <div className='container-fluid text-center mt-3' style={{ border: '1px solid black' }}>
                 <h4>Section - A (COMPANY DATA)</h4>
                 <h6>To be completed by the Purchasing Department</h6>
-                <div
+                <div class="row mt-4">
+                    <div class="offset-4 col-3 col-lg-3 col-md-3">
+                        <p style={{ fontWeight: 'bold', textAlign: 'left' }}>Vendor's Name</p>
+                    </div>
+                    <div class="col-3 col-lg-3 col-md-3">
+                        <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
+                            { }asd
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-4 col-3 col-lg-3 col-md-3">
+                        <p style={{ fontWeight: 'bold', textAlign: 'left' }}>Address</p>
+                    </div>
+                    <div class="col-3 col-lg-3 col-md-3">
+                        <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
+                            { }asd
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-4 col-3 col-lg-3 col-md-3">
+                        <p style={{ fontWeight: 'bold', textAlign: 'left' }}>Contact No.</p>
+                    </div>
+                    <div class="col-3 col-lg-3 col-md-3">
+                        <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
+                            { }asd
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-4 col-3 col-lg-3 col-md-3">
+                        <p style={{ fontWeight: 'bold', textAlign: 'left' }}>Contact Person</p>
+                    </div>
+                    <div class="col-3 col-lg-3 col-md-3">
+                        <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
+                            { }asd
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-4 col-3 col-lg-3 col-md-3">
+                        <p style={{ fontWeight: 'bold', textAlign: 'left' }}>Product / Services</p>
+                    </div>
+                    <div class="col-3 col-lg-3 col-md-3">
+                        <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
+                            { }asd
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-4 col-3 col-lg-3 col-md-3">
+                        <p style={{ fontWeight: 'bold', textAlign: 'left' }}>Supplier Status</p>
+                    </div>
+                    <div class="col-3 col-lg-3 col-md-3">
+                        <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
+                            { }
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className='container-fluid text-center mt-4' style={{}}>
+                <h4>Section - B (QUALITY SYSTEM)</h4>
+                <h6 style={{ textDecoration: 'underline' }}>Information to be provided by the supplier</h6>
+                <div class='row mt-4'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            1. Are you registered to ISO 9000/API? <br /> If so, please supply photocopy of your certificate. No further evaluation. <br />
+                            If the answer to (1) is "No", please answer following questions
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3 mt-2'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            2. Do you have Quality Management / Quality Assurance System?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            3. Do you perform inspection and testing at:
+                        </p>
+                    </div>
+                    {/* <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div> */}
+                </div>
+                <div class='row' style={{ marginLeft: '0.5rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            a. Incoming stage?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row' style={{ marginLeft: '0.5rem', marginTop: '0.4rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            b. In process state?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row' style={{ marginLeft: '0.5rem', marginTop: '0.4rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            c. Final state?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            4. How do you control Non-Conforming products?
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-9'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { }asd as as asd asd asd
+                        </p>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            5. How do you rate the skills and training of your personnel?
+                        </p>
+                    </div>
+                    <div class='offset-1 col-3'>
+                        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Low'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Medium'
+                                size='small'
+                                style={{ marginLeft: '0.3rem' }}
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='High'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.3rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            6. Do you have a customer complaint system?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            7. Who are your major customers?
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-9'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { }asd as as asd asd asd
+                        </p>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            8. Information provided by:
+                        </p>
+                    </div>
+                </div>
+                <div class='row mt-1 ' style={{ textAlign: 'center' }}>
+                    <div class='offset-3 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '14px', textDecoration: 'underline' }}>
+                            <span style={{ fontWeight: 'bold' }}>Name:</span> { } Manager
+                            {/* <span style={{ fontWeight: 'bold', marginLeft: '12rem' }}>Position:</span> { } Manager */}
+
+                            {/* <br /> <span style={{ textDecoration: 'none !important', marginLeft: '2rem' }}>Name</span> */}
+                        </p>
+                        {/* <p>Name</p> */}
+                    </div>
+                </div>
+                {/* <div
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'space-evenly',
                         marginTop: '1rem',
                         // flexDirection: 'column',
                         // border: '2px solid #333',
@@ -156,79 +483,27 @@ const PrintSuppEvalForm = () => {
                         // paddingRight: '5px',
                         // marginRight: '-3rem'
                     }}>
-                    <p style={{ fontWeight: 'bold' }}>Vendor's Name:</p>
-                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
-                        {}asd
+                    <p style={{ textAlign: 'left', fontSize: '12px' }}>
+                        4. Do you have Quality Management / Quality Assurance System?
                     </p>
-                </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        // flexDirection: 'column',
-                        // border: '2px solid #333',
-                        // width: '100px',
-                        // marginLeft: 'auto',
-                        // paddingRight: '5px',
-                        // marginRight: '-3rem'
-                    }}>
-                    <p style={{ fontWeight: 'bold' }}>Address</p>
-                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
-                        {}asd
-                    </p>
-                </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        // flexDirection: 'column',
-                        // border: '2px solid #333',
-                        // width: '100px',
-                        // marginLeft: 'auto',
-                        // paddingRight: '5px',
-                        // marginRight: '-3rem'
-                    }}>
-                    <p style={{ fontWeight: 'bold' }}>Contact No.</p>
-                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
-                        {}asd
-                    </p>
-                </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        // flexDirection: 'column',
-                        // border: '2px solid #333',
-                        // width: '100px',
-                        // marginLeft: 'auto',
-                        // paddingRight: '5px',
-                        // marginRight: '-3rem'
-                    }}>
-                    <p style={{ fontWeight: 'bold' }}>Contact Person</p>
-                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
-                        {}asd
-                    </p>
-                </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        // flexDirection: 'column',
-                        // border: '2px solid #333',
-                        // width: '100px',
-                        // marginLeft: 'auto',
-                        // paddingRight: '5px',
-                        // marginRight: '-3rem'
-                    }}>
-                    <p style={{ fontWeight: 'bold' }}>Product / Services</p>
-                    <p style={{marginLeft: '2rem', textDecoration: 'underline'}}>
-                        {}asd
-                    </p>
-                </div>
+                    <div style={{ display: 'flex', marginLeft: '7rem', marginTop: '-1.5rem' }}>
+                        <Button
+                            variant='outlined'
+                            // color='primary'
+                            text='Yes'
+                            size='small'
+                            classNames='btn yesBtn btn-outline-dark'
+                        />
+                        <Button
+                            variant='outlined'
+                            // color='primary'
+                            text='No'
+                            size='small'
+                            classNames='btn yesBtn btn-outline-dark'
+                            style={{ marginLeft: '0.5rem' }}
+                        />
+                    </div>
+                </div> */}
             </div>
             <div className={classes.table}>
                 <div className='table ml-auto mr-auto mt-4'>
@@ -248,35 +523,6 @@ const PrintSuppEvalForm = () => {
                         <Grid item lg={2} md={2} sm={3} xs={3}>
                             <p>asdasd</p>
                             {/* <p>{description?.employee?.finalDesignation?.name}</p> */}
-                            <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ fontWeight: 'bold' }}>Department:</p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>asdasd</p>
-                            {/* <p>{description?.employee?.finalDepartment?.name}</p> */}
-                            <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
-                        </Grid>
-                        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                        <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p style={{ fontWeight: 'bold' }}>Reports To:</p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>asdasd</p>
-                            {/* <p>{description?.reportTo?.name}</p> */}
-                            <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ fontWeight: 'bold' }}>Interaction With:</p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>asdasd</p>
-                            {/* <p>{description?.interactionWith?.name}</p> */}
                             <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
                         </Grid>
                     </Grid>
