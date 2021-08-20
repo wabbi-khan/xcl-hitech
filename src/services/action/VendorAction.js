@@ -20,6 +20,8 @@ export const getVendorAction = (query, cb) => async (dispatch) => {
 			}`,
 		);
 
+		console.log(data);
+
 		if (data.success) {
 			dispatch({
 				type: VENDOR_FETCH_SUCCESS,
