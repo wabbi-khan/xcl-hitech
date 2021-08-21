@@ -104,6 +104,7 @@ import PrintPurchaseReq from '../dashboard/store/materialIssueReq/PrintPurchaseR
 import PrintAllComMatIssueReq from '../dashboard/store/materialIssueReq/PrintAllComMatIssueReq';
 import ViewSuppEvalForms from '../dashboard/purchase/supplier eval form/ViewSuppEvalForms';
 import PrintSuppEvalForm from '../dashboard/purchase/supplier eval form/PrintSuppEvalForm';
+import ViewAllNonExecAssest from '../dashboard/hr/employees performance/non-executive/non-exec emp assest perform/ViewAllNonExecAssest';
 
 
 
@@ -187,6 +188,7 @@ const Router = () => {
                 <Router exact path="/hr/performance_assessment/non_executive_emp_prerequisites" component={NonExecPrereq}/>
                 <Router exact path="/hr/performance_assessment/non_executive_emp_ratings" component={NonExecEmpRatings}/>
                 <Router exact path="/hr/performance_assessment/non_executive_emp_assest_performance" component={NonExecEmpAssestPerform}/>
+                <Router exact path="/hr/performance_assessment/view_non_executive_emp_assest" component={ViewAllNonExecAssest}/>
                 <Router exact path="/hr/performance_assessment/print_non_executive_emp_performance" component={PrintNonExecEmpDetails}/>
                 <Router exact path="/hr/performance_assessment/executive_emp_prerequisites" component={ExecPreReq}/>
                 <Router exact path="/hr/performance_assessment/executive_emp_ratings" component={ExecEmpRatings}/>

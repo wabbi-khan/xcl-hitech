@@ -149,7 +149,7 @@ const PrintSuppEvalForm = () => {
                     </div>
                     <div class="col-3 col-lg-3 col-md-3">
                         <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
-                            { }asd
+                            { }
                         </p>
                     </div>
                 </div>
@@ -159,7 +159,7 @@ const PrintSuppEvalForm = () => {
                     </div>
                     <div class="col-3 col-lg-3 col-md-3">
                         <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
-                            { }asd
+                            { }
                         </p>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ const PrintSuppEvalForm = () => {
                     </div>
                     <div class="col-3 col-lg-3 col-md-3">
                         <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
-                            { }asd
+                            { }
                         </p>
                     </div>
                 </div>
@@ -179,7 +179,7 @@ const PrintSuppEvalForm = () => {
                     </div>
                     <div class="col-3 col-lg-3 col-md-3">
                         <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
-                            { }asd
+                            { }
                         </p>
                     </div>
                 </div>
@@ -189,7 +189,7 @@ const PrintSuppEvalForm = () => {
                     </div>
                     <div class="col-3 col-lg-3 col-md-3">
                         <p style={{ textDecoration: 'underline', textAlign: 'left' }}>
-                            { }asd
+                            { }
                         </p>
                     </div>
                 </div>
@@ -207,7 +207,7 @@ const PrintSuppEvalForm = () => {
             <div className='container-fluid text-center mt-4' style={{}}>
                 <h4>Section - B (QUALITY SYSTEM)</h4>
                 <h6 style={{ textDecoration: 'underline' }}>Information to be provided by the supplier</h6>
-                <div class='row mt-4'>
+                <div class='row mt-5'>
                     <div class='offset-1 col-6'>
                         <p style={{ textAlign: 'left', fontSize: '13px' }}>
                             1. Are you registered to ISO 9000/API? <br /> If so, please supply photocopy of your certificate. No further evaluation. <br />
@@ -234,7 +234,7 @@ const PrintSuppEvalForm = () => {
                         </div>
                     </div>
                 </div>
-                <div class='row mt-1'>
+                <div class='row mt-2'>
                     <div class='offset-1 col-6'>
                         <p style={{ textAlign: 'left', fontSize: '13px' }}>
                             2. Do you have Quality Management / Quality Assurance System?
@@ -260,7 +260,7 @@ const PrintSuppEvalForm = () => {
                         </div>
                     </div>
                 </div>
-                <div class='row'>
+                <div class='row mt-1'>
                     <div class='offset-1 col-6'>
                         <p style={{ textAlign: 'left', fontSize: '13px' }}>
                             3. Do you perform inspection and testing at:
@@ -364,7 +364,7 @@ const PrintSuppEvalForm = () => {
                         </div>
                     </div>
                 </div>
-                <div class='row mt-1'>
+                <div class='row mt-4'>
                     <div class='offset-1 col-6'>
                         <p style={{ textAlign: 'left', fontSize: '13px' }}>
                             4. How do you control Non-Conforming products?
@@ -374,11 +374,11 @@ const PrintSuppEvalForm = () => {
                 <div class='row'>
                     <div class='offset-1 col-9'>
                         <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
-                            { }asd as as asd asd asd
+                            { }
                         </p>
                     </div>
                 </div>
-                <div class='row mt-1'>
+                <div class='row mt-3'>
                     <div class='offset-1 col-6'>
                         <p style={{ textAlign: 'left', fontSize: '13px' }}>
                             5. How do you rate the skills and training of your personnel?
@@ -412,7 +412,7 @@ const PrintSuppEvalForm = () => {
                         </div>
                     </div>
                 </div>
-                <div class='row mt-1'>
+                <div class='row mt-3'>
                     <div class='offset-1 col-6'>
                         <p style={{ textAlign: 'left', fontSize: '13px' }}>
                             6. Do you have a customer complaint system?
@@ -448,7 +448,7 @@ const PrintSuppEvalForm = () => {
                 <div class='row'>
                     <div class='offset-1 col-9'>
                         <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
-                            { }asd as as asd asd asd
+                            { }
                         </p>
                     </div>
                 </div>
@@ -460,14 +460,19 @@ const PrintSuppEvalForm = () => {
                     </div>
                 </div>
                 <div class='row mt-1 ' style={{ textAlign: 'center' }}>
-                    <div class='offset-3 col-4'>
+                    <div class='offset-4 col-3'>
                         <p style={{ textAlign: 'left', fontSize: '14px', textDecoration: 'underline' }}>
-                            <span style={{ fontWeight: 'bold' }}>Name:</span> { } Manager
+                            <span style={{ fontWeight: 'bold', textDecoration: 'none' }}>Name:</span> { }
                             {/* <span style={{ fontWeight: 'bold', marginLeft: '12rem' }}>Position:</span> { } Manager */}
 
                             {/* <br /> <span style={{ textDecoration: 'none !important', marginLeft: '2rem' }}>Name</span> */}
                         </p>
                         {/* <p>Name</p> */}
+                    </div>
+                    <div class='col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '14px', textDecoration: 'underline' }}>
+                            <span style={{ fontWeight: 'bold' }}>Position:</span> { }
+                        </p>
                     </div>
                 </div>
                 {/* <div
@@ -505,54 +510,466 @@ const PrintSuppEvalForm = () => {
                     </div>
                 </div> */}
             </div>
-            <div className={classes.table}>
-                <div className='table ml-auto mr-auto mt-4'>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ fontWeight: 'bold' }}>Name:</p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>asdasd</p>
-                            {/* <p>{description?.employee?.name}</p> */}
-                            <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
-                        </Grid>
-                        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-                        <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p style={{ fontWeight: 'bold' }}>Designation:</p>
-                        </Grid>
-                        <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p>asdasd</p>
-                            {/* <p>{description?.employee?.finalDesignation?.name}</p> */}
-                            <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} />
-                        </Grid>
-                    </Grid>
-                    {/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
+            <div className='container-fluid text-center' style={{ marginTop: '10rem' }}>
+                <h4>Section - C</h4>
+                <h3>PAST PERFORMANCE</h3>
+                <h6>To be completed by the Purchasing Department</h6>
+                <div class='row' style={{ marginTop: '1rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            1. For how long has the supplier been providing goods/services to the company?
+                        </p>
+                    </div>
                 </div>
-                <div className={classes.mainContainer1}>
-                    <h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
-                        Responsibilities:
-                    </h5>
-                    {/* {description?.responsibilities?.map((el) => (
-						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))} */}
+                <div class='row'>
+                    <div class='offset-1 col-9'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { }
+                        </p>
+                    </div>
                 </div>
-                <div className={classes.mainContainer1}>
-                    <h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
-                        Authorities:
-                    </h5>
-                    {/* {description?.authorities?.map((el) => (
-						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))} */}
+                <div class='row mt-2'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            2. Has the vendor regularly met his commitment to the company with respect to:
+                        </p>
+                    </div>
+                </div>
+                <div class='row' style={{ marginLeft: '0.5rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            a. Quality requirements?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row' style={{ marginLeft: '0.5rem', marginTop: '0.4rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            b. On time delivery?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row' style={{ marginLeft: '0.5rem', marginTop: '0.4rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            c. After sales services?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-3'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            3. Is the supplier prompt in reply to enquiries?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-2'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            4. Does the vendor enjoy good market reputation?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='container-fluid text-center' style={{ marginTop: '7rem' }}>
+                <h4>Section - D</h4>
+                <h4>ON-SITE SURVEY</h4>
+                <h6>To be completed by Auditor/Representative</h6>
+                <div class='row mt-4'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            1. Does the supplier follow set procedures for performing work?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-2'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            2. Are machines sufficient / adequate to produce required quality product?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-2'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            3. Are storage areas / conditions adequate to safeguard the product against deterioration?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-2'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            4. Are the management and workers committed to quality?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-2'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            5. Does the supplier follow written specifications / standards?
+                        </p>
+                    </div>
+                    <div class='offset-2 col-3'>
+                        <div style={{ display: 'flex', }}>
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='Yes'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                            />
+                            <Button
+                                variant='outlined'
+                                // color='primary'
+                                text='No'
+                                size='small'
+                                classNames='btn yesBtn btn-outline-dark'
+                                style={{ marginLeft: '0.5rem' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class='row mt-1'>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            6. Visit conducted by:
+                        </p>
+                    </div>
+                </div>
+                <div class='row mt-1 ' style={{ textAlign: 'center' }}>
+                    <div class='offset-4 col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '14px', textDecoration: 'underline' }}>
+                            <span style={{ fontWeight: 'bold', textDecoration: 'none' }}>Name:</span> { }
+                            {/* <span style={{ fontWeight: 'bold', marginLeft: '12rem' }}>Position:</span> { } Manager */}
+
+                            {/* <br /> <span style={{ textDecoration: 'none !important', marginLeft: '2rem' }}>Name</span> */}
+                        </p>
+                        {/* <p>Name</p> */}
+                    </div>
+                    <div class='col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '14px', textDecoration: 'underline' }}>
+                            <span style={{ fontWeight: 'bold' }}>Date:</span> { }
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className='container-fluid text-center' style={{ marginTop: '2.5rem' }}>
+                <h4>Section - E</h4>
+                <h5>SAMPLE APPROVAL</h5>
+                <h5>(TO BE FILLED BY QUALITY ASSURANCE DEPARTMENT)</h5>
+                <div class='row' style={{ marginTop: '1rem' }}>
+                    <div class='offset-1 col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            1. No. of Samples Provided:
+                        </p>
+                    </div>
+                    <div class='offset-4 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { }
+                        </p>
+                    </div>
+                </div>
+                <div class='row' style={{ marginTop: '1rem' }}>
+                    <div class='offset-1 col-6'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            2. Results of Testing / Inspection:
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-9'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { } 
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            3. Report Reference No:
+                        </p>
+                    </div>
+                    <div class='offset-4 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { } 
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            4. Inspection By:
+                        </p>
+                    </div>
+                    <div class='offset-4 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { }
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            5. Date:
+                        </p>
+                    </div>
+                    <div class='offset-4 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', textDecoration: 'underline' }}>
+                            { }
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-1 col-3'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            6. Vendor Rating Method:
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-2 col-5'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            6.1 Quality: (Total lots passes / Total lots supplied + Qty Passes / Qty Supplied) / 2x60  =
+                        </p>
+                    </div>
+                    <div class='offset-1 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', }}>
+                            { }60
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-2 col-5'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            6.2 On Time Delivery: Marks Deducted @ 3 Marks Per Day Late Delivery  =
+                        </p>
+                    </div>
+                    <div class='offset-1 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', }}>
+                            { }30
+                        </p>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='offset-2 col-5'>
+                        <p style={{ textAlign: 'left', fontSize: '13px' }}>
+                            6.3 Price: Maximum Marks (i.e. 10) / (Unit price / lowest unit price)  =
+                        </p>
+                    </div>
+                    <div class='offset-1 col-4'>
+                        <p style={{ textAlign: 'left', fontSize: '13px', }}>
+                            { }10
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className='container-fluid text-center' style={{ marginTop: '2.5rem' }}>
+                <h4>Section - F</h4>
+                <h5>DECISION(To be completed by Director Finanace, Procurement and Admin)</h5>
+                <div class='row' style={{ border: '1px solid black',  }}>
+                    <div class='col-6' style={{ borderRight: '1px solid black' }}>
+                        <h6 style={{ marginTop: '0.7rem', fontWeight: 'bold' }}>Decision</h6>
+                    </div>
+                    <div class='col-6'>
+                        <p style={{ marginTop: '0.7rem' }}>
+                            {  }
+                        </p>
+                    </div>
+                </div>
+                <div class='row' style={{ border: '1px solid black', borderTop: 'none'  }}>
+                    <div class='col-6' style={{ borderRight: '1px solid black' }}>
+                        <h6 style={{ marginTop: '0.7rem', fontWeight: 'bold' }}>Basis For Approval</h6>
+                    </div>
+                    <div class='col-6'>
+                        <p style={{ marginTop: '0.7rem' }}></p>
+                    </div>
+                </div>
+                <div class='row' style={{ border: '1px solid black', borderTop: 'none'  }}>
+                    <div class='col-6' style={{ borderRight: '1px solid black' }}>
+                        <h6 style={{ marginTop: '0.7rem', fontWeight: 'bold' }}>Approved By & Date</h6>
+                    </div>
+                    <div class='col-6'>
+                        <p style={{ marginTop: '0.7rem' }}></p>
+                    </div>
+                </div>
+                <div class='row' style={{ border: '1px solid black', borderTop: 'none'  }}>
+                    <div class='col-6' style={{ borderRight: '1px solid black' }}>
+                        <h6 style={{ marginTop: '0.7rem', fontWeight: 'bold' }}>Next Review</h6>
+                    </div>
+                    <div class='col-6'>
+                        <p style={{ marginTop: '0.7rem' }}></p>
+                    </div>
                 </div>
             </div>
             <Grid container spacing={1} style={{ marginTop: 220 }}>
