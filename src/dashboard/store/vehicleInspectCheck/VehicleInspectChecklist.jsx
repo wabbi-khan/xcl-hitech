@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUnInspectedVehiclesAction } from '../../../services/action/VehiclesAction';
+import { getVehicles } from '../../../services/action/VehiclesAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import axios from 'axios';
@@ -97,7 +97,7 @@ const VehicleInspectChecklist = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(fetchUnInspectedVehiclesAction());
+		dispatch(getVehicles());
 	}, [dispatch]);
 
 	const { loading, vehicles, error } = useSelector((state) => state.vehicles);

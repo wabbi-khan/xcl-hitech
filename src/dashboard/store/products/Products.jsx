@@ -102,7 +102,7 @@ const validationSchema = yup.object({
 
 const Products = () => {
 	const [product, setproduct] = useState('');
-	const [fetchLoading, setFetchLoading] = useState('');
+	const [fetchLoading, setFetchLoading] = useState(true);
 	const [fetchError, setFetchError] = useState('');
 	const [createLoading, setCreateLoading] = useState(false);
 	const [createError, setCreateError] = useState('');
@@ -121,7 +121,18 @@ const Products = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getProducts());
+		setFetchLoading(true);
+		dispatch(
+			getProducts(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 		dispatch(getSubCategories());
 		dispatch(getMaterialCategoryAction());
 	}, [dispatch]);

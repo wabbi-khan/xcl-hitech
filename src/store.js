@@ -6,7 +6,7 @@ import { fetchVendorReducer } from './services/reducer/VendorReducer';
 import { fetchPersons } from './services/reducer/PersonReducer';
 import { fetchPurchaseOrderReducer } from './services/reducer/OrdersReducer';
 import { productsReducer } from './services/reducer/ProductsReducer';
-import { fetchVehiclesReducer } from './services/reducer/VehiclesReducer';
+import { vehicleReducer } from './services/reducer/VehiclesReducer';
 import { fetchDesignation } from './services/reducer/DesignationReducer';
 import { fetchSkills } from './services/reducer/SkillsReducer';
 import { fetchCompCriteriaReducer } from './services/reducer/CriteriaReducer';
@@ -42,6 +42,7 @@ import { unitReducer } from './services/reducer/UnitReducer';
 import { getTrainingEvaluations } from './services/reducer/trainingEvaluationReducer';
 import { subCategoryReducer } from './services/reducer/subCategoryReducer';
 import { jobDescriptionReducer } from './services/reducer/jobDescriptionReducer';
+import { binCardReducer } from './services/reducer/binCardReducer';
 
 const initialState = {};
 
@@ -53,7 +54,7 @@ const reducer = combineReducers({
 	persons: fetchPersons,
 	orders: fetchPurchaseOrderReducer,
 	products: productsReducer,
-	vehicles: fetchVehiclesReducer,
+	vehicles: vehicleReducer,
 	designations: fetchDesignation,
 	departments: fetchDepartmentsReducer,
 	purchaseRequisitions: fetchPurchaseReqReducer,
@@ -88,6 +89,7 @@ const reducer = combineReducers({
 	trainingEvaluations: getTrainingEvaluations,
 	subCategories: subCategoryReducer,
 	jobDescriptions: jobDescriptionReducer,
+	binCards: binCardReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
