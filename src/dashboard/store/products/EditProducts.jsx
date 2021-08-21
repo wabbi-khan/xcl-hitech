@@ -5,10 +5,15 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
+import { updateProducts } from '../../../services/action/ProductsAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSubCategories } from '../../../services/action/subCategoryAction';
+import { MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -100,35 +105,85 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	category: '',
+	subCategory: '',
+	name: '',
+	minInventoryLevel: '',
+	remarks: '',
+};
+
+const validationSchema = yup.object({
+	category: yup.string().required('Category is required'),
+	subCategory: yup.string().required('Sub Category is required'),
+	name: yup.string().required('Product name is required'),
+	minInventoryLevel: yup.string().required('Min. Inventory Level is required'),
+	remarks: yup.string().required('Reamrks is required'),
+});
+
 const EditProducts = (props) => {
+	const [initialValuesState, setInitialValues] = React.useState({
+		...initialValue,
+	});
+	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [open, setOpen] = useState(false);
+	const [selectedCategory, setSelectedCategory] = React.useState('');
+
 	const { show, handler, product } = props;
 
+	let form = null;
+
+	const dispatch = useDispatch();
+
+	const { categories } = useSelector((state) => state.categories);
+	const { subCategories } = useSelector((state) => state.subCategories);
+
+	useEffect(() => {
+		if (product)
+			setInitialValues({
+				...product,
+				category: product?.category?._id,
+				subCategory: product?.subCategory?._id,
+			});
+	}, [product]);
+
+	useEffect(() => {
+		if (selectedCategory) {
+			dispatch(getSubCategories(`parent=${selectedCategory}`));
+			setInitialValues({
+				...form.values,
+				subCategory: '',
+			});
+		}
+	}, [selectedCategory]);
+
 	const classes = useStyles();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const [open, setOpen] = useState(false);
-	const [isUpdate, setIsUpdate] = useState(false);
-	const [isError, setIsError] = useState(false);
 
 	useEffect(() => {
 		setOpen(show);
 	}, [show]);
 
-	const onSubmit = async (data) => {
-		try {
-			await axios.patch(
-				`${process.env.REACT_APP_API_URL}/product/${product._id}`,
-				data,
-			);
-			setIsUpdate(true);
-		} catch (error) {
-			setIsError(true);
-		}
+	const onSubmit = async (values) => {
+		setLoading(true);
+		dispatch(
+			updateProducts(product?._id, values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setLoading(false);
+					setSuccess(true);
+					setTimeout(() => {
+						setSuccess(false);
+					}, 4000);
+				}
+			}),
+		);
+		setLoading(true);
 	};
 
 	const handleClose = () => {
@@ -151,124 +206,174 @@ const EditProducts = (props) => {
 					<div className={classes.paper}>
 						<h5 className='text-center mt-4'>Update</h5>
 						<Container className={classes.mainContainer}>
-							{/* Form */}
 							{product ? (
-								<form onSubmit={handleSubmit(onSubmit)}>
-									<Grid container spacing={1}>
-										<Grid lg={12} md={12} sm={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Product Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												defaultValue={product.name}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('name', { required: true, maxLength: 30 })}
-											/>
-											{errors.name?.type === 'required' && (
-												<p className='text-danger'>Product Name is required</p>
-											)}
-											<br />
-											{errors.name?.type === 'maxLength' && (
-												<p className='text-danger'>Length must be less than 30</p>
-											)}
-										</Grid>
-										<Grid lg={12} md={12} sm={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Product Code'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												defaultValue={product.productCode}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('productCode', { required: true, maxLength: 30 })}
-											/>
-											{errors.productCode?.type === 'required' && (
-												<p className='text-danger'>Product Code is required</p>
-											)}
-											<br />
-											{errors.productCode?.type === 'maxLength' && (
-												<p className='text-danger'>Length must be less than 30</p>
-											)}
-										</Grid>
-										<Grid lg={12} md={12} sm={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Min Inventory Level'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												defaultValue={product.minInventoryLevel}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('minInventoryLevel', {
-													required: true,
-													maxLength: 20,
-												})}
-											/>
-											{errors.minInventoryLevel?.type === 'required' && (
-												<p className='text-danger'>Min Inventory Level is required</p>
-											)}
-											<br />
-											{errors.minInventoryLevel?.type === 'maxLength' && (
-												<p className='text-danger'>Length must be less than 20</p>
-											)}
-										</Grid>
-										<Grid lg={12} md={12} sm={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Remarks'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												defaultValue={product.remarks}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('remarks', { required: true, maxLength: 40 })}
-											/>
-											{errors.remarks?.type === 'required' && (
-												<p className='text-danger'>Remarks is required</p>
-											)}
-											<br />
-											{errors.remarks?.type === 'maxLength' && (
-												<p className='text-danger'>Length must be less than 40</p>
-											)}
-											{isUpdate ? (
-												<p className='text-success'>Product Update Success</p>
-											) : isError ? (
-												<p className='text-danger'>Product Update Failed </p>
-											) : null}
-										</Grid>
-									</Grid>
-									<div>
-										<Button
-											variant='outlined'
-											color='primary'
-											className={classes.addButton}
-											type='submit'>
-											Update
-										</Button>
-										<Button
-											variant='outlined'
-											color='primary'
-											className={classes.closeButton}
-											onClick={handleClose}>
-											close
-										</Button>
-									</div>
-								</form>
+								<Formik
+									initialValues={initialValuesState}
+									validationSchema={validationSchema}
+									onSubmit={onSubmit}
+									enableReinitialize>
+									{(props) => {
+										form = props;
+										return (
+											<Form>
+												<Grid container spacing={1}>
+													<Grid lg={12} md={12} sm={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Product Name'
+															variant='outlined'
+															type='text'
+															size='small'
+															style={{ width: '100%', marginBottom: '2rem' }}
+															autoComplete='off'
+															defaultValue={product.name}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('name')}
+															onBlur={props.handleBlur('name')}
+															value={props.values.name}
+															helperText={props.touched.name && props.errors.name}
+															error={props.touched.name && props.errors.name}
+														/>
+													</Grid>
+													<Grid lg={12} md={12} sm={12}></Grid>
+													<Grid lg={12} md={12} sm={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Min Inventory Level'
+															variant='outlined'
+															type='text'
+															size='small'
+															autoComplete='off'
+															defaultValue={product.minInventoryLevel}
+															style={{ width: '100%', marginBottom: '2rem' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('minInventoryLevel')}
+															onBlur={props.handleBlur('minInventoryLevel')}
+															value={props.values.minInventoryLevel}
+															helperText={
+																props.touched.minInventoryLevel &&
+																props.errors.minInventoryLevel
+															}
+															error={
+																props.touched.minInventoryLevel &&
+																props.errors.minInventoryLevel
+															}
+														/>
+													</Grid>
+													<Grid lg={12} md={12} sm={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Remarks'
+															variant='outlined'
+															type='text'
+															size='small'
+															autoComplete='off'
+															style={{ width: '100%', marginBottom: '2rem' }}
+															defaultValue={product.remarks}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('remarks')}
+															onBlur={props.handleBlur('remarks')}
+															value={props.values.remarks}
+															helperText={props.touched.remarks && props.errors.remarks}
+															error={props.touched.remarks && props.errors.remarks}
+														/>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Select Category'
+															variant='outlined'
+															type='email'
+															size='small'
+															autoComplete='off'
+															select
+															required
+															style={{ width: '100%', marginBottom: '2rem' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('category')}
+															onBlur={props.handleBlur('category')}
+															value={props.values.category}
+															helperText={props.touched.category && props.errors.category}
+															error={props.touched.category && props.errors.category}>
+															{!categories || !categories.length ? (
+																<p>Data Not Found</p>
+															) : (
+																categories.map((el) => (
+																	<MenuItem
+																		value={el._id}
+																		key={el._id}
+																		onClick={() => setSelectedCategory(el._id)}>
+																		{el.name}
+																	</MenuItem>
+																))
+															)}
+														</CssTextField>
+													</Grid>
+													<Grid item lg={12} md={12} sm={12} xs={12}>
+														<CssTextField
+															id='outlined-basic'
+															label='Select Sub Category'
+															variant='outlined'
+															type='email'
+															size='small'
+															autoComplete='off'
+															select
+															required
+															style={{ width: '100%' }}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															onChange={props.handleChange('subCategory')}
+															onBlur={props.handleBlur('subCategory')}
+															value={props.values.subCategory}
+															helperText={
+																props.touched.subCategory && props.errors.subCategory
+															}
+															error={props.touched.subCategory && props.errors.subCategory}>
+															{!subCategories || !subCategories.length ? (
+																<p>Data Not Found</p>
+															) : (
+																subCategories.map((el) => (
+																	<MenuItem value={el._id} key={el._id}>
+																		{el.name}
+																	</MenuItem>
+																))
+															)}
+														</CssTextField>
+													</Grid>
+												</Grid>
+												<div
+													style={{
+														marginTop: '2rem',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Button
+														variant='contained'
+														color='primary'
+														text='Update'
+														style={{ marginRight: '1rem' }}
+														loading={loading}
+													/>
+													<Button
+														variant='outlined'
+														color='dark'
+														onClick={handleClose}
+														text='Close'
+														type='button'
+														classNames='bg-danger text-light'
+													/>
+												</div>
+												{error && <p>{error}</p>}
+												{success && <p>Successfully Updated</p>}
+											</Form>
+										);
+									}}
+								</Formik>
 							) : null}
 						</Container>
 					</div>

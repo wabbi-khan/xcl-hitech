@@ -41,10 +41,10 @@ export const createProducts = (values, cb) => async (dispatch) => {
 
 		console.log(data);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: PRODUCT_CREATE_SUCCESS,
-				payload: data.product,
+				payload: data.data,
 			});
 			if (cb) cb();
 		}
@@ -64,10 +64,12 @@ export const updateProducts = (id, values, cb) => async (dispatch) => {
 			values,
 		);
 
-		if (data.status === 'OK') {
+		console.log(data);
+
+		if (data.success) {
 			dispatch({
 				type: PRODUCT_UPDATE_SUCCESS,
-				payload: data.product,
+				payload: data.data,
 			});
 			if (cb) cb();
 		}
@@ -86,7 +88,7 @@ export const deleteProducts = (params, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/product/${params}`,
 		);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: PRODUCT_DELETE_SUCCESS,
 				payload: params,

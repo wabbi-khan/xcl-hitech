@@ -154,13 +154,13 @@ const ViewAppSuppDetails = (props) => {
 								<td>{vendor.contactPerson}</td>
 								<td>{vendor.approveDate}</td>
 								<td>
-									{vendor.rating == 3 ? (
+									{vendor.sectionB.rating == 3 ? (
 										<span>High</span>
-									) : vendor.rating == 2 ? (
+									) : vendor.sectionB.rating == 2 ? (
 										<span>Medium</span>
-									) : vendor.rating == 1 ? (
+									) : vendor.sectionB.rating == 1 ? (
 										<span>Low</span>
-									) : vendor.rating == 0 ? (
+									) : vendor.sectionB.rating == 0 ? (
 										<span>Bad</span>
 									) : (
 										<span>None of these</span>

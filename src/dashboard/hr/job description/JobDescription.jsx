@@ -341,7 +341,7 @@ const JobDescription = ({ history }) => {
 															value={el._id}
 															key={i}
 															onClick={() => setDepartment(el._id)}>
-															{el.name}
+															{capitalize(el.name)}
 														</MenuItem>
 													))
 												)}
@@ -372,7 +372,7 @@ const JobDescription = ({ history }) => {
 															value={el._id}
 															key={i}
 															onClick={() => setDesignation(el)}>
-															{el.name}
+															{capitalize(el.name)}
 														</MenuItem>
 													))
 												)}
@@ -400,7 +400,7 @@ const JobDescription = ({ history }) => {
 												) : (
 													employees.map((el, i) => (
 														<MenuItem value={el._id} key={i}>
-															{el.name}
+															{capitalize(el.name)}
 														</MenuItem>
 													))
 												)}
@@ -428,7 +428,7 @@ const JobDescription = ({ history }) => {
 												) : (
 													designations.map((el, i) => (
 														<MenuItem value={el._id} key={i}>
-															{el.name}
+															{capitalize(el.name)}
 														</MenuItem>
 													))
 												)}
@@ -462,7 +462,7 @@ const JobDescription = ({ history }) => {
 												) : (
 													designations.map((el, i) => (
 														<MenuItem value={el._id} key={i}>
-															{el.name}
+															{capitalize(el.name)}
 														</MenuItem>
 													))
 												)}

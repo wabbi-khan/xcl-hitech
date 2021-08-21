@@ -88,6 +88,8 @@ export const deleteJobDescriptions = (params, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/job-description/${params}`,
 		);
 
+		console.log(data);
+
 		if (data.success) {
 			dispatch({
 				type: JOB_DESCRIPTION_DELETE_SUCCESS,

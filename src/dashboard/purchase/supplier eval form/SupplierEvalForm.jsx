@@ -14,9 +14,11 @@ import {
 	updateVendorAction,
 } from '../../../services/action/VendorAction';
 import { getPersons } from '../../../services/action/PersonAction';
+import { getDesignation } from '../../../services/action/DesignationAction';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { capitalize } from '../../../utils/capitalize';
+import { withRouter } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -134,8 +136,6 @@ const initialValues = {
 	phone: '',
 	location: '',
 	name: '',
-	productServices: '',
-	supplierStatus: '',
 };
 
 const validationSchema = yup.object({
@@ -143,8 +143,6 @@ const validationSchema = yup.object({
 	phone: yup.string().required(),
 	location: yup.string().required(),
 	name: yup.string().required(),
-	productServices: yup.string().required(),
-	supplierStatus: yup.string().required(),
 });
 
 const sectionBFormInitialValues = {
@@ -166,8 +164,34 @@ const sectionCFormInitialValues = {
 	qualityRequirements: false,
 	onTimeDelivery: false,
 	salesServices: false,
-	prompt: '',
-	goodMarketReputation: '',
+	prompt: false,
+	goodMarketReputation: false,
+};
+
+const sectionDFormInitialValues = {
+	setProcedures: false,
+	sufficientMachines: false,
+	productSafeguard: false,
+	commitedToQuality: false,
+	writtenSpecification: false,
+	visitConductedByName: '',
+	visitConductedOn: '',
+};
+
+const sectionEFormInitialValues = {
+	samplesProvided: '',
+	testingInspection: '',
+	reportRefNo: '',
+	inpectionByName: '',
+	vendorRatingMethod: '',
+};
+
+const sectionFFormInitialValues = {
+	decision: '',
+	basisForApproval: '',
+	approvedByName: '',
+	approvedByOn: '',
+	nextReview: '',
 };
 
 const SupplierEvalForm = ({ history }) => {
@@ -180,6 +204,7 @@ const SupplierEvalForm = ({ history }) => {
 	const [error, setError] = useState('');
 	const [success, setSuccess] = useState('');
 
+	let sectionA = null;
 	let sectionB = null;
 	let sectionC = null;
 	let sectionD = null;
@@ -191,236 +216,194 @@ const SupplierEvalForm = ({ history }) => {
 	useEffect(() => {
 		dispatch(getPersons());
 		dispatch(getVendorAction(`verified=false`));
+		dispatch(getDesignation());
 	}, [dispatch]);
 
 	const { vendors } = useSelector((state) => state.vendors);
+	const { designations } = useSelector((state) => state.designations);
 
-	const onSubmit = (values) => {
-		console.log('values', values);
+	const onSubmit = () => {
+		console.log('section A', sectionA.values);
 		console.log('section B', sectionB.values);
-		// values = {
-		// 	...form.values,
-		// };
-		// setLoading(true);
-		// dispatch(
-		// 	updateVendorAction(vendor?._id, values, (err, verfied) => {
-		// 		if (err) {
-		// 			setError(err);
-		// 			setTimeout(() => {
-		// 				setError('');
-		// 			}, 4000);
-		// 		} else {
-		// 			if (verfied) {
-		// 				setSuccess('vendor is verfied');
-		// 				setTimeout(() => {
-		// 					setSuccess(false);
-		// 				}, 4000);
-		// 			} else {
-		// 				setSuccess('vendor is not verfied');
-		// 				setTimeout(() => {
-		// 					setSuccess(false);
-		// 				}, 4000);
-		// 				dispatch(getVendorAction(`verified=false`));
-		// 			}
-		// 		}
-		// 		setLoading(false);
-		// 	}),
-		// );
+		console.log('section C', sectionC.values);
+		console.log('section D', sectionD.values);
+		console.log('section E', sectionE.values);
+		console.log('section F', sectionF.values);
+		const values = {
+			sectionB: sectionB.values,
+			sectionC: sectionC.values,
+			sectionD: sectionD.values,
+			sectionE: sectionE.values,
+			sectionF: sectionF.values,
+		};
+
+		setLoading(true);
+		dispatch(
+			updateVendorAction(vendor?._id, values, (err, verfied) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					if (verfied) {
+						setSuccess('vendor is verfied');
+						setTimeout(() => {
+							setSuccess(false);
+						}, 4000);
+					} else {
+						setSuccess('vendor is not verfied');
+						setTimeout(() => {
+							setSuccess(false);
+						}, 4000);
+						dispatch(getVendorAction(`verified=false`));
+					}
+				}
+				setLoading(false);
+			}),
+		);
 	};
 
 	return (
 		<Sidenav title={'Supplier Evaluation Form'}>
 			<div>
-				<Grid container spacing={1}>
-					<Grid item lg={10} md={10} sm={2} xs={2}></Grid>
-					<Grid item lg={2} md={2} sm={2} xs={2}>
-						<Button
-							variant='contained'
-							size='small'
-							text='View Supplier Eval Forms'
-							classNames='bg-dark text-light'
-							style={{ textTransform: 'capitalize' }}
-							onClick={() => {
-								history.push('/purchase/supplier_eval/view_supplier_evaluation_form');
-							}}
-						/>
-					</Grid>
-				</Grid>
 				<h5 className='text-center'>Section-A (Company Data)</h5>
 				<Formik
 					initialValues={initialValuesState}
 					enableReinitialize
-					// validationSchema={validationSchema}
 					onSubmit={onSubmit}>
-					{(props) => (
-						<Form>
-							<Container className={classes.mainContainer}>
-								<Grid container spacing={1} style={{ marginTop: 15 }}>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Select Vendor Name*'
-											variant='outlined'
-											type='email'
-											size='small'
-											style={{ width: '100%' }}
-											select
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('name')}
-											onBlur={props.handleBlur('name')}
-											value={props.values.name}
-											helperText={props.touched.name && props.errors.name}
-											error={props.touched.name && props.errors.name}>
-											{!vendors || !vendors.length ? (
-												<p>Data Not Found</p>
+					{(props) => {
+						sectionA = props;
+						return (
+							<Form>
+								<Container className={classes.mainContainer}>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Select Vendor Name*'
+												variant='outlined'
+												type='email'
+												size='small'
+												style={{ width: '100%' }}
+												select
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('name')}
+												onBlur={props.handleBlur('name')}
+												value={props.values.name}
+												helperText={props.touched.name && props.errors.name}
+												error={props.touched.name && props.errors.name}>
+												{!vendors || !vendors.length ? (
+													<p>Data Not Found</p>
+												) : (
+													vendors.map((el) => (
+														<MenuItem
+															value={el._id}
+															key={el._id}
+															onClick={() => {
+																setVendor(el);
+																setInitialValuesState({
+																	...props.values,
+																	name: el?._id,
+																	location: el?.location,
+																	phone: el?.phone,
+																	contactPerson: el?.contactPerson,
+																});
+															}}>
+															{capitalize(el.name)}
+														</MenuItem>
+													))
+												)}
+											</CssTextField>
+										</Grid>
+									</Grid>
+								</Container>
+								<Container className={classes.mainContainer}>
+									<Grid container spacing={1}>
+										<Grid item lg={3} md={3} sm={12} xs={12}>
+											{!vendor.materials || !vendor.materials.length ? (
+												<p>Please select any vendor</p>
 											) : (
-												vendors.map((el) => (
-													<MenuItem
-														value={el._id}
-														key={el._id}
-														onClick={() => {
-															setVendor(el);
-															setInitialValuesState({
-																name: el?._id,
-																location: el?.location,
-																phone: el?.phone,
-																contactPerson: el?.contactPerson,
-																...props.values,
-															});
-														}}>
-														{capitalize(el.name)}
-													</MenuItem>
+												vendor.materials.map((vendorMat) => (
+													<FormControlLabel
+														disabled
+														label={vendorMat.name}
+														control={<Checkbox checked name='checkedE' />}
+													/>
 												))
 											)}
-										</CssTextField>
+										</Grid>
 									</Grid>
-								</Grid>
-							</Container>
-							<Container className={classes.mainContainer}>
-								<Grid container spacing={1}>
-									<Grid item lg={3} md={3} sm={12} xs={12}>
-										{!vendor.materials || !vendor.materials.length ? (
-											<p>Please select any vendor</p>
-										) : (
-											vendor.materials.map((vendorMat) => (
-												<FormControlLabel
-													disabled
-													label={vendorMat.name}
-													control={<Checkbox checked name='checkedE' />}
-												/>
-											))
-										)}
+								</Container>
+								<Container className={classes.mainContainer}>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Contact No.'
+												variant='outlined'
+												type='email'
+												style={{ width: '100%' }}
+												size='small'
+												disabled
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('phone')}
+												onBlur={props.handleBlur('phone')}
+												value={props.values.phone}
+												helperText={props.touched.phone && props.errors.phone}
+												error={props.touched.phone && props.errors.phone}
+											/>
+										</Grid>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Contact Person'
+												variant='outlined'
+												type='text'
+												size='small'
+												disabled
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('contactPerson')}
+												onBlur={props.handleBlur('contactPerson')}
+												value={props.values.contactPerson}
+												helperText={
+													props.touched.contactPerson && props.errors.contactPerson
+												}
+												error={props.touched.contactPerson && props.errors.contactPerson}
+											/>
+										</Grid>
+										<Grid item lg={2} md={2} sm={12} xs={12}>
+											<CssTextField
+												id='outlined-basic'
+												label='Address'
+												variant='outlined'
+												style={{ width: '100%' }}
+												type='email'
+												size='small'
+												disabled
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('location')}
+												onBlur={props.handleBlur('location')}
+												value={props.values.location}
+												helperText={props.touched.location && props.errors.location}
+												error={props.touched.location && props.errors.location}
+											/>
+										</Grid>
 									</Grid>
-								</Grid>
-							</Container>
-							<Container className={classes.mainContainer}>
-								<Grid container spacing={1} style={{ marginTop: 15 }}>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Contact No.'
-											variant='outlined'
-											type='email'
-											style={{ width: '100%' }}
-											size='small'
-											disabled
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('phone')}
-											onBlur={props.handleBlur('phone')}
-											value={props.values.phone}
-											helperText={props.touched.phone && props.errors.phone}
-											error={props.touched.phone && props.errors.phone}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Contact Person'
-											variant='outlined'
-											type='text'
-											size='small'
-											disabled
-											style={{ width: '100%' }}
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('contactPerson')}
-											onBlur={props.handleBlur('contactPerson')}
-											value={props.values.contactPerson}
-											helperText={
-												props.touched.contactPerson && props.errors.contactPerson
-											}
-											error={props.touched.contactPerson && props.errors.contactPerson}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Address'
-											variant='outlined'
-											style={{ width: '100%' }}
-											type='email'
-											size='small'
-											disabled
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('location')}
-											onBlur={props.handleBlur('location')}
-											value={props.values.location}
-											helperText={props.touched.location && props.errors.location}
-											error={props.touched.location && props.errors.location}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Product/Services'
-											variant='outlined'
-											style={{ width: '100%' }}
-											type='text'
-											size='small'
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('productServices')}
-											onBlur={props.handleBlur('productServices')}
-											value={props.values.productServices}
-											helperText={
-												props.touched.productServices && props.errors.productServices
-											}
-											error={props.touched.productServices && props.errors.productServices}
-										/>
-									</Grid>
-									<Grid item lg={2} md={2} sm={12} xs={12}>
-										<CssTextField
-											id='outlined-basic'
-											label='Supplier Status'
-											variant='outlined'
-											style={{ width: '100%' }}
-											type='text'
-											size='small'
-											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('supplierStatus')}
-											onBlur={props.handleBlur('supplierStatus')}
-											value={props.values.supplierStatus}
-											helperText={
-												props.touched.supplierStatus && props.errors.supplierStatus
-											}
-											error={props.touched.supplierStatus && props.errors.supplierStatus}
-										/>
-									</Grid>
-								</Grid>
-								<Button style={{ display: 'none' }} />
-							</Container>
-						</Form>
-					)}
+									<Button style={{ display: 'none' }} />
+								</Container>
+							</Form>
+						);
+					}}
 				</Formik>
-				<Formik
-					initialValues={sectionBFormInitialValues}
-					// validationSchema={validationSchemaForQualityCheck}
-					onSumbmit={onSubmit}>
+				<Formik initialValues={sectionBFormInitialValues} onSubmit={onSubmit}>
 					{(props) => {
+						sectionB = props;
 						return (
 							<Form autoComplete='off'>
 								<h5 className='text-center mt-5'>Section-B (Quality System)</h5>
@@ -776,6 +759,7 @@ const SupplierEvalForm = ({ history }) => {
 										</Grid>
 										<Grid item lg={2} md={2} sm={2}>
 											<CssTextField
+												select
 												id='outlined-basic'
 												label='Enter Position/Designation'
 												variant='outlined'
@@ -785,23 +769,38 @@ const SupplierEvalForm = ({ history }) => {
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-											/>
+												onChange={props.handleChange('informationProvidedByDesignation')}
+												onBlur={props.handleBlur('informationProvidedByDesignation')}
+												value={props.values.informationProvidedByDesignation}
+												helperText={
+													props.touched.informationProvidedByDesignation &&
+													props.errors.informationProvidedByDesignation
+												}
+												error={
+													props.touched.informationProvidedByDesignation &&
+													props.errors.informationProvidedByDesignation
+												}>
+												{designations.map((el) => (
+													<MenuItem value={el._id} key={el._id}>
+														{capitalize(el.name)}
+													</MenuItem>
+												))}
+											</CssTextField>
 										</Grid>
+										<Button style={{ display: 'none' }} />
 									</Grid>
 								</Container>
-								<Button style={{ display: 'none' }} />
 							</Form>
 						);
 					}}
 				</Formik>
-				<Formik
-					initialValues={sectionCFormInitialValues}
-					// validationSchema={validationSchemaForQualityCheck}
-				>
+				<Formik initialValues={sectionCFormInitialValues} onSubmit={onSubmit}>
 					{(props) => {
 						sectionC = props;
 						return (
 							<Form autoComplete='off'>
+								<Button style={{ display: 'none' }} />
+
 								<h5 className='text-center mt-5'>Section-C (PAST PERFORMANCE)</h5>
 								<p className='text-center'>
 									To be completed by the Purchasing Department
@@ -831,11 +830,17 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('goodServicesToTheCompany')}
+												onBlur={props.handleBlur('goodServicesToTheCompany')}
+												value={props.values.goodServicesToTheCompany}
+												helperText={
+													props.touched.goodServicesToTheCompany &&
+													props.errors.goodServicesToTheCompany
+												}
+												error={
+													props.touched.goodServicesToTheCompany &&
+													props.errors.goodServicesToTheCompany
+												}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
 									</Grid>
@@ -878,14 +883,16 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('testingIncoming')}
-												onBlur={props.handleBlur('testingIncoming')}
-												value={props.values.testingIncoming}
+												onChange={props.handleChange('qualityRequirements')}
+												onBlur={props.handleBlur('qualityRequirements')}
+												value={props.values.qualityRequirements}
 												helperText={
-													props.touched.testingIncoming && props.errors.testingIncoming
+													props.touched.qualityRequirements &&
+													props.errors.qualityRequirements
 												}
 												error={
-													props.touched.testingIncoming && props.errors.testingIncoming
+													props.touched.qualityRequirements &&
+													props.errors.qualityRequirements
 												}>
 												<MenuItem value=''>
 													<em>None</em>
@@ -925,13 +932,13 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('testingProcess')}
-												onBlur={props.handleBlur('testingProcess')}
-												value={props.values.testingProcess}
+												onChange={props.handleChange('onTimeDelivery')}
+												onBlur={props.handleBlur('onTimeDelivery')}
+												value={props.values.onTimeDelivery}
 												helperText={
-													props.touched.testingProcess && props.errors.testingProcess
+													props.touched.onTimeDelivery && props.errors.onTimeDelivery
 												}
-												error={props.touched.testingProcess && props.errors.testingProcess}>
+												error={props.touched.onTimeDelivery && props.errors.onTimeDelivery}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -970,11 +977,13 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('testingFinal')}
-												onBlur={props.handleBlur('testingFinal')}
-												value={props.values.testingFinal}
-												helperText={props.touched.testingFinal && props.errors.testingFinal}
-												error={props.touched.testingFinal && props.errors.testingFinal}>
+												onChange={props.handleChange('salesServices')}
+												onBlur={props.handleBlur('salesServices')}
+												value={props.values.salesServices}
+												helperText={
+													props.touched.salesServices && props.errors.salesServices
+												}
+												error={props.touched.salesServices && props.errors.salesServices}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1007,11 +1016,11 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('prompt')}
+												onBlur={props.handleBlur('prompt')}
+												value={props.values.prompt}
+												helperText={props.touched.prompt && props.errors.prompt}
+												error={props.touched.prompt && props.errors.prompt}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1044,11 +1053,17 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('goodMarketReputation')}
+												onBlur={props.handleBlur('goodMarketReputation')}
+												value={props.values.goodMarketReputation}
+												helperText={
+													props.touched.goodMarketReputation &&
+													props.errors.goodMarketReputation
+												}
+												error={
+													props.touched.goodMarketReputation &&
+													props.errors.goodMarketReputation
+												}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1062,14 +1077,12 @@ const SupplierEvalForm = ({ history }) => {
 						);
 					}}
 				</Formik>
-				<Formik
-					initialValues={sectionCFormInitialValues}
-					// validationSchema={validationSchemaForQualityCheck}
-				>
+				<Formik initialValues={sectionDFormInitialValues} onSubmit={onSubmit}>
 					{(props) => {
 						sectionD = props;
 						return (
 							<Form autoComplete='off'>
+								<Button style={{ display: 'none' }} />
 								<h5 className='text-center mt-5'>Section-D (ON-SITE SURVEY)</h5>
 								<p className='text-center'>
 									To be completed by the Auditor/Representative
@@ -1099,11 +1112,13 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												// value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('setProcedures')}
+												onBlur={props.handleBlur('setProcedures')}
+												value={props.values.setProcedures}
+												helperText={
+													props.touched.setProcedures && props.errors.setProcedures
+												}
+												error={props.touched.setProcedures && props.errors.setProcedures}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1137,11 +1152,15 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												// value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('sufficientMachines')}
+												onBlur={props.handleBlur('sufficientMachines')}
+												value={props.values.sufficientMachines}
+												helperText={
+													props.touched.sufficientMachines && props.errors.sufficientMachines
+												}
+												error={
+													props.touched.sufficientMachines && props.errors.sufficientMachines
+												}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1175,11 +1194,15 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												// value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('productSafeguard')}
+												onBlur={props.handleBlur('productSafeguard')}
+												value={props.values.productSafeguard}
+												helperText={
+													props.touched.productSafeguard && props.errors.productSafeguard
+												}
+												error={
+													props.touched.productSafeguard && props.errors.productSafeguard
+												}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1212,11 +1235,15 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												// value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('commitedToQuality')}
+												onBlur={props.handleBlur('commitedToQuality')}
+												value={props.values.commitedToQuality}
+												helperText={
+													props.touched.commitedToQuality && props.errors.commitedToQuality
+												}
+												error={
+													props.touched.commitedToQuality && props.errors.commitedToQuality
+												}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1249,11 +1276,17 @@ const SupplierEvalForm = ({ history }) => {
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
 												InputLabelProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('rating')}
-												// onBlur={props.handleBlur('rating')}
-												// value={props.values.rating}
-												helperText={props.touched.rating && props.errors.rating}
-												error={props.touched.rating && props.errors.rating}>
+												onChange={props.handleChange('writtenSpecification')}
+												onBlur={props.handleBlur('writtenSpecification')}
+												value={props.values.writtenSpecification}
+												helperText={
+													props.touched.writtenSpecification &&
+													props.errors.writtenSpecification
+												}
+												error={
+													props.touched.writtenSpecification &&
+													props.errors.writtenSpecification
+												}>
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
@@ -1267,22 +1300,6 @@ const SupplierEvalForm = ({ history }) => {
 										<Grid item lg={8} md={8} sm={12} xs={12}>
 											<h6 className={classes.questinOne}>6. Visit conducted by:</h6>
 										</Grid>
-										{/* <Grid item lg={2} md={3} sm={12} xs={12}>
-														<CssTextField
-														id='outlined-basic'
-														label='Ans'
-														variant='outlined'
-															type='text'
-															size='small'
-															className={classes.inputFieldStyle2}
-															inputProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('question')}
-															onBlur={props.handleBlur('question')}
-															value={props.values.question}
-															helperText={props.touched.question && props.errors.question}
-															error={props.touched.question && props.errors.question}
-															InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-														</Grid> */}
 									</Grid>
 									<Grid container spacing={1} style={{ marginTop: '10px' }}>
 										<Grid item lg={4} md={4} sm={4} xs={4}></Grid>
@@ -1296,11 +1313,17 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												// value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('visitConductedByName')}
+												onBlur={props.handleBlur('visitConductedByName')}
+												value={props.values.visitConductedByName}
+												helperText={
+													props.touched.visitConductedByName &&
+													props.errors.visitConductedByName
+												}
+												error={
+													props.touched.visitConductedByName &&
+													props.errors.visitConductedByName
+												}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
 										</Grid>
@@ -1314,11 +1337,15 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('question')}
-												// onBlur={props.handleBlur('question')}
-												// value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('visitConductedOn')}
+												onBlur={props.handleBlur('visitConductedOn')}
+												value={props.values.visitConductedOn}
+												helperText={
+													props.touched.visitConductedOn && props.errors.visitConductedOn
+												}
+												error={
+													props.touched.visitConductedOn && props.errors.visitConductedOn
+												}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
 										</Grid>
@@ -1328,14 +1355,12 @@ const SupplierEvalForm = ({ history }) => {
 						);
 					}}
 				</Formik>
-				<Formik
-					initialValues={sectionCFormInitialValues}
-					// validationSchema={validationSchemaForQualityCheck}
-				>
+				<Formik initialValues={sectionEFormInitialValues} onSubmit={onSubmit}>
 					{(props) => {
 						sectionE = props;
 						return (
 							<Form autoComplete='off'>
+								<Button style={{ display: 'none' }} />
 								<h5 className='text-center mt-5'>Section-E (SAMPLE APPRROVAL)</h5>
 								<p className='text-center'>
 									TO BE FILLED BY QUALITY ASSURANCE DEPARTMENT
@@ -1362,11 +1387,15 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('samplesProvided')}
+												onBlur={props.handleBlur('samplesProvided')}
+												value={props.values.samplesProvided}
+												helperText={
+													props.touched.samplesProvided && props.errors.samplesProvided
+												}
+												error={
+													props.touched.samplesProvided && props.errors.samplesProvided
+												}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
 									</Grid>
@@ -1393,11 +1422,15 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('testingInspection')}
+												onBlur={props.handleBlur('testingInspection')}
+												value={props.values.testingInspection}
+												helperText={
+													props.touched.testingInspection && props.errors.testingInspection
+												}
+												error={
+													props.touched.testingInspection && props.errors.testingInspection
+												}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
 									</Grid>
@@ -1422,11 +1455,11 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												className={classes.inputFieldStyle2}
 												inputProps={{ style: { fontSize: 14 } }}
-												onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('reportRefNo')}
+												onBlur={props.handleBlur('reportRefNo')}
+												value={props.values.reportRefNo}
+												helperText={props.touched.reportRefNo && props.errors.reportRefNo}
+												error={props.touched.reportRefNo && props.errors.reportRefNo}
 												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 										</Grid>
 									</Grid>
@@ -1435,23 +1468,6 @@ const SupplierEvalForm = ({ history }) => {
 										<Grid item lg={8} md={8} sm={12} xs={12}>
 											<h6 className={classes.questinOne}>4. Inspection By:</h6>
 										</Grid>
-										{/* <Grid item lg={2} md={3} sm={12} xs={12} style={{ marginTop: '0.5rem' }}>
-															<CssTextField
-																id='outlined-basic'
-																label='Ans'
-																variant='outlined'
-																type='text'
-																size='small'
-																autoComplete='off'
-																className={classes.inputFieldStyle2}
-																inputProps={{ style: { fontSize: 14 } }}
-																onChange={props.handleChange('question')}
-																onBlur={props.handleBlur('question')}
-																value={props.values.question}
-																helperText={props.touched.question && props.errors.question}
-																error={props.touched.question && props.errors.question}
-																InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-															</Grid> */}
 									</Grid>
 									<Grid container spacing={1} style={{ marginTop: '10px' }}>
 										<Grid item lg={4} md={4} sm={4} xs={4}></Grid>
@@ -1465,16 +1481,20 @@ const SupplierEvalForm = ({ history }) => {
 												autoComplete='off'
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												// onChange={props.handleChange('question')}
-												onBlur={props.handleBlur('question')}
-												// value={props.values.question}
-												helperText={props.touched.question && props.errors.question}
-												error={props.touched.question && props.errors.question}
+												onChange={props.handleChange('inpectionByName')}
+												onBlur={props.handleBlur('inpectionByName')}
+												value={props.values.inpectionByName}
+												helperText={
+													props.touched.inpectionByName && props.errors.inpectionByName
+												}
+												error={
+													props.touched.inpectionByName && props.errors.inpectionByName
+												}
 												InputLabelProps={{ style: { fontSize: 14 } }}
 											/>
 										</Grid>
 									</Grid>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
+									{/* <Grid container spacing={1} style={{ marginTop: 15 }}>
 										<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
 										<Grid item lg={7} md={7} sm={12} xs={12}>
 											<h6 className={classes.questinOne}>5. Vendor Rating Method:</h6>
@@ -1523,8 +1543,6 @@ const SupplierEvalForm = ({ history }) => {
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
-												{/* <MenuItem value={true}>Yes</MenuItem> */}
-												{/* <MenuItem value={false}>No</MenuItem> */}
 											</CssTextField>
 										</Grid>
 									</Grid>
@@ -1569,8 +1587,6 @@ const SupplierEvalForm = ({ history }) => {
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
-												{/* <MenuItem value={true}>Yes</MenuItem> */}
-												{/* <MenuItem value={false}>No</MenuItem> */}
 											</CssTextField>
 										</Grid>
 									</Grid>
@@ -1613,183 +1629,166 @@ const SupplierEvalForm = ({ history }) => {
 												<MenuItem value=''>
 													<em>None</em>
 												</MenuItem>
-												{/* <MenuItem value={true}>Yes</MenuItem> */}
-												{/* <MenuItem value={false}>No</MenuItem> */}
+											</CssTextField>
+										</Grid>
+									</Grid> */}
+								</Container>
+							</Form>
+						);
+					}}
+				</Formik>
+
+				<Formik initialValues={sectionFFormInitialValues} onSubmit={onSubmit}>
+					{(props) => {
+						sectionF = props;
+						return (
+							<Form>
+								<h5 className='text-center mt-5'>Section-F (DECISION)</h5>
+								<p className='text-center'>
+									To be completed by Director Finance, Procurement and Admin
+								</p>
+								<Container className={classes.mainContainer}>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
+										<Grid item lg={8} md={8} sm={12} xs={12}>
+											<h6 className={classes.questinOne}>Decision</h6>
+										</Grid>
+										<Grid
+											item
+											lg={2}
+											md={3}
+											sm={12}
+											xs={12}
+											style={{ marginTop: '0.3rem' }}>
+											<CssTextField
+												id='outlined-basic'
+												label='Ans'
+												variant='outlined'
+												type='text'
+												size='small'
+												select
+												className={classes.inputFieldStyle2}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('decision')}
+												onBlur={props.handleBlur('decision')}
+												value={props.values.decision}
+												helperText={props.touched.decision && props.errors.decision}
+												error={props.touched.decision && props.errors.decision}>
+												<MenuItem value={true}>Approved</MenuItem>
+												<MenuItem value={false}>Not Approved</MenuItem>
 											</CssTextField>
 										</Grid>
 									</Grid>
-									<Formik
-										initialValues={sectionCFormInitialValues}
-										// validationSchema={validationSchemaForQualityCheck}
-									>
-										{(props) => {
-											sectionF = props;
-											return (
-												<Form autoComplete='off'>
-													<h5 className='text-center mt-5'>Section-F (DECISION)</h5>
-													<p className='text-center'>
-														To be completed by Director Finance, Procurement and Admin
-													</p>
-													<Container className={classes.mainContainer}>
-														<Grid container spacing={1} style={{ marginTop: 15 }}>
-															<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
-															<Grid item lg={8} md={8} sm={12} xs={12}>
-																<h6 className={classes.questinOne}>Decision</h6>
-															</Grid>
-															<Grid
-																item
-																lg={2}
-																md={3}
-																sm={12}
-																xs={12}
-																style={{ marginTop: '0.3rem' }}>
-																<CssTextField
-																	id='outlined-basic'
-																	label='Ans'
-																	variant='outlined'
-																	type='text'
-																	size='small'
-																	select
-																	className={classes.inputFieldStyle2}
-																	inputProps={{ style: { fontSize: 14 } }}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																	// onChange={props.handleChange('rating')}
-																	// onBlur={props.handleBlur('rating')}
-																	// value={props.values.rating}
-																	helperText={props.touched.rating && props.errors.rating}
-																	error={props.touched.rating && props.errors.rating}>
-																	{/* <MenuItem value=''>
-																	<em>None</em>
-																</MenuItem> */}
-																	<MenuItem value={true}>Approved</MenuItem>
-																	<MenuItem value={false}>Not Approved</MenuItem>
-																</CssTextField>
-															</Grid>
-														</Grid>
-														<Grid container spacing={1} style={{ marginTop: 15 }}>
-															<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
-															<Grid item lg={8} md={8} sm={12} xs={12}>
-																<h6 className={classes.questinOne}>Basis For Approval</h6>
-															</Grid>
-															<Grid
-																item
-																lg={2}
-																md={3}
-																sm={12}
-																xs={12}
-																style={{ marginTop: '0.3rem' }}>
-																<CssTextField
-																	id='outlined-basic'
-																	label='Ans'
-																	variant='outlined'
-																	type='text'
-																	size='small'
-																	className={classes.inputFieldStyle2}
-																	inputProps={{ style: { fontSize: 14 } }}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																	// onChange={props.handleChange('rating')}
-																	// onBlur={props.handleBlur('rating')}
-																	// value={props.values.rating}
-																	helperText={props.touched.rating && props.errors.rating}
-																	error={props.touched.rating && props.errors.rating}
-																/>
-															</Grid>
-														</Grid>
-														<Grid container spacing={1} style={{ marginTop: 15 }}>
-															<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
-															<Grid item lg={8} md={8} sm={12} xs={12}>
-																<h6 className={classes.questinOne}>Approved By & Date</h6>
-															</Grid>
-															{/* <Grid item lg={2} md={3} sm={12} xs={12}>
-														<CssTextField
-														id='outlined-basic'
-														label='Ans'
-														variant='outlined'
-														type='text'
-														size='small'
-														className={classes.inputFieldStyle2}
-														inputProps={{ style: { fontSize: 14 } }}
-														onChange={props.handleChange('question')}
-														onBlur={props.handleBlur('question')}
-														value={props.values.question}
-														helperText={props.touched.question && props.errors.question}
-														error={props.touched.question && props.errors.question}
-														InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-													</Grid> */}
-														</Grid>
-														<Grid container spacing={1} style={{ marginTop: '10px' }}>
-															<Grid item lg={4} md={4} sm={4} xs={4}></Grid>
-															<Grid item lg={2} md={2} sm={2}>
-																<CssTextField
-																	id='outlined-basic'
-																	label='Enter Name'
-																	variant='outlined'
-																	type='text'
-																	size='small'
-																	autoComplete='off'
-																	style={{ width: '100%' }}
-																	inputProps={{ style: { fontSize: 14 } }}
-																	// onChange={props.handleChange('question')}
-																	onBlur={props.handleBlur('question')}
-																	// value={props.values.question}
-																	helperText={props.touched.question && props.errors.question}
-																	error={props.touched.question && props.errors.question}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																/>
-															</Grid>
-															<Grid item lg={2} md={2} sm={2}>
-																<CssTextField
-																	id='outlined-basic'
-																	// label='Date'
-																	variant='outlined'
-																	type='date'
-																	size='small'
-																	autoComplete='off'
-																	style={{ width: '100%' }}
-																	inputProps={{ style: { fontSize: 14 } }}
-																	// onChange={props.handleChange('question')}
-																	// onBlur={props.handleBlur('question')}
-																	// value={props.values.question}
-																	helperText={props.touched.question && props.errors.question}
-																	error={props.touched.question && props.errors.question}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																/>
-															</Grid>
-														</Grid>
-														<Grid container spacing={1} style={{ marginTop: 15 }}>
-															<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
-															<Grid item lg={8} md={8} sm={12} xs={12}>
-																<h6 className={classes.questinOne}>Next Review:</h6>
-															</Grid>
-															<Grid
-																item
-																lg={2}
-																md={3}
-																sm={12}
-																xs={12}
-																style={{ marginTop: '0.3rem' }}>
-																<CssTextField
-																	id='outlined-basic'
-																	label='Ans'
-																	variant='outlined'
-																	type='text'
-																	size='small'
-																	className={classes.inputFieldStyle2}
-																	inputProps={{ style: { fontSize: 14 } }}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																	// onChange={props.handleChange('rating')}
-																	// onBlur={props.handleBlur('rating')}
-																	// value={props.values.rating}
-																	helperText={props.touched.rating && props.errors.rating}
-																	error={props.touched.rating && props.errors.rating}
-																/>
-															</Grid>
-														</Grid>
-													</Container>
-												</Form>
-											);
-										}}
-									</Formik>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
+										<Grid item lg={8} md={8} sm={12} xs={12}>
+											<h6 className={classes.questinOne}>Basis For Approval</h6>
+										</Grid>
+										<Grid
+											item
+											lg={2}
+											md={3}
+											sm={12}
+											xs={12}
+											style={{ marginTop: '0.3rem' }}>
+											<CssTextField
+												id='outlined-basic'
+												label='Ans'
+												variant='outlined'
+												type='text'
+												size='small'
+												className={classes.inputFieldStyle2}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('basisForApproval')}
+												onBlur={props.handleBlur('basisForApproval')}
+												value={props.values.basisForApproval}
+												helperText={
+													props.touched.basisForApproval && props.errors.basisForApproval
+												}
+												error={
+													props.touched.basisForApproval && props.errors.basisForApproval
+												}
+											/>
+										</Grid>
+									</Grid>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
+										<Grid item lg={8} md={8} sm={12} xs={12}>
+											<h6 className={classes.questinOne}>Approved By & Date</h6>
+										</Grid>
+									</Grid>
+									<Grid container spacing={1} style={{ marginTop: '10px' }}>
+										<Grid item lg={4} md={4} sm={4} xs={4}></Grid>
+										<Grid item lg={2} md={2} sm={2}>
+											<CssTextField
+												id='outlined-basic'
+												label='Enter Name'
+												variant='outlined'
+												type='text'
+												size='small'
+												autoComplete='off'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('approvedByName')}
+												onBlur={props.handleBlur('approvedByName')}
+												value={props.values.approvedByName}
+												helperText={
+													props.touched.approvedByName && props.errors.approvedByName
+												}
+												error={props.touched.approvedByName && props.errors.approvedByName}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+										<Grid item lg={2} md={2} sm={2}>
+											<CssTextField
+												id='outlined-basic'
+												variant='outlined'
+												type='date'
+												size='small'
+												autoComplete='off'
+												style={{ width: '100%' }}
+												inputProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('approvedByOn')}
+												onBlur={props.handleBlur('approvedByOn')}
+												value={props.values.approvedByOn}
+												helperText={props.touched.approvedByOn && props.errors.approvedByOn}
+												error={props.touched.approvedByOn && props.errors.approvedByOn}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+											/>
+										</Grid>
+									</Grid>
+									<Grid container spacing={1} style={{ marginTop: 15 }}>
+										<Grid item lg={2} md={2} sm={12} xs={12}></Grid>
+										<Grid item lg={8} md={8} sm={12} xs={12}>
+											<h6 className={classes.questinOne}>Next Review:</h6>
+										</Grid>
+										<Grid
+											item
+											lg={2}
+											md={3}
+											sm={12}
+											xs={12}
+											style={{ marginTop: '0.3rem' }}>
+											<CssTextField
+												id='outlined-basic'
+												label='Ans'
+												variant='outlined'
+												type='text'
+												size='small'
+												className={classes.inputFieldStyle2}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('nextReview')}
+												onBlur={props.handleBlur('nextReview')}
+												value={props.values.nextReview}
+												helperText={props.touched.nextReview && props.errors.nextReview}
+												error={props.touched.nextReview && props.errors.nextReview}
+											/>
+										</Grid>
+									</Grid>
+									<Button style={{ display: 'none' }} />
 								</Container>
 							</Form>
 						);
@@ -1805,6 +1804,7 @@ const SupplierEvalForm = ({ history }) => {
 							text='Submit'
 							loading={loading}
 							loaderColor='#333'
+							onClick={onSubmit}
 						/>
 					</Grid>
 					{success && <p>{success}</p>}
@@ -1816,4 +1816,4 @@ const SupplierEvalForm = ({ history }) => {
 	);
 };
 
-export default SupplierEvalForm;
+export default withRouter(SupplierEvalForm);
