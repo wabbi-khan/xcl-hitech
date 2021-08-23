@@ -336,19 +336,10 @@ const Vehicles = () => {
 													<td>{el.phoneNum}</td>
 													<td>{el.cnicNum}</td>
 													<td>
-														{el.RoadTaxPaid &&
-														el.appropriateJack &&
-														el.driverValidLins &&
-														el.enoughFuel &&
-														el.fitnessCert &&
-														el.regDoc &&
-														el.signOfInspector &&
-														el.spareTyre &&
-														el.validVehicleInsp &&
-														el.visualCheckVehicle ? (
+														{el?.inspected ? (
 															<span className='text-success'>Inspected</span>
 														) : (
-															<span className='text-danger'>Un-Inspected</span>
+															<span className='text-danger'>Un - Inspected</span>
 														)}
 													</td>
 													<td>

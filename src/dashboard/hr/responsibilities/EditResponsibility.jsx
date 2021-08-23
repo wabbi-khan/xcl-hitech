@@ -141,9 +141,9 @@ const EditResponsibility = (props) => {
 						setSuccess(false);
 					}, 4000);
 				}
+				setLoading(false);
 			}),
 		);
-		setLoading(true);
 	};
 
 	const handleClose = () => {

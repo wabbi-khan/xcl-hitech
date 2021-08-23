@@ -1,15 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import TableContainer from '@material-ui/core/TableContainer';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVehicles } from '../../../services/action/VehiclesAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
-import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+
+import {
+	getVehicles,
+	updateVehicles,
+} from '../../../services/action/VehiclesAction';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
+import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
+import { MenuItem } from '@material-ui/core';
+
+const CssTextField = withStyles({
+	root: {
+		'& label.Mui-focused': {
+			color: 'black',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'black',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'black',
+			},
+		},
+	},
+})(TextField);
 
 const GreenCheckbox = withStyles({
 	root: {
@@ -79,323 +101,253 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+// const initialValues = {
+// 	fitnessCert: false,
+// 	regDoc: false,
+// 	roadTaxPaid: false,
+// 	validVehicleInsp: false,
+// 	driverValidLins: false,
+// 	visualCheckVehicle: false,
+// 	spareTyre: false,
+// 	appropriateJack: false,
+// 	enoughFuel: false,
+// 	signOfInspector: false,
+// };
+
+const initialValues = {
+	choices: [],
+};
+
+const checkList = [
+	{
+		id: '1',
+		name: 'Fitness Cert',
+		value: 'fitnessCert',
+	},
+	{
+		id: '2',
+		name: 'Reg Doc',
+		value: 'regDoc',
+	},
+	{
+		id: '3',
+		name: 'Road Tax Paid',
+		value: 'roadTaxPaid',
+	},
+	{
+		id: '4',
+		name: 'Valid Vehicle Inspection',
+		value: 'validVehicleInsp',
+	},
+	{
+		id: '5',
+		name: 'Driver Valid License',
+		value: 'driverValidLins',
+	},
+	{
+		id: '6',
+		name: 'Visual Check Vehicle',
+		value: 'visualCheckVehicle',
+	},
+	{
+		id: '7',
+		name: 'Spare Tyre',
+		value: 'spareTyre',
+	},
+	{
+		id: '8',
+		name: 'Appropriate Jack',
+		value: 'appropriateJack',
+	},
+	{
+		id: '9',
+		name: 'Enough Fuel',
+		value: 'enoughFuel',
+	},
+	{
+		id: '10',
+		name: 'Sign Of Inspector',
+		value: 'signOfInspector',
+	},
+];
+
 const VehicleInspectChecklist = () => {
-	const [fitnessCert, setFitnessCert] = useState(false);
-	const [regDoc, setRegDoc] = useState(false);
-	const [RoadTaxPaid, setRoadTaxPaid] = useState(false);
-	const [validVehicleInsp, setValidVehicleInsp] = useState(false);
-	const [driverValidLins, setDriverValidLins] = useState(false);
-	const [visualCheckVehicle, setVisualCheckVehicle] = useState(false);
-	const [spareTyre, setSpareTyre] = useState(false);
-	const [appropriateJack, setAppropriateJack] = useState(false);
-	const [enoughFuel, setEnoughFuel] = useState(false);
-	const [signOfInspector, setSignOfInspector] = useState(false);
-	const [SubmitError, setSubmitError] = useState('');
+	const [updateLoading, setUpdateLoading] = React.useState(false);
+	const [updateError, setUpdateError] = React.useState('');
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [initialValuesState, setInitialValues] = React.useState({
+		...initialValues,
+	});
+	const [vehicle, setVehicle] = useState('');
+	const [checked, setChecked] = useState(false);
 
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getVehicles());
+		dispatch(getVehicles('inspected=false'));
 	}, [dispatch]);
 
-	const { loading, vehicles, error } = useSelector((state) => state.vehicles);
+	const { vehicles } = useSelector((state) => state.vehicles);
 
-	const getCheckedValues = async (_id) => {
-		if (
-			fitnessCert &&
-			regDoc &&
-			RoadTaxPaid &&
-			validVehicleInsp &&
-			driverValidLins &&
-			visualCheckVehicle &&
-			spareTyre &&
-			appropriateJack &&
-			enoughFuel &&
-			signOfInspector
-		) {
-			await axios.patch(
-				`${process.env.REACT_APP_API_URL}/vehicle/inspection/${_id}`,
-				{
-					fitnessCert,
-					regDoc,
-					RoadTaxPaid,
-					validVehicleInsp,
-					driverValidLins,
-					visualCheckVehicle,
-					spareTyre,
-					appropriateJack,
-					enoughFuel,
-					signOfInspector,
-				},
-			);
-		} else {
-			console.log('error');
-			setSubmitError('Internal Server Error');
+	const onSubmit = (values) => {
+		if (!vehicle) {
+			setUpdateError('Select a vehicle');
+			setTimeout(() => {
+				setUpdateError('');
+			}, 4000);
+			return;
 		}
+		let obj = {};
+		values.choices.forEach((value) => {
+			obj[value] = true;
+		});
+
+		values = {
+			...obj,
+		};
+
+		setUpdateLoading(true);
+		dispatch(
+			updateVehicles(vehicle._id, values, (err, data) => {
+				if (err) {
+					setUpdateError(err);
+					setTimeout(() => {
+						setUpdateError('');
+					}, 4000);
+				} else {
+					setUpdateLoading(false);
+					if (data.inspected) {
+						setSuccess(true);
+						setTimeout(() => {
+							setSuccess(false);
+						}, 4000);
+					} else {
+						setUpdateError(
+							'Vehicle is not inspected, Make sure all the boxes are checked',
+						);
+						setTimeout(() => {
+							setUpdateError('');
+						}, 4000);
+					}
+				}
+			}),
+		);
 	};
+
+	function checkAll() {
+		if (!checked) {
+			setChecked(true);
+			const checks = [];
+			checkList.forEach((el) => checks.push(el?.value));
+			setInitialValues({ ...initialValuesState, choices: [...checks] });
+		} else {
+			setChecked(false);
+			setInitialValues({ ...initialValuesState, choices: [] });
+		}
+	}
+
 	return (
 		<Sidenav title={'Vehicle Inspection Checklist'}>
 			<div>
 				<div className={classes.dataTable}>
-					{fitnessCert == false ||
-					regDoc == false ||
-					RoadTaxPaid == false ||
-					validVehicleInsp == false ||
-					driverValidLins == false ||
-					visualCheckVehicle == false ||
-					spareTyre == false ||
-					appropriateJack == false ||
-					enoughFuel == false ||
-					signOfInspector == false ? (
-						<span className={classes.Error}>Check All The Fields</span>
-					) : null}
 					<div className={classes.dataTable}>
+						{vehicle && (
+							<div style={{ display: 'flex', flexDirection: 'column' }}>
+								<span style={{ fontSize: '20px' }}>
+									Driver Name: {vehicle?.driverName}
+								</span>
+								<span style={{ fontSize: '20px' }}>
+									Vehicle Number: {vehicle?.number}
+								</span>
+							</div>
+						)}
 						<TableContainer className={classes.tableContainer}>
-							{/* <h5>Inspected Orders</h5> */}
 							<div className='container-fluid' style={{ textAlign: 'left' }}>
-								<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center'>
-									<thead class='bg-dark text-light'>
-										<tr>
-											<th>S.No.</th>
-											<th>Vehicle No.</th>
-											<th>Driver Name</th>
-											<th>Fitness Certificate</th>
-											<th>Reg. Document</th>
-											<th>Road Tax Paid</th>
-											<th>Valid Vehicle Ins</th>
-											<th>Driver's Valid License</th>
-											<th>Visual Check of Vehicle</th>
-											<th>
-												Tyre/
-												<br />
-												Spare
-											</th>
-											<th>Appropriate Jack</th>
-											<th>Enough Fuel in the Tank</th>
-											<th>Sign of Inspector</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										{loading ? (
-											<Loading />
-										) : error ? (
-											<MaterialError />
-										) : vehicles.length ? (
-											vehicles.map((vehicle, i) => (
-												<tr key={i}>
-													<td>{i + 1}</td>
-													<td>{vehicle.number}</td>
-													<td>{vehicle.driverName}</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setFitnessCert(true);
-																		}
-																		if (!e.target.checked) {
-																			setFitnessCert(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setRegDoc(true);
-																		}
-																		if (!e.target.checked) {
-																			setRegDoc(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setRoadTaxPaid(true);
-																		}
-																		if (!e.target.checked) {
-																			setRoadTaxPaid(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setValidVehicleInsp(true);
-																		}
-																		if (!e.target.checked) {
-																			setValidVehicleInsp(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setDriverValidLins(true);
-																		}
-																		if (!e.target.checked) {
-																			setDriverValidLins(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setVisualCheckVehicle(true);
-																		}
-																		if (!e.target.checked) {
-																			setVisualCheckVehicle(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setSpareTyre(true);
-																		}
-																		if (!e.target.checked) {
-																			setSpareTyre(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setAppropriateJack(true);
-																		}
-																		if (!e.target.checked) {
-																			setAppropriateJack(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setEnoughFuel(true);
-																		}
-																		if (!e.target.checked) {
-																			setEnoughFuel(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<FormControlLabel
-															style={{ marginTop: -6 }}
-															label='Yes'
-															control={
-																<GreenCheckbox
-																	name='checkedG'
-																	onChange={(e) => {
-																		if (e.target.checked) {
-																			setSignOfInspector(true);
-																		}
-																		if (!e.target.checked) {
-																			setSignOfInspector(false);
-																		}
-																	}}
-																/>
-															}
-														/>
-													</td>
-													<td>
-														<Button
-															variant='contained'
-															size='small'
-															class='btn btn-sm bg-dark text-light'
-															onClick={() => getCheckedValues(vehicle._id)}
-															style={{ marginLeft: 2, marginTop: 2 }}>
-															Finish
-														</Button>
-													</td>
-												</tr>
-											))
-										) : (
-											<h5>Not Found</h5>
-										)}
-									</tbody>
-								</table>
+								<CssTextField
+									id='outlined-basic'
+									label='Select Vehicle'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									style={{ width: '40%', margin: '20px 0px' }}
+									select
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}>
+									{!vehicles || !vehicles.length ? (
+										<p>Data Not Found</p>
+									) : (
+										vehicles.map((el) => (
+											<MenuItem value={el._id} key={el._id} onClick={() => setVehicle(el)}>
+												{el.driverName} - {el.number}
+											</MenuItem>
+										))
+									)}
+								</CssTextField>
+
+								<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+									<Button
+										type='button'
+										text={checked ? 'UnCheck All' : 'Check All'}
+										classNames='bg-dark text-light'
+										onClick={checkAll}
+									/>
+								</div>
+
+								<Formik
+									initialValues={initialValuesState}
+									onSubmit={onSubmit}
+									enableReinitialize>
+									{(props) => (
+										<Form>
+											{checkList.map((el) => (
+												<div
+													key={el?.id}
+													style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+													<span style={{ fontSize: '20px' }}>{el?.name}</span>
+													<Field
+														name='choices'
+														type='checkbox'
+														value={el?.value}
+														as={Checkbox}
+													/>
+												</div>
+											))}
+											<Button
+												text='add'
+												loading={updateLoading}
+												loaderColor='#333'
+												classNames='btn bg-primary text-light'
+											/>
+											{updateError && (
+												<p
+													style={{
+														textAlign: 'center',
+														fontSize: '20px',
+														marginBottom: '20px',
+														color: 'red',
+													}}>
+													{updateError}
+												</p>
+											)}
+											{success && (
+												<p
+													style={{
+														textAlign: 'center',
+														fontSize: '20px',
+														marginBottom: '20px',
+														color: 'green',
+													}}>
+													Successfully Inspected
+												</p>
+											)}
+										</Form>
+									)}
+								</Formik>
 							</div>
 						</TableContainer>
 					</div>

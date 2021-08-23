@@ -14,7 +14,9 @@ export const getVehicles = (query, cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/vehicle`);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/vehicle${query ? `?${query}` : ''}`,
+		);
 
 		if (data.success) {
 			dispatch({
@@ -67,7 +69,7 @@ export const updateVehicles = (id, values, cb) => async (dispatch) => {
 				type: VEHICLE_UPDATE_SUCCESS,
 				payload: data.vehicle,
 			});
-			if (cb) cb();
+			if (cb) cb(null, data);
 		}
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
