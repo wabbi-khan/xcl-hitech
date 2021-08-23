@@ -3,7 +3,7 @@ import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import Button from '../../../components/utils/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -368,18 +368,79 @@ const TrainingNeed = ({ history }) => {
 										variant='outlined'
 										color='primary'
 										type='submit'
+										text='Add'
 										className={classes.addButton}
-										// onClick={() => {
-										// 	history.push('/hr/print_training_need_identification');
-										// }}
+									// onClick={() => {
+									// 	history.push('/hr/print_training_need_identification');
+									// }}
 									>
-										Add
 									</Button>
 								</div>
 							</Form>
 						)}
 					</Formik>
 				</Container>
+				<table class='table table-bordered border-dark table-responsive text-center mt-5'>
+					<thead class='thead-inverse'>
+						<tr class='bg-dark text-light'>
+							<th>Department</th>
+							<th>Designation</th>
+							<th>Interviewed By</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{/* {
+							jobDescriptions?.map((el) => ( */}
+								<tr>
+									<td>
+										{/* {capitalize(el?.employee?.finalDepartment?.name)} */}
+									</td>
+									<td>
+										{/* {capitalize(el?.employee?.finalDesignation?.name)} */}
+									</td>
+									<td>
+										{/* {capitalize(el?.interactionWith?.name)} */}
+									</td>
+									<td>
+										<div
+											style={{ display: 'flex', gap: '.5rem', justifyContent: 'center' }}>
+											<Button
+												variant='outlined'
+												color='primary'
+												text='View'
+												size='small'
+												classNames='bg-dark text-light'
+												onClick={() => {
+													history.push({
+														pathname: `/hr/print_training_need_identification`,
+														// state: { description: el },
+													});
+												}}
+											/>
+											<Button
+												variant='outlined'
+												color='primary'
+												text='Edit'
+												size='small'
+												// onClick={() => handleOpen(el)}
+												classNames='bg-warning text-dark'
+											/>
+											<Button
+												variant='outlined'
+												color='primary'
+												text='Delete'
+												size='small'
+												// onClick={() => deleteResponsibility(el?._id)}
+												classNames='bg-danger text-light'
+											/>
+										</div>
+									</td>
+								</tr>
+							{/* ))
+						 } */}
+					</tbody>
+				</table>
 			</div>
 		</Sidenav>
 	);

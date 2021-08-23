@@ -102,10 +102,31 @@ const PrintTrainingNeedIdentification = () => {
         <div className="text-center">
             <div className="container">
                 <img src="./logo.png" alt="" />
-                <h4>Hi-Tech Pipe & Engineering Industries</h4>
+                {/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
                 <h6>Plot No X-22, Site Area Kotri</h6>
-                <p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-                <h5 className="mt-4" style={{ textDecoration: 'underline', fontWeight: 'bold', marginBottom: 40 }}>Training Needs Identification</h5>
+                <p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
+                <div class='row'>
+					<div class='col-lg-3 col-md-3 col-sm-4'>
+						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+					</div>
+					<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+						<div
+							style={{
+								display: 'flex',
+								// alignItems: 'flex-end',
+								flexDirection: 'column',
+								border: '2px solid #333',
+								width: '100px',
+								// marginLeft: 'auto',
+								// paddingRight: '5px',
+								// marginRight: '-3rem'
+							}}>
+							<h6>FM-98</h6>
+							<h6>Issue.01</h6>
+						</div>
+					</div>
+				</div>
+                <h5 className="mt-4" style={{ textDecoration: 'underline', fontWeight: 'bold', marginBottom: 40 }}>TRAINING NEEDS IDENTIFICATION</h5>
             </div>
             <div className="container-fluid" >
                 <div className="row " style={{ marginTop: 15, textAlign: 'left' }}>
@@ -114,10 +135,9 @@ const PrintTrainingNeedIdentification = () => {
                             <div className="col-lg-6 col-md-6 col-sm-6">
                                 <p>Date</p>
                             </div>
-                            <div className="col-lg-6 col-md-6 col-sm-6">
-                                <p>
+                            <div className="col-lg-4 col-md-6 col-sm-6">
+                                <p style={{ textDecoration: 'underline'}}>
                                     {fullDate}
-                                    <hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
                                 </p>
                             </div>
                         </div>
@@ -134,17 +154,14 @@ const PrintTrainingNeedIdentification = () => {
             </div>
             <div className={classes.table}>
                 <div className="table ml-auto mr-auto mt-4">
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
+                    <Grid container spacing={1} style={{ textAlign: 'left' }} >
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p style={{ fontWeight: 'bold', }}>
                                 Department:
                             </p>
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>Purchase</p>
-                            <hr
-                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <p style={{ textDecoration: 'underline'}}>Purchase</p>
                         </Grid>
                         <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
@@ -153,20 +170,20 @@ const PrintTrainingNeedIdentification = () => {
                             </p>
                         </Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p>Manager</p>
+                            <p style={{ textDecoration: 'underline'}}>Manager</p>
                             <hr
                                 style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
                             />
                         </Grid>
                     </Grid>
-                    <Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }} >
+                    <Grid container spacing={1} style={{ textAlign: 'left' }} >
                         <Grid item lg={2} md={2} sm={2} xs={2}>
                             <p style={{ fontWeight: 'bold', }}>
                                 Interviewed By:
                             </p>
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>QA Manager</p>
+                            <p style={{ textDecoration: 'underline'}}>QA Manager</p>
                             <hr
                                 style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
                             />
@@ -202,7 +219,7 @@ const PrintTrainingNeedIdentification = () => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td scope="row">1.</td>
+                                    <td style={{ fontWeight: 'bold' }}>1.</td>
                                     <td style={{ fontWeight: 'bold', textAlign: 'left' }}>
                                         Quality Management System
                                     </td>
@@ -214,28 +231,17 @@ const PrintTrainingNeedIdentification = () => {
                                 <tr>
                                     <td></td>
                                     <td scope="row">
-                                        <p style={{ fontSize: 14, textAlign: 'left' }}>
+                                        <li style={{ fontSize: 14, textAlign: 'left' }}>
                                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        </p>
-                                        <p style={{ fontSize: 14, textAlign: 'left' }}>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td scope="row">
-                                        <p style={{ fontWeight: 'bold', }}>
-                                            Recommendations
-                                        </p>
-                                    </td>
-                                    <td colspan="3">
-                                        <p style={{ textAlign: 'left', fontWeight: 'bold' }}>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        </p>
+                                        </li>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div style={{ display: 'flex', gap: '.5rem' }}>
+                            <h6>Recommendation: </h6>
+                            <h6>asd asd asd asd asd as das das das das d asd </h6>
+                        </div>
                     </div>
                 </div>
             </div>
