@@ -6,7 +6,6 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MdCancel } from 'react-icons/md';
 import axios from 'axios';
@@ -16,6 +15,7 @@ import * as yup from 'yup';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { updateTrainingPrereq } from '../../../services/action/TrainingPrereq';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -101,6 +101,7 @@ const EditTrainingPrereq = (props) => {
 	const dispatch = useDispatch();
 	const { show, handler, requisition } = props;
 	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState(false);
 	const [params, setParams] = React.useState([]);
@@ -134,18 +135,24 @@ const EditTrainingPrereq = (props) => {
 	};
 
 	const onSubmit = (values) => {
-		console.log('object');
+		values = { ...values, preRequisition: params };
+		setLoading(true);
 		dispatch(
-			updateTrainingPrereq(
-				requisition._id,
-				{ ...values, preRequisition: params },
-				() => {
+			updateTrainingPrereq(requisition._id, values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setLoading(false);
 					setSuccess(true);
 					setTimeout(() => {
 						setSuccess(false);
 					}, 4000);
-				},
-			),
+				}
+				setLoading(false);
+			}),
 		);
 	};
 
@@ -182,6 +189,7 @@ const EditTrainingPrereq = (props) => {
 								{(props) => (
 									<>
 										<Form>
+											<Button style={{ display: 'none' }} />
 											<CssTextField
 												id='outlined-basic'
 												label='Select Department'
@@ -279,10 +287,9 @@ const EditTrainingPrereq = (props) => {
 																InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
 															<Button
 																variant='outlined'
-																type='submit'
-																className={classes.addButton}>
-																Add
-															</Button>
+																text='Add'
+																classNames={classes.addButton}
+															/>
 														</Form>
 													</Container>
 												</div>
@@ -306,27 +313,35 @@ const EditTrainingPrereq = (props) => {
 											</div>
 										))}
 										<Form>
-											<div>
+											<div
+												style={{
+													marginTop: '2rem',
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+												}}>
+												<Button
+													variant='contained'
+													color='primary'
+													text='Update'
+													style={{ marginRight: '1rem' }}
+													loading={loading}
+												/>
 												<Button
 													variant='outlined'
-													type='submit'
-													className={classes.addButton}>
-													Update
-												</Button>
-												{success & <p>Successfully Updated</p>}
+													color='dark'
+													onClick={handleClose}
+													text='Close'
+													type='button'
+													classNames='bg-danger text-light'
+												/>
 											</div>
+											{error && <p>{error}</p>}
+											{success && <p>Responsibility Successfully Updated</p>}
 										</Form>
 									</>
 								)}
 							</Formik>
-							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								onClick={handleClose}
-								className={classes.addButton}>
-								Cancel
-							</Button>
 						</Container>
 					</div>
 				</Fade>

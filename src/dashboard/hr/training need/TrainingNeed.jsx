@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { getDesignation } from '../../../services/action/DesignationAction';
 import { List } from '@material-ui/icons';
+import Button from '../../../components/utils/Button';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -134,6 +134,9 @@ const TrainingNeed = ({ history }) => {
 	const [department, setDepartment] = React.useState();
 	const [designation, setDesignation] = React.useState();
 	const [list, setList] = React.useState();
+	const [createLoading, setCreateLoading] = useState(false);
+	const [createError, setCreateError] = useState('');
+	const [success, setSuccess] = useState('');
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { departments } = useSelector((state) => state.departments);
@@ -171,7 +174,23 @@ const TrainingNeed = ({ history }) => {
 	};
 
 	const onSubmit = (values) => {
-		dispatch(createTrainingIdentification({ ...values, preRequestion: list }));
+		setCreateLoading(true);
+		dispatch(
+			createTrainingIdentification({ ...values, preRequestion: list }, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Successfully added');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	return (
@@ -367,14 +386,13 @@ const TrainingNeed = ({ history }) => {
 									<Button
 										variant='outlined'
 										color='primary'
-										type='submit'
-										className={classes.addButton}
-										// onClick={() => {
-										// 	history.push('/hr/print_training_need_identification');
-										// }}
-									>
-										Add
-									</Button>
+										classNames={classes.addButton}
+										text='Add'
+										loading={createLoading}
+										loaderColor='#333'
+									/>
+									{success && <p>{success}</p>}
+									{createError && <p>{createError}</p>}
 								</div>
 							</Form>
 						)}

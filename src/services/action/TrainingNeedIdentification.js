@@ -26,29 +26,30 @@ export const getTrainingsIdentification = (query) => async (dispatch) => {
 		dispatchError(err, dispatch);
 	}
 };
-export const createTrainingIdentification = (data) => async (dispatch) => {
-	dispatch({
-		type: TRAININGNEEDIDENTIFICATION_REQUEST,
-	});
-
-	try {
-		const res = await axios.post(
-			`${process.env.REACT_APP_API_URL}/trainings/identification`,
-			data,
-		);
-
-		console.log(res);
-
+export const createTrainingIdentification =
+	(values, cb) => async (dispatch) => {
 		dispatch({
-			type: TRAININGNEEDIDENTIFICATION_CREATE_SUCCESS,
-			payload: res.data.identification,
+			type: TRAININGNEEDIDENTIFICATION_REQUEST,
 		});
 
-		// console.log(data);
-	} catch (err) {
-		dispatchError(err, dispatch);
-	}
-};
+		try {
+			const { data } = await axios.post(
+				`${process.env.REACT_APP_API_URL}/trainings/identification`,
+				values,
+			);
+
+			if (data.success) {
+				dispatch({
+					type: TRAININGNEEDIDENTIFICATION_CREATE_SUCCESS,
+					payload: data.identification,
+				});
+
+				if (cb) cb();
+			}
+		} catch (err) {
+			dispatchError(err, dispatch, cb);
+		}
+	};
 
 export const updateTrainingIdentification = (id, data) => async (dispatch) => {
 	dispatch({
@@ -93,13 +94,15 @@ export const deleteTrainingIdentification = (params) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: TRAININGNEEDIDENTIFICATION_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: TRAININGNEEDIDENTIFICATION_FAIL,
 			payload: 'Network Error',

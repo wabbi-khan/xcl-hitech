@@ -8,7 +8,7 @@ import {
 	TRAININGPREREQ_UPDATE_SUCCESS,
 } from '../constants/TrainingPrereq';
 
-export const getTrainingsPrereq = (query) => async (dispatch) => {
+export const getTrainingsPrereq = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPREREQ_REQUEST,
 	});
@@ -18,12 +18,15 @@ export const getTrainingsPrereq = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings/pre-requisition`,
 		);
 
-		dispatch({
-			type: TRAININGPREREQ_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAININGPREREQ_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -49,83 +52,90 @@ export const getByDepartmentAndDesignation =
 		}
 	};
 
-export const createTrainingPrereq = (data) => async (dispatch) => {
+export const createTrainingPrereq = (values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPREREQ_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/pre-requisition`,
-			data,
+			values,
 		);
 
-		console.log(res);
-
-		dispatch({
-			type: TRAININGPREREQ_CREATE_SUCCESS,
-			payload: res.data.requisition,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAININGPREREQ_CREATE_SUCCESS,
+				payload: data.requisition,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateTrainingPrereq = (id, data) => async (dispatch) => {
+export const updateTrainingPrereq = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPREREQ_REQUEST,
 	});
 
-	console.log('s');
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/pre-requisition/${id}`,
-			data,
+			values,
 		);
 
-		console.log(res);
+		if (data.success) {
+			dispatch({
+				type: TRAININGPREREQ_UPDATE_SUCCESS,
+				payload: data.requisition,
+			});
 
-		dispatch({
-			type: TRAININGPREREQ_UPDATE_SUCCESS,
-			payload: res.data.requisition,
-		});
-
-		// console.log(data);
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteTrainingPrereq = (params) => async (dispatch) => {
+export const deleteTrainingPrereq = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGPREREQ_REQUEST,
 	});
 
 	try {
-		await axios.delete(
+		const { data } = await axios.delete(
 			`${process.env.REACT_APP_API_URL}/trainings/pre-requisition/${params}`,
 		);
 
-		dispatch({
-			type: TRAININGPREREQ_DELETE_SUCCESS,
-			payload: params,
-		});
+		console.log(
+			'Consoling data:',
+			data,
+			'\nline number: 112\nfilePath: src:services:action:TrainingPrereq.js',
+		);
 
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAININGPREREQ_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: TRAININGPREREQ_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: TRAININGPREREQ_FAIL,
 			payload: 'Network Error',
