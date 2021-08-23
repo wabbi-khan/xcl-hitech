@@ -133,7 +133,7 @@ const PrintTrainingNeedIdentification = () => {
                     <div className="col-lg-4 col-md-4 col-sm-6 mt-4">
                         <div className="row no-gutters mt-2">
                             <div className="col-lg-6 col-md-6 col-sm-6">
-                                <p>Date</p>
+                                <p style={{ fontWeight: 'bold' }}>Date:</p>
                             </div>
                             <div className="col-lg-4 col-md-6 col-sm-6">
                                 <p style={{ textDecoration: 'underline'}}>
@@ -161,7 +161,9 @@ const PrintTrainingNeedIdentification = () => {
                             </p>
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ textDecoration: 'underline'}}>Purchase</p>
+                            <p style={{ textDecoration: 'underline'}}>
+                                {  }
+                            </p>
                         </Grid>
                         <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
@@ -170,10 +172,9 @@ const PrintTrainingNeedIdentification = () => {
                             </p>
                         </Grid>
                         <Grid item lg={2} md={2} sm={3} xs={3}>
-                            <p style={{ textDecoration: 'underline'}}>Manager</p>
-                            <hr
-                                style={{ paddingBottom: 3, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <p style={{ textDecoration: 'underline'}}>
+                                {  }
+                            </p>
                         </Grid>
                     </Grid>
                     <Grid container spacing={1} style={{ textAlign: 'left' }} >
@@ -183,10 +184,9 @@ const PrintTrainingNeedIdentification = () => {
                             </p>
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p style={{ textDecoration: 'underline'}}>QA Manager</p>
-                            <hr
-                                style={{ paddingBottom: 4, borderColor: 'black', width: '100%', marginTop: -12 }}
-                            />
+                            <p style={{ textDecoration: 'underline'}}>
+                                {  }
+                            </p>
                         </Grid>
                     </Grid>
                     {/* <thead class="thead-dark">
@@ -219,20 +219,24 @@ const PrintTrainingNeedIdentification = () => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td style={{ fontWeight: 'bold' }}>1.</td>
+                                    <td style={{ fontWeight: 'bold' }}>
+                                        {  }
+                                    </td>
                                     <td style={{ fontWeight: 'bold', textAlign: 'left' }}>
-                                        Quality Management System
+                                        {  }
                                     </td>
                                     <td>
-                                        Excellent
+                                        {  }
                                     </td>
-                                    <td>No</td>
+                                    <td>
+                                        {  }
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td scope="row">
                                         <li style={{ fontSize: 14, textAlign: 'left' }}>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                            {  }
                                         </li>
                                     </td>
                                 </tr>
@@ -240,7 +244,9 @@ const PrintTrainingNeedIdentification = () => {
                         </table>
                         <div style={{ display: 'flex', gap: '.5rem' }}>
                             <h6>Recommendation: </h6>
-                            <h6>asd asd asd asd asd as das das das das d asd </h6>
+                            <h6>
+                                {  }
+                            </h6>
                         </div>
                     </div>
                 </div>
@@ -259,12 +265,12 @@ const PrintTrainingNeedIdentification = () => {
             </div> */}
             <Grid container spacing={1} style={{ marginTop: 100, }} >
                 <Grid item lg={2} md={2} sm={3} xs={3}>
-                    <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+                    <hr style={{ backgroundColor: 'black', borderTop: '2px solid black' }} />
                     <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Training Identified By: <br />(QA/QC Manager)</p>
                 </Grid>
                 <Grid item lg={8} md={8} sm={7} xs={7}></Grid>
                 <Grid item lg={2} md={2} sm={2} xs={2}>
-                    <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+                    <hr style={{ backgroundColor: 'black', borderTop: '2px solid black' }} />
                     <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Signature: <br />(Plant Manager)</p>
                 </Grid>
             </Grid>
