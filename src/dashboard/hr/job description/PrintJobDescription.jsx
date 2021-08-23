@@ -153,7 +153,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Designation:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p>{description?.employee?.finalDesignation?.name}</p>
+							<p style={{ textDecoration: 'underline' }}>{description?.employee?.finalDesignation?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -162,15 +162,15 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Department:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.employee?.finalDepartment?.name}</p>
+							<p style={{ textDecoration: 'underline' }}>{description?.employee?.finalDepartment?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
 							<p style={{ fontWeight: 'bold' }}>Reports To:</p>
 						</Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.reportTo?.name}</p>
+						<Grid item lg={3} md={3} sm={3} xs={3}>
+							<p style={{ textDecoration: 'underline' }}>{description?.reportTo?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -179,7 +179,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Interaction With:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{description?.interactionWith?.name}</p>
+							<p style={{ textDecoration: 'underline' }}>{description?.interactionWith?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -199,17 +199,21 @@ const PrintJobDescription = ({ location }) => {
 					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
 						Responsibilities:
 					</h5>
-					{description?.responsibilities?.map((el) => (
-						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))}
+					{
+						description?.responsibilities?.map((el) => (
+							<li style={{ width: '75%', marginTop: 15 }}>{el?.name}</li>
+						))
+					}
 				</div>
 				<div className={classes.mainContainer1}>
 					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
 						Authorities:
 					</h5>
-					{description?.authorities?.map((el) => (
-						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))}
+					{
+						description?.authorities?.map((el) => (
+							<li style={{ width: '75%', marginTop: 15 }}>{el?.name}</li>
+						))
+					}
 				</div>
 			</div>
 			<Grid container spacing={1} style={{ marginTop: 220 }}>
