@@ -12,7 +12,6 @@ export const fetchPurchaseReqReducer = (
 ) => {
 	switch (action.type) {
 		case PURCHASE_REQ_REQUEST:
-			console.log(state);
 			return {
 				...state,
 				error: '',
@@ -25,7 +24,6 @@ export const fetchPurchaseReqReducer = (
 				error: action.payload,
 			};
 		case PURCHASE_REQ_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -33,7 +31,6 @@ export const fetchPurchaseReqReducer = (
 				purchaseRequisition: Array.isArray(action.payload) ? {} : action.payload,
 			};
 		case PURCHASE_REQ_UPDATE_SUCCESS:
-			console.log(state);
 			return {
 				loading: false,
 				error: '',

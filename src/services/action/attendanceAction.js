@@ -138,6 +138,7 @@ const dispatchError = (err, dispatch, cb) => {
 			payload: err.response.data.error,
 		});
 	} else {
+		console.log(err);
 		if (cb) cb('Network Error');
 		dispatch({
 			type: ATTENDANCE_FAIL,

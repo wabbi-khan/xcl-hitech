@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import CheckIcon from '@material-ui/icons/Check';
 import { withRouter } from 'react-router';
+import { capitalize } from '../../../utils/capitalize';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -66,8 +67,8 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintJobDescription = ({ location }) => {
 	const classes = useStyles();
-	// const description = location.state.description;
-	// console.log(description);
+	const description = location?.state?.description;
+	console.log(description);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -92,7 +93,7 @@ const PrintJobDescription = ({ location }) => {
 						width: '100px',
 						marginLeft: 'auto',
 						paddingRight: '5px',
-						marginRight: '-3rem'
+						marginRight: '-3rem',
 					}}>
 					<h6>FM-56</h6>
 					<h6>Issue.01</h6>
@@ -142,8 +143,9 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Name:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.employee?.name}</p> */}
+							<p style={{ textDecoration: 'underline' }}>
+								{description?.employee?.name}
+							</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
@@ -151,8 +153,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Designation:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.employee?.finalDesignation?.name}</p> */}
+							<p>{description?.employee?.finalDesignation?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -161,8 +162,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Department:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.employee?.finalDepartment?.name}</p> */}
+							<p>{description?.employee?.finalDepartment?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
@@ -170,8 +170,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Reports To:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.reportTo?.name}</p> */}
+							<p>{description?.reportTo?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -180,8 +179,7 @@ const PrintJobDescription = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Interaction With:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>asdasd</p>
-							{/* <p>{description?.interactionWith?.name}</p> */}
+							<p>{description?.interactionWith?.name}</p>
 							{/* <hr style={{ borderTop: '1px double black', marginTop: '-20px' }} /> */}
 						</Grid>
 					</Grid>
@@ -201,17 +199,17 @@ const PrintJobDescription = ({ location }) => {
 					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
 						Responsibilities:
 					</h5>
-					{/* {description?.responsibilities?.map((el) => (
+					{description?.responsibilities?.map((el) => (
 						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))} */}
+					))}
 				</div>
 				<div className={classes.mainContainer1}>
 					<h5 align='left' style={{ marginTop: 60, fontWeight: 'bold' }}>
 						Authorities:
 					</h5>
-					{/* {description?.authorities?.map((el) => (
+					{description?.authorities?.map((el) => (
 						<p style={{ width: '75%', marginTop: 15 }}>{el?.name}</p>
-					))} */}
+					))}
 				</div>
 			</div>
 			<Grid container spacing={1} style={{ marginTop: 220 }}>

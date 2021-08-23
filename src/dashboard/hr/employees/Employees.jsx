@@ -460,6 +460,8 @@ const Employees = ({ history, location }) => {
 	useEffect(() => {
 		dispatch(getEmployees());
 		dispatch(getExperiences());
+		dispatch(getDesignation());
+		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { experiences: experiencesState } = useSelector(
@@ -727,7 +729,7 @@ const Employees = ({ history, location }) => {
 			<div>
 				<Container className={classes.mainContainer}>
 					{success && <p>{success}</p>}
-					<form onSubmit={onSubmit}>
+					<form onSubmit={onSubmit} autoComplete='off'>
 						<Formik
 							initialValues={initialValues1State}
 							enableReinitialize
@@ -737,180 +739,170 @@ const Employees = ({ history, location }) => {
 								return (
 									<Grid container spacing={1}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='name'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Name'
-														variant='outlined'
-														type='text'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														size='small'
-														disabled={location.state?.isHiring ? true : false}
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												label='Name'
+												variant='outlined'
+												type='text'
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												size='small'
+												disabled={location.state?.isHiring ? true : false}
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('name')}
+												onBlur={props.handleBlur('name')}
+												value={props.values.name}
+												helperText={props.touched.name && props.errors.name}
+												error={props.touched.name && props.errors.name}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='fatherName_husbandName'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Father Name OR Husband Name'
-														variant='outlined'
-														disabled={location.state?.isHiring ? true : false}
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='text'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												label='Father Name OR Husband Name'
+												variant='outlined'
+												disabled={location.state?.isHiring ? true : false}
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												type='text'
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('fatherName_husbandName')}
+												onBlur={props.handleBlur('fatherName_husbandName')}
+												value={props.values.fatherName_husbandName}
+												helperText={
+													props.touched.fatherName_husbandName &&
+													props.errors.fatherName_husbandName
+												}
+												error={
+													props.touched.fatherName_husbandName &&
+													props.errors.fatherName_husbandName
+												}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='jobAppliedFor'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Job Applied For'
-														disabled={location.state?.isHiring ? true : false}
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														variant='outlined'
-														type='text'
-														size='small'
-														select
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}>
-														{designations.map((el) => (
-															<MenuItem value={el._id}>{el.name}</MenuItem>
-														))}
-													</CssTextField>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												label='Job Applied For'
+												disabled={location.state?.isHiring ? true : false}
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												variant='outlined'
+												type='text'
+												size='small'
+												select
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('jobAppliedFor')}
+												onBlur={props.handleBlur('jobAppliedFor')}
+												value={props.values.jobAppliedFor}
+												helperText={
+													props.touched.jobAppliedFor && props.errors.jobAppliedFor
+												}
+												error={props.touched.jobAppliedFor && props.errors.jobAppliedFor}>
+												{designations.map((el) => (
+													<MenuItem value={el._id}>{el.name}</MenuItem>
+												))}
+											</CssTextField>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='presentAddress'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														disabled={location.state?.isHiring ? true : false}
-														label='Present Address'
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='text'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												disabled={location.state?.isHiring ? true : false}
+												label='Present Address'
+												variant='outlined'
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												type='text'
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('presentAddress')}
+												onBlur={props.handleBlur('presentAddress')}
+												value={props.values.presentAddress}
+												helperText={
+													props.touched.presentAddress && props.errors.presentAddress
+												}
+												error={props.touched.presentAddress && props.errors.presentAddress}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='permanentAddress'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Permanent Address'
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='text'
-														disabled={location.state?.isHiring ? true : false}
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												label='Permanent Address'
+												variant='outlined'
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												type='text'
+												disabled={location.state?.isHiring ? true : false}
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('permanentAddress')}
+												onBlur={props.handleBlur('permanentAddress')}
+												value={props.values.permanentAddress}
+												helperText={
+													props.touched.permanentAddress && props.errors.permanentAddress
+												}
+												error={
+													props.touched.permanentAddress && props.errors.permanentAddress
+												}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='telephoneNo'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Telephone No'
-														variant='outlined'
-														type='number'
-														disabled={location.state?.isHiring ? true : false}
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												label='Telephone No'
+												variant='outlined'
+												type='number'
+												disabled={location.state?.isHiring ? true : false}
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('telephoneNo')}
+												onBlur={props.handleBlur('telephoneNo')}
+												value={props.values.telephoneNo}
+												helperText={props.touched.telephoneNo && props.errors.telephoneNo}
+												error={props.touched.telephoneNo && props.errors.telephoneNo}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='mobileNo'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Mobile No'
-														disabled={location.state?.isHiring ? true : false}
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='number'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												label='Mobile No'
+												disabled={location.state?.isHiring ? true : false}
+												variant='outlined'
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												type='number'
+												size='small'
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('mobileNo')}
+												onBlur={props.handleBlur('mobileNo')}
+												value={props.values.mobileNo}
+												helperText={props.touched.mobileNo && props.errors.mobileNo}
+												error={props.touched.mobileNo && props.errors.mobileNo}
+											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='gender'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														disabled={location.state?.isHiring ? true : false}
-														label='Gender'
-														variant='outlined'
-														type='text'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														size='small'
-														select
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}>
-														{genders.map((gender) => (
-															<MenuItem value={gender}>{gender}</MenuItem>
-														))}
-													</CssTextField>
-												)}
-											</FastField>
+											<CssTextField
+												id='outlined-basic'
+												disabled={location.state?.isHiring ? true : false}
+												label='Gender'
+												variant='outlined'
+												type='text'
+												style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+												size='small'
+												select
+												inputProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{ style: { fontSize: 14 } }}
+												onChange={props.handleChange('gender')}
+												onBlur={props.handleBlur('gender')}
+												value={props.values.gender}
+												helperText={props.touched.gender && props.errors.gender}
+												error={props.touched.gender && props.errors.gender}>
+												{genders.map((gender) => (
+													<MenuItem value={gender}>{gender}</MenuItem>
+												))}
+											</CssTextField>
 										</Grid>
 									</Grid>
 								);
@@ -923,355 +915,361 @@ const Employees = ({ history, location }) => {
 							{(props) => {
 								initialValues2Form = { ...props };
 								return (
-									<Grid container spacing={1}>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='status'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Status'
-														disabled={location.state?.isHiring ? true : false}
-														variant='outlined'
-														type='text'
-														size='small'
-														select
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}>
-														{martialStatus.map((status) => (
-															<MenuItem value={status}>{status}</MenuItem>
-														))}
-													</CssTextField>
-												)}
-											</FastField>
+									<Form autoComplete='off'>
+										<Grid container spacing={1}>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='status'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Status'
+															disabled={location.state?.isHiring ? true : false}
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															{martialStatus.map((status) => (
+																<MenuItem value={status}>{status}</MenuItem>
+															))}
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='age'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Age'
+															disabled={location.state?.isHiring ? true : false}
+															variant='outlined'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															type='number'
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='dateOfBirth'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															variant='outlined'
+															label='Date of birth'
+															type='date'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															size='small'
+															autocomplete='off'
+															disabled={location.state?.isHiring ? true : false}
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='placeOfBirth'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															label='Place Of Birth'
+															variant='outlined'
+															disabled={location.state?.isHiring ? true : false}
+															type='text'
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='email'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Email'
+															variant='outlined'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															disabled={location.state?.isHiring ? true : false}
+															type='text'
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='cnic'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='CNIC'
+															variant='outlined'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															type='text'
+															disabled={location.state?.isHiring ? true : false}
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='DatePlaceOfIssue'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															variant='outlined'
+															label='Date of Issuse'
+															type='date'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															disabled={location.state?.isHiring ? true : false}
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='nationality'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Nationality'
+															variant='outlined'
+															disabled={location.state?.isHiring ? true : false}
+															type='text'
+															size='small'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															select
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															{countries.map((country) => (
+																<MenuItem value={country}>{country}</MenuItem>
+															))}
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='bankAccount'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Bank Account No.'
+															disabled={location.state?.isHiring ? true : false}
+															variant='outlined'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															type='text'
+															size='small'
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='bankNameAndBranch'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Bank Name And Branch'
+															variant='outlined'
+															type='text'
+															disabled={location.state?.isHiring ? true : false}
+															size='small'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}
+														/>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='isExecutive'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Executive OR Non-Executive'
+															disabled={location.state?.isHiring ? true : false}
+															variant='outlined'
+															type='text'
+															size='small'
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															select
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															<MenuItem value='Executive'>Executive</MenuItem>
+															<MenuItem value='Non Executive'>Non Executive</MenuItem>
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+											<Grid item lg={3} md={3} sm={12} xs={12}>
+												<FastField name='empType'>
+													{({ meta, field }) => (
+														<CssTextField
+															id='outlined-basic'
+															label='Employee Type'
+															variant='outlined'
+															type='text'
+															size='small'
+															select
+															disabled={location.state?.isHiring ? true : false}
+															style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
+															autocomplete='off'
+															inputProps={{ style: { fontSize: 14 } }}
+															InputLabelProps={{ style: { fontSize: 14 } }}
+															{...field}
+															helperText={meta.touched && meta.error}
+															error={meta.touched && meta.error}>
+															<MenuItem value='Executive'>Executive</MenuItem>
+															<MenuItem value='Electrician'>Electrician</MenuItem>
+															<MenuItem value='Skilled Employee'>Skilled Employee</MenuItem>
+															<MenuItem value='Final Labour'>Final Labour</MenuItem>
+														</CssTextField>
+													)}
+												</FastField>
+											</Grid>
+											{(location.state?.isHiring || location.state?.user?.isHired) && (
+												<>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<FastField name='finalDepartment'>
+															{({ meta, field }) => (
+																<CssTextField
+																	id='outlined-basic'
+																	label='Final Department'
+																	style={{
+																		marginTop: '1rem',
+																		marginLeft: '1rem',
+																		width: '100%',
+																	}}
+																	variant='outlined'
+																	type='text'
+																	size='small'
+																	select
+																	autocomplete='off'
+																	inputProps={{ style: { fontSize: 14 } }}
+																	InputLabelProps={{ style: { fontSize: 14 } }}
+																	{...field}
+																	helperText={meta.touched && meta.error}
+																	error={meta.touched && meta.error}>
+																	{departments.map((el) => (
+																		<MenuItem value={el._id}>{el.name}</MenuItem>
+																	))}
+																</CssTextField>
+															)}
+														</FastField>
+													</Grid>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<FastField name='finalDesignation'>
+															{({ meta, field }) => (
+																<CssTextField
+																	id='outlined-basic'
+																	label='Final Designation'
+																	variant='outlined'
+																	type='text'
+																	size='small'
+																	select
+																	style={{
+																		marginTop: '1rem',
+																		marginLeft: '1rem',
+																		width: '100%',
+																	}}
+																	inputProps={{ style: { fontSize: 14 } }}
+																	InputLabelProps={{ style: { fontSize: 14 } }}
+																	helperText={meta.touched && meta.error}
+																	error={meta.touched && meta.error}
+																	{...field}>
+																	{designations.map((el) => (
+																		<MenuItem value={el._id}>{el.name}</MenuItem>
+																	))}
+																</CssTextField>
+															)}
+														</FastField>
+													</Grid>
+													<Grid item lg={3} md={3} sm={12} xs={12}>
+														<FastField name='finalSal'>
+															{({ meta, field }) => (
+																<CssTextField
+																	id='outlined-basic'
+																	label='Final Sal'
+																	variant='outlined'
+																	type='number'
+																	size='small'
+																	style={{
+																		marginTop: '1rem',
+																		marginLeft: '1rem',
+																		width: '100%',
+																	}}
+																	autocomplete='off'
+																	inputProps={{ style: { fontSize: 14 } }}
+																	InputLabelProps={{ style: { fontSize: 14 } }}
+																	{...field}
+																	helperText={meta.touched && meta.error}
+																	error={meta.touched && meta.error}
+																/>
+															)}
+														</FastField>
+													</Grid>
+												</>
+											)}
 										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='age'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Age'
-														disabled={location.state?.isHiring ? true : false}
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='number'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='dateOfBirth'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														variant='outlined'
-														label='Date of birth'
-														type='date'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														size='small'
-														autocomplete='off'
-														disabled={location.state?.isHiring ? true : false}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='placeOfBirth'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														label='Place Of Birth'
-														variant='outlined'
-														disabled={location.state?.isHiring ? true : false}
-														type='text'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='email'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Email'
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														disabled={location.state?.isHiring ? true : false}
-														type='text'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='cnic'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='CNIC'
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='text'
-														disabled={location.state?.isHiring ? true : false}
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='DatePlaceOfIssue'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														variant='outlined'
-														label='Date of Issuse'
-														type='date'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														disabled={location.state?.isHiring ? true : false}
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='nationality'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Nationality'
-														variant='outlined'
-														disabled={location.state?.isHiring ? true : false}
-														type='text'
-														size='small'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														select
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}>
-														{countries.map((country) => (
-															<MenuItem value={country}>{country}</MenuItem>
-														))}
-													</CssTextField>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='bankAccount'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Bank Account No.'
-														disabled={location.state?.isHiring ? true : false}
-														variant='outlined'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														type='text'
-														size='small'
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='bankNameAndBranch'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Bank Name And Branch'
-														variant='outlined'
-														type='text'
-														disabled={location.state?.isHiring ? true : false}
-														size='small'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}
-													/>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='isExecutive'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Executive OR Non-Executive'
-														disabled={location.state?.isHiring ? true : false}
-														variant='outlined'
-														type='text'
-														size='small'
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														select
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}>
-														<MenuItem value='Executive'>Executive</MenuItem>
-														<MenuItem value='Non Executive'>Non Executive</MenuItem>
-													</CssTextField>
-												)}
-											</FastField>
-										</Grid>
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<FastField name='empType'>
-												{({ meta, field }) => (
-													<CssTextField
-														id='outlined-basic'
-														label='Employee Type'
-														variant='outlined'
-														type='text'
-														size='small'
-														select
-														disabled={location.state?.isHiring ? true : false}
-														style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-														autocomplete='off'
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														{...field}
-														helperText={meta.touched && meta.error}
-														error={meta.touched && meta.error}>
-														<MenuItem value='Executive'>Executive</MenuItem>
-														<MenuItem value='Electrician'>Electrician</MenuItem>
-														<MenuItem value='Skilled Employee'>Skilled Employee</MenuItem>
-														<MenuItem value='Final Labour'>Final Labour</MenuItem>
-													</CssTextField>
-												)}
-											</FastField>
-										</Grid>
-										{(location.state?.isHiring || location.state?.user?.isHired) && (
-											<>
-												<Grid item lg={3} md={3} sm={12} xs={12}>
-													<FastField name='finalDepartment'>
-														{({ meta, field }) => (
-															<CssTextField
-																id='outlined-basic'
-																label='Final Department'
-																style={{ marginTop: '1rem', marginLeft: '1rem', width: '100%' }}
-																variant='outlined'
-																type='text'
-																size='small'
-																select
-																autocomplete='off'
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
-																{...field}
-																helperText={meta.touched && meta.error}
-																error={meta.touched && meta.error}>
-																{departments.map((el) => (
-																	<MenuItem value={el._id}>{el.name}</MenuItem>
-																))}
-															</CssTextField>
-														)}
-													</FastField>
-												</Grid>
-												<Grid item lg={3} md={3} sm={12} xs={12}>
-													<FastField name='finalDesignation'>
-														{({ meta, field }) => (
-															<CssTextField
-																id='outlined-basic'
-																label='Final Designation'
-																variant='outlined'
-																type='text'
-																size='small'
-																select
-																style={{
-																	marginTop: '1rem',
-																	marginLeft: '1rem',
-																	width: '100%',
-																}}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
-																helperText={meta.touched && meta.error}
-																error={meta.touched && meta.error}
-																{...field}>
-																{designations.map((el) => (
-																	<MenuItem value={el._id}>{el.name}</MenuItem>
-																))}
-															</CssTextField>
-														)}
-													</FastField>
-												</Grid>
-												<Grid item lg={3} md={3} sm={12} xs={12}>
-													<FastField name='finalSal'>
-														{({ meta, field }) => (
-															<CssTextField
-																id='outlined-basic'
-																label='Final Sal'
-																variant='outlined'
-																type='number'
-																size='small'
-																style={{
-																	marginTop: '1rem',
-																	marginLeft: '1rem',
-																	width: '100%',
-																}}
-																autocomplete='off'
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
-																{...field}
-																helperText={meta.touched && meta.error}
-																error={meta.touched && meta.error}
-															/>
-														)}
-													</FastField>
-												</Grid>
-											</>
-										)}
-									</Grid>
+									</Form>
 								);
 							}}
 						</Formik>
@@ -1328,7 +1326,7 @@ const Employees = ({ history, location }) => {
 							enableReinitialize
 							onSubmit={addMoreAcademicQualification}>
 							{(props) => (
-								<Form>
+								<Form autoComplete='off'>
 									<Grid container spacing={1} style={{ marginTop: 15 }}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
@@ -1497,7 +1495,7 @@ const Employees = ({ history, location }) => {
 							validationSchema={validationSchemaForProfessionalQualification}
 							onSubmit={addMoreProfessionalQualification}>
 							{(props) => (
-								<Form>
+								<Form autoComplete='off'>
 									<Grid container spacing={1} style={{ marginTop: 15 }}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
@@ -1670,7 +1668,7 @@ const Employees = ({ history, location }) => {
 							enableReinitialize
 							onSubmit={addMoreExperience}>
 							{(props) => (
-								<Form>
+								<Form autoComplete='off'>
 									<Grid container spacing={1} style={{ marginTop: 15 }}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField

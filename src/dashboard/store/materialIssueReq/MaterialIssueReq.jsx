@@ -105,6 +105,7 @@ const MaterialIssueReq = ({ history }) => {
 											<th>Department</th>
 											<th>Purpose</th>
 											<th>Req. Date</th>
+											<th>Status</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -120,6 +121,7 @@ const MaterialIssueReq = ({ history }) => {
 													<td>{!request.department ? null : request.department.name}</td>
 													<td>{request.purpose}</td>
 													<td>{request.reqDate}</td>
+													<td>{request.status}</td>
 													<td>
 														<Button
 															variant='contained'

@@ -28,24 +28,23 @@ export const getSalariesAction = (query) => async (dispatch) => {
 	}
 };
 
-export const createSalariesAction = () => async (dispatch) => {
+export const createSalariesAction = (cb) => async (dispatch) => {
 	dispatch({
 		type: SALARY_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(`${process.env.REACT_APP_API_URL}/salary`);
+		const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/salary`);
 
-		console.log(res.data);
-
-		dispatch({
-			type: SALARY_CREATE_SUCCESS,
-			payload: res.data.salary,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: SALARY_CREATE_SUCCESS,
+				payload: data.salary,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
@@ -98,13 +97,15 @@ export const unpaidSalaryAction = (el, cb) => async (dispatch) => {
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: SALARY_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: SALARY_FAIL,
 			payload: 'Network Error',

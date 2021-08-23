@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductsAction } from '../../../services/action/ProductsAction';
+import { getProducts } from '../../../services/action/ProductsAction';
 import Loading from '../../purchase/material/Loading';
 import MaterialError from '../../purchase/material/MaterialError';
 import axios from 'axios';
@@ -103,7 +103,7 @@ const Products = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(fetchProductsAction());
+		dispatch(getProducts());
 		dispatch(getStoreCategory());
 	}, [dispatch]);
 
@@ -332,8 +332,7 @@ const Products = () => {
 				</Container>
 				<div
 					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: '50px' }}
-				>
+					style={{ textAlign: 'left', marginTop: '50px' }}>
 					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
 						<thead class='bg-dark text-light'>
 							<tr>

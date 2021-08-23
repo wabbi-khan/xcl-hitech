@@ -79,9 +79,10 @@ const CompleteMaterialReq = ({ history }) => {
 				className='bg-dark text-light'
 				style={{ marginLeft: '0.8rem' }}
 				onClick={() => {
-					history.push('/storedashboard/material_issue_requisition/print_all_complete_requisition_details')
-				}}
-			>
+					history.push(
+						'/storedashboard/material_issue_requisition/print_all_complete_requisition_details',
+					);
+				}}>
 				Print Purchase Req
 			</Button>
 			<div className={classes.dataTable}>
@@ -95,6 +96,7 @@ const CompleteMaterialReq = ({ history }) => {
 									<th>Department</th>
 									<th>Purpose</th>
 									<th>Req. Date</th>
+									<th>Status</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -110,6 +112,7 @@ const CompleteMaterialReq = ({ history }) => {
 											<td>{!request.department ? null : request.department.name}</td>
 											<td>{request.purpose}</td>
 											<td>{request.reqDate}</td>
+											<td>{request.status}</td>
 											<td>
 												<Button
 													variant='contained'

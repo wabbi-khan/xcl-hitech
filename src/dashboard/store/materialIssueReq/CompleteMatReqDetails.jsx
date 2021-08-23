@@ -88,11 +88,13 @@ const CompleteMatReqDetails = (props) => {
 			</div>
 			<div class='container-fluid mt-5'>
 				<div class='row'>
-					<div class='col-lg-4 col-md-4 col-sm-4' style={{ display: 'flex', alignItems: 'center' }}>
-						<p style={{ fontWeight: 'bold', }}>Department:</p>
-						<div style={{ marginLeft: '1rem', }}>
+					<div
+						class='col-lg-4 col-md-4 col-sm-4'
+						style={{ display: 'flex', alignItems: 'center' }}>
+						<p style={{ fontWeight: 'bold' }}>Department:</p>
+						<div style={{ marginLeft: '1rem' }}>
 							<p>
-								{ }
+								{purchaseRequisition?.department?.name}
 								<hr
 									style={{
 										border: '1px solid green',
@@ -104,9 +106,11 @@ const CompleteMatReqDetails = (props) => {
 							</p>
 						</div>
 					</div>
-					<div class='offset-lg-4 offset-md-4 offset-sm-4 col-lg-4 col-md-4 col-sm-4' style={{ display: 'flex', alignItems: 'center' }}>
-						<p style={{ fontWeight: 'bold', }}>Date:</p>
-						<div style={{ marginLeft: '1rem', }}>
+					<div
+						class='offset-lg-4 offset-md-4 offset-sm-4 col-lg-4 col-md-4 col-sm-4'
+						style={{ display: 'flex', alignItems: 'center' }}>
+						<p style={{ fontWeight: 'bold' }}>Date:</p>
+						<div style={{ marginLeft: '1rem' }}>
 							<p>
 								{fullDate}
 								<hr
@@ -127,42 +131,29 @@ const CompleteMatReqDetails = (props) => {
 					<thead class='thead-inverse'>
 						<tr>
 							<th>S.No.</th>
-							<th>Description</th>
+							<th>Department</th>
 							<th>Unit</th>
 							<th>Quantity</th>
 							<th>Remarks</th>
 						</tr>
 					</thead>
 					<tbody>
-						{/* {
-							!vendors ? (
-								<span>Data Not Found</span>
-							) : (
-								vendors?.map((el, i) => ( */}
-						<tr>
-							<td scope='row'>{1}</td>
-							<td >{ }</td>
-							<td >{ }</td>
-							<td >{ }</td>
-							{/* <td>{el.name}</td> */}
-							{/* <td>{el.name}</td> */}
-							{/* <td>{!el.contactPerson ? null : el.contactPerson}</td> */}
-							{/* <td>
-											{el.materials?.map((el) => (
-												<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
-											))}
-										</td> */}
-							<td></td>
-						</tr>
-						{/* 		)) */}
-						{/* 	) */}
-						{/* } */}
+						{purchaseRequisition?.materials?.map((el, i) => (
+							<tr>
+								<td scope='row'>{i + 1}</td>
+								<td>{purchaseRequisition?.department?.name}</td>
+								<td>{el?.material?.unit?.name}</td>
+								<td>{el?.quantity}</td>
+								<td>{el?.remarks}</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>
 			<div className='container-fluid text-center mt-5'>
 				<div className='row'>
 					<div className='col-lg-3 col-md-3 col-sm-3 mt-4'>
+						{purchaseRequisition?.department?.name}
 						<hr
 							style={{
 								border: '1px solid green',
@@ -192,110 +183,10 @@ const CompleteMatReqDetails = (props) => {
 								marginTop: 0,
 							}}
 						/>
-						{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
 						<p style={{ marginTop: -10 }}>Approved By</p>
 					</div>
 				</div>
 			</div>
-			{/* <div className={classes.dataTable}>
-				<TableContainer className={classes.tableContainer}>
-					<Table
-						stickyHeader
-						className='table table-dark'
-						style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-						<TableHead>
-							<TableRow hover role='checkbox'>
-								<StyledTableCell align='center'>Sr.No</StyledTableCell>
-								<StyledTableCell align='center'>Department</StyledTableCell>
-								<StyledTableCell align='center'>Purpose</StyledTableCell>
-								<StyledTableCell align='center'>Req. Date</StyledTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{
-								loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : purchaseRequisition ? (
-									<StyledTableRow>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											1
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{
-												!purchaseRequisition.department
-													? null
-													: purchaseRequisition.department.name
-											}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{purchaseRequisition.purpose}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{purchaseRequisition.reqDate}
-										</StyledTableCell>
-									</StyledTableRow>
-								) : (
-									<h5>Not Found</h5>
-								)
-							}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</div> */}
-			{/* <div className={classes.dataTable}>
-				<TableContainer className={classes.tableContainer}>
-					<Table
-						stickyHeader
-						className='table table-dark'
-						style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-						<TableHead>
-							<TableRow hover role='checkbox'>
-								<StyledTableCell align='center'>Sr.No</StyledTableCell>
-								<StyledTableCell align='center'>Material Name</StyledTableCell>
-								<StyledTableCell align='center'>Quantity</StyledTableCell>
-								<StyledTableCell align='center'>Unit Value</StyledTableCell>
-								<StyledTableCell align='center'>Remarks</StyledTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{
-								loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : !purchaseRequisition.materials ||
-									!purchaseRequisition.materials.length ? (
-									<h5>Not Found</h5>
-								) : (
-									purchaseRequisition.materials.map((material, i) => (
-										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{
-													!material.material ? <span>asd</span> : material.material.name
-												}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.quantity}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.unitValue}
-											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{material.remarks}
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								)
-							}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</div> */}
 		</div>
 	);
 };

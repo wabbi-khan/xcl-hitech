@@ -246,8 +246,14 @@ const PurchaseRequisition = ({ history }) => {
 				createPurchaseReqAction({ ...values, materials: items }, (err) => {
 					if (err) {
 						setError(err);
+						setTimeout(() => {
+							setError('');
+						}, 4000);
 					} else {
 						setSuccess('Successfully requested');
+						setTimeout(() => {
+							setSuccess('');
+						}, 4000);
 					}
 					setCreateLoading(false);
 				}),
@@ -340,7 +346,7 @@ const PurchaseRequisition = ({ history }) => {
 									{(props) => {
 										form = props;
 										return (
-											<Form>
+											<Form autoComplete='off'>
 												<Grid container spacing={1} style={{ marginTop: 15 }}>
 													<Grid item lg={3} md={3} sm={12} xs={12}>
 														<CssTextField

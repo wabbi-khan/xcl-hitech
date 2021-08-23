@@ -45,7 +45,7 @@ export const getTrainingsPlanes = (state = { plans: [] }, action) => {
 			return {
 				error: '',
 				loading: false,
-				plans: [...state.plans, action.payload],
+				plans: [action.payload, ...state.plans],
 			};
 
 		default:

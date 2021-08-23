@@ -29,6 +29,7 @@ import {
 	startTrainingPlane,
 	endTrainingPlane,
 } from '../../../services/action/TrainingPlan';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -139,6 +140,10 @@ const validationSchema = yup.object({
 });
 
 const TrainingPlan = ({ history }) => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
 	const [createLoading, setCreateLoading] = React.useState(false);
 	const [createError, setCreateError] = React.useState('');
 	const [success, setSuccess] = React.useState('');
@@ -151,15 +156,17 @@ const TrainingPlan = ({ history }) => {
 		selectedTrainerIdentifierDesignation,
 		setSelectedTrainerIdentifierDesignation,
 	] = React.useState('');
+	const [trainers, setTrainers] = React.useState([]);
+	const [trainingIdentifiers, setTrainingIdentifiers] = React.useState([]);
+
 	const classes = useStyles();
+
 	const dispatch = useDispatch();
+
 	const { designations } = useSelector((state) => state.designations);
 	const { venues } = useSelector((state) => state.venues);
 	const { trainings } = useSelector((state) => state.trainings);
 	const { plans } = useSelector((state) => state.trainingPlanes);
-	// const { employees } = useSelector((state) => state.employees);
-	const [trainers, setTrainers] = React.useState([]);
-	const [trainingIdentifiers, setTrainingIdentifiers] = React.useState([]);
 
 	React.useEffect(() => {
 		if (selectedTrainerDesignation) {
@@ -187,7 +194,18 @@ const TrainingPlan = ({ history }) => {
 		dispatch(getDesignation());
 		dispatch(getTrainingVenues());
 		dispatch(getTrainings());
-		dispatch(getTrainingsPlanes());
+		setFetchLoading(true);
+		dispatch(
+			getTrainingsPlanes(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
@@ -242,7 +260,6 @@ const TrainingPlan = ({ history }) => {
 						onSubmit={onSubmit}>
 						{(props) => (
 							<Form>
-								{/* Material category selector */}
 								<Grid container spacing={1}>
 									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
@@ -481,35 +498,43 @@ const TrainingPlan = ({ history }) => {
 						)}
 					</Formik>
 				</Container>
-				<EditTrainingPlan show={open} handler={handleClose} />
+				<EditTrainingPlan show={open} handler={handleClose} training={plan} />
 
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Topic</StyledTableCell>
-									<StyledTableCell align='center'>
-										Training Need Identified By
-									</StyledTableCell>
-									<StyledTableCell align='center'>Participants</StyledTableCell>
-									<StyledTableCell align='center'>Trainer</StyledTableCell>
-									<StyledTableCell align='center'>Expected Date/Month</StyledTableCell>
-									<StyledTableCell align='center'>Training Venue</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<p>Loading</p>
-								) : error ? (
-									<p>Error</p>
-								) : plans.length ? (
-									plans.map((el, i) => (
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : plans?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Topic</StyledTableCell>
+										<StyledTableCell align='center'>
+											Training Need Identified By
+										</StyledTableCell>
+										<StyledTableCell align='center'>Participants</StyledTableCell>
+										<StyledTableCell align='center'>Trainer</StyledTableCell>
+										<StyledTableCell align='center'>Expected Date/Month</StyledTableCell>
+										<StyledTableCell align='center'>Training Venue</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{plans.map((el, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
@@ -558,7 +583,7 @@ const TrainingPlan = ({ history }) => {
 																variant='contained'
 																classNames='bg-dark text-light'
 																size='small'
-																onClick={() => handleOpen()}
+																onClick={() => handleOpen(el)}
 																text='Edit'
 																style={{ marginLeft: 2, marginTop: 2 }}
 															/>
@@ -610,14 +635,12 @@ const TrainingPlan = ({ history }) => {
 												</>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

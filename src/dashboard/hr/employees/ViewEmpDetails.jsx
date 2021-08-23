@@ -20,12 +20,14 @@ import { getDesignation } from '../../../services/action/DesignationAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import { capitalize } from '../../../utils/capitalize';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
 		backgroundColor: theme.palette.common.black,
 		color: theme.palette.common.white,
 	},
+
 	body: {
 		fontSize: 14,
 	},
@@ -176,6 +178,13 @@ const ViewEmpDetails = (props) => {
 					setTimeout(() => {
 						setDeleteError('');
 					}, 4000);
+				} else {
+					setUnHiredLoading(true);
+					dispatch(
+						getUnHiredEmployees(null, () => {
+							setUnHiredLoading(false);
+						}),
+					);
 				}
 				setDeleteLoading(false);
 			}),
@@ -249,7 +258,6 @@ const ViewEmpDetails = (props) => {
 								<TableRow hover role='checkbox'>
 									<StyledTableCell align='center'>Sr.No</StyledTableCell>
 									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
 									<StyledTableCell align='center'>Job Applied For</StyledTableCell>
 									<StyledTableCell align='center'>Department</StyledTableCell>
 									<StyledTableCell align='center'>Action</StyledTableCell>
@@ -261,17 +269,17 @@ const ViewEmpDetails = (props) => {
 										<StyledTableCell className='text-dark bg-light' align='center'>
 											{i + 1}
 										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.name}
+										<StyledTableCell
+											className='text-dark bg-light'
+											align='center'
+											style={{ textTransform: 'capitalize' }}>
+											{capitalize(el?.name)}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.code}
+											{capitalize(el?.jobAppliedFor?.name)}
 										</StyledTableCell>
 										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.jobAppliedFor?.name}
-										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
-											{el?.officeUse?.department?.name}
+											{capitalize(el?.officeUse?.department?.name)}
 										</StyledTableCell>
 										<StyledTableCell className='text-light bg-light' align='center'>
 											<Button
@@ -410,16 +418,16 @@ const ViewEmpDetails = (props) => {
 												{i + 1}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.name}
+												{capitalize(el?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{el?.code}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.finalDesignation?.name}
+												{capitalize(el?.finalDesignation?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-dark bg-light' align='center'>
-												{el?.finalDepartment?.name}
+												{capitalize(el?.finalDepartment?.name)}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
 												<Button

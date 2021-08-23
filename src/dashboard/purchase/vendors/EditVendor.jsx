@@ -432,15 +432,7 @@ const EditVendor = (props) => {
 																	paddingTop: 10,
 																	borderBottom: '1px solid #333',
 																}}>
-																<p style={{ margin: 0, padding: 0 }}>
-																	Material Name: {el?.name}
-																</p>
-																<p style={{ margin: 0, padding: 0 }}>
-																	Category Name: {el?.category?.name}
-																</p>
-																<p style={{ margin: 0, padding: 0 }}>
-																	Sub Category Name: {el?.subCategory?.name}
-																</p>
+																<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
 															</div>
 														))}
 													</Grid>
