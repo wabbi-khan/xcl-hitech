@@ -194,7 +194,7 @@ const EmployeePerformance = ({ history }) => {
                                 {/* <Grid item lg={1} md={1}>
                                             <h5 className={classes.itemHeading}>{no}</h5>
                                         </Grid> */}
-                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
                                     <Button
                                         variant="contained"
                                         className={classes.mainBtn}
@@ -205,7 +205,7 @@ const EmployeePerformance = ({ history }) => {
                                         Performance Assessment Prerequisites
                                     </Button>
                                 </Grid>
-                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
                                     <Button
                                         variant="contained"
                                         className={classes.mainBtn}
@@ -216,7 +216,7 @@ const EmployeePerformance = ({ history }) => {
                                         Employee Performance Ratings
                                     </Button>
                                 </Grid>
-                                <Grid item lg={4} md={4} sm={12} xs={12}>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
                                     <Button
                                         variant="contained"
                                         className={classes.mainBtn}
@@ -225,6 +225,17 @@ const EmployeePerformance = ({ history }) => {
                                         }}
                                     >
                                         Assest Employees Performance
+                                    </Button>
+                                </Grid>
+                                <Grid item lg={3} md={3} sm={12} xs={12}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.mainBtn}
+                                        onClick={() => {
+                                            history.push('/hr/performance_assessment/view_executive_emp_assest')
+                                        }}
+                                    >
+                                        View Assessments
                                     </Button>
                                 </Grid>
                             </Grid>

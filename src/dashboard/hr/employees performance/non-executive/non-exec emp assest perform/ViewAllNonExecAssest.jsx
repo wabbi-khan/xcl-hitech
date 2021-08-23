@@ -9,6 +9,7 @@ const ViewAllNonExecAssest = ({ history }) => {
             <table class='table table-bordered border-dark table-responsive text-center'>
 					<thead class='thead-inverse'>
 						<tr class='bg-dark text-light'>
+							<th>S.No.</th>
 							<th>Employee Name</th>
 							<th>Designation</th>
 							<th>Department</th>
@@ -23,6 +24,7 @@ const ViewAllNonExecAssest = ({ history }) => {
 							) : (
 								vendors?.map((el, i) => ( */}
 						<tr>
+							<td >{ }</td>
 							<td >{ }</td>
 							<td >{ }</td>
 							<td >{ }</td>

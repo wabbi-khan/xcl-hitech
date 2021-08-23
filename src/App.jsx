@@ -119,6 +119,7 @@ import PrintAllComMatIssueReq from './dashboard/store/materialIssueReq/PrintAllC
 import ViewSuppEvalForms from './dashboard/purchase/supplier eval form/ViewSuppEvalForms';
 import PrintSuppEvalForm from './dashboard/purchase/supplier eval form/PrintSuppEvalForm';
 import ViewAllNonExecAssest from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/ViewAllNonExecAssest';
+import ViewAllExecEmpAssest from './dashboard/hr/employees performance/executive/exec emp assest perform/ViewAllExecEmpAssest';
 
 dotenv.config();
 
@@ -454,6 +455,11 @@ function App() {
 				exact
 				path='/hr/performance_assessment/executive_emp_assest_performance'
 				component={ExecEmpAssestPerform}
+			/>
+			<Route
+				exact
+				path='/hr/performance_assessment/view_executive_emp_assest'
+				component={ViewAllExecEmpAssest}
 			/>
 			<Route
 				exact
