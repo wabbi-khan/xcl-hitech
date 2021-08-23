@@ -90,11 +90,12 @@ const PrintExecEmpDetails = ({ location }) => {
 	// const id = props.match.params.id
 	const dispatch = useDispatch();
 
-	const date = new Date();
-	const currDate = date.getDate();
-	const months = date.getMonth() + 1;
-	const years = date.getFullYear();
-	const fullDate = `${currDate} / ${months} / ${years}`;
+	// const date = new Date();
+	// const currDate = date.getDate();
+	// const months = date.getMonth() + 1;
+	// const years = date.getFullYear();
+	// const fullDate = `${currDate} / ${months} / ${years}`;
+
 	const { execPrereq } = useSelector((state) => state.execPrereq);
 	const { execRat } = useSelector((state) => state.execRat);
 	console.log(execPrereq);
@@ -115,49 +116,64 @@ const PrintExecEmpDetails = ({ location }) => {
 	}, []);
 	return (
 		<div className='text-center'>
-			<div className='container'>
+			<div className='container-fluid'>
 				<img src='./logo.png' alt='' />
-				<h4>Hi-Tech Pipe & Engineering Industries</h4>
+				<div class='row'>
+					<div class='col-lg-3 col-md-3 col-sm-4'>
+						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+					</div>
+					<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+						<div
+							style={{
+								display: 'flex',
+								// alignItems: 'flex-end',
+								flexDirection: 'column',
+								border: '2px solid #333',
+								width: '100px',
+								// marginLeft: 'auto',
+								// paddingRight: '5px',
+								// marginRight: '-3rem'
+							}}>
+							<h6>FM-96</h6>
+							<h6>Issue.01</h6>
+						</div>
+					</div>
+				</div>
+				{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
-				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
+				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
 				<h5
-					className='mt-4'
-					style={{ textDecoration: 'underline', marginBottom: -45 }}>
+				>
+					HI-TECH PIPE AND ENGINEERING INDUSTRIES
+				</h5>
+				<h5
+					className='mt-1'
+				>
 					Employee Performance Assessment
 				</h5>
-				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>
+				<p style={{ textDecoration: 'underline' }}>
 					(For Executive Employees)
-				</h5>
+				</p>
 			</div>
-			<div className='container-fluid'>
-				<div className='row ' style={{ marginTop: 15, textAlign: 'left' }}>
-					<div className='col-lg-4 col-md-4 col-sm-6 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p>Date of Assessment</p>
-							</div>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p>
-									{fullDate}
-									<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-								</p>
-							</div>
-						</div>
+			<div className='container-fluid mt-5'>
+				<div class='row' style={{ textAlign: 'left', marginLeft: 'auto', marginRight: 'auto' }}>
+					<div class='col-3 p-0'>
+						<p style={{ fontWeight: 'bold' }}>Date of Assessment:</p>
 					</div>
-					<div className='offset-lg-1 offset-md-1 col-lg-4 col-md-4 col-sm-6 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold' }}>Due Date</p>
-							</div>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p>
-									Dec 2021
-									<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
-								</p>
-							</div>
-						</div>
+					<div class='col-3'>
+						<p style={{ textDecoration: 'underline' }}>
+							{ }
+						</p>
 					</div>
-					<div className='offset-lg-1 col-lg-2 col-md-2 mt-4' id='printBtn'>
+					<div class='col-3'>
+						<p style={{ fontWeight: 'bold' }}>Due Date:</p>
+					</div>
+					<div class='col-2'>
+						<p style={{ textDecoration: 'underline' }}>
+							{ }
+						</p>
+					</div>
+					<div class='col-1' id='printBtn'>
 						<Button
 							variant='contained'
 							size='small'
@@ -169,85 +185,49 @@ const PrintExecEmpDetails = ({ location }) => {
 				</div>
 			</div>
 			<div className={classes.table}>
-				<div className='table ml-auto mr-auto mt-4'>
-					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ fontWeight: 'bold' }}>Employee Name</p>
-						</Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{assessment?.employee?.name}</p>
-							<hr
-								style={{
-									paddingBottom: 4,
-									borderColor: 'black',
-									width: '100%',
-									marginTop: -12,
-								}}
-							/>
-						</Grid>
-						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p style={{ fontWeight: 'bold' }}>Position/Title</p>
-						</Grid>
-						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p>{assessment?.employee?.finalDesignation?.name}</p>
-							<hr
-								style={{
-									paddingBottom: 3,
-									borderColor: 'black',
-									width: '100%',
-									marginTop: -12,
-								}}
-							/>
-						</Grid>
-					</Grid>
-					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ fontWeight: 'bold' }}>Department</p>
-						</Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>{assessment?.employee?.finalDepartment?.name}</p>
-							<hr
-								style={{
-									paddingBottom: 4,
-									borderColor: 'black',
-									width: '100%',
-									marginTop: -12,
-								}}
-							/>
-						</Grid>
-						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-						<Grid item lg={2} md={2} sm={3} xs={3}>
-							<p style={{ fontWeight: 'bold' }}>Date of Employeement</p>
-						</Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>2-2-18</p>
-							<hr
-								style={{
-									paddingBottom: 3,
-									borderColor: 'black',
-									width: '100%',
-									marginTop: -12,
-								}}
-							/>
-						</Grid>
-					</Grid>
-					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ fontWeight: 'bold' }}>Assessment Period</p>
-						</Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>6-Months</p>
-							<hr
-								style={{
-									paddingBottom: 4,
-									borderColor: 'black',
-									width: '100%',
-									marginTop: -12,
-								}}
-							/>
-						</Grid>
-					</Grid>
+				<div class='row' style={{ textAlign: 'left', marginLeft: 'auto', marginRight: 'auto' }}>
+					<div class='col-3'>
+						<p style={{ fontWeight: 'bold' }}>Employee Name:</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ textDecoration: 'underline' }}>
+							{assessment?.employee?.name}
+						</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ fontWeight: 'bold' }}>Position/Title:</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ textDecoration: 'underline' }}>
+							{assessment?.employee?.name}
+						</p>
+					</div>
+				</div>
+				<div class='row' style={{ textAlign: 'left', marginLeft: 'auto', marginRight: 'auto' }}>
+					<div class='col-3'>
+						<p style={{ fontWeight: 'bold' }}>Department:</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ textDecoration: 'underline' }}>{assessment?.employee?.finalDepartment?.name}</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ fontWeight: 'bold' }}>Date of Employment:</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ textDecoration: 'underline' }}>
+							{ }
+						</p>
+					</div>
+				</div>
+				<div class='row' style={{ textAlign: 'left', marginLeft: 'auto', marginRight: 'auto' }}>
+					<div class='col-3'>
+						<p style={{ fontWeight: 'bold' }}>Assessment Period:</p>
+					</div>
+					<div class='col-3'>
+						<p style={{ textDecoration: 'underline' }}>
+							{ }
+						</p>
+					</div>
 				</div>
 			</div>
 			<div style={{ marginTop: 30, marginBottom: 30 }}>
@@ -255,56 +235,72 @@ const PrintExecEmpDetails = ({ location }) => {
 			</div>
 			<div className=''>
 				<h5 style={{ textDecoration: 'underline' }}>PERFORMANCE ASSESSMENT</h5>
-				<h6 className='mt-3'>
+				<p className='mt-2' style={{ fontWeight: '500', fontSize: '14.5px' }}>
 					A CHECK MARK HAS BEEN PLACED IN THE BOX WHICH MOST CLOSELY INDICATES THE
 					EMPLOYEE'S PERFORMANCE <br /> OF EACH FACTOR. FACTOR RATINGS OF
 					"OUTSTANDING" OR "UNSATISFACTORY" HAVE BEEN SUBSTANCIATED BY COMMENTS.
-				</h6>
+				</p>
 				<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
-					{execPrereq &&
+					{
+						execPrereq &&
 						execPrereq?.length > 0 &&
 						execPrereq?.map((topEl, i) => (
 							<>
 								<table class='table table-striped table-inverse table-responsive table-hover'>
-									{i < 1 && (
-										<thead class='thead-inverse'>
-											<tr>
-												<th colspan='6'>RATING</th>
-											</tr>
-										</thead>
-									)}
-									{i < 1 && (
-										<thead class='thead-inverse thead-dark'>
-											<tr>
-												<th>PERFORMANCE FACTORS</th>
-												{execRat &&
-													execRat?.length > 0 &&
-													execRat?.map((el) => <th>{el?.name}</th>)}
-											</tr>
-										</thead>
-									)}
+									{
+										i < 1 && (
+											<thead class='thead-inverse'>
+												<tr>
+													<th colspan='6'>RATING</th>
+												</tr>
+											</thead>
+										)
+									}
+									{
+										i < 1 && (
+											<thead class='thead-inverse thead-dark'>
+												<tr>
+													<th>PERFORMANCE FACTORS</th>
+													{
+														execRat &&
+														execRat?.length > 0 &&
+														execRat?.map((el) => <th>{el?.name}</th>
+														)
+													}
+												</tr>
+											</thead>
+										)
+									}
 									<tbody>
 										<tr>
 											<td scope='row'></td>
-											{execRat &&
+											{
+												execRat &&
 												execRat?.length > 0 &&
-												execRat?.map((el) => <td>({el?.calculated})</td>)}
+												execRat?.map((el) => <td>({el?.calculated})</td>
+												)
+											}
 										</tr>
-										{topEl?.points?.map((el, i) => (
-											<tr>
-												{i === 0 ? (
-													<td scope='row'>{topEl?.heading}</td>
-												) : (
-													<td scope='row'></td>
-												)}
-												<td>
-													{el}
-													{assessment?.list?.map(
-														(el2, i) => el2?.selected === el && <CheckIcon />,
-													)}
-												</td>
-											</tr>
-										))}
+										{
+											topEl?.points?.map((el, i) => (
+												<tr>
+													{
+														i === 0 ? (
+															<td scope='row'>{topEl?.heading}</td>
+														) : (
+															<td scope='row'></td>
+														)
+													}
+													<td>
+														{el}
+														{
+															assessment?.list?.map(
+																(el2, i) => el2?.selected === el && <CheckIcon />,
+															)
+														}
+													</td>
+												</tr>
+											))}
 									</tbody>
 								</table>
 								<Grid
@@ -316,25 +312,18 @@ const PrintExecEmpDetails = ({ location }) => {
 									</Grid>
 									<Grid item sm={1} xs={1}></Grid>
 									<Grid item lg={2} md={2} sm={3} xs={3}>
-										<p>{assessment?.list[i].comments}</p>
-										<hr
-											style={{
-												paddingBottom: 4,
-												borderColor: 'black',
-												width: '100%',
-												marginTop: -12,
-											}}
-										/>
+										<p style={{ textDecoration: 'underline' }}>{assessment?.list[i]?.comments}</p>
 									</Grid>
 								</Grid>
 							</>
-						))}
+						))
+					}
 				</div>
 
 				<div className='text-center mt-5'>
 					<table
 						class='table table-striped table-inverse table-responsive table-hover'
-						style={{ marginLeft: 60 }}>
+					>
 						<thead class='thead-inverse thead-dark'>
 							<tr>
 								<th colspan='2'>RATING CALCULATION:</th>
@@ -347,21 +336,19 @@ const PrintExecEmpDetails = ({ location }) => {
 								execRat?.length > 0 &&
 								execRat?.map((el) => (
 									<tr>
-										<td scope='row'>{el?.name}</td>
-										<td scope='row'>{el?.calculated}</td>
-										<td scope='row'>x</td>
-										<td scope='row'>
-											{' '}
+										<td>{el?.name}</td>
+										<td>{el?.calculated}</td>
+										<td>x</td>
+										<td>
 											{
-												assessment.list.filter(
+												assessment?.list?.filter(
 													(tempEl) => tempEl?.calculated === el?.calculated,
 												).length
 											}
 										</td>
-										<td scope='row'>=</td>
-										<td scope='row'>
-											{' '}
-											{assessment.list.filter(
+										<td>=</td>
+										<td>
+											{assessment?.list?.filter(
 												(tempEl) => tempEl?.calculated === el?.calculated,
 											).length * parseInt(el.calculated)}
 										</td>
@@ -379,7 +366,7 @@ const PrintExecEmpDetails = ({ location }) => {
 				<div className='text-center mt-5'>
 					<table
 						class='table table-striped table-inverse table-responsive table-hover'
-						style={{ marginLeft: 60 }}>
+					>
 						<thead class='thead-inverse thead-dark'>
 							<tr>
 								<th>RATING TABLE:</th>
