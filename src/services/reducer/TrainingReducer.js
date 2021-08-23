@@ -47,7 +47,7 @@ export const getTrainings = (state = { trainings: [] }, action) => {
 			return {
 				error: '',
 				loading: false,
-				trainings: [...state.trainings, action.payload],
+				trainings: [action.payload, ...state.trainings],
 			};
 
 		default:

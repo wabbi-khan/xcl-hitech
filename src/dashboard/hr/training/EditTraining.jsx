@@ -6,11 +6,12 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { updateTraining } from '../../../services/action/TrainingAction';
+import Button from '../../../components/utils/Button';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -102,33 +103,50 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const initialValue = {
+	name: '',
+};
+
 const EditTraining = (props) => {
+	const [initialValuesState, setInitialValues] = useState({ ...initialValue });
+	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+	const [success, setSuccess] = useState('');
+
 	const { show, handler, training } = props;
+
 	const dispatch = useDispatch();
 
 	const classes = useStyles();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const [open, setOpen] = useState(false);
-	const [isUpdate, setIsUpdate] = useState(false);
-	const [isError, setIsError] = useState(false);
+	useEffect(() => {
+		if (training) setInitialValues({ ...training });
+	}, [training]);
 
 	useEffect(() => {
 		setOpen(show);
 	}, [show]);
 
-	const onSubmit = async (data) => {
-		try {
-			dispatch(updateTraining(training._id, data));
-			setIsUpdate(true);
-		} catch (error) {
-			setIsError(true);
-		}
+	const onSubmit = async (values) => {
+		setLoading(true);
+		dispatch(
+			updateTraining(training._id, values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setLoading(false);
+					setSuccess(true);
+					setTimeout(() => {
+						setSuccess(false);
+					}, 4000);
+				}
+				setLoading(false);
+			}),
+		);
 	};
 
 	const handleClose = () => {
@@ -151,52 +169,60 @@ const EditTraining = (props) => {
 					<div className={classes.paper}>
 						<h5 className='text-center mt-4'>Update</h5>
 						<Container className={classes.mainContainer}>
-							{/* Form */}
-							{training ? (
-								<form onSubmit={handleSubmit(onSubmit)}>
-									<Grid container spacing={1}>
-										<Grid lg={12} md={12} sm={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Designation Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												defaultValue={training.name}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('name')}
-											/>
-											{errors.name?.type === 'required' && (
-												<p className='text-danger'>Training Name is required</p>
-											)}
-											{isUpdate ? (
-												<p className='text-success mt-2'>Training Update Successfully</p>
-											) : isError ? (
-												<p className='text-danger mt-2'>Training Update Failed </p>
-											) : null}
+							<Formik
+								initialValues={initialValuesState}
+								enableReinitialize
+								onSubmit={onSubmit}>
+								{(props) => (
+									<Form>
+										<Grid container spacing={1}>
+											<Grid lg={12} md={12} sm={12}>
+												<CssTextField
+													id='outlined-basic'
+													label='Designation Name'
+													variant='outlined'
+													type='text'
+													size='small'
+													autoComplete='off'
+													defaultValue={training.name}
+													inputProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{ style: { fontSize: 14 } }}
+													onChange={props.handleChange('name')}
+													onBlur={props.handleBlur('name')}
+													value={props?.values?.name}
+													helperText={props.touched.name && props.errors.name}
+													error={props.touched.name && props.errors.name}
+												/>
+											</Grid>
 										</Grid>
-									</Grid>
-									<div>
-										<Button
-											variant='outlined'
-											color='primary'
-											className={classes.addButton}
-											type='submit'>
-											Update
-										</Button>
-										<Button
-											variant='outlined'
-											color='primary'
-											className={classes.closeButton}
-											onClick={handleClose}>
-											close
-										</Button>
-									</div>
-								</form>
-							) : null}
+										<div
+											style={{
+												marginTop: '2rem',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}>
+											<Button
+												variant='contained'
+												color='primary'
+												text='Update'
+												style={{ marginRight: '1rem' }}
+												loading={loading}
+											/>
+											<Button
+												variant='outlined'
+												color='dark'
+												onClick={handleClose}
+												text='Close'
+												type='button'
+												classNames='bg-danger text-light'
+											/>
+										</div>
+										{error && <p>{error}</p>}
+										{success && <p>Responsibility Successfully Updated</p>}
+									</Form>
+								)}
+							</Formik>
 						</Container>
 					</div>
 				</Fade>

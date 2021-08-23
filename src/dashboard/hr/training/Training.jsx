@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,14 +13,13 @@ import TableRow from '@material-ui/core/TableRow';
 import {
 	getTrainings,
 	createTraining,
-	updateTraining,
 	deleteTraining,
 } from '../../../services/action/TrainingAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
 import EditTraining from './EditTraining';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -120,26 +118,71 @@ const validationSchema = yup.object({
 });
 
 const Training = () => {
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [fetchLoading, setFetchLoading] = React.useState('');
+	const [fetchError, setFetchError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
+	const [training, setTraining] = useState({});
+	const [open, setOpen] = useState(false);
+
+	const { trainings } = useSelector((state) => state.trainings);
+
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
 
-	useEffect(async () => {
-		await dispatch(getTrainings());
+	useEffect(() => {
+		setFetchLoading(true);
+		dispatch(
+			getTrainings(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
-	const { trainings, loading, error } = useSelector((state) => state.trainings);
-
-	const onSubmit = async (props) => {
-		dispatch(createTraining(props));
+	const onSubmit = async (values) => {
+		setCreateLoading(true);
+		dispatch(
+			createTraining(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
 	const deleteCategory = async (params) => {
-		dispatch(deleteTraining(params));
+		setDeleteLoading(true);
+		dispatch(
+			deleteTraining(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
-	const [training, setTraining] = useState({});
-
-	const [open, setOpen] = useState(false);
 
 	const handleClose = (props) => {
 		setOpen(props);
@@ -152,109 +195,125 @@ const Training = () => {
 
 	return (
 		<Sidenav title={'Training'}>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}>
-						{
-							(props) => (
-								<Form>
-									<CssTextField
-										id='outlined-basic'
-										label='Training Name'
+						{(props) => (
+							<Form>
+								<CssTextField
+									id='outlined-basic'
+									label='Training Name'
+									variant='outlined'
+									type='text'
+									autocomplete='off'
+									size='small'
+									className={classes.inputFieldStyle}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+									onChange={props.handleChange('name')}
+									onBlur={props.handleBlur('name')}
+									value={props.values.name}
+									helperText={props.touched.name && props.errors.name}
+									error={props.touched.name && props.errors.name}
+								/>
+								<div>
+									<Button
 										variant='outlined'
-										type='text'
-										autocomplete='off'
-										size='small'
-										className={classes.inputFieldStyle}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}
-										onChange={props.handleChange('name')}
-										onBlur={props.handleBlur('name')}
-										value={props.values.name}
-										helperText={props.touched.name && props.errors.name}
-										error={props.touched.name && props.errors.name}
+										color='primary'
+										loading={createLoading}
+										loaderColor='#333'
+										text='Submit'
+										classNames={classes.addButton}
 									/>
-									<div>
-										<Button
-											variant='outlined'
-											color='primary'
-											type='submit'
-											className={classes.addButton}>
-											Add
-										</Button>
-									</div>
-								</Form>
-							)
-						}
+								</div>
+							</Form>
+						)}
 					</Formik>
-					{
-						error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
-					}
 				</Container>
 
 				<EditTraining show={open} handler={handleClose} training={training} />
 
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Trainings</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{
-									loading ? (
-										<Loading />
-									) : error ? (
-										<MaterialError />
-									) : trainings.length ? (
-										trainings.map((training, i) => (
-											<StyledTableRow>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{training.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-light bg-light' align='center'>
-													<>
-														<Button
-															variant='contained'
-															className='bg-dark text-light'
-															size='small'
-															onClick={() => handleOpen(training)}
-															style={{ marginTop: 2 }}>
-															Edit
-														</Button>
-														<Button
-															variant='contained'
-															color='secondary'
-															size='small'
-															onClick={() => deleteCategory(training._id)}
-															style={{ marginLeft: 2, marginTop: 2 }}>
-															Delete
-														</Button>
-													</>
-												</StyledTableCell>
-											</StyledTableRow>
-										))
-									) : (
-										<h5>Not Found</h5>
-									)
-								}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : trainings?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Trainings</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{trainings.map((el, i) => (
+										<StyledTableRow>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{i + 1}
+											</StyledTableCell>
+											<StyledTableCell className='text-dark bg-light' align='center'>
+												{el.name}
+											</StyledTableCell>
+											<StyledTableCell className='text-light bg-light' align='center'>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Button
+														variant='contained'
+														className='bg-dark text-light'
+														size='small'
+														onClick={() => handleOpen(el)}
+														text='Edit'
+													/>
+
+													<Button
+														variant='contained'
+														color='secondary'
+														size='small'
+														onClick={() => deleteCategory(el._id)}
+														style={{ marginLeft: 10 }}
+														text='Delete'
+													/>
+												</div>
+											</StyledTableCell>
+										</StyledTableRow>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);
