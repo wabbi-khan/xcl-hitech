@@ -156,7 +156,7 @@ const sectionBFormInitialValues = {
 	customerComplaintSystem: false,
 	majorCustomers: '',
 	informationProvidedByName: '',
-	informationProvidedByDesignation: '',
+	informationProvidedByDesignation: undefined,
 };
 
 const sectionCFormInitialValues = {
@@ -223,12 +223,6 @@ const SupplierEvalForm = ({ history }) => {
 	const { designations } = useSelector((state) => state.designations);
 
 	const onSubmit = () => {
-		console.log('section A', sectionA.values);
-		console.log('section B', sectionB.values);
-		console.log('section C', sectionC.values);
-		console.log('section D', sectionD.values);
-		console.log('section E', sectionE.values);
-		console.log('section F', sectionF.values);
 		const values = {
 			sectionB: sectionB.values,
 			sectionC: sectionC.values,
