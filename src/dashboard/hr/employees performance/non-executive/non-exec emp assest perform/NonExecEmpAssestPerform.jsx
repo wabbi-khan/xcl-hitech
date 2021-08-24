@@ -3,13 +3,10 @@ import Sidenav from '../../../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useForm } from 'react-hook-form';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { getDesignation } from '../../../../../services/action/DesignationAction';
@@ -18,6 +15,8 @@ import { getEmployeeByDesignationAndDepartment } from '../../../../../services/a
 import { getNonExtEmpRatAction } from '../../../../../services/action/NonExecRat';
 import { getNonExtEmpAssesAction } from '../../../../../services/action/NonExecPrereqActions';
 import { createNonExtEmpPerformanceAction } from '../../../../../services/action/NonExtPerformance';
+import Button from '../../../../../components/utils/Button';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		'& > *': {
@@ -177,6 +176,9 @@ const validationSchemaForTopForm = yup.object({
 });
 
 const NonExecEmpAssestPerform = ({ history }) => {
+	const [createLoading, setCreateLoading] = useState(false);
+	const [createError, setCreateError] = useState('');
+	const [success, setSuccess] = useState('');
 	const [department, setDepartment] = React.useState();
 	const [designation, setDesignation] = React.useState();
 	const [initialValueState, setInitialValueState] = useState(
@@ -187,16 +189,15 @@ const NonExecEmpAssestPerform = ({ history }) => {
 	const [initialValuesForDiscipline, setInitialValuesForDiscipline] = useState(
 		[],
 	);
-	const [success, setSuccess] = React.useState(false);
+
 	const classes = useStyles();
 	const dispatch = useDispatch();
+
 	const { designations } = useSelector((state) => state.designations);
 	const { departments } = useSelector((state) => state.departments);
 	const { nonExecRat } = useSelector((state) => state.nonExecRat);
 	const { nonExecPrereq } = useSelector((state) => state.nonExecPrereq);
-
-	console.log(initialValuesForDiscipline);
-	console.log(nonExecPrereq);
+	const { employees } = useSelector((state) => state.employees);
 
 	useEffect(() => {
 		nonExecPrereq && setInitialValuesForDiscipline(nonExecPrereq);
@@ -214,7 +215,7 @@ const NonExecEmpAssestPerform = ({ history }) => {
 			});
 	}, [employee]);
 
-	useEffect(async () => {
+	useEffect(() => {
 		dispatch(getDesignation());
 		dispatch(fetchDepartmentsAction());
 		dispatch(getNonExtEmpRatAction());
@@ -227,37 +228,29 @@ const NonExecEmpAssestPerform = ({ history }) => {
 		}
 	}, [department, designation]);
 
-	const { employees } = useSelector((state) => state.employees);
-
 	const onSubmit = (values) => {
-		console.log({
+		values = {
 			employee: values._id,
 			remarks: values.remarks,
 			total,
 			assessment: initialValuesForDiscipline,
-		});
+		};
+		setCreateLoading(true);
 		dispatch(
-			createNonExtEmpPerformanceAction(
-				{
-					employee: values._id,
-					remarks: values.remarks,
-					total,
-					assessment: initialValuesForDiscipline,
-				},
-				() => {
-					setSuccess(true);
+			createNonExtEmpPerformanceAction(values, (err) => {
+				if (err) {
+					setCreateError(err);
 					setTimeout(() => {
-						setSuccess(false);
+						setCreateError('');
 					}, 4000);
-					history.push({
-						pathname:
-							'/hr/performance_assessment/print_non_executive_emp_performance',
-						state: {
-							assessment: { values, total, data: initialValuesForDiscipline },
-						},
-					});
-				},
-			),
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
 		);
 	};
 
@@ -606,11 +599,13 @@ const NonExecEmpAssestPerform = ({ history }) => {
 									<Button
 										variant='outlined'
 										color='primary'
-										type='submit'
-										className={classes.addButton}>
-										Submit
-									</Button>
+										text='Submit'
+										loading={createLoading}
+										loaderColor='#333'
+										classNames={classes.addButton}
+									/>
 								</div>
+								{createError && <p>{createError}</p>}
 								{success && <p>Successfully added</p>}
 							</Form>
 						)}
