@@ -63,45 +63,54 @@ const useStyles = makeStyles((theme) => ({
 const PrintEmpCompEval = ({ location }) => {
 	const classes = useStyles();
 	// const id = props.match.params.id
-	const criteria = location.state.criteria;
-	console.log(criteria);
+	// const criteria = location.state.criteria;
+	// console.log(criteria);
 
-	const date = new Date();
-	const currDate = date.getDate();
-	const months = date.getMonth() + 1;
-	const years = date.getFullYear();
-	const fullDate = `${currDate} / ${months} / ${years}`;
+	// const date = new Date();
+	// const currDate = date.getDate();
+	// const months = date.getMonth() + 1;
+	// const years = date.getFullYear();
+	// const fullDate = `${currDate} / ${months} / ${years}`;
 
 	return (
 		<div>
 			<div className='text-center'>
 				<div className='container'>
 					<img src='./logo.png' alt='' />
-					<h4>Hi-Tech Pipe & Engineering Industries</h4>
+					{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
 					<h6>Plot No X-22, Site Area Kotri</h6>
-					<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
+					<p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
+					<div class='row'>
+					<div class='col-lg-3 col-md-3 col-4' style={{ textAlign: 'left'}}>
+						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+					</div>
+					<div class='offset-lg-7 offset-md-7 offset-7 col-lg-2 col-md-2 col-1' >
+						<div
+							style={{
+								display: 'flex',
+								// alignItems: 'flex-end',
+								flexDirection: 'column',
+								border: '2px solid #333',
+								width: '100px',
+								// marginLeft: 'auto',
+								// paddingRight: '5px',
+								// marginRight: '-3rem'
+							}}>
+							<h6>FM-97</h6>
+							<h6>Issue.01</h6>
+						</div>
+					</div>
+				</div>
 					<h5
 						className='mt-4'
 						style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-						Employee's Competency Evaluation
+						EMPLOYEE'S COMPETENCY EVALUATION
 					</h5>
 				</div>
 				<div
-					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: 70 }}>
+					className='container-fluid'>
 					<Grid container spacing={1}>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>Date:</p>
-							</div>
-						</Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>
-								{fullDate}
-								<hr style={{ borderTop: '3px double black' }} />
-							</p>
-						</Grid>
-						<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
+						<Grid item lg={10} md={10} sm={10} xs={10}></Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2} id='printBtn'>
 							<Button
 								variant='contained'
@@ -113,83 +122,138 @@ const PrintEmpCompEval = ({ location }) => {
 						</Grid>
 					</Grid>
 				</div>
+				<div class='row mt-5'>
+					<div class='col-2' style={{ fontWeight: 'bold', textAlign: 'left' }}>
+						<p>Name: </p>
+					</div>
+					<div class='col-3'>
+						<p>
+							{ }
+						</p>
+					</div>
+					<div class='offset-1 col-2' style={{ fontWeight: 'bold', textAlign: 'left' }}>
+						<p>Designation: </p>
+					</div>
+					<div class='col-3'>
+						<p>
+							{ }
+						</p>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-2' style={{ fontWeight: 'bold', textAlign: 'left' }}>
+						<p>Department: </p>
+					</div>
+					<div class='col-3'>
+						<p>
+							{ }
+						</p>
+					</div>
+					<div class='offset-1 col-2' style={{ fontWeight: 'bold', textAlign: 'left' }}>
+						<p>CNIC No: </p>
+					</div>
+					<div class='col-3'>
+						<p>
+							{ }
+						</p>
+					</div>
+				</div>
 				<div className='mt-4'>
 					<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
+						<h5 style={{ textAlign: 'left', textDecoration: 'underline' }}>Evaluation:</h5>
 						<table class='table table-responsive table-bordered border-dark text-center mt-3'>
 							<tbody>
 								<tr>
 									<th scope='col' colspan='2'>
-										Competency Requirements
+										COMPETENCY REQUIREMENTS
 									</th>
 									<th rowspan='2'>Actual Compatibility</th>
 									<th rowspan='2'>Remarks</th>
 								</tr>
 								<tr style={{ fontWeight: 'bold' }}>
-									<td>Parameter</td>
+									<td style={{ textAlign: 'left' }}>Parameter</td>
 									<td>Minimum Required</td>
 								</tr>
-								{criteria?.educations && (
-									<>
-										<tr>
-											<td style={{ fontWeight: 'bold' }}>Educations</td>
-											<td>
-												{criteria?.educations?.names?.map((el, i) => (
+								{/* {criteria?.educations && (
+									<> */}
+								<tr>
+									<td style={{ fontWeight: 'bold', textAlign: 'left' }}>Educations</td>
+									<td>
+										{/* {criteria?.educations?.names?.map((el, i) => (
 													<p style={{ margin: 0, padding: 0 }}>{el}</p>
-												))}
-											</td>
-											<td>{criteria?.educations?.capability}</td>
-											<td>{criteria?.educations?.remarks}</td>
-										</tr>
-										<tr>
-											<td style={{ fontWeight: 'bold' }}>Evaluation Summary:</td>
-											<td colspan='3' style={{ textAlign: 'left', fontWeight: 'bold' }}>
-												{criteria?.educations?.summary}
-											</td>
-										</tr>
-									</>
-								)}
-								{criteria?.skills && (
-									<>
-										<tr>
-											<td style={{ fontWeight: 'bold' }}>Skills</td>
-											<td>
-												{criteria?.skills?.names?.map((el, i) => (
+												))} */}
+									</td>
+									<td>
+										{/* {criteria?.educations?.capability} */}
+									</td>
+									<td>
+										{/* {criteria?.educations?.remarks} */}
+									</td>
+								</tr>
+								{/* </>
+								)} */}
+								{/* {criteria?.skills && (
+									<> */}
+								<tr>
+									<td style={{ fontWeight: 'bold', textAlign: 'left' }}>Skills</td>
+									<td>
+										{/* {criteria?.skills?.names?.map((el, i) => (
 													<p style={{ margin: 0, padding: 0 }}>{el}</p>
-												))}
-											</td>
-											<td>{criteria?.skills?.capability}</td>
-											<td>{criteria?.skills?.remarks}</td>
-										</tr>
-										<tr>
-											<td style={{ fontWeight: 'bold' }}>Evaluation Summary:</td>
-											<td colspan='3' style={{ textAlign: 'left', fontWeight: 'bold' }}>
-												{criteria?.skills?.summary}
-											</td>
-										</tr>
-									</>
-								)}
-								{criteria?.experiences && (
-									<>
-										<tr>
-											<td style={{ fontWeight: 'bold' }}>Skills</td>
-											<td>
-												{criteria?.experiences?.names?.map((el, i) => (
+												))} */}
+									</td>
+									<td>
+										{/* {criteria?.skills?.capability} */}
+									</td>
+									<td>
+										{/* {criteria?.skills?.remarks} */}
+									</td>
+								</tr>
+								{/* </>
+								)} */}
+								{/* {criteria?.experiences && (
+									<> */}
+								<tr>
+									<td style={{ fontWeight: 'bold', textAlign: 'left' }}>Experience</td>
+									<td>
+										{/* {criteria?.experiences?.names?.map((el, i) => (
 													<p style={{ margin: 0, padding: 0 }}>{el}</p>
-												))}
-											</td>
-											<td>{criteria?.experiences?.capability}</td>
-											<td>{criteria?.experiences?.remarks}</td>
-										</tr>
-										<tr>
-											<td style={{ fontWeight: 'bold' }}>Evaluation Summary:</td>
-											<td colspan='3' style={{ textAlign: 'left', fontWeight: 'bold' }}>
-												{criteria?.experiences?.summary}
-											</td>
-										</tr>
-									</>
-								)}
+												))} */}
+									</td>
+									<td>
+										{/* {criteria?.experiences?.capability} */}
+									</td>
+									<td>
+										{/* {criteria?.experiences?.remarks} */}
+									</td>
+								</tr>
+								<tr>
+									<td style={{ fontWeight: 'bold', textAlign: 'left' }}>Training</td>
+									<td>
+										{/* {criteria?.experiences?.names?.map((el, i) => (
+													<p style={{ margin: 0, padding: 0 }}>{el}</p>
+												))} */}
+									</td>
+									<td>
+										{/* {criteria?.experiences?.capability} */}
+									</td>
+									<td>
+										{/* {criteria?.experiences?.remarks} */}
+									</td>
+								</tr>
+								{/* </>
+								)} */}
 							</tbody>
 						</table>
+						<div style={{ display: 'flex', }}>
+							<h6 style={{ fontWeight: 'bold' }}>Evaluation Summary: </h6>
+							<p style={{ textDecoration: 'underline', marginLeft: '1rem', marginTop: '-2px' }}>
+								{ }
+							</p>
+						</div>
+						<div style={{ marginTop: 30, marginBottom: 30 }}>
+							<hr style={{ borderTop: '1px double black' }} />
+							{/* <hr /> */}
+						</div>
 						<div
 							style={{
 								textAlign: 'left',
@@ -220,10 +284,6 @@ const PrintEmpCompEval = ({ location }) => {
 								</p>
 							</Grid>
 						</Grid>
-						<div style={{ marginTop: 30, marginBottom: 30 }}>
-							<hr style={{ borderTop: '1px double black' }} />
-							{/* <hr /> */}
-						</div>
 						<Grid container spacing={1} style={{ marginTop: '50px' }}>
 							<Grid item lg={3} md={3} sm={3} xs={3}>
 								<hr style={{ borderTop: '3px double black' }} />

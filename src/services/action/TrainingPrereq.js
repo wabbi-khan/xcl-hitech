@@ -41,8 +41,6 @@ export const getByDepartmentAndDesignation =
 				`${process.env.REACT_APP_API_URL}/trainings/pre-requisition/by/${departmentId}/${desigId}`,
 			);
 
-			console.log(data);
-
 			dispatch({
 				type: TRAININGPREREQ_FETCH_SUCCESS,
 				payload: data.requisitions,
@@ -107,12 +105,6 @@ export const deleteTrainingPrereq = (params, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.delete(
 			`${process.env.REACT_APP_API_URL}/trainings/pre-requisition/${params}`,
-		);
-
-		console.log(
-			'Consoling data:',
-			data,
-			'\nline number: 112\nfilePath: src:services:action:TrainingPrereq.js',
 		);
 
 		if (data.success) {

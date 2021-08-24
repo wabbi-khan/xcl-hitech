@@ -80,23 +80,29 @@ const PrintJobDescription = ({ location }) => {
 		<div className='text-center'>
 			<div className='container'>
 				<img src='./logo.png' alt='' />
-				<h4>Hi-Tech Pipe & Engineering Industries</h4>
+				{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
-				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<div
-					class=''
-					style={{
-						display: 'flex',
-						alignItems: 'flex-end',
-						flexDirection: 'column',
-						border: '2px solid #333',
-						width: '100px',
-						marginLeft: 'auto',
-						paddingRight: '5px',
-						marginRight: '-3rem',
-					}}>
-					<h6>FM-56</h6>
-					<h6>Issue.01</h6>
+				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
+				<div class='row'>
+					<div class='col-lg-2 col-md-2 col-sm-4' style={{ textAlign: 'left' }}>
+						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+					</div>
+					<div class='offset-lg-7 offset-md-7 offset-sm-7 col-lg-2 col-md-2 col-sm-1'>
+						<div
+							style={{
+								display: 'flex',
+								// alignItems: 'flex-end',
+								flexDirection: 'column',
+								border: '2px solid #333',
+								width: '100px',
+								// marginLeft: 'auto',
+								// paddingRight: '5px',
+								// marginRight: '-3rem'
+							}}>
+							<h6>FM-56</h6>
+							<h6>Issue.01</h6>
+						</div>
+					</div>
 				</div>
 				<h5
 					className='mt-4'
