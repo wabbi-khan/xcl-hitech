@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 600,
 	},
 	dataTable: {
-		marginTop: 70,
+		marginTop: 10,
 	},
 }));
 
@@ -124,81 +124,92 @@ const TrainingAttendance = ({ history, match, location }) => {
 	return (
 		<Sidenav title={'Training Attendance'}>
 			<div>
-				{fetchLoading ? (
-					<div
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
-					</div>
-				) : attendance?.length === 0 ? (
-					<p>There is no data found.</p>
-				) : (
-					<div className={classes.dataTable}>
-						<TableContainer className={classes.tableContainer}>
-							<Table
-								stickyHeader
-								className='table table-dark'
-								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Training Name</StyledTableCell>
-										<StyledTableCell align='center'>Trainee Name</StyledTableCell>
-										<StyledTableCell align='center'>Trainee</StyledTableCell>
-										<StyledTableCell align='center'>Trainer</StyledTableCell>
-										<StyledTableCell align='center'>Venue</StyledTableCell>
-										<StyledTableCell align='center'>Action</StyledTableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{attendance &&
-										attendance.length > 0 &&
-										attendance.map((el, i) => (
-											<StyledTableRow>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{i + 1}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.training?.topic?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.employee?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.training?.participants?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.training?.trainerName?.name}
-													<p style={{ fontSize: 10 }}>
-														({el?.training?.trainerDesignation?.name})
-													</p>
-												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{el?.training?.venue?.name}
-												</StyledTableCell>
-												<StyledTableCell className='text-light bg-light' align='center'>
-													<Button
-														variant='contained'
-														disabled
-														size='small'
-														classNames={`${
-															el?.isPresent ? 'bg-success' : 'bg-danger'
-														} text-light`}
-														text={el?.isPresent ? 'Was Present' : 'Was Absent'}
-														style={{ marginLeft: 2, marginTop: 2 }}
-													/>
-												</StyledTableCell>
-											</StyledTableRow>
-										))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</div>
-				)}
+				<Button
+					text='Print Attendance'
+					variant='contained'
+					size='small'
+					classNames='bg-dark text-light'
+					style={{ marginLeft: 'auto'}}
+					onClick = {() => {
+						history.push('/hr/print_training_attendance')
+					}}
+				/>
+				{
+					fetchLoading ? (
+						<div
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '3rem',
+							}}>
+							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						</div>
+					) : attendance?.length === 0 ? (
+						<p>There is no data found.</p>
+					) : (
+						<div className={classes.dataTable}>
+							<TableContainer className={classes.tableContainer}>
+								<Table
+									stickyHeader
+									className='table table-dark'
+									style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+									<TableHead>
+										<TableRow hover role='checkbox'>
+											<StyledTableCell align='center'>Sr.No</StyledTableCell>
+											<StyledTableCell align='center'>Training Name</StyledTableCell>
+											<StyledTableCell align='center'>Trainee Name</StyledTableCell>
+											<StyledTableCell align='center'>Trainee</StyledTableCell>
+											<StyledTableCell align='center'>Trainer</StyledTableCell>
+											<StyledTableCell align='center'>Venue</StyledTableCell>
+											<StyledTableCell align='center'>Action</StyledTableCell>
+										</TableRow>
+									</TableHead>
+									<TableBody>
+										{attendance &&
+											attendance.length > 0 &&
+											attendance.map((el, i) => (
+												<StyledTableRow>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{i + 1}
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.training?.topic?.name}
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.employee?.name}
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.training?.participants?.name}
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.training?.trainerName?.name}
+														<p style={{ fontSize: 10 }}>
+															({el?.training?.trainerDesignation?.name})
+														</p>
+													</StyledTableCell>
+													<StyledTableCell className='text-dark bg-light' align='center'>
+														{el?.training?.venue?.name}
+													</StyledTableCell>
+													<StyledTableCell className='text-light bg-light' align='center'>
+														<Button
+															variant='contained'
+															disabled
+															size='small'
+															classNames={`${el?.isPresent ? 'bg-success' : 'bg-danger'
+																} text-light`}
+															text={el?.isPresent ? 'Was Present' : 'Was Absent'}
+															style={{ marginLeft: 2, marginTop: 2 }}
+														/>
+													</StyledTableCell>
+												</StyledTableRow>
+											))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</div>
+					)
+				}
 			</div>
 		</Sidenav>
 	);
