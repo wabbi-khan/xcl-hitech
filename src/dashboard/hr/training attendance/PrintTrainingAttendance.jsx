@@ -112,12 +112,33 @@ const PrintTrainingAttendance = () => {
     return (
         <div>
             <div className="text-center">
-                <div className="container">
+                <div className="container-fluid">
                     <img src="./logo.png" alt="" />
-                    <h4>Hi-Tech Pipe & Engineering Industries</h4>
+                    <div class='row'>
+                        <div class='col-lg-3 col-md-3 col-sm-4'>
+                            <img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+                        </div>
+                        <div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    // alignItems: 'flex-end',
+                                    flexDirection: 'column',
+                                    border: '2px solid #333',
+                                    width: '100px',
+                                    // marginLeft: 'auto',
+                                    // paddingRight: '5px',
+                                    // marginRight: '-3rem'
+                                }}>
+                                <h6>FM-42</h6>
+                                <h6>Issue.01</h6>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
                     <h6>Plot No X-22, Site Area Kotri</h6>
-                    <p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-                    <h5 className="mt-4" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Attendance Sheet (Training)</h5>
+                    <p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
+                    <h5 className="mt-4" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>ATTENDANCE SHEET (TRAINING)</h5>
                 </div>
                 <div className="mt-5">
                     <Grid container spacing={1} style={{ textAlign: 'left' }}>
@@ -128,7 +149,7 @@ const PrintTrainingAttendance = () => {
                             <p
                                 style={{ fontWeight: 'bold' }}
                             >
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint delectus minima officia consequuntur aperiam iure totam ab.
+                                
                             </p>
                         </Grid>
                     </Grid>
@@ -139,9 +160,8 @@ const PrintTrainingAttendance = () => {
                         <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
                         <Grid item lg={3} md={3} sm={3} xs={3}>
                             <p>
-                                QC Manager
+                                {  }
                             </p>
-                            <hr style={{ borderTop: '3px double black' }} />
                         </Grid>
                     </Grid>
                 </div>
@@ -153,9 +173,8 @@ const PrintTrainingAttendance = () => {
                             </div>
                         </Grid>
                         <Grid item lg={2} md={2} sm={2} xs={2}>
-                            <p>
+                            <p style={{ textDecoration: 'underline' }}>
                                 {fullDate}
-                                <hr style={{ borderTop: '3px double black' }} />
                             </p>
                         </Grid>
                         <Grid item lg={6} md={6} sm={6} xs={6}></Grid>
@@ -171,7 +190,7 @@ const PrintTrainingAttendance = () => {
                 </div>
                 <div className="mt-4" >
                     <div className="" style={{ marginTop: 30, marginLeft: 'auto', }}>
-                        <table class="table table-striped table-inverse table-bordered table-responsive table-hover">
+                        <table class="table table-striped table-inverse table-bordered table-responsive ">
                             <thead class="thead-inverse">
                                 <tr>
                                     <th>S.No.</th>
@@ -184,20 +203,18 @@ const PrintTrainingAttendance = () => {
                             <tbody>
                                 <tr>
                                     <td scope="row">
-                                        1
+                                        {  }
                                     </td>
                                     <td>
-                                        Arsalan
+                                        {  }
                                     </td>
                                     <td>
-                                        Manager
+                                        {  }
                                     </td>
                                     <td>
-                                        Production
+                                        {  }
                                     </td>
-                                    <td>
-
-                                    </td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -205,7 +222,7 @@ const PrintTrainingAttendance = () => {
                 </div>
                 <Grid container spacing={1} style={{ marginTop: 120 }} >
                     <Grid item lg={3} md={3} sm={3} xs={3}>
-                        <hr style={{ borderTop: '3px double black' }} />
+                        <hr style={{ border: '1px solid black',  }} />
                         <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Tutor Signature</p>
                     </Grid>
                 </Grid>

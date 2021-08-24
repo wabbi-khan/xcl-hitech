@@ -92,15 +92,37 @@ const PrintTrainingRecord = ({ location }) => {
 	return (
 		<div>
 			<div className='text-center'>
-				<div className='container'>
+				<div className='container-fluid'>
 					<img src='./logo.png' alt='' />
-					<h4>Hi-Tech Pipe & Engineering Industries</h4>
+					{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
 					<h6>Plot No X-22, Site Area Kotri</h6>
-					<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
+					<p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
+					<div class='row'>
+						<div class='col-lg-3 col-md-3 col-sm-4'>
+							<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+						</div>
+						<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+							<div
+								style={{
+									display: 'flex',
+									// alignItems: 'flex-end',
+									flexDirection: 'column',
+									border: '2px solid #333',
+									width: '100px',
+									marginTop: '1rem'
+									// marginLeft: 'auto',
+									// paddingRight: '5px',
+									// marginRight: '-3rem'
+								}}>
+								<h6>FM-39</h6>
+								<h6>Issue.01</h6>
+							</div>
+						</div>
+					</div>
 					<h5
 						className='mt-4'
 						style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-						Training Record and Evaluation
+						TRAINING RECORD AND EVALUATION
 					</h5>
 				</div>
 				<div
@@ -109,13 +131,14 @@ const PrintTrainingRecord = ({ location }) => {
 					<Grid container spacing={1}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>Date:</p>
+								<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>
+									Training Date:
+								</p>
 							</div>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p>
+							<p style={{ textDecoration: 'underline' }}>
 								{fullDate}
-								<hr style={{ borderTop: '3px double black' }} />
 							</p>
 						</Grid>
 						<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
@@ -130,28 +153,79 @@ const PrintTrainingRecord = ({ location }) => {
 						</Grid>
 					</Grid>
 				</div>
-				<div className='mt-4'>
+				<table class='table table-striped table-inverse table-bordered table-responsive table-hover'>
+					<tr style={{ textAlign: 'left', border: '1px solid black' }}>
+						<div style={{ display: 'flex', }}>
+							<h6>TRAINING: </h6>
+							<h6>{ }Importance of Criteteria</h6>
+						</div>
+					</tr>
+				</table>
+				<div>
 					<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
 						<table class='table table-striped table-inverse table-bordered table-responsive table-hover'>
 							<thead class='thead-inverse'>
 								<tr>
-									<th>S.No.</th>
-									<th>Training</th>
-									<th>Evaluated By</th>
-									<th>Method</th>
-									<th>Result</th>
+									<th>S.NO.</th>
+									<th>TRAINEE NAME</th>
+									<th>DESIGNATION</th>
+									<th>TRAINER</th>
+									<th colspan="2">EVALUATION METHOD</th>
+									<th>EVALUATED BY</th>
+									<th colspan="2">TRAINING EVALUATION RESULT</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td scope='row'>1</td>
-									<td>{evaluation?.training?.topic?.name}</td>
+									<td class="tableBorderNone"></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td>
-										{evaluation?.evaluatedByEmployee?.name}
-										<p style={{ fontSize: 10 }}>({evaluation?.evaluatedBy?.name})</p>
+										Interview
 									</td>
-									<td>{evaluation.method}</td>
-									<td>{evaluation.result}</td>
+									<td>
+										Written Test
+									</td>
+									<td></td>
+									<td>
+										SATISFACTORY
+									</td>
+									<td>
+										UNSATISFACTORY
+									</td>
+								</tr>
+								<tr>
+									<td>
+										{ }
+									</td>
+									<td>
+										{ }
+									</td>
+									<td>
+										{ }
+									</td>
+									<td>
+										{/* {evaluation?.training?.topic?.name} */}
+									</td>
+									<td>
+										{/* {evaluation?.evaluatedByEmployee?.name}
+										<p style={{ fontSize: 10 }}>
+											({evaluation?.evaluatedBy?.name})
+										</p> */}
+									</td>
+									<td>
+										{/* {evaluation.method} */}
+									</td>
+									<td>
+										{/* {evaluation.result} */}
+									</td>
+									<td>
+										{/* {evaluation.result} */}
+									</td>
+									<td>
+										{/* {evaluation.result} */}
+									</td>
 								</tr>
 							</tbody>
 						</table>

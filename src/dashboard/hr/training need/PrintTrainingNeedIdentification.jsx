@@ -90,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintTrainingNeedIdentification = ({ location }) => {
 	const classes = useStyles();
-	// const id = props.match.params.id
 
 	const identification = location?.state?.identification;
 	const date = new Date();
@@ -99,19 +98,11 @@ const PrintTrainingNeedIdentification = ({ location }) => {
 	const years = date.getFullYear();
 	const fullDate = `${currDate} / ${months} / ${years}`;
 
-	console.log(
-		'identification -->',
-		identification,
-		'\nline number: 102\nfilePath: src:dashboard:hr:training need:PrintTrainingNeedIdentification.jsx',
-	);
-
 	return (
 		<div className='text-center'>
 			<div className='container'>
 				<img src='./logo.png' alt='' />
-				{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
-                <h6>Plot No X-22, Site Area Kotri</h6>
-                <p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
+
 				<div class='row'>
 					<div class='col-lg-3 col-md-3 col-sm-4'>
 						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
@@ -120,13 +111,9 @@ const PrintTrainingNeedIdentification = ({ location }) => {
 						<div
 							style={{
 								display: 'flex',
-								// alignItems: 'flex-end',
 								flexDirection: 'column',
 								border: '2px solid #333',
 								width: '100px',
-								// marginLeft: 'auto',
-								// paddingRight: '5px',
-								// marginRight: '-3rem'
 							}}>
 							<h6>FM-98</h6>
 							<h6>Issue.01</h6>
@@ -213,17 +200,6 @@ const PrintTrainingNeedIdentification = ({ location }) => {
 							/>
 						</Grid>
 					</Grid>
-					{/* <thead class="thead-dark">
-                    <tr>
-                    <th>S.No.</th>
-                    <td colspan="5">
-                    <th>DESCRIPTION</th>
-                    </td>
-                    <th>Quantity</th>
-                    <th>Unit Value</th>
-                    <th>Remarks</th>
-                    </tr>
-                </thead> */}
 				</div>
 				<div className=''>
 					<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
@@ -271,18 +247,7 @@ const PrintTrainingNeedIdentification = ({ location }) => {
 					</div>
 				</div>
 			</div>
-			{/* <div className="container" style={{ marginTop: 100 }}>
-                <div className="row">
-                    <div className="col-lg-3 col-md-3 col-sm-3 mt-5">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Written & Signed By: <br />Factory Manager</p>
-                    </div>
-                    <div className="offset-lg-6 offset-md-6 offset-sm-6 col-lg-3 col-md-3 col-sm-3 mt-5">
-                        <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                        <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>Copy To: 1. Employee, <br /> 2. Personal File</p>
-                    </div>
-                </div>
-            </div> */}
+
 			<Grid container spacing={1} style={{ marginTop: 100 }}>
 				<Grid item lg={2} md={2} sm={3} xs={3}>
 					<hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
