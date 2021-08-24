@@ -120,7 +120,7 @@ const CompleteMaterialReq = ({ history }) => {
 													class='btn btn-sm bg-dark text-light'
 													onClick={() => {
 														history.push(
-															`/storedashboard/material_issue_requisition/complete_requisition_details/${request._id}`,
+															`/storedashboard/material_issue_requisition/print_all_complete_requisition_details`,
 														);
 													}}
 													// style={{ backgroundColor: 'red', color: 'whitesmoke', }}

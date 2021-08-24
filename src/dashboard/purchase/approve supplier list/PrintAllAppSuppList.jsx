@@ -80,7 +80,7 @@ const PrintAllAppSuppList = (props) => {
 
 	return (
 		<div className='text-center'>
-			<div className='container'>
+			<div className='container-fluid mt-4'>
 				{/* <img src='./logo192.png' alt='' /> */}
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
@@ -105,21 +105,13 @@ const PrintAllAppSuppList = (props) => {
 					Approved Supplier List
 				</h5>
 			</div>
-			<div className='container mt-5'>
-				<div class='dateContainer'>
-					<div class='dateContainer'>
+			<div className='container-fluid mt-5'>
+				<div style={{ display: 'flex', }}>
+					<div style={{ display: 'flex', gap: '.5rem' }}>
 						<p style={{ fontWeight: 'bold' }}>Date:</p>
-						<div style={{ marginLeft: '1rem' }}>
+						<div style={{ textDecoration: 'underline' }}>
 							<p>
 								{fullDate}
-								<hr
-									style={{
-										border: '1px solid green',
-										borderColor: 'black',
-										width: '100px',
-										marginTop: 0,
-									}}
-								/>
 							</p>
 						</div>
 					</div>
