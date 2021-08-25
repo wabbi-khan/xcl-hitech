@@ -64,27 +64,27 @@ const PrintAllComMatIssueReq = (props) => {
             <div className='container-fluid text-center'>
                 <img src='./logo.png' alt='' />
                 <div class='row'>
-					<div class='col-lg-3 col-md-3 col-sm-4'>
-						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
-					</div>
-					<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
-						<div
-							style={{
-								display: 'flex',
-								// alignItems: 'flex-end',
-								flexDirection: 'column',
-								border: '2px solid #333',
-								width: '100px',
-                                marginTop: '.5rem'
-								// marginLeft: 'auto',
-								// paddingRight: '5px',
-								// marginRight: '-3rem'
-							}}>
-							<h6>FM-38</h6>
-							<h6>Issue.02</h6>
-						</div>
-					</div>
-				</div>
+                    <div class='col-lg-3 col-md-3 col-sm-4'>
+                        <img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+                    </div>
+                    <div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+                        <div
+                            style={{
+                                display: 'flex',
+                                // alignItems: 'flex-end',
+                                flexDirection: 'column',
+                                border: '2px solid #333',
+                                width: '100px',
+                                marginTop: '1rem'
+                                // marginLeft: 'auto',
+                                // paddingRight: '5px',
+                                // marginRight: '-3rem'
+                            }}>
+                            <h6>FM-38</h6>
+                            <h6>Issue.02</h6>
+                        </div>
+                    </div>
+                </div>
                 {/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
                 <h6>Plot No X-22, Site Area Kotri</h6>
                 <p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
@@ -162,16 +162,36 @@ const PrintAllComMatIssueReq = (props) => {
 							) : (
 								vendors?.map((el, i) => ( */}
                         <tr>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
-                            <td >{ }asd</td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
+                            <td >
+                                { }
+                            </td>
                             {/* <td>{el.name}</td> */}
                             {/* <td>{el.name}</td> */}
                             {/* <td>{!el.contactPerson ? null : el.contactPerson}</td> */}
@@ -200,12 +220,13 @@ const PrintAllComMatIssueReq = (props) => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <th colspan="2">Issued By</th>
+                            <th colspan="3">Issued By</th>
                             <th colspan="2">Posted By</th>
                             <th colspan="2">Manager Store</th>
                         </tr>
                         <tr>
                             <th>Date:</th>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -246,16 +267,36 @@ const PrintAllComMatIssueReq = (props) => {
                     <div class='col-lg-4 col-md-4 col-sm-4'>
                         <div class='text-center ' style={{ border: '1px solid black' }}>
                             <h6 style={{ borderBottom: '1px solid black', padding: '0.7rem' }}>RULES</h6>
-                            <div class=''>
-                                <div>
-                                    <input type="checkbox" />
+                            {/* <div style={{ display: 'flex', gap: '.5rem', marginLeft: '.5rem',  }}>
+                                <p>Received: </p>
+                                <input type="checkbox" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '7px' }} />
+                            </div> */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', gap: '.5rem', marginLeft: '.5rem', }}>
+                                    <p>Received: </p>
+                                    <input type="checkbox" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '7px' }} />
                                 </div>
+                                <p style={{ marginRight: '.5rem', fontWeight: '600' }}></p>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', gap: '.5rem', marginLeft: '.5rem', }}>
+                                    <p>Consumable: </p>
+                                    <input type="checkbox" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '7px' }} />
+                                </div>
+                                <p style={{ marginRight: '.5rem', fontWeight: '600' }}>(Not Received)</p>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', gap: '.5rem', marginLeft: '.5rem', }}>
+                                    <p>Pending: </p>
+                                    <input type="checkbox" style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '7px' }} />
+                                </div>
+                                <p style={{ marginRight: '.5rem', fontWeight: '600' }}>(Not Received)</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='container-fluid text-center mt-5'>
+            {/* <div className='container-fluid text-center mt-5'>
                 <div className='row'>
                     <div className='col-lg-3 col-md-3 col-sm-3 mt-4'>
                         <hr
@@ -286,11 +327,22 @@ const PrintAllComMatIssueReq = (props) => {
                                 borderColor: 'black',
                                 marginTop: 0,
                             }}
-                        />
-                        {/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
-                        <p style={{ marginTop: -10 }}>Approved By</p>
-                    </div>
-                </div>
+                            />
+                            <p style={{ marginTop: -10 }}>Approved By</p>
+                            </div>
+                            </div>
+                        </div> */}
+            <hr
+                style={{
+                    border: '1px solid green',
+                    borderColor: 'black',
+                    
+                }}
+            />
+            <div class='text-center'>
+                <h6>
+                    X-22, Extention Area, S.I.T.E., Kotri.
+                </h6>
             </div>
         </div>
     )
