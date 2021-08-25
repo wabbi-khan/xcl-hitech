@@ -5,6 +5,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
+import Loader from 'react-loader-spinner';
+import { getbinCards } from '../../../services/action/binCardAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -71,6 +74,29 @@ const CssTextField = withStyles({
 })(TextField);
 
 const ProductsBinCard = () => {
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+
+	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		setFetchLoading(true);
+		dispatch(
+			getbinCards(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
+	}, [dispatch]);
+
+	const { binCards } = useSelector((state) => state.binCards);
+	console.log('binCards', binCards);
+
 	const classes = useStyles();
 
 	return (
@@ -81,7 +107,6 @@ const ProductsBinCard = () => {
 						<Grid item lg={12} md={12} sm={12} xs={5}>
 							<CssTextField
 								id='outlined-basic'
-								// label="Product Name"
 								variant='outlined'
 								type='date'
 								size='small'
@@ -93,51 +118,52 @@ const ProductsBinCard = () => {
 						</Grid>
 					</Grid>
 				</Container>
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						{/* <h5>Inspected Orders</h5> */}
-						<div className='container-fluid' style={{ textAlign: 'left' }}>
-							<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
-								<thead class='bg-dark text-light'>
-									<tr>
-										<th>S.No.</th>
-										<th>Product Name</th>
-										<th>Current Balance</th>
-										<th>IN</th>
-										<th>OUT</th>
-										<th>Balance</th>
-										<th>Date</th>
-									</tr>
-								</thead>
-								<tbody>
-									{/* {
-                                        loading ? (
-                                            <Loading />
-                                        ) :
-                                            error ? (
-                                                <MaterialError />
-                                            ) :
-                                                (
-                                                    vehicles.length ?
-                                                        vehicles.map((vehicle, i) => ( */}
-									<tr>
-										<td>{1}</td>
-										<td>{/* {vehicle.number} */}</td>
-										<td>{/* {vehicle.type} */}</td>
-										<td>{/* {vehicle.driverName} */}</td>
-										<td>{/* {vehicle.phoneNum} */}</td>
-										<td>{/* {vehicle.cnicNum} */}</td>
-										<td>{/* {vehicle.cnicNum} */}</td>
-									</tr>
-									{/* ))
-                                                        : <h5>Not Found</h5>
-                                                )
-                                    } */}
-								</tbody>
-							</table>
-						</div>
-					</TableContainer>
-				</div>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : binCards?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<div className='container-fluid' style={{ textAlign: 'left' }}>
+								<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+									<thead class='bg-dark text-light'>
+										<tr>
+											<th>S.No.</th>
+											<th>Product Name</th>
+											<th>Current Balance</th>
+											<th>IN</th>
+											<th>OUT</th>
+											<th>Balance</th>
+											<th>Last Updated on</th>
+										</tr>
+									</thead>
+									<tbody>
+										{binCards.map((el, i) => (
+											<tr>
+												<td>{i + 1}</td>
+												<td>{el?.product?.name}</td>
+												<td>{el?.history[0]?.balance}</td>
+												<td>{el?.history[0]?.in}</td>
+												<td>{el?.history[0]?.out}</td>
+												<td>{el?.history[0]?.balance}</td>
+												<td>{el?.history[0]?.date}</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

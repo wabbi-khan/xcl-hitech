@@ -8,76 +8,77 @@ import {
 	NONEXTPERFORMANCE_DELETE_SUCCESS,
 } from '../constants/NonExtPerformanceConstant';
 
-export const getNonExtEmpPerformanceAction = (query) => async (dispatch) => {
-	dispatch({
-		type: NONEXTPERFORMANCE_REQUEST,
-	});
-
-	try {
-		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance${
-				query ? `?${query}` : ''
-			}`,
-		);
-
-		console.log(data);
-
+export const getNonExtEmpPerformanceAction =
+	(query, cb) => async (dispatch) => {
 		dispatch({
-			type: NONEXTPERFORMANCE_FETCH_SUCCESS,
-			payload: data.data,
+			type: NONEXTPERFORMANCE_REQUEST,
 		});
-	} catch (err) {
-		dispatchError(err, dispatch);
-	}
-};
+
+		try {
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance${
+					query ? `?${query}` : ''
+				}`,
+			);
+
+			if (data.success) {
+				dispatch({
+					type: NONEXTPERFORMANCE_FETCH_SUCCESS,
+					payload: data.data,
+				});
+				if (cb) cb();
+			}
+		} catch (err) {
+			dispatchError(err, dispatch, cb);
+		}
+	};
 
 export const createNonExtEmpPerformanceAction =
-	(performance, cb) => async (dispatch) => {
+	(values, cb) => async (dispatch) => {
 		dispatch({
 			type: NONEXTPERFORMANCE_REQUEST,
 		});
 		try {
-			const res = await axios.post(
+			const { data } = await axios.post(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance`,
-				performance,
+				values,
 			);
 
-			console.log(res);
+			console.log(data);
 
-			dispatch({
-				type: NONEXTPERFORMANCE_CREATE_SUCCESS,
-				payload: res.data.performance,
-			});
-
-			if (cb) cb();
+			if (data.success) {
+				dispatch({
+					type: NONEXTPERFORMANCE_CREATE_SUCCESS,
+					payload: data.performance,
+				});
+				if (cb) cb();
+			}
 		} catch (err) {
-			console.log('object');
-			dispatchError(err, dispatch);
+			dispatchError(err, dispatch, cb);
 		}
 	};
 
 export const updateNonExtEmpPerformanceAction =
-	(id, performance, cb) => async (dispatch) => {
+	(id, values, cb) => async (dispatch) => {
 		dispatch({
 			type: NONEXTPERFORMANCE_REQUEST,
 		});
 
 		try {
-			const res = await axios.patch(
+			const { data } = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance/${id}`,
-				performance,
+				values,
 			);
 
-			console.log(res.data);
-
-			dispatch({
-				type: NONEXTPERFORMANCE_UPDATE_SUCCESS,
-				payload: { performance: res.data.performance },
-			});
-
-			if (cb) cb();
+			if (data.success) {
+				dispatch({
+					type: NONEXTPERFORMANCE_UPDATE_SUCCESS,
+					payload: { performance: data.performance },
+				});
+				if (cb) cb();
+			}
 		} catch (err) {
-			dispatchError(err, dispatch);
+			dispatchError(err, dispatch, cb);
 		}
 	};
 
@@ -88,32 +89,31 @@ export const deleteNonExtEmpPerformanceAction =
 		});
 
 		try {
-			const res = await axios.delete(
+			const { data } = await axios.delete(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance/${id}`,
 			);
 
-			console.log(res.data);
-
-			dispatch({
-				type: NONEXTPERFORMANCE_DELETE_SUCCESS,
-				payload: id,
-			});
-
-			if (cb) cb();
+			if (data.success) {
+				dispatch({
+					type: NONEXTPERFORMANCE_DELETE_SUCCESS,
+					payload: id,
+				});
+				if (cb) cb();
+			}
 		} catch (err) {
-			dispatchError(err, dispatch);
+			dispatchError(err, dispatch, cb);
 		}
 	};
 
-const dispatchError = (err, dispatch) => {
-	console.log(err);
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response.data);
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: NONEXTPERFORMANCE_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: NONEXTPERFORMANCE_FAIL,
 			payload: 'Network Error',

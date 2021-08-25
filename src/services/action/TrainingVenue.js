@@ -8,7 +8,7 @@ import {
 	TRAININGVENUE_UPDATE_SUCCESS,
 } from '../constants/TrainingVenueConstant';
 
-export const getTrainingVenues = (query) => async (dispatch) => {
+export const getTrainingVenues = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGVENUE_REQUEST,
 	});
@@ -18,87 +18,101 @@ export const getTrainingVenues = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings/venue`,
 		);
 
-		dispatch({
-			type: TRAININGVENUE_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAININGVENUE_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createTrainingVenue = (data) => async (dispatch) => {
+export const createTrainingVenue = (values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGVENUE_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/venue`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: TRAININGVENUE_CREATE_SUCCESS,
-			payload: res.data.venue,
-		});
+		console.log(data);
 
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAININGVENUE_CREATE_SUCCESS,
+				payload: data.venue,
+			});
+
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateTrainingVenue = (id, data, cb) => async (dispatch) => {
+export const updateTrainingVenue = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGVENUE_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/venue/${id}`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: TRAININGVENUE_UPDATE_SUCCESS,
-			payload: res.data.venue,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAININGVENUE_UPDATE_SUCCESS,
+				payload: data.venue,
+			});
 
-		if (cb) cb();
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteTrainingVenue = (params) => async (dispatch) => {
+export const deleteTrainingVenue = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGVENUE_REQUEST,
 	});
 
 	try {
-		await axios.delete(
+		const { data } = await axios.delete(
 			`${process.env.REACT_APP_API_URL}/trainings/venue/${params}`,
 		);
 
-		dispatch({
-			type: TRAININGVENUE_DELETE_SUCCESS,
-			payload: params,
-		});
+		console.log(data);
 
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAININGVENUE_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.date.error);
 		dispatch({
 			type: TRAININGVENUE_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: TRAININGVENUE_FAIL,
 			payload: 'Network Error',

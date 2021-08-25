@@ -98,8 +98,6 @@ const TrainingAttendance = ({ history, match, location }) => {
 	const dispatch = useDispatch();
 	const [trainingPlan, setTrainingPlan] = React.useState();
 
-	console.log(location?.params);
-
 	React.useEffect(() => {
 		setTrainingPlan(location?.params);
 	}, [location?.params]);

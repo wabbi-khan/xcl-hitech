@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form } from 'formik';
@@ -16,6 +15,7 @@ import {
 
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -102,18 +102,21 @@ const validationSchema = yup.object({
 });
 
 const EmployeePromotion = ({ history }) => {
-	const [department, setDepartment] = React.useState('');
-	const [designation, setDesignations] = React.useState('');
-	const [employee, setEmployee] = React.useState('');
-	const classes = useStyles();
+	const [department, setDepartment] = useState('');
+	const [designation, setDesignations] = useState('');
+	const [employee, setEmployee] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [success, setSuccess] = useState('');
+
 	const { departments } = useSelector((state) => state.departments);
-	const [success, setSuccess] = React.useState('');
 	const { designations } = useSelector((state) => state.designations);
 	const { employees } = useSelector((state) => state.employees);
 
+	const classes = useStyles();
+
 	const dispatch = useDispatch();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (department && designation) {
 			dispatch(getEmployeeByDesignationAndDepartment(designation, department));
 		}
@@ -125,7 +128,7 @@ const EmployeePromotion = ({ history }) => {
 	}, []);
 
 	const onSubmit = async (props) => {
-		console.log(props.promoteTo);
+		setLoading(true);
 		dispatch(
 			promoteEmployee(employee, { promoteTo: props.promoteTo }, (err) => {
 				if (err) {
@@ -135,6 +138,7 @@ const EmployeePromotion = ({ history }) => {
 						setSuccess('');
 					}, 4000);
 				}
+				setLoading(false);
 			}),
 		);
 	};
@@ -276,10 +280,12 @@ const EmployeePromotion = ({ history }) => {
 									<Button
 										variant='outlined'
 										color='primary'
-										type='submit'
-										className={classes.addButton}>
-										Submit
-									</Button>
+										text='Submit'
+										loading={loading}
+										loaderColor='#333'
+										classNames={classes.addButton}
+									/>
+
 									{success && <p>{success}</p>}
 								</div>
 							</Form>

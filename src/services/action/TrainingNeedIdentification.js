@@ -1,3 +1,4 @@
+import { ChatBubbleOutlineTwoTone } from '@material-ui/icons';
 import axios from 'axios';
 import {
 	TRAININGNEEDIDENTIFICATION_CREATE_SUCCESS,
@@ -8,7 +9,7 @@ import {
 	TRAININGNEEDIDENTIFICATION_UPDATE_SUCCESS,
 } from '../constants/TrainingNeedIdentificationConstant';
 
-export const getTrainingsIdentification = (query) => async (dispatch) => {
+export const getTrainingsIdentification = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAININGNEEDIDENTIFICATION_REQUEST,
 	});
@@ -18,88 +19,97 @@ export const getTrainingsIdentification = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings/identification`,
 		);
 
-		dispatch({
-			type: TRAININGNEEDIDENTIFICATION_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAININGNEEDIDENTIFICATION_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
-export const createTrainingIdentification = (data) => async (dispatch) => {
-	dispatch({
-		type: TRAININGNEEDIDENTIFICATION_REQUEST,
-	});
-
-	try {
-		const res = await axios.post(
-			`${process.env.REACT_APP_API_URL}/trainings/identification`,
-			data,
-		);
-
-		console.log(res);
-
+export const createTrainingIdentification =
+	(values, cb) => async (dispatch) => {
 		dispatch({
-			type: TRAININGNEEDIDENTIFICATION_CREATE_SUCCESS,
-			payload: res.data.identification,
+			type: TRAININGNEEDIDENTIFICATION_REQUEST,
 		});
 
-		// console.log(data);
-	} catch (err) {
-		dispatchError(err, dispatch);
-	}
-};
+		try {
+			const { data } = await axios.post(
+				`${process.env.REACT_APP_API_URL}/trainings/identification`,
+				values,
+			);
 
-export const updateTrainingIdentification = (id, data) => async (dispatch) => {
-	dispatch({
-		type: TRAININGNEEDIDENTIFICATION_REQUEST,
-	});
+			if (data.success) {
+				dispatch({
+					type: TRAININGNEEDIDENTIFICATION_CREATE_SUCCESS,
+					payload: data.identification,
+				});
 
-	try {
-		const res = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/trainings/identification/${id}`,
-			data,
-		);
+				if (cb) cb();
+			}
+		} catch (err) {
+			dispatchError(err, dispatch, cb);
+		}
+	};
 
+export const updateTrainingIdentification =
+	(id, values, cb) => async (dispatch) => {
 		dispatch({
-			type: TRAININGNEEDIDENTIFICATION_UPDATE_SUCCESS,
-			payload: res.data.identification,
+			type: TRAININGNEEDIDENTIFICATION_REQUEST,
 		});
 
-		// console.log(data);
-	} catch (err) {
-		dispatchError(err, dispatch);
-	}
-};
+		try {
+			const { data } = await axios.patch(
+				`${process.env.REACT_APP_API_URL}/trainings/identification/${id}`,
+				values,
+			);
+			if (data.success) {
+				dispatch({
+					type: TRAININGNEEDIDENTIFICATION_UPDATE_SUCCESS,
+					payload: data.identification,
+				});
+				if (cb) cb();
+			}
+		} catch (err) {
+			dispatchError(err, dispatch, cb);
+		}
+	};
 
-export const deleteTrainingIdentification = (params) => async (dispatch) => {
-	dispatch({
-		type: TRAININGNEEDIDENTIFICATION_REQUEST,
-	});
-
-	try {
-		await axios.delete(
-			`${process.env.REACT_APP_API_URL}/trainings/identification/${params}`,
-		);
-
+export const deleteTrainingIdentification =
+	(params, cb) => async (dispatch) => {
 		dispatch({
-			type: TRAININGNEEDIDENTIFICATION_DELETE_SUCCESS,
-			payload: params,
+			type: TRAININGNEEDIDENTIFICATION_REQUEST,
 		});
 
-		// console.log(data);
-	} catch (err) {
-		dispatchError(err, dispatch);
-	}
-};
+		try {
+			const { data } = await axios.delete(
+				`${process.env.REACT_APP_API_URL}/trainings/identification/${params}`,
+			);
 
-const dispatchError = (err, dispatch) => {
+			if (data.success) {
+				dispatch({
+					type: TRAININGNEEDIDENTIFICATION_DELETE_SUCCESS,
+					payload: params,
+				});
+				if (cb) cb();
+			}
+		} catch (err) {
+			dispatchError(err, dispatch, cb);
+		}
+	};
+
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: TRAININGNEEDIDENTIFICATION_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: TRAININGNEEDIDENTIFICATION_FAIL,
 			payload: 'Network Error',

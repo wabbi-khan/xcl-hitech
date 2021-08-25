@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,6 +18,8 @@ import {
 	getTrainingVenues,
 } from '../../../services/action/TrainingVenue';
 import EditTrainingVenue from './EditTrainingVenue';
+import Button from '../../../components/utils/Button';
+import Loader from 'react-loader-spinner';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -116,6 +117,13 @@ const validationSchema = yup.object({
 });
 
 const TrainingVenue = () => {
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [fetchLoading, setFetchLoading] = React.useState('');
+	const [fetchError, setFetchError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
 	const [venue, setVenue] = useState({});
 	const [open, setOpen] = useState(false);
 
@@ -126,15 +134,53 @@ const TrainingVenue = () => {
 	const { venues } = useSelector((state) => state.venues);
 
 	useEffect(async () => {
-		dispatch(getTrainingVenues());
+		setFetchLoading(true);
+		dispatch(
+			getTrainingVenues(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
-		dispatch(createTrainingVenue(values));
+		setCreateLoading(true);
+		dispatch(
+			createTrainingVenue(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
 	};
 
-	const deleteVenue = (id) => {
-		dispatch(deleteTrainingVenue(id));
+	const deleteVenue = (params) => {
+		setDeleteLoading(true);
+		dispatch(
+			deleteTrainingVenue(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
 	};
 
 	const handleClose = (props) => {
@@ -148,6 +194,16 @@ const TrainingVenue = () => {
 
 	return (
 		<Sidenav title={'Training Venue'}>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
 					<Formik
@@ -176,10 +232,11 @@ const TrainingVenue = () => {
 									<Button
 										variant='outlined'
 										color='primary'
-										type='submit'
-										className={classes.addButton}>
-										Add Venue
-									</Button>
+										text='Submit'
+										loading={createLoading}
+										loaderColor='#333'
+										classNames={classes.addButton}
+									/>
 								</div>
 							</Form>
 						)}
@@ -188,22 +245,34 @@ const TrainingVenue = () => {
 
 				<EditTrainingVenue show={open} handler={handleClose} venue={venue} />
 
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Venue</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{venues && venues.length ? (
-									venues.map((el, i) => (
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : venues?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Venue</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{venues.map((el, i) => (
 										<StyledTableRow>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
@@ -212,34 +281,38 @@ const TrainingVenue = () => {
 												{el.name}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													<Button
 														variant='contained'
 														className='bg-dark text-light'
 														size='small'
 														onClick={() => handleOpen(el)}
-														style={{ marginTop: 2 }}>
-														Edit
-													</Button>
+														text='Edit'
+													/>
+
 													<Button
 														variant='contained'
 														color='secondary'
 														size='small'
 														onClick={() => deleteVenue(el._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
-														Delete
-													</Button>
-												</>
+														style={{ marginLeft: 10 }}
+														text='Delete'
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

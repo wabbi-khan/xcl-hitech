@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
@@ -23,6 +22,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import EditTrainingPrereq from './EditTrainingPrereq';
+import Loader from 'react-loader-spinner';
+import Button from '../../../components/utils/Button';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -121,11 +122,16 @@ const initialValuesForNestedForm = {
 const validationSchemaForNestedForm = yup.object({
 	param: yup.string().required(),
 });
+
 const TrainingNeedPreReq = () => {
+	const [createLoading, setCreateLoading] = React.useState(false);
+	const [createError, setCreateError] = React.useState('');
+	const [deleteLoading, setDeleteLoading] = React.useState(false);
+	const [deleteError, setDeleteError] = React.useState('');
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [fetchError, setFetchError] = React.useState('');
+	const [success, setSuccess] = React.useState('');
 	const [params, setParams] = React.useState([]);
-	const [success, setSuccess] = React.useState(false);
-	const [fetchLoading, setFetchLoading] = React.useState(false);
-	const [error, setError] = React.useState();
 	const [open, setOpen] = React.useState(false);
 	const [requisition, setRequisition] = React.useState();
 	const classes = useStyles();
@@ -133,32 +139,60 @@ const TrainingNeedPreReq = () => {
 	const { designations } = useSelector((state) => state.designations);
 	const { requisitions } = useSelector((state) => state.requisitions);
 
-	console.log(requisitions);
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		dispatch(getDesignation());
 		dispatch(fetchDepartmentsAction());
-		dispatch(getTrainingsPrereq());
+		setFetchLoading(true);
+		dispatch(
+			getTrainingsPrereq(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
 	}, []);
 
 	const onSubmit = async (values) => {
-		console.log('object');
+		values = {
+			...values,
+			preRequisition: params,
+		};
+		setCreateLoading(true);
 		dispatch(
-			createTrainingPrereq({
-				...values,
-				preRequisition: params,
+			createTrainingPrereq(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
 			}),
 		);
 	};
 
-	const onDelete = (id) => {
+	const onDelete = (params) => {
+		setDeleteLoading(true);
 		dispatch(
-			deleteTrainingPrereq(id, () => {
-				setSuccess(true);
-				setTimeout(() => {
-					setSuccess(false);
-				}, 4000);
+			deleteTrainingPrereq(params, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
 			}),
 		);
 	};
@@ -185,6 +219,16 @@ const TrainingNeedPreReq = () => {
 
 	return (
 		<Sidenav title={'Training Needs Pre-Requestions'}>
+			{deleteLoading && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<Loader type='TailSpin' width='2rem' height='2rem' />
+				</div>
+			)}
+			{deleteError && (
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					<span>{deleteError}</span>
+				</div>
+			)}
 			<div>
 				<Container className={classes.mainContainer}>
 					<Formik
@@ -202,7 +246,7 @@ const TrainingNeedPreReq = () => {
 										size='small'
 										select
 										autocomplete='off'
-										style={{ width: '25%', }}
+										style={{ width: '25%' }}
 										inputProps={{
 											style: {
 												fontSize: 14,
@@ -309,7 +353,7 @@ const TrainingNeedPreReq = () => {
 														type='text'
 														size='small'
 														autocomplete='off'
-														style={{ width: '25%', }}
+														style={{ width: '25%' }}
 														inputProps={{
 															style: {
 																fontSize: 14,
@@ -327,11 +371,10 @@ const TrainingNeedPreReq = () => {
 														}}></CssTextField>
 													<Button
 														variant='outlined'
-														type='submit'
 														size='small'
-														className={classes.addMoreButton}>
-														Add More
-													</Button>
+														text='Add More'
+														classNames={classes.addMoreButton}
+													/>
 												</Form>
 											</Container>
 										</div>
@@ -367,10 +410,11 @@ const TrainingNeedPreReq = () => {
 									<div>
 										<Button
 											variant='outlined'
-											type='submit'
-											className={classes.addButton}>
-											Add
-										</Button>
+											text='Submit'
+											loading={createLoading}
+											loaderColor='#333'
+											classNames={classes.addButton}
+										/>
 									</div>
 								</Form>
 							</>
@@ -382,34 +426,40 @@ const TrainingNeedPreReq = () => {
 					handler={handleClose}
 					requisition={requisition}
 				/>
-				<div className={classes.dataTable} style={{ marginTop: '1rem' }}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className='table table-dark'
-							style={{
-								backgroundColor: '#d0cfcf',
-								border: '1px solid grey',
-							}}>
-							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Headings</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Params</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{fetchLoading ? (
-									<h1>Loading</h1>
-								) : error ? (
-									<h1>Error</h1>
-								) : !requisitions || !requisitions.length ? (
-									<p>Not Found</p>
-								) : (
-									requisitions.map((el, i) => (
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}>
+						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					</div>
+				) : requisitions?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable} style={{ marginTop: '1rem' }}>
+						<TableContainer className={classes.tableContainer}>
+							<Table
+								stickyHeader
+								className='table table-dark'
+								style={{
+									backgroundColor: '#d0cfcf',
+									border: '1px solid grey',
+								}}>
+								<TableHead>
+									<TableRow hover role='checkbox'>
+										<StyledTableCell align='center'>Sr.No</StyledTableCell>
+										<StyledTableCell align='center'>Headings</StyledTableCell>
+										<StyledTableCell align='center'>Department</StyledTableCell>
+										<StyledTableCell align='center'>Designation</StyledTableCell>
+										<StyledTableCell align='center'>Params</StyledTableCell>
+										<StyledTableCell align='center'>Action</StyledTableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{requisitions.map((el, i) => (
 										<StyledTableRow key={i}>
 											<StyledTableCell className='text-dark bg-light' align='center'>
 												{i + 1}
@@ -438,37 +488,38 @@ const TrainingNeedPreReq = () => {
 												))}
 											</StyledTableCell>
 											<StyledTableCell className='text-light bg-light' align='center'>
-												<>
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													<Button
 														variant='contained'
 														className='bg-dark text-light'
 														size='small'
 														onClick={() => handleOpen(el)}
-														style={{
-															marginTop: 2,
-														}}>
-														Edit
-													</Button>
+														text='Edit'
+													/>
+
 													<Button
 														variant='contained'
 														color='secondary'
 														size='small'
 														onClick={() => onDelete(el._id)}
-														style={{
-															marginLeft: 2,
-															marginTop: 2,
-														}}>
-														Delete
-													</Button>
-												</>
+														style={{ marginLeft: 10 }}
+														text='Delete'
+													/>
+												</div>
 											</StyledTableCell>
 										</StyledTableRow>
-									))
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

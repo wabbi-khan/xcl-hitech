@@ -250,6 +250,12 @@ const TrainingPlan = ({ history }) => {
 		dispatch(endTrainingPlane(id));
 	};
 
+	console.log(
+		'plans -->',
+		plans,
+		'\nline number: 253\nfilePath: src:dashboard:hr:training plan:TrainingPlan.jsx',
+	);
+
 	return (
 		<Sidenav title={'Training Plan'}>
 			<div>

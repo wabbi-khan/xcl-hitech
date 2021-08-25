@@ -6,11 +6,11 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { updateTrainingVenue } from '../../../services/action/TrainingVenue';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -107,8 +107,10 @@ const validationSchema = yup.object({
 });
 
 const EditTrainingVenue = (props) => {
-	const [initialValues, setInitialValues] = React.useState({ name: '' });
-	const [update, setUpdate] = React.useState(false);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+	const [success, setSuccess] = useState('');
+	const [initialValues, setInitialValues] = useState({ name: '' });
 	const { show, handler, venue } = props;
 	const dispatch = useDispatch();
 
@@ -124,13 +126,23 @@ const EditTrainingVenue = (props) => {
 		venue && setInitialValues(venue);
 	}, [venue]);
 
-	const onSubmit = async (data) => {
+	const onSubmit = async (values) => {
+		setLoading(true);
 		dispatch(
-			updateTrainingVenue(venue._id, data, () => {
-				setUpdate(true);
-				setTimeout(() => {
-					setUpdate(false);
-				}, 4000);
+			updateTrainingVenue(venue._id, values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setLoading(false);
+					setSuccess(true);
+					setTimeout(() => {
+						setSuccess(false);
+					}, 4000);
+				}
+				setLoading(false);
 			}),
 		);
 	};
@@ -184,23 +196,32 @@ const EditTrainingVenue = (props) => {
 													/>
 												</Grid>
 											</Grid>
-											<div>
+
+											<div
+												style={{
+													marginTop: '2rem',
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+												}}>
+												<Button
+													variant='contained'
+													color='primary'
+													text='Update'
+													style={{ marginRight: '1rem' }}
+													loading={loading}
+												/>
 												<Button
 													variant='outlined'
-													color='primary'
-													className={classes.addButton}
-													type='submit'>
-													Update
-												</Button>
-												<Button
-													variant='outlined'
-													color='primary'
-													className={classes.closeButton}
-													onClick={handleClose}>
-													close
-												</Button>
-												{update && <p>Successfully updated</p>}
+													color='dark'
+													onClick={handleClose}
+													text='Close'
+													type='button'
+													classNames='bg-danger text-light'
+												/>
 											</div>
+											{error && <p>{error}</p>}
+											{success && <p>Responsibility Successfully Updated</p>}
 										</Form>
 									)}
 								</Formik>

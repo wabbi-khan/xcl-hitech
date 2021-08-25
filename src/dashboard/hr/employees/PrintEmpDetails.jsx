@@ -138,9 +138,6 @@ const PrintEmpDetails = (props) => {
 		picture,
 	} = employee;
 
-	console.log(employee);
-	// const { address, contact, name: kinName, relation } = employee.nextToKin;
-
 	const date = new Date();
 	const currDate = date.getDate();
 	const months = date.getMonth() + 1;
@@ -154,7 +151,6 @@ const PrintEmpDetails = (props) => {
 	) : (
 		<div className='text-center mt-4'>
 			<div className='container'>
-				{/* <img src={logo} alt='' /> */}
 				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
@@ -210,13 +206,6 @@ const PrintEmpDetails = (props) => {
 					class='table table-responsive table-bordered mt-3'
 					style={{ textAlign: 'left' }}>
 					<tbody>
-						{/* {
-							loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : products.length ? (
-								products.map((product, i) => ( */}
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Name</td>
 							<td colspan='3'>{name}</td>

@@ -106,22 +106,24 @@ const TrainingAttendance = ({ history, match, location }) => {
 	const [initialValueState, setInitialValueState] = React.useState(
 		location?.state,
 	);
-	const { attendance } = useSelector((state) => state.trainingAttendance);
 
-	console.log(attendance);
+	const { attendance } = useSelector((state) => state.trainingAttendance);
 
 	React.useEffect(() => {
 		setFetchLoading(true);
 		dispatch(
-			getTrainingsAttendance(`date=${moment().format('MMM Do YY')}`, (err) => {
-				if (err) {
-					setFetchError(err);
-					setTimeout(() => {
-						setFetchError('');
-					}, 4000);
-				}
-				setFetchLoading(false);
-			}),
+			getTrainingsAttendance(
+				`date=${moment().format('MMM Do YY')}&training=${location?.state._id}`,
+				(err) => {
+					if (err) {
+						setFetchError(err);
+						setTimeout(() => {
+							setFetchError('');
+						}, 4000);
+					}
+					setFetchLoading(false);
+				},
+			),
 		);
 		// dispatch(getTrainingsAttendance(``));
 	}, [dispatch]);

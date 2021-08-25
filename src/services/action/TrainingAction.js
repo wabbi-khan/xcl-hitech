@@ -8,7 +8,7 @@ import {
 	TRAINING_UPDATE_SUCCESS,
 } from '../constants/TrainingConstant';
 
-export const getTrainings = (query) => async (dispatch) => {
+export const getTrainings = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAINING_REQUEST,
 	});
@@ -18,87 +18,96 @@ export const getTrainings = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/trainings`,
 		);
 
-		console.log(data);
-
-		dispatch({
-			type: TRAINING_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAINING_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createTraining = (data) => async (dispatch) => {
+export const createTraining = (values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAINING_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: TRAINING_CREATE_SUCCESS,
-			payload: res.data.training,
-		});
+		if (data.success) {
+			dispatch({
+				type: TRAINING_CREATE_SUCCESS,
+				payload: data.training,
+			});
 
-		// console.log(data);
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateTraining = (id, data) => async (dispatch) => {
+export const updateTraining = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAINING_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/${id}`,
-			data,
+			values,
 		);
 
-		dispatch({
-			type: TRAINING_UPDATE_SUCCESS,
-			payload: res.data.training,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAINING_UPDATE_SUCCESS,
+				payload: data.training,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteTraining = (params) => async (dispatch) => {
+export const deleteTraining = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: TRAINING_REQUEST,
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/trainings/${params}`);
+		const { data } = await axios.delete(
+			`${process.env.REACT_APP_API_URL}/trainings/${params}`,
+		);
 
-		dispatch({
-			type: TRAINING_DELETE_SUCCESS,
-			payload: params,
-		});
-
-		// console.log(data);
+		if (data.success) {
+			dispatch({
+				type: TRAINING_DELETE_SUCCESS,
+				payload: params,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: TRAINING_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: TRAINING_FAIL,
 			payload: 'Network Error',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -11,10 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import { withRouter } from 'react-router';
 import moment from 'moment';
 import { getNonExtEmpRatAction } from '../../../../../services/action/NonExecRat';
+import { getNonExtEmpAssesAction } from '../../../../../services/action/NonExecPrereqActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '@material-ui/icons/Check';
-
-import { getNonExtEmpAssesAction } from '../../../../../services/action/NonExecPrereqActions';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -93,8 +92,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	inputFieldStyle: {
-		// boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-		// borderRadius: 5,
 		[theme.breakpoints.up('md')]: {
 			width: 250,
 		},
@@ -106,34 +103,23 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintNonExecEmpDetails = ({ location }) => {
 	const classes = useStyles();
-	const [fromTotal, setFromTotal] = React.useState(0);
 	const dispatch = useDispatch();
 
-	// const assessment = location.state.assessment;
-	// console.log(assessment);
+	const { nonExecRat } = useSelector((state) => state.nonExecRat);
+	const { nonExecPrereq } = useSelector((state) => state.nonExecPrereq);
 
-	// const date = new Date();
-	// const currDate = date.getDate();
-	// const months = date.getMonth() + 1;
-	// const years = date.getFullYear();
-	// const fullDate = `${currDate} / ${months} / ${years}`;
-	// const { nonExecRat } = useSelector((state) => state.nonExecRat);
-	// const { nonExecPrereq } = useSelector((state) => state.nonExecPrereq);
+	const performance = location.state.performance;
 
-	// React.useEffect(() => {
-	// 	dispatch(getNonExtEmpRatAction());
-	// 	dispatch(getNonExtEmpAssesAction());
-	// }, []);
+	useEffect(() => {
+		dispatch(getNonExtEmpRatAction());
+		dispatch(getNonExtEmpAssesAction());
+	}, [dispatch]);
 
-	// React.useEffect(() => {
-	// 	let tempTotal = 0;
-	// 	assessment?.data?.map((el, i) => {
-	// 		el?.list?.map((el) => {
-	// 			tempTotal += el.marks;
-	// 		});
-	// 	});
-	// 	setFromTotal(tempTotal);
-	// }, []);
+	useEffect(() => {
+		let temp = 0;
+		if (performance) {
+		}
+	}, [performance]);
 
 	return (
 		<div className='text-center'>
@@ -143,26 +129,28 @@ const PrintNonExecEmpDetails = ({ location }) => {
 					<div class='col-lg-3 col-md-3 col-sm-4'>
 						<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
 					</div>
+
+					{/* <pre
+						style={{
+							alignItems: 'flex-start',
+							justifyContent: 'flex-start',
+							textAlign: 'left',
+						}}>
+						{JSON.stringify(performance, null, 2)}
+					</pre> */}
 					<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
 						<div
 							style={{
 								display: 'flex',
-								// alignItems: 'flex-end',
 								flexDirection: 'column',
 								border: '2px solid #333',
 								width: '100px',
-								// marginLeft: 'auto',
-								// paddingRight: '5px',
-								// marginRight: '-3rem'
 							}}>
 							<h6>FM-96a</h6>
 							<h6>Issue.01</h6>
 						</div>
 					</div>
 				</div>
-				{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
-				<h6>Plot No X-22, Site Area Kotri</h6>
-				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
 				<h5
 					className='mt-4'
 					style={{ textDecoration: 'underline', marginBottom: -45 }}>
@@ -181,7 +169,8 @@ const PrintNonExecEmpDetails = ({ location }) => {
 							</div>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
 								<p style={{ textDecoration: 'underline' }}>
-									{ }
+									{performance?.createdAt &&
+										moment(performance?.createdAt).format('DD MMM YYYY')}
 								</p>
 							</div>
 						</div>
@@ -192,9 +181,7 @@ const PrintNonExecEmpDetails = ({ location }) => {
 								<p style={{ fontWeight: 'bold' }}>Period:</p>
 							</div>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ textDecoration: 'underline' }}>
-									{ }
-								</p>
+								<p style={{ textDecoration: 'underline' }}>{}</p>
 							</div>
 						</div>
 					</div>
@@ -216,16 +203,14 @@ const PrintNonExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Name:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.name}</p> */}
-
+							{performance?.employee?.name}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
 							<p style={{ fontWeight: 'bold' }}>Employee's No:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?._id}</p> */}
-
+							{performance?.employee?.code}
 						</Grid>
 					</Grid>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
@@ -233,16 +218,14 @@ const PrintNonExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Department:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.finalDepartment?.name}</p> */}
-
+							{performance?.employee?.finalDepartment?.name}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
 							<p style={{ fontWeight: 'bold' }}>Designation:</p>
 						</Grid>
 						<Grid item lg={4} md={4} sm={4} xs={4}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.finalDesignation?.name}</p> */}
-
+							{performance?.employee?.finalDesignation?.name}
 						</Grid>
 					</Grid>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
@@ -250,16 +233,14 @@ const PrintNonExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Date Of Birth:</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.dateOfBirth}</p> */}
-
+							{performance?.employee?.dateOfBirth}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
 							<p style={{ fontWeight: 'bold' }}>Age:</p>
 						</Grid>
 						<Grid item lg={4} md={4} sm={4} xs={4}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.age}</p> */}
-
+							{performance?.employee?.age}
 						</Grid>
 					</Grid>
 					<Grid container spacing={1} style={{ marginTop: 15, textAlign: 'left' }}>
@@ -267,16 +248,16 @@ const PrintNonExecEmpDetails = ({ location }) => {
 							<p style={{ fontWeight: 'bold' }}>Present Basic Pay Rs.</p>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.finalSal}</p> */}
-
+							{performance?.employee?.finalSal}
 						</Grid>
 						<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 						<Grid item lg={2} md={2} sm={3} xs={3}>
 							<p style={{ fontWeight: 'bold' }}>Date of Joining:</p>
 						</Grid>
 						<Grid item lg={4} md={4} sm={4} xs={4}>
-							{/* <p style={{ textDecoration: 'underline' }}>{moment(assessment?.values?.createdAt).format('Do MMM YYYY')}</p> */}
-
+							{performance?.employee?.joinedDate
+								? performance?.employee?.joinedDate
+								: ''}
 						</Grid>
 					</Grid>
 				</div>
@@ -291,40 +272,31 @@ const PrintNonExecEmpDetails = ({ location }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{/* {
-							assessment?.data?.map((el, i) => ( */}
-					<tr>
-						<td >{/* {i + 1} */}</td>
-						<td >
-							{/* <h6 style={{ fontWeight: 'bold' }}>{el?.heading}</h6> */}
-							{/* {el?.list?.map((el, i) => (
-								<p>{el?.value}</p>
-							))} */}
-						</td>
-						<td>
-							{/* {el?.list.map((el) => (
-								<p>{el?.marks}</p>
-							))} */}
-						</td>
-						<td>
-							{/* {el?.list.map((el) => (
-								<p>{el?.obtain}</p>
-							))} */}
-						</td>
-					</tr>
-					{/* ))
-								} */}
+					{performance?.assessment?.map((el, i) => (
+						<tr>
+							<td>{i + 1}</td>
+							<td>{el?.heading}</td>
+							<td>
+								{el?.list?.map((el) => (
+									<>
+										<p>{el?.marks}</p>
+									</>
+								))}
+							</td>
+							<td>
+								{el?.list?.map((el) => (
+									<>
+										<p>{el?.obtain}</p>
+									</>
+								))}
+							</td>
+						</tr>
+					))}
 					<tr>
 						<td></td>
-						<td>
-							TOTAL
-						</td>
-						<td>
-							{fromTotal}
-						</td>
-						<td>
-							{/* {assessment.total} */}
-						</td>
+						<td>TOTAL</td>
+						<td></td>
+						<td>{performance?.total}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -370,32 +342,21 @@ const PrintNonExecEmpDetails = ({ location }) => {
 				</Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
 					{/* <p style={{ textDecoration: 'underline' }}>{assessment?.values?.remarks}</p> */}
-
 				</Grid>
 			</Grid>
 			<div className='container mt-5'>
 				<div className='row'>
 					<div className='col-lg-3 col-md-3 col-sm-3 mt-5'>
-						<p style={{ textDecoration: 'underline' }}>
-							{ }
-						</p>
-						<p style={{ fontSize: 12, fontWeight: 'bold' }}>
-							Head Of Department
-						</p>
+						<p style={{ textDecoration: 'underline' }}>{}</p>
+						<p style={{ fontSize: 12, fontWeight: 'bold' }}>Head Of Department</p>
 					</div>
 					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5'>
-						<p style={{ textDecoration: 'underline' }}>
-							{ }
-						</p>
+						<p style={{ textDecoration: 'underline' }}>{}</p>
 						<p style={{ fontSize: 12, fontWeight: 'bold' }}>Name</p>
 					</div>
 					<div className='offset-lg-1 offset-md-1 offset-sm-1 col-lg-3 col-md-3 col-sm-3 mt-5'>
-						<p style={{ textDecoration: 'underline' }}>
-							{ }
-						</p>
-						<p style={{ fontSize: 12, fontWeight: 'bold' }}>
-							Signature
-						</p>
+						<p style={{ textDecoration: 'underline' }}>{}</p>
+						<p style={{ fontSize: 12, fontWeight: 'bold' }}>Signature</p>
 					</div>
 				</div>
 			</div>

@@ -162,8 +162,6 @@ const Material = () => {
 	const { units } = useSelector((state) => state.units);
 	const { subCategories } = useSelector((state) => state.subCategories);
 
-	console.log(materials);
-
 	React.useEffect(() => {
 		if (searchText) {
 			setFetchLoading(true);
