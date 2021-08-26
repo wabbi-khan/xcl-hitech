@@ -106,6 +106,8 @@ import ViewSuppEvalForms from '../dashboard/purchase/supplier eval form/ViewSupp
 import PrintSuppEvalForm from '../dashboard/purchase/supplier eval form/PrintSuppEvalForm';
 import ViewAllNonExecAssest from '../dashboard/hr/employees performance/non-executive/non-exec emp assest perform/ViewAllNonExecAssest';
 import ViewAllExecEmpAssest from '../dashboard/hr/employees performance/executive/exec emp assest perform/ViewAllExecEmpAssest';
+import ViewBinCardHistory from '../dashboard/store/productsBinCard/ViewBinCardHistory';
+import PrintBinCard from '../dashboard/store/productsBinCard/PrintBinCard';
 
 
 
@@ -145,6 +147,8 @@ const Router = () => {
                 <Router exact path="/storedashboard/good_received_and_inspection_report/:id" component={GoodReceived}/>
                 <Router exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint}/>
                 <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard}/>
+                <Router exact path="/storedashboard/products_bin_card/view_bincard_history" component={ViewBinCardHistory}/>
+                <Router exact path="/storedashboard/products_bin_card/print_bin_card" component={PrintBinCard}/>
                 <Router exact path="/storedashboard/vehicles" component={Vehicles}/>
                 <Router exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist}/>
                 <Router exact path="/storedashboard/delivery_chalan" component={DeliveryChalan}/>

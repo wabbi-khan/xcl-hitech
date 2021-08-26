@@ -120,6 +120,8 @@ import ViewSuppEvalForms from './dashboard/purchase/supplier eval form/ViewSuppE
 import PrintSuppEvalForm from './dashboard/purchase/supplier eval form/PrintSuppEvalForm';
 import ViewAllNonExecAssest from './dashboard/hr/employees performance/non-executive/non-exec emp assest perform/ViewAllNonExecAssest';
 import ViewAllExecEmpAssest from './dashboard/hr/employees performance/executive/exec emp assest perform/ViewAllExecEmpAssest';
+import ViewBinCardHistory from './dashboard/store/productsBinCard/ViewBinCardHistory';
+import PrintBinCard from './dashboard/store/productsBinCard/PrintBinCard';
 
 dotenv.config();
 
@@ -272,6 +274,16 @@ function App() {
 				exact
 				path='/storedashboard/products_bin_card'
 				component={ProductsBinCard}
+			/>
+			<Route
+				exact
+				path='/storedashboard/products_bin_card/view_bincard_history'
+				component={ViewBinCardHistory}
+			/>
+			<Route
+				exact
+				path='/storedashboard/products_bin_card/print_bin_card'
+				component={PrintBinCard}
 			/>
 			<Route exact path='/storedashboard/vehicles' component={Vehicles} />
 			<Route

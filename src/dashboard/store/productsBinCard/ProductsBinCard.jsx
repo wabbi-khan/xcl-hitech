@@ -8,6 +8,8 @@ import Container from '@material-ui/core/Container';
 import Loader from 'react-loader-spinner';
 import { getbinCards } from '../../../services/action/binCardAction';
 import { useDispatch, useSelector } from 'react-redux';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -73,7 +75,7 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
-const ProductsBinCard = () => {
+const ProductsBinCard = ({ history }) => {
 	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const [fetchError, setFetchError] = React.useState('');
 
@@ -104,17 +106,34 @@ const ProductsBinCard = () => {
 			<div>
 				<Container className={classes.mainContainer}>
 					<Grid container spacing={1} style={{ marginTop: 15 }}>
-						<Grid item lg={12} md={12} sm={12} xs={5}>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
 							<CssTextField
 								id='outlined-basic'
 								variant='outlined'
-								type='date'
+								label='Search Products'
+								type='search'
 								size='small'
 								autoComplete='off'
-								required
-								className={classes.inputFieldStyle}
+								style={{ width: '100%',}}
 								inputProps={{ style: { fontSize: 14 } }}
 								InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+						</Grid>
+						<Grid item lg={3} md={3} sm={12} xs={12}>
+							<CssTextField
+								id='outlined-basic'
+								variant='outlined'
+								label='By Name/Code'
+								type='text'
+								size='small'
+								autoComplete='off'
+								select
+								style={{ width: '100%',}}
+								inputProps={{ style: { fontSize: 14 } }}
+								InputLabelProps={{ style: { fontSize: 14 } }}
+							>
+								<MenuItem value='0'>By Name</MenuItem>
+								<MenuItem value='0'>By Code</MenuItem>
+							</CssTextField>
 						</Grid>
 					</Grid>
 				</Container>
@@ -144,6 +163,7 @@ const ProductsBinCard = () => {
 											<th>OUT</th>
 											<th>Balance</th>
 											<th>Last Updated on</th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -156,6 +176,16 @@ const ProductsBinCard = () => {
 												<td>{el?.history[0]?.out}</td>
 												<td>{el?.history[0]?.balance}</td>
 												<td>{el?.history[0]?.date}</td>
+												<td>
+													<Button 
+														variant='contained'
+														text='View'
+														classNames='btn btn-sm bg-dark text-light'
+														onClick={() => {
+															history.push('/storedashboard/products_bin_card/view_bincard_history')
+														}}
+													/>	
+												</td>
 											</tr>
 										))}
 									</tbody>

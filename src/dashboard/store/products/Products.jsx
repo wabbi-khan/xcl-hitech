@@ -412,7 +412,7 @@ const Products = () => {
 												}}>
 												<Button
 													variant='contained'
-													className='bg-dark text-light'
+													classNames='bg-dark text-light'
 													size='small'
 													onClick={() => handleOpen(el)}
 													text='Edit'
