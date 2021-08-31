@@ -83,7 +83,7 @@ const PrintTrainingPlan = ({ location }) => {
 	// const id = props.match.params.id
 
 	console.log(location);
-	const { plane } = location?.status;
+	// const { plane } = location?.status;
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -94,8 +94,28 @@ const PrintTrainingPlan = ({ location }) => {
 	return (
 		<div>
 			<div className='text-center'>
-				<div className='container'>
-					<img src='./logo.png' alt='' />
+				<div className='container-fluid mt-2'>
+					<div class='row'>
+						<div class='col-lg-3 col-md-3 col-sm-4'>
+							<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+						</div>
+						<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+							<div
+								style={{
+									display: 'flex',
+									// alignItems: 'flex-end',
+									flexDirection: 'column',
+									border: '2px solid #333',
+									width: '100px',
+									// marginLeft: 'auto',
+									// paddingRight: '5px',
+									// marginRight: '-3rem'
+								}}>
+								<h6>FM-96</h6>
+								<h6>Issue.01</h6>
+							</div>
+						</div>
+					</div>
 					<h4>Hi-Tech Pipe & Engineering Industries</h4>
 					<h6>Plot No X-22, Site Area Kotri</h6>
 					<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
@@ -113,9 +133,8 @@ const PrintTrainingPlan = ({ location }) => {
 									<p style={{ fontWeight: 'bold' }}>Prepared / Reviewed on:</p>
 								</div>
 								<div className='col-lg-6 col-md-6 col-sm-6'>
-									<p>
+									<p style={{ textDecoration: 'underline'}}>
 										{fullDate}
-										<hr style={{ backgroundColor: 'black', paddingTop: 1 }} />
 									</p>
 								</div>
 							</div>
@@ -148,25 +167,35 @@ const PrintTrainingPlan = ({ location }) => {
 							</thead>
 							<tbody>
 								<tr>
-									<td scope='row'>1</td>
-									<td>{plane?.topic?.name}</td>
+									<td scope='row'>
+										{  }
+									</td>
 									<td>
-										{plane?.needIdentifiedByEmployee?.name}
+										{/* {plane?.topic?.name} */}
+									</td>
+									<td>
+										{/* {plane?.needIdentifiedByEmployee?.name}
 										<p style={{ fontSize: 10 }}>
 											({plane?.needIdentifiedByDesignation?.name})
-										</p>
+										</p> */}
 									</td>
-									<td>{plane?.participants?.name}</td>
 									<td>
-										{plane?.trainerName?.name}
-										<p style={{ fontSize: 10 }}>({plane?.trainerDesignation?.name})</p>
+										{/* {plane?.participants?.name} */}
 									</td>
-									<td>{plane?.startDate ? plane?.startDate : '----'}</td>
-									<td>{plane?.venue?.name}</td>
 									<td>
-										{plane?.status === 'a' && 'Yet to be start'}
+										{/* {plane?.trainerName?.name}
+										<p style={{ fontSize: 10 }}>({plane?.trainerDesignation?.name})</p> */}
+									</td>
+									<td>
+										{/* {plane?.startDate ? plane?.startDate : '----'} */}
+									</td>
+									<td>
+										{/* {plane?.venue?.name} */}
+									</td>
+									<td>
+										{/* {plane?.status === 'a' && 'Yet to be start'}
 										{plane?.status === 'b' && ' In Progress'}
-										{plane?.status === 'c' && 'Completed'}
+										{plane?.status === 'c' && 'Completed'} */}
 									</td>
 								</tr>
 							</tbody>
@@ -175,7 +204,7 @@ const PrintTrainingPlan = ({ location }) => {
 				</div>
 				<Grid container spacing={1} style={{ marginTop: 120 }}>
 					<Grid item lg={3} md={3} sm={3} xs={3}>
-						<hr style={{ borderTop: '3px double black' }} />
+						<hr style={{ borderTop: '3px solid black' }} />
 						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
 							Prepared By:
 						</p>
@@ -185,7 +214,7 @@ const PrintTrainingPlan = ({ location }) => {
 					</Grid>
 					<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 					<Grid item lg={3} md={3} sm={3} xs={3}>
-						<hr style={{ borderTop: '3px double black' }} />
+						<hr style={{ borderTop: '3px solid black' }} />
 						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
 							Reviewed By:
 						</p>
@@ -195,7 +224,7 @@ const PrintTrainingPlan = ({ location }) => {
 					</Grid>
 					<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 					<Grid item lg={3} md={3} sm={3} xs={3}>
-						<hr style={{ borderTop: '3px double black' }} />
+						<hr style={{ borderTop: '3px solid black' }} />
 						<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
 							Approved By:
 						</p>

@@ -122,6 +122,7 @@ import ViewAllNonExecAssest from './dashboard/hr/employees performance/non-execu
 import ViewAllExecEmpAssest from './dashboard/hr/employees performance/executive/exec emp assest perform/ViewAllExecEmpAssest';
 import ViewBinCardHistory from './dashboard/store/productsBinCard/ViewBinCardHistory';
 import PrintBinCard from './dashboard/store/productsBinCard/PrintBinCard';
+import PrintVehicleInspectList from './dashboard/store/vehicleInspectCheck/PrintVehicleInspectList';
 
 dotenv.config();
 
@@ -290,6 +291,11 @@ function App() {
 				exact
 				path='/storedashboard/vehicle_inspect_checklist'
 				component={VehicleInspectChecklist}
+			/>
+			<Route
+				exact
+				path='/storedashboard/print_vehicle_inspect_checklist'
+				component={PrintVehicleInspectList}
 			/>
 			<Route exact path='/marketing/delivery_order' component={DeliveryOrder} />
 			<Route

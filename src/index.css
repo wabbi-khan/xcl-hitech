@@ -30,3 +30,7 @@ code {
 .yesBtn:hover {
 	color: black !important;
 }
+
+@media print {
+	#main{margin:100px 0;}
+}

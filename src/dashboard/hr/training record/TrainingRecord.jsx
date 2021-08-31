@@ -206,15 +206,17 @@ const TrainingRecord = ({ history }) => {
 											helperText={props.touched.training && props.errors.training}
 											error={props.touched.training && props.errors.training}
 											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{!plans || !plans.length ? (
-												<p>Data Not Found</p>
-											) : (
-												plans.map((el, i) => (
-													<MenuItem value={el._id} key={i}>
-														{el.topic.name}
-													</MenuItem>
-												))
-											)}
+											{
+												!plans || !plans.length ? (
+													<p>Data Not Found</p>
+												) : (
+													plans.map((el, i) => (
+														<MenuItem value={el._id} key={i}>
+															{el.topic?.name}
+														</MenuItem>
+													))
+												)
+											}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={4} md={4} sm={12} xs={12}>

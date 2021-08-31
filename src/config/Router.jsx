@@ -108,6 +108,7 @@ import ViewAllNonExecAssest from '../dashboard/hr/employees performance/non-exec
 import ViewAllExecEmpAssest from '../dashboard/hr/employees performance/executive/exec emp assest perform/ViewAllExecEmpAssest';
 import ViewBinCardHistory from '../dashboard/store/productsBinCard/ViewBinCardHistory';
 import PrintBinCard from '../dashboard/store/productsBinCard/PrintBinCard';
+import PrintVehicleInspectList from '../dashboard/store/vehicleInspectCheck/PrintVehicleInspectList';
 
 
 
@@ -151,6 +152,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/products_bin_card/print_bin_card" component={PrintBinCard}/>
                 <Router exact path="/storedashboard/vehicles" component={Vehicles}/>
                 <Router exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist}/>
+                <Router exact path="/storedashboard/print_vehicle_inspect_checklist" component={PrintVehicleInspectList}/>
                 <Router exact path="/storedashboard/delivery_chalan" component={DeliveryChalan}/>
                 <Router exact path="/storedashboard/daily_inwards_report" component={DailyInwardReports}/>
                 <Router exact path="/storedashboard/daily_consumption_report" component={DailyConsumptionReport}/>
