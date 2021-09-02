@@ -4,7 +4,7 @@ import {
     Switch,
     Route,
     Link
-  } from "react-router-dom";
+} from "react-router-dom";
 import PurchaseDashboard from '../dashboard/purchase/PurchaseDashboard';
 import Material from '../dashboard/purchase/material/Material';
 import Vendors from '../dashboard/purchase/vendors/Vendors';
@@ -109,6 +109,8 @@ import ViewAllExecEmpAssest from '../dashboard/hr/employees performance/executiv
 import ViewBinCardHistory from '../dashboard/store/productsBinCard/ViewBinCardHistory';
 import PrintBinCard from '../dashboard/store/productsBinCard/PrintBinCard';
 import PrintVehicleInspectList from '../dashboard/store/vehicleInspectCheck/PrintVehicleInspectList';
+import Inwards from '../dashboard/store/inwards/Inwards';
+import Outwards from '../dashboard/store/outwards/Outwards';
 
 
 
@@ -116,132 +118,134 @@ const Router = () => {
     return (
         <BrowserRouter>
             <Router>
-                <Router exact path="/" component={Login}/>
-                <Router exact path="/sidenav" component={Sidenav}/>
+                <Router exact path="/" component={Login} />
+                <Router exact path="/sidenav" component={Sidenav} />
                 {/* ===================================================================== */}
-                <Router exact path="/purchasedashboard" component={PurchaseDashboard}/>       //Purchase Module Routes
-                <Router exact path="/purchase/units" component={Units}/>
-                <Router exact path="/purchase/category" component={Category}/>
-                <Router exact path="/purchase/sub_categories" component={SubCategory}/>
-                <Router exact path="/purchase/department" component={Department}/>
-                <Router exact path="/purchase/material" component={Material}/>
-                <Router exact path="/purchase/vendors" component={Vendors}/>
-                <Router exact path="/purchase/vendors/vendor_details/:id" component={ViewVendorDetails}/>
-                <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm}/>
-                <Router exact path="/purchase/supplier_eval/view_supplier_evaluation_form" component={ViewSuppEvalForms}/>
-                <Router exact path="/purchase/supplier_eval/print_supplier_evaluation_form" component={PrintSuppEvalForm}/>
-                <Router exact path="/purchase/approved_supplier_list" component={AppSupplier}/>
-                <Router exact path="/purchase/print_all_approved_supplier_list" component={PrintAllAppSuppList}/>
-                <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details/:id" component={ViewAppSuppDetails}/>
-                <Router exact path="/purchase/purchase_order" component={PurchaseOrder}/>
-                <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder}/>
-                <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList}/>
-                <Router exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails}/>
-                <Router exact path="/purchase/purchase_order_list/print_order_details/:id" component={PrintVendorOrderList}/>
-                <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition}/>
-                <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint}/>
+                <Router exact path="/purchasedashboard" component={PurchaseDashboard} />       //Purchase Module Routes
+                <Router exact path="/purchase/units" component={Units} />
+                <Router exact path="/purchase/category" component={Category} />
+                <Router exact path="/purchase/sub_categories" component={SubCategory} />
+                <Router exact path="/purchase/department" component={Department} />
+                <Router exact path="/purchase/material" component={Material} />
+                <Router exact path="/purchase/vendors" component={Vendors} />
+                <Router exact path="/purchase/vendors/vendor_details/:id" component={ViewVendorDetails} />
+                <Router exact path="/purchase/supplier_evaluation_form" component={SupplierEvalForm} />
+                <Router exact path="/purchase/supplier_eval/view_supplier_evaluation_form" component={ViewSuppEvalForms} />
+                <Router exact path="/purchase/supplier_eval/print_supplier_evaluation_form" component={PrintSuppEvalForm} />
+                <Router exact path="/purchase/approved_supplier_list" component={AppSupplier} />
+                <Router exact path="/purchase/print_all_approved_supplier_list" component={PrintAllAppSuppList} />
+                <Router exact path="/purchase/approved_supplier_list/view_approved_supplier_details/:id" component={ViewAppSuppDetails} />
+                <Router exact path="/purchase/purchase_order" component={PurchaseOrder} />
+                <Router exact path="/purchase/purchase_order/print_order" component={PrintPurchaseOrder} />
+                <Router exact path="/purchase/purchase_order_list" component={PurchaseOrderList} />
+                <Router exact path="/purchase/purchase_order_list/order_details/:id" component={FullOrderDetails} />
+                <Router exact path="/purchase/purchase_order_list/print_order_details/:id" component={PrintVendorOrderList} />
+                <Router exact path="/purchase/purchase_requisition" component={PurchaseRequisition} />
+                <Router exact path="/purchase/purchase_requisition/print_purchase_requisition" component={PurchaseReqPrint} />
                 {/* ===================================================================== */}
-                <Router exact path="/storedashboard" component={Store}/>                      //Store Module Routes
-                <Router exact path="/storedashboard/store_categories" component={Categories}/>
-                <Router exact path="/storedashboard/products" component={Products}/>
-                <Router exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm}/>
-                <Router exact path="/storedashboard/good_received_and_inspection_report/:id" component={GoodReceived}/>
-                <Router exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint}/>
-                <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard}/>
-                <Router exact path="/storedashboard/products_bin_card/view_bincard_history" component={ViewBinCardHistory}/>
-                <Router exact path="/storedashboard/products_bin_card/print_bin_card" component={PrintBinCard}/>
-                <Router exact path="/storedashboard/vehicles" component={Vehicles}/>
-                <Router exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist}/>
-                <Router exact path="/storedashboard/print_vehicle_inspect_checklist" component={PrintVehicleInspectList}/>
-                <Router exact path="/storedashboard/delivery_chalan" component={DeliveryChalan}/>
-                <Router exact path="/storedashboard/daily_inwards_report" component={DailyInwardReports}/>
-                <Router exact path="/storedashboard/daily_consumption_report" component={DailyConsumptionReport}/>
-                <Router exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport}/>
-                <Router exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory}/>
-                <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq}/>
-                <Router exact path="/storedashboard/print_purchase_issue_requisition" component={PrintPurchaseReq}/>
-                <Router exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails}/>
-                <Router exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq}/>
-                <Router exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails}/>
-                <Router exact path="/storedashboard/material_issue_requisition/print_all_complete_requisition_details" component={PrintAllComMatIssueReq}/>
-                <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails}/>
-                <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass}/>
-                <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint}/>
-                <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport}/>
+                <Router exact path="/storedashboard" component={Store} />                      //Store Module Routes
+                <Router exact path="/storedashboard/store_categories" component={Categories} />
+                <Router exact path="/storedashboard/products" component={Products} />
+                <Router exact path="/storedashboard/good_received_and_inspection_form" component={InspectionForm} />
+                <Router exact path="/storedashboard/good_received_and_inspection_report/:id" component={GoodReceived} />
+                <Router exact path="/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/:id" component={GoodReceivedPrint} />
+                <Router exact path="/storedashboard/products_bin_card" component={ProductsBinCard} />
+                <Router exact path="/storedashboard/products_bin_card/view_bincard_history" component={ViewBinCardHistory} />
+                <Router exact path="/storedashboard/products_bin_card/print_bin_card" component={PrintBinCard} />
+                <Router exact path="/storedashboard/vehicles" component={Vehicles} />
+                <Router exact path="/storedashboard/vehicle_inspect_checklist" component={VehicleInspectChecklist} />
+                <Router exact path="/storedashboard/print_vehicle_inspect_checklist" component={PrintVehicleInspectList} />
+                <Router exact path="/storedashboard/delivery_chalan" component={DeliveryChalan} />
+                <Router exact path="/storedashboard/inwards" component={Inwards} />
+                <Router exact path="/storedashboard/outwards" component={Outwards} />
+                <Router exact path="/storedashboard/daily_inwards_report" component={DailyInwardReports} />
+                <Router exact path="/storedashboard/daily_consumption_report" component={DailyConsumptionReport} />
+                <Router exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport} />
+                <Router exact path="/storedashboard/department_wise_store_inventory" component={DeptWiseStoreInventory} />
+                <Router exact path="/storedashboard/material_issue_requisition" component={MaterialIssueReq} />
+                <Router exact path="/storedashboard/print_purchase_issue_requisition" component={PrintPurchaseReq} />
+                <Router exact path="/storedashboard/material_issue_requisition/material_requisition_details/:id" component={MaterialReqDetails} />
+                <Router exact path="/storedashboard/material_issue_requisition/complete_material_issue_requisition" component={CompleteMaterialReq} />
+                <Router exact path="/storedashboard/material_issue_requisition/complete_requisition_details/:id" component={CompleteMatReqDetails} />
+                <Router exact path="/storedashboard/material_issue_requisition/print_all_complete_requisition_details" component={PrintAllComMatIssueReq} />
+                <Router exact path="/storedashboard/delivery_order/order_details" component={OrderDetails} />
+                <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
+                <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
+                <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
                 {/* ===================================================================== */}
-                <Router exact path="/hr_dashboard" component={HR}/>                 //HR Module Routes
-                <Router exact path="/hr/designation" component={Designation}/>
-                <Router exact path="/hr/education" component={Education}/>
-                <Router exact path="/hr/skills" component={Skills}/>
-                <Router exact path="/hr/experience" component={Experience}/>
-                <Router exact path="/hr/responsibilities" component={Responsibilities}/>
-                <Router exact path="/hr/authorities" component={Authorities}/>
-                <Router exact path="/hr/training" component={Training}/>
-                <Router exact path="/hr/competence_criteria" component={CompetenceCriteria}/>
-                <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint}/>
-                <Router exact path="/hr/emp_competency_evaluation" component={EmpCompetencEval}/>
-                <Router exact path="/hr/print_emp_competency_evaluation" component={PrintEmpCompEval}/>
-                <Router exact path="/hr/employees" component={Employees}/>
-                <Router exact path="/hr/edit_emp_details" component={EditEmp}/>
-                <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails}/>
-                <Router exact path="/hr/employees/print_emp_details" component={PrintEmpDetails}/>
-                <Router exact path="/hr/employees/hired_employee_details" component={HiredEmpDetails}/>
-                <Router exact path="/hr/employees/print_hired_employee_details" component={PrintHiredEmpDetails}/>
-                <Router exact path="/hr/employees_salaries" component={EmpSalaries}/>
-                <Router exact path="/hr/employees_leave" component={EmpLeave}/>
-                <Router exact path="/hr/employees_attendance" component={EmpAttendance}/>
-                <Router exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance}/>
-                <Router exact path="/hr/employees_performance_assessment" component={EmployeePerformance}/>
-                <Router exact path="/hr/performance_assessment/non_executive_emp_prerequisites" component={NonExecPrereq}/>
-                <Router exact path="/hr/performance_assessment/non_executive_emp_ratings" component={NonExecEmpRatings}/>
-                <Router exact path="/hr/performance_assessment/non_executive_emp_assest_performance" component={NonExecEmpAssestPerform}/>
-                <Router exact path="/hr/performance_assessment/view_non_executive_emp_assest" component={ViewAllNonExecAssest}/>
-                <Router exact path="/hr/performance_assessment/print_non_executive_emp_performance" component={PrintNonExecEmpDetails}/>
-                <Router exact path="/hr/performance_assessment/executive_emp_prerequisites" component={ExecPreReq}/>
-                <Router exact path="/hr/performance_assessment/executive_emp_ratings" component={ExecEmpRatings}/>
-                <Router exact path="/hr/performance_assessment/executive_emp_assest_performance" component={ExecEmpAssestPerform}/>
-                <Router exact path="/hr/performance_assessment/view_executive_emp_assest" component={ViewAllExecEmpAssest}/>
-                <Router exact path="/hr/performance_assessment/print_executive_emp_performance" component={PrintExecEmpDetails}/>
-                <Router exact path="/hr/trainings" component={Trainings}/>
-                <Router exact path="/hr/training_venue" component={TrainingVenue}/>
-                <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq}/>
-                <Router exact path="/hr/training_need_identification" component={TrainingNeed}/>
-                <Router exact path="/hr/print_training_need_identification" component={PrintTrainingNeedIdentification}/>
-                <Router exact path="/hr/training_plan" component={TrainingPlan}/>
-                <Router exact path="/hr/print_training_plan" component={PrintTrainingPlan}/>
-                <Router exact path="/hr/training_attendance" component={TrainingAttendance}/>
-                <Router exact path="/hr/print_training_attendance" component={PrintTrainingAttendance}/>
-                <Router exact path="/hr/training_record_and_evaluation" component={TrainingRecord}/>
-                <Router exact path="/hr/print_training_record_and_evaluation" component={PrintTrainingRecord}/>
-                <Router exact path="/hr/job_description" component={JobDescription}/>
-                <Router exact path="/hr/print_job_description" component={PrintJobDescription}/>
-                <Router exact path="/hr/employees_promotion" component={EmployeePromotion}/>
+                <Router exact path="/hr_dashboard" component={HR} />                 //HR Module Routes
+                <Router exact path="/hr/designation" component={Designation} />
+                <Router exact path="/hr/education" component={Education} />
+                <Router exact path="/hr/skills" component={Skills} />
+                <Router exact path="/hr/experience" component={Experience} />
+                <Router exact path="/hr/responsibilities" component={Responsibilities} />
+                <Router exact path="/hr/authorities" component={Authorities} />
+                <Router exact path="/hr/training" component={Training} />
+                <Router exact path="/hr/competence_criteria" component={CompetenceCriteria} />
+                <Router exact path="/hr/competence_criteria_print" component={CompetenceCriteriaPrint} />
+                <Router exact path="/hr/emp_competency_evaluation" component={EmpCompetencEval} />
+                <Router exact path="/hr/print_emp_competency_evaluation" component={PrintEmpCompEval} />
+                <Router exact path="/hr/employees" component={Employees} />
+                <Router exact path="/hr/edit_emp_details" component={EditEmp} />
+                <Router exact path="/hr/employees/view_emp_details" component={ViewEmpDetails} />
+                <Router exact path="/hr/employees/print_emp_details" component={PrintEmpDetails} />
+                <Router exact path="/hr/employees/hired_employee_details" component={HiredEmpDetails} />
+                <Router exact path="/hr/employees/print_hired_employee_details" component={PrintHiredEmpDetails} />
+                <Router exact path="/hr/employees_salaries" component={EmpSalaries} />
+                <Router exact path="/hr/employees_leave" component={EmpLeave} />
+                <Router exact path="/hr/employees_attendance" component={EmpAttendance} />
+                <Router exact path="/hr/employees_attendance/add_new_attendance" component={AddEmpAttendance} />
+                <Router exact path="/hr/employees_performance_assessment" component={EmployeePerformance} />
+                <Router exact path="/hr/performance_assessment/non_executive_emp_prerequisites" component={NonExecPrereq} />
+                <Router exact path="/hr/performance_assessment/non_executive_emp_ratings" component={NonExecEmpRatings} />
+                <Router exact path="/hr/performance_assessment/non_executive_emp_assest_performance" component={NonExecEmpAssestPerform} />
+                <Router exact path="/hr/performance_assessment/view_non_executive_emp_assest" component={ViewAllNonExecAssest} />
+                <Router exact path="/hr/performance_assessment/print_non_executive_emp_performance" component={PrintNonExecEmpDetails} />
+                <Router exact path="/hr/performance_assessment/executive_emp_prerequisites" component={ExecPreReq} />
+                <Router exact path="/hr/performance_assessment/executive_emp_ratings" component={ExecEmpRatings} />
+                <Router exact path="/hr/performance_assessment/executive_emp_assest_performance" component={ExecEmpAssestPerform} />
+                <Router exact path="/hr/performance_assessment/view_executive_emp_assest" component={ViewAllExecEmpAssest} />
+                <Router exact path="/hr/performance_assessment/print_executive_emp_performance" component={PrintExecEmpDetails} />
+                <Router exact path="/hr/trainings" component={Trainings} />
+                <Router exact path="/hr/training_venue" component={TrainingVenue} />
+                <Router exact path="/hr/training_need_pre-requests" component={TrainingNeedPreReq} />
+                <Router exact path="/hr/training_need_identification" component={TrainingNeed} />
+                <Router exact path="/hr/print_training_need_identification" component={PrintTrainingNeedIdentification} />
+                <Router exact path="/hr/training_plan" component={TrainingPlan} />
+                <Router exact path="/hr/print_training_plan" component={PrintTrainingPlan} />
+                <Router exact path="/hr/training_attendance" component={TrainingAttendance} />
+                <Router exact path="/hr/print_training_attendance" component={PrintTrainingAttendance} />
+                <Router exact path="/hr/training_record_and_evaluation" component={TrainingRecord} />
+                <Router exact path="/hr/print_training_record_and_evaluation" component={PrintTrainingRecord} />
+                <Router exact path="/hr/job_description" component={JobDescription} />
+                <Router exact path="/hr/print_job_description" component={PrintJobDescription} />
+                <Router exact path="/hr/employees_promotion" component={EmployeePromotion} />
                 {/* ===================================================================== */}
-                <Router exact path="/marketing_dashboard" component={Marketing}/>                 //Marketing/Sales Module Routes
-                <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm}/>
-                <Router exact path="/marketing/delivery_order" component={DeliveryOrder}/>
+                <Router exact path="/marketing_dashboard" component={Marketing} />                 //Marketing/Sales Module Routes
+                <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm} />
+                <Router exact path="/marketing/delivery_order" component={DeliveryOrder} />
                 {/* ===================================================================== */}
                 <Route
-					exact
-					path='/productionDashboard/weekly-production-plan'
-					component={WeeklyProductionPlan}
-                    />
-				<Route
-					exact
-					path='/productionDashboard/weekly-production-plan/add-new-plan'
-					component={AddNewPlan}
-				/>
-				<Route
-					exact
-					path='/productionDashboard/weekly-production-plan/edit_plan'
-					component={EditPlan}
-				/>
-				<Route
-					exact
-					path='/productionDashboard/weekly-production-plan/:planId'
-					component={ViewPlan}
-				/>
-				<Route exact path='/productionDashboard/shifts' component={Shifts} />                
+                    exact
+                    path='/productionDashboard/weekly-production-plan'
+                    component={WeeklyProductionPlan}
+                />
+                <Route
+                    exact
+                    path='/productionDashboard/weekly-production-plan/add-new-plan'
+                    component={AddNewPlan}
+                />
+                <Route
+                    exact
+                    path='/productionDashboard/weekly-production-plan/edit_plan'
+                    component={EditPlan}
+                />
+                <Route
+                    exact
+                    path='/productionDashboard/weekly-production-plan/:planId'
+                    component={ViewPlan}
+                />
+                <Route exact path='/productionDashboard/shifts' component={Shifts} />
             </Router>
         </BrowserRouter>
     )

@@ -86,7 +86,24 @@ const useStyles = makeStyles((theme) => ({
 		borderColor: '#22A19A',
 		fontWeight: 'bold',
 		'&:hover': {
-			border: 'none',
+			borderColor: '#22A19A',
+			backgroundColor: '#22A19A',
+			color: 'whitesmoke',
+		},
+		[theme.breakpoints.up('md')]: {
+			width: '15%',
+		},
+		[theme.breakpoints.down('sm')]: {
+			width: '30%',
+		},
+	},
+	viewAllBtn: {
+		marginTop: 10,
+		backgroundColor: '#22A19A',
+		color: 'whitesmoke',
+		borderColor: '#22A19A',
+		'&:hover': {
+			borderColor: '#22A19A',
 			backgroundColor: '#22A19A',
 			color: 'whitesmoke',
 		},
@@ -211,7 +228,7 @@ const EmpLeave = ({ history }) => {
 					variant='outlined'
 					color='primary'
 					text='View All Leaves'
-					classNames='bg-success text-light'
+					classNames={classes.viewAllBtn}
 					onClick={() => {
 						history.push('/hr/employees_leave/view');
 					}}

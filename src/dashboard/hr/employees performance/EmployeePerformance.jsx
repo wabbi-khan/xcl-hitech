@@ -15,24 +15,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useForm } from 'react-hook-form';
 
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
-
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -103,23 +85,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-const CssTextField = withStyles({
-    root: {
-        '& label.Mui-focused': {
-            color: 'black',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'black',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'black',
-            },
-        },
-    },
-
-})(TextField);
 
 const EmployeePerformance = ({ history }) => {
     const classes = useStyles();
