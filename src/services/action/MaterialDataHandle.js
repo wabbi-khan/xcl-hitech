@@ -18,6 +18,7 @@ export const getMaterialAction = (query, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/material${query ? `?${query}` : ''}`,
 		);
 
+		console.log(data)
 		if (data.success) {
 			dispatch({
 				type: MATERIAL_FETCH_SUCCESS,

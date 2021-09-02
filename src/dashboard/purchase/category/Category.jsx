@@ -211,13 +211,12 @@ const Category = () => {
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}>
 						{(props) => (
-							<Form>
+							<Form autoComplete='off'>
 								<CssTextField
 									id='outlined-basic'
 									label='Category Name*'
 									variant='outlined'
 									type='text'
-									autocomplete='off'
 									size='small'
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
