@@ -91,25 +91,23 @@ const ViewBinCardHistory = ({ history }) => {
                                 binCards.map((el, i) => ( */}
                                     <tr>
                                         {/* <td>{i + 1}</td> */}
-                                        <td>asd
+                                    
+                                        <td>
                                             {/* {el?.product?.name} */}
                                         </td>
-                                        <td>asd
-                                            {/* {el?.product?.name} */}
-                                        </td>
-                                        <td>asd
+                                        <td>
                                             {/* {el?.history[0]?.balance} */}
                                         </td>
-                                        <td>asd
+                                        <td>
                                             {/* {el?.history[0]?.in} */}
                                         </td>
-                                        <td>asd
+                                        <td>
                                             {/* {el?.history[0]?.out} */}
                                         </td>
-                                        <td>asd
+                                        <td>
                                             {/* {el?.history[0]?.balance} */}
                                         </td>
-                                        <td>asd
+                                        <td>
                                             {/* {el?.history[0]?.date} */}
                                         </td>
                                         {/* <td>

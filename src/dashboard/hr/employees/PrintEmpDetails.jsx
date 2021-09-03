@@ -163,19 +163,11 @@ const PrintEmpDetails = (props) => {
 					<div className='col-lg-4 col-md-4 col-sm-4 mt-4'>
 						<div className='row no-gutters mt-2'>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ fontWeight: 'bold' }}>Date</p>
+								<p style={{ fontWeight: 'bold' }}>Date:</p>
 							</div>
 							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p>
+								<p style={{ textDecoration: 'underline'}}>
 									{fullDate}
-									<hr
-										style={{
-											border: '1px solid green',
-											borderColor: 'black',
-											width: '100px',
-											marginTop: 0,
-										}}
-									/>
 								</p>
 							</div>
 						</div>

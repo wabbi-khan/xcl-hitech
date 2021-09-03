@@ -49,7 +49,7 @@ const PrintBinCard = () => {
                         </div>
                         <div class='col-3'>
                             <p style={{ textDecoration: 'underline' }}>
-                                { }material 1
+                                { }
                             </p>
                         </div>
                         <div class='offset-3 col-2'>
@@ -57,7 +57,7 @@ const PrintBinCard = () => {
                         </div>
                         <div class='col-2'>
                             <p style={{ textDecoration: 'underline' }}>
-                                { }234D3E
+                                { }
                             </p>
                         </div>
                     </div>
@@ -67,7 +67,7 @@ const PrintBinCard = () => {
                         </div>
                         <div class='col-3'>
                             <p style={{ textDecoration: 'underline' }}>
-                                { }kg
+                                { }
                             </p>
                         </div>
                         <div class='offset-3 col-2'>
@@ -75,7 +75,7 @@ const PrintBinCard = () => {
                         </div>
                         <div class='col-3'>
                             <p style={{ textDecoration: 'underline' }}>
-                                { }Production
+                                { }
                             </p>
                         </div>
                     </div>
@@ -85,7 +85,7 @@ const PrintBinCard = () => {
                         </div>
                         <div class='col-4'>
                             <p style={{ textDecoration: 'underline' }}>
-                                { }Production Hall Production Hall
+                                { }
                             </p>
                         </div>
                     </div>
@@ -104,416 +104,25 @@ const PrintBinCard = () => {
                         <tbody>
                             <tr>
                                 <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                                 <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                                 <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                                 <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                                 <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                                 <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                                 <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
-                                </td>
-                                <td>
-                                    {  }asd
+                                    {  }
                                 </td>
                             </tr>
                         </tbody>

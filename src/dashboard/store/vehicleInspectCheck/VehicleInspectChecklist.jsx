@@ -171,7 +171,7 @@ const checkList = [
 	},
 ];
 
-const VehicleInspectChecklist = () => {
+const VehicleInspectChecklist = ({ history }) => {
 	const [updateLoading, setUpdateLoading] = React.useState(false);
 	const [updateError, setUpdateError] = React.useState('');
 	const [fetchLoading, setFetchLoading] = React.useState(true);
@@ -254,17 +254,35 @@ const VehicleInspectChecklist = () => {
 		<Sidenav title={'Vehicle Inspection Checklist'}>
 			<div>
 				<div className={classes.dataTable}>
-					<div className={classes.dataTable}>
-						{vehicle && (
-							<div style={{ display: 'flex', flexDirection: 'column' }}>
-								<span style={{ fontSize: '20px' }}>
-									Driver Name: {vehicle?.driverName}
-								</span>
-								<span style={{ fontSize: '20px' }}>
-									Vehicle Number: {vehicle?.number}
-								</span>
+					<div>
+						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<div>
+								{
+									vehicle && (
+										<div style={{ display: 'flex', flexDirection: 'column' }}>
+											<span style={{ fontSize: '20px' }}>
+												Driver Name: {vehicle?.driverName}
+											</span>
+											<span style={{ fontSize: '20px' }}>
+												Vehicle Number: {vehicle?.number}
+											</span>
+										</div>
+									)
+								}
 							</div>
-						)}
+							<div>
+								<Button
+									type='button'
+									size='small'
+									text='Print Vehicle List'
+									classNames='bg-dark text-light'
+									style={{ textTransform: 'capitalize' }}
+									onClick={() => {
+										history.push('/storedashboard/print_vehicle_inspect_checklist')
+									}}
+								/>
+							</div>
+						</div>
 						<TableContainer className={classes.tableContainer}>
 							<div className='container-fluid' style={{ textAlign: 'left' }}>
 								<CssTextField

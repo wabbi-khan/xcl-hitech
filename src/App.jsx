@@ -21,7 +21,7 @@ import ProductsBinCard from './dashboard/store/productsBinCard/ProductsBinCard';
 import Vehicles from './dashboard/store/vehicles/Vehicles';
 import VehicleInspectChecklist from './dashboard/store/vehicleInspectCheck/VehicleInspectChecklist';
 import DeliveryChalan from './dashboard/store/deliveryChalan/DeliveryChalan';
-import DailyInwardReports from './dashboard/store/dailyInwardReports/DailyInwardReports';
+// import DailyInwardReports from './dashboard/store/dailyInwardReports/DailyInwardReports';
 import DailyConsumptionReport from './dashboard/store/dailyConsReport/DailyConsumptionReport';
 import DeptWiseConsReport from './dashboard/store/deptwiseConsReport/DeptWiseConsReport';
 import DeptWiseStoreInventory from './dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
@@ -122,6 +122,12 @@ import ViewAllNonExecAssest from './dashboard/hr/employees performance/non-execu
 import ViewAllExecEmpAssest from './dashboard/hr/employees performance/executive/exec emp assest perform/ViewAllExecEmpAssest';
 import ViewBinCardHistory from './dashboard/store/productsBinCard/ViewBinCardHistory';
 import PrintBinCard from './dashboard/store/productsBinCard/PrintBinCard';
+import PrintVehicleInspectList from './dashboard/store/vehicleInspectCheck/PrintVehicleInspectList';
+import Inwards from './dashboard/store/inwards/Inwards';
+import Outwards from './dashboard/store/outwards/Outwards';
+import ItemInward from './dashboard/store/inwards/ItemInward';
+import InwardGatepass from './dashboard/store/inwards/InwardGatepass';
+import InwardApproval from './dashboard/store/inwards/InwardApproval';
 
 dotenv.config();
 
@@ -291,6 +297,11 @@ function App() {
 				path='/storedashboard/vehicle_inspect_checklist'
 				component={VehicleInspectChecklist}
 			/>
+			<Route
+				exact
+				path='/storedashboard/print_vehicle_inspect_checklist'
+				component={PrintVehicleInspectList}
+			/>
 			<Route exact path='/marketing/delivery_order' component={DeliveryOrder} />
 			<Route
 				exact
@@ -299,8 +310,33 @@ function App() {
 			/>
 			<Route
 				exact
+				path='/storedashboard/inwards'
+				component={Inwards}
+			/>
+			<Route
+				exact
+				path='/storedashboard/inwards/item_inward'
+				component={ItemInward}
+			/>
+			<Route
+				exact
+				path='/storedashboard/inwards/inward_approval'
+				component={InwardApproval}
+			/>
+			<Route
+				exact
+				path='/storedashboard/inwards/inward_gatepass'
+				component={InwardGatepass}
+			/>
+			<Route
+				exact
+				path='/storedashboard/outwards'
+				component={Outwards}
+			/>
+			<Route
+				exact
 				path='/storedashboard/daily_inwards_report'
-				component={DailyInwardReports}
+			// component={DailyInwardReports}
 			/>
 			<Route
 				exact
