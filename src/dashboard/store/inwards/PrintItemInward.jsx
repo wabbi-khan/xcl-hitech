@@ -1,11 +1,12 @@
 import React from 'react'
+import Button from '../../../components/utils/Button'
 
 const PrintItemInward = () => {
     return (
         <div>
             <div class='text-center'>
                 <div class='row mt-2'>
-                    <div class='col-lg-3 col-md-3 col-sm-4'>
+                    {/* <div class='col-lg-3 col-md-3 col-sm-4'>
                         <img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
                     </div>
                     <div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2 mt-2'>
@@ -23,13 +24,13 @@ const PrintItemInward = () => {
                             <h6>FM-27</h6>
                             <h6>Issue.02</h6>
                         </div>
-                    </div>
+                    </div> */}
                     <h4>Hi-Tech Pipe & Engineering Industries</h4>
                     <h6>Plot No X-22, Site Area Kotri</h6>
                     <p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-                    <h3 style={{ marginTop: '1rem', fontWeight: 'bold', textDecoration: 'underline' }} >
-                        BIN CARD
-                    </h3>
+                    <h4 style={{ marginTop: '1rem', fontWeight: 'bold', textDecoration: 'underline' }} >
+                        Inward Items
+                    </h4>
                 </div>
                 <div class='container' id='printBtn'>
                     <Button
@@ -41,8 +42,79 @@ const PrintItemInward = () => {
                         style={{ marginLeft: 'auto' }}
                     />
                 </div>
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <p style={{ fontWeight: 'bold' }}>Date: </p>
+                    <p style={{ textDecoration: 'underline' }}>
+                        { }
+                    </p>
+                </div>
                 <div className='container-fluid mt-5'>
-
+                    <table class='table table-inverse table-responsive table-bordered border-dark mt-4'>
+                        <thead class='thead-inverse'>
+                            <tr>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>S.No.</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Item Code</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Item Name</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>BILL NO</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>DC NO</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>IGP NO</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Unit</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Rate</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Qty</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Received From</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Dept.</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Amount</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Balance</td>
+                                <td style={{ fontSize: '12px', fontWeight: 'bold' }}>Remarks</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                                <td>
+                                    { }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

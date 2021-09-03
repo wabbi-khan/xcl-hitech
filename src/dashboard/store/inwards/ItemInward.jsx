@@ -64,7 +64,7 @@ const validationSchema = yup.object({
     name: yup.string().required('Name is required'),
 });
 
-const ItemInward = () => {
+const ItemInward = ({ history }) => {
     const classes = useStyles();
 
     const dispatch = useDispatch();
