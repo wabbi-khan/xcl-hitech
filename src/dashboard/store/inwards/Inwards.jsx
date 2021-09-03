@@ -96,7 +96,7 @@ const Inwards = ({ history }) => {
                                 variant="contained"
                                 classNames={classes.mainBtn}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/inwards/item_inward')
                                 }}
                             />
                             <Button
@@ -105,7 +105,7 @@ const Inwards = ({ history }) => {
                                 variant="contained"
                                 classNames={classes.mainBtn}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/inwards/inward_approval')
                                 }}
                             />
                             <Button
@@ -114,7 +114,7 @@ const Inwards = ({ history }) => {
                                 variant="contained"
                                 classNames={classes.mainBtn}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/inwards/inward_gatepass')
                                 }}
                             />
                         </div>

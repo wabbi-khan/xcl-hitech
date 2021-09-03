@@ -111,6 +111,9 @@ import PrintBinCard from '../dashboard/store/productsBinCard/PrintBinCard';
 import PrintVehicleInspectList from '../dashboard/store/vehicleInspectCheck/PrintVehicleInspectList';
 import Inwards from '../dashboard/store/inwards/Inwards';
 import Outwards from '../dashboard/store/outwards/Outwards';
+import ItemInward from '../dashboard/store/inwards/ItemInward';
+import InwardApproval from '../dashboard/store/inwards/InwardApproval';
+import InwardGatepass from '../dashboard/store/inwards/InwardGatepass';
 
 
 
@@ -157,6 +160,9 @@ const Router = () => {
                 <Router exact path="/storedashboard/print_vehicle_inspect_checklist" component={PrintVehicleInspectList} />
                 <Router exact path="/storedashboard/delivery_chalan" component={DeliveryChalan} />
                 <Router exact path="/storedashboard/inwards" component={Inwards} />
+                <Router exact path="/storedashboard/inwards/item_inward" component={ItemInward} />
+                <Router exact path="/storedashboard/inwards/inward_approval" component={InwardApproval} />
+                <Router exact path="/storedashboard/inwards/inward_gatepass" component={InwardGatepass} />
                 <Router exact path="/storedashboard/outwards" component={Outwards} />
                 <Router exact path="/storedashboard/daily_inwards_report" component={DailyInwardReports} />
                 <Router exact path="/storedashboard/daily_consumption_report" component={DailyConsumptionReport} />

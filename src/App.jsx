@@ -125,6 +125,9 @@ import PrintBinCard from './dashboard/store/productsBinCard/PrintBinCard';
 import PrintVehicleInspectList from './dashboard/store/vehicleInspectCheck/PrintVehicleInspectList';
 import Inwards from './dashboard/store/inwards/Inwards';
 import Outwards from './dashboard/store/outwards/Outwards';
+import ItemInward from './dashboard/store/inwards/ItemInward';
+import InwardGatepass from './dashboard/store/inwards/InwardGatepass';
+import InwardApproval from './dashboard/store/inwards/InwardApproval';
 
 dotenv.config();
 
@@ -309,6 +312,21 @@ function App() {
 				exact
 				path='/storedashboard/inwards'
 				component={Inwards}
+			/>
+			<Route
+				exact
+				path='/storedashboard/inwards/item_inward'
+				component={ItemInward}
+			/>
+			<Route
+				exact
+				path='/storedashboard/inwards/inward_approval'
+				component={InwardApproval}
+			/>
+			<Route
+				exact
+				path='/storedashboard/inwards/inward_gatepass'
+				component={InwardGatepass}
 			/>
 			<Route
 				exact
