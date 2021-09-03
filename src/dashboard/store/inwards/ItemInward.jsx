@@ -605,56 +605,89 @@ const ItemInward = () => {
                 </Formik>
 
                 <table class='table table-responsive table-striped table-bordered border-dark text-center mt-3'>
-                        <thead class='bg-dark text-light'>
-                            <tr>
-                                <th>S.No.</th>
-                                <th>Product Name</th>
-                                <th>Current Balance</th>
-                                <th>IN</th>
-                                <th>OUT</th>
-                                <th>Balance</th>
-                                <th>Last Updated on</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* {
+                    <thead class='bg-dark text-light'>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>BILL NO</th>
+                            <th>DC NO</th>
+                            <th>IGP NO</th>
+                            <th>Unit</th>
+                            <th>Rate</th>
+                            <th>Qty</th>
+                            <th>Received From</th>
+                            <th>Dept.</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* {
                                 binCards.map((el, i) => ( */}
-                                    <tr>
-                                        {/* <td>{i + 1}</td> */}
-                                    
-                                        <td>
-                                            {/* {el?.product?.name} */}
-                                        </td>
-                                        <td>
-                                            {/* {el?.history[0]?.balance} */}
-                                        </td>
-                                        <td>
-                                            {/* {el?.history[0]?.in} */}
-                                        </td>
-                                        <td>
-                                            {/* {el?.history[0]?.out} */}
-                                        </td>
-                                        <td>
-                                            {/* {el?.history[0]?.balance} */}
-                                        </td>
-                                        <td>
-                                            {/* {el?.history[0]?.date} */}
-                                        </td>
-                                        {/* <td>
-                                        <Button
-                                            variant='contained'
-                                            text='View'
-                                            classNames='btn btn-sm bg-dark text-light'
-                                            onClick={() => {
-                                                history.push('/storedashboard/products_bin_card/view_bincard_history')
-                                            }}
-                                        />
-                                    </td> */}
-                                    </tr>
-                            {/* ))
+                        <tr>
+                            {/* <td>{i + 1}</td> */}
+
+                            <td>
+                                {/* {el?.product?.name} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.in} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.out} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.out} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.out} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.out} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.out} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.date} */}
+                            </td>
+                            <td>
+                                <Button
+                                    variant='contained'
+                                    text='View'
+                                    size='small'
+                                    classNames='btn bg-dark text-light'
+                                    onClick={() => {
+                                        history.push('/storedashboard/inwards/item_inward/print_inward_item')
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                        {/* ))
                             } */}
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
             </div>
         </Sidenav>
     )
