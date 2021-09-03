@@ -565,27 +565,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListItemComp = ({ link, name, Icon }) => (
-  <div
+const ListItemComp = ({ link, name }) => (
+  <Link
+    to={link}
     style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+      color: "#fff",
+      textDecoration: "none",
+      width: "100%",
+      display: "block",
     }}
   >
-    <div style={{ width: "100%" }}>
-      <Link to={link} style={{ color: "#fff", textDecoration: "none" }}>
-        <span style={{ width: "100%", display: "block" }}>{name}</span>
-      </Link>
-    </div>
-    <Link
-      to={link}
-      style={{ color: "#fff", textDecoration: "none" }}
-      target="_blank"
-    >
-      <Icon />
-    </Link>
-  </div>
+    <span>{name}</span>
+  </Link>
 );
 
 function Sidenav(props) {
@@ -722,55 +713,33 @@ function Sidenav(props) {
             <List component="div" disablePadding>
               <ListItem button className={classes.menuItem}>
                 <ListItemText inset>
-                  <ListItemComp
-                    link="/purchase/units"
-                    name="Units"
-                    Icon={AddIcon}
-                  />
+                  <ListItemComp link="/purchase/units" name="Units" />
                 </ListItemText>
               </ListItem>
-              {/* <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/contactPerson');
-								}}>
-								<ListItemText inset primary='Contact Person' />
-							</ListItem> */}
-              <ListItem
-                button
-                className={classes.menuItem}
-                onClick={() => {
-                  history.push("/purchase/category");
-                }}
-              >
-                <ListItemText inset primary="Categories" />
-              </ListItem>
-              <ListItem
-                button
-                className={classes.menuItem}
-                onClick={() => {
-                  history.push("/purchase/sub_categories");
-                }}
-              >
-                <ListItemText inset primary="Sub-Categories" />
-              </ListItem>
-              <ListItem
-                button
-                className={classes.menuItem}
-                onClick={() => {
-                  history.push("/purchase/department");
-                }}
-              >
-                <ListItemText inset primary="Departments" />
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp link="/purchase/category" name="Category" />
+                </ListItemText>
               </ListItem>
               <ListItem button className={classes.menuItem}>
                 <ListItemText inset>
                   <ListItemComp
-                    link="/purchase/material"
-                    name="Materials"
-                    Icon={AddIcon}
+                    link="/purchase/sub_categories"
+                    name="Sub Category"
                   />
+                </ListItemText>
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp
+                    link="/purchase/department"
+                    name="Departments"
+                  />
+                </ListItemText>
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp link="/purchase/material" name="Materials" />
                 </ListItemText>
               </ListItem>
               <ListItem
@@ -782,14 +751,13 @@ function Sidenav(props) {
               >
                 <ListItemText inset primary="Vendors" />
               </ListItem>
-              <ListItem
-                button
-                className={classes.menuItem}
-                onClick={() => {
-                  history.push("/purchase/supplier_evaluation_form");
-                }}
-              >
-                <ListItemText inset primary="Supplier Eval Form" />
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp
+                    link="/purchase/supplier_evaluation_form"
+                    name="Supplier Eval Form "
+                  />
+                </ListItemText>
               </ListItem>
               <ListItem
                 button
