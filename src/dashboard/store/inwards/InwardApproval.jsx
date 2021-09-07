@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { MenuItem } from '@material-ui/core';
+import Button from '../../../components/utils/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 20,
     },
     addButton: {
-        marginTop: 40,
+        marginTop: 100,
         backgroundColor: '#22A19A',
         color: 'whitesmoke',
         borderColor: '#22A19A',
@@ -55,7 +56,7 @@ const CssTextField = withStyles({
     },
 })(TextField);
 
-const InwardApproval = () => {
+const InwardApproval = ({ history }) => {
     const classes = useStyles();
 
     const dispatch = useDispatch();
@@ -165,6 +166,7 @@ const InwardApproval = () => {
                                     variant='outlined'
                                     type='text'
                                     size='small'
+                                    disabled
                                     autoComplete='off'
                                     style={{ width: '100%' }}
                                     inputProps={{ style: { fontSize: 14 } }}
@@ -220,7 +222,7 @@ const InwardApproval = () => {
                                 <h6 class='mt-2'>We Have Received the Following Items:</h6>
                                 <ul>
                                     <li>
-                                        {  }
+                                        { }
                                     </li>
                                 </ul>
                             </Grid>
@@ -247,8 +249,77 @@ const InwardApproval = () => {
                                 </CssTextField>
                             </Grid>
                         </Grid>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            classNames={classes.addButton}
+                            // loading={createLoading}
+                            loaderColor="#333"
+                            text="Submit"
+                        />
                     </Form>
                 </Formik>
+
+                <table class='table table-responsive table-striped table-bordered border-dark text-center mt-5'>
+                    <thead class='bg-dark text-light'>
+                        <tr>
+                            <th>IGP No.</th>
+                            <th>Description</th>
+                            <th>Unit</th>
+                            <th>Qty. Received</th>
+                            <th>Qty. Approved</th>
+                            <th>Qty. Rejected</th>
+                            <th>Department</th>
+                            <th>Rejection Reason</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* {
+                                binCards.map((el, i) => ( */}
+                        <tr>
+                            {/* <td>{i + 1}</td> */}
+
+                            <td>
+                                {/* {el?.product?.name} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.in} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.out} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                {/* {el?.history[0]?.balance} */}
+                            </td>
+                            <td>
+                                <Button
+                                    variant='contained'
+                                    text='View'
+                                    size='small'
+                                    classNames='btn bg-dark text-light'
+                                    onClick={() => {
+                                        history.push('/storedashboard/inwards/item_inward/print_inward_approval')
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                        {/* ))
+                            } */}
+                    </tbody>
+                </table>
             </div>
         </Sidenav>
     )
