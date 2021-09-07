@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
@@ -16,6 +15,8 @@ import Button from "../../../components/utils/Button";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { capitalize } from "../../../utils/capitalize";
+import Autocomplete from "../../../components/utils/AutoComplete";
+import RefreshButton from "../../../components/utils/RefreshButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -195,6 +196,7 @@ const PurchaseRequisition = ({ history }) => {
       ...initialValuesForItems,
     });
   const [editIndex, setEditIndex] = React.useState("");
+  const [fetchLoading, setFetchLoading] = React.useState(false);
 
   let form = null;
 
@@ -275,8 +277,21 @@ const PurchaseRequisition = ({ history }) => {
     });
   };
 
+  const fetchingMaterials = async () => {
+    await dispatch(getMaterialAction());
+  };
+
+  const reFetch = async () => {
+    console.log("object");
+    setFetchLoading(true);
+    fetchingMaterials().then(() => {
+      setFetchLoading(false);
+    });
+  };
+
   return (
     <Sidenav title={"Purchase Requisition"}>
+      <RefreshButton onClick={reFetch} loading={fetchLoading} />
       <div>
         <Formik
           initialValues={initialValues}
@@ -289,39 +304,31 @@ const PurchaseRequisition = ({ history }) => {
                 <Container className={classes.mainContainer}>
                   <Grid container spacing={1} style={{ marginTop: 15 }}>
                     <Grid item lg={3} md={3} sm={12} xs={12}>
-                      <CssTextField
-                        id="outlined-basic"
-                        label="Select Department*"
-                        variant="outlined"
-                        type="select"
-                        size="small"
-                        select
-                        style={{ width: "100%" }}
-                        inputProps={{ style: { fontSize: 14 } }}
-                        InputLabelProps={{ style: { fontSize: 14 } }}
+                      <Autocomplete
+                        options={departments}
+                        label="name"
                         onChange={props.handleChange("department")}
+                        value={
+                          departments.find(
+                            (el) => el._id === props.values.department
+                          )
+                            ? departments.find(
+                                (el) => el._id === props.values.department
+                              )
+                            : ""
+                        }
                         onBlur={props.handleBlur("department")}
-                        value={props.values.department}
                         helperText={
                           props.touched.department && props.errors.department
                         }
                         error={
                           props.touched.department && props.errors.department
                         }
-                      >
-                        {!departments || !departments.length ? (
-                          <MenuItem>Not Found</MenuItem>
-                        ) : (
-                          departments.map((department) => (
-                            <MenuItem
-                              value={department._id}
-                              key={department._id}
-                            >
-                              {capitalize(department.name)}
-                            </MenuItem>
-                          ))
-                        )}
-                      </CssTextField>
+                        style={{ width: "100%" }}
+                        inputProps={{ style: { fontSize: 14 } }}
+                        InputLabelProps={{ style: { fontSize: 14 } }}
+                        labelText="Select Department"
+                      />
                     </Grid>
                     <Grid item lg={3} md={3} sm={12} xs={12}>
                       <CssTextField
@@ -348,6 +355,7 @@ const PurchaseRequisition = ({ history }) => {
               <div style={{ marginTop: 30, marginBottom: 30 }}>
                 <hr />
               </div>
+
               <Container className={classes.mainContainer}>
                 <h4 className="text-left">Items</h4>
                 <Formik
@@ -362,40 +370,42 @@ const PurchaseRequisition = ({ history }) => {
                       <Form autoComplete="off">
                         <Grid container spacing={1} style={{ marginTop: 15 }}>
                           <Grid item lg={3} md={3} sm={12} xs={12}>
-                            <CssTextField
-                              id="outlined-basic"
-                              label="Select Item"
-                              variant="outlined"
-                              type="text"
-                              size="small"
-                              select
-                              style={{ width: "100%" }}
-                              inputProps={{ style: { fontSize: 14 } }}
-                              InputLabelProps={{ style: { fontSize: 14 } }}
-                              onChange={props.handleChange("material")}
+                            <Autocomplete
+                              options={materials}
+                              label="name"
+                              label2="code"
+                              onChange={(e) => {
+                                const item = materials.find(
+                                  (el) => el._id === e
+                                );
+                                if (item) {
+                                  setSelectedMaterial(item);
+                                } else {
+                                  setSelectedMaterial("");
+                                }
+                                props.setFieldValue("material", e);
+                              }}
+                              value={
+                                materials.find(
+                                  (el) => el._id === props.values.material
+                                )
+                                  ? materials.find(
+                                      (el) => el._id === props.values.material
+                                    )
+                                  : ""
+                              }
                               onBlur={props.handleBlur("material")}
-                              value={props.values.material}
                               helperText={
                                 props.touched.material && props.errors.material
                               }
                               error={
                                 props.touched.material && props.errors.material
                               }
-                            >
-                              {!materials || !materials.length ? (
-                                <MenuItem>Please Select Vendor Name</MenuItem>
-                              ) : (
-                                materials.map((el) => (
-                                  <MenuItem
-                                    value={el._id}
-                                    key={el._id}
-                                    onClick={() => setSelectedMaterial(el)}
-                                  >
-                                    {capitalize(el.name)}
-                                  </MenuItem>
-                                ))
-                              )}
-                            </CssTextField>
+                              style={{ width: "100%" }}
+                              inputProps={{ style: { fontSize: 14 } }}
+                              InputLabelProps={{ style: { fontSize: 14 } }}
+                              labelText="Select Item"
+                            />
                           </Grid>
                           <Grid item lg={3} md={3} sm={12} xs={12}>
                             <CssTextField

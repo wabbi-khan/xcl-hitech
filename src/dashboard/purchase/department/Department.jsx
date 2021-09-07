@@ -210,14 +210,13 @@ const Department = () => {
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}>
 						{(props) => (
-							<Form>
+							<Form autoComplete='off'>
 								<CssTextField
 									id='outlined-basic'
 									label='Department Name*'
 									variant='outlined'
 									type='text'
 									size='small'
-									autocomplete='off'
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}

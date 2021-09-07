@@ -434,381 +434,398 @@
 
 // export default (SideNav)
 
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import HomeIcon from '@material-ui/icons/Home';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import IconExpandLess from '@material-ui/icons/ExpandLess';
-import IconExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
+import React from "react";
+import clsx from "clsx";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import MailIcon from "@material-ui/icons/Mail";
+import HomeIcon from "@material-ui/icons/Home";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import AssessmentIcon from "@material-ui/icons/Assessment";
+import IconExpandLess from "@material-ui/icons/ExpandLess";
+import IconExpandMore from "@material-ui/icons/ExpandMore";
+import Collapse from "@material-ui/core/Collapse";
 // import LabelIcon from '@material-ui/icons/Label';
-import StoreIcon from '@material-ui/icons/Store';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import { withRouter } from 'react-router-dom';
+import StoreIcon from "@material-ui/icons/Store";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import { withRouter } from "react-router-dom";
 // import TrendingDownIcon from '@material-ui/icons/TrendingDown';
-import BusinessIcon from '@material-ui/icons/Business';
-import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../components/utils/Button';
-import { logOutUser } from '../../services/action/UserAction';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import BusinessIcon from "@material-ui/icons/Business";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "../../components/utils/Button";
+import { logOutUser } from "../../services/action/UserAction";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import AddIcon from "@material-ui/icons/Add";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		display: 'flex',
-	},
-	appBar: {
-		zIndex: theme.zIndex.drawer + 1,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen,
-		}),
-	},
-	appBarShift: {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	},
-	menuButton: {
-		marginRight: 36,
-	},
-	hide: {
-		display: 'none',
-	},
-	drawer: {
-		width: drawerWidth,
-		flexShrink: 0,
-		whiteSpace: 'nowrap',
-	},
-	drawerOpen: {
-		background: 'black',
-		color: 'whitesmoke',
-		opacity: 0.9,
-		width: drawerWidth,
-		transition: theme.transitions.create('width', {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	},
-	drawerClose: {
-		background: 'black',
-		color: 'whitesmoke',
-		opacity: 0.9,
-		transition: theme.transitions.create('width', {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen,
-		}),
-		overflowX: 'hidden',
-		width: theme.spacing(7) + 1,
-		[theme.breakpoints.up('sm')]: {
-			width: theme.spacing(9) + 1,
-		},
-	},
-	toolbar: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
-		padding: theme.spacing(0, 1),
-		// necessary for content to be below app bar
-		...theme.mixins.toolbar,
-	},
-	content: {
-		flexGrow: 1,
-		padding: theme.spacing(3),
-		backgroundColor: 'whitesmoke',
-		minHeight: 770,
-	},
-	addMoreRes: {
-		marginTop: 5,
-		padding: 5,
-		width: '10%',
-		color: '#22A19A',
-		backgroundColor: 'whitesmoke',
-		fontWeight: '500',
-		textTransform: 'none',
-		borderRadius: '4px',
-		'&:hover': {
-			backgroundColor: 'black',
-			color: 'whitesmoke',
-			border: 'none',
-			// borderColor: '#22A19A',
-		},
-		// [theme.breakpoints.up('md')]: {
-		//     width: '10%',
-		// },
-		// [theme.breakpoints.down('sm')]: {
-		//     // width: '12%',
-		// },
-	},
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    display: "none",
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+  },
+  drawerOpen: {
+    background: "black",
+    color: "whitesmoke",
+    opacity: 0.9,
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    background: "black",
+    color: "whitesmoke",
+    opacity: 0.9,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    backgroundColor: "whitesmoke",
+    minHeight: 770,
+  },
+  addMoreRes: {
+    marginTop: 5,
+    padding: 5,
+    width: "10%",
+    color: "#22A19A",
+    backgroundColor: "whitesmoke",
+    fontWeight: "500",
+    textTransform: "none",
+    borderRadius: "4px",
+    "&:hover": {
+      backgroundColor: "black",
+      color: "whitesmoke",
+      border: "none",
+      // borderColor: '#22A19A',
+    },
+    // [theme.breakpoints.up('md')]: {
+    //     width: '10%',
+    // },
+    // [theme.breakpoints.down('sm')]: {
+    //     // width: '12%',
+    // },
+  },
 }));
 
+const ListItemComp = ({ link, name }) => (
+  <Link
+    to={link}
+    style={{
+      color: "#fff",
+      textDecoration: "none",
+      width: "100%",
+      display: "block",
+    }}
+  >
+    <span>{name}</span>
+  </Link>
+);
+
 function Sidenav(props) {
-	const { title, history, children } = props;
-	const classes = useStyles();
-	const theme = useTheme();
-	const [open, setOpen] = React.useState(false);
-	const [open1, setOpen1] = React.useState(false);
-	const [open2, setOpen2] = React.useState(false);
-	const [open3, setOpen3] = React.useState(false);
-	const [open4, setOpen4] = React.useState(false);
-	const [open5, setOpen5] = React.useState(false);
-	const dispatch = useDispatch();
+  const { title, history, children } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
+  const [open4, setOpen4] = React.useState(false);
+  const [open5, setOpen5] = React.useState(false);
+  const dispatch = useDispatch();
 
-	const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-	const handleDrawerClose = () => {
-		setOpen(false);
-	};
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-	// function handleDropdown1() {
-	//     setOpen1(!open1);
-	// }
+  // function handleDropdown1() {
+  //     setOpen1(!open1);
+  // }
 
-	const logOut = () => {
-		dispatch(logOutUser());
-	};
+  const logOut = () => {
+    dispatch(logOutUser());
+  };
 
-	return (
-		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar
-				position='fixed'
-				className={clsx(classes.appBar, {
-					[classes.appBarShift]: open,
-				})}>
-				<Toolbar style={{ backgroundColor: '#22a19a' }}>
-					<IconButton
-						color='inherit'
-						aria-label='open drawer'
-						onClick={handleDrawerOpen}
-						edge='start'
-						className={clsx(classes.menuButton, {
-							[classes.hide]: open,
-						})}>
-						<MenuIcon />
-					</IconButton>
-					<Typography variant='h6' noWrap>
-						{title}
-					</Typography>
-					<Typography variant='h6' noWrap style={{ marginLeft: 'auto' }}>
-						<ExitToAppIcon onClick={logOut} style={{ cursor: 'pointer' }} />
-					</Typography>
-				</Toolbar>
-			</AppBar>
-			<Drawer
-				variant='permanent'
-				className={clsx(classes.drawer, {
-					[classes.drawerOpen]: open,
-					[classes.drawerClose]: !open,
-				})}
-				classes={{
-					paper: clsx({
-						[classes.drawerOpen]: open,
-						[classes.drawerClose]: !open,
-					}),
-				}}>
-				<div className={classes.toolbar}>
-					<IconButton style={{ background: 'black', color: 'whitesmoke' }}>
-						{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-					</IconButton>
-				</div>
-				<Divider />
-				<List>
-					{['Dashboard'].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon
-								style={{ background: 'black', color: 'whitesmoke' }}
-								onClick={() => {
-									handleDrawerOpen();
-								}}>
-								{index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText
-								primary={text}
-								onClick={() => {
-									history.push('/dashboard');
-								}}
-							/>
-						</ListItem>
-					))}
-				</List>
-				<Divider />
-				<List>
-					{['Purchase'].map((text, index) => (
-						<ListItem
-							button
-							key={text}
-							onClick={() => {
-								setOpen1(!open1);
-							}}>
-							<ListItemIcon
-								style={{ background: 'black', color: 'whitesmoke' }}
-								onClick={() => {
-									handleDrawerOpen();
-								}}>
-								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText
-								primary={text}
-								onClick={() => {
-									history.push('/purchasedashboard');
-								}}
-							/>
-							{open1 ? <IconExpandLess /> : <IconExpandMore />}
-						</ListItem>
-					))}
-					<Collapse in={open1} timeout='auto' unmountOnExit>
-						<Divider />
-						<List component='div' disablePadding>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/units');
-								}}>
-								<ListItemText inset primary='Units' />
-							</ListItem>
-							{/* <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/contactPerson');
-								}}>
-								<ListItemText inset primary='Contact Person' />
-							</ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/category');
-								}}>
-								<ListItemText inset primary='Categories' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/sub_categories');
-								}}>
-								<ListItemText inset primary='Sub-Categories' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/department');
-								}}>
-								<ListItemText inset primary='Departments' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/material');
-								}}>
-								<ListItemText inset primary='Material' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/vendors');
-								}}>
-								<ListItemText inset primary='Vendors' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/supplier_evaluation_form');
-								}}>
-								<ListItemText inset primary='Supplier Eval Form' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/approved_supplier_list');
-								}}>
-								<ListItemText inset primary='Approved Supplier List' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/purchase_order');
-								}}>
-								<ListItemText inset primary='Purchase Order' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/purchase_order_list');
-								}}>
-								<ListItemText inset primary='Purchase Order List' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/purchase/purchase_requisition');
-								}}>
-								<ListItemText inset primary='Purchase Requisition' />
-							</ListItem>
-						</List>
-					</Collapse>
-				</List>
-				<Divider />
-				<List>
-					{['Marketing/Sales'].map((text, index) => (
-						<ListItem
-							button
-							key={text}
-							onClick={() => {
-								setOpen4(!open4);
-							}}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText
-								primary={text}
-								onClick={() => {
-									history.push('/marketing_dashboard');
-								}}
-							/>
-							{open4 ? <IconExpandLess /> : <IconExpandMore />}
-						</ListItem>
-					))}
-					<Collapse in={open4} timeout='auto' unmountOnExit>
-						<Divider />
-						<List component='div' disablePadding>
-							{/* <ListItem
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar style={{ backgroundColor: "#22a19a" }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            {title}
+          </Typography>
+          <Typography variant="h6" noWrap style={{ marginLeft: "auto" }}>
+            <ExitToAppIcon onClick={logOut} style={{ cursor: "pointer" }} />
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton style={{ background: "black", color: "whitesmoke" }}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          {["Dashboard"].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+                onClick={() => {
+                  handleDrawerOpen();
+                }}
+              >
+                {index % 2 === 0 ? <HomeIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/dashboard");
+                }}
+              />
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {["Purchase"].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => {
+                setOpen1(!open1);
+              }}
+            >
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+                onClick={() => {
+                  handleDrawerOpen();
+                }}
+              >
+                {index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/purchasedashboard");
+                }}
+              />
+              {open1 ? <IconExpandLess /> : <IconExpandMore />}
+            </ListItem>
+          ))}
+          <Collapse in={open1} timeout="auto" unmountOnExit>
+            <Divider />
+            <List component="div" disablePadding>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp link="/purchase/units" name="Units" />
+                </ListItemText>
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp link="/purchase/category" name="Category" />
+                </ListItemText>
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp
+                    link="/purchase/sub_categories"
+                    name="Sub Category"
+                  />
+                </ListItemText>
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp
+                    link="/purchase/department"
+                    name="Departments"
+                  />
+                </ListItemText>
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp link="/purchase/material" name="Materials" />
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/purchase/vendors");
+                }}
+              >
+                <ListItemText inset primary="Vendors" />
+              </ListItem>
+              <ListItem button className={classes.menuItem}>
+                <ListItemText inset>
+                  <ListItemComp
+                    link="/purchase/supplier_evaluation_form"
+                    name="Supplier Eval Form "
+                  />
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/purchase/approved_supplier_list");
+                }}
+              >
+                <ListItemText inset primary="Approved Supplier List" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/purchase/purchase_order");
+                }}
+              >
+                <ListItemText inset primary="Purchase Order" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/purchase/purchase_order_list");
+                }}
+              >
+                <ListItemText inset primary="Purchase Order List" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/purchase/purchase_requisition");
+                }}
+              >
+                <ListItemText inset primary="Purchase Requisition" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
+        <Divider />
+        <List>
+          {["Marketing/Sales"].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => {
+                setOpen4(!open4);
+              }}
+            >
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+              >
+                {index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/marketing_dashboard");
+                }}
+              />
+              {open4 ? <IconExpandLess /> : <IconExpandMore />}
+            </ListItem>
+          ))}
+          <Collapse in={open4} timeout="auto" unmountOnExit>
+            <Divider />
+            <List component="div" disablePadding>
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -816,7 +833,7 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Order Booking Form' />
 							</ListItem> */}
-							{/* <ListItem
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -824,15 +841,16 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Order Log Sheet' />
 							</ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/marketing/delivery_order');
-								}}>
-								<ListItemText inset primary='Delivery Order' />
-							</ListItem>
-							{/* <ListItem
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/marketing/delivery_order");
+                }}
+              >
+                <ListItemText inset primary="Delivery Order" />
+              </ListItem>
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -840,7 +858,7 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Sales Contract' />
 							</ListItem> */}
-							{/* <ListItem
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -848,7 +866,7 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Contract Review...' />
 							</ListItem> */}
-							{/* <ListItem
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -856,7 +874,7 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Customer Feedback..' />
 							</ListItem> */}
-							{/* <ListItem
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -864,125 +882,138 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Complaint Testing' />
 							</ListItem> */}
-						</List>
-					</Collapse>
-				</List>
-				<Divider />
-				<List>
-					{['Production'].map((text, index) => (
-						<ListItem
-							button
-							key={text}
-							onClick={() => {
-								setOpen5(!open5);
-							}}>
-							<ListItemIcon
-								style={{ background: 'black', color: 'whitesmoke' }}
-								onClick={() => {
-									handleDrawerOpen();
-								}}>
-								{index % 2 === 0 ? <BusinessIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText
-								primary={text}
-								onClick={() => {
-									history.push('/productionDashboard');
-								}}
-							/>
-							{open5 ? <IconExpandLess /> : <IconExpandMore />}
-						</ListItem>
-					))}
-					<Collapse in={open5} timeout='auto' unmountOnExit>
-						<Divider />
-						<List component='div' disablePadding>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/machines');
-								}}>
-								<ListItemText inset primary='Machines' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/shifts');
-								}}>
-								<ListItemText inset primary='Shifts' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/weekly-production-plan');
-								}}>
-								<ListItemText inset primary='Weekly Production...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/setUpCards');
-								}}>
-								<ListItemText inset primary='Set Up Cards' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/productionReport');
-								}}>
-								<ListItemText inset primary='Production Report' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/productionOnlineInspectionReport');
-								}}>
-								<ListItemText inset primary='Production Online...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/productionDashboard/production');
-								}}>
-								<ListItemText inset primary='Production' />
-							</ListItem>
-						</List>
-					</Collapse>
-				</List>
-				<Divider />
-				<List>
-					{['Store'].map((text, index) => (
-						<ListItem
-							button
-							key={text}
-							onClick={() => {
-								setOpen2(!open2);
-							}}>
-							<ListItemIcon
-								style={{ background: 'black', color: 'whitesmoke' }}
-								onClick={() => {
-									handleDrawerOpen();
-								}}>
-								{index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText
-								primary={text}
-								onClick={() => {
-									history.push('/storedashboard');
-								}}
-							/>
-							{open2 ? <IconExpandLess /> : <IconExpandMore />}
-						</ListItem>
-					))}
-					<Collapse in={open2} timeout='auto' unmountOnExit>
-						<Divider />
-						<List component='div' disablePadding>
-							{/* <ListItem
+            </List>
+          </Collapse>
+        </List>
+        <Divider />
+        <List>
+          {["Production"].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => {
+                setOpen5(!open5);
+              }}
+            >
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+                onClick={() => {
+                  handleDrawerOpen();
+                }}
+              >
+                {index % 2 === 0 ? <BusinessIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/productionDashboard");
+                }}
+              />
+              {open5 ? <IconExpandLess /> : <IconExpandMore />}
+            </ListItem>
+          ))}
+          <Collapse in={open5} timeout="auto" unmountOnExit>
+            <Divider />
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/productionDashboard/machines");
+                }}
+              >
+                <ListItemText inset primary="Machines" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/productionDashboard/shifts");
+                }}
+              >
+                <ListItemText inset primary="Shifts" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/productionDashboard/weekly-production-plan");
+                }}
+              >
+                <ListItemText inset primary="Weekly Production..." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/productionDashboard/setUpCards");
+                }}
+              >
+                <ListItemText inset primary="Set Up Cards" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/productionDashboard/productionReport");
+                }}
+              >
+                <ListItemText inset primary="Production Report" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push(
+                    "/productionDashboard/productionOnlineInspectionReport"
+                  );
+                }}
+              >
+                <ListItemText inset primary="Production Online..." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/productionDashboard/production");
+                }}
+              >
+                <ListItemText inset primary="Production" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
+        <Divider />
+        <List>
+          {["Store"].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => {
+                setOpen2(!open2);
+              }}
+            >
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+                onClick={() => {
+                  handleDrawerOpen();
+                }}
+              >
+                {index % 2 === 0 ? <StoreIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/storedashboard");
+                }}
+              />
+              {open2 ? <IconExpandLess /> : <IconExpandMore />}
+            </ListItem>
+          ))}
+          <Collapse in={open2} timeout="auto" unmountOnExit>
+            <Divider />
+            <List component="div" disablePadding>
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -990,31 +1021,36 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Categories' />
 							</ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/products');
-								}}>
-								<ListItemText inset primary='Finished Products' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/products_bin_card');
-								}}>
-								<ListItemText inset primary='Products Bin Card' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/good_received_and_inspection_form');
-								}}>
-								<ListItemText inset primary='Goods Received(GRIN)' />
-							</ListItem>
-							{/* <ListItem button
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/products");
+                }}
+              >
+                <ListItemText inset primary="Finished Products" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/products_bin_card");
+                }}
+              >
+                <ListItemText inset primary="Products Bin Card" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push(
+                    "/storedashboard/good_received_and_inspection_form"
+                  );
+                }}
+              >
+                <ListItemText inset primary="Goods Received(GRIN)" />
+              </ListItem>
+              {/* <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('')
@@ -1022,47 +1058,52 @@ function Sidenav(props) {
                             >
                                 <ListItemText inset primary="Grouped Bin Card" />
                             </ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/vehicles');
-								}}>
-								<ListItemText inset primary='Vehicles' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/vehicle_inspect_checklist');
-								}}>
-								<ListItemText inset primary='Vehicles Inspection...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/delivery_chalan');
-								}}>
-								<ListItemText inset primary='Delivery Chalan' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/inwards');
-								}}>
-								<ListItemText inset primary='Inwards' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/outwards');
-								}}>
-								<ListItemText inset primary='Outwards' />
-							</ListItem>
-							{/* <ListItem
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/vehicles");
+                }}
+              >
+                <ListItemText inset primary="Vehicles" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/vehicle_inspect_checklist");
+                }}
+              >
+                <ListItemText inset primary="Vehicles Inspection..." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/delivery_chalan");
+                }}
+              >
+                <ListItemText inset primary="Delivery Chalan" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/inwards");
+                }}
+              >
+                <ListItemText inset primary="Inwards" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/outwards");
+                }}
+              >
+                <ListItemText inset primary="Outwards" />
+              </ListItem>
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -1070,15 +1111,16 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Daily Inwards Report' />
 							</ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/daily_consumption_report');
-								}}>
-								<ListItemText inset primary='Daily Consumption...' />
-							</ListItem>
-							{/* <ListItem
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/daily_consumption_report");
+                }}
+              >
+                <ListItemText inset primary="Daily Consumption..." />
+              </ListItem>
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -1086,118 +1128,132 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Dept Wise Consump...' />
 							</ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/department_wise_store_inventory');
-								}}>
-								<ListItemText inset primary='Dept Wise Store Inv...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/material_issue_requisition');
-								}}>
-								<ListItemText inset primary='Material Issue Req...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/outward_gatepass');
-								}}>
-								<ListItemText inset primary='Outward Gate Pass' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/stock_assessment_report');
-								}}>
-								<ListItemText inset primary='Stock Assessment Rep..' />
-							</ListItem>
-						</List>
-					</Collapse>
-				</List>
-				<Divider />
-				<List>
-					{['HR'].map((text, index) => (
-						<ListItem
-							button
-							key={text}
-							onClick={() => {
-								setOpen3(!open3);
-							}}>
-							<ListItemIcon
-								style={{ background: 'black', color: 'whitesmoke' }}
-								onClick={() => {
-									handleDrawerOpen();
-								}}>
-								{index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText
-								primary={text}
-								onClick={() => {
-									history.push('/hr_dashboard');
-								}}
-							/>
-							{open3 ? <IconExpandLess /> : <IconExpandMore />}
-						</ListItem>
-					))}
-					<Collapse in={open3} timeout='auto' unmountOnExit>
-						<Divider />
-						<List component='div' disablePadding>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/education');
-								}}>
-								<ListItemText inset primary='Education' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/skills');
-								}}>
-								<ListItemText inset primary='Skills' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/experience');
-								}}>
-								<ListItemText inset primary='Experience' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/responsibilities');
-								}}>
-								<ListItemText inset primary='Responsibilities' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/authorities');
-								}}>
-								<ListItemText inset primary='Authorities' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/designation');
-								}}>
-								<ListItemText inset primary='Designation' />
-							</ListItem>
-							{/* <ListItem button
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push(
+                    "/storedashboard/department_wise_store_inventory"
+                  );
+                }}
+              >
+                <ListItemText inset primary="Dept Wise Store Inv..." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/material_issue_requisition");
+                }}
+              >
+                <ListItemText inset primary="Material Issue Req..." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/outward_gatepass");
+                }}
+              >
+                <ListItemText inset primary="Outward Gate Pass" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/stock_assessment_report");
+                }}
+              >
+                <ListItemText inset primary="Stock Assessment Rep.." />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
+        <Divider />
+        <List>
+          {["HR"].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => {
+                setOpen3(!open3);
+              }}
+            >
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+                onClick={() => {
+                  handleDrawerOpen();
+                }}
+              >
+                {index % 2 === 0 ? <PeopleAltIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/hr_dashboard");
+                }}
+              />
+              {open3 ? <IconExpandLess /> : <IconExpandMore />}
+            </ListItem>
+          ))}
+          <Collapse in={open3} timeout="auto" unmountOnExit>
+            <Divider />
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/education");
+                }}
+              >
+                <ListItemText inset primary="Education" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/skills");
+                }}
+              >
+                <ListItemText inset primary="Skills" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/experience");
+                }}
+              >
+                <ListItemText inset primary="Experience" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/responsibilities");
+                }}
+              >
+                <ListItemText inset primary="Responsibilities" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/authorities");
+                }}
+              >
+                <ListItemText inset primary="Authorities" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/designation");
+                }}
+              >
+                <ListItemText inset primary="Designation" />
+              </ListItem>
+              {/* <ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('/hr/competence_criteria')
@@ -1205,55 +1261,61 @@ function Sidenav(props) {
                             >
                                 <ListItemText inset primary="Competence Criteria" />
                             </ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees');
-								}}>
-								<ListItemText inset primary='Employee Profile' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees/view_emp_details');
-								}}>
-								<ListItemText inset primary='Employees Details' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees_salaries');
-								}}>
-								<ListItemText inset primary='Employees Salaries' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees_leave');
-								}}>
-								<ListItemText inset primary='Employees Leave' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees_attendance');
-								}}>
-								<ListItemText inset primary='Employees Attendence' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees_performance_assessment');
-								}}>
-								<ListItemText inset primary='Employees Perform...' />
-							</ListItem>
-							{/* <ListItem
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees");
+                }}
+              >
+                <ListItemText inset primary="Employee Profile" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees/view_emp_details");
+                }}
+              >
+                <ListItemText inset primary="Employees Details" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees_salaries");
+                }}
+              >
+                <ListItemText inset primary="Employees Salaries" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees_leave");
+                }}
+              >
+                <ListItemText inset primary="Employees Leave" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees_attendance");
+                }}
+              >
+                <ListItemText inset primary="Employees Attendence" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees_performance_assessment");
+                }}
+              >
+                <ListItemText inset primary="Employees Perform..." />
+              </ListItem>
+              {/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -1261,83 +1323,92 @@ function Sidenav(props) {
 								}}>
 								<ListItemText inset primary='Competence Criteria' />
 							</ListItem> */}
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/emp_competency_evaluation');
-								}}>
-								<ListItemText inset primary='Employee Competency..' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/employees_promotion');
-								}}>
-								<ListItemText inset primary='Employees Promotion' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training');
-								}}>
-								<ListItemText inset primary='Trainings' />
-							</ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/emp_competency_evaluation");
+                }}
+              >
+                <ListItemText inset primary="Employee Competency.." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/employees_promotion");
+                }}
+              >
+                <ListItemText inset primary="Employees Promotion" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/training");
+                }}
+              >
+                <ListItemText inset primary="Trainings" />
+              </ListItem>
 
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training_venue');
-								}}>
-								<ListItemText inset primary='Training Venue' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training_need_pre-requests');
-								}}>
-								<ListItemText inset primary='Training Need Pre-Req..' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training_need_identification');
-								}}>
-								<ListItemText inset primary='Training Need...' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training_plan');
-								}}>
-								<ListItemText inset primary='Training Plan' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/training_record_and_evaluation');
-								}}>
-								<ListItemText inset primary='Training Record & Eval..' />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/job_description');
-								}}>
-								<ListItemText inset primary='Job Description' />
-							</ListItem>
-						</List>
-					</Collapse>
-				</List>
-				{/* <List>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/training_venue");
+                }}
+              >
+                <ListItemText inset primary="Training Venue" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/training_need_pre-requests");
+                }}
+              >
+                <ListItemText inset primary="Training Need Pre-Req.." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/training_need_identification");
+                }}
+              >
+                <ListItemText inset primary="Training Need..." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/training_plan");
+                }}
+              >
+                <ListItemText inset primary="Training Plan" />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/training_record_and_evaluation");
+                }}
+              >
+                <ListItemText inset primary="Training Record & Eval.." />
+              </ListItem>
+              <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/hr/job_description");
+                }}
+              >
+                <ListItemText inset primary="Job Description" />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
+        {/* <List>
 					{['Accounts'].map((text, index) => (
 						<ListItem button key={text}>
 							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
@@ -1347,12 +1418,12 @@ function Sidenav(props) {
 						</ListItem>
 					))}
 				</List> */}
-			</Drawer>
-			<main className={classes.content}>
-				<div className={classes.toolbar} />
-				{children}
-			</main>
-		</div>
-	);
+      </Drawer>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {children}
+      </main>
+    </div>
+  );
 }
 export default withRouter(Sidenav);

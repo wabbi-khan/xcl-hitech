@@ -193,13 +193,12 @@ const Units = () => {
 						validationSchema={validationSchema}
 						onSubmit={onSubmit}>
 						{(props) => (
-							<Form>
+							<Form autoComplete='off'>
 								<CssTextField
 									id='outlined-basic'
 									label='Units'
 									variant='outlined'
 									type='text'
-									autocomplete='off'
 									size='small'
 									style={{ width: '50%' }}
 									inputProps={{ style: { fontSize: 14 } }}
