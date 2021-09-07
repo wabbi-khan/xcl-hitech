@@ -31,9 +31,9 @@ const AutoCompleteSearch = ({
   onBlur,
   style,
   labelText,
+  capitalized = true,
 }) => {
   const selected = (e, op) => {
-    console.log(op?._id);
     if (op) {
       onChange(op?._id);
     } else {
@@ -50,7 +50,11 @@ const AutoCompleteSearch = ({
         onChange={selected}
         options={options}
         getOptionLabel={(option) => {
-          let str1 = option[label] ? capitalize(option[label]) : "";
+          let str1 = option[label]
+            ? capitalized
+              ? capitalize(option[label])
+              : option[label]
+            : "";
           let str2 = "";
           label2
             ? option[label2]

@@ -8,6 +8,16 @@ import Grid from "@material-ui/core/Grid";
 import { useDispatch, useSelector } from "react-redux";
 import { MenuItem } from "@material-ui/core";
 import Button from "../../../components/utils/Button";
+import Autocomplete from "../../../components/utils/AutoComplete";
+import {
+  createInwards,
+  getInwards,
+  deleteInwards,
+} from "../../../services/action/inwardAction";
+import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
+import { fetchDepartmentsAction } from "../../../services/action/DepartmentAction";
+import { fetchRequisitionAction } from "../../../services/action/PurchaseReqAction";
+import Loader from "react-loader-spinner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,55 +66,137 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-const initialValue = {
-  name: "",
+const statusOptions = [
+  {
+    value: "receive",
+    name: "Receive",
+  },
+  {
+    value: "notReceive",
+    name: "Not Receive",
+  },
+];
+
+const initialValues = {
+  status: "receive",
+  receivedFrom: "local",
+  section: "",
+  grNo: "",
+  IGPNo: "",
+  billNo: "",
+  dcNo: "",
+  pdNo: "",
+};
+
+const initialValues2 = {
+  itemCode: "",
+  itemName: "",
+  partyName: "",
+  minInv: "",
+  isIndent: "no",
+  indentNo: "",
+  inwardForDept: "",
+  recQty: "local",
+  amount: "",
+  remarks: "receive",
 };
 
 const validationSchema = yup.object({
-  name: yup.string().required("Name is required"),
+  status: yup.string().required("Please provide status"),
+  receivedFrom: yup.string().required("Please provide received from"),
+  section: yup.string().required("Please provide section"),
+  grNo: yup.string().required("Please provide GR No"),
+  IGPNo: yup.string().required("Please provide IGP No"),
+  billNo: yup.string().required("Please provide Bill no"),
+  dcNo: yup.string().required("Please provide DC No"),
+  pdNo: yup.string().required("Please provide PD No"),
+});
+
+const validationSchema2 = yup.object({
+  itemCode: yup.string().required("Please provide Item Code"),
+  partyName: yup.string().required("Please provide Party Name"),
+  minInv: yup.string().required("Please provide Minimum Inventory Level"),
+  isIndent: yup.string().required("Please provide indent"),
+  indentNo: yup.string(),
+  inwardForDept: yup.string().required("Please provide Inward For Dept"),
+  recQty: yup.string().required("Please provide Rec qty"),
+  amount: yup.string().required("Please provide amount"),
+  remarks: yup.string().required("Please provide Remarks"),
 });
 
 const ItemInward = () => {
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedRequisition, setSelectedRequisition] = useState({});
+  const [items, setItems] = useState();
+
   const classes = useStyles();
 
   const dispatch = useDispatch();
 
+  let form1 = null;
+  let form2 = null;
+
+  const { inwards } = useSelector((state) => state.inwards);
+  const { materials } = useSelector((state) => state.materials);
+  const { purchaseRequisitions } = useSelector(
+    (state) => state.purchaseRequisitions
+  );
+  const { departments } = useSelector((state) => state.departments);
+
+  useEffect(() => {}, [selectedRequisition]);
+
+  useEffect(() => {
+    dispatch(fetchDepartmentsAction());
+    dispatch(getMaterialAction());
+    dispatch(fetchRequisitionAction());
+    setFetchLoading(true);
+    dispatch(
+      getInwards(null, (err) => {
+        if (err) {
+          setFetchError(err);
+          setTimeout(() => {
+            setFetchError("");
+          }, 4000);
+        }
+        setFetchLoading(false);
+      })
+    );
+  }, []);
+
   const onSubmit = async (values) => {
+    const form1Errors = await form1.validateForm();
+    form1.setTouched(form1Errors);
+    const form2Errors = await form2.validateForm();
+    form2.setTouched(form2Errors);
+
+    console.log("Form 1 values", form1.values);
+    console.log("Form 2 values", form2.values);
     // setCreateLoading(true);
     // dispatch(
-    // 	createProducts(values, (err) => {
-    // 		if (err) {
-    // 			setCreateError(err);
-    // 			setTimeout(() => {
-    // 				setCreateError('');
-    // 			}, 4000);
-    // 		} else {
-    // 			setSuccess('Category added successfully');
-    // 			setTimeout(() => {
-    // 				setSuccess('');
-    // 			}, 4000);
-    // 		}
-    // 		setCreateLoading(false);
-    // 	}),
+    //   createInwards(values, (err) => {
+    //     if (err) {
+    //       setCreateError(err);
+    //       setTimeout(() => {
+    //         setCreateError("");
+    //       }, 4000);
+    //     } else {
+    //       setSuccess("Category added successfully");
+    //       setTimeout(() => {
+    //         setSuccess("");
+    //       }, 4000);
+    //     }
+    //     setCreateLoading(false);
+    //   })
     // );
   };
-
-  const deleteProduct = async (params) => {
-    // setDeleteLoading(true);
-    // dispatch(
-    // 	deleteProducts(params, (err) => {
-    // 		if (err) {
-    // 			setDeleteError(err);
-    // 			setTimeout(() => {
-    // 				setDeleteError('');
-    // 			}, 4000);
-    // 		}
-    // 		setDeleteLoading(false);
-    // 	}),
-    // );
-  };
-
-  const [open, setOpen] = useState(false);
 
   const handleClose = (props) => {
     // setOpen(props);
@@ -119,548 +211,564 @@ const ItemInward = () => {
     <Sidenav title={"Item Inward"}>
       <div>
         <Formik
-          // initialValues={initialValuesState}
+          initialValues={initialValues}
           validationSchema={validationSchema}
-          enableReinitialize
-          onSubmit={onSubmit}
         >
-          <Form>
-            <Grid container spacing={1} style={{ marginTop: 15 }}>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Status"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value="">Received</MenuItem>
-                  <MenuItem value="">Not Received</MenuItem>
-                </CssTextField>
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Recieved From"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value="">Local</MenuItem>
-                </CssTextField>
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Section"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value="">Ring Side</MenuItem>
-                </CssTextField>
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="G.R.No."
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  // label='Date'
-                  variant="outlined"
-                  type="date"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="IGP No."
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={1} style={{ marginTop: 15 }}>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Bill No."
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="D.C No."
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="P.D. No."
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Item Code"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value=""></MenuItem>
-                </CssTextField>
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Item Name"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  disabled
-                  defaultValue=""
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Party Name"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value=""></MenuItem>
-                </CssTextField>
-              </Grid>
-            </Grid>
-            <Grid container spacing={1} style={{ marginTop: 15 }}>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Min. Level"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Indent"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value="">Yes</MenuItem>
-                  <MenuItem value="">Yes</MenuItem>
-                </CssTextField>
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Indent No."
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value=""></MenuItem>
-                </CssTextField>
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Indent Item Code"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Inward for Deptartment"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  select
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                >
-                  <MenuItem value=""></MenuItem>
-                </CssTextField>
-              </Grid>
-            </Grid>
-
-            <div style={{ marginTop: 30, marginBottom: 30 }}>
-              <hr />
-            </div>
-
-            <Grid container spacing={1} style={{ marginTop: 15 }}>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Unit"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  disabled
-                  defaultValue=""
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Rec. Qty."
-                  variant="outlined"
-                  type="number"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="@"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Amount"
-                  variant="outlined"
-                  type="number"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-              <Grid item lg={2} md={2} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Current Balance"
-                  variant="outlined"
-                  type="number"
-                  size="small"
-                  disabled
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-            </Grid>
-
-            <div style={{ marginTop: 30, marginBottom: 30 }}>
-              <hr />
-            </div>
-
-            <Grid container spacing={1} style={{ marginTop: 15 }}>
-              <Grid item lg={4} md={3} sm={12} xs={12}>
-                <CssTextField
-                  id="outlined-basic"
-                  label="Remarks"
-                  variant="outlined"
-                  type="text"
-                  size="small"
-                  autoComplete="off"
-                  style={{ width: "100%" }}
-                  inputProps={{ style: { fontSize: 14 } }}
-                  InputLabelProps={{ style: { fontSize: 14 } }}
-                  // onChange={props.handleChange('category')}
-                  // onBlur={props.handleBlur('category')}
-                  // value={props.values.category}
-                  // helperText={props.touched.category && props.errors.category}
-                  // error={props.touched.category && props.errors.category}
-                />
-              </Grid>
-            </Grid>
-
-            <div>
-              <Button
-                variant="outlined"
-                color="primary"
-                // loading={createLoading}
-                loaderColor="#333"
-                text="Add"
-                classNames={classes.addButton}
-              />
-              {/* {createError && <p>{createError}</p>} */}
-            </div>
-          </Form>
+          {(props) => {
+            form1 = props;
+            return (
+              <Form>
+                <Grid container spacing={1} style={{ marginTop: 15 }}>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Status"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      select
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("status")}
+                      onBlur={props.handleBlur("status")}
+                      value={props.values.status}
+                      helperText={props.touched.status && props.errors.status}
+                      error={props.touched.status && props.errors.status}
+                    >
+                      {statusOptions.map((el) => (
+                        <MenuItem key={el.value} value={el.value}>
+                          {el.name}
+                        </MenuItem>
+                      ))}
+                    </CssTextField>
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Recieved From"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      select
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("receivedFrom")}
+                      onBlur={props.handleBlur("receivedFrom")}
+                      value={props.values.receivedFrom}
+                      helperText={
+                        props.touched.receivedFrom && props.errors.receivedFrom
+                      }
+                      error={
+                        props.touched.receivedFrom && props.errors.receivedFrom
+                      }
+                    >
+                      <MenuItem value="local">Local</MenuItem>
+                    </CssTextField>
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Section"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      select
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("section")}
+                      onBlur={props.handleBlur("section")}
+                      value={props.values.section}
+                      helperText={props.touched.section && props.errors.section}
+                      error={props.touched.section && props.errors.section}
+                    >
+                      <MenuItem value="ring side">Ring Side</MenuItem>
+                    </CssTextField>
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="G.R.No."
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("grNo")}
+                      onBlur={props.handleBlur("grNo")}
+                      value={props.values.grNo}
+                      helperText={props.touched.grNo && props.errors.grNo}
+                      error={props.touched.grNo && props.errors.grNo}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="IGP No."
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("IGPNo")}
+                      onBlur={props.handleBlur("IGPNo")}
+                      value={props.values.IGPNo}
+                      helperText={props.touched.IGPNo && props.errors.IGPNo}
+                      error={props.touched.IGPNo && props.errors.IGPNo}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Bill No."
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("billNo")}
+                      onBlur={props.handleBlur("billNo")}
+                      value={props.values.billNo}
+                      helperText={props.touched.billNo && props.errors.billNo}
+                      error={props.touched.billNo && props.errors.billNo}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="D.C No."
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("dcNo")}
+                      onBlur={props.handleBlur("dcNo")}
+                      value={props.values.dcNo}
+                      helperText={props.touched.dcNo && props.errors.dcNo}
+                      error={props.touched.dcNo && props.errors.dcNo}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="P.D. No."
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("pdNo")}
+                      onBlur={props.handleBlur("pdNo")}
+                      value={props.values.pdNo}
+                      helperText={props.touched.pdNo && props.errors.pdNo}
+                      error={props.touched.pdNo && props.errors.pdNo}
+                    />
+                  </Grid>
+                </Grid>
+              </Form>
+            );
+          }}
+        </Formik>
+        <Formik
+          initialValues={initialValues2}
+          validationSchema={validationSchema2}
+        >
+          {(props) => {
+            form2 = props;
+            return (
+              <Form>
+                <Grid container spacing={1} style={{ marginTop: 15 }}>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <Autocomplete
+                      options={materials}
+                      label="name"
+                      onChange={(el) => {
+                        const material = materials.find(
+                          (el2) => el === el2._id
+                        );
+                        if (material) {
+                          setSelectedItem(material);
+                          props.setFieldValue("itemCode", el);
+                          props.setFieldValue("itemName", material?.name);
+                        } else {
+                          setSelectedItem({});
+                          props.setFieldValue("itemCode", "");
+                          props.setFieldValue("itemName", "");
+                        }
+                      }}
+                      value={materials.find(
+                        (el) => el._id === props.values.itemCode
+                      )}
+                      onBlur={props.handleBlur("itemCode")}
+                      helperText={
+                        props.touched.itemCode && props.errors.itemCode
+                      }
+                      error={props.touched.itemCode && props.errors.itemCode}
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      labelText="Select Item"
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Item Name"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      disabled
+                      defaultValue=""
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("itemName")}
+                      value={props.values.itemName}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Party Name"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("partyName")}
+                      onBlur={props.handleBlur("partyName")}
+                      value={props.values.partyName}
+                      helperText={
+                        props.touched.partyName && props.errors.partyName
+                      }
+                      error={props.touched.partyName && props.errors.partyName}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Min. Level"
+                      variant="outlined"
+                      type="number"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("minInv")}
+                      onBlur={props.handleBlur("minInv")}
+                      value={props.values.minInv}
+                      helperText={props.touched.minInv && props.errors.minInv}
+                      error={props.touched.minInv && props.errors.minInv}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Indent"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      select
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("isIndent")}
+                      onBlur={props.handleBlur("isIndent")}
+                      value={props.values.isIndent}
+                      helperText={
+                        props.touched.isIndent && props.errors.isIndent
+                      }
+                      error={props.touched.isIndent && props.errors.isIndent}
+                    >
+                      <MenuItem value="yes">Yes</MenuItem>
+                      <MenuItem value="no">No</MenuItem>
+                    </CssTextField>
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <Autocomplete
+                      options={purchaseRequisitions}
+                      label="code"
+                      onChange={(el) => {
+                        const item = purchaseRequisitions.find(
+                          (el2) => el === el2._id
+                        );
+                        setSelectedRequisition(item);
+                      }}
+                      capitalized={false}
+                      value={purchaseRequisitions.find(
+                        (el) => el._id === props.values.indentNo
+                      )}
+                      onBlur={props.handleBlur("indentNo")}
+                      helperText={
+                        props.touched.indentNo && props.errors.indentNo
+                      }
+                      error={props.touched.indentNo && props.errors.indentNo}
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      labelText="Select Indent No"
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <Autocomplete
+                      options={departments}
+                      label="name"
+                      onChange={props.handleChange("inwardForDept")}
+                      value={departments.find(
+                        (el) => el._id === props.values.inwardForDept
+                      )}
+                      onBlur={props.handleBlur("inwardForDept")}
+                      helperText={
+                        props.touched.inwardForDept &&
+                        props.errors.inwardForDept
+                      }
+                      error={
+                        props.touched.inwardForDept &&
+                        props.errors.inwardForDept
+                      }
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      labelText="Select Inward Department"
+                    />
+                  </Grid>
+                </Grid>
+              </Form>
+            );
+          }}
         </Formik>
 
-        <table class="table table-responsive table-striped table-bordered border-dark text-center mt-3">
-          <thead class="bg-dark text-light">
-            <tr>
-              <th>S.No.</th>
-              <th>Item Code</th>
-              <th>Item Name</th>
-              <th>BILL NO</th>
-              <th>DC NO</th>
-              <th>IGP NO</th>
-              <th>Unit</th>
-              <th>Rate</th>
-              <th>Qty</th>
-              <th>Received From</th>
-              <th>Dept.</th>
-              <th>Amount</th>
-              <th>Balance</th>
-              <th>Remarks</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* {
-                                binCards.map((el, i) => ( */}
-            <tr>
-              {/* <td>{i + 1}</td> */}
+        <div style={{ marginTop: 30, marginBottom: 30 }}>
+          <hr />
+        </div>
 
-              <td>{/* {el?.product?.name} */}</td>
-              <td>{/* {el?.history[0]?.balance} */}</td>
-              <td>{/* {el?.history[0]?.in} */}</td>
-              <td>{/* {el?.history[0]?.out} */}</td>
-              <td>{/* {el?.history[0]?.balance} */}</td>
-              <td>{/* {el?.history[0]?.out} */}</td>
-              <td>{/* {el?.history[0]?.balance} */}</td>
-              <td>{/* {el?.history[0]?.out} */}</td>
-              <td>{/* {el?.history[0]?.balance} */}</td>
-              <td>{/* {el?.history[0]?.out} */}</td>
-              <td>{/* {el?.history[0]?.balance} */}</td>
-              <td>{/* {el?.history[0]?.out} */}</td>
-              <td>{/* {el?.history[0]?.balance} */}</td>
-              <td>{/* {el?.history[0]?.date} */}</td>
-              <td>
-                <Button
-                  variant="contained"
-                  text="View"
-                  size="small"
-                  classNames="btn bg-dark text-light"
-                  // onClick={() => {
-                  //     history.push('/storedashboard/inwards/item_inward/print_inward_item')
-                  // }}
-                />
-              </td>
-            </tr>
-            {/* ))
+        <Grid container spacing={1} style={{ marginTop: 15 }}>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CssTextField
+              id="outlined-basic"
+              label="Unit"
+              variant="outlined"
+              type="text"
+              size="small"
+              disabled
+              defaultValue=""
+              autoComplete="off"
+              style={{ width: "100%" }}
+              inputProps={{ style: { fontSize: 14 } }}
+              InputLabelProps={{ style: { fontSize: 14 } }}
+              // onChange={props.handleChange('category')}
+              // onBlur={props.handleBlur('category')}
+              // value={props.values.category}
+              // helperText={props.touched.category && props.errors.category}
+              // error={props.touched.category && props.errors.category}
+            />
+          </Grid>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CssTextField
+              id="outlined-basic"
+              label="Rec. Qty."
+              variant="outlined"
+              type="number"
+              size="small"
+              autoComplete="off"
+              style={{ width: "100%" }}
+              inputProps={{ style: { fontSize: 14 } }}
+              InputLabelProps={{ style: { fontSize: 14 } }}
+              // onChange={props.handleChange('category')}
+              // onBlur={props.handleBlur('category')}
+              // value={props.values.category}
+              // helperText={props.touched.category && props.errors.category}
+              // error={props.touched.category && props.errors.category}
+            />
+          </Grid>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CssTextField
+              id="outlined-basic"
+              label="@"
+              variant="outlined"
+              type="text"
+              size="small"
+              autoComplete="off"
+              style={{ width: "100%" }}
+              inputProps={{ style: { fontSize: 14 } }}
+              InputLabelProps={{ style: { fontSize: 14 } }}
+              // onChange={props.handleChange('category')}
+              // onBlur={props.handleBlur('category')}
+              // value={props.values.category}
+              // helperText={props.touched.category && props.errors.category}
+              // error={props.touched.category && props.errors.category}
+            />
+          </Grid>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CssTextField
+              id="outlined-basic"
+              label="Amount"
+              variant="outlined"
+              type="number"
+              size="small"
+              autoComplete="off"
+              style={{ width: "100%" }}
+              inputProps={{ style: { fontSize: 14 } }}
+              InputLabelProps={{ style: { fontSize: 14 } }}
+              // onChange={props.handleChange('category')}
+              // onBlur={props.handleBlur('category')}
+              // value={props.values.category}
+              // helperText={props.touched.category && props.errors.category}
+              // error={props.touched.category && props.errors.category}
+            />
+          </Grid>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CssTextField
+              id="outlined-basic"
+              label="Current Balance"
+              variant="outlined"
+              type="number"
+              size="small"
+              disabled
+              autoComplete="off"
+              style={{ width: "100%" }}
+              inputProps={{ style: { fontSize: 14 } }}
+              InputLabelProps={{ style: { fontSize: 14 } }}
+              // onChange={props.handleChange('category')}
+              // onBlur={props.handleBlur('category')}
+              // value={props.values.category}
+              // helperText={props.touched.category && props.errors.category}
+              // error={props.touched.category && props.errors.category}
+            />
+          </Grid>
+        </Grid>
+
+        <div style={{ marginTop: 30, marginBottom: 30 }}>
+          <hr />
+        </div>
+
+        <Grid container spacing={1} style={{ marginTop: 15 }}>
+          <Grid item lg={4} md={3} sm={12} xs={12}>
+            <CssTextField
+              id="outlined-basic"
+              label="Remarks"
+              variant="outlined"
+              type="text"
+              size="small"
+              autoComplete="off"
+              style={{ width: "100%" }}
+              inputProps={{ style: { fontSize: 14 } }}
+              InputLabelProps={{ style: { fontSize: 14 } }}
+              // onChange={props.handleChange('category')}
+              // onBlur={props.handleBlur('category')}
+              // value={props.values.category}
+              // helperText={props.touched.category && props.errors.category}
+              // error={props.touched.category && props.errors.category}
+            />
+          </Grid>
+        </Grid>
+
+        <div>
+          <Button
+            variant="outlined"
+            color="primary"
+            loading={createLoading}
+            loaderColor="#333"
+            text="Add"
+            classNames={classes.addButton}
+            onClick={onSubmit}
+          />
+          {createError && <p>{createError}</p>}
+        </div>
+
+        {fetchLoading ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "3rem",
+            }}
+          >
+            <Loader type="TailSpin" color="#000" width="3rem" height="3rem" />
+          </div>
+        ) : inwards?.length === 0 ? (
+          <p>There is no data found.</p>
+        ) : (
+          <table class="table table-responsive table-striped table-bordered border-dark text-center mt-3">
+            <thead class="bg-dark text-light">
+              <tr>
+                <th>S.No.</th>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>BILL NO</th>
+                <th>DC NO</th>
+                <th>IGP NO</th>
+                <th>Unit</th>
+                <th>Rate</th>
+                <th>Qty</th>
+                <th>Received From</th>
+                <th>Dept.</th>
+                <th>Amount</th>
+                <th>Balance</th>
+                <th>Remarks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {/* {
+            binCards.map((el, i) => ( */}
+              <tr>
+                {/* <td>{i + 1}</td> */}
+
+                <td>{/* {el?.product?.name} */}</td>
+                <td>{/* {el?.history[0]?.balance} */}</td>
+                <td>{/* {el?.history[0]?.in} */}</td>
+                <td>{/* {el?.history[0]?.out} */}</td>
+                <td>{/* {el?.history[0]?.balance} */}</td>
+                <td>{/* {el?.history[0]?.out} */}</td>
+                <td>{/* {el?.history[0]?.balance} */}</td>
+                <td>{/* {el?.history[0]?.out} */}</td>
+                <td>{/* {el?.history[0]?.balance} */}</td>
+                <td>{/* {el?.history[0]?.out} */}</td>
+                <td>{/* {el?.history[0]?.balance} */}</td>
+                <td>{/* {el?.history[0]?.out} */}</td>
+                <td>{/* {el?.history[0]?.balance} */}</td>
+                <td>{/* {el?.history[0]?.date} */}</td>
+                <td>
+                  <Button
+                    variant="contained"
+                    text="View"
+                    size="small"
+                    classNames="btn bg-dark text-light"
+                    // onClick={() => {
+                    //     history.push('/storedashboard/inwards/item_inward/print_inward_item')
+                    // }}
+                  />
+                </td>
+              </tr>
+              {/* ))
                             } */}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        )}
       </div>
     </Sidenav>
   );
