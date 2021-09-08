@@ -36,7 +36,7 @@ const PrintItemInward = () => {
               textDecoration: "underline",
             }}
           >
-            BIN CARD
+            Item Inward
           </h3>
         </div>
         <div class="container" id="printBtn">

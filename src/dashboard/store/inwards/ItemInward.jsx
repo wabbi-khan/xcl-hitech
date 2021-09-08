@@ -18,52 +18,53 @@ import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
 import { fetchDepartmentsAction } from "../../../services/action/DepartmentAction";
 import { fetchRequisitionAction } from "../../../services/action/PurchaseReqAction";
 import Loader from "react-loader-spinner";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "25ch",
     },
-    mainContainer: {
-        textAlign: "center",
-        marginTop: 20,
+  },
+  mainContainer: {
+    textAlign: "center",
+    marginTop: 20,
+  },
+  addButton: {
+    marginTop: 40,
+    backgroundColor: "#22A19A",
+    color: "whitesmoke",
+    borderColor: "#22A19A",
+    fontWeight: "bold",
+    width: "10%",
+    "&:hover": {
+      color: "#22A19A",
+      borderColor: "#22A19A",
     },
-    addButton: {
-        marginTop: 40,
-        backgroundColor: "#22A19A",
-        color: "whitesmoke",
-        borderColor: "#22A19A",
-        fontWeight: "bold",
-        width: "10%",
-        "&:hover": {
-            color: "#22A19A",
-            borderColor: "#22A19A",
-        },
-    },
-    table: {
-        minWidth: 600,
-    },
-    dataTable: {
-        marginTop: 40,
-    },
+  },
+  table: {
+    minWidth: 600,
+  },
+  dataTable: {
+    marginTop: 40,
+  },
 }));
 
 const CssTextField = withStyles({
-    root: {
-        "& label.Mui-focused": {
-            color: "black",
-        },
-        "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-                borderColor: "black",
-            },
-            "&.Mui-focused fieldset": {
-                borderColor: "black",
-            },
-        },
+  root: {
+    "& label.Mui-focused": {
+      color: "black",
     },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "black",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "black",
+      },
+    },
+  },
 })(TextField);
 
 const statusOptions = [
@@ -128,7 +129,7 @@ const validationSchema2 = yup.object({
   remarks: yup.string().required("Please provide Remarks"),
 });
 
-const ItemInward = () => {
+const ItemInward = ({ history }) => {
   const [fetchLoading, setFetchLoading] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [createLoading, setCreateLoading] = useState(false);
@@ -143,7 +144,7 @@ const ItemInward = () => {
 
   const classes = useStyles();
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   let form1 = null;
   let form2 = null;
@@ -215,14 +216,14 @@ const ItemInward = () => {
     }
   };
 
-    const handleClose = (props) => {
-        // setOpen(props);
-    };
+  const handleClose = (props) => {
+    // setOpen(props);
+  };
 
-    const handleOpen = async (product) => {
-        // setproduct(product);
-        setOpen(true);
-    };
+  const handleOpen = async (product) => {
+    // setproduct(product);
+    setOpen(true);
+  };
 
   return (
     <Sidenav title={"Item Inward"}>
@@ -779,6 +780,11 @@ const ItemInward = () => {
                       text="View"
                       size="small"
                       classNames="btn bg-dark text-light"
+                      onClick={() => {
+                        history.push(
+                          "/storedashboard/inwards/item_inward/print_inward_item"
+                        );
+                      }}
                     />
                   </td>
                 </tr>
@@ -791,4 +797,4 @@ const ItemInward = () => {
   );
 };
 
-export default ItemInward;
+export default withRouter(ItemInward);
