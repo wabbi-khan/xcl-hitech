@@ -18,6 +18,7 @@ export const getInwards = (query, cb) => async(dispatch) => {
             data
         } = await axios.get(`${process.env.REACT_APP_API_URL}/inward`);
 
+        console.log(data);
 
         if (data.success) {
             dispatch({

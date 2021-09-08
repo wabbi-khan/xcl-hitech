@@ -96,9 +96,11 @@ const initialValues2 = {
   isIndent: "no",
   indentNo: "",
   inwardForDept: "",
-  recQty: "local",
+  recQty: "",
+  rate: "",
   amount: "",
-  remarks: "receive",
+  unit: "",
+  remarks: "",
 };
 
 const validationSchema = yup.object({
@@ -119,7 +121,9 @@ const validationSchema2 = yup.object({
   isIndent: yup.string().required("Please provide indent"),
   indentNo: yup.string(),
   inwardForDept: yup.string().required("Please provide Inward For Dept"),
+  unit: yup.string(),
   recQty: yup.string().required("Please provide Rec qty"),
+  rate: yup.string().required("Please provide Rate"),
   amount: yup.string().required("Please provide amount"),
   remarks: yup.string().required("Please provide Remarks"),
 });
@@ -151,8 +155,6 @@ const ItemInward = () => {
   );
   const { departments } = useSelector((state) => state.departments);
 
-  useEffect(() => {}, [selectedRequisition]);
-
   useEffect(() => {
     dispatch(fetchDepartmentsAction());
     dispatch(getMaterialAction());
@@ -171,6 +173,13 @@ const ItemInward = () => {
     );
   }, []);
 
+  function isEmpty(obj) {
+    for (var x in obj) {
+      if (obj.hasOwnProperty(x)) return false;
+    }
+    return true;
+  }
+
   const onSubmit = async (values) => {
     const form1Errors = await form1.validateForm();
     form1.setTouched(form1Errors);
@@ -179,23 +188,31 @@ const ItemInward = () => {
 
     console.log("Form 1 values", form1.values);
     console.log("Form 2 values", form2.values);
-    // setCreateLoading(true);
-    // dispatch(
-    //   createInwards(values, (err) => {
-    //     if (err) {
-    //       setCreateError(err);
-    //       setTimeout(() => {
-    //         setCreateError("");
-    //       }, 4000);
-    //     } else {
-    //       setSuccess("Category added successfully");
-    //       setTimeout(() => {
-    //         setSuccess("");
-    //       }, 4000);
-    //     }
-    //     setCreateLoading(false);
-    //   })
-    // );
+
+    values = {
+      ...form1.values,
+      ...form2.values,
+    };
+    if (isEmpty(form1Errors) && isEmpty(form2Errors)) {
+      setCreateLoading(true);
+      dispatch(
+        createInwards(values, (err) => {
+          if (err) {
+            console.log(err);
+            setCreateError(err);
+            setTimeout(() => {
+              setCreateError("");
+            }, 4000);
+          } else {
+            setSuccess("Category added successfully");
+            setTimeout(() => {
+              setSuccess("");
+            }, 4000);
+          }
+          setCreateLoading(false);
+        })
+      );
+    }
   };
 
   const handleClose = (props) => {
@@ -402,10 +419,12 @@ const ItemInward = () => {
                         const material = materials.find(
                           (el2) => el === el2._id
                         );
+                        console.log(material);
                         if (material) {
                           setSelectedItem(material);
                           props.setFieldValue("itemCode", el);
                           props.setFieldValue("itemName", material?.name);
+                          props.setFieldValue("unit", material?.unit?.name);
                         } else {
                           setSelectedItem({});
                           props.setFieldValue("itemCode", "");
@@ -514,6 +533,7 @@ const ItemInward = () => {
                           (el2) => el === el2._id
                         );
                         setSelectedRequisition(item);
+                        props.setFieldValue("indentNo", el);
                       }}
                       capitalized={false}
                       value={purchaseRequisitions.find(
@@ -523,6 +543,7 @@ const ItemInward = () => {
                       helperText={
                         props.touched.indentNo && props.errors.indentNo
                       }
+                      disabled={props.values.isIndent === "yes" ? false : true}
                       error={props.touched.indentNo && props.errors.indentNo}
                       style={{ width: "100%" }}
                       inputProps={{ style: { fontSize: 14 } }}
@@ -554,135 +575,139 @@ const ItemInward = () => {
                     />
                   </Grid>
                 </Grid>
+                <div style={{ marginTop: 30, marginBottom: 30 }}>
+                  <hr />
+                </div>
+
+                <Grid container spacing={1} style={{ marginTop: 15 }}>
+                  <Grid item lg={2} md={2} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Unit"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      disabled
+                      defaultValue=""
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("unit")}
+                      onBlur={props.handleBlur("unit")}
+                      value={props.values.unit}
+                      helperText={props.touched.unit && props.errors.unit}
+                      error={props.touched.unit && props.errors.unit}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Rec. Qty."
+                      variant="outlined"
+                      type="number"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={(e) => {
+                        props.setFieldValue("recQty", e.target.value);
+                        props.setFieldValue(
+                          "amount",
+                          +e.target.value * +props.values.rate
+                        );
+                      }}
+                      onBlur={props.handleBlur("recQty")}
+                      value={props.values.recQty}
+                      helperText={props.touched.recQty && props.errors.recQty}
+                      error={props.touched.recQty && props.errors.recQty}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Rate"
+                      variant="outlined"
+                      type="number"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={(e) => {
+                        props.setFieldValue("rate", e.target.value);
+                        props.setFieldValue(
+                          "amount",
+                          +e.target.value * +props.values.recQty
+                        );
+                      }}
+                      onBlur={props.handleBlur("rate")}
+                      value={props.values.rate}
+                      helperText={props.touched.rate && props.errors.rate}
+                      error={props.touched.rate && props.errors.rate}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Amount"
+                      variant="outlined"
+                      type="number"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("amount")}
+                      onBlur={props.handleBlur("amount")}
+                      value={props.values.amount}
+                      helperText={props.touched.amount && props.errors.amount}
+                      error={props.touched.amount && props.errors.amount}
+                    />
+                  </Grid>
+                  <Grid item lg={2} md={2} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Current Balance"
+                      variant="outlined"
+                      type="number"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                    />
+                  </Grid>
+                </Grid>
+                <div style={{ marginTop: 30, marginBottom: 30 }}>
+                  <hr />
+                </div>
+
+                <Grid container spacing={1} style={{ marginTop: 15 }}>
+                  <Grid item lg={4} md={3} sm={12} xs={12}>
+                    <CssTextField
+                      id="outlined-basic"
+                      label="Remarks"
+                      variant="outlined"
+                      type="text"
+                      size="small"
+                      autoComplete="off"
+                      style={{ width: "100%" }}
+                      inputProps={{ style: { fontSize: 14 } }}
+                      InputLabelProps={{ style: { fontSize: 14 } }}
+                      onChange={props.handleChange("remarks")}
+                      onBlur={props.handleBlur("remarks")}
+                      value={props.values.remarks}
+                      helperText={props.touched.remarks && props.errors.remarks}
+                      error={props.touched.remarks && props.errors.remarks}
+                    />
+                  </Grid>
+                </Grid>
               </Form>
             );
           }}
         </Formik>
-
-        <div style={{ marginTop: 30, marginBottom: 30 }}>
-          <hr />
-        </div>
-
-        <Grid container spacing={1} style={{ marginTop: 15 }}>
-          <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CssTextField
-              id="outlined-basic"
-              label="Unit"
-              variant="outlined"
-              type="text"
-              size="small"
-              disabled
-              defaultValue=""
-              autoComplete="off"
-              style={{ width: "100%" }}
-              inputProps={{ style: { fontSize: 14 } }}
-              InputLabelProps={{ style: { fontSize: 14 } }}
-              // onChange={props.handleChange('category')}
-              // onBlur={props.handleBlur('category')}
-              // value={props.values.category}
-              // helperText={props.touched.category && props.errors.category}
-              // error={props.touched.category && props.errors.category}
-            />
-          </Grid>
-          <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CssTextField
-              id="outlined-basic"
-              label="Rec. Qty."
-              variant="outlined"
-              type="number"
-              size="small"
-              autoComplete="off"
-              style={{ width: "100%" }}
-              inputProps={{ style: { fontSize: 14 } }}
-              InputLabelProps={{ style: { fontSize: 14 } }}
-              // onChange={props.handleChange('category')}
-              // onBlur={props.handleBlur('category')}
-              // value={props.values.category}
-              // helperText={props.touched.category && props.errors.category}
-              // error={props.touched.category && props.errors.category}
-            />
-          </Grid>
-          <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CssTextField
-              id="outlined-basic"
-              label="@"
-              variant="outlined"
-              type="text"
-              size="small"
-              autoComplete="off"
-              style={{ width: "100%" }}
-              inputProps={{ style: { fontSize: 14 } }}
-              InputLabelProps={{ style: { fontSize: 14 } }}
-              // onChange={props.handleChange('category')}
-              // onBlur={props.handleBlur('category')}
-              // value={props.values.category}
-              // helperText={props.touched.category && props.errors.category}
-              // error={props.touched.category && props.errors.category}
-            />
-          </Grid>
-          <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CssTextField
-              id="outlined-basic"
-              label="Amount"
-              variant="outlined"
-              type="number"
-              size="small"
-              autoComplete="off"
-              style={{ width: "100%" }}
-              inputProps={{ style: { fontSize: 14 } }}
-              InputLabelProps={{ style: { fontSize: 14 } }}
-              // onChange={props.handleChange('category')}
-              // onBlur={props.handleBlur('category')}
-              // value={props.values.category}
-              // helperText={props.touched.category && props.errors.category}
-              // error={props.touched.category && props.errors.category}
-            />
-          </Grid>
-          <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CssTextField
-              id="outlined-basic"
-              label="Current Balance"
-              variant="outlined"
-              type="number"
-              size="small"
-              disabled
-              autoComplete="off"
-              style={{ width: "100%" }}
-              inputProps={{ style: { fontSize: 14 } }}
-              InputLabelProps={{ style: { fontSize: 14 } }}
-              // onChange={props.handleChange('category')}
-              // onBlur={props.handleBlur('category')}
-              // value={props.values.category}
-              // helperText={props.touched.category && props.errors.category}
-              // error={props.touched.category && props.errors.category}
-            />
-          </Grid>
-        </Grid>
-
-        <div style={{ marginTop: 30, marginBottom: 30 }}>
-          <hr />
-        </div>
-
-        <Grid container spacing={1} style={{ marginTop: 15 }}>
-          <Grid item lg={4} md={3} sm={12} xs={12}>
-            <CssTextField
-              id="outlined-basic"
-              label="Remarks"
-              variant="outlined"
-              type="text"
-              size="small"
-              autoComplete="off"
-              style={{ width: "100%" }}
-              inputProps={{ style: { fontSize: 14 } }}
-              InputLabelProps={{ style: { fontSize: 14 } }}
-              // onChange={props.handleChange('category')}
-              // onBlur={props.handleBlur('category')}
-              // value={props.values.category}
-              // helperText={props.touched.category && props.errors.category}
-              // error={props.touched.category && props.errors.category}
-            />
-          </Grid>
-        </Grid>
 
         <div>
           <Button
@@ -731,41 +756,33 @@ const ItemInward = () => {
                 <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
-              {/* {
-            binCards.map((el, i) => ( */}
-              <tr>
-                {/* <td>{i + 1}</td> */}
-
-                <td>{/* {el?.product?.name} */}</td>
-                <td>{/* {el?.history[0]?.balance} */}</td>
-                <td>{/* {el?.history[0]?.in} */}</td>
-                <td>{/* {el?.history[0]?.out} */}</td>
-                <td>{/* {el?.history[0]?.balance} */}</td>
-                <td>{/* {el?.history[0]?.out} */}</td>
-                <td>{/* {el?.history[0]?.balance} */}</td>
-                <td>{/* {el?.history[0]?.out} */}</td>
-                <td>{/* {el?.history[0]?.balance} */}</td>
-                <td>{/* {el?.history[0]?.out} */}</td>
-                <td>{/* {el?.history[0]?.balance} */}</td>
-                <td>{/* {el?.history[0]?.out} */}</td>
-                <td>{/* {el?.history[0]?.balance} */}</td>
-                <td>{/* {el?.history[0]?.date} */}</td>
-                <td>
-                  <Button
-                    variant="contained"
-                    text="View"
-                    size="small"
-                    classNames="btn bg-dark text-light"
-                    // onClick={() => {
-                    //     history.push('/storedashboard/inwards/item_inward/print_inward_item')
-                    // }}
-                  />
-                </td>
-              </tr>
-              {/* ))
-                            } */}
+              {inwards?.map((el, i) => (
+                <tr>
+                  <td>{i + 1}</td>
+                  <td>{el?.itemCode?.code}</td>
+                  <td>{el?.itemCode?.name}</td>
+                  <td>{el?.billNo}</td>
+                  <td>{el?.dcNo}</td>
+                  <td>{el?.IGPNo}</td>
+                  <td>{el?.itemCode?.unit?.name}</td>
+                  <td>{el?.rate}</td>
+                  <td>{el?.recQty}</td>
+                  <td>{el?.partyName}</td>
+                  <td>{el?.inwardForDept?.name}</td>
+                  <td>{el?.amount}</td>
+                  <td>0</td>
+                  <td>{el?.remarks}</td>
+                  <td>
+                    <Button
+                      variant="contained"
+                      text="View"
+                      size="small"
+                      classNames="btn bg-dark text-light"
+                    />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}

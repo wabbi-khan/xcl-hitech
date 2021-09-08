@@ -32,6 +32,7 @@ const AutoCompleteSearch = ({
   style,
   labelText,
   capitalized = true,
+  disabled,
 }) => {
   const selected = (e, op) => {
     if (op) {
@@ -44,6 +45,7 @@ const AutoCompleteSearch = ({
   return (
     <>
       <AutoComplete
+        disabled={disabled ? true : false}
         id="asd"
         freeSolo
         value={value}
@@ -75,6 +77,7 @@ const AutoCompleteSearch = ({
             size="small"
             helperText={helperText}
             style={{ ...style }}
+            disabled={disabled ? true : false}
           />
         )}
       />
