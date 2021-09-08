@@ -781,9 +781,11 @@ const ItemInward = ({ history }) => {
                       size="small"
                       classNames="btn bg-dark text-light"
                       onClick={() => {
-                        history.push(
-                          "/storedashboard/inwards/item_inward/print_inward_item"
-                        );
+                        history.push({
+                          pathname:
+                            "/storedashboard/inwards/item_inward/print_inward_item",
+                          state: { inward: el },
+                        });
                       }}
                     />
                   </td>
