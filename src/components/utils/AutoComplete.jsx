@@ -31,9 +31,10 @@ const AutoCompleteSearch = ({
   onBlur,
   style,
   labelText,
+  capitalized = true,
+  disabled,
 }) => {
   const selected = (e, op) => {
-    console.log(op?._id);
     if (op) {
       onChange(op?._id);
     } else {
@@ -44,13 +45,18 @@ const AutoCompleteSearch = ({
   return (
     <>
       <AutoComplete
+        disabled={disabled ? true : false}
         id="asd"
         freeSolo
         value={value}
         onChange={selected}
         options={options}
         getOptionLabel={(option) => {
-          let str1 = option[label] ? capitalize(option[label]) : "";
+          let str1 = option[label]
+            ? capitalized
+              ? capitalize(option[label])
+              : option[label]
+            : "";
           let str2 = "";
           label2
             ? option[label2]
@@ -71,6 +77,7 @@ const AutoCompleteSearch = ({
             size="small"
             helperText={helperText}
             style={{ ...style }}
+            disabled={disabled ? true : false}
           />
         )}
       />
