@@ -1,26 +1,26 @@
 import axios from "axios";
 import {
-    INWARD_CREATE_SUCCESS,
-    INWARD_DELETE_SUCCESS,
-    INWARD_FAIL,
-    INWARD_FETCH_SUCCESS,
-    INWARD_REQUEST,
-    INWARD_UPDATE_SUCCESS,
-} from "../constants/InwardConstant";
+    INWARD_GATE_PASS_CREATE_SUCCESS,
+    INWARD_GATE_PASS_DELETE_SUCCESS,
+    INWARD_GATE_PASS_FAIL,
+    INWARD_GATE_PASS_FETCH_SUCCESS,
+    INWARD_GATE_PASS_REQUEST,
+    INWARD_GATE_PASS_UPDATE_SUCCESS,
+} from "../constants/InwardGatePassConstant";
 
-export const getInwards = (query, cb) => async(dispatch) => {
+export const getInwardGatePasses = (query, cb) => async(dispatch) => {
     dispatch({
-        type: INWARD_REQUEST,
+        type: INWARD_GATE_PASS_REQUEST,
     });
 
     try {
         const {
             data
-        } = await axios.get(`${process.env.REACT_APP_API_URL}/inward`);
+        } = await axios.get(`${process.env.REACT_APP_API_URL}/inwardGatePass`);
 
         if (data.success) {
             dispatch({
-                type: INWARD_FETCH_SUCCESS,
+                type: INWARD_GATE_PASS_FETCH_SUCCESS,
                 payload: data.data,
             });
             if (cb) cb();
@@ -30,16 +30,16 @@ export const getInwards = (query, cb) => async(dispatch) => {
     }
 };
 
-export const createInwards = (values, cb) => async(dispatch) => {
+export const createInwardGatePasses = (values, cb) => async(dispatch) => {
     dispatch({
-        type: INWARD_REQUEST,
+        type: INWARD_GATE_PASS_REQUEST,
     });
 
     try {
         const {
             data
         } = await axios.post(
-            `${process.env.REACT_APP_API_URL}/inward`,
+            `${process.env.REACT_APP_API_URL}/inwardGatePass`,
             values
         );
 
@@ -47,8 +47,8 @@ export const createInwards = (values, cb) => async(dispatch) => {
 
         if (data.success) {
             dispatch({
-                type: INWARD_CREATE_SUCCESS,
-                payload: data.inward,
+                type: INWARD_GATE_PASS_CREATE_SUCCESS,
+                payload: data.inwardGatePass,
             });
             if (cb) cb();
         }
@@ -57,23 +57,23 @@ export const createInwards = (values, cb) => async(dispatch) => {
     }
 };
 
-export const updateInwards = (id, values, cb) => async(dispatch) => {
+export const updateInwardGatePasses = (id, values, cb) => async(dispatch) => {
     dispatch({
-        type: INWARD_REQUEST,
+        type: INWARD_GATE_PASS_REQUEST,
     });
 
     try {
         const {
             data
         } = await axios.patch(
-            `${process.env.REACT_APP_API_URL}/inward/${id}`,
+            `${process.env.REACT_APP_API_URL}/inwardGatePass/${id}`,
             values
         );
 
         if (data.success) {
             dispatch({
-                type: INWARD_UPDATE_SUCCESS,
-                payload: data.inward,
+                type: INWARD_GATE_PASS_UPDATE_SUCCESS,
+                payload: data.inwardGatePass,
             });
             if (cb) cb();
         }
@@ -82,21 +82,21 @@ export const updateInwards = (id, values, cb) => async(dispatch) => {
     }
 };
 
-export const deleteInwards = (params, cb) => async(dispatch) => {
+export const deleteInwardGatePasses = (params, cb) => async(dispatch) => {
     dispatch({
-        type: INWARD_REQUEST,
+        type: INWARD_GATE_PASS_REQUEST,
     });
 
     try {
         const {
             data
         } = await axios.delete(
-            `${process.env.REACT_APP_API_URL}/inward/${params}`
+            `${process.env.REACT_APP_API_URL}/inwardGatePass/${params}`
         );
 
         if (data.success) {
             dispatch({
-                type: INWARD_DELETE_SUCCESS,
+                type: INWARD_GATE_PASS_DELETE_SUCCESS,
                 payload: params,
             });
             if (cb) cb();
@@ -110,14 +110,14 @@ const dispatchError = (err, dispatch, cb) => {
     if (err.response) {
         if (cb) cb(err.response.data.error);
         dispatch({
-            type: INWARD_FAIL,
+            type: INWARD_GATE_PASS_FAIL,
             payload: err.response.data.error,
         });
     } else {
         if (cb) cb("Network Error");
         console.log(err);
         dispatch({
-            type: INWARD_FAIL,
+            type: INWARD_GATE_PASS_FAIL,
             payload: "Network Error",
         });
     }
