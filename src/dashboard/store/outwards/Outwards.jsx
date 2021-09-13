@@ -89,14 +89,14 @@ const Outwards = ({ history }) => {
             <div>
                 <div class='container mt-5'>
                     <form onSubmit={handleSubmit(onSubmitData)}>
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '5rem' }}>
                             <Button
                                 text='Item Outward'
                                 size='large'
                                 variant="contained"
                                 classNames={classes.mainBtn}
                                 onClick={() => {
-                                    history.push('')
+                                    history.push('/storedashboard/outwards/item_outwards')
                                 }}
                             />
                             <Button
@@ -110,15 +110,6 @@ const Outwards = ({ history }) => {
                             />
                             <Button
                                 text='Returnable Outward Gate Pass'
-                                size='large'
-                                variant="contained"
-                                classNames={classes.mainBtn}
-                                onClick={() => {
-                                    history.push('')
-                                }}
-                            />
-                            <Button
-                                text='Returnable Outward Gate Pass Acknowlegement'
                                 size='large'
                                 variant="contained"
                                 classNames={classes.mainBtn}

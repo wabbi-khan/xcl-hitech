@@ -219,7 +219,7 @@ const OrderBookingForm = () => {
         // await dispatch(appSuppListAction())
     }, [dispatch])
 
-    const { verifiedVendors } = useSelector(state => state.verifiedVendors)
+    // const { verifiedVendors } = useSelector(state => state.verifiedVendors)
 
     const addMoreFunc = () => {
         setItemCounter([...ItemCounter, { material: '', quantity: '', unitValue: '', remarks: '' }]);
@@ -279,42 +279,6 @@ const OrderBookingForm = () => {
         <Sidenav title={'Order Booking Form'}>
             <div>
                 <form action="" onSubmit={handleSubmit(onSubmitDate)}>
-                    <Container className={classes.mainContainer}>
-                        <Container className={classes.innerContainer}>
-                            <Grid container spacing={1} style={{ marginTop: 15, }} >
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Enter work Order no.*"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        // label="Date"
-                                        variant="outlined"
-                                        type="date"
-                                        size="small"
-                                        className={classes.inputFieldStyle1}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("poNum", { required: true })}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <div style={{ marginTop: 30, marginBottom: 30, }}>
-                                <hr />
-                            </div>
-                        </Container>
-                    </Container>
                     <Container className={classes.mainContainer}>
                         <div className="mt-2 ml-5">
                             <h5>Company Representative</h5>
@@ -446,7 +410,7 @@ const OrderBookingForm = () => {
                     </Container>
                     <Container className={classes.mainContainer}>
                         <div className="mt-4 ml-5">
-                            <h5>Items</h5>
+                            <h5>Description of Order</h5>
                         </div>
                         <Container className={classes.innerContainer}>
                             {

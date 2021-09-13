@@ -131,6 +131,7 @@ import InwardApproval from './dashboard/store/inwards/InwardApproval';
 import PrintItemInward from './dashboard/store/inwards/PrintItemInward';
 import PrintInwardGatepass from './dashboard/store/inwards/PrintInwardGatepass';
 import PrintInwardApproval from './dashboard/store/inwards/PrintInwardApproval';
+import ItemOutwards from './dashboard/store/outwards/ItemOutwards';
 
 dotenv.config();
 
@@ -350,6 +351,11 @@ function App() {
 				exact
 				path='/storedashboard/outwards'
 				component={Outwards}
+			/>
+			<Route
+				exact
+				path='/storedashboard/outwards/item_outwards'
+				component={ItemOutwards}
 			/>
 			<Route
 				exact

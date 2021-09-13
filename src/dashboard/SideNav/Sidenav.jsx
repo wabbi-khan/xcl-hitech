@@ -825,22 +825,30 @@ function Sidenav(props) {
           <Collapse in={open4} timeout="auto" unmountOnExit>
             <Divider />
             <List component="div" disablePadding>
-              {/* <ListItem
+              <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/marketing_dashboard/order_booking_form');
 								}}>
 								<ListItemText inset primary='Order Booking Form' />
-							</ListItem> */}
-              {/* <ListItem
+							</ListItem>
+              <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Order Log Sheet' />
-							</ListItem> */}
+							</ListItem>
+              <ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('');
+								}}>
+								<ListItemText inset primary='Sales Contract' />
+							</ListItem>
               <ListItem
                 button
                 className={classes.menuItem}
@@ -850,30 +858,22 @@ function Sidenav(props) {
               >
                 <ListItemText inset primary="Delivery Order" />
               </ListItem>
-              {/* <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('');
-								}}>
-								<ListItemText inset primary='Sales Contract' />
-							</ListItem> */}
-              {/* <ListItem
+              <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Contract Review...' />
-							</ListItem> */}
-              {/* <ListItem
+							</ListItem>
+              <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Customer Feedback..' />
-							</ListItem> */}
+							</ListItem>
               {/* <ListItem
 								button
 								className={classes.menuItem}
