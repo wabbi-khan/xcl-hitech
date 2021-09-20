@@ -132,6 +132,7 @@ import PrintItemInward from './dashboard/store/inwards/PrintItemInward';
 import PrintInwardGatepass from './dashboard/store/inwards/PrintInwardGatepass';
 import PrintInwardApproval from './dashboard/store/inwards/PrintInwardApproval';
 import ItemOutwards from './dashboard/store/outwards/ItemOutwards';
+import DailyInwardReports from './dashboard/store/inwards/DailyInwardReports';
 
 dotenv.config();
 
@@ -360,7 +361,7 @@ function App() {
 			<Route
 				exact
 				path='/storedashboard/daily_inwards_report'
-			// component={DailyInwardReports}
+				component={DailyInwardReports}
 			/>
 			<Route
 				exact
