@@ -117,6 +117,7 @@ import InwardGatepass from '../dashboard/store/inwards/InwardGatepass';
 import PrintItemInward from '../dashboard/store/inwards/PrintItemInward';
 import PrintInwardGatepass from '../dashboard/store/inwards/PrintInwardGatepass';
 import PrintInwardApproval from '../dashboard/store/inwards/PrintInwardApproval';
+import ItemOutwards from '../dashboard/store/outwards/ItemOutwards';
 
 
 
@@ -170,6 +171,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/inwards/inward_gatepass" component={InwardGatepass} />
                 <Router exact path="/storedashboard/inwards/item_inward/print_inward_gatepass" component={PrintInwardGatepass} />
                 <Router exact path="/storedashboard/outwards" component={Outwards} />
+                <Router exact path="/storedashboard/outwards/item_outwards" component={ItemOutwards} />
                 <Router exact path="/storedashboard/daily_inwards_report" component={DailyInwardReports} />
                 <Router exact path="/storedashboard/daily_consumption_report" component={DailyConsumptionReport} />
                 <Router exact path="/storedashboard/department_wise_consumption_report" component={DeptWiseConsReport} />
