@@ -63,7 +63,7 @@ const DailyInwardReports = (props) => {
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						{/* <h5>Inspected Orders</h5> */}
-						<div style={{ marginTop: '10px' }}>
+						<div style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
 							<CssTextField
 								id='outlined-basic'
 								// label='Search by Date'
@@ -82,9 +82,13 @@ const DailyInwardReports = (props) => {
 							/>
 							<Button
 								text='View Report'
+								classNames="btn bg-dark text-light"
+								style={{
+									
+								}}
 							/>
 						</div>
-						<div className='container-fluid' style={{ textAlign: 'left' }}>
+						<div className='container-fluid mt-3' style={{ textAlign: 'left' }}>
 							<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
 								<thead class='bg-dark text-light'>
 									<tr>
@@ -113,7 +117,7 @@ const DailyInwardReports = (props) => {
                                                         vehicles.map((vehicle, i) => ( */}
 									<tr>
 										<td>
-											{ }1
+											{ }.
 										</td>
 										<td>
 											{ }

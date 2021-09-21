@@ -21,7 +21,6 @@ import ProductsBinCard from '../dashboard/store/productsBinCard/ProductsBinCard'
 import Vehicles from '../dashboard/store/vehicles/Vehicles';
 import VehicleInspectChecklist from '../dashboard/store/vehicleInspectCheck/VehicleInspectChecklist';
 import DeliveryChalan from '../dashboard/store/deliveryChalan/DeliveryChalan';
-import DailyInwardReports from '../dashboard/store/dailyInwardReports/DailyInwardReports';
 import DailyConsumptionReport from '../dashboard/store/dailyConsReport/DailyConsumptionReport';
 import DeptWiseConsReport from '../dashboard/store/deptwiseConsReport/DeptWiseConsReport';
 import DeptWiseStoreInventory from '../dashboard/store/DeptWiseStoreInv/DeptWiseStoreInventory';
@@ -118,6 +117,8 @@ import PrintItemInward from '../dashboard/store/inwards/PrintItemInward';
 import PrintInwardGatepass from '../dashboard/store/inwards/PrintInwardGatepass';
 import PrintInwardApproval from '../dashboard/store/inwards/PrintInwardApproval';
 import ItemOutwards from '../dashboard/store/outwards/ItemOutwards';
+import OrderLogSheet from '../dashboard/marketing-sales/order log sheet/OrderLogSheet';
+import DailyInwardReports from '../dashboard/store/inwards/DailyInwardReports';
 
 
 
@@ -237,6 +238,7 @@ const Router = () => {
                 {/* ===================================================================== */}
                 <Router exact path="/marketing_dashboard" component={Marketing} />                 //Marketing/Sales Module Routes
                 <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm} />
+                <Router exact path="/marketing_dashboard/order_log_sheet" component={OrderLogSheet} />
                 <Router exact path="/marketing/delivery_order" component={DeliveryOrder} />
                 {/* ===================================================================== */}
                 <Route
