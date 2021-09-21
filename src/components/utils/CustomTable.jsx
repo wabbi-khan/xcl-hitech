@@ -48,53 +48,8 @@ const useStyles = makeStyles((theme) => ({
       width: "25ch",
     },
   },
-  mainContainer: {
-    textAlign: "center",
-    marginTop: 20,
-  },
-  addButton: {
-    marginTop: 20,
-    color: "#22A19A",
-    borderColor: "#22A19A",
-    fontWeight: "bold",
-    "&:hover": {
-      border: "none",
-      backgroundColor: "#22A19A",
-      color: "whitesmoke",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "15%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      // width: '12%',
-    },
-  },
   table: {
     minWidth: 600,
-  },
-  dataTable: {
-    marginTop: 40,
-  },
-  tableContainer: {
-    marginTop: 10,
-  },
-  inputFieldStyle: {
-    [theme.breakpoints.up("md")]: {
-      width: 330,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-    },
-  },
-  inputFieldStyle1: {
-    [theme.breakpoints.up("md")]: {
-      width: 330,
-      marginLeft: 5,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-      marginTop: 10,
-    },
   },
 }));
 
@@ -136,90 +91,82 @@ const CustomTable = ({
     <p>There is no data found.</p>
   ) : (
     <>
-      <div className={classes.dataTable}>
-        <TableContainer className={classes.tableContainer}>
-          <Table
-            stickyHeader
-            className="table table-dark"
-            style={{ backgroundColor: "#d0cfcf", border: "1px solid grey" }}
-          >
-            <TableHead>
-              <TableRow>
-                {columnHeadings.map((el) => (
-                  <StyledTableCell align="center">{el}</StyledTableCell>
-                ))}
-                {onFirstOptionClick && (
-                  <StyledTableCell align="center">Actions</StyledTableCell>
-                )}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.map((el, i) => (
-                <StyledTableRow>
-                  {withSrNo && (
-                    <StyledTableCell
-                      className="text-dark bg-light"
-                      align="center"
-                    >
-                      {i + 1}
-                    </StyledTableCell>
-                  )}
-                  {generateRow(el, keys).map((el) => (
-                    <StyledTableCell
-                      className="text-dark bg-light"
-                      align="center"
-                    >
-                      {el ? el : "Not found"}
-                    </StyledTableCell>
-                  ))}
-                  {onFirstOptionClick && (
-                    <StyledTableCell
-                      className="text-dark bg-light"
-                      align="center"
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          classNames="bg-dark text-light"
-                          size="small"
-                          onClick={onClick}
-                          text={firstOptionText}
-                          style={{ marginTop: 2 }}
-                          btnProps={{
-                            "data-element": JSON.stringify(el),
-                            "data-option": "0",
-                          }}
-                        />
-
-                        {onSecondOptionClick && (
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            size="small"
-                            text={secondOptionText}
-                            style={{ marginLeft: 2, marginTop: 2 }}
-                            btnProps={{
-                              "data-element": JSON.stringify(el),
-                              "data-option": "1",
-                            }}
-                            onClick={onClick}
-                          />
-                        )}
-                      </div>
-                    </StyledTableCell>
-                  )}
-                </StyledTableRow>
+      <table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+        <thead class='bg-dark text-light'>
+          <tr>
+            {columnHeadings.map((el) => (
+              <th align="center">{el}</th>
+            ))}
+            {onFirstOptionClick && (
+              <th align="center">Actions</th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((el, i) => (
+            <tr>
+              {withSrNo && (
+                <td
+                  className="text-dark bg-light"
+                  align="center"
+                >
+                  {i + 1}
+                </td>
+              )}
+              {generateRow(el, keys).map((el) => (
+                <td
+                  className="text-dark bg-light"
+                  align="center"
+                >
+                  {el ? el : "Not found"}
+                </td>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              {onFirstOptionClick && (
+                <td
+                  className="text-dark bg-light"
+                  align="center"
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      classNames="bg-dark text-light"
+                      size="small"
+                      onClick={onClick}
+                      text={firstOptionText}
+                      style={{ marginTop: 2 }}
+                      btnProps={{
+                        "data-element": JSON.stringify(el),
+                        "data-option": "0",
+                      }}
+                    />
+
+                    {onSecondOptionClick && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        text={secondOptionText}
+                        style={{ marginLeft: 2, marginTop: 2 }}
+                        btnProps={{
+                          "data-element": JSON.stringify(el),
+                          "data-option": "1",
+                        }}
+                        onClick={onClick}
+                      />
+                    )}
+                  </div>
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
