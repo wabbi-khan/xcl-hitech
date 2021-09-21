@@ -4,12 +4,6 @@ import Sidenav from "../../SideNav/Sidenav";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import {
@@ -20,31 +14,13 @@ import {
 import { getMaterialCategoryAction } from "../../../services/action/MatCategoryAction";
 import { getSubCategories } from "../../../services/action/subCategoryAction";
 import { getUnits } from "../../../services/action/unitAction";
-import MaterialError from "./MaterialError";
 import EditMaterial from "./EditMaterial";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import Button from "../../../components/utils/Button";
 import Loader from "react-loader-spinner";
 import Autocomplete from "../../../components/utils/AutoComplete";
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
+import CustomTable from "../../../components/utils/CustomTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,15 +49,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       // width: '12%',
     },
-  },
-  table: {
-    minWidth: 600,
-  },
-  dataTable: {
-    marginTop: 40,
-  },
-  tableContainer: {
-    marginTop: 10,
   },
   inputFieldStyle: {
     [theme.breakpoints.up("md")]: {
@@ -243,10 +210,10 @@ const Material = () => {
     );
   };
 
-  const deleteMaterial = async (params) => {
+  const deleteMaterial = async (material) => {
     setDeleteLoading(true);
     dispatch(
-      deleteMaterialAction(params, (err) => {
+      deleteMaterialAction(material._id, (err) => {
         if (err) {
           setDeleteError(err);
           setTimeout(() => {
@@ -438,120 +405,31 @@ const Material = () => {
             ))
           )}
         </CssTextField>
-        {fetchLoading ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: "3rem",
-            }}
-          >
-            <Loader type="TailSpin" color="#000" width="3rem" height="3rem" />
-          </div>
-        ) : materials?.length === 0 ? (
-          <p>There is no data found.</p>
-        ) : (
-          <div className={classes.dataTable}>
-            <TableContainer className={classes.tableContainer}>
-              <Table
-                stickyHeader
-                className="table table-dark"
-                style={{ backgroundColor: "#d0cfcf", border: "1px solid grey" }}
-              >
-                <TableHead>
-                  <TableRow hover role="checkbox">
-                    <StyledTableCell align="center">Sr.No</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Material Name
-                    </StyledTableCell>
-                    <StyledTableCell align="center">Category</StyledTableCell>
-                    <StyledTableCell align="center">
-                      Sub Category
-                    </StyledTableCell>
-                    <StyledTableCell align="center">Unit</StyledTableCell>
-                    <StyledTableCell align="center">Code</StyledTableCell>
-                    <StyledTableCell align="center">Action</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {materials.map((material, i) => (
-                    <StyledTableRow key={i}>
-                      <StyledTableCell
-                        className="text-dark bg-light"
-                        align="center"
-                      >
-                        {i + 1}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        className="text-dark bg-light"
-                        align="center"
-                      >
-                        {material?.name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        className="text-dark bg-light"
-                        align="center"
-                      >
-                        {material?.category?.name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        className="text-dark bg-light"
-                        align="center"
-                      >
-                        {material?.subCategory?.name
-                          ? material?.subCategory?.name
-                          : "------"}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        className="text-dark bg-light"
-                        align="center"
-                      >
-                        {material?.unit?.name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        className="text-dark bg-light"
-                        align="center"
-                      >
-                        {material?.code}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        className="text-light bg-light"
-                        align="center"
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Button
-                            variant="contained"
-                            classNames="bg-dark text-light"
-                            size="small"
-                            onClick={() => handleOpen(material)}
-                            text="Edit"
-                            style={{ marginTop: 2 }}
-                          />
-
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            size="small"
-                            onClick={() => deleteMaterial(material._id)}
-                            text="Delete"
-                            style={{ marginLeft: 2, marginTop: 2 }}
-                          />
-                        </div>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        )}
+        <CustomTable
+          fetchLoading={fetchLoading}
+          data={materials}
+          heading="Materials"
+          columnHeadings={[
+            "Sr.No",
+            "Material Name",
+            "Category",
+            "Sub Category",
+            "Unit",
+            "Code",
+          ]}
+          keys={[
+            "name",
+            "category.name",
+            "subCategory.name",
+            "unit.name",
+            "code",
+          ]}
+          firstOptionText='Edit'
+          onFirstOptionClick={handleOpen}
+          secondOptionText='Delete'
+          onSecondOptionClick={deleteMaterial}
+          withSrNo
+        />
       </div>
     </Sidenav>
   );
