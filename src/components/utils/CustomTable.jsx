@@ -28,7 +28,11 @@ const CustomTable = ({
   withSrNo,
   fetchLoading,
 }) => {
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> 9ee8c9000cb591b323e6face05a572eb7b62b9d5
   function onClick(e) {
     const index = e.target.dataset.option;
     index === "0"
