@@ -17,10 +17,11 @@ import { getUnits } from "../../../services/action/unitAction";
 import EditMaterial from "./EditMaterial";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import Button from "../../../components/utils/Button";
 import Loader from "react-loader-spinner";
-import Autocomplete from "../../../components/utils/AutoComplete";
-import CustomTable from "../../../components/utils/CustomTable";
+
+import {CustomTable, CustomAutoComplete,CustomButton,CustomInput} from "../../../components";
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,6 +102,11 @@ const validationSchema = yup.object({
 });
 
 const searchOptions = ["code", "name"];
+
+const transportOptions = [
+  {name: 'Road', value: 'road'},
+  {name: 'saad', value: 'asd'}
+]
 
 const Material = () => {
   const [fetchLoading, setFetchLoading] = React.useState(true);
@@ -261,7 +267,7 @@ const Material = () => {
                 <Form autoComplete="off">
                   <Grid container spacing={1}>
                     <Grid item lg={3} md={3} sm={12} xs={12}>
-                      <Autocomplete
+                      <CustomAutoComplete
                         options={categories}
                         label="name"
                         onChange={(e) => {
@@ -289,7 +295,7 @@ const Material = () => {
                       />
                     </Grid>
                     <Grid item lg={3} md={3} sm={12} xs={12}>
-                      <Autocomplete
+                      <CustomAutoComplete
                         options={subCategories}
                         label="name"
                         onChange={props.handleChange("subCategory")}
@@ -316,22 +322,18 @@ const Material = () => {
                       />
                     </Grid>
                     <Grid item lg={3} md={3} sm={12} xs={12}>
-                      <CssTextField
-                        id="outlined-basic"
-                        label="Enter Material Name"
-                        variant="outlined"
-                        type="text"
-                        size="small"
-                        style={{ width: "100%" }}
+                      <CustomInput 
+                        label='Enter Material Name'
                         onChange={props.handleChange("name")}
                         onBlur={props.handleBlur("name")}
                         value={props.values.name}
                         helperText={props.touched.name && props.errors.name}
                         error={props.touched.name && props.errors.name}
+                        selectValues={transportOptions}
                       />
                     </Grid>
                     <Grid item lg={3} md={3} sm={12} xs={12}>
-                      <Autocomplete
+                      <CustomAutoComplete
                         options={units}
                         label="name"
                         onChange={props.handleChange("unit")}
@@ -347,7 +349,7 @@ const Material = () => {
                     </Grid>
                   </Grid>
                   <div>
-                    <Button
+                    <CustomButton
                       variant="outlined"
                       color="primary"
                       text="Add"
