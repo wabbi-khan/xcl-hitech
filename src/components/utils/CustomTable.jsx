@@ -1,13 +1,6 @@
 import React from "react";
 import Loader from "react-loader-spinner";
-import Table from "@material-ui/core/Table";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
 import Button from "./Button";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 function generateRow(data, keys) {
   const values = [];
@@ -23,36 +16,6 @@ function generateRow(data, keys) {
   return values;
 }
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
-  table: {
-    minWidth: 600,
-  },
-}));
-
 const CustomTable = ({
   heading,
   columnHeadings,
@@ -65,7 +28,6 @@ const CustomTable = ({
   withSrNo,
   fetchLoading,
 }) => {
-  const classes = useStyles();
 
   function onClick(e) {
     const index = e.target.dataset.option;
