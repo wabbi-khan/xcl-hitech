@@ -134,6 +134,8 @@ import PrintInwardApproval from './dashboard/store/inwards/PrintInwardApproval';
 import ItemOutwards from './dashboard/store/outwards/ItemOutwards';
 import DailyInwardReports from './dashboard/store/inwards/DailyInwardReports';
 
+import NotAvailablePage from './NotAvailablePage'
+
 dotenv.config();
 
 // const theme = createMuiTheme({
@@ -165,6 +167,10 @@ function App() {
 			setAppLoading(false);
 		}
 	}, []);
+
+
+	return <NotAvailablePage />
+
 	return appLoading ? (
 		<div
 			style={{
