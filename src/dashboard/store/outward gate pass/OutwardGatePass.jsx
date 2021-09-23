@@ -7,11 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import cryptoRandomString from "crypto-random-string";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import {
   createOutwardGatePasses,
@@ -20,7 +16,6 @@ import {
   getOutwardGatePasses,
 } from "../../../services/action/outwardGatePassAction";
 import { getPersons } from "../../../services/action/PersonAction";
-
 import { CustomButton, CustomInput, CustomTable } from "../../../components";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -149,6 +144,14 @@ const OutwardGatePass = ({ history }) => {
   const deleteItem = (index) => {
     setItemCounter(ItemCounter.filter((item) => item.id !== index));
   };
+
+  const handleOpen = () => {}
+
+  const deleteOutwardGatePass = () => {}
+
+  const pushToPrint = () => {
+	  history.push('/storedashboard/outward_gatepass/print_outward_gatepass')
+  }
 
   return (
     <Sidenav title={"Outward Gate Pass (Returnable/Non-Returnable)"}>
@@ -330,65 +333,31 @@ const OutwardGatePass = ({ history }) => {
             </Grid>
           </Grid>
         </Container>
-        <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-5">
-          <thead class="bg-dark text-light">
-            <tr>
-              <th>S.No.</th>
-              <th>Product Name</th>
-              <th>Unit</th>
-              <th>Quantity</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* {
-                                        loading ? (
-                                            <Loading />
-                                        ) :
-                                            error ? (
-                                                <MaterialError />
-                                            ) :
-                                                (
-                                                    vehicles.length ?
-                                                        vehicles.map((vehicle, i) => ( */}
-            <tr>
-              <td>{}.</td>
-              <td>{}</td>
-              <td>{}</td>
-              <td>{}</td>
-              <td>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: ".2rem",
-                  }}
-                >
-                  <CustomButton
-                    text="Edit"
-                    classNames="btn btn-sm bg-dark text-light"
-                    style={{ textTransform: "capitalize" }}
-                  />
-                  <CustomButton
-                    text="Delete"
-                    classNames="btn btn-sm bg-danger text-light"
-                    style={{ textTransform: "capitalize" }}
-                  />
-                  <CustomButton
-                    text="View"
-                    classNames="btn btn-sm bg-dark text-light"
-                    style={{ textTransform: "capitalize" }}
-                    onClick={() => history.push("")}
-                  />
-                </div>
-              </td>
-            </tr>
-            {/* ))
-                                                        : <h5>Not Found</h5>
-                                                )
-                                    } */}
-          </tbody>
-        </table>
+
+        <CustomTable
+          //   fetchLoading={fetchLoading}
+          data={[{  }]}
+          columnHeadings={[
+            "Sr.No",
+            "Product Name",
+            "Unit",
+            "Quantity",
+            "Remarks",
+          ]}
+          keys={[
+            "name",
+            "category.name",
+            "subCategory.name",
+            "unit.name",
+          ]}
+          firstOptionText="Edit"
+            onFirstOptionClick={handleOpen}
+          secondOptionText="Delete"
+          onSecondOptionClick={deleteOutwardGatePass}
+          thirdOptionText="View"
+          onThirdOptionClick={pushToPrint}
+          withSrNo
+        />
       </div>
     </Sidenav>
   );

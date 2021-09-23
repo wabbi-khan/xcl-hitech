@@ -169,7 +169,7 @@ function App() {
 	}, []);
 
 
-	return <NotAvailablePage />
+	// return <NotAvailablePage />
 
 	return appLoading ? (
 		<div

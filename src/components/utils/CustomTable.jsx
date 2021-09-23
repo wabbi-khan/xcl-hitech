@@ -19,7 +19,7 @@ function generateRow(data, keys) {
 const CustomTable = ({
   heading,
   columnHeadings,
-  data,
+  data = [],
   keys,
   onFirstOptionClick,
   firstOptionText,
@@ -27,17 +27,25 @@ const CustomTable = ({
   secondOptionText,
   withSrNo,
   fetchLoading,
+  thirdOptionText,
+  onThirdOptionClick,
 }) => {
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> 9ee8c9000cb591b323e6face05a572eb7b62b9d5
   function onClick(e) {
+    console.log(JSON.parse(e.target.dataset.element));
     const index = e.target.dataset.option;
-    index === "0"
-      ? onFirstOptionClick(JSON.parse(e.target.dataset.element))
-      : onSecondOptionClick(JSON.parse(e.target.dataset.element));
+    switch (index) {
+      case "0":
+        onFirstOptionClick(JSON.parse(e.target.dataset.element));
+        return;
+      case "1":
+        onSecondOptionClick(JSON.parse(e.target.dataset.element));
+        return;
+      case "2":
+        onThirdOptionClick(JSON.parse(e.target.dataset.element));
+        return;
+      default:
+        return;
+    }
   }
 
   return fetchLoading ? (
@@ -109,6 +117,22 @@ const CustomTable = ({
                         btnProps={{
                           "data-element": JSON.stringify(el),
                           "data-option": "1",
+                        }}
+                        onClick={onClick}
+                      />
+                    )}
+
+                    {onThirdOptionClick && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        classNames="bg-dark text-light"
+                        text={thirdOptionText}
+                        style={{ marginLeft: 2, marginTop: 2 }}
+                        btnProps={{
+                          "data-element": JSON.stringify(el),
+                          "data-option": "2",
                         }}
                         onClick={onClick}
                       />
