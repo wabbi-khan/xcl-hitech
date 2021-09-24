@@ -4,6 +4,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "../../../components/utils/Button";
+import { CustomTable } from "../../../components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,53 +79,58 @@ const OutGatePassPrint = () => {
         />
       </div>
       <div className="container-fluid">
-        <div className="row " style={{ marginTop: 70, textAlign: "left" }}>
-          <div className="col-6 mt-3">
-            <p style={{ fontWeight: "bold" }}>To,</p>
+        <div
+          style={{
+            marginTop: 70,
+            textAlign: "left",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <p style={{ fontWeight: "bold" }}>To,</p>
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <p style={{ fontWeight: "bold" }}>Date: </p>
             <p style={{ textDecoration: "underline" }}>{fullDate}</p>
+          </div>
+        </div>
+        <div
+          style={{
+            textAlign: "left",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <p style={{ fontWeight: "bold" }}>M/S </p>
+            <p style={{ textDecoration: "underline" }}>{}</p>
+          </div>
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <p style={{ fontWeight: "bold" }}>Vehicle No. </p>
+            <p style={{ textDecoration: "underline" }}>{}</p>
           </div>
         </div>
       </div>
       <div className="mt-4">
         <div className="" style={{ marginTop: 30, marginLeft: "auto" }}>
-          <table class="table table-striped table-inverse table-bordered table-responsive table-hover">
-            <thead class="thead-inverse">
-              <tr>
-                <th>S.No.</th>
-                <th>Topic</th>
-                <th>Training Needs Identified By</th>
-                <th>Participants</th>
-                <th>Trainer</th>
-                <th>Expected Date/Month</th>
-                <th>Training Venue</th>
-                <th>Training Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td scope="row">{}</td>
-                <td>{/* {plane?.topic?.name} */}</td>
-                <td>
-                  {/* {plane?.needIdentifiedByEmployee?.name}
-										<p style={{ fontSize: 10 }}>
-											({plane?.needIdentifiedByDesignation?.name})
-										</p> */}
-                </td>
-                <td>{/* {plane?.participants?.name} */}</td>
-                <td>
-                  {/* {plane?.trainerName?.name}
-										<p style={{ fontSize: 10 }}>({plane?.trainerDesignation?.name})</p> */}
-                </td>
-                <td>{/* {plane?.startDate ? plane?.startDate : '----'} */}</td>
-                <td>{/* {plane?.venue?.name} */}</td>
-                <td>
-                  {/* {plane?.status === 'a' && 'Yet to be start'}
-										{plane?.status === 'b' && ' In Progress'}
-										{plane?.status === 'c' && 'Completed'} */}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <CustomTable
+            //   fetchLoading={fetchLoading}
+            data={[{}]}
+            columnHeadings={[
+              "Sr.No",
+              "Product Name",
+              "Unit",
+              "Quantity",
+              "Remarks",
+            ]}
+            keys={["name", "category.name", "subCategory.name", "unit.name"]}
+            // firstOptionText="Edit"
+            // onFirstOptionClick={handleOpen}
+            // secondOptionText="Delete"
+            // onSecondOptionClick={deleteOutwardGatePass}
+            // thirdOptionText="View"
+            // onThirdOptionClick={pushToPrint}
+            withSrNo
+          />
         </div>
       </div>
       <Grid container spacing={1} style={{ marginTop: 120 }}>
