@@ -27,12 +27,8 @@ const CustomTable = ({
   secondOptionText,
   withSrNo,
   fetchLoading,
+  tablePrint
 }) => {
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> 9ee8c9000cb591b323e6face05a572eb7b62b9d5
   function onClick(e) {
     const index = e.target.dataset.option;
     index === "0"
@@ -56,7 +52,7 @@ const CustomTable = ({
   ) : (
     <>
       <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-        <thead class="bg-dark text-light">
+        <thead class={`${tablePrint ? '' : 'bg-dark'} ${tablePrint ? 'text-dark' : 'text-light'}`}>
           <tr>
             {columnHeadings.map((el) => (
               <th align="center">{el}</th>
