@@ -3,6 +3,16 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import { withStyles } from "@material-ui/core/styles";
 
+export const generateOptions = (data, nameKey, valueKey) => {
+  const options = [];
+
+  for (const d of data) {
+    options.push({ name: d[nameKey], value: d[valueKey] });
+  }
+
+  return options;
+};
+
 const CssTextField = withStyles({
   root: {
     "& label.Mui-focused": {

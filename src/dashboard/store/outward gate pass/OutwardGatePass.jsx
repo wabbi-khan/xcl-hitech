@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidenav from "../../SideNav/Sidenav";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import cryptoRandomString from "crypto-random-string";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
 import {
   createOutwardGatePasses,
   deleteOutwardGatePasses,
@@ -16,33 +15,18 @@ import {
   getOutwardGatePasses,
 } from "../../../services/action/outwardGatePassAction";
 import { getPersons } from "../../../services/action/PersonAction";
-import { CustomButton, CustomInput, CustomTable } from "../../../components";
+import { getVehicles } from "../../../services/action/VehiclesAction";
+import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
+import {
+  CustomButton,
+  CustomInput,
+  CustomTable,
+  generateOptions,
+  CustomFieldArray,
+} from "../../../components";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
   mainContainer: {
     textAlign: "center",
     [theme.breakpoints.up("md")]: {
@@ -64,36 +48,8 @@ const useStyles = makeStyles((theme) => ({
       color: "whitesmoke",
     },
   },
-  table: {
-    minWidth: 600,
-  },
-  dataTable: {
-    marginTop: 40,
-  },
-  ckeckBox: {
-    [theme.breakpoints.up("md")]: {
-      marginLeft: 25,
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: 0,
-    },
-  },
   itemHeading: {
     marginTop: 7,
-  },
-  select: {
-    "&:before": {
-      borderColor: "red",
-    },
-    "&:hover:not(.Mui-disabled):before": {
-      borderColor: "red",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: 400,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-    },
   },
   delete: {
     color: "red",
@@ -106,44 +62,37 @@ const useStyles = makeStyles((theme) => ({
       marginTop: -10,
     },
   },
-  deleteRowBtn: {
-    "&:hover": {
-      border: "none",
-      background: "none",
-    },
-  },
 }));
 
-const CssTextField = withStyles({
-  root: {
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
+const returnableOptions = [
+  {
+    name: "Returnable",
+    value: "returnable",
   },
-})(TextField);
+  {
+    name: "Non-Returnable",
+    value: "non-returnable",
+  },
+];
 
 const OutwardGatePass = ({ history }) => {
+  const [fetchLoading, setFetchLoading] = useState(false);
+
+  const { persons } = useSelector((state) => state.persons);
+  const { vehicles } = useSelector((state) => state.vehicles);
+  const { materials } = useSelector((state) => state.materials);
+  const { outwardGatePasses } = useSelector((state) => state.outwardGatePasses);
+
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const [ItemCounter, setItemCounter] = useState([{ id: "text" }]);
+  useEffect(() => {
+    dispatch(getPersons());
+    dispatch(getVehicles());
+    dispatch(getMaterialAction());
 
-  const addMoreFunc = () => {
-    const randomString = cryptoRandomString({ length: 10 });
-    const addNew = [...ItemCounter, { id: randomString }];
-    setItemCounter(addNew);
-  };
-
-  const deleteItem = (index) => {
-    setItemCounter(ItemCounter.filter((item) => item.id !== index));
-  };
+    dispatch(getOutwardGatePasses());
+  }, []);
 
   const handleOpen = () => {}
 
@@ -161,68 +110,19 @@ const OutwardGatePass = ({ history }) => {
             <Grid item lg={3} md={3} sm={12} xs={12}>
               <CustomInput
                 label="Select Name"
-                selectValues={[
-                  {
-                    name: "Asad",
-                    value: "asad",
-                  },
-                ]}
+                selectValues={generateOptions(persons, "name", "_id")}
               />
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Asad</MenuItem>
-              <MenuItem value={20}>Aneeq</MenuItem>
-              <MenuItem value={30}>Sagheer</MenuItem>
-              <MenuItem value={30}>Arsalan</MenuItem>
             </Grid>
             <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
+              <CustomInput
                 label="Select Vehicle"
-                variant="outlined"
-                type="text"
-                size="small"
-                select
-                required
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>ABC-123</MenuItem>
-                <MenuItem value={30}>XYZ-222</MenuItem>
-                <MenuItem value={20}>ASD-323</MenuItem>
-              </CssTextField>
+                selectValues={generateOptions(vehicles, "number", "_id")}
+              />
             </Grid>
             <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
+              <CustomInput
                 label="Returnable/Non-Returnable"
-                variant="outlined"
-                type="text"
-                size="small"
-                select
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              >
-                <MenuItem value="">Returnable</MenuItem>
-                <MenuItem value="">Non-Returnable</MenuItem>
-              </CssTextField>
-            </Grid>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                // label="Select Date"
-                variant="outlined"
-                type="date"
-                size="small"
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
+                selectValues={returnableOptions}
               />
             </Grid>
           </Grid>
@@ -232,7 +132,28 @@ const OutwardGatePass = ({ history }) => {
         </div>
         <Container className={classes.mainContainer}>
           <h4 className="text-left">Items</h4>
-          {ItemCounter.map((value, i) => {
+          <CustomFieldArray
+            fields={[
+              {
+                name: "item",
+                label: "Select Item",
+                selectValues: generateOptions(materials, "name", "_id"),
+              },
+              {
+                name: "unit",
+                label: "Unit",
+              },
+              {
+                name: "quantity",
+                label: "Quantity",
+              },
+              {
+                name: "remarks",
+                label: "Remarks",
+              },
+            ]}
+          />
+          {/* {ItemCounter.map((value, i) => {
             const no = i + 1;
             return (
               <Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
@@ -304,16 +225,16 @@ const OutwardGatePass = ({ history }) => {
                 </Grid>
               </Grid>
             );
-          })}
+          })} */}
           <Grid container spacing={1}>
             <Grid item lg={3} md={3} sm={10} xs={11}>
-              <CustomButton
+              {/* <CustomButton
                 text="Add More"
                 variant="outlined"
                 classNames={classes.addButton}
                 onClick={addMoreFunc}
                 // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-              />
+              /> */}
             </Grid>
           </Grid>
           <Grid container spacing={1}>
@@ -335,27 +256,21 @@ const OutwardGatePass = ({ history }) => {
         </Container>
 
         <CustomTable
-          //   fetchLoading={fetchLoading}
-          data={[{  }]}
-          columnHeadings={[
-            "Sr.No",
-            "Product Name",
-            "Unit",
-            "Quantity",
-            "Remarks",
-          ]}
-          keys={[
-            "name",
-            "category.name",
-            "subCategory.name",
-            "unit.name",
-          ]}
+          fetchLoading={fetchLoading}
+          data={outwardGatePasses}
+          heading="Materials"
+          columnHeadings={["Sr.No", "Product Name", "Unit", "Quantity"]}
+          // keys={[
+          //   "name",
+          //   "category.name",
+          //   "subCategory.name",
+          //   "unit.name",
+          //   "code",
+          // ]}
           firstOptionText="Edit"
-            onFirstOptionClick={handleOpen}
+          // onFirstOptionClick={handleOpen}
           secondOptionText="Delete"
-          onSecondOptionClick={deleteOutwardGatePass}
-          thirdOptionText="View"
-          onThirdOptionClick={pushToPrint}
+          // onSecondOptionClick={deleteMaterial}
           withSrNo
         />
       </div>

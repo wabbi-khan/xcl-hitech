@@ -29,6 +29,7 @@ const CustomTable = ({
   fetchLoading,
   thirdOptionText,
   onThirdOptionClick,
+  tablePrint
 }) => {
   function onClick(e) {
     console.log(JSON.parse(e.target.dataset.element));
@@ -64,7 +65,7 @@ const CustomTable = ({
   ) : (
     <>
       <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
-        <thead class="bg-dark text-light">
+        <thead class={`${tablePrint ? '' : 'bg-dark'} ${tablePrint ? 'text-dark' : 'text-light'}`}>
           <tr>
             {columnHeadings.map((el) => (
               <th align="center">{el}</th>
