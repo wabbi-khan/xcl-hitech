@@ -119,6 +119,7 @@ import PrintInwardApproval from '../dashboard/store/inwards/PrintInwardApproval'
 import ItemOutwards from '../dashboard/store/outwards/ItemOutwards';
 import OrderLogSheet from '../dashboard/marketing-sales/order log sheet/OrderLogSheet';
 import DailyInwardReports from '../dashboard/store/inwards/DailyInwardReports';
+import PrintStockAssesment from '../dashboard/store/stock assessment report/PrintStockAssesment';
 
 
 
@@ -187,6 +188,7 @@ const Router = () => {
                 <Router exact path="/storedashboard/outward_gatepass" component={OutwardGatePass} />
                 <Router exact path="/storedashboard/outward_gatepass/print_outward_gatepass" component={OutGatePassPrint} />
                 <Router exact path="/storedashboard/stock_assessment_report" component={StockAssessReport} />
+                <Router exact path="/storedashboard/stock_assessment_report/print_stock_assesment_report" component={PrintStockAssesment} />
                 {/* ===================================================================== */}
                 <Router exact path="/hr_dashboard" component={HR} />                 //HR Module Routes
                 <Router exact path="/hr/designation" component={Designation} />

@@ -135,6 +135,7 @@ import ItemOutwards from './dashboard/store/outwards/ItemOutwards';
 import DailyInwardReports from './dashboard/store/inwards/DailyInwardReports';
 
 import NotAvailablePage from './NotAvailablePage'
+import PrintStockAssesment from './dashboard/store/stock assessment report/PrintStockAssesment';
 
 dotenv.config();
 
@@ -433,6 +434,11 @@ function App() {
 				exact
 				path='/storedashboard/stock_assessment_report'
 				component={StockAssessReport}
+			/>
+			<Route
+				exact
+				path='/storedashboard/stock_assessment_report/print_stock_assesment_report'
+				component={PrintStockAssesment}
 			/>
 			{/* ===================================================================== */}
 			<Route exact path='/hr_dashboard' component={HR} />

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OutGatePassPrint = () => {
+const PrintStockAssesment = () => {
   const date = new Date();
   const currDate = date.getDate();
   const months = date.getMonth() + 1;
@@ -48,20 +48,15 @@ const OutGatePassPrint = () => {
             <h6>Issue.02</h6>
           </div>
         </div>
-        <div className="mt-2">
-          <h4>Hi-Tech Pipe & Engineering Industries</h4>
-          <h6 className="mt-3">Plot No X-22, Site Area Kotri</h6>
-          <p>Ph-No 022-2116500-01</p>
-        </div>
-        <h3
+        <h4
           style={{
             marginTop: ".5rem",
             fontWeight: "bold",
             textDecoration: "underline",
           }}
         >
-          OUTWARD GATE PASS
-        </h3>
+          STOCK ASSESSMENT REPORT
+        </h4>
       </div>
       <div class="container" id="printBtn">
         <Button
@@ -136,9 +131,15 @@ const OutGatePassPrint = () => {
           />
         </div>
       </div>
-      <div className="row" style={{ marginTop: '6rem'}}>
+      <div className="row" style={{ marginTop: "6rem" }}>
         <div className="col-3">
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <hr style={{ borderTop: "3px solid black", width: "200px" }} />
             <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
               Store Manager
@@ -146,7 +147,13 @@ const OutGatePassPrint = () => {
           </div>
         </div>
         <div className="col-3">
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <hr style={{ borderTop: "3px solid black", width: "200px" }} />
             <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
               Factory Manager
@@ -195,16 +202,16 @@ const OutGatePassPrint = () => {
         </div>
       </div>
       {/* <div className="container" style={{ marginTop: 30 }}>
-                    <div className="row">
-                        <div className="offset-lg-9 offset-md-9 offset-sm-9 offset-xs-9 col-lg-3 col-md-3 col-sm-3 mt-5">
-                            <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
-                            <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>FAKHR-E-ALAM</p>
-                            <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Cheif Executive Officer</p>
-                        </div>
-                    </div>
-                </div> */}
+                  <div className="row">
+                      <div className="offset-lg-9 offset-md-9 offset-sm-9 offset-xs-9 col-lg-3 col-md-3 col-sm-3 mt-5">
+                          <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
+                          <p style={{ marginTop: -10, fontSize: 14, fontWeight: 'bold' }}>FAKHR-E-ALAM</p>
+                          <p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>Cheif Executive Officer</p>
+                      </div>
+                  </div>
+              </div> */}
     </div>
   );
 };
 
-export default OutGatePassPrint;
+export default PrintStockAssesment;

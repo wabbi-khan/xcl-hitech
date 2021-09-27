@@ -17,6 +17,7 @@ function generateRow(data, keys) {
 }
 
 const CustomTable = ({
+  tableStyle,
   heading,
   columnHeadings,
   data = [],
@@ -64,7 +65,7 @@ const CustomTable = ({
     <p>There is no data found.</p>
   ) : (
     <>
-      <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+      <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-5">
         <thead class={`${tablePrint ? '' : 'bg-dark'} ${tablePrint ? 'text-dark' : 'text-light'}`}>
           <tr>
             {columnHeadings.map((el) => (
