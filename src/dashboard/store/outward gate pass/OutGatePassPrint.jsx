@@ -117,12 +117,19 @@ const OutGatePassPrint = () => {
             data={[{}]}
             columnHeadings={[
               "Sr.No",
-              "Product Name",
+              "Particulars",
+              "Returnable/Non-Returnable",
               "Unit",
-              "Quantity",
+              "Qty",
               "Remarks",
             ]}
-            keys={["name", "category.name", "subCategory.name", "unit.name"]}
+            keys={[
+              "name",
+              "category.name",
+              "subCategory.name",
+              "unit.name",
+              "subCategory.name",
+            ]}
             // firstOptionText="Edit"
             // onFirstOptionClick={handleOpen}
             // secondOptionText="Delete"
@@ -130,40 +137,68 @@ const OutGatePassPrint = () => {
             // thirdOptionText="View"
             // onThirdOptionClick={pushToPrint}
             withSrNo
+            tablePrint
           />
         </div>
       </div>
-      <Grid container spacing={1} style={{ marginTop: 120 }}>
-        <Grid item lg={3} md={3} sm={3} xs={3}>
-          <hr style={{ borderTop: "3px solid black" }} />
-          <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-            Prepared By:
-          </p>
-          <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-            Admin Department
-          </p>
-        </Grid>
-        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-        <Grid item lg={3} md={3} sm={3} xs={3}>
-          <hr style={{ borderTop: "3px solid black" }} />
-          <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-            Reviewed By:
-          </p>
-          <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-            Management Representative
-          </p>
-        </Grid>
-        <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-        <Grid item lg={3} md={3} sm={3} xs={3}>
-          <hr style={{ borderTop: "3px solid black" }} />
-          <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-            Approved By:
-          </p>
-          <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-            CEO / Executive Director
-          </p>
-        </Grid>
-      </Grid>
+      <div className="row" style={{ marginTop: '6rem'}}>
+        <div className="col-3">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
+              Store Manager
+            </p>
+          </div>
+        </div>
+        <div className="col-3">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
+              Factory Manager
+            </p>
+          </div>
+        </div>
+        <div className="col-3">
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>Checked by:</p>
+              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>Name:</p>
+              <hr style={{ borderTop: "2px solid black", width: "200px" }} />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>Signature:</p>
+              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            </div>
+          </div>
+        </div>
+        <div className="col-3">
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>Received by:</p>
+              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>Name:</p>
+              <hr style={{ borderTop: "2px solid black", width: "200px" }} />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>CNIC No:</p>
+              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>Mobile No:</p>
+              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
+            </div>
+          </div>
+        </div>
+      </div>
       {/* <div className="container" style={{ marginTop: 30 }}>
                     <div className="row">
                         <div className="offset-lg-9 offset-md-9 offset-sm-9 offset-xs-9 col-lg-3 col-md-3 col-sm-3 mt-5">
