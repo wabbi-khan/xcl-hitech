@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import Sidenav from "../../SideNav/Sidenav";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,6 +83,8 @@ const OutwardGatePass = ({ history }) => {
   const { materials } = useSelector((state) => state.materials);
   const { outwardGatePasses } = useSelector((state) => state.outwardGatePasses);
 
+  const form = React.createRef()
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -132,12 +134,15 @@ const OutwardGatePass = ({ history }) => {
         </div>
         <Container className={classes.mainContainer}>
           <h4 className="text-left">Items</h4>
+
           <CustomFieldArray
             fields={[
               {
                 name: "item",
                 label: "Select Item",
                 selectValues: generateOptions(materials, "name", "_id"),
+                onChangeEffectOn: [{from: 'unit.name', to: 'unit'}], 
+                fetchFrom: materials
               },
               {
                 name: "unit",
@@ -152,91 +157,10 @@ const OutwardGatePass = ({ history }) => {
                 label: "Remarks",
               },
             ]}
+            ref={form}
           />
-          {/* {ItemCounter.map((value, i) => {
-            const no = i + 1;
-            return (
-              <Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
-                <Grid item lg={1} md={1} sm={1} xs={1}>
-                  <h5 className={classes.itemHeading}>{no}.</h5>
-                </Grid>
-                <Grid item lg={2} md={3} sm={12} xs={12}>
-                  <CssTextField
-                    id="outlined-basic"
-                    label="Select Item"
-                    variant="outlined"
-                    type="text"
-                    size="small"
-                    select
-                    style={{ width: "100%" }}
-                    inputProps={{ style: { fontSize: 14 } }}
-                    InputLabelProps={{ style: { fontSize: 14 } }}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Material 01</MenuItem>
-                    <MenuItem value={20}>Material 02</MenuItem>
-                  </CssTextField>
-                </Grid>
-                <Grid item lg={2} md={3} sm={12} xs={12}>
-                  <CssTextField
-                    id="outlined-basic"
-                    label="Unit"
-                    variant="outlined"
-                    type="text"
-                    size="small"
-                    style={{ width: "100%" }}
-                    inputProps={{ style: { fontSize: 14 } }}
-                    InputLabelProps={{ style: { fontSize: 14 } }}
-                  />
-                </Grid>
-                <Grid item lg={2} md={3} sm={12} xs={12}>
-                  <CssTextField
-                    id="outlined-basic"
-                    label="Quantity"
-                    variant="outlined"
-                    type="text"
-                    size="small"
-                    style={{ width: "100%" }}
-                    inputProps={{ style: { fontSize: 14 } }}
-                    InputLabelProps={{ style: { fontSize: 14 } }}
-                  />
-                </Grid>
-                <Grid item lg={2} md={3} sm={12} xs={12}>
-                  <CssTextField
-                    id="outlined-basic"
-                    label="Remarks"
-                    variant="outlined"
-                    type="text"
-                    size="small"
-                    style={{ width: "100%" }}
-                    inputProps={{ style: { fontSize: 14 } }}
-                    InputLabelProps={{ style: { fontSize: 14 } }}
-                  />
-                </Grid>
-                <Grid item lg={1} md={1} sm={1} xs={1}>
-                  <CustomButton
-                    onClick={() => deleteItem(value.id)}
-                    className={classes.deleteRowBtn}
-                  >
-                    <DeleteOutlineIcon className={classes.delete} />
-                  </CustomButton>
-                </Grid>
-              </Grid>
-            );
-          })} */}
-          <Grid container spacing={1}>
-            <Grid item lg={3} md={3} sm={10} xs={11}>
-              {/* <CustomButton
-                text="Add More"
-                variant="outlined"
-                classNames={classes.addButton}
-                onClick={addMoreFunc}
-                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-              /> */}
-            </Grid>
-          </Grid>
+        
+      
           <Grid container spacing={1}>
             <Grid item lg={5} md={5} sm={10} xs={11}></Grid>
             <Grid item lg={3} md={3} sm={10} xs={11}>
@@ -244,12 +168,7 @@ const OutwardGatePass = ({ history }) => {
                 text="Submit"
                 variant="outlined"
                 classNames={classes.addButton}
-                onClick={() => {
-                  history.push(
-                    "/storedashboard/outward_gatepass/print_outward_gatepass"
-                  );
-                }}
-                // style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                onClick={() => console.log(form.current.getValues())}
               />
             </Grid>
           </Grid>
