@@ -29,7 +29,7 @@ const PrintStockAssesment = () => {
     <div className="text-center">
       <div class="row mt-2">
         <div class="col-3 col-lg-3 col-md-3">
-          <img src="/images/nameLogo.png" width="250px" height="90px" alt="" />
+          <img src="/images/nameLogo.png" width="220px" height="75px" alt="" />
         </div>
         <div class="offset-7 col-2 mt-3">
           <div
@@ -44,8 +44,8 @@ const PrintStockAssesment = () => {
               // marginRight: '-3rem'
             }}
           >
-            <h6>FM-66</h6>
-            <h6>Issue.02</h6>
+            <h6>FM-36</h6>
+            <h6>Issue.01</h6>
           </div>
         </div>
         <h4
@@ -68,57 +68,29 @@ const PrintStockAssesment = () => {
           style={{ marginLeft: "auto" }}
         />
       </div>
-      <div className="container-fluid">
-        <div
-          style={{
-            marginTop: 70,
-            textAlign: "left",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <p style={{ fontWeight: "bold" }}>To,</p>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <p style={{ fontWeight: "bold" }}>Date: </p>
-            <p style={{ textDecoration: "underline" }}>{fullDate}</p>
-          </div>
-        </div>
-        <div
-          style={{
-            textAlign: "left",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <p style={{ fontWeight: "bold" }}>M/S </p>
-            <p style={{ textDecoration: "underline" }}>{}</p>
-          </div>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <p style={{ fontWeight: "bold" }}>Vehicle No. </p>
-            <p style={{ textDecoration: "underline" }}>{}</p>
-          </div>
-        </div>
-      </div>
       <div className="mt-4">
         <div className="" style={{ marginTop: 30, marginLeft: "auto" }}>
           <CustomTable
             //   fetchLoading={fetchLoading}
             data={[{}]}
             columnHeadings={[
-              "Sr.No",
-              "Particulars",
-              "Returnable/Non-Returnable",
-              "Unit",
-              "Qty",
+              "S.No",
+              "Item Description",
+              "QTY Examined",
+              "Items Retains",
+              "Ok for Further Use",
+              "Rejected/To Be Discarded",
+              "Reason For Rejection",
               "Remarks",
             ]}
             keys={[
-              "name",
-              "category.name",
-              "subCategory.name",
-              "unit.name",
-              "subCategory.name",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
             ]}
             // firstOptionText="Edit"
             // onFirstOptionClick={handleOpen}
@@ -142,11 +114,9 @@ const PrintStockAssesment = () => {
           >
             <hr style={{ borderTop: "3px solid black", width: "200px" }} />
             <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-              Store Manager
+              Prepared By
             </p>
           </div>
-        </div>
-        <div className="col-3">
           <div
             style={{
               display: "flex",
@@ -156,48 +126,24 @@ const PrintStockAssesment = () => {
           >
             <hr style={{ borderTop: "3px solid black", width: "200px" }} />
             <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-              Factory Manager
+              Approved By
             </p>
           </div>
         </div>
-        <div className="col-3">
+        <div className="offset-6 col-3">
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: '1rem'
+            }}
           >
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>Checked by:</p>
-              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            </div>
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>Name:</p>
-              <hr style={{ borderTop: "2px solid black", width: "200px" }} />
-            </div>
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>Signature:</p>
-              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            </div>
-          </div>
-        </div>
-        <div className="col-3">
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-          >
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>Received by:</p>
-              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            </div>
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>Name:</p>
-              <hr style={{ borderTop: "2px solid black", width: "200px" }} />
-            </div>
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>CNIC No:</p>
-              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            </div>
-            <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontSize: 12, fontWeight: "bold" }}>Mobile No:</p>
-              <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            </div>
+            <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
+              Date: 
+            </p>
+            <p style={{ marginTop: -10, fontSize: 12, textDecoration: 'underline' }}>
+              {  }
+            </p>
           </div>
         </div>
       </div>

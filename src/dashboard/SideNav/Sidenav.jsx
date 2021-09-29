@@ -468,6 +468,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../components/utils/Button";
 import { logOutUser } from "../../services/action/UserAction";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+// import ShowChartIcon from "@material-ui/icons/ShowChartIcon";
+import financialImg from '/images/financialImg'
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -589,6 +591,8 @@ function Sidenav(props) {
   const [open3, setOpen3] = React.useState(false);
   const [open4, setOpen4] = React.useState(false);
   const [open5, setOpen5] = React.useState(false);
+  const [open6, setOpen6] = React.useState(false);
+  const [open7, setOpen7] = React.useState(false);
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
@@ -826,29 +830,32 @@ function Sidenav(props) {
             <Divider />
             <List component="div" disablePadding>
               <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/marketing_dashboard/order_booking_form');
-								}}>
-								<ListItemText inset primary='Order Booking Form' />
-							</ListItem>
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/marketing_dashboard/order_booking_form");
+                }}
+              >
+                <ListItemText inset primary="Order Booking Form" />
+              </ListItem>
               <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/marketing_dashboard/order_log_sheet');
-								}}>
-								<ListItemText inset primary='Order Log Sheet' />
-							</ListItem>
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/marketing_dashboard/order_log_sheet");
+                }}
+              >
+                <ListItemText inset primary="Order Log Sheet" />
+              </ListItem>
               <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('');
-								}}>
-								<ListItemText inset primary='Sales Contract' />
-							</ListItem>
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("");
+                }}
+              >
+                <ListItemText inset primary="Sales Contract" />
+              </ListItem>
               <ListItem
                 button
                 className={classes.menuItem}
@@ -859,21 +866,23 @@ function Sidenav(props) {
                 <ListItemText inset primary="Delivery Order" />
               </ListItem>
               <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('');
-								}}>
-								<ListItemText inset primary='Contract Review...' />
-							</ListItem>
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("");
+                }}
+              >
+                <ListItemText inset primary="Contract Review..." />
+              </ListItem>
               <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('');
-								}}>
-								<ListItemText inset primary='Customer Feedback..' />
-							</ListItem>
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("");
+                }}
+              >
+                <ListItemText inset primary="Customer Feedback.." />
+              </ListItem>
               {/* <ListItem
 								button
 								className={classes.menuItem}
@@ -1080,15 +1089,6 @@ function Sidenav(props) {
                 button
                 className={classes.menuItem}
                 onClick={() => {
-                  history.push("/storedashboard/delivery_chalan");
-                }}
-              >
-                <ListItemText inset primary="Delivery Chalan" />
-              </ListItem>
-              {/* <ListItem
-                button
-                className={classes.menuItem}
-                onClick={() => {
                   history.push("/storedashboard/inwards");
                 }}
               >
@@ -1098,19 +1098,29 @@ function Sidenav(props) {
                 button
                 className={classes.menuItem}
                 onClick={() => {
+                  history.push("/storedashboard/delivery_chalan");
+                }}
+              >
+                <ListItemText inset primary="Delivery Chalan" />
+              </ListItem>
+              {/* <ListItem
+                button
+                className={classes.menuItem}
+                onClick={() => {
                   history.push("/storedashboard/outwards");
                 }}
               >
                 <ListItemText inset primary="Outwards" />
               </ListItem> */}
               <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/storedashboard/daily_inwards_report');
-								}}>
-								<ListItemText inset primary='Daily Inwards Report' />
-							</ListItem>
+                button
+                className={classes.menuItem}
+                onClick={() => {
+                  history.push("/storedashboard/daily_inwards_report");
+                }}
+              >
+                <ListItemText inset primary="Daily Inwards Report" />
+              </ListItem>
               <ListItem
                 button
                 className={classes.menuItem}
@@ -1405,6 +1415,81 @@ function Sidenav(props) {
               >
                 <ListItemText inset primary="Job Description" />
               </ListItem>
+            </List>
+          </Collapse>
+        </List>
+        <Divider />
+        <List>
+          {["Accounting"].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => {
+                setOpen6(!open6);
+              }}
+            >
+              <ListItemIcon
+                style={{ background: "black", color: "whitesmoke" }}
+              >
+                {index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text}
+                onClick={() => {
+                  history.push("/marketing_dashboard");
+                }}
+              />
+              {open5 ? <IconExpandLess /> : <IconExpandMore />}
+            </ListItem>
+          ))}
+          <Collapse in={open6} timeout="auto" unmountOnExit>
+            <Divider />
+            <List>
+              {["Financial"].map((text, index) => (
+                <ListItem
+                  button
+                  key={text}
+                  onClick={() => {
+                    setOpen7(!open7);
+                  }}
+                >
+                  <ListItemIcon
+                    style={{ background: "black", color: "whitesmoke" }}
+                  >
+                    {index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text}
+                    onClick={() => {
+                      history.push("/marketing_dashboard");
+                    }}
+                  />
+                  {open5 ? <IconExpandLess /> : <IconExpandMore />}
+                </ListItem>
+              ))}
+              <Collapse in={open7} timeout="auto" unmountOnExit>
+                <Divider />
+                <List component="div" disablePadding>
+                  <ListItem
+                    button
+                    className={classes.menuItem}
+                    onClick={() => {
+                      history.push("/marketing_dashboard/order_booking_form");
+                    }}
+                  >
+                    <ListItemText inset primary="Add Account" />
+                  </ListItem>
+                  <ListItem
+                    button
+                    className={classes.menuItem}
+                    onClick={() => {
+                      history.push("/marketing_dashboard/order_log_sheet");
+                    }}
+                  >
+                    <ListItemText inset primary="Add Accounts" />
+                  </ListItem>
+                </List>
+              </Collapse>
             </List>
           </Collapse>
         </List>
