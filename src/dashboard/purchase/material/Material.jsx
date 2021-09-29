@@ -431,7 +431,6 @@ const Material = () => {
           secondOptionText='Delete'
           onSecondOptionClick={deleteMaterial}
           withSrNo
-          tablePrint
         />
       </div>
     </Sidenav>
