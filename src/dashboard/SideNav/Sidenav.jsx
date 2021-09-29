@@ -469,7 +469,7 @@ import Button from "../../components/utils/Button";
 import { logOutUser } from "../../services/action/UserAction";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 // import ShowChartIcon from "@material-ui/icons/ShowChartIcon";
-import financialImg from '/images/financialImg'
+import financialImg from '../Accounts/images/financialIcon.png'
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -1456,7 +1456,9 @@ function Sidenav(props) {
                   <ListItemIcon
                     style={{ background: "black", color: "whitesmoke" }}
                   >
-                    {index % 2 === 0 ? <AssessmentIcon /> : <MailIcon />}
+                    {
+                    index % 2 === 0 ? <img src={financialImg} width='25px' alt="" /> : <MailIcon />
+                    }
                   </ListItemIcon>
                   <ListItemText
                     primary={text}
