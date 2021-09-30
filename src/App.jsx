@@ -136,6 +136,8 @@ import DailyInwardReports from './dashboard/store/inwards/DailyInwardReports';
 
 import NotAvailablePage from './NotAvailablePage'
 import PrintStockAssesment from './dashboard/store/stock assessment report/PrintStockAssesment';
+import AddAccounts from './dashboard/Accounts/Finance/create-accounts/AddAccounts';
+import AccountHistory from './dashboard/Accounts/Finance/accounts-history/AccountHistory';
 
 dotenv.config();
 
@@ -640,6 +642,10 @@ function App() {
 				path='/productionDashboard/production-online-inspection-report'
 				component={ProductionOnlineInsRep}
 			/>
+
+			{/* ===================================================================== */}
+			<Route exact path="/finance/accounts/add_accounts" component={AddAccounts} />                 //Accounts Module Routes
+			<Route exact path="/finance/accounts/accounts_history" component={AccountHistory} />
 		</Switch>
 	);
 }

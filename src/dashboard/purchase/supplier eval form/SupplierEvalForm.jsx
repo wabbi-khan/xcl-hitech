@@ -277,7 +277,7 @@ const SupplierEvalForm = ({ history }) => {
                     <Grid item lg={3} md={3} sm={12} xs={12}>
                       <CssTextField
                         id="outlined-basic"
-                        label="Select Vendor Name*"
+                        label="Select Vendor Name"
                         variant="outlined"
                         type="email"
                         size="small"

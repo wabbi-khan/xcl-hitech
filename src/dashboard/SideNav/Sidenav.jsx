@@ -593,6 +593,7 @@ function Sidenav(props) {
   const [open5, setOpen5] = React.useState(false);
   const [open6, setOpen6] = React.useState(false);
   const [open7, setOpen7] = React.useState(false);
+  const [open8, setOpen8] = React.useState(false);
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
@@ -1435,9 +1436,9 @@ function Sidenav(props) {
               </ListItemIcon>
               <ListItemText
                 primary={text}
-                onClick={() => {
-                  history.push("/marketing_dashboard");
-                }}
+                // onClick={() => {
+                //   history.push("/marketing_dashboard");
+                // }}
               />
               {open5 ? <IconExpandLess /> : <IconExpandMore />}
             </ListItem>
@@ -1462,9 +1463,9 @@ function Sidenav(props) {
                   </ListItemIcon>
                   <ListItemText
                     primary={text}
-                    onClick={() => {
-                      history.push("/marketing_dashboard");
-                    }}
+                    // onClick={() => {
+                    //   history.push("/marketing_dashboard");
+                    // }}
                   />
                   {open5 ? <IconExpandLess /> : <IconExpandMore />}
                 </ListItem>
@@ -1476,10 +1477,10 @@ function Sidenav(props) {
                     button
                     className={classes.menuItem}
                     onClick={() => {
-                      history.push("/marketing_dashboard/order_booking_form");
+                      history.push("/finance/accounts/add_accounts");
                     }}
                   >
-                    <ListItemText inset primary="Add Account" />
+                    <ListItemText inset primary="Add Accounts" />
                   </ListItem>
                   <ListItem
                     button
@@ -1489,6 +1490,55 @@ function Sidenav(props) {
                     }}
                   >
                     <ListItemText inset primary="Add Accounts" />
+                  </ListItem>
+                </List>
+              </Collapse>
+            </List>
+            <List>
+              {["Payroll"].map((text, index) => (
+                <ListItem
+                  button
+                  key={text}
+                  onClick={() => {
+                    setOpen8(!open8);
+                  }}
+                >
+                  <ListItemIcon
+                    style={{ background: "black", color: "whitesmoke" }}
+                  >
+                    {
+                    index % 2 === 0 ? <img src={financialImg} width='25px' alt="" /> : <MailIcon />
+                    }
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text}
+                    // onClick={() => {
+                    //   history.push("/marketing_dashboard");
+                    // }}
+                  />
+                  {open5 ? <IconExpandLess /> : <IconExpandMore />}
+                </ListItem>
+              ))}
+              <Collapse in={open8} timeout="auto" unmountOnExit>
+                <Divider />
+                <List component="div" disablePadding>
+                  <ListItem
+                    button
+                    className={classes.menuItem}
+                    onClick={() => {
+                      history.push("/marketing_dashboard/order_booking_form");
+                    }}
+                  >
+                    <ListItemText inset primary="Employee Salaries" />
+                  </ListItem>
+                  <ListItem
+                    button
+                    className={classes.menuItem}
+                    onClick={() => {
+                      history.push("/marketing_dashboard/order_log_sheet");
+                    }}
+                  >
+                    <ListItemText inset primary="Employees Attendance" />
                   </ListItem>
                 </List>
               </Collapse>

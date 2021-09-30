@@ -120,6 +120,8 @@ import ItemOutwards from '../dashboard/store/outwards/ItemOutwards';
 import OrderLogSheet from '../dashboard/marketing-sales/order log sheet/OrderLogSheet';
 import DailyInwardReports from '../dashboard/store/inwards/DailyInwardReports';
 import PrintStockAssesment from '../dashboard/store/stock assessment report/PrintStockAssesment';
+import AddAccounts from '../dashboard/Accounts/Finance/create-accounts/AddAccounts';
+import AccountHistory from '../dashboard/Accounts/Finance/accounts-history/AccountHistory';
 
 
 
@@ -264,6 +266,10 @@ const Router = () => {
                     component={ViewPlan}
                 />
                 <Route exact path='/productionDashboard/shifts' component={Shifts} />
+                
+                {/* ===================================================================== */}
+                <Router exact path="/finance/accounts/add_accounts" component={AddAccounts} />                 //Accounts Module Routes
+                <Router exact path="/finance/accounts/accounts_history" component={AccountHistory} />
             </Router>
         </BrowserRouter>
     )
