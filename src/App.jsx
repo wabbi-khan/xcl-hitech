@@ -137,7 +137,9 @@ import DailyInwardReports from './dashboard/store/inwards/DailyInwardReports';
 import NotAvailablePage from './NotAvailablePage'
 import PrintStockAssesment from './dashboard/store/stock assessment report/PrintStockAssesment';
 import AddAccounts from './dashboard/Accounts/Finance/create-accounts/AddAccounts';
-import AccountHistory from './dashboard/Accounts/Finance/accounts-history/AccountHistory';
+import AccountHistory from './dashboard/Accounts/Finance/ledger/Ledger';
+import Ledger from './dashboard/Accounts/Finance/ledger/Ledger';
+import PrintLedger from './dashboard/Accounts/Finance/ledger/PrintLedger';
 
 dotenv.config();
 
@@ -645,7 +647,8 @@ function App() {
 
 			{/* ===================================================================== */}
 			<Route exact path="/finance/accounts/add_accounts" component={AddAccounts} />                 //Accounts Module Routes
-			<Route exact path="/finance/accounts/accounts_history" component={AccountHistory} />
+			<Route exact path="/finance/accounts/ledger" component={Ledger} />
+			<Route exact path="/finance/accounts/ledger/print_ledger" component={PrintLedger} />
 		</Switch>
 	);
 }

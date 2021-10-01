@@ -104,7 +104,7 @@ const AddAccounts = ({ history }) => {
   const deleteStock = () => {};
 
   const toAccountHistory = () => {
-    history.push("/finance/accounts/accounts_history");
+    history.push("/finance/accounts/ledger");
   };
 
   return (

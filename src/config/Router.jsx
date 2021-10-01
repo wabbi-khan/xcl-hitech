@@ -121,7 +121,9 @@ import OrderLogSheet from '../dashboard/marketing-sales/order log sheet/OrderLog
 import DailyInwardReports from '../dashboard/store/inwards/DailyInwardReports';
 import PrintStockAssesment from '../dashboard/store/stock assessment report/PrintStockAssesment';
 import AddAccounts from '../dashboard/Accounts/Finance/create-accounts/AddAccounts';
-import AccountHistory from '../dashboard/Accounts/Finance/accounts-history/AccountHistory';
+import AccountHistory from '../dashboard/Accounts/Finance/ledger/Ledger';
+import Ledger from '../dashboard/Accounts/Finance/ledger/Ledger';
+import PrintLedger from '../dashboard/Accounts/Finance/ledger/PrintLedger';
 
 
 
@@ -269,7 +271,8 @@ const Router = () => {
                 
                 {/* ===================================================================== */}
                 <Router exact path="/finance/accounts/add_accounts" component={AddAccounts} />                 //Accounts Module Routes
-                <Router exact path="/finance/accounts/accounts_history" component={AccountHistory} />
+                <Router exact path="/finance/accounts/ledger" component={Ledger} />
+                <Router exact path="/finance/accounts/ledger/print_ledger" component={PrintLedger} />
             </Router>
         </BrowserRouter>
     )
