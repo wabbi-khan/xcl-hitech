@@ -124,6 +124,7 @@ import AddAccounts from '../dashboard/Accounts/Finance/create-accounts/AddAccoun
 import AccountHistory from '../dashboard/Accounts/Finance/ledger/Ledger';
 import Ledger from '../dashboard/Accounts/Finance/ledger/Ledger';
 import PrintLedger from '../dashboard/Accounts/Finance/ledger/PrintLedger';
+import Entries from '../dashboard/Accounts/Finance/entries/Entries';
 
 
 
@@ -273,6 +274,7 @@ const Router = () => {
                 <Router exact path="/finance/accounts/add_accounts" component={AddAccounts} />                 //Accounts Module Routes
                 <Router exact path="/finance/accounts/ledger" component={Ledger} />
                 <Router exact path="/finance/accounts/ledger/print_ledger" component={PrintLedger} />
+                <Router exact path="/finance/accounts/entries/add_entry" component={Entries} />
             </Router>
         </BrowserRouter>
     )

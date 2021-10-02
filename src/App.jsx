@@ -140,6 +140,7 @@ import AddAccounts from './dashboard/Accounts/Finance/create-accounts/AddAccount
 import AccountHistory from './dashboard/Accounts/Finance/ledger/Ledger';
 import Ledger from './dashboard/Accounts/Finance/ledger/Ledger';
 import PrintLedger from './dashboard/Accounts/Finance/ledger/PrintLedger';
+import Entries from './dashboard/Accounts/Finance/entries/Entries';
 
 dotenv.config();
 
@@ -649,6 +650,7 @@ function App() {
 			<Route exact path="/finance/accounts/add_accounts" component={AddAccounts} />                 //Accounts Module Routes
 			<Route exact path="/finance/accounts/ledger" component={Ledger} />
 			<Route exact path="/finance/accounts/ledger/print_ledger" component={PrintLedger} />
+			<Route exact path="/finance/accounts/entries/add_entry" component={Entries} />
 		</Switch>
 	);
 }

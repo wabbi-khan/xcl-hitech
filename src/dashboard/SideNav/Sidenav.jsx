@@ -1486,10 +1486,10 @@ function Sidenav(props) {
                     button
                     className={classes.menuItem}
                     onClick={() => {
-                      history.push("/marketing_dashboard/order_log_sheet");
+                      history.push("/finance/accounts/entries/add_entry");
                     }}
                   >
-                    <ListItemText inset primary="Add Accounts" />
+                    <ListItemText inset primary="Add Entries" />
                   </ListItem>
                 </List>
               </Collapse>
