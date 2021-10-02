@@ -6,12 +6,18 @@ function generateRow(data, keys) {
   const values = [];
   for (const key of keys) {
     let value = { ...data };
-    const keyArr = key.split(".");
-    for (const el of keyArr) {
-      if (value[el]) value = value[el];
-      else value = "";
+    if (typeof key === 'object') {
+      value = key.indexFrom[value[key.keyName]];
+      values.push(value);
+    } else {
+      const keyArr = key.split(".");
+      for (const el of keyArr) {
+        if (value[el]) value = value[el];
+        else value = "";
+      }
+      values.push(value);
     }
-    values.push(value);
+
   }
   return values;
 }
@@ -71,7 +77,7 @@ const CustomTable = ({
             {columnHeadings.map((el) => (
               <th align="center">{el}</th>
             ))}
-            {onFirstOptionClick && <th align="center">Actions</th>}
+            {(onFirstOptionClick || onSecondOptionClick || onThirdOptionClick) && <th align="center">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -87,7 +93,7 @@ const CustomTable = ({
                   {el ? el : "Not found"}
                 </td>
               ))}
-              {onFirstOptionClick && (
+              {(onFirstOptionClick || onSecondOptionClick || onThirdOptionClick) && (
                 <td className="text-dark bg-light" align="center">
                   <div
                     style={{
@@ -95,7 +101,8 @@ const CustomTable = ({
                       alignItems: "center",
                       justifyContent: "center",
                     }}
-                  >
+                    >
+                    {onFirstOptionClick && (
                     <Button
                       variant="contained"
                       classNames="bg-dark text-light"
@@ -108,6 +115,7 @@ const CustomTable = ({
                         "data-option": "0",
                       }}
                     />
+                    )}
 
                     {onSecondOptionClick && (
                       <Button

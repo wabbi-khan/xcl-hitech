@@ -54,12 +54,15 @@ import {
     outwardGatePassReducer,
     responsibilityReducer,
     subCategoryReducer,
-    unitReducer
+    unitReducer,
+    stockAssessmentReportReducer,
+    accountReducer
 } from './services/reducer'
 
 const initialState = {};
 
 const reducer = combineReducers({
+    accounts: accountReducer,
     materials: fetchMaterialReducer,
     categories: fetchCategoryReducer,
     storeCategories: fetchStoreCategory,
@@ -105,7 +108,8 @@ const reducer = combineReducers({
     binCards: binCardReducer,
     inwards: inwardReducer,
     inwardGatePasses: inwardGatePassReducer,
-    outwardGatePasses: outwardGatePassReducer
+    outwardGatePasses: outwardGatePassReducer,
+    stockAssessmentReport: stockAssessmentReportReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

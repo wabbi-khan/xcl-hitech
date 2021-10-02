@@ -1,0 +1,1 @@
+export const accountTypes = ['Asset', 'Liability', 'Capital', 'Expense', 'Revenue']

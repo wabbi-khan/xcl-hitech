@@ -47,8 +47,12 @@ import { fetchNonExecRatReducer } from './nonExecRat'
 import { outwardGatePassReducer } from './outwardGatePassReducer'
 import { subCategoryReducer } from './subCategoryReducer'
 import { getTrainingEvaluations } from './trainingEvaluationReducer'
+import { stockAssessmentReportReducer } from './stockAssessmentReportReducer'
+import { accountReducer } from './accountReducer'
 
 export {
+    accountReducer,
+    stockAssessmentReportReducer,
     getTrainingEvaluations,
     subCategoryReducer,
     outwardGatePassReducer,

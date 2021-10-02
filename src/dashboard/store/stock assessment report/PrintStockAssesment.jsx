@@ -1,29 +1,14 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "../../../components/utils/Button";
-import { CustomTable } from "../../../components";
+import { CustomTable, CustomButton } from "../../../components";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
-  mainContainer: {
-    textAlign: "center",
-  },
-  table: {
-    marginBottom: 300,
-  },
-}));
-
-const PrintStockAssesment = () => {
+const PrintStockAssesment = ({location}) => {
   const date = new Date();
   const currDate = date.getDate();
   const months = date.getMonth() + 1;
   const years = date.getFullYear();
   const fullDate = `${currDate} / ${months} / ${years}`;
+
+  const report = location.state.report;
 
   return (
     <div className="text-center">
@@ -35,13 +20,9 @@ const PrintStockAssesment = () => {
           <div
             style={{
               display: "flex",
-              // alignItems: 'flex-end',
               flexDirection: "column",
               border: "2px solid #333",
               width: "100px",
-              // marginLeft: 'auto',
-              // paddingRight: '5px',
-              // marginRight: '-3rem'
             }}
           >
             <h6>FM-36</h6>
@@ -59,10 +40,8 @@ const PrintStockAssesment = () => {
         </h4>
       </div>
       <div class="container" id="printBtn">
-        <Button
-          size="small"
+        <CustomButton
           text="Print"
-          variant="contained"
           classNames="btn bg-dark text-light"
           onClick={() => window.print()}
           style={{ marginLeft: "auto" }}
@@ -72,7 +51,7 @@ const PrintStockAssesment = () => {
         <div className="" style={{ marginTop: 30, marginLeft: "auto" }}>
           <CustomTable
             //   fetchLoading={fetchLoading}
-            data={[{}]}
+            data={[{...report}]}
             columnHeadings={[
               "S.No",
               "Item Description",
@@ -83,15 +62,7 @@ const PrintStockAssesment = () => {
               "Reason For Rejection",
               "Remarks",
             ]}
-            keys={[
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-            ]}
+            keys={["item.name", "quantityExamined", "properties", "ok", "ok", "reasonForRejection", "remarks"]}
             // firstOptionText="Edit"
             // onFirstOptionClick={handleOpen}
             // secondOptionText="Delete"
@@ -135,14 +106,20 @@ const PrintStockAssesment = () => {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: '1rem'
+              gap: "1rem",
             }}
           >
             <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-              Date: 
+              Date:
             </p>
-            <p style={{ marginTop: -10, fontSize: 12, textDecoration: 'underline' }}>
-              {  }
+            <p
+              style={{
+                marginTop: -10,
+                fontSize: 12,
+                textDecoration: "underline",
+              }}
+            >
+              {}
             </p>
           </div>
         </div>

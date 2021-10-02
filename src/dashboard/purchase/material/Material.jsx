@@ -325,8 +325,8 @@ const Material = () => {
                       <CustomInput 
                         label='Enter Material Name'
                         onChange={props.handleChange("name")}
-                        onBlur={props.handleBlur("name")}
                         value={props.values.name}
+                        onBlur={props.handleBlur("name")}
                         helperText={props.touched.name && props.errors.name}
                         error={props.touched.name && props.errors.name}
                         selectValues={transportOptions}

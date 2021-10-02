@@ -52,6 +52,7 @@ export const createOutwardGatePasses = (values, cb) => async(dispatch) => {
             });
             if (cb) cb();
         }
+
     } catch (err) {
         dispatchError(err, dispatch, cb);
     }

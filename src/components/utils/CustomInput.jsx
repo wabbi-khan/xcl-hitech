@@ -13,6 +13,15 @@ export const generateOptions = (data, nameKey, valueKey) => {
   return options;
 };
 
+export const generateOptionsFromIndexes = (data) => {
+  const options = [];
+  for (let i = 0; i<data.length; i++) {
+    options.push({value: `${i}`, name: data[i]})
+  }
+
+  return options;
+};
+
 const CssTextField = withStyles({
   root: {
     "& label.Mui-focused": {

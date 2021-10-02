@@ -1,241 +1,244 @@
 import React, { useState, useEffect } from "react";
 import Sidenav from "../../SideNav/Sidenav";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Container from "@material-ui/core/Container";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import { CustomButton, CustomTable } from "../../../components";
+import {
+  CustomButton,
+  CustomTable,
+  CustomContainer,
+  CustomInput,
+  generateOptions,
+} from "../../../components";
+import {
+  createStockAssessmentReports,
+  deleteStockAssessmentReports,
+  getStockAssessmentReports,
+  updateStockAssessmentReports,
+} from "../../../services/action/stockAssessmentReportAction";
+import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
+import { Formik, Form } from "formik";
+import * as yup from "yup";
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
+const initialValues = {
+  item: "",
+  quantityExamined: "",
+  properties: "",
+  ok: "",
+  reasonForRejection: "",
+  remarks: "",
+};
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
+const validationSchema = yup.object({
+  item: yup.string().required(),
+  quantityExamined: yup.string().required(),
+  properties: yup.string().required(),
+  ok: yup.string().required(),
+  reasonForRejection: yup.string().required(),
+  remarks: yup.string().required(),
+});
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
+const okOptions = [
+  {
+    value: "true",
+    name: "OK",
   },
-  mainContainer: {
-    textAlign: "center",
-    [theme.breakpoints.up("md")]: {
-      marginLeft: 0,
-      marginTop: 15,
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: -15,
-    },
+  {
+    value: "false",
+    name: "Rejected",
   },
-  addButton: {
-    marginTop: 50,
-    marginLeft: 15,
-    color: "#22A19A",
-    borderColor: "#22A19A",
-    "&:hover": {
-      borderColor: "#22A19A",
-      backgroundColor: "#22A19A",
-      color: "whitesmoke",
-    },
-  },
-  table: {
-    minWidth: 600,
-  },
-  dataTable: {
-    marginTop: 40,
-  },
-  itemHeading: {
-    marginTop: 7,
-  },
-  select: {
-    "&:before": {
-      borderColor: "red",
-    },
-    "&:hover:not(.Mui-disabled):before": {
-      borderColor: "red",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: 400,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-    },
-  },
-  delete: {
-    color: "red",
-    fontSize: 38,
-    [theme.breakpoints.up("md")]: {
-      marginLeft: 50,
-      marginTop: -7,
-    },
-    [theme.breakpoints.down("sm")]: {
-      marginTop: -10,
-    },
-  },
-  deleteRowBtn: {
-    "&:hover": {
-      border: "none",
-      background: "none",
-    },
-  },
-}));
-
-const CssTextField = withStyles({
-  root: {
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-  },
-})(TextField);
+];
 
 const StockAssessReport = ({ history }) => {
-  const [fetchLoading, setFetchLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
 
-  const { outwardGatePasses } = useSelector((state) => state.outwardGatePasses);
+  const { stockAssessmentReports } = useSelector(
+    (state) => state.stockAssessmentReport
+  );
 
-  const classes = useStyles();
+  const { materials } = useSelector((state) => state.materials);
 
-  const handleOpen = () => {};
+  const dispatch = useDispatch();
 
-  const deleteStock = () => {};
+  useEffect(() => {
+    dispatch(getMaterialAction());
+    setFetchLoading(true);
+    dispatch(
+      getStockAssessmentReports(null, (err) => {
+        if (err) {
+          setFetchError(err);
+          setTimeout(() => {
+            setFetchError("");
+          }, 4000);
+        }
+        setFetchLoading(false);
+      })
+    );
+  }, []);
 
-  const pushToPrint = () => {
-    history.push(
-      "/storedashboard/stock_assessment_report/print_stock_assesment_report"
+  const onSubmit = (values) => {
+    setCreateLoading(true);
+    dispatch(
+      createStockAssessmentReports(values, (err) => {
+        if (err) {
+          setCreateError(err);
+          setTimeout(() => {
+            setCreateError("");
+          }, 4000);
+        } else {
+          setSuccess("Category added successfully");
+          setTimeout(() => {
+            setSuccess("");
+          }, 4000);
+        }
+        setCreateLoading(false);
+      })
     );
   };
+
+  const handleOpen = () => {
+    console.log('object');
+  }
+
+  const onDelete = (params) => {
+    setDeleteLoading(true);
+		dispatch(
+			deleteStockAssessmentReports(params._id, (err) => {
+				if (err) {
+					setDeleteError(err);
+					setTimeout(() => {
+						setDeleteError('');
+					}, 4000);
+				}
+				setDeleteLoading(false);
+			}),
+		);
+  }
+
+  const navigateToPrint = (value) => {
+    history.push({pathname: '/storedashboard/stock_assessment_report/print_stock_assesment_report', state: {report: value}})
+  }
 
   return (
     <Sidenav title={"Stock Assessment Report"}>
       <div>
-        <Container className={classes.mainContainer}>
-          <Grid container spacing={1} style={{ marginTop: 15 }}>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                label="Select Item"
-                variant="outlined"
-                type="text"
-                size="small"
-                select
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              >
-                <MenuItem value="">{}</MenuItem>
-              </CssTextField>
-            </Grid>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                label="Quantity Examined"
-                variant="outlined"
-                type="text"
-                size="small"
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              />
-            </Grid>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                label="Item Retains/Item Properties"
-                variant="outlined"
-                type="text"
-                size="small"
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              />
-            </Grid>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                label="Ok For Further Use"
-                variant="outlined"
-                type="text"
-                size="small"
-                select
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              >
-                <MenuItem value={20}>Rejection</MenuItem>
-              </CssTextField>
-            </Grid>
-          </Grid>
-        </Container>
-        <Container className={classes.mainContainer}>
-          <Grid container spacing={1} style={{ marginTop: 15 }}>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                label="Reason For Rejection"
-                variant="outlined"
-                type="text"
-                size="small"
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              />
-            </Grid>
-            <Grid item lg={3} md={3} sm={12} xs={12}>
-              <CssTextField
-                id="outlined-basic"
-                label="Remarks"
-                variant="outlined"
-                type="text"
-                size="small"
-                style={{ width: "100%" }}
-                inputProps={{ style: { fontSize: 14 } }}
-                InputLabelProps={{ style: { fontSize: 14 } }}
-              />
-            </Grid>
-          </Grid>
-          <div>
-            <CustomButton
-              text="Submit"
-              variant="outlined"
-              classNames={classes.addButton}
-              // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-            />
-          </div>
-        </Container>
-
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {(props) => (
+            <Form>
+              <CustomContainer>
+                <Grid container spacing={1} style={{ marginTop: 15 }}>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CustomInput
+                      label="Select Item"
+                      selectValues={generateOptions(materials, "name", "_id")}
+                      onChange={props.handleChange("item")}
+                      value={props.values.item}
+                      onBlur={props.handleBlur("item")}
+                      helperText={props.touched.item && props.errors.item}
+                      error={props.touched.item && props.errors.item}
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CustomInput
+                      label="Quantity Examined"
+                      type='number'
+                      onChange={props.handleChange("quantityExamined")}
+                      value={props.values.quantityExamined}
+                      onBlur={props.handleBlur("quantityExamined")}
+                      helperText={
+                        props.touched.quantityExamined &&
+                        props.errors.quantityExamined
+                      }
+                      error={
+                        props.touched.quantityExamined &&
+                        props.errors.quantityExamined
+                      }
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CustomInput
+                      label="Item Retains/Item Properties"
+                      onChange={props.handleChange("properties")}
+                      value={props.values.properties}
+                      onBlur={props.handleBlur("properties")}
+                      helperText={
+                        props.touched.properties && props.errors.properties
+                      }
+                      error={
+                        props.touched.properties && props.errors.properties
+                      }
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CustomInput
+                      label="OK?"
+                      onChange={props.handleChange("ok")}
+                      value={props.values.ok}
+                      onBlur={props.handleBlur("ok")}
+                      helperText={props.touched.ok && props.errors.ok}
+                      error={props.touched.ok && props.errors.ok}
+                      selectValues={okOptions}
+                    />
+                  </Grid>
+                </Grid>
+              </CustomContainer>
+              <CustomContainer>
+                <Grid container spacing={1} style={{ marginTop: 15 }}>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CustomInput
+                      label="Reason For Rejection"
+                      onChange={props.handleChange("reasonForRejection")}
+                      value={props.values.reasonForRejection}
+                      onBlur={props.handleBlur("reasonForRejection")}
+                      helperText={
+                        props.touched.reasonForRejection &&
+                        props.errors.reasonForRejection
+                      }
+                      error={
+                        props.touched.reasonForRejection &&
+                        props.errors.reasonForRejection
+                      }
+                    />
+                  </Grid>
+                  <Grid item lg={3} md={3} sm={12} xs={12}>
+                    <CustomInput
+                      label="Remarks"
+                      onChange={props.handleChange("remarks")}
+                      value={props.values.remarks}
+                      onBlur={props.handleBlur("remarks")}
+                      helperText={props.touched.remarks && props.errors.remarks}
+                      error={props.touched.remarks && props.errors.remarks}
+                    />
+                  </Grid>
+                </Grid>
+                <div>
+                  <CustomButton
+                    text="Submit"
+                    variant="outlined"
+                    classNames="text-light"
+                    style={{ backgroundColor: "#22A19A", marginTop: "10px" }}
+                    loading={createLoading}
+                    loaderColor="#fff"
+                  />
+                  {createError && <p>{createError}</p>}
+                </div>
+              </CustomContainer>
+            </Form>
+          )}
+        </Formik>
         <CustomTable
           fetchLoading={fetchLoading}
-          data={[{}]}
+          data={stockAssessmentReports}
           heading="Materials"
           columnHeadings={[
             "Sr.No",
@@ -244,13 +247,13 @@ const StockAssessReport = ({ history }) => {
             "Items Retains/Items Properties",
             "Remarks",
           ]}
-          keys={["", "", "", ""]}
-          firstOptionText="Edit"
-          onFirstOptionClick={handleOpen}
+          keys={["item.name", "quantityExamined", "properties", "remarks"]}
+          // firstOptionText="Edit"
+          // onFirstOptionClick={handleOpen}
           secondOptionText="Delete"
-          onSecondOptionClick={deleteStock}
+          onSecondOptionClick={onDelete}
           thirdOptionText="View"
-          onThirdOptionClick={pushToPrint}
+          onThirdOptionClick={navigateToPrint}
           withSrNo
         />
       </div>
