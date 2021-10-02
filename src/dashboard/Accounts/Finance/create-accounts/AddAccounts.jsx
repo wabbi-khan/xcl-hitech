@@ -189,15 +189,9 @@ const AddAccounts = ({ history }) => {
             firstOptionText="Edit"
             onFirstOptionClick={handleOpen}
             secondOptionText="Delete"
-<<<<<<< HEAD
             onSecondOptionClick={onDelete}
-            thirdOptionText="View History"
-            onThirdOptionClick={toAccountHistory}
-=======
-            onSecondOptionClick={deleteStock}
             thirdOptionText="View Ledger"
             onThirdOptionClick={toLedger}
->>>>>>> f25a5c51cc651648f72d1b79afe2bd751839d831
             withSrNo
           />
         </div>
