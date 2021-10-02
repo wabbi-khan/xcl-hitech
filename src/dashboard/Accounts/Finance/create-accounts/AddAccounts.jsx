@@ -103,7 +103,7 @@ const AddAccounts = ({ history }) => {
 
   const deleteStock = () => {};
 
-  const toAccountHistory = () => {
+  const toLedger = () => {
     history.push("/finance/accounts/ledger");
   };
 
@@ -183,8 +183,8 @@ const AddAccounts = ({ history }) => {
             onFirstOptionClick={handleOpen}
             secondOptionText="Delete"
             onSecondOptionClick={deleteStock}
-            thirdOptionText="View History"
-            onThirdOptionClick={toAccountHistory}
+            thirdOptionText="View Ledger"
+            onThirdOptionClick={toLedger}
             withSrNo
           />
         </div>
