@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CustomTable } from "../../../../components";
-import Button from '../../../../components/utils/Button'
+import Button from "../../../../components/utils/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,7 @@ const PrintLedger = () => {
         <div class="col-3 col-lg-3 col-md-3">
           <img src="/images/nameLogo.png" width="220px" height="75px" alt="" />
         </div>
-        <div class="offset-7 col-2 mt-3">
+        {/* <div class="offset-7 col-2 mt-3">
           <div
             style={{
               display: "flex",
@@ -47,7 +47,7 @@ const PrintLedger = () => {
             <h6>FM-36</h6>
             <h6>Issue.01</h6>
           </div>
-        </div>
+        </div> */}
         <h4
           style={{
             marginTop: ".5rem",
@@ -58,10 +58,19 @@ const PrintLedger = () => {
           LEDGER
         </h4>
       </div>
-      <div class="container" id="printBtn">
+      <div className="container d-flex justify-content-between mt-4" >
+        <div style={{ display: 'flex', gap: '1rem' }}>
+            <p style={{ fontWeight: "bold" }}>
+                Date:
+            </p>
+            <p>
+                {  }
+            </p>
+        </div>
         <Button
           size="small"
           text="Print"
+          id="printBtn"
           variant="contained"
           classNames="btn bg-dark text-light"
           onClick={() => window.print()}
@@ -74,16 +83,15 @@ const PrintLedger = () => {
             //   fetchLoading={fetchLoading}
             data={[{}]}
             columnHeadings={[
-              "S.No",
-              "Item Description",
-              "QTY Examined",
-              "Items Retains",
-              "Ok for Further Use",
-              "Rejected/To Be Discarded",
-              "Reason For Rejection",
-              "Remarks",
+              "Sr.No",
+              "Date",
+              "Account Type",
+              "Account Name",
+              "From (Account Name)",
+              "To (Account Name)",
+              "Balance",
             ]}
-            keys={["", "", "", "", "", "", ""]}
+            keys={["", "", "", "", "", ""]}
             // firstOptionText="Edit"
             // onFirstOptionClick={handleOpen}
             // secondOptionText="Delete"
