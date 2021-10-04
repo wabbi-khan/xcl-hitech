@@ -7,7 +7,6 @@ import Grid from "@material-ui/core/Grid";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Autocomplete from "../../../components/utils/AutoComplete";
 import {
   CustomContainer,
   CustomInput,
@@ -15,6 +14,7 @@ import {
 } from "../../../components";
 import Button from "../../../components/utils/Button";
 import { updateStockAssessmentReports } from "../../../services/action/stockAssessmentReportAction";
+import { okOptions } from "./StockAssessReport";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -33,60 +33,6 @@ const useStyles = makeStyles((theme) => ({
   mainContainer: {
     textAlign: "center",
     marginTop: 20,
-  },
-  addButton: {
-    marginTop: 20,
-    marginRight: 10,
-    color: "#22A19A",
-    borderColor: "#22A19A",
-    fontWeight: "bold",
-    "&:hover": {
-      border: "none",
-      backgroundColor: "#22A19A",
-      color: "whitesmoke",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "15%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      // width: '12%',
-    },
-  },
-  closeButton: {
-    marginTop: 20,
-    marginRight: 10,
-    color: "#e74c3c",
-    borderColor: "#e74c3c",
-    fontWeight: "bold",
-    "&:hover": {
-      border: "none",
-      backgroundColor: "#e74c3c",
-      color: "whitesmoke",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "15%",
-    },
-    [theme.breakpoints.down("sm")]: {
-      // width: '12%',
-    },
-  },
-  inputFieldStyle: {
-    [theme.breakpoints.up("md")]: {
-      width: 330,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-    },
-  },
-  inputFieldStyle1: {
-    marginTop: 10,
-    [theme.breakpoints.up("md")]: {
-      width: 330,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-      marginTop: 10,
-    },
   },
 }));
 
@@ -110,7 +56,6 @@ const validationSchema = yup.object({
 
 const EditStockAssesment = (props) => {
   const { stock } = props;
-  console.log(stock);
 
   const classes = useStyles();
 
@@ -249,7 +194,7 @@ const EditStockAssesment = (props) => {
                           onBlur={props.handleBlur("ok")}
                           helperText={props.touched.ok && props.errors.ok}
                           error={props.touched.ok && props.errors.ok}
-                          // selectValues={okOptions}
+                          selectValues={okOptions}
                         />
                         {/* <Autocomplete
                           options={units}

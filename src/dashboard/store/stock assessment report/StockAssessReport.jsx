@@ -40,7 +40,7 @@ const validationSchema = yup.object({
   remarks: yup.string().required(),
 });
 
-const okOptions = [
+export const okOptions = [
   {
     value: "true",
     name: "OK",

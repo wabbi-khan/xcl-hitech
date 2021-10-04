@@ -29,15 +29,15 @@ const PrintStockAssesment = ({location}) => {
             <h6>Issue.01</h6>
           </div>
         </div>
-        <h4
+        <h5
           style={{
-            marginTop: ".5rem",
+            marginTop: "2rem",
             fontWeight: "bold",
             textDecoration: "underline",
           }}
         >
           STOCK ASSESSMENT REPORT
-        </h4>
+        </h5>
       </div>
       <div class="container" id="printBtn">
         <CustomButton
