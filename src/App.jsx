@@ -141,6 +141,7 @@ import AccountHistory from './dashboard/Accounts/Finance/ledger/Ledger';
 import Ledger from './dashboard/Accounts/Finance/ledger/Ledger';
 import PrintLedger from './dashboard/Accounts/Finance/ledger/PrintLedger';
 import Entries from './dashboard/Accounts/Finance/entries/Entries';
+import OrderLogSheet from './dashboard/marketing-sales/order log sheet/OrderLogSheet';
 
 dotenv.config();
 
@@ -609,6 +610,11 @@ function App() {
 				exact
 				path='/marketing_dashboard/order_booking_form'
 				component={OrderBookingForm}
+			/>
+			<Route
+				exact
+				path='/marketing_dashboard/order_log_sheet'
+				component={OrderLogSheet}
 			/>
 			{/* ===================================================================== */}
 			<Route exact path='/productionDashboard' component={ProductionDashboard} />

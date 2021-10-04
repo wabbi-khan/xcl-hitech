@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidenav from '../../SideNav/Sidenav'
+import { CustomButton } from '../../../components'
 
 const OrderLogSheet = ({ history }) => {
     return (
@@ -70,10 +71,8 @@ const OrderLogSheet = ({ history }) => {
                                 {/* {el?.remarks} */}
                             </td>
                             <td>
-                                <Button
-                                    variant="contained"
+                                <CustomButton
                                     text="View"
-                                    size="small"
                                     classNames="btn bg-dark text-light"
                                     onClick={() => {
                                         history.push('/storedashboard/inwards/item_inward/print_inward_item')
