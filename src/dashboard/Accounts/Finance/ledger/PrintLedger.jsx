@@ -113,43 +113,9 @@ const PrintLedger = () => {
             }}
           >
             <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
+            {/* <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
               Prepared By
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <hr style={{ borderTop: "3px solid black", width: "200px" }} />
-            <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-              Approved By
-            </p>
-          </div>
-        </div>
-        <div className="offset-6 col-3">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-            }}
-          >
-            <p style={{ marginTop: -10, fontSize: 12, fontWeight: "bold" }}>
-              Date:
-            </p>
-            <p
-              style={{
-                marginTop: -10,
-                fontSize: 12,
-                textDecoration: "underline",
-              }}
-            >
-              {}
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

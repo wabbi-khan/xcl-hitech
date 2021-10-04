@@ -19,6 +19,8 @@ import {
 import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
+import EditStockAssesment from "./EditStockAssesment";
+import Loader from "react-loader-spinner";
 
 const initialValues = {
   item: "",
@@ -55,8 +57,10 @@ const StockAssessReport = ({ history }) => {
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
   const [success, setSuccess] = useState("");
-  const [deleteLoading, setDeleteLoading] = useState(false)
-  const [deleteError, setDeleteError] = useState('')
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [stock, setStock] = useState();
 
   const { stockAssessmentReports } = useSelector(
     (state) => state.stockAssessmentReport
@@ -102,31 +106,51 @@ const StockAssessReport = ({ history }) => {
     );
   };
 
-  const handleOpen = () => {
-    console.log('object');
-  }
+  const handleOpen = async (stock) => {
+    setStock(stock);
+    setOpen(true);
+  };
+
+  const handleClose = (props) => {
+    setOpen(props);
+  };
 
   const onDelete = (params) => {
     setDeleteLoading(true);
-		dispatch(
-			deleteStockAssessmentReports(params._id, (err) => {
-				if (err) {
-					setDeleteError(err);
-					setTimeout(() => {
-						setDeleteError('');
-					}, 4000);
-				}
-				setDeleteLoading(false);
-			}),
-		);
-  }
+    dispatch(
+      deleteStockAssessmentReports(params._id, (err) => {
+        if (err) {
+          setDeleteError(err);
+          setTimeout(() => {
+            setDeleteError("");
+          }, 4000);
+        }
+        setDeleteLoading(false);
+      })
+    );
+  };
 
   const navigateToPrint = (value) => {
-    history.push({pathname: '/storedashboard/stock_assessment_report/print_stock_assesment_report', state: {report: value}})
-  }
+    history.push({
+      pathname:
+        "/storedashboard/stock_assessment_report/print_stock_assesment_report",
+      state: { report: value },
+    });
+  };
 
   return (
     <Sidenav title={"Stock Assessment Report"}>
+      <EditStockAssesment show={open} handler={handleClose} stock={stock} />
+      {deleteLoading && (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Loader type="TailSpin" width="2rem" height="2rem" />
+        </div>
+      )}
+      {deleteError && (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <span>{deleteError}</span>
+        </div>
+      )}
       <div>
         <Formik
           initialValues={initialValues}
@@ -151,7 +175,7 @@ const StockAssessReport = ({ history }) => {
                   <Grid item lg={3} md={3} sm={12} xs={12}>
                     <CustomInput
                       label="Quantity Examined"
-                      type='number'
+                      type="number"
                       onChange={props.handleChange("quantityExamined")}
                       value={props.values.quantityExamined}
                       onBlur={props.handleBlur("quantityExamined")}
@@ -248,8 +272,8 @@ const StockAssessReport = ({ history }) => {
             "Remarks",
           ]}
           keys={["item.name", "quantityExamined", "properties", "remarks"]}
-          // firstOptionText="Edit"
-          // onFirstOptionClick={handleOpen}
+          firstOptionText="Edit"
+          onFirstOptionClick={handleOpen}
           secondOptionText="Delete"
           onSecondOptionClick={onDelete}
           thirdOptionText="View"
