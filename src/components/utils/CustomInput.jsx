@@ -59,13 +59,7 @@ const CustomInput = ({
       type={type}
       size="small"
       select={selectValues ? true : false}
-<<<<<<< HEAD
-      style={{ width: "100%", fontSize: '12px' }}
-=======
-      style={{ width: "100%" }}
-      inputProps={{ style: { fontSize: 14 } }}
-      InputLabelProps={{ style: { fontSize: 14 } }}
->>>>>>> 85a1066bb7be56c8cf59524c81bc0e6004f04162
+      style={{ width: "100%"}}
       onChange={handleChange}
       onBlur={onBlur}
       value={value}
