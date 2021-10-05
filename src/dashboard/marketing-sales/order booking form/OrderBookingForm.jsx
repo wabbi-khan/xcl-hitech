@@ -1,728 +1,553 @@
-import React, { useState, useEffect } from 'react'
-import Sidenav from '../../SideNav/Sidenav'
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import { useDispatch, useSelector } from 'react-redux'
-import { useForm } from "react-hook-form";
-import axios from 'axios';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Sidenav from "../../SideNav/Sidenav";
+import Grid from "@material-ui/core/Grid";
+import {
+  CustomContainer,
+  CustomButton,
+  CustomInput,
+  generateOptions,
+} from "../../../components";
+import { createOrderBooking } from "../../../services/action/orderBookingAction";
+import { getDesignation } from "../../../services/action/DesignationAction";
+import { getEmployees } from "../../../services/action/EmployeesAction";
+import { Formik, Form, FieldArray } from "formik";
+import * as yup from "yup";
 
+const itemsInitialState = {
+  size: "",
+  pe: "",
+  pn: "",
+  sdr: "",
+  lengthInMeters: "",
+  noOfPipes: "",
+};
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
+const initialValues = {
+  designation: "",
+  employee: "",
+  address: "",
+  customerName: "",
+  customerAddress: "",
+  deliveryAddress: "",
+  fittingRequired: "",
+  weldingRequired: "",
+  fittingQuantity: "",
+  modeOfTransportation: "",
+  modeOfPayment: "",
+  expectedDateOfDelivery: "",
+  requirements: "",
+  remarks: "",
+  items: [
+    {
+      ...itemsInitialState,
     },
-    mainContainer: {
-        [theme.breakpoints.up('md')]: {
-            marginTop: 10,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -15,
-        },
-    },
-    innerContainer: {
-        textAlign: 'center',
-        [theme.breakpoints.up('md')]: {
-            marginTop: 10,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -15,
-        },
-    },
-    addButton: {
-        marginTop: 20,
-        marginLeft: 50,
-        color: '#22A19A',
-        borderColor: '#22A19A',
-        '&:hover': {
-            border: 'none',
-            backgroundColor: '#22A19A',
-            color: 'whitesmoke',
-        }
-    },
-    table: {
-        minWidth: 600,
-    },
-    dataTable: {
-        marginTop: 40,
+  ],
+};
 
-    },
-    ckeckBox: {
-        [theme.breakpoints.up('md')]: {
-            marginLeft: 25,
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginLeft: 0,
-        },
-    },
-    inputFieldStyle: {
-        // boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-        // borderRadius: 5,
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-
-        },
-    },
-    inputFieldStyle1: {
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    inputFieldStyle2: {
-        // boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-        // borderRadius: 5,
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-            marginLeft: -20
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-
-        },
-    },
-    inputFieldStyle3: {
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-            marginLeft: -20
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-
-        },
-    },
-    inputFieldStyle4: {
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-            marginLeft: -20
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-
-        },
-    },
-    inputFieldStyle5: {
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-            marginLeft: -20,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    inputFieldStyle6: {
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-            marginLeft: -20,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    inputFieldStyle7: {
-        [theme.breakpoints.up('md')]: {
-            width: 270,
-            marginLeft: -20,
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-        },
-    },
-    itemHeading: {
-        marginTop: 7,
-    },
-    select: {
-        "&:before": {
-            borderColor: "red"
-        },
-        '&:before': {
-            borderColor: 'red',
-        },
-        '&:hover:not(.Mui-disabled):before': {
-            borderColor: 'red',
-        },
-        [theme.breakpoints.up('md')]: {
-            width: 400,
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: 200,
-
-        },
-    },
-    delete: {
-        color: 'red',
-        fontSize: 37,
-        [theme.breakpoints.up('md')]: {
-            // marginLeft: 50,
-            marginTop: -7,
-
-        },
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -10,
-        },
-    },
-    deleteRowBtn: {
-        marginTop: 2,
-        '&:hover': {
-            border: 'none',
-            background: 'none',
-        }
-    }
-}));
-
-const CssTextField = withStyles({
-    root: {
-        '& label.Mui-focused': {
-            color: 'black',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'black',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'black',
-            },
-        },
-    },
-
-})(TextField);
+const validationSchema = yup.object({
+  designation: yup.string().required(),
+  employee: yup.string().required(),
+  address: yup.string().required(),
+  customerName: yup.string().required(),
+  customerAddress: yup.string().required(),
+  deliveryAddress: yup.string().required(),
+  fittingRequired: yup.string().required(),
+  weldingRequired: yup.string().required(),
+  fittingQuantity: yup.string().required(),
+  modeOfTransportation: yup.string().required(),
+  modeOfPayment: yup.string().required(),
+  expectedDateOfDelivery: yup.string().required(),
+  requirements: yup.string().required(),
+  remarks: yup.string().required(),
+  items: yup.array().of(
+    yup.object().shape({
+      size: yup.string().required("Size is required"),
+      pe: yup.string().required("PE is required"),
+      pn: yup.string().required("PN is required"),
+      sdr: yup.string().required("SDR is required"),
+      lengthInMeters: yup.string().required("Length in meters is required"),
+      noOfPipes: yup.string().required("No of pipes is required"),
+    })
+  ),
+});
 
 const OrderBookingForm = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch()
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const [success, setSuccess] = useState("");
 
-    // const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
-    const [ItemCounter, setItemCounter] = useState([{ material: "", quantity: '', unitValue: '', remarks: '' }]);
-    const [VendorId, setVendorId] = useState('')
-    const [VendorAddress, setVendorAddress] = useState('')
-    const [vendorMaterial, setVendorMaterial] = useState([])
-    const [orderBody, setOrderBody] = useState({})
-    // console.log(vendorMaterial);
+  const dispatch = useDispatch();
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+  const { designations } = useSelector((state) => state.designations);
+  const { employees } = useSelector((state) => state.employees);
 
-    useEffect(async () => {
-        // await dispatch(appSuppListAction())
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(getDesignation());
+    dispatch(getEmployees());
+  }, []);
 
-    // const { verifiedVendors } = useSelector(state => state.verifiedVendors)
+  const onSubmit = (values) => {
+    console.log(values);
+    setCreateLoading(true);
+    dispatch(
+      createOrderBooking(values, (err) => {
+        if (err) {
+          setCreateError(err);
+          setTimeout(() => {
+            setCreateError("");
+          }, 4000);
+        } else {
+          setSuccess("Order successfully created");
+          setTimeout(() => {
+            setSuccess("");
+          }, 4000);
+        }
+        setCreateLoading(false);
+      })
+    );
+  };
 
-    const addMoreFunc = () => {
-        setItemCounter([...ItemCounter, { material: '', quantity: '', unitValue: '', remarks: '' }]);
-    };
+  return (
+    <Sidenav title={"Order Booking Form"}>
+      <CustomContainer>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {(props) => (
+            <Form>
+              <div style={{ textAlign: "left" }}>
+                <h5>Company Representative</h5>
+              </div>
+              <Grid container spacing={1} style={{ marginTop: 15 }}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Select Designation"
+                    selectValues={generateOptions(designations, "name", "_id")}
+                    onChange={props.handleChange("designation")}
+                    value={props.values.designation}
+                    onBlur={props.handleBlur("designation")}
+                    helperText={
+                      props.touched.designation && props.errors.designation
+                    }
+                    error={
+                      props.touched.designation && props.errors.designation
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Select Employee Name"
+                    selectValues={generateOptions(employees, "name", "_id")}
+                    onChange={props.handleChange("employee")}
+                    value={props.values.employee}
+                    onBlur={props.handleBlur("employee")}
+                    helperText={props.touched.employee && props.errors.employee}
+                    error={props.touched.employee && props.errors.employee}
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Address"
+                    onChange={props.handleChange("address")}
+                    value={props.values.address}
+                    onBlur={props.handleBlur("address")}
+                    helperText={props.touched.address && props.errors.address}
+                    error={props.touched.address && props.errors.address}
+                  />
+                </Grid>
+              </Grid>
+              <div style={{ textAlign: "left", marginTop: "20px" }}>
+                <h5>Customer Information</h5>
+              </div>
+              <Grid container spacing={1} style={{ marginTop: 15 }}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Enter Customer Name"
+                    onChange={props.handleChange("customerName")}
+                    value={props.values.customerName}
+                    onBlur={props.handleBlur("customerName")}
+                    helperText={
+                      props.touched.customerName && props.errors.customerName
+                    }
+                    error={
+                      props.touched.customerName && props.errors.customerName
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Customer Address"
+                    onChange={props.handleChange("customerAddress")}
+                    value={props.values.customerAddress}
+                    onBlur={props.handleBlur("customerAddress")}
+                    helperText={
+                      props.touched.customerAddress &&
+                      props.errors.customerAddress
+                    }
+                    error={
+                      props.touched.customerAddress &&
+                      props.errors.customerAddress
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Delivery Site Address"
+                    onChange={props.handleChange("deliveryAddress")}
+                    value={props.values.deliveryAddress}
+                    onBlur={props.handleBlur("deliveryAddress")}
+                    helperText={
+                      props.touched.deliveryAddress &&
+                      props.errors.deliveryAddress
+                    }
+                    error={
+                      props.touched.deliveryAddress &&
+                      props.errors.deliveryAddress
+                    }
+                  />
+                </Grid>
+              </Grid>
 
-    const deleteItem = (i) => {
-        const temp = [...ItemCounter];
-        temp.splice(i, 1);
-        setItemCounter(temp);
-    }
+              <FieldArray name="items">
+                {({ push, remove, form }) => (
+                  <>
+                    <div
+                      style={{
+                        textAlign: "left",
+                        marginTop: "20px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <h5>Description of Order</h5>
 
-    // const onAdd = async (data) => {
-    //     console.log(data);
-    // }
-
-    // const onAddMaterial = async data => {
-    //     console.log(data);
-    // }
-
-    const onChangeHandler = (e, placeholder, index) => {
-        console.log(e.target.value)
-        const tempFields = ItemCounter.map((item, i) => {
-            if (i === index) {
-                return { ...item, [placeholder]: e.target.value };
-            } else {
-                return { ...item };
-            }
-        });
-        setItemCounter(tempFields);
-    };
-
-    const onSubmitDate = async (props) => {
-        // console.log(ItemCounter);
-        // console.log(props);
-        // try {
-        //     await axios.post(`${process.env.REACT_APP_API_URL}/order`, {
-        //         vendor: props.vendor,
-        //         poNum: props.poNum,
-        //         prNum: props.prNum,
-        //         reference: props.reference,
-        //         paymentTerm: props.paymentTerm,
-        //         paymentSubject: props.paymentSubject,
-        //         materials: ItemCounter,
-
-        //     })
-        //     window.location.reload()
-        //     // setAddMatError(false)
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     // setAddMatError(true)
-
-        // }
-    }
-
-    return (
-        <Sidenav title={'Order Booking Form'}>
-            <div>
-                <form action="" onSubmit={handleSubmit(onSubmitDate)}>
-                    <Container className={classes.mainContainer}>
-                        <div className="mt-2 ml-5">
-                            <h5>Company Representative</h5>
-                        </div>
-                        <Container className={classes.innerContainer}>
-                            <Grid container spacing={1} style={{ marginTop: 15, }} >
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Select Designation*"
-                                        variant="outlined"
-                                        type="email"
-                                        size="small"
-                                        select
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-
-                                    >
-                                        <MenuItem value="">Manager</MenuItem>
-                                        {/* {
-                                        !verifiedVendors || !verifiedVendors.length ? <p>Data Not Found</p> :
-                                            verifiedVendors.map(verifiedVendor => (
-                                                <MenuItem value={verifiedVendor._id} key={verifiedVendor._id}
-                                                    onClick={() => {
-                                                        setVendorId(verifiedVendor._id)
-                                                        setVendorAddress(verifiedVendor.location)
-                                                        setVendorMaterial(verifiedVendor.material)
-                                                    }}
-                                                >
-                                                    {verifiedVendor.name}
-                                                </MenuItem>
-                                            ))
-                                    } */}
-                                    </CssTextField>
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Select Employee Name"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        select
-                                        className={classes.inputFieldStyle1}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("poNum", { required: true })}
-                                    >
-                                        <MenuItem value="">Asad</MenuItem>
-                                        <MenuItem value="">Arsalan</MenuItem>
-                                    </CssTextField>
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">P.O. No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Address"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        disabled
-                                        value={VendorAddress}
-                                        className={classes.inputFieldStyle1}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                    // {...register("address", { required: true })}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </Container>
-                    <Container className={classes.mainContainer}>
-                        <div className="mt-4 ml-5">
-                            <h5>Customer Information</h5>
-                        </div>
-                        <Container className={classes.innerContainer}>
-                            <Grid container spacing={1} style={{ marginTop: 15, }} >
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Enter Customer Name"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        autoComplete="off"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Customer Name is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Customer Address"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        autoComplete="off"
-                                        className={classes.inputFieldStyle1}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("poNum", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Customer Address is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Delivery Site Address"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        autoComplete="off"
-                                        className={classes.inputFieldStyle1}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("address", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Delivery Site Address is required</p>
-                                    }
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </Container>
-                    <Container className={classes.mainContainer}>
-                        <div className="mt-4 ml-5">
-                            <h5>Description of Order</h5>
-                        </div>
-                        <Container className={classes.innerContainer}>
-                            {
-                                ItemCounter.map((value, i) => {
-                                    const no = i + 1;
-                                    return (
-                                        <Grid key={i} container spacing={1} style={{ marginTop: 15, }} >
-                                            <Grid item lg={1} md={1}>
-                                                <h5 className={classes.itemHeading}>{no}.</h5>
-                                            </Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="Enter Size"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    onChange={(e) => {
-                                                        onChangeHandler(e, 'material', i)
-                                                    }}
-                                                    className={classes.inputFieldStyle2}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                >
-                                                    {/* {
-                                                    !vendorMaterial.length ? <MenuItem>Please Select Vendor Name</MenuItem> :
-                                                        vendorMaterial.map(material => (
-                                                            <MenuItem value={material._id} key={material._id}
-                                                            // onClick={() => {
-
-                                                            // }}
-                                                            >
-                                                                {material.name}
-                                                            </MenuItem>
-                                                        ))
-                                                } */}
-                                                </CssTextField>
-                                            </Grid>
-                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="PE-80/100"
-                                                    variant="outlined"
-                                                    type="number"
-                                                    size="small"
-                                                    value={value.quantity}
-                                                    onChange={(e) => {
-                                                        onChangeHandler(e, "quantity", i)
-                                                    }}
-                                                    className={classes.inputFieldStyle3}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                />
-                                            </Grid>
-                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="PN"
-                                                    variant="outlined"
-                                                    type="number"
-                                                    size="small"
-                                                    value={value.unitValue}
-                                                    onChange={(e) => {
-                                                        onChangeHandler(e, "unitValue", i)
-                                                    }}
-                                                    className={classes.inputFieldStyle4}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                />
-                                            </Grid>
-                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="SDR"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    value={value.remarks}
-                                                    onChange={(e) => {
-                                                        onChangeHandler(e, "remarks", i)
-                                                    }}
-                                                    className={classes.inputFieldStyle5}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                />
-                                            </Grid>
-                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="Length in Meter"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    value={value.remarks}
-                                                    onChange={(e) => {
-                                                        onChangeHandler(e, "remarks", i)
-                                                    }}
-                                                    className={classes.inputFieldStyle6}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                />
-                                            </Grid>
-                                            <Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <CssTextField id="outlined-basic"
-                                                    label="No. of Pipes/Coils"
-                                                    variant="outlined"
-                                                    type="text"
-                                                    size="small"
-                                                    value={value.remarks}
-                                                    onChange={(e) => {
-                                                        onChangeHandler(e, "remarks", i)
-                                                    }}
-                                                    className={classes.inputFieldStyle7}
-                                                    inputProps={{ style: { fontSize: 14 } }}
-                                                    InputLabelProps={{ style: { fontSize: 14 } }}
-                                                />
-                                            </Grid>
-                                            <Grid item lg={2} md={2} sm={12} xs={12}>
-                                                <Button onClick={() => deleteItem(i)} className={classes.deleteRowBtn}>
-                                                    <DeleteOutlineIcon className={classes.delete} />
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    )
-                                }
-                                )
+                      <CustomButton
+                        type="button"
+                        text="Add More"
+                        variant="outlined"
+                        color="primary"
+                        style={{
+                          backgroundColor: "#22A19A",
+                          color: "#fff",
+                        }}
+                        onClick={() => push({ ...itemsInitialState })}
+                      />
+                    </div>
+                    {form.values.items.map((el, i) => (
+                      <Grid container spacing={1} style={{ marginTop: 15 }}>
+                        <Grid item lg={1} md={1}>
+                          <h5>{i + 1}</h5>
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomInput
+                            label="Enter Size"
+                            onChange={form.handleChange(`items[${i}].size`)}
+                            value={form.values.items[i].size}
+                            onBlur={form.handleBlur(`items[${i}].size`)}
+                            helperText={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].size &&
+                              form.errors.items[i].size
                             }
-                            <Grid container spacing={1} >
-                                <Grid item lg={3} md={3} sm={10} xs={11}>
-                                    <Button variant="outlined" color="primary"
-                                        className={classes.addButton}
-                                        onClick={addMoreFunc}
-                                    // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                                    >
-                                        Add More
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                            <div style={{ marginTop: 30, marginBottom: 30, }}>
-                                <hr />
-                            </div>
-                        </Container>
-                    </Container>
-                    <Container className={classes.mainContainer}>
-                        <Container className={classes.innerContainer}>
-                            <Grid container spacing={1} style={{ marginTop: 15, }} >
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Fitting Required"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        select
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    >
-                                        <MenuItem value="">Yes</MenuItem>
-                                        <MenuItem value="">No</MenuItem>
-                                    </CssTextField>
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Fitting Quantity"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Welding Required"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        select
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    >
-                                        <MenuItem value="">Yes</MenuItem>
-                                        <MenuItem value="">No</MenuItem>
-                                    </CssTextField>
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Mode of Transportation"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        value="By Road"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </Container>
-                    <Container className={classes.mainContainer}>
-                        <Container className={classes.innerContainer}>
-                            <Grid container spacing={1} style={{ marginTop: 15, }} >
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Mode of Payment"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        select
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    >
-                                        <MenuItem value="">Online</MenuItem>
-                                        <MenuItem value="">Cash</MenuItem>
-                                        <MenuItem value="">Advance</MenuItem>
-                                        <MenuItem value="">Half</MenuItem>
-                                    </CssTextField>
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        // label="Expected Date of Delivery"
-                                        variant="outlined"
-                                        type="date"
-                                        size="small"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Any Special Requirements"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                                <Grid item lg={3} md={3} sm={12} xs={12}>
-                                    <CssTextField id="outlined-basic"
-                                        label="Remarks"
-                                        variant="outlined"
-                                        type="text"
-                                        size="small"
-                                        className={classes.inputFieldStyle}
-                                        inputProps={{ style: { fontSize: 14 } }}
-                                        InputLabelProps={{ style: { fontSize: 14 } }}
-                                        {...register("vendor", { required: true })}
-                                    />
-                                    {
-                                        errors.poNum?.type === 'required' && <p className="mt-1 text-danger">Work Order No. is required</p>
-                                    }
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    <Grid container spacing={1} >
-                        <Grid item lg={5} md={5} sm={10} xs={11}>
+                            error={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].size &&
+                              form.errors.items[i].size
+                            }
+                          />
                         </Grid>
-                        <Grid item lg={3} md={3} sm={10} xs={11}>
-                            <Button
-                                variant="outlined" color="primary"
-                                type="submit"
-                                className={classes.addButton}
-                                onClick={() => {
-                                    // console.log(ItemCounter)
-                                    // history.push('/purchase/purchase_requisition/print_purchase_requisition')
-                                }}
-                            // style={{ marginLeft: 'auto', marginRight: 'auto' }}
-                            >
-                                Submit
-                            </Button>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomInput
+                            label="PE-80/100"
+                            onChange={form.handleChange(`items[${i}].pe`)}
+                            value={form.values.items[i].pe}
+                            onBlur={form.handleBlur(`items[${i}].pe`)}
+                            helperText={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].pe &&
+                              form.errors.items[i].pe
+                            }
+                            error={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].pe &&
+                              form.errors.items[i].pe
+                            }
+                          />
                         </Grid>
-                    </Grid>
-                    </Container>
-                </form>
-            </div>
-        </Sidenav>
-    )
-}
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomInput
+                            label="PN"
+                            onChange={form.handleChange(`items[${i}].pn`)}
+                            value={form.values.items[i].pn}
+                            onBlur={form.handleBlur(`items[${i}].pn`)}
+                            helperText={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].pn &&
+                              form.errors.items[i].pn
+                            }
+                            error={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].pn &&
+                              form.errors.items[i].pn
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomInput
+                            label="SDR"
+                            onChange={form.handleChange(`items[${i}].sdr`)}
+                            value={form.values.items[i].sdr}
+                            onBlur={form.handleBlur(`items[${i}].sdr`)}
+                            helperText={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].sdr &&
+                              form.errors.items[i].sdr
+                            }
+                            error={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].sdr &&
+                              form.errors.items[i].sdr
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomInput
+                            label="Length in Meter"
+                            onChange={form.handleChange(
+                              `items[${i}].lengthInMeters`
+                            )}
+                            value={form.values.items[i].lengthInMeters}
+                            onBlur={form.handleBlur(
+                              `items[${i}].lengthInMeters`
+                            )}
+                            helperText={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].lengthInMeters &&
+                              form.errors.items[i].lengthInMeters
+                            }
+                            error={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].lengthInMeters &&
+                              form.errors.items[i].lengthInMeters
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomInput
+                            label="No. of Pipes/Coils"
+                            onChange={form.handleChange(
+                              `items[${i}].noOfPipes`
+                            )}
+                            value={form.values.items[i].noOfPipes}
+                            onBlur={form.handleBlur(`items[${i}].noOfPipes`)}
+                            helperText={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].noOfPipes &&
+                              form.errors.items[i].noOfPipes
+                            }
+                            error={
+                              form.errors.items &&
+                              form.touched.items &&
+                              form.errors.items[i] &&
+                              form.touched.items[i] &&
+                              form.touched.items[i].noOfPipes &&
+                              form.errors.items[i].noOfPipes
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={12} xs={12}>
+                          <CustomButton
+                            text="Delete"
+                            style={{ backgroundColor: "red", color: "#fff" }}
+                            onClick={() => remove(i)}
+                          />
+                        </Grid>
+                      </Grid>
+                    ))}
+                  </>
+                )}
+              </FieldArray>
 
-export default OrderBookingForm
+              <div style={{ marginTop: 30, marginBottom: 30 }}>
+                <hr />
+              </div>
+              <Grid container spacing={1} style={{ marginTop: 15 }}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Fitting Required"
+                    onChange={props.handleChange("fittingRequired")}
+                    value={props.values.fittingRequired}
+                    onBlur={props.handleBlur("fittingRequired")}
+                    helperText={
+                      props.touched.fittingRequired &&
+                      props.errors.fittingRequired
+                    }
+                    error={
+                      props.touched.fittingRequired &&
+                      props.errors.fittingRequired
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Fitting Quantity"
+                    onChange={props.handleChange("fittingQuantity")}
+                    value={props.values.fittingQuantity}
+                    onBlur={props.handleBlur("fittingQuantity")}
+                    helperText={
+                      props.touched.fittingQuantity &&
+                      props.errors.fittingQuantity
+                    }
+                    error={
+                      props.touched.fittingQuantity &&
+                      props.errors.fittingQuantity
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Welding Required"
+                    onChange={props.handleChange("weldingRequired")}
+                    value={props.values.weldingRequired}
+                    onBlur={props.handleBlur("weldingRequired")}
+                    helperText={
+                      props.touched.weldingRequired &&
+                      props.errors.weldingRequired
+                    }
+                    error={
+                      props.touched.weldingRequired &&
+                      props.errors.weldingRequired
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Mode of Transportation"
+                    onChange={props.handleChange("modeOfTransportation")}
+                    value={props.values.modeOfTransportation}
+                    onBlur={props.handleBlur("modeOfTransportation")}
+                    helperText={
+                      props.touched.modeOfTransportation &&
+                      props.errors.modeOfTransportation
+                    }
+                    error={
+                      props.touched.modeOfTransportation &&
+                      props.errors.modeOfTransportation
+                    }
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={1} style={{ marginTop: 15 }}>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Mode of Payment"
+                    onChange={props.handleChange("modeOfPayment")}
+                    value={props.values.modeOfPayment}
+                    onBlur={props.handleBlur("modeOfPayment")}
+                    helperText={
+                      props.touched.modeOfPayment && props.errors.modeOfPayment
+                    }
+                    error={
+                      props.touched.modeOfPayment && props.errors.modeOfPayment
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Expected Date of Delivery"
+                    onChange={props.handleChange("expectedDateOfDelivery")}
+                    value={props.values.expectedDateOfDelivery}
+                    onBlur={props.handleBlur("expectedDateOfDelivery")}
+                    helperText={
+                      props.touched.expectedDateOfDelivery &&
+                      props.errors.expectedDateOfDelivery
+                    }
+                    error={
+                      props.touched.expectedDateOfDelivery &&
+                      props.errors.expectedDateOfDelivery
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Any Special Requirements"
+                    onChange={props.handleChange("requirements")}
+                    value={props.values.requirements}
+                    onBlur={props.handleBlur("requirements")}
+                    helperText={
+                      props.touched.requirements && props.errors.requirements
+                    }
+                    error={
+                      props.touched.requirements && props.errors.requirements
+                    }
+                  />
+                </Grid>
+                <Grid item lg={3} md={3} sm={12} xs={12}>
+                  <CustomInput
+                    label="Remarks"
+                    onChange={props.handleChange("remarks")}
+                    value={props.values.remarks}
+                    onBlur={props.handleBlur("remarks")}
+                    helperText={props.touched.remarks && props.errors.remarks}
+                    error={props.touched.remarks && props.errors.remarks}
+                  />
+                </Grid>
+              </Grid>
+              <div style={{ marginTop: "10px" }}>
+                <CustomButton
+                  variant="outlined"
+                  color="primary"
+                  text="Submit"
+                  style={{ backgroundColor: "#22A19A", color: "#fff" }}
+                  loading={createLoading}
+                  loaderColor="#fff"
+                />
+                {createError && <p>{createError}</p>}
+                {success && <p>{success}</p>}
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </CustomContainer>
+    </Sidenav>
+  );
+};
+
+export default OrderBookingForm;

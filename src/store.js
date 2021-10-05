@@ -56,12 +56,14 @@ import {
     subCategoryReducer,
     unitReducer,
     stockAssessmentReportReducer,
-    accountReducer
+    accountReducer,
+    orderBookingReducer
 } from './services/reducer'
 
 const initialState = {};
 
 const reducer = combineReducers({
+    orderBookings: orderBookingReducer,
     accounts: accountReducer,
     materials: fetchMaterialReducer,
     categories: fetchCategoryReducer,

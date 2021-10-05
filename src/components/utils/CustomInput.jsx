@@ -59,12 +59,14 @@ const CustomInput = ({
       type={type}
       size="small"
       select={selectValues ? true : false}
-      style={{ width: "100%" }}
+      style={{ width: "100%", fontSize: '12px' }}
       onChange={handleChange}
       onBlur={onBlur}
       value={value}
       helperText={helperText}
       error={error}
+      inputProps={{ style: { fontSize: 14 } }}
+      InputLabelProps={{ style: { fontSize: 14 } }}
     >
       {selectValues && selectValues.length === 0 ? (
         <MenuItem>Data Not Found</MenuItem>

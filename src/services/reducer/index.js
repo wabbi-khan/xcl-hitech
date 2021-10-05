@@ -49,8 +49,10 @@ import { subCategoryReducer } from './subCategoryReducer'
 import { getTrainingEvaluations } from './trainingEvaluationReducer'
 import { stockAssessmentReportReducer } from './stockAssessmentReportReducer'
 import { accountReducer } from './accountReducer'
+import { orderBookingReducer } from './orderBookingReducer'
 
 export {
+    orderBookingReducer,
     accountReducer,
     stockAssessmentReportReducer,
     getTrainingEvaluations,
