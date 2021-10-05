@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Sidenav from "../../SideNav/Sidenav";
 import { CustomButton, CustomTable } from "../../../components";
 
