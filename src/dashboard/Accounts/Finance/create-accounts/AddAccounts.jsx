@@ -18,6 +18,8 @@ import {
   CustomInput,
   generateOptionsFromIndexes,
 } from "../../../../components";
+import Loader from "react-loader-spinner";
+import EditAccounts from "./EditAccounts";
 
 const initialValues = {
   accountType: "",
@@ -37,13 +39,14 @@ const AddAccounts = ({ history }) => {
   const [createLoading, setCreateLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [createError, setCreateError] = useState("");
-  const [deleteLoading, setDeleteLoading] = useState(false)
-  const [deleteError, setDeleteError] = useState('')
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const [account, setAccount] = useState();
+  const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
 
-
-  const {accounts} = useSelector(state => state.accounts)
+  const { accounts } = useSelector((state) => state.accounts);
 
   useEffect(() => {
     setFetchLoading(true);
@@ -62,39 +65,46 @@ const AddAccounts = ({ history }) => {
 
   const onSubmit = (values) => {
     setCreateLoading(true);
-		dispatch(
-			createAccounts(values, (err) => {
-				if (err) {
-					setCreateError(err);
-					setTimeout(() => {
-						setCreateError('');
-					}, 4000);
-				} else {
-					setSuccess('Category added successfully');
-					setTimeout(() => {
-						setSuccess('');
-					}, 4000);
-				}
-				setCreateLoading(false);
-			}),
-		);
+    dispatch(
+      createAccounts(values, (err) => {
+        if (err) {
+          setCreateError(err);
+          setTimeout(() => {
+            setCreateError("");
+          }, 4000);
+        } else {
+          setSuccess("Category added successfully");
+          setTimeout(() => {
+            setSuccess("");
+          }, 4000);
+        }
+        setCreateLoading(false);
+      })
+    );
   };
 
-  const handleOpen = () => {};
+  const handleOpen = (account) => {
+    setAccount(account);
+    setOpen(true);
+  };
+
+  const handleClose = (props) => {
+    setOpen(props);
+  };
 
   const onDelete = (params) => {
     setDeleteLoading(true);
-		dispatch(
-			deleteAccounts(params._id, (err) => {
-				if (err) {
-					setDeleteError(err);
-					setTimeout(() => {
-						setDeleteError('');
-					}, 4000);
-				}
-				setDeleteLoading(false);
-			}),
-		);
+    dispatch(
+      deleteAccounts(params._id, (err) => {
+        if (err) {
+          setDeleteError(err);
+          setTimeout(() => {
+            setDeleteError("");
+          }, 4000);
+        }
+        setDeleteLoading(false);
+      })
+    );
   };
 
   const toLedger = () => {
@@ -103,6 +113,17 @@ const AddAccounts = ({ history }) => {
 
   return (
     <Sidenav title={"Add Accounts"}>
+      <EditAccounts show={open} handler={handleClose} account={account} />
+      {deleteLoading && (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Loader type="TailSpin" width="2rem" height="2rem" />
+        </div>
+      )}
+      {deleteError && (
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <span>{deleteError}</span>
+        </div>
+      )}
       <div>
         <div>
           <Formik
@@ -153,7 +174,7 @@ const AddAccounts = ({ history }) => {
                           props.touched.startingBalance &&
                           props.errors.startingBalance
                         }
-                        type='number'
+                        type="number"
                       />
                     </Grid>
                   </Grid>
@@ -166,7 +187,7 @@ const AddAccounts = ({ history }) => {
                       classNames="text-light"
                       style={{ backgroundColor: "#22A19A" }}
                       loading={createLoading}
-                      loaderColor='#fff'
+                      loaderColor="#fff"
                     />
                     {createError && <p>{createError}</p>}
                   </div>
@@ -185,7 +206,12 @@ const AddAccounts = ({ history }) => {
               "Account Name",
               "Account Current Balance",
             ]}
-            keys={["id",{indexFrom: accountTypes, keyName: 'accountType'}, "name", "currentBalance"]}
+            keys={[
+              "id",
+              { indexFrom: accountTypes, keyName: "accountType" },
+              "name",
+              "currentBalance",
+            ]}
             firstOptionText="Edit"
             onFirstOptionClick={handleOpen}
             secondOptionText="Delete"

@@ -1,90 +1,40 @@
-import React from 'react'
-import Sidenav from '../../SideNav/Sidenav'
-import { CustomButton } from '../../../components'
+import React, { useState, useEffect } from "react";
+import Sidenav from "../../SideNav/Sidenav";
+import { CustomButton, CustomTable } from "../../../components";
 
 const OrderLogSheet = ({ history }) => {
-    return (
-        <Sidenav title={'Order Log Sheet'}>
-            <div>
-                <table class="table table-responsive table-striped table-bordered border-dark text-center mt-3">
-                    <thead class="bg-dark text-light">
-                        <tr>
-                            <th>S.No.</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th>BILL NO</th>
-                            <th>DC NO</th>
-                            <th>IGP NO</th>
-                            <th>Unit</th>
-                            <th>Rate</th>
-                            <th>Qty</th>
-                            <th>Received From</th>
-                            <th>Dept.</th>
-                            <th>Amount</th>
-                            <th>Balance</th>
-                            <th>Remarks</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                {/* {i + 1} */}
-                            </td>
-                            <td>
-                                {/* {el?.itemCode?.code} */}
-                            </td>
-                            <td>
-                                {/* {el?.itemCode?.name} */}
-                            </td>
-                            <td>
-                                {/* {el?.billNo} */}
-                            </td>
-                            <td>
-                                {/* {el?.dcNo} */}
-                            </td>
-                            <td>
-                                {/* {el?.IGPNo} */}
-                            </td>
-                            <td>
-                                {/* {el?.itemCode?.unit?.name} */}
-                            </td>
-                            <td>
-                                {/* {el?.rate} */}
-                            </td>
-                            <td>
-                                {/* {el?.recQty} */}
-                            </td>
-                            <td>
-                                {/* {el?.partyName} */}
-                            </td>
-                            <td>
-                                {/* {el?.inwardForDept?.name} */}
-                            </td>
-                            <td>
-                                {/* {el?.amount} */}
-                            </td>
-                            <td>
-                                0
-                            </td>
-                            <td>
-                                {/* {el?.remarks} */}
-                            </td>
-                            <td>
-                                <CustomButton
-                                    text="View"
-                                    classNames="btn bg-dark text-light"
-                                    onClick={() => {
-                                        history.push('/storedashboard/inwards/item_inward/print_inward_item')
-                                    }}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </Sidenav>
-    )
-}
+  const [fetchLoading, setFetchLoading] = useState(false);
 
-export default OrderLogSheet
+  const printLogSheet = () => {
+    history.push('/marketing_dashboard/print_order_log_sheet')
+  }
+
+  return (
+    <Sidenav title={"Order Log Sheet"}>
+      <CustomTable
+        fetchLoading={fetchLoading}
+        data={[{}]}
+        heading="orderLogSheet"
+        columnHeadings={[
+          "Sr.No",
+          "Req. Date",
+          "Order No",
+          "Customer's Details",
+          "Contant Person",
+          "Address",
+          "Contact No.",
+          "Request Received Vide",
+          "Request Received For",
+          "HiTech Response Vide",
+          "Order Approved/Not Approved",
+        ]}
+        keys={["", "", "", "", "", "", "", "", "", ""]}
+        firstOptionText="Print"
+        onFirstOptionClick={printLogSheet}
+        withSrNo
+      />
+    </Sidenav>
+  );
+};
+
+export default OrderLogSheet;

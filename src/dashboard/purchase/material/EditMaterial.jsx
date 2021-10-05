@@ -71,24 +71,6 @@ const useStyles = makeStyles((theme) => ({
       // width: '12%',
     },
   },
-  inputFieldStyle: {
-    [theme.breakpoints.up("md")]: {
-      width: 330,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-    },
-  },
-  inputFieldStyle1: {
-    marginTop: 10,
-    [theme.breakpoints.up("md")]: {
-      width: 330,
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-      marginTop: 10,
-    },
-  },
 }));
 
 const CssTextField = withStyles({

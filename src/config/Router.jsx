@@ -125,6 +125,7 @@ import AccountHistory from '../dashboard/Accounts/Finance/ledger/Ledger';
 import Ledger from '../dashboard/Accounts/Finance/ledger/Ledger';
 import PrintLedger from '../dashboard/Accounts/Finance/ledger/PrintLedger';
 import Entries from '../dashboard/Accounts/Finance/entries/Entries';
+import PrintOrderLogSheet from '../dashboard/marketing-sales/order log sheet/PrintOrderLogSheet';
 
 
 
@@ -246,6 +247,7 @@ const Router = () => {
                 <Router exact path="/marketing_dashboard" component={Marketing} />                 //Marketing/Sales Module Routes
                 <Router exact path="/marketing_dashboard/order_booking_form" component={OrderBookingForm} />
                 <Router exact path="/marketing_dashboard/order_log_sheet" component={OrderLogSheet} />
+                <Router exact path="/marketing_dashboard/print_order_log_sheet" component={PrintOrderLogSheet} />
                 <Router exact path="/marketing/delivery_order" component={DeliveryOrder} />
                 {/* ===================================================================== */}
                 <Route

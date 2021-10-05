@@ -15,8 +15,8 @@ export const generateOptions = (data, nameKey, valueKey) => {
 
 export const generateOptionsFromIndexes = (data) => {
   const options = [];
-  for (let i = 0; i<data.length; i++) {
-    options.push({value: `${i}`, name: data[i]})
+  for (let i = 0; i < data.length; i++) {
+    options.push({ value: `${i}`, name: data[i] });
   }
 
   return options;
@@ -59,7 +59,13 @@ const CustomInput = ({
       type={type}
       size="small"
       select={selectValues ? true : false}
+<<<<<<< HEAD
       style={{ width: "100%", fontSize: '12px' }}
+=======
+      style={{ width: "100%" }}
+      inputProps={{ style: { fontSize: 14 } }}
+      InputLabelProps={{ style: { fontSize: 14 } }}
+>>>>>>> 85a1066bb7be56c8cf59524c81bc0e6004f04162
       onChange={handleChange}
       onBlur={onBlur}
       value={value}
