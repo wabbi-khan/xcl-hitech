@@ -143,6 +143,7 @@ import PrintLedger from './dashboard/Accounts/Finance/ledger/PrintLedger';
 import Entries from './dashboard/Accounts/Finance/entries/Entries';
 import OrderLogSheet from './dashboard/marketing-sales/order log sheet/OrderLogSheet';
 import PrintOrderLogSheet from './dashboard/marketing-sales/order log sheet/PrintOrderLogSheet';
+import SalesContract from './dashboard/marketing-sales/sales contract/SalesContract';
 
 dotenv.config();
 
@@ -622,6 +623,12 @@ function App() {
 				path='/marketing_dashboard/print_order_log_sheet'
 				component={PrintOrderLogSheet}
 			/>
+			<Route
+				exact
+				path='/marketing_dashboard/sales_contract'
+				component={SalesContract}
+			/>
+
 			{/* ===================================================================== */}
 			<Route exact path='/productionDashboard' component={ProductionDashboard} />
 			<Route exact path='/productionDashboard/machines' component={Machines} />
