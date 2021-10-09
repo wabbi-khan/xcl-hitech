@@ -1,21 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Sidenav from "../../SideNav/Sidenav";
 import { useDispatch, useSelector } from "react-redux";
-import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import MenuItem from "@material-ui/core/MenuItem";
 import {
   createOutwardGatePasses,
-  deleteOutwardGatePasses,
-  updateOutwardGatePasses,
   getOutwardGatePasses,
 } from "../../../services/action/outwardGatePassAction";
 import { getPersons } from "../../../services/action/PersonAction";
 import { getVehicles } from "../../../services/action/VehiclesAction";
 import { getMaterialAction } from "../../../services/action/MaterialDataHandle";
-import { Formik, Form, FieldArray } from "formik";
+import { Formik, Form, FieldArray, Field } from "formik";
 import * as yup from "yup";
-
 import {
   CustomButton,
   CustomInput,
@@ -47,17 +42,18 @@ const validationSchema = yup.object().shape({
   vehicle: yup.string().required(),
   status: yup.string().required(),
   items: yup.array().of(
-    yup.object().shape({
-      item: yup.string().required(),
-      quantity: yup.string().required(),
-      remarks: yup.string().required(),
-      unit: yup.string().required(),
+    yup.object({
+      item: yup.string().required("Item is Required"),
+      quantity: yup.string().required("Quantity is Required"),
+      remarks: yup.string().required("Remarks is Required"),
+      unit: yup.string().required("Unit is Required"),
     })
   ),
 });
 
 const OutwardGatePass = ({ history }) => {
-  const [fetchLoading, setFetchLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(true);
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
   const [success, setSuccess] = useState("");
@@ -73,11 +69,39 @@ const OutwardGatePass = ({ history }) => {
     dispatch(getPersons());
     dispatch(getVehicles());
     dispatch(getMaterialAction());
-    dispatch(getOutwardGatePasses());
+
+    setFetchLoading(true);
+		dispatch(
+			getOutwardGatePasses(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			}),
+		);
   }, []);
 
   const onSubmit = (values) => {
-    console.log(values);
+    setCreateLoading(true);
+		dispatch(
+			createOutwardGatePasses(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Category added successfully');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			}),
+		);
   };
 
   return (
@@ -87,6 +111,8 @@ const OutwardGatePass = ({ history }) => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
+          initialTouched={{ items: [{}] }}
+          validateOnMount={true}
         >
           {(props) => (
             <>
@@ -138,71 +164,178 @@ const OutwardGatePass = ({ history }) => {
                   <hr />
                 </div>
                 <CustomContainer>
-                  <h4 className="text-left">Items</h4>
-                  {/* <FieldArray name="items">
-                    {(props2) => {
-                      // console.log(props2);
-                      return props.values.items.map((item, i) => {
-                        console.log(item);
-                        return (
-                          <>
-                            <div style={{ display: "flex", gap: "5px" }}>
-                              <CustomInput
-                                label="Item"
-                                selectValues={materials}
-                                value={props.values.items[i].item}
-                                onChange={props.handleChange(`items[${i}].item`)}
-                                onBlur={props.handleBlur(`items[${i}].item`)}
-                                helperText={
-                                  props.touched.items[i].item && props.errors.items[i].item  && props.errors.items[i].item 
-                                }
-                                error={
-                                  props.touched.items[i].item && props.errors.items[i].item  && props.errors.items[i].item
-                                }
-                              />
-                              <CustomInput
-                                label="Quantity"
-                                value={props.values.items[i].item}
-                                onChange={props.handleChange(`items[${i}].item`)}
-                                onBlur={props.handleBlur(`items[${i}].item`)}
-                                helperText={
-                                  props.touched.items[i].item && props.errors.items.length > 0 && props.errors.items[i].name 
-                                }
-                                error={
-                                  props.touched.items[i].item && props.errors.items.length > 0 && props.errors.items[i].name
-                                }
-                              />
-                              <CustomInput
-                                label="Unit"
-                                value={props.values.items[i].item}
-                                onChange={props.handleChange(`items[${i}].item`)}
-                                onBlur={props.handleBlur(`items[${i}].item`)}
-                                helperText={
-                                  props.touched.items[i].item && props.errors.items.length > 0 && props.errors.items[i].name 
-                                }
-                                error={
-                                  props.touched.items[i].item && props.errors.items.length > 0 && props.errors.items[i].name
-                                }
-                              />
-                              <CustomInput
-                                label="Remarks"
-                                value={props.values.items[i].item}
-                                onChange={props.handleChange(`items[${i}].item`)}
-                                onBlur={props.handleBlur(`items[${i}].item`)}
-                                helperText={
-                                  props.touched.items[i].item && props.errors.items.length > 0 && props.errors.items[i].name 
-                                }
-                                error={
-                                  props.touched.items[i].item && props.errors.items.length > 0 && props.errors.items[i].name
-                                }
-                              />
-                            </div>
-                          </>
-                        );
-                      });
-                    }}
-                  </FieldArray> */}
-                  <div>
+                  <FieldArray name="items">
+                    {({ push, remove, form }) => (
+                      <>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "20px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <h4>Items</h4>
+                            <CustomButton
+                              type="button"
+                              text="Add More"
+                              style={{
+                                backgroundColor: "#22A19A",
+                                color: "#fff",
+                              }}
+                              onClick={() => {
+                                props.setTouched({
+                                  ...props.touched,
+                                  items: [...props.touched.items, {}],
+                                });
+                                push({
+                                  item: "",
+                                  quantity: "",
+                                  unit: "",
+                                  remarks: "",
+                                });
+                              }}
+                            />
+                          </div>
+                          {form.values.items.map((el, i) => (
+                            <>
+                              <div style={{ display: "flex", gap: "10px" }}>
+                                <CustomInput
+                                  label="Item"
+                                  onChange={(value) => {
+                                    form.setFieldValue(`items[${i}].item`, value)
+                                    const material = materials.find(mat => mat._id === value)
+                                    form.setFieldValue(`items[${i}].unit`, material.unit.name)
+                                  }}
+                                  onBlur={form.handleBlur(`items[${i}].item`)}
+                                  value={el.item}
+                                  helperText={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.item &&
+                                    form.errors?.items[i]?.item
+                                  }
+                                  error={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.item &&
+                                    form.errors?.items[i]?.item
+                                  }
+                                  selectValues={generateOptions(
+                                    materials,
+                                    "name",
+                                    "_id"
+                                  )}
+                                />
+                                <CustomInput
+                                  label="Unit"
+                                  onChange={form.handleChange(
+                                    `items[${i}].unit`
+                                  )}
+                                  onBlur={form.handleBlur(`items[${i}].unit`)}
+                                  value={el.unit}
+                                  helperText={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.unit &&
+                                    form.errors?.items[i]?.unit
+                                  }
+                                  error={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.unit &&
+                                    form.errors?.items[i]?.unit
+                                  }
+                                />
+                                <CustomInput
+                                  label="Quantity"
+                                  onChange={form.handleChange(
+                                    `items[${i}].quantity`
+                                  )}
+                                  onBlur={form.handleBlur(
+                                    `items[${i}].quantity`
+                                  )}
+                                  value={el.quantity}
+                                  helperText={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.quantity &&
+                                    form.errors?.items[i]?.quantity
+                                  }
+                                  error={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.quantity &&
+                                    form.errors?.items[i]?.quantity
+                                  }
+                                />
+                                <CustomInput
+                                  label="Remarks"
+                                  onChange={form.handleChange(
+                                    `items[${i}].remarks`
+                                  )}
+                                  onBlur={form.handleBlur(
+                                    `items[${i}].remarks`
+                                  )}
+                                  value={el.remarks}
+                                  helperText={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.remarks &&
+                                    form.errors?.items[i]?.remarks
+                                  }
+                                  error={
+                                    form.errors.items &&
+                                    form.touched.items &&
+                                    form.touched.items[i] &&
+                                    form.errors.items[i] &&
+                                    form.touched?.items[i]?.remarks &&
+                                    form.errors?.items[i]?.remarks
+                                  }
+                                />
+                                {i !== 0 && (
+                                  <CustomButton
+                                    text="Delete"
+                                    onClick={() =>
+                                      form.values.items.length !== 1 &&
+                                      remove(i)
+                                    }
+                                    size="small"
+                                    style={{
+                                      backgroundColor: "red",
+                                      color: "#fff",
+                                    }}
+                                    type="button"
+                                  />
+                                )}
+                              </div>
+                            </>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </FieldArray>
+               
+                  <div style={{ marginTop: "40px" }}>
                     <CustomButton
                       text="Submit"
                       variant="outlined"
@@ -225,14 +358,12 @@ const OutwardGatePass = ({ history }) => {
           fetchLoading={fetchLoading}
           data={outwardGatePasses}
           heading="Materials"
-          columnHeadings={["Sr.No", "Product Name", "Unit", "Quantity"]}
-          // keys={[
-          //   "name",
-          //   "category.name",
-          //   "subCategory.name",
-          //   "unit.name",
-          //   "code",
-          // ]}
+          columnHeadings={["Sr.No", "Customer Name", "Vehicle", "status"]}
+          keys={[
+            "name.name",
+            "vehicle.number",
+            "status",
+          ]}
           firstOptionText="Edit"
           // onFirstOptionClick={handleOpen}
           secondOptionText="Delete"

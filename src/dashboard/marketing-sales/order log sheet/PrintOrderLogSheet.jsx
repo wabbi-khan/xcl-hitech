@@ -1,12 +1,10 @@
 import React from "react";
 import { CustomButton, CustomTable } from "../../../components";
 
-const PrintOrderLogSheet = () => {
-  const date = new Date();
-  const currDate = date.getDate();
-  const months = date.getMonth() + 1;
-  const years = date.getFullYear();
-  const fullDate = `${currDate} / ${months} / ${years}`;
+const PrintOrderLogSheet = ({location}) => {
+
+  console.log(location);
+  const orderBooking = location.state.orderBooking;
 
   return (
     <div className="text-center">
@@ -37,27 +35,33 @@ const PrintOrderLogSheet = () => {
       <div className="mt-4">
         <div className="" style={{ marginTop: 30, marginLeft: "auto" }}>
           <CustomTable
-            //   fetchLoading={fetchLoading}
-            data={[{}]}
+            data={[orderBooking]}
+            heading="orderLogSheet"
             columnHeadings={[
-                "Req. Date",
-                "Order No",
-                "Customer's Details",
-                "Contant Person",
-                "Address",
-                "Contact No.",
-                "Request Received Vide",
-                "Request Received For",
-                "HiTech Response Vide",
-                "Order Approved/Not Approved"
+              "Sr.No",
+              "Req. Date",
+              "Order No",
+              "Customer's Name",
+              "Customer's Address",
+              "Delivery Site Address",
+              "Fittings Required",
+              "Mode Of Payment",
+              "Expected Delivery Date",
+              "Special Requirements",
+              "Remarks",
             ]}
-            keys={["", "", "", "", "", "", "", "", ""]}
-            // firstOptionText="Edit"
-            // onFirstOptionClick={handleOpen}
-            // secondOptionText="Delete"
-            // onSecondOptionClick={deleteOutwardGatePass}
-            // thirdOptionText="View"
-            // onThirdOptionClick={pushToPrint}
+            keys={[
+              { dateFrom: "createdAt" },
+              "code",
+              "customerName",
+              "customerAddress",
+              "deliveryAddress",
+              "fittingRequired",
+              "modeOfPayment",
+              "expectedDateOfDelivery",
+              "requirements",
+              "remarks",
+            ]}
             withSrNo
             tablePrint
           />

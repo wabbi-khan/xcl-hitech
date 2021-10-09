@@ -1,34 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidenav from "../../SideNav/Sidenav";
 import { CustomButton, CustomTable } from "../../../components";
+import { getOrderBooking } from "../../../services/action/orderBookingAction";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 
 const OrderLogSheet = ({ history }) => {
-  const [fetchLoading, setFetchLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [fetchError, setFetchError] = useState();
 
-  const printLogSheet = () => {
-    history.push('/marketing_dashboard/print_order_log_sheet')
-  }
+  const { orderBookings } = useSelector((state) => state.orderBookings);
+
+  console.log(orderBookings);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setFetchLoading(true);
+    dispatch(
+      getOrderBooking(null, (err) => {
+        if (err) {
+          setFetchError(err);
+          setTimeout(() => {
+            setFetchError("");
+          }, 4000);
+        }
+        setFetchLoading(false);
+      })
+    );
+  }, []);
+
+  const printLogSheet = (value) => {
+    history.push({
+      pathname: "/marketing_dashboard/print_order_log_sheet",
+      state: {
+        orderBooking: value,
+      },
+    });
+  };
 
   return (
     <Sidenav title={"Order Log Sheet"}>
       <CustomTable
         fetchLoading={fetchLoading}
-        data={[{}]}
+        data={orderBookings}
         heading="orderLogSheet"
         columnHeadings={[
           "Sr.No",
           "Req. Date",
           "Order No",
-          "Customer's Details",
-          "Contant Person",
-          "Address",
-          "Contact No.",
-          "Request Received Vide",
-          "Request Received For",
-          "HiTech Response Vide",
-          "Order Approved/Not Approved",
+          "Customer's Name",
+          "Customer's Address",
+          "Delivery Site Address",
+          "Fittings Required",
+          "Mode Of Payment",
+          "Expected Delivery Date",
+          "Special Requirements",
+          "Remarks",
         ]}
-        keys={["", "", "", "", "", "", "", "", "", ""]}
+        keys={[
+          { dateFrom: "createdAt" },
+          "code",
+          "customerName",
+          "customerAddress",
+          "deliveryAddress",
+          "fittingRequired",
+          "modeOfPayment",
+          "expectedDateOfDelivery",
+          "requirements",
+          "remarks",
+        ]}
         firstOptionText="Print"
         onFirstOptionClick={printLogSheet}
         withSrNo

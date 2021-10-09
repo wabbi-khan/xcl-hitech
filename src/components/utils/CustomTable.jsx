@@ -1,14 +1,21 @@
 import React from "react";
 import Loader from "react-loader-spinner";
 import Button from "./Button";
+import moment from "moment";
 
 function generateRow(data, keys) {
   const values = [];
   for (const key of keys) {
     let value = { ...data };
     if (typeof key === 'object') {
-      value = key.indexFrom[value[key.keyName]];
-      values.push(value);
+      if (key.indexFrom) {
+
+        value = key.indexFrom[value[key.keyName]];
+        values.push(value);
+      } else if (key.dateFrom) {
+        value = moment(value[key.dateFrom]).format('DD MMMM YYYY')
+        values.push(value);
+      }
     } else {
       const keyArr = key.split(".");
       for (const el of keyArr) {
