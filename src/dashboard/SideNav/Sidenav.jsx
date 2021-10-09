@@ -852,7 +852,7 @@ function Sidenav(props) {
                 button
                 className={classes.menuItem}
                 onClick={() => {
-                  history.push("");
+                  history.push("/marketing_dashboard/sales_contract");
                 }}
               >
                 <ListItemText inset primary="Sales Contract" />
