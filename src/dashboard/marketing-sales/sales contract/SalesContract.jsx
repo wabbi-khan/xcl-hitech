@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
@@ -51,6 +51,14 @@ const initialValuesOfOrder = {
 	],
 };
 
+const initialValues3 = {
+	remarks: '',
+	actualPrice: '',
+	discountPerc: '',
+	contractPrice: '',
+	otherConditions: '',
+};
+
 const validationSchema1 = yup.object({
 	ntnNo: yup.string().required(),
 	strnNo: yup.string().required(),
@@ -87,10 +95,22 @@ const validationSchemaForOrder = yup.object({
 	),
 });
 
+const validationSchema3 = yup.object({
+	remarks: yup.string().required(),
+	actualPrice: yup.string().required(),
+	discountPerc: yup.string().required(),
+	contractPrice: yup.string().required(),
+	otherConditions: yup.string().required(),
+});
+
 const SalesContract = () => {
 	const [createLoading, setCreateLoading] = useState(false);
 	const [createError, setCreateError] = useState('');
 	const [success, setSuccess] = useState('');
+	const [total, setTotal] = useState(0);
+	const [incomeTax, setIncomeTax] = useState(0);
+	const [grandTotal, setGrandTotal] = useState(0);
+
 	const dispatch = useDispatch();
 
 	let form1 = null;
@@ -98,10 +118,63 @@ const SalesContract = () => {
 	let form3 = null;
 	let form4 = null;
 
-	const onSubmit = (values) => {
-		console.log(form1);
-		console.log(form2);
+	useEffect(() => {}, [total, incomeTax]);
+
+	const onSubmit = async (values) => {
+		let error = false;
+		const form1Errors = await form1.validateForm();
+		if (!isEmpty(form1Errors)) {
+			form1.setTouched(form1Errors);
+			error = true;
+		}
+		const form2Errors = await form2.validateForm();
+		if (!isEmpty(form2Errors)) {
+			form2.setTouched(form2Errors);
+			error = true;
+		}
+		const form4Errors = await form4.validateForm();
+		if (!isEmpty(form4Errors)) {
+			form4.setTouched(form4Errors);
+			error = true;
+		}
+
+		if (error) return;
+
+		values = {
+			...form1.values,
+			...form2.values,
+			...form3.values,
+			...form4.values,
+			total,
+			incomeTax,
+			grandTotal,
+		};
+
+		setCreateLoading(true);
+		dispatch(
+			createSalesContract(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					setSuccess('Sales Contract successfully added');
+					setTimeout(() => {
+						setSuccess('');
+					}, 4000);
+				}
+				setCreateLoading(false);
+			})
+		);
 	};
+
+	function isEmpty(obj) {
+		for (var x in obj) {
+			if (obj.hasOwnProperty(x)) return false;
+		}
+		return true;
+	}
 
 	return (
 		<Sidenav title={'Sales Contract'}>
@@ -438,8 +511,10 @@ const SalesContract = () => {
 					initialValues={initialValuesOfOrder}
 					validationSchema={validationSchemaForOrder}
 					onSubmit={onSubmit}
+					validateOnMount
 				>
 					{(props) => {
+						form4 = props;
 						return (
 							<Form>
 								<FieldArray name="orders">
@@ -559,9 +634,36 @@ const SalesContract = () => {
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CustomInput
 															label="Qty."
-															onChange={form.handleChange(
-																`orders[${i}].qty`
-															)}
+															type="number"
+															onChange={(e) => {
+																form.setFieldValue(
+																	`orders[${i}].qty`,
+																	e
+																);
+
+																let total =
+																	+form.values.orders[i]
+																		.unitPrice * e;
+
+																form.setFieldValue(
+																	`orders[${i}].total`,
+																	total
+																);
+
+																form.values.orders.forEach(
+																	(order, i2) => {
+																		if (i2 !== i) {
+																			total += order.total;
+																		}
+																	}
+																);
+																setTotal(total);
+																let grandTotal =
+																	(incomeTax / 100) * total;
+																setGrandTotal(
+																	total - grandTotal
+																);
+															}}
 															onBlur={form.handleBlur(
 																`orders[${i}].qty`
 															)}
@@ -587,9 +689,34 @@ const SalesContract = () => {
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CustomInput
 															label="Unit Price"
-															onChange={form.handleChange(
-																`orders[${i}].unitPrice`
-															)}
+															type="number"
+															onChange={(e) => {
+																form.setFieldValue(
+																	`orders[${i}].unitPrice`,
+																	e
+																);
+																let total =
+																	+form.values.orders[i].qty *
+																	e;
+																form.setFieldValue(
+																	`orders[${i}].total`,
+																	total
+																);
+
+																form.values.orders.forEach(
+																	(order, i2) => {
+																		if (i2 !== i) {
+																			total += order.total;
+																		}
+																	}
+																);
+																setTotal(total);
+																let grandTotal =
+																	(incomeTax / 100) * total;
+																setGrandTotal(
+																	total - grandTotal
+																);
+															}}
 															onBlur={form.handleBlur(
 																`orders[${i}].unitPrice`
 															)}
@@ -644,8 +771,49 @@ const SalesContract = () => {
 																	?.total &&
 																form.errors?.orders[i]?.total
 															}
+															disabled
 														/>
 													</Grid>
+													<div
+														style={{
+															display: 'flex',
+															justifyContent: 'flex-end',
+															width: '100%',
+														}}
+													>
+														{i !== 0 && (
+															<CustomButton
+																text="Delete"
+																onClick={() => {
+																	if (i !== 0) {
+																		let rowTotal =
+																			form.values.orders[i]
+																				.total;
+
+																		let currTotal =
+																			total - rowTotal;
+
+																		setTotal(currTotal);
+
+																		let grandTotal =
+																			(incomeTax / 100) *
+																			currTotal;
+																		setGrandTotal(
+																			currTotal - grandTotal
+																		);
+
+																		i !== 0 && remove(i);
+																	}
+																}}
+																type="button"
+																style={{
+																	backgroundColor: 'red',
+																	color: '#fff',
+																}}
+																size="small"
+															/>
+														)}
+													</div>
 												</Grid>
 											))}
 										</>
@@ -676,7 +844,7 @@ const SalesContract = () => {
 						<span style={{ width: '80%', textAlign: 'right' }}>
 							Total Material EX-Factory Kotrim Pak(PKR):
 						</span>
-						<CustomInput label="20,000" />
+						<CustomInput label="20,000" value={total} disabled />
 					</div>
 					<div
 						style={{
@@ -693,7 +861,16 @@ const SalesContract = () => {
 						>
 							Less Income Tax (PKR):
 						</span>
-						<CustomInput label="4.5%" />
+						<CustomInput
+							label="4.5%"
+							onChange={(e) => {
+								setIncomeTax(e);
+								let grandTotal = (e / 100) * total;
+								setGrandTotal(total - grandTotal);
+							}}
+							value={incomeTax}
+							type="number"
+						/>
 					</div>
 					<div
 						style={{
@@ -705,36 +882,129 @@ const SalesContract = () => {
 						<span style={{ width: '80%', textAlign: 'right' }}>
 							Grand Total Material EX-Factory Kotri, Pak(PKR):
 						</span>
-						<CustomInput label="20,000" type="text" />
+						<CustomInput
+							label="20,000"
+							type="text"
+							value={grandTotal}
+							disabled
+						/>
 					</div>
 				</div>
 
-				<div style={{ width: '30%', marginTop: '11rem' }}>
-					<CustomInput label="Remarks" />
-				</div>
-				<Grid container spacing={1} style={{ marginTop: 10 }}>
-					<h5>Pricing & Discount:</h5>
-				</Grid>
-				<Grid container spacing={1} style={{ marginTop: 10 }}>
-					<Grid item lg={3} md={3} sm={12} xs={12}>
-						<CustomInput label="Actual" />
-					</Grid>
-					<Grid item lg={3} md={3} sm={12} xs={12}>
-						<CustomInput label="Discount %" />
-					</Grid>
-					<Grid item lg={3} md={3} sm={12} xs={12}>
-						<CustomInput label="Contract Price (Rs.)" />
-					</Grid>
-					<Grid item lg={3} md={3} sm={12} xs={12}>
-						<CustomInput label="Other Conditions (if any)" />
-					</Grid>
-				</Grid>
-				<div style={{ marginTop: '1rem' }}>
-					<CustomButton
-						text="Submit"
-						style={{ backgroundColor: '#22A19A', color: '#fff' }}
-					/>
-				</div>
+				<Formik
+					initialValues={initialValues3}
+					validationSchema={validationSchema3}
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form3 = props;
+						return (
+							<Form>
+								<div style={{ width: '30%', marginTop: '11rem' }}>
+									<CustomInput
+										label="Remarks"
+										onChange={props.handleChange('remarks')}
+										value={props.values.remarks}
+										onBlur={props.handleBlur('remarks')}
+										helperText={
+											props.touched.remarks && props.errors.remarks
+										}
+										error={
+											props.touched.remarks && props.errors.remarks
+										}
+									/>
+								</div>
+								<Grid container spacing={1} style={{ marginTop: 10 }}>
+									<h5>Pricing & Discount:</h5>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 10 }}>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CustomInput
+											label="Actual"
+											type="number"
+											onChange={props.handleChange('actualPrice')}
+											value={props.values.actualPrice}
+											onBlur={props.handleBlur('actualPrice')}
+											helperText={
+												props.touched.actualPrice &&
+												props.errors.actualPrice
+											}
+											error={
+												props.touched.actualPrice &&
+												props.errors.actualPrice
+											}
+										/>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CustomInput
+											label="Discount %"
+											type="number"
+											onChange={props.handleChange('discountPerc')}
+											value={props.values.discountPerc}
+											onBlur={props.handleBlur('discountPerc')}
+											helperText={
+												props.touched.discountPerc &&
+												props.errors.discountPerc
+											}
+											error={
+												props.touched.discountPerc &&
+												props.errors.discountPerc
+											}
+										/>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CustomInput
+											type="number"
+											label="Contract Price (Rs.)"
+											onChange={props.handleChange('contractPrice')}
+											value={props.values.contractPrice}
+											onBlur={props.handleBlur('contractPrice')}
+											helperText={
+												props.touched.contractPrice &&
+												props.errors.contractPrice
+											}
+											error={
+												props.touched.contractPrice &&
+												props.errors.contractPrice
+											}
+										/>
+									</Grid>
+									<Grid item lg={3} md={3} sm={12} xs={12}>
+										<CustomInput
+											label="Other Conditions (if any)"
+											onChange={props.handleChange(
+												'otherConditions'
+											)}
+											value={props.values.otherConditions}
+											onBlur={props.handleBlur('otherConditions')}
+											helperText={
+												props.touched.otherConditions &&
+												props.errors.otherConditions
+											}
+											error={
+												props.touched.otherConditions &&
+												props.errors.otherConditions
+											}
+										/>
+									</Grid>
+								</Grid>
+								<div style={{ marginTop: '1rem' }}>
+									<CustomButton
+										text="Submit"
+										style={{
+											backgroundColor: '#22A19A',
+											color: '#fff',
+										}}
+										loading={createLoading}
+										loaderColor="#fff"
+									/>
+									<p style={{ color: 'red' }}>{createError}</p>
+									<p>{success}</p>
+								</div>
+							</Form>
+						);
+					}}
+				</Formik>
 			</CustomContainer>
 		</Sidenav>
 	);
