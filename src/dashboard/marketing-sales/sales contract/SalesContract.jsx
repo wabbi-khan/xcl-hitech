@@ -119,6 +119,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Enter NTN No."
+                      type="number"
                       onChange={props.handleChange("ntnNo")}
                       value={props.values.ntnNo}
                       onBlur={props.handleBlur("ntnNo")}
@@ -129,6 +130,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Enter STRN No."
+                      type="number"
                       onChange={props.handleChange("strnNo")}
                       value={props.values.strnNo}
                       onBlur={props.handleBlur("strnNo")}
@@ -171,6 +173,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Telephone No."
+                      type="number"
                       onChange={props.handleChange("companyTelephoneNo")}
                       value={props.values.companyTelephoneNo}
                       onBlur={props.handleBlur("companyTelephoneNo")}
@@ -201,6 +204,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Email"
+                      type="email"
                       onChange={props.handleChange("email")}
                       value={props.values.email}
                       onBlur={props.handleBlur("email")}
@@ -229,6 +233,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Telephone No."
+                      type="number"
                       onChange={props.handleChange("bussinessTelephoneNo")}
                       value={props.values.bussinessTelephoneNo}
                       onBlur={props.handleBlur("bussinessTelephoneNo")}
@@ -259,6 +264,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Email"
+                      type="email"
                       onChange={props.handleChange("bussinessEmail")}
                       value={props.values.bussinessEmail}
                       onBlur={props.handleBlur("bussinessEmail")}
@@ -308,6 +314,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Telephone No."
+                      type="number"
                       onChange={props.handleChange("deliveryTelephoneNo")}
                       value={props.values.deliveryTelephoneNo}
                       onBlur={props.handleBlur("deliveryTelephoneNo")}
@@ -338,6 +345,7 @@ const SalesContract = () => {
                   <Grid item lg={2} md={2} sm={12} xs={12}>
                     <CustomInput
                       label="Email"
+                      type="email"
                       onChange={props.handleChange("deliveryEmail")}
                       value={props.values.deliveryEmail}
                       onBlur={props.handleBlur("deliveryEmail")}
@@ -501,6 +509,7 @@ const SalesContract = () => {
                           <Grid item lg={2} md={2} sm={12} xs={12}>
                             <CustomInput
                               label="Qty."
+                              type="number"
                               onChange={form.handleChange(`orders[${i}].qty`)}
                               onBlur={form.handleBlur(`orders[${i}].qty`)}
                               value={el.qty}
@@ -525,6 +534,7 @@ const SalesContract = () => {
                           <Grid item lg={2} md={2} sm={12} xs={12}>
                             <CustomInput
                               label="Unit Price"
+                              type="number"
                               onChange={form.handleChange(
                                 `orders[${i}].unitPrice`
                               )}
@@ -551,6 +561,7 @@ const SalesContract = () => {
                           <Grid item lg={2} md={2} sm={12} xs={12}>
                             <CustomInput
                               label="Total Amount (Rs.)"
+                              type="number"
                               onChange={form.handleChange(`orders[${i}].total`)}
                               onBlur={form.handleBlur(`orders[${i}].total`)}
                               value={el.total}
@@ -600,9 +611,9 @@ const SalesContract = () => {
             }}
           >
             <span style={{ width: "80%", textAlign: "right" }}>
-              Total Material EX-Factory Kotrim Pak(PKR):
+              Total Material EX-Factory Kotri, Pak(PKR):
             </span>
-            <CustomInput label="20,000" />
+            <CustomInput label="Total Material Price" type="number" />
           </div>
           <div
             style={{
@@ -617,9 +628,9 @@ const SalesContract = () => {
                 textAlign: "right",
               }}
             >
-              Less Income Tax (PKR):
+              Less Income Tax 4.5% (PKR):
             </span>
-            <CustomInput label="4.5%" />
+            <CustomInput label="Less Income Tax" type='number' />
           </div>
           <div
             style={{
@@ -631,7 +642,7 @@ const SalesContract = () => {
             <span style={{ width: "80%", textAlign: "right" }}>
               Grand Total Material EX-Factory Kotri, Pak(PKR):
             </span>
-            <CustomInput label="20,000" type="text" />
+            <CustomInput label="Grand Total Price of Material" type="number" />
           </div>
         </div>
 
@@ -643,13 +654,13 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
           <Grid item lg={3} md={3} sm={12} xs={12}>
-            <CustomInput label="Actual" />
+            <CustomInput label="Actual" type='number' />
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <CustomInput label="Discount %" />
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
-            <CustomInput label="Contract Price (Rs.)" />
+            <CustomInput label="Contract Price (Rs.)" type='number' />
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <CustomInput label="Other Conditions (if any)" />
@@ -680,7 +691,7 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
           <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CustomInput label="Rs." />
+            <CustomInput label="Rs." type='number' />
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
@@ -697,7 +708,7 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
           <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CustomInput label="Days" />
+            <CustomInput label="Days" type='number' />
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 35 }}>
@@ -708,7 +719,7 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1}>
           <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CustomInput label="Percent (%)" />
+            <CustomInput label="Percent (%)" type='number' />
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
@@ -729,10 +740,14 @@ const SalesContract = () => {
           <h5>Other Conditions</h5>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 10 }}>
-          <p style={{ fontWeight: 'bold' }}>Arbitration:</p>
+          <p style={{ fontWeight: "bold" }}>Arbitration:</p>
         </Grid>
         <Grid container spacing={1}>
-          <p>All disputes & differences ,which one can arise to or in connection with the present contract , should be decided by negotiation between Seller & the buyer.</p>
+          <p>
+            All disputes & differences ,which one can arise to or in connection
+            with the present contract , should be decided by negotiation between
+            Seller & the buyer.
+          </p>
         </Grid>
         <div style={{ marginTop: "1rem" }}>
           <CustomButton
