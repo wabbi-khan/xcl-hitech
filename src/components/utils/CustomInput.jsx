@@ -15,6 +15,7 @@ export const generateOptions = (data, nameKey, valueKey) => {
 
 export const generateOptionsFromIndexes = (data) => {
 	const options = [];
+
 	for (let i = 0; i < data.length; i++) {
 		options.push({ value: `${i}`, name: data[i] });
 	}
@@ -48,6 +49,8 @@ const CustomInput = ({
 	helperText,
 	error,
 	disabled,
+	style,
+	width = '100%',
 }) => {
 	function handleChange(e) {
 		onChange(e.target.value);
@@ -60,7 +63,6 @@ const CustomInput = ({
 			type={type}
 			size="small"
 			select={selectValues ? true : false}
-			style={{ width: '100%' }}
 			onChange={handleChange}
 			onBlur={onBlur}
 			value={value}
@@ -69,6 +71,7 @@ const CustomInput = ({
 			inputProps={{ style: { fontSize: 14 } }}
 			InputLabelProps={{ style: { fontSize: 14 } }}
 			disabled={disabled ? true : false}
+			style={{ width: width, ...style }}
 		>
 			{selectValues && selectValues.length === 0 ? (
 				<MenuItem>Data Not Found</MenuItem>
