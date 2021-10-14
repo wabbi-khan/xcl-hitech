@@ -410,6 +410,7 @@ const SalesContract = () => {
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CustomInput
 											label="Telephone No."
+											type="number"
 											onChange={props.handleChange(
 												'deliveryTelephoneNo'
 											)}
@@ -446,6 +447,7 @@ const SalesContract = () => {
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CustomInput
 											label="Email"
+											type="email"
 											onChange={props.handleChange('deliveryEmail')}
 											value={props.values.deliveryEmail}
 											onBlur={props.handleBlur('deliveryEmail')}
@@ -988,6 +990,12 @@ const SalesContract = () => {
 										/>
 									</Grid>
 								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 35 }}>
+									<p>
+										HI-TECH PIPE AND EBGINEERING INDUSTRIES here after
+										referred to as the "seller" on the one party,
+									</p>
+								</Grid>
 								<div style={{ marginTop: '1rem' }}>
 									<CustomButton
 										text="Submit"
@@ -1011,3 +1019,89 @@ const SalesContract = () => {
 };
 
 export default SalesContract;
+
+{
+	/* <Grid container spacing={1} style={{ marginTop: 35 }}>
+          <p>
+            HI-TECH PIPE AND EBGINEERING INDUSTRIES here after referred to as
+            the "seller" on the one party,
+          </p>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CustomInput label="Enter Name" />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 15 }}>
+          <p>
+            and hereafter referred to as the "Buyer" on the party have concluded
+            the present contract as the following.
+          </p>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 35 }}>
+          <h5>Pricing & Total Amount of Contract</h5>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <p>The total amount of this contract is:</p>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CustomInput label="Rs." type='number' />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <p>
+            for HDPE pipe Orders Pressure PN (As mentioned in Sr # 6) prices are
+            firm for the duration of contract.
+          </p>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 35 }}>
+          <h5>Time & Term Of Delivery</h5>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <p>Delivery made after the receipt of Payment with in (min):</p>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CustomInput label="Days" type='number' />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 35 }}>
+          <h5>Term Of Payments</h5>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 15 }}>
+          <p>Payment must be made by:</p>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CustomInput label="Percent (%)" type='number' />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 5 }}>
+          <p>advance</p>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 35 }}>
+          <h5>Transportation</h5>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 15 }}>
+          <p>Transportation charges to paid by:</p>
+        </Grid>
+        <Grid container spacing={1}>
+          <Grid item lg={2} md={2} sm={12} xs={12}>
+            <CustomInput label="Transport Charges" />
+          </Grid>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 35 }}>
+          <h5>Other Conditions</h5>
+        </Grid>
+        <Grid container spacing={1} style={{ marginTop: 10 }}>
+          <p style={{ fontWeight: "bold" }}>Arbitration:</p>
+        </Grid>
+        <Grid container spacing={1}>
+          <p>
+            All disputes & differences ,which one can arise to or in connection
+            with the present contract , should be decided by negotiation between
+            Seller & the buyer.
+          </p>
+        </Grid> */
+}
