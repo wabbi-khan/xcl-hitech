@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
+import { capitalize } from '../../utils/capitalize';
 
 export const generateOptions = (data, nameKey, valueKey) => {
 	const options = [];
@@ -77,7 +78,7 @@ const CustomInput = ({
 				<MenuItem>Data Not Found</MenuItem>
 			) : (
 				selectValues?.map((el) => (
-					<MenuItem value={el.value}>{el.name}</MenuItem>
+					<MenuItem value={el.value}>{capitalize(el.name)}</MenuItem>
 				))
 			)}
 		</CssTextField>

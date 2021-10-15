@@ -51,7 +51,9 @@ const ContractReview = () => {
 	const [createLoading, setCreateLoading] = useState(false);
 	const [createError, setCreateError] = useState('');
 	const [success, setSuccess] = useState('');
+	const [selectedSalesContract, setSelectedSalesContract] = useState({});
 
+	console.log(selectedSalesContract);
 	const dispatch = useDispatch();
 
 	const { salesContracts } = useSelector((state) => state.salesContract);
@@ -104,7 +106,15 @@ const ContractReview = () => {
 										'code',
 										'_id'
 									)}
-									onChange={props.handleChange('refNo')}
+									onChange={(e) => {
+										props.setFieldValue('refNo', e);
+										const salesContract = salesContracts.find(
+											(el) => el._id === e
+										);
+										if (salesContract) {
+											setSelectedSalesContract(salesContract);
+										}
+									}}
 									value={props.values.refNo}
 									onBlur={props.handleBlur('refNo')}
 									helperText={
@@ -125,6 +135,20 @@ const ContractReview = () => {
 									}
 								/>
 							</div>
+
+							<CustomTable
+								fetchLoading={false}
+								data={selectedSalesContract.orders}
+								columnHeadings={[
+									'Sr. No',
+									'Size/Dia',
+									'SN/PN',
+									'Unit',
+									'Qty',
+								]}
+								keys={['size', 'snPn', 'unit', 'qty']}
+								withSrNo
+							/>
 
 							<div style={{ marginTop: '2rem' }}>
 								<h3 style={{ textAlign: 'left', marginBottom: '1rem' }}>

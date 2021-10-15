@@ -897,6 +897,17 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Customer Feedback.." />
 							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push(
+										'/marketing_dashboard/customer_complaint'
+									);
+								}}
+							>
+								<ListItemText inset primary="Customer Complaint.." />
+							</ListItem>
 							{/* <ListItem
 								button
 								className={classes.menuItem}
