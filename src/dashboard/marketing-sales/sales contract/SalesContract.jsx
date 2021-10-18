@@ -8,6 +8,7 @@ import {
   CustomContainer,
   CustomInput,
   CustomButton,
+  CustomTable,
 } from "../../../components";
 import { createSalesContract } from "../../../services/action/salesContractAction";
 
@@ -87,10 +88,11 @@ const validationSchemaForOrder = yup.object({
   ),
 });
 
-const SalesContract = () => {
+const SalesContract = ({ history }) => {
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
   const [success, setSuccess] = useState("");
+  const [fetchLoading, setFetchLoading] = useState(false);
   const dispatch = useDispatch();
 
   let form1 = null;
@@ -101,6 +103,10 @@ const SalesContract = () => {
   const onSubmit = (values) => {
     console.log(form1);
     console.log(form2);
+  };
+
+  const printContract = () => {
+    history.push("/marketing_dashboard/print_sales_contract");
   };
 
   return (
@@ -630,7 +636,7 @@ const SalesContract = () => {
             >
               Less Income Tax 4.5% (PKR):
             </span>
-            <CustomInput label="Less Income Tax" type='number' />
+            <CustomInput label="Less Income Tax" type="number" />
           </div>
           <div
             style={{
@@ -654,13 +660,13 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
           <Grid item lg={3} md={3} sm={12} xs={12}>
-            <CustomInput label="Actual" type='number' />
+            <CustomInput label="Actual" type="number" />
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <CustomInput label="Discount %" />
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
-            <CustomInput label="Contract Price (Rs.)" type='number' />
+            <CustomInput label="Contract Price (Rs.)" type="number" />
           </Grid>
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <CustomInput label="Other Conditions (if any)" />
@@ -691,7 +697,7 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
           <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CustomInput label="Rs." type='number' />
+            <CustomInput label="Rs." type="number" />
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
@@ -708,7 +714,7 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
           <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CustomInput label="Days" type='number' />
+            <CustomInput label="Days" type="number" />
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 35 }}>
@@ -719,7 +725,7 @@ const SalesContract = () => {
         </Grid>
         <Grid container spacing={1}>
           <Grid item lg={2} md={2} sm={12} xs={12}>
-            <CustomInput label="Percent (%)" type='number' />
+            <CustomInput label="Percent (%)" type="number" />
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ marginTop: 5 }}>
@@ -756,6 +762,22 @@ const SalesContract = () => {
           />
         </div>
       </CustomContainer>
+      <CustomTable
+        fetchLoading={fetchLoading}
+        data={[{}]}
+        columnHeadings={[
+          "Sr.No",
+          "Sales Contract No.",
+          "NTN No.",
+          "STRN No.",
+          "Company/Buyer Name",
+          "Time Of Delivery"
+        ]}
+        keys={["", "", "", "", ""]}
+        firstOptionText="View"
+        onFirstOptionClick={printContract}
+        withSrNo
+      />
     </Sidenav>
   );
 };

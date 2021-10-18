@@ -34,3 +34,21 @@ code {
 @media print {
 	#main{margin:100px 0;}
 }
+
+.endOfContract {
+	display: flex;
+	flex-direction: row;
+	font-weight: bold;
+  }
+  .endOfContract:before, .endOfContract:after{
+	content: "";
+	flex: 1 1;
+	border-bottom: 1px solid;
+	margin: auto;
+  }
+  .endOfContract:before {
+	margin-right: 10px
+  }
+  .endOfContract:after {
+	margin-left: 10px
+  }
