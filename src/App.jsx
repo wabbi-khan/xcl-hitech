@@ -144,10 +144,14 @@ import Entries from './dashboard/Accounts/Finance/entries/Entries';
 import OrderLogSheet from './dashboard/marketing-sales/order log sheet/OrderLogSheet';
 import PrintOrderLogSheet from './dashboard/marketing-sales/order log sheet/PrintOrderLogSheet';
 import SalesContract from './dashboard/marketing-sales/sales contract/SalesContract';
+<<<<<<< HEAD
 import ContractReview from './dashboard/marketing-sales/contract review/ContractReview';
 import CustomerFeedback from './dashboard/marketing-sales/customer feedback/CustomerFeedback';
 import CustomerComplaint from './dashboard/marketing-sales/customer complaint/CustomerComplaint';
 import CreatePayroll from './dashboard/Accounts/payroll/CreatePayroll';
+=======
+import PrintSalesContract from './dashboard/marketing-sales/sales contract/PrintSalesContract';
+>>>>>>> 6fd6e6d1bbdddd3cdc4f1ebcdd7a44c525c33ed4
 
 dotenv.config();
 
@@ -670,6 +674,7 @@ function App() {
 			/>
 			<Route
 				exact
+<<<<<<< HEAD
 				path="/marketing_dashboard/contract_review"
 				component={ContractReview}
 			/>
@@ -683,6 +688,12 @@ function App() {
 				path="/marketing_dashboard/customer_complaint"
 				component={CustomerComplaint}
 			/>
+=======
+				path='/marketing_dashboard/print_sales_contract'
+				component={PrintSalesContract}
+			/>
+
+>>>>>>> 6fd6e6d1bbdddd3cdc4f1ebcdd7a44c525c33ed4
 			{/* ===================================================================== */}
 			<Route
 				exact
