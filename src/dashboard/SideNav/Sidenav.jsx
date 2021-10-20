@@ -1577,9 +1577,7 @@ function Sidenav(props) {
 										button
 										className={classes.menuItem}
 										onClick={() => {
-											history.push(
-												'/marketing_dashboard/order_booking_form'
-											);
+											history.push('/payroll/create');
 										}}
 									>
 										<ListItemText inset primary="Employee Salaries" />

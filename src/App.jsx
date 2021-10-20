@@ -147,6 +147,7 @@ import SalesContract from './dashboard/marketing-sales/sales contract/SalesContr
 import ContractReview from './dashboard/marketing-sales/contract review/ContractReview';
 import CustomerFeedback from './dashboard/marketing-sales/customer feedback/CustomerFeedback';
 import CustomerComplaint from './dashboard/marketing-sales/customer complaint/CustomerComplaint';
+import CreatePayroll from './dashboard/Accounts/payroll/CreatePayroll';
 
 dotenv.config();
 
@@ -747,6 +748,7 @@ function App() {
 				path="/finance/accounts/entries/add_entry"
 				component={Entries}
 			/>
+			<Route exact path="/payroll/create" component={CreatePayroll} />
 		</Switch>
 	);
 }
