@@ -59,7 +59,7 @@ import {
 const initialState = {};
 
 const reducer = combineReducers({
-	salesContract: salesContractReducer,
+	salesContracts: salesContractReducer,
 	orderBookings: orderBookingReducer,
 	accounts: accountReducer,
 	materials: fetchMaterialReducer,

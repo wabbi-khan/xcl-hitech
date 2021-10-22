@@ -17,7 +17,17 @@ const CreatePayroll = () => {
 
 	console.log(employees);
 
-	return <Sidenav title="Create Payroll"></Sidenav>;
+	return (
+		<Sidenav title="Create Payroll">
+			<div>
+				{employees.map((el) => (
+					<div>
+						<p>{el.name}</p>
+					</div>
+				))}
+			</div>
+		</Sidenav>
+	);
 };
 
 export default CreatePayroll;

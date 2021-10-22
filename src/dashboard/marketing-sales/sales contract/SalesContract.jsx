@@ -10,7 +10,11 @@ import {
 	CustomButton,
 	CustomTable,
 } from '../../../components';
-import { createSalesContract } from '../../../services/action/salesContractAction';
+import {
+	createSalesContract,
+	getSalesContract,
+} from '../../../services/action/salesContractAction';
+import { withRouter } from 'react-router';
 
 const orderInitialValues = {
 	size: '',
@@ -60,6 +64,14 @@ const initialValues3 = {
 	otherConditions: '',
 };
 
+const initialValues4 = {
+	nameOfSeller: '',
+	totalAmountOfContract: '',
+	timeOfDelivery: '',
+	termOfPayments: '',
+	transportation: '',
+};
+
 const validationSchema1 = yup.object({
 	ntnNo: yup.string().required(),
 	strnNo: yup.string().required(),
@@ -104,8 +116,17 @@ const validationSchema3 = yup.object({
 	otherConditions: yup.string().required(),
 });
 
-const SalesContract = () => {
+const validationSchema4 = yup.object({
+	nameOfSeller: yup.string().required(),
+	totalAmountOfContract: yup.string().required(),
+	timeOfDelivery: yup.string().required(),
+	termOfPayments: yup.string().required(),
+	transportation: yup.string().required(),
+});
+
+const SalesContract = ({ history }) => {
 	const [fetchLoading, setFetchLoading] = useState(true);
+	const [fetchError, setFetchError] = useState('');
 	const [createLoading, setCreateLoading] = useState(false);
 	const [createError, setCreateError] = useState('');
 	const [success, setSuccess] = useState('');
@@ -113,12 +134,30 @@ const SalesContract = () => {
 	const [incomeTax, setIncomeTax] = useState(0);
 	const [grandTotal, setGrandTotal] = useState(0);
 
+	const { salesContracts } = useSelector((state) => state.salesContracts);
+
 	const dispatch = useDispatch();
 
 	let form1 = null;
 	let form2 = null;
 	let form3 = null;
 	let form4 = null;
+	let form5 = null;
+
+	useEffect(() => {
+		setFetchLoading(true);
+		dispatch(
+			getSalesContract(null, (err) => {
+				if (err) {
+					setFetchError(err);
+					setTimeout(() => {
+						setFetchError('');
+					}, 4000);
+				}
+				setFetchLoading(false);
+			})
+		);
+	}, []);
 
 	const onSubmit = async (values) => {
 		let error = false;
@@ -137,6 +176,11 @@ const SalesContract = () => {
 			form4.setTouched(form4Errors);
 			error = true;
 		}
+		const form5Errors = await form5.validateForm();
+		if (!isEmpty(form5Errors)) {
+			form5.setTouched(form5Errors);
+			error = true;
+		}
 
 		if (error) return;
 
@@ -145,6 +189,7 @@ const SalesContract = () => {
 			...form2.values,
 			...form3.values,
 			...form4.values,
+			...form5.values,
 			total,
 			incomeTax,
 			grandTotal,
@@ -176,8 +221,11 @@ const SalesContract = () => {
 		return true;
 	}
 
-	const printContract = () => {
-		console.log('asd');
+	const printContract = (salesContract) => {
+		history.push({
+			pathname: '/marketing_dashboard/print_sales_contract',
+			state: { salesContract },
+		});
 	};
 
 	return (
@@ -993,13 +1041,179 @@ const SalesContract = () => {
 											}
 										/>
 									</Grid>
+									<CustomButton stype={{ display: 'none' }} />
 								</Grid>
+							</Form>
+						);
+					}}
+				</Formik>
+				<Formik
+					initialValues={initialValues4}
+					validationSchema={validationSchema4}
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form5 = props;
+						return (
+							<Form>
 								<Grid container spacing={1} style={{ marginTop: 35 }}>
 									<p>
 										HI-TECH PIPE AND EBGINEERING INDUSTRIES here after
 										referred to as the "seller" on the one party,
 									</p>
 								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<Grid item lg={2} md={2} sm={12} xs={12}>
+										<CustomInput
+											label="Enter Name"
+											onChange={props.handleChange('nameOfSeller')}
+											value={props.values.nameOfSeller}
+											onBlur={props.handleBlur('nameOfSeller')}
+											helperText={
+												props.touched.nameOfSeller &&
+												props.errors.nameOfSeller
+											}
+											error={
+												props.touched.nameOfSeller &&
+												props.errors.nameOfSeller
+											}
+										/>
+									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<p>
+										and hereafter referred to as the "Buyer" on the
+										party have concluded the present contract as the
+										following.
+									</p>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 35 }}>
+									<h5>Pricing & Total Amount of Contract</h5>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<p>The total amount of this contract is:</p>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<Grid item lg={2} md={2} sm={12} xs={12}>
+										<CustomInput
+											label="Rs."
+											type="number"
+											onChange={props.handleChange(
+												'totalAmountOfContract'
+											)}
+											value={props.values.totalAmountOfContract}
+											onBlur={props.handleBlur(
+												'totalAmountOfContract'
+											)}
+											helperText={
+												props.touched.totalAmountOfContract &&
+												props.errors.totalAmountOfContract
+											}
+											error={
+												props.touched.totalAmountOfContract &&
+												props.errors.totalAmountOfContract
+											}
+										/>
+									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<p>
+										for HDPE pipe Orders Pressure PN (As mentioned in
+										Sr # 6) prices are firm for the duration of
+										contract.
+									</p>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 35 }}>
+									<h5>Time & Term Of Delivery</h5>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<p>
+										Delivery made after the receipt of Payment with in
+										(min):
+									</p>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<Grid item lg={2} md={2} sm={12} xs={12}>
+										<CustomInput
+											label="Days"
+											type="number"
+											onChange={props.handleChange('timeOfDelivery')}
+											value={props.values.timeOfDelivery}
+											onBlur={props.handleBlur('timeOfDelivery')}
+											helperText={
+												props.touched.timeOfDelivery &&
+												props.errors.timeOfDelivery
+											}
+											error={
+												props.touched.timeOfDelivery &&
+												props.errors.timeOfDelivery
+											}
+										/>
+									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 35 }}>
+									<h5>Term Of Payments</h5>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<p>Payment must be made by:</p>
+								</Grid>
+								<Grid container spacing={1}>
+									<Grid item lg={2} md={2} sm={12} xs={12}>
+										<CustomInput
+											label="Percent (%)"
+											type="number"
+											onChange={props.handleChange('termOfPayments')}
+											value={props.values.termOfPayments}
+											onBlur={props.handleBlur('termOfPayments')}
+											helperText={
+												props.touched.termOfPayments &&
+												props.errors.termOfPayments
+											}
+											error={
+												props.touched.termOfPayments &&
+												props.errors.termOfPayments
+											}
+										/>
+									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 5 }}>
+									<p>advance</p>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 35 }}>
+									<h5>Transportation</h5>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<p>Transportation charges to paid by:</p>
+								</Grid>
+								<Grid container spacing={1}>
+									<Grid item lg={2} md={2} sm={12} xs={12}>
+										<CustomInput
+											label="Transport Charges"
+											onChange={props.handleChange('transportation')}
+											value={props.values.transportation}
+											onBlur={props.handleBlur('transportation')}
+											helperText={
+												props.touched.transportation &&
+												props.errors.transportation
+											}
+											error={
+												props.touched.transportation &&
+												props.errors.transportation
+											}
+										/>
+									</Grid>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 35 }}>
+									<h5>Other Conditions</h5>
+								</Grid>
+								<Grid container spacing={1} style={{ marginTop: 10 }}>
+									<p style={{ fontWeight: 'bold' }}>Arbitration:</p>
+								</Grid>
+								<p>
+									All disputes & differences ,which one can arise to or
+									in connection with the present contract , should be
+									decided by negotiation between Seller & the buyer.
+								</p>
 								<div style={{ marginTop: '1rem' }}>
 									<CustomButton
 										text="Submit"
@@ -1017,25 +1231,57 @@ const SalesContract = () => {
 						);
 					}}
 				</Formik>
-				<CustomTable
-					fetchLoading={fetchLoading}
-					data={[{}]}
-					columnHeadings={[
-						'Sr.No',
-						'Sales Contract No.',
-						'NTN No.',
-						'STRN No.',
-						'Company/Buyer Name',
-						'Time Of Delivery',
-					]}
-					keys={['', '', '', '', '']}
-					firstOptionText="View"
-					onFirstOptionClick={printContract}
-					withSrNo
-				/>
 			</CustomContainer>
+			<CustomTable
+				fetchLoading={fetchLoading}
+				data={salesContracts}
+				columnHeadings={[
+					'Sr.No',
+					'Sales Contract No.',
+					'NTN No.',
+					'STRN No.',
+					'Company/Buyer Name',
+					'Time Of Delivery',
+				]}
+				keys={[
+					'code',
+					'ntnNo',
+					'strnNo',
+					'conpanyRegName',
+					'timeOfDelivery',
+				]}
+				firstOptionText="View"
+				onFirstOptionClick={printContract}
+				withSrNo
+			/>
 		</Sidenav>
 	);
 };
 
-export default SalesContract;
+export default withRouter(SalesContract);
+
+{
+	/*
+
+
+
+
+
+
+{/* <CustomTable
+        fetchLoading={fetchLoading}
+        data={[{}]}
+        columnHeadings={[
+          "Sr.No",
+          "Sales Contract No.",
+          "NTN No.",
+          "STRN No.",
+          "Company/Buyer Name",
+          "Time Of Delivery"
+        ]}
+        keys={["", "", "", "", ""]}
+        firstOptionText="View"
+        onFirstOptionClick={printContract}
+        withSrNo
+      /> */
+}
