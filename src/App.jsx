@@ -147,8 +147,9 @@ import SalesContract from './dashboard/marketing-sales/sales contract/SalesContr
 import ContractReview from './dashboard/marketing-sales/contract review/ContractReview';
 import CustomerFeedback from './dashboard/marketing-sales/customer feedback/CustomerFeedback';
 import CustomerComplaint from './dashboard/marketing-sales/customer complaint/CustomerComplaint';
-import CreatePayroll from './dashboard/Accounts/payroll/CreatePayroll';
+import CreatePayroll from './dashboard/Accounts/Payroll/CreatePayroll';
 import PrintSalesContract from './dashboard/marketing-sales/sales contract/PrintSalesContract';
+import PrintContractReview from './dashboard/marketing-sales/contract review/PrintContractReview';
 
 dotenv.config();
 
@@ -673,6 +674,11 @@ function App() {
 				exact
 				path="/marketing_dashboard/contract_review"
 				component={ContractReview}
+			/>
+			<Route
+				exact
+				path="/marketing_dashboard/print_contract_review"
+				component={PrintContractReview}
 			/>
 			<Route
 				exact
