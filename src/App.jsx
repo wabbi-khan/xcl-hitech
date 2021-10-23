@@ -147,9 +147,10 @@ import SalesContract from './dashboard/marketing-sales/sales contract/SalesContr
 import ContractReview from './dashboard/marketing-sales/contract review/ContractReview';
 import CustomerFeedback from './dashboard/marketing-sales/customer feedback/CustomerFeedback';
 import CustomerComplaint from './dashboard/marketing-sales/customer complaint/CustomerComplaint';
-import CreatePayroll from './dashboard/Accounts/payroll/CreatePayroll';
+import CreatePayroll from './dashboard/Accounts/Payroll/CreatePayroll';
 import PrintSalesContract from './dashboard/marketing-sales/sales contract/PrintSalesContract';
 import PrintContractReview from './dashboard/marketing-sales/contract review/PrintContractReview';
+import SalaryVoucher from './dashboard/Accounts/Payroll/Vouchers/SalaryVoucher';
 
 dotenv.config();
 
@@ -742,12 +743,13 @@ function App() {
 				component={ProductionOnlineInsRep}
 			/>
 			{/* ===================================================================== */}
+			
+			//Accounts Module Routes
 			<Route
 				exact
 				path="/finance/accounts/add_accounts"
 				component={AddAccounts}
 			/>{' '}
-			//Accounts Module Routes
 			<Route exact path="/finance/accounts/ledger" component={Ledger} />
 			<Route
 				exact
@@ -760,6 +762,7 @@ function App() {
 				component={Entries}
 			/>
 			<Route exact path="/payroll/create" component={CreatePayroll} />
+			<Route exact path="/payroll/salary_voucher" component={SalaryVoucher} />
 		</Switch>
 	);
 }
