@@ -186,7 +186,7 @@ const EmpLeave = ({ history }) => {
 					}, 4000);
 				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, []);
 
@@ -208,7 +208,7 @@ const EmpLeave = ({ history }) => {
 					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -216,8 +216,8 @@ const EmpLeave = ({ history }) => {
 		dispatch(
 			getEmployeeByDesignationAndDepartment(
 				selectedDesignation,
-				selectedDepartment,
-			),
+				selectedDepartment
+			)
 		);
 	}, [selectedDepartment, selectedDesignation]);
 
@@ -225,9 +225,9 @@ const EmpLeave = ({ history }) => {
 		<Sidenav title={'Employees Leave'}>
 			<div>
 				<Button
-					variant='outlined'
-					color='primary'
-					text='View All Leaves'
+					variant="outlined"
+					color="primary"
+					text="View All Leaves"
 					classNames={classes.viewAllBtn}
 					onClick={() => {
 						history.push('/hr/employees_leave/view');
@@ -237,29 +237,34 @@ const EmpLeave = ({ history }) => {
 					<Formik
 						initialValues={initialValues}
 						onSubmit={onSubmitData}
-						validationSchema={validationSchema}>
+						validationSchema={validationSchema}
+					>
 						{(props) => (
 							<Form>
 								<Grid container spacing={1}>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Department'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											label="Select Department"
+											variant="outlined"
+											type="text"
+											size="small"
 											style={{ width: '100%' }}
-											autocomplete='off'
+											autocomplete="off"
 											select
 											onBlur={props.handleBlur('department')}
 											value={props.values.department}
 											onChange={(e) => {
 												// props.handleChange('department');
-												props.setFieldValue('department', e.target.value);
+												props.setFieldValue(
+													'department',
+													e.target.value
+												);
 												setSelectedDepartment(e.target.value);
 											}}
 											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{departments &&
 												departments.map((el) => (
 													<MenuItem value={el._id} key={el._id}>
@@ -268,27 +273,33 @@ const EmpLeave = ({ history }) => {
 												))}
 										</CssTextField>
 										{props.touched.department && (
-											<p className='text-danger'>{props.errors.department}</p>
+											<p className="text-danger">
+												{props.errors.department}
+											</p>
 										)}
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Designation'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Designation"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											style={{ width: '100%' }}
 											onBlur={props.handleBlur('designation')}
 											value={props.values.designation}
 											onChange={(e) => {
-												props.setFieldValue('designation', e.target.value);
+												props.setFieldValue(
+													'designation',
+													e.target.value
+												);
 												setSelectedDesignation(e.target.value);
 											}}
 											select
 											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{designations &&
 												designations.map((el) => (
 													<MenuItem value={el._id} key={el._id}>
@@ -297,26 +308,32 @@ const EmpLeave = ({ history }) => {
 												))}
 										</CssTextField>
 										{props.touched.designation && (
-											<p className='text-danger'>{props.errors.designation}</p>
+											<p className="text-danger">
+												{props.errors.designation}
+											</p>
 										)}
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Emp Name'
-											variant='outlined'
-											type='text'
+											id="outlined-basic"
+											label="Emp Name"
+											variant="outlined"
+											type="text"
 											style={{ width: '100%' }}
-											autocomplete='off'
+											autocomplete="off"
 											onBlur={props.handleBlur('employee')}
 											value={props.values.employee}
 											onChange={props.handleChange('employee')}
-											size='small'
+											size="small"
 											select
 											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{selectedDesignation === '' && selectedDepartment === '' ? (
-												<span>select department and designation first</span>
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
+											{selectedDesignation === '' &&
+											selectedDepartment === '' ? (
+												<span>
+													select department and designation first
+												</span>
 											) : employees && employees.length > 0 ? (
 												employees.map((el) => (
 													<MenuItem key={el._id} value={el._id}>
@@ -328,49 +345,57 @@ const EmpLeave = ({ history }) => {
 											)}
 										</CssTextField>
 										{props.touched.employee && (
-											<p className='text-danger'>{props.errors.employee}</p>
+											<p className="text-danger">
+												{props.errors.employee}
+											</p>
 										)}
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Purpose'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Purpose"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											style={{ width: '100%' }}
 											onBlur={props.handleBlur('purpose')}
 											value={props.values.purpose}
 											onChange={props.handleChange('purpose')}
 											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										></CssTextField>
 										{props.touched.purpose && (
-											<p className='text-danger'>{props.errors.purpose}</p>
+											<p className="text-danger">
+												{props.errors.purpose}
+											</p>
 										)}
 									</Grid>
 								</Grid>
-								<Grid container spacing={1} className='mt-3'>
+								<Grid container spacing={1} className="mt-3">
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Paid/Un-Paid'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Paid/Un-Paid"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											onBlur={props.handleBlur('isPaid')}
 											value={props.values.isPaid}
 											style={{ width: '100%' }}
 											onChange={props.handleChange('isPaid')}
 											inputProps={{ style: { fontSize: 14 } }}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem value='true'>Paid</MenuItem>
-											<MenuItem value='false'>Un-Paid</MenuItem>
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
+											<MenuItem value="true">Paid</MenuItem>
+											<MenuItem value="false">Un-Paid</MenuItem>
 										</CssTextField>
 										{props.touched.isPaid && (
-											<p className='text-danger'>{props.errors.isPaid}</p>
+											<p className="text-danger">
+												{props.errors.isPaid}
+											</p>
 										)}
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
@@ -379,24 +404,34 @@ const EmpLeave = ({ history }) => {
 												display: 'flex',
 												flexDirection: 'column',
 												alignItems: 'center',
-											}}>
+											}}
+										>
 											<CssTextField
-												id='outlined-basic'
-												variant='outlined'
-												type='date'
-												size='small'
-												autocomplete='off'
+												id="outlined-basic"
+												variant="outlined"
+												type="date"
+												size="small"
+												autocomplete="off"
 												style={{ width: '100%' }}
 												onBlur={props.handleBlur('from')}
 												value={props.values.from}
 												onChange={props.handleChange('from')}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											></CssTextField>
 											{props.touched.from && (
-												<p className='text-danger'>{props.errors.from}</p>
+												<p className="text-danger">
+													{props.errors.from}
+												</p>
 											)}
-											<span style={{ alignSelf: 'flex-start', marginLeft: '0.3rem', }}>
+											<span
+												style={{
+													alignSelf: 'flex-start',
+													marginLeft: '0.3rem',
+												}}
+											>
 												From
 											</span>
 										</div>
@@ -407,34 +442,48 @@ const EmpLeave = ({ history }) => {
 												display: 'flex',
 												flexDirection: 'column',
 												alignItems: 'center',
-											}}>
+											}}
+										>
 											<CssTextField
-												id='outlined-basic'
-												variant='outlined'
+												id="outlined-basic"
+												variant="outlined"
 												style={{ width: '100%' }}
-												type='date'
-												autocomplete='off'
+												type="date"
+												autocomplete="off"
 												onBlur={props.handleBlur('to')}
 												value={props.values.to}
 												onChange={props.handleChange('to')}
-												size='small'
+												size="small"
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
+											></CssTextField>
 											{props.touched.to && (
-												<p className='text-danger'>{props.errors.to}</p>
+												<p className="text-danger">
+													{props.errors.to}
+												</p>
 											)}
-											<span style={{ alignSelf: 'flex-start', marginLeft: '0.3rem', marginTop: '0.1rem' }}>To</span>
+											<span
+												style={{
+													alignSelf: 'flex-start',
+													marginLeft: '0.3rem',
+													marginTop: '0.1rem',
+												}}
+											>
+												To
+											</span>
 										</div>
 									</Grid>
 								</Grid>
 								<div>
 									<Button
-										variant='outlined'
-										color='primary'
+										variant="outlined"
+										color="primary"
 										classNames={classes.addButton}
-										text='Add'
+										text="Add"
 										loading={createLoading}
-										loaderColor='#333'
+										loaderColor="#333"
 									/>
 								</div>
 								{createError && <p>{createError}</p>}
@@ -449,8 +498,14 @@ const EmpLeave = ({ history }) => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
 					</div>
 				) : leaves?.length === 0 ? (
 					<p>There are no Leaves</p>
@@ -459,43 +514,95 @@ const EmpLeave = ({ history }) => {
 						<TableContainer className={classes.tableContainer}>
 							<Table
 								stickyHeader
-								className='table table-dark'
-								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								className="table table-dark"
+								style={{
+									backgroundColor: '#d0cfcf',
+									border: '1px solid grey',
+								}}
+							>
 								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Employee Name</StyledTableCell>
-										<StyledTableCell align='center'>Department</StyledTableCell>
-										<StyledTableCell align='center'>Designation</StyledTableCell>
-										<StyledTableCell align='center'>Purpose</StyledTableCell>
-										<StyledTableCell align='center'>From Date</StyledTableCell>
-										<StyledTableCell align='center'>To Date</StyledTableCell>
+									<TableRow hover role="checkbox">
+										<StyledTableCell align="center">
+											Sr.No
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Employee Name
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Department
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Designation
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Purpose
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											From Date
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											To Date
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Days
+										</StyledTableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{leaves && leaves.length > 0 ? (
 										leaves.map((el, i) => (
 											<StyledTableRow>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{i + 1}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.employee?.name}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.employee?.finalDepartment?.name}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.employee?.finalDesignation?.name}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.purpose}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{moment(el?.from).format('Do - MMMM - YYYY')}
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
+													{moment(el?.from).format(
+														'Do - MMMM - YYYY'
+													)}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{moment(el?.to).format('Do - MMMM - YYYY')}
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
+													{moment(el?.to).format(
+														'Do - MMMM - YYYY'
+													)}
+												</StyledTableCell>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
+													{el?.days}
 												</StyledTableCell>
 											</StyledTableRow>
 										))
