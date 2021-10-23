@@ -51,8 +51,10 @@ import { stockAssessmentReportReducer } from './stockAssessmentReportReducer';
 import { accountReducer } from './accountReducer';
 import { orderBookingReducer } from './orderBookingReducer';
 import { salesContractReducer } from './salesContractReducer';
+import { contractReviewReducer } from './contractReviewReducer';
 
 export {
+	contractReviewReducer,
 	salesContractReducer,
 	orderBookingReducer,
 	accountReducer,

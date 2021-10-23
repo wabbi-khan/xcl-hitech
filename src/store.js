@@ -54,11 +54,13 @@ import {
 	accountReducer,
 	orderBookingReducer,
 	salesContractReducer,
+	contractReviewReducer,
 } from './services/reducer';
 
 const initialState = {};
 
 const reducer = combineReducers({
+	contractReviews: contractReviewReducer,
 	salesContracts: salesContractReducer,
 	orderBookings: orderBookingReducer,
 	accounts: accountReducer,
