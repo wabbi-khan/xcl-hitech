@@ -1,10 +1,8 @@
 import React from 'react';
 import Sidenav from '../../SideNav/Sidenav';
-import Grid from '@material-ui/core/Grid';
 import TableContainer from '@material-ui/core/TableContainer';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
 import Loader from 'react-loader-spinner';
 import { getbinCards } from '../../../services/action/binCardAction';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,7 +68,6 @@ const CssTextField = withStyles({
 
 const ProductsBinCard = ({ history }) => {
 	const [fetchLoading, setFetchLoading] = React.useState(true);
-	const [fetchError, setFetchError] = React.useState('');
 
 	const dispatch = useDispatch();
 
@@ -78,19 +75,12 @@ const ProductsBinCard = ({ history }) => {
 		setFetchLoading(true);
 		dispatch(
 			getbinCards(null, (err) => {
-				if (err) {
-					setFetchError(err);
-					setTimeout(() => {
-						setFetchError('');
-					}, 4000);
-				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
 	const { binCards } = useSelector((state) => state.binCards);
-	console.log('binCards', binCards);
 
 	const classes = useStyles();
 
@@ -99,95 +89,107 @@ const ProductsBinCard = ({ history }) => {
 			<div>
 				<div
 					style={{
-						display: 'flex', gap: '.4rem', marginLeft: '.7rem', marginTop: '.5rem'
+						display: 'flex',
+						gap: '.4rem',
+						marginLeft: '.7rem',
+						marginTop: '.5rem',
 					}}
 				>
 					<CssTextField
-						id='outlined-basic'
-						variant='outlined'
-						label='Search Products'
-						type='search'
-						size='small'
-						autoComplete='off'
-						style={{ width: '25%', }}
+						id="outlined-basic"
+						variant="outlined"
+						label="Search Products"
+						type="search"
+						size="small"
+						autoComplete="off"
+						style={{ width: '25%' }}
 						inputProps={{ style: { fontSize: 14 } }}
 						InputLabelProps={{ style: { fontSize: 14 } }}
 					/>
 					<CssTextField
-						id='outlined-basic'
-						variant='outlined'
-						label='By Name/Code'
-						type='text'
-						size='small'
-						autoComplete='off'
+						id="outlined-basic"
+						variant="outlined"
+						label="By Name/Code"
+						type="text"
+						size="small"
+						autoComplete="off"
 						select
-						style={{ width: '25%', }}
+						style={{ width: '25%' }}
 						inputProps={{ style: { fontSize: 14 } }}
 						InputLabelProps={{ style: { fontSize: 14 } }}
 					>
-						<MenuItem value='0'>By Name</MenuItem>
-						<MenuItem value='0'>By Code</MenuItem>
+						<MenuItem value="0">By Name</MenuItem>
+						<MenuItem value="0">By Code</MenuItem>
 					</CssTextField>
 				</div>
-				{
-					fetchLoading ? (
-						<div
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								marginTop: '3rem',
-							}}>
-							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
-						</div>
-					) : binCards?.length === 0 ? (
-						<p>There is no data found.</p>
-					) : (
-						<div className={classes.dataTable}>
-							<TableContainer className={classes.tableContainer}>
-								<div className='container-fluid' style={{ textAlign: 'left' }}>
-									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
-										<thead class='bg-dark text-light'>
+				{fetchLoading ? (
+					<div
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '3rem',
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
+					</div>
+				) : binCards?.length === 0 ? (
+					<p>There is no data found.</p>
+				) : (
+					<div className={classes.dataTable}>
+						<TableContainer className={classes.tableContainer}>
+							<div
+								className="container-fluid"
+								style={{ textAlign: 'left' }}
+							>
+								<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+									<thead class="bg-dark text-light">
+										<tr>
+											<th>S.No.</th>
+											<th>Product Name</th>
+											<th>Current Balance</th>
+											<th>IN</th>
+											<th>OUT</th>
+											<th>Balance</th>
+											<th>Last Updated on</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										{binCards.map((el, i) => (
 											<tr>
-												<th>S.No.</th>
-												<th>Product Name</th>
-												<th>Current Balance</th>
-												<th>IN</th>
-												<th>OUT</th>
-												<th>Balance</th>
-												<th>Last Updated on</th>
-												<th>Action</th>
+												<td>{i + 1}</td>
+												<td>{el?.product?.name}</td>
+												<td>{el?.history[0]?.balance}</td>
+												<td>{el?.history[0]?.in}</td>
+												<td>{el?.history[0]?.out}</td>
+												<td>{el?.history[0]?.balance}</td>
+												<td>{el?.history[0]?.date}</td>
+												<td>
+													<Button
+														variant="contained"
+														text="View"
+														classNames="btn btn-sm bg-dark text-light"
+														onClick={() => {
+															history.push(
+																'/storedashboard/products_bin_card/view_bincard_history'
+															);
+														}}
+													/>
+												</td>
 											</tr>
-										</thead>
-										<tbody>
-											{binCards.map((el, i) => (
-												<tr>
-													<td>{i + 1}</td>
-													<td>{el?.product?.name}</td>
-													<td>{el?.history[0]?.balance}</td>
-													<td>{el?.history[0]?.in}</td>
-													<td>{el?.history[0]?.out}</td>
-													<td>{el?.history[0]?.balance}</td>
-													<td>{el?.history[0]?.date}</td>
-													<td>
-														<Button
-															variant='contained'
-															text='View'
-															classNames='btn btn-sm bg-dark text-light'
-															onClick={() => {
-																history.push('/storedashboard/products_bin_card/view_bincard_history')
-															}}
-														/>
-													</td>
-												</tr>
-											))}
-										</tbody>
-									</table>
-								</div>
-							</TableContainer>
-						</div>
-					)
-				}
+										))}
+									</tbody>
+								</table>
+							</div>
+						</TableContainer>
+					</div>
+				)}
 			</div>
 		</Sidenav>
 	);

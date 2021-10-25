@@ -101,7 +101,6 @@ const PrintEmpDetails = (props) => {
 
 	const { error, loading } = useSelector((state) => state.employees);
 
-	console.log(employee);
 	React.useEffect(() => {
 		if (match.params.id) {
 			dispatch(getSingleEmployee(match.params.id));
@@ -149,138 +148,145 @@ const PrintEmpDetails = (props) => {
 	) : error ? (
 		<p>{error}</p>
 	) : (
-		<div className='text-center mt-4'>
-			<div className='container'>
-				<h4 class='mt-3'>Hi-Tech Pipe & Engineering Industries</h4>
+		<div className="text-center mt-4">
+			<div className="container">
+				<h4 class="mt-3">Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-5' style={{ textDecoration: 'underline' }}>
+				<h5 className="mt-5" style={{ textDecoration: 'underline' }}>
 					Employment Form
 				</h5>
 			</div>
-			<div className='container-fluid'>
-				<div className='row ' style={{ marginTop: 40, textAlign: 'left' }}>
-					<div className='col-lg-4 col-md-4 col-sm-4 mt-4'>
-						<div className='row no-gutters mt-2'>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
+			<div className="container-fluid">
+				<div className="row " style={{ marginTop: 40, textAlign: 'left' }}>
+					<div className="col-lg-4 col-md-4 col-sm-4 mt-4">
+						<div className="row no-gutters mt-2">
+							<div className="col-lg-6 col-md-6 col-sm-6">
 								<p style={{ fontWeight: 'bold' }}>Date:</p>
 							</div>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
-								<p style={{ textDecoration: 'underline'}}>
+							<div className="col-lg-6 col-md-6 col-sm-6">
+								<p style={{ textDecoration: 'underline' }}>
 									{fullDate}
 								</p>
 							</div>
 						</div>
 					</div>
-					<div className='offset-lg-5 offset-md-5 offset-sm-5 col-lg-2 col-md-2 col-sm-2'>
+					<div className="offset-lg-5 offset-md-5 offset-sm-5 col-lg-2 col-md-2 col-sm-2">
 						<img
 							src={picture ? picture : ''}
-							alt='Profile'
-							width='150'
-							height='150'
+							alt="Profile"
+							width="150"
+							height="150"
 						/>
 					</div>
-					<div className='col-lg-1 col-md-1' style={{ marginLeft: '-3rem' }}>
-						<div id='printBtn'>
+					<div
+						className="col-lg-1 col-md-1"
+						style={{ marginLeft: '-3rem' }}
+					>
+						<div id="printBtn">
 							<Button
-								variant='contained'
-								size='small'
-								className='bg-dark text-light'
-								onClick={() => window.print()}>
+								variant="contained"
+								size="small"
+								className="bg-dark text-light"
+								onClick={() => window.print()}
+							>
 								Print
 							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className='container-fluid' style={{ marginTop: '20px' }}>
+			<div className="container-fluid" style={{ marginTop: '20px' }}>
 				<table
-					class='table table-responsive table-bordered mt-3'
-					style={{ textAlign: 'left' }}>
+					class="table table-responsive table-bordered mt-3"
+					style={{ textAlign: 'left' }}
+				>
 					<tbody>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Name</td>
-							<td colspan='3'>{name}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{name}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Father/Husband Name
 							</td>
-							<td colspan='3'>{fatherName_husbandName}</td>
+							<td colspan="3">{fatherName_husbandName}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Job Applied For</td>
-							<td colspan='3'>{jobAppliedFor?.name}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{jobAppliedFor?.name}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Present Address
 							</td>
-							<td colspan='3'>{presentAddress}</td>
+							<td colspan="3">{presentAddress}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Gender</td>
-							<td colspan='3'>{gender}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{gender}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Permanent Address
 							</td>
-							<td colspan='3'>{permanentAddress}</td>
+							<td colspan="3">{permanentAddress}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Mobile No.</td>
-							<td colspan='3'>{mobileNo}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{mobileNo}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Telephone No.
 							</td>
-							<td colspan='3'>{telephoneNo}</td>
+							<td colspan="3">{telephoneNo}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Merital Status</td>
-							<td colspan='3'>{status}</td>
+							<td colspan="3">{status}</td>
 							<td style={{ fontWeight: 'bold' }}>Age</td>
-							<td colspan='3'>{age}</td>
+							<td colspan="3">{age}</td>
 							<td style={{ fontWeight: 'bold' }}>DOB</td>
-							<td colspan='3'>{dateOfBirth}</td>
+							<td colspan="3">{dateOfBirth}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Place of Birth</td>
-							<td colspan='3'>{placeOfBirth}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{placeOfBirth}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Email Address
 							</td>
-							<td colspan='3'>{email}</td>
+							<td colspan="3">{email}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>CNIC No.</td>
-							<td colspan='3'>{cnic}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{cnic}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Date & Place of Issue
 							</td>
-							<td colspan='3'>{DatePlaceOfIssue}</td>
+							<td colspan="3">{DatePlaceOfIssue}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Nationality</td>
-							<td colspan='3'>{nationality}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{nationality}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Bank Account No.
 							</td>
-							<td colspan='3'>{bankAccount}</td>
+							<td colspan="3">{bankAccount}</td>
 						</tr>
 						<tr>
-							<td style={{ fontWeight: 'bold' }}>Account Name & Branch</td>
-							<td colspan='5'>{bankNameAndBranch}</td>
+							<td style={{ fontWeight: 'bold' }}>
+								Account Name & Branch
+							</td>
+							<td colspan="5">{bankNameAndBranch}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Next to Kin(Name)</td>
-							<td colspan='3'>{nextToKin?.name}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{nextToKin?.name}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Relationship
 							</td>
-							<td colspan='3'>{nextToKin?.relation}</td>
+							<td colspan="3">{nextToKin?.relation}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Contact No.</td>
-							<td colspan='3'>{nextToKin?.contact}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{nextToKin?.contact}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Address
 							</td>
-							<td colspan='3'>{nextToKin?.address}</td>
+							<td colspan="3">{nextToKin?.address}</td>
 						</tr>
 						{/* ))
 							) : (
@@ -636,13 +642,17 @@ const PrintEmpDetails = (props) => {
 				</div>
 			</div> */}
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: '50px' }}>
-				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: '50px' }}
+			>
+				<h5
+					align="left"
+					style={{ marginTop: 30, textDecoration: 'underline' }}
+				>
 					Academic Qualification
 				</h5>
-				<table class='table table-responsive table-bordered border-dark text-center mt-3'>
-					<thead class=''>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<thead class="">
 						<tr>
 							<th>S.No.</th>
 							<th>Certificate/Degree</th>
@@ -681,13 +691,17 @@ const PrintEmpDetails = (props) => {
 				</table>
 			</div>
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: '50px' }}>
-				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: '50px' }}
+			>
+				<h5
+					align="left"
+					style={{ marginTop: 30, textDecoration: 'underline' }}
+				>
 					Professional Qualification
 				</h5>
-				<table class='table table-responsive table-bordered border-dark text-center mt-3'>
-					<thead class=''>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<thead class="">
 						<tr>
 							<th>S.No.</th>
 							<th>Certificate/Degree</th>
@@ -704,7 +718,8 @@ const PrintEmpDetails = (props) => {
 								<MaterialError />
 							) : products.length ? (
 								products.map((product, i) => ( */}
-						{!professionalQualification || !professionalQualification.length ? (
+						{!professionalQualification ||
+						!professionalQualification.length ? (
 							<span>Not Found</span>
 						) : (
 							professionalQualification.map((el, i) => (
@@ -726,13 +741,17 @@ const PrintEmpDetails = (props) => {
 				</table>
 			</div>
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: '50px' }}>
-				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: '50px' }}
+			>
+				<h5
+					align="left"
+					style={{ marginTop: 30, textDecoration: 'underline' }}
+				>
 					Experience (Recent First)
 				</h5>
-				<table class='table table-responsive table-bordered border-dark text-center mt-3'>
-					<thead class=''>
+				<table class="table table-responsive table-bordered border-dark text-center mt-3">
+					<thead class="">
 						<tr>
 							<th>S.No.</th>
 							<th>Company Name</th>
@@ -832,36 +851,42 @@ const PrintEmpDetails = (props) => {
 				</div>
 			</div> */}
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: '50px' }}>
-				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: '50px' }}
+			>
+				<h5
+					align="left"
+					style={{ marginTop: 30, textDecoration: 'underline' }}
+				>
 					For Office Use Only
 				</h5>
-				<table class='table table-responsive table-bordered text-center mt-3'>
+				<table class="table table-responsive table-bordered text-center mt-3">
 					<tbody>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Date of Interviewed</td>
-							<td colspan='3'>{officeUse?.dateOfInterviewed}</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3">{officeUse?.dateOfInterviewed}</td>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Recommend For Employment
 							</td>
-							<td colspan='3'>{officeUse?.recommended ? 'Yes' : 'No'}</td>
+							<td colspan="3">
+								{officeUse?.recommended ? 'Yes' : 'No'}
+							</td>
 							<td style={{ fontWeight: 'bold' }}>Job Title</td>
-							<td colspan='3'>{officeUse?.jobTitle}</td>
+							<td colspan="3">{officeUse?.jobTitle}</td>
 						</tr>
 						<tr>
-							<td colspan='2' style={{ fontWeight: 'bold' }}>
+							<td colspan="2" style={{ fontWeight: 'bold' }}>
 								Recommended Salary
 							</td>
-							<td colspan='2'>{officeUse?.recommendedSalary}</td>
-							<td colspan='2' style={{ fontWeight: 'bold' }}>
+							<td colspan="2">{officeUse?.recommendedSalary}</td>
+							<td colspan="2" style={{ fontWeight: 'bold' }}>
 								Recommendations Approved
 							</td>
-							<td colspan='2'>{officeUse?.approved}</td>
+							<td colspan="2">{officeUse?.approved}</td>
 						</tr>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Remarks</td>
-							<td colspan='5'>{officeUse?.remarks}</td>
+							<td colspan="5">{officeUse?.remarks}</td>
 						</tr>
 						{/* {
 							loading ? (
@@ -879,26 +904,36 @@ const PrintEmpDetails = (props) => {
 				</table>
 			</div>
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: '50px' }}>
-				<h5 align='left' style={{ marginTop: 30, textDecoration: 'underline' }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: '50px' }}
+			>
+				<h5
+					align="left"
+					style={{ marginTop: 30, textDecoration: 'underline' }}
+				>
 					Assigned Final Details
 				</h5>
-				<table class='table table-responsive table-bordered text-center mt-3'>
+				<table class="table table-responsive table-bordered text-center mt-3">
 					<tbody>
 						<tr>
 							<td style={{ fontWeight: 'bold' }}>Department</td>
-							<td colspan='3'>
-								{finalDepartment ? finalDepartment?.name : officeUse?.department?.name}
+							<td colspan="3">
+								{finalDepartment
+									? finalDepartment?.name
+									: officeUse?.department?.name}
 							</td>
-							<td colspan='3' style={{ fontWeight: 'bold' }}>
+							<td colspan="3" style={{ fontWeight: 'bold' }}>
 								Designation
 							</td>
-							<td colspan='3'>
-								{finalDesignation ? finalDesignation?.name : jobAppliedFor?.name}
+							<td colspan="3">
+								{finalDesignation
+									? finalDesignation?.name
+									: jobAppliedFor?.name}
 							</td>
 							<td style={{ fontWeight: 'bold' }}>Salary</td>
-							<td colspan='3'>{finalSal ? finalSal : 'Not yet decided'}</td>
+							<td colspan="3">
+								{finalSal ? finalSal : 'Not yet decided'}
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1004,28 +1039,36 @@ const PrintEmpDetails = (props) => {
 			<Grid container spacing={1} style={{ marginTop: 150 }}>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
 					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
-					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<hr
+						style={{ border: '1px solid green', borderColor: 'black' }}
+					/>
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Applicant Signature
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<hr
+						style={{ border: '1px solid green', borderColor: 'black' }}
+					/>
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Interviewer Signature
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<hr
+						style={{ border: '1px solid green', borderColor: 'black' }}
+					/>
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Approved By
 					</p>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
 				<Grid item lg={2} md={2} sm={2} xs={2}>
-					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<hr
+						style={{ border: '1px solid green', borderColor: 'black' }}
+					/>
 					<p style={{ marginTop: -10, fontSize: 11, fontWeight: 'bold' }}>
 						Date of Approval
 					</p>

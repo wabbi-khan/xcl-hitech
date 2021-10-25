@@ -22,7 +22,6 @@ export const fetchStoreCategory = (state = { storeCategories: [] }, action) => {
 				error: action.payload,
 			};
 		case STORE_CATEGORY_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -35,7 +34,7 @@ export const fetchStoreCategory = (state = { storeCategories: [] }, action) => {
 				storeCategories: state.storeCategories.map((storeCategory) =>
 					storeCategory._id === action.payload.category._id
 						? action.payload
-						: storeCategory,
+						: storeCategory
 				),
 			};
 		case STORE_CATEGORY_DELETE_SUCCESS:
@@ -43,7 +42,7 @@ export const fetchStoreCategory = (state = { storeCategories: [] }, action) => {
 				loading: false,
 				error: '',
 				storeCategories: state.storeCategories.filter(
-					(storeCategory) => storeCategory._id !== action.payload,
+					(storeCategory) => storeCategory._id !== action.payload
 				),
 			};
 		case STORE_CATEGORY_CREATE_SUCCESS:

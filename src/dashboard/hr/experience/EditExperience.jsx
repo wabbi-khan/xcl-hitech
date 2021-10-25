@@ -106,7 +106,6 @@ const EditExperience = (props) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { show, handler, exp } = props;
-	console.log(exp);
 
 	const {
 		register,
@@ -138,18 +137,19 @@ const EditExperience = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Update</h5>
+						<h5 className="text-center mt-4">Update</h5>
 						<Container className={classes.mainContainer}>
 							{/* Form */}
 							{exp ? (
@@ -157,41 +157,51 @@ const EditExperience = (props) => {
 									<Grid container spacing={1}>
 										<Grid lg={12} md={12} sm={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Skill Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
+												id="outlined-basic"
+												label="Skill Name"
+												variant="outlined"
+												type="text"
+												size="small"
+												autoComplete="off"
 												defaultValue={exp.name}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												{...register('name')}
 											/>
 											{errors.name?.type === 'required' && (
-												<p className='text-danger'>Experience Name is required</p>
+												<p className="text-danger">
+													Experience Name is required
+												</p>
 											)}
 											{isUpdate ? (
-												<p className='text-success mt-2'>Experience Update Successfully</p>
+												<p className="text-success mt-2">
+													Experience Update Successfully
+												</p>
 											) : isError ? (
-												<p className='text-danger mt-2'>Experience Update Failed </p>
+												<p className="text-danger mt-2">
+													Experience Update Failed{' '}
+												</p>
 											) : null}
 										</Grid>
 									</Grid>
 									<div>
 										<Button
-											variant='outlined'
-											color='primary'
+											variant="outlined"
+											color="primary"
 											className={classes.addButton}
-											type='submit'>
+											type="submit"
+										>
 											Update
 										</Button>
 										<Button
-											variant='outlined'
-											color='primary'
+											variant="outlined"
+											color="primary"
 											className={classes.closeButton}
-											onClick={handleClose}>
+											onClick={handleClose}
+										>
 											close
 										</Button>
 									</div>

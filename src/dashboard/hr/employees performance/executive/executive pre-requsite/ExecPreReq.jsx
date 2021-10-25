@@ -142,7 +142,6 @@ const ExecPreReq = () => {
 	}, []);
 
 	const onParamSubmit = (values) => {
-		console.log(values.value);
 		setParams([...params, values.value]);
 	};
 
@@ -153,9 +152,10 @@ const ExecPreReq = () => {
 	};
 
 	const onSubmit = async (values) => {
-		console.log(params);
 		if (params?.length > 0) {
-			dispatch(createExtEmpRequisitionAction({ ...values, points: [...params] }));
+			dispatch(
+				createExtEmpRequisitionAction({ ...values, points: [...params] })
+			);
 		} else {
 			setError('Add single parameter to submit');
 			setTimeout(() => {
@@ -180,7 +180,7 @@ const ExecPreReq = () => {
 				setTimeout(() => {
 					setSuccess(false);
 				}, 4000);
-			}),
+			})
 		);
 	};
 
@@ -191,27 +191,36 @@ const ExecPreReq = () => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<>
 								<Form>
 									<Grid container spacing={1}>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Add Heading Name'
-												variant='outlined'
-												type='text'
-												autocomplete='off'
-												size='small'
+												id="outlined-basic"
+												label="Add Heading Name"
+												variant="outlined"
+												type="text"
+												autocomplete="off"
+												size="small"
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												onChange={props.handleChange('heading')}
 												onBlur={props.handleBlur('heading')}
 												value={props.values.heading}
-												helperText={props.touched.heading && props.errors.heading}
-												error={props.touched.heading && props.errors.heading}
+												helperText={
+													props.touched.heading &&
+													props.errors.heading
+												}
+												error={
+													props.touched.heading &&
+													props.errors.heading
+												}
 											/>
 										</Grid>
 									</Grid>
@@ -225,32 +234,52 @@ const ExecPreReq = () => {
 										<Formik
 											initialValues={initialValues2}
 											validationSchema={validationSchema2}
-											onSubmit={onParamSubmit}>
+											onSubmit={onParamSubmit}
+										>
 											{(props) => (
 												<Form>
-													<Grid item lg={12} md={12} sm={12} xs={12}>
+													<Grid
+														item
+														lg={12}
+														md={12}
+														sm={12}
+														xs={12}
+													>
 														<CssTextField
-															id='outlined-basic'
-															label='Add Parameter'
-															variant='outlined'
-															type='text'
-															size='small'
-															autocomplete='off'
-															inputProps={{ style: { fontSize: 14 } }}
+															id="outlined-basic"
+															label="Add Parameter"
+															variant="outlined"
+															type="text"
+															size="small"
+															autocomplete="off"
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
 															style={{ width: '30%' }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('value')}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'value'
+															)}
 															onBlur={props.handleBlur('value')}
 															value={props.values.value}
-															helperText={props.touched.value && props.errors.value}
-															error={props.touched.value && props.errors.value}
+															helperText={
+																props.touched.value &&
+																props.errors.value
+															}
+															error={
+																props.touched.value &&
+																props.errors.value
+															}
 														/>
 
 														<Button
-															variant='contained'
-															size='small'
+															variant="contained"
+															size="small"
 															className={classes.addMoreParaBtn}
-															type='submit'>
+															type="submit"
+														>
 															Add
 														</Button>
 													</Grid>
@@ -266,12 +295,16 @@ const ExecPreReq = () => {
 												columnGap: '1rem',
 												alignItems: 'center',
 												marginBottom: '1rem',
-											}}>
+											}}
+										>
 											<p style={{ padding: 0, margin: 0 }}>{el}</p>
 											<div data-index={i} onClick={onRemoveParam}>
 												<MdCancel
-													size='20'
-													style={{ cursor: 'pointer', pointerEvents: 'none' }}
+													size="20"
+													style={{
+														cursor: 'pointer',
+														pointerEvents: 'none',
+													}}
 												/>
 											</div>
 										</div>
@@ -280,10 +313,11 @@ const ExecPreReq = () => {
 								<div>
 									<Form>
 										<Button
-											variant='outlined'
-											color='primary'
-											type='submit'
-											className={classes.addButton}>
+											variant="outlined"
+											color="primary"
+											type="submit"
+											className={classes.addButton}
+										>
 											Submit
 										</Button>
 										{success && <p>Successfully Deleted</p>}
@@ -299,14 +333,26 @@ const ExecPreReq = () => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Headings</StyledTableCell>
-									<StyledTableCell align='center'>Params</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Headings
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Params
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Action
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -319,13 +365,22 @@ const ExecPreReq = () => {
 								) : (
 									execPrereq.map((el, i) => (
 										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.heading}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.points?.map((el) => (
 													<div
 														style={{
@@ -334,27 +389,36 @@ const ExecPreReq = () => {
 															textAlign: 'center',
 															alignItems: 'center',
 															justifyContent: 'center',
-														}}>
+														}}
+													>
 														<span>{el}</span>
 													</div>
 												))}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<>
 													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
+														variant="contained"
+														className="bg-dark text-light"
+														size="small"
 														onClick={() => handleOpen(el)}
-														style={{ marginTop: 2 }}>
+														style={{ marginTop: 2 }}
+													>
 														Edit
 													</Button>
 													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
+														variant="contained"
+														color="secondary"
+														size="small"
 														onClick={() => onDelete(el._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
+														style={{
+															marginLeft: 2,
+															marginTop: 2,
+														}}
+													>
 														Delete
 													</Button>
 												</>

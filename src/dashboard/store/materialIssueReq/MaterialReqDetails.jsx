@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import { makeStyles } from '@material-ui/core/styles';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../purchase/material/Loading';
@@ -15,24 +10,6 @@ import {
 	fetchSingleRequisitionAction,
 	updatePurchaseReqAction,
 } from '../../../services/action/PurchaseReqAction';
-
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -109,7 +86,7 @@ const MaterialReqDetails = (props) => {
 	}, [dispatch, id]);
 
 	const { purchaseRequisition, loading, error } = useSelector(
-		(state) => state.purchaseRequisitions,
+		(state) => state.purchaseRequisitions
 	);
 
 	const completeReqFunc = () => {
@@ -121,24 +98,23 @@ const MaterialReqDetails = (props) => {
 		}
 	};
 
-	console.log(purchaseRequisition);
-
 	return (
 		<Sidenav title={'Material Issue Requisition Details'}>
 			<Button
-				variant='contained'
-				className='bg-dark text-light'
+				variant="contained"
+				className="bg-dark text-light"
 				onClick={() => {
 					history.push('/storedashboard/print_purchase_issue_requisition');
-				}}>
+				}}
+			>
 				Print Purchase Req
 			</Button>
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}
-					<div className='container-fluid' style={{ textAlign: 'left' }}>
-						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
-							<thead class='bg-dark text-light'>
+					<div className="container-fluid" style={{ textAlign: 'left' }}>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
+							<thead class="bg-dark text-light">
 								<tr>
 									<th>S.No.</th>
 									<th>Department</th>
@@ -191,9 +167,9 @@ const MaterialReqDetails = (props) => {
 			<div className={classes.dataTable}>
 				<TableContainer className={classes.tableContainer}>
 					{/* <h5>Inspected Orders</h5> */}
-					<div className='container-fluid' style={{ textAlign: 'left' }}>
-						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1'>
-							<thead class='bg-dark text-light'>
+					<div className="container-fluid" style={{ textAlign: 'left' }}>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-1">
+							<thead class="bg-dark text-light">
 								<tr>
 									<th>S.No.</th>
 									<th>Material Name</th>
@@ -214,7 +190,11 @@ const MaterialReqDetails = (props) => {
 									purchaseRequisition.materials.map((material, i) => (
 										<tr key={i}>
 											<td>{i + 1}</td>
-											<td>{!material.material ? null : material.material.name}</td>
+											<td>
+												{!material.material
+													? null
+													: material.material.name}
+											</td>
 											<td>{material.quantity}</td>
 											<td>{material.material?.unit?.name}</td>
 											<td>{material.remarks}</td>
@@ -290,20 +270,21 @@ const MaterialReqDetails = (props) => {
 				</TableContainer>
 			</div> */}
 			<div className={classes.dataTable}>
-				<div className='text-center'>
+				<div className="text-center">
 					<Button
-						variant='contained'
-						className='bg-dark text-light'
-						onClick={() => completeReqFunc()}>
+						variant="contained"
+						className="bg-dark text-light"
+						onClick={() => completeReqFunc()}
+					>
 						Complete Requisition
 					</Button>
 				</div>
 				{IsComplete ? (
-					<span className='text-success'>
+					<span className="text-success">
 						Purchase Requisition has been Completed Successfully
 					</span>
 				) : IsError ? (
-					<span className='text-danger'>Internal Server Error</span>
+					<span className="text-danger">Internal Server Error</span>
 				) : null}
 			</div>
 		</Sidenav>

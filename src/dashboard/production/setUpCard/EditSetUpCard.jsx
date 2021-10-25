@@ -117,8 +117,6 @@ const EditSetUpCard = (props) => {
 	}, [card]);
 
 	const onChangeHandler = (e, placeholder) => {
-		console.log(placeholder);
-		console.log(e.target.value);
 		setInputFields({ ...inputFields, [placeholder]: e.target.value });
 	};
 
@@ -134,18 +132,19 @@ const EditSetUpCard = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit Card</h5>
+						<h5 className="text-center mt-4">Edit Card</h5>
 						<Container className={classes.mainContainer}>
 							{/* ========================================= */}
 							{card ? (
@@ -153,23 +152,31 @@ const EditSetUpCard = (props) => {
 									<Grid container spacing={1}>
 										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Select Material'
-												variant='outlined'
-												type='text'
-												autoComplete='off'
+												id="outlined-basic"
+												label="Select Material"
+												variant="outlined"
+												type="text"
+												autoComplete="off"
 												className={classes.inputFieldStyle}
-												size='small'
-												onChange={(e) => onChangeHandler(e, 'material')}
+												size="small"
+												onChange={(e) =>
+													onChangeHandler(e, 'material')
+												}
 												select
 												value={inputFields.material}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}>
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
+											>
 												{!materials || !materials.length ? (
 													<p>Data Not Found</p>
 												) : (
 													materials.map((material, i) => (
-														<MenuItem value={material._id} key={i}>
+														<MenuItem
+															value={material._id}
+															key={i}
+														>
 															{material.name}
 														</MenuItem>
 													))
@@ -178,18 +185,23 @@ const EditSetUpCard = (props) => {
 										</Grid>
 										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Select Vendor'
-												variant='outlined'
-												type='text'
-												autoComplete='off'
-												size='small'
+												id="outlined-basic"
+												label="Select Vendor"
+												variant="outlined"
+												type="text"
+												autoComplete="off"
+												size="small"
 												select
-												onChange={(e) => onChangeHandler(e, 'supplier')}
+												onChange={(e) =>
+													onChangeHandler(e, 'supplier')
+												}
 												value={inputFields.supplier}
 												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}>
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
+											>
 												{!vendors || !vendors.length ? (
 													<p>Data Not Found</p>
 												) : (
@@ -203,15 +215,17 @@ const EditSetUpCard = (props) => {
 										</Grid>
 										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Min'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
+												id="outlined-basic"
+												label="Min"
+												variant="outlined"
+												type="text"
+												size="small"
+												autocomplete="off"
 												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												style={{ marginBottom: 10 }}
 												value={inputFields.min}
 												onChange={(e) => onChangeHandler(e, 'min')}
@@ -219,15 +233,17 @@ const EditSetUpCard = (props) => {
 										</Grid>
 										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Max'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
+												id="outlined-basic"
+												label="Max"
+												variant="outlined"
+												type="text"
+												size="small"
+												autocomplete="off"
 												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												style={{ marginBottom: 10 }}
 												value={inputFields.max}
 												onChange={(e) => onChangeHandler(e, 'max')}
@@ -235,15 +251,17 @@ const EditSetUpCard = (props) => {
 										</Grid>
 										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Avg'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
+												id="outlined-basic"
+												label="Avg"
+												variant="outlined"
+												type="text"
+												size="small"
+												autocomplete="off"
 												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												style={{ marginBottom: 10 }}
 												value={inputFields.avg}
 												onChange={(e) => onChangeHandler(e, 'avg')}
@@ -252,12 +270,16 @@ const EditSetUpCard = (props) => {
 									</Grid>
 									<div>
 										<Button
-											className='bg-warning text-light'
-											type='submit'
-											style={{ marginRight: 10 }}>
+											className="bg-warning text-light"
+											type="submit"
+											style={{ marginRight: 10 }}
+										>
 											Update
 										</Button>
-										<Button className='bg-danger text-light ml-1' onClick={handleClose}>
+										<Button
+											className="bg-danger text-light ml-1"
+											onClick={handleClose}
+										>
 											Close
 										</Button>
 									</div>

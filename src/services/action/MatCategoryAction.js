@@ -14,9 +14,9 @@ export const getMaterialCategoryAction = (cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/category`);
-
-		console.log(data);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/category`
+		);
 
 		if (data.success) {
 			dispatch({
@@ -38,10 +38,8 @@ export const createMatCategoryAction = (category, cb) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/category`,
-			category,
+			category
 		);
-
-		console.log(res);
 
 		if (res.status === 200) {
 			dispatch({
@@ -65,10 +63,8 @@ export const updateMatCategoryAction = (id, data, cb) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/category/${id}`,
-			data,
+			data
 		);
-
-		console.log(res);
 
 		if (res.status === 200) {
 			dispatch({
@@ -89,7 +85,7 @@ export const deleteMatCategoryAction = (params, cb) => async (dispatch) => {
 
 	try {
 		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/category/${params}`,
+			`${process.env.REACT_APP_API_URL}/category/${params}`
 		);
 
 		if (res.status === 200) {

@@ -15,7 +15,7 @@ export const fetchDepartmentsAction = (cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/department`,
+			`${process.env.REACT_APP_API_URL}/department`
 		);
 
 		if (data.success) {
@@ -38,10 +38,8 @@ export const createDepartmentAction = (department, cb) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/department`,
-			department,
+			department
 		);
-
-		console.log(res);
 
 		if (res.status === 200) {
 			dispatch({
@@ -63,10 +61,8 @@ export const updateDepartmentAction = (id, data, cb) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/department/${id}`,
-			data,
+			data
 		);
-
-		console.log(res);
 
 		if (res.status === 200) {
 			dispatch({
@@ -87,7 +83,7 @@ export const deleteDepartmentAction = (id, cb) => async (dispatch) => {
 
 	try {
 		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/department/${id}`,
+			`${process.env.REACT_APP_API_URL}/department/${id}`
 		);
 
 		if (res.status === 200) {

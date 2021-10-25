@@ -18,8 +18,6 @@ export const getCustomerComplaint = (query, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/customerComplaint`
 		);
 
-		console.log(data);
-
 		if (data.success) {
 			dispatch({
 				type: CUSTOMER_COMPLAINT_FETCH_SUCCESS,
@@ -42,8 +40,6 @@ export const createCustomerComplaint = (values, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/customerComplaint`,
 			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -104,7 +100,6 @@ export const deleteCustomerComplaint = (params, cb) => async (dispatch) => {
 
 const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response);
 		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: CUSTOMER_COMPLAINT_FAIL,
@@ -112,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: CUSTOMER_COMPLAINT_FAIL,
 			payload: 'Network Error',

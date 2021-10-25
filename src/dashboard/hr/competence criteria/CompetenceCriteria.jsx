@@ -124,7 +124,6 @@ const CompetenceCriteria = ({ history }) => {
 	}, [dispatch]);
 
 	const { loading, criteria, error } = useSelector((state) => state.criteria);
-	console.log(criteria);
 
 	const { departments } = useSelector((state) => state.departments);
 	const { designations } = useSelector((state) => state.designations);
@@ -145,11 +144,11 @@ const CompetenceCriteria = ({ history }) => {
 
 	const deleteCriteria = async (params) => {
 		try {
-			await axios.delete(`${process.env.REACT_APP_API_URL}/criteria/${params}`);
+			await axios.delete(
+				`${process.env.REACT_APP_API_URL}/criteria/${params}`
+			);
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const [open, setOpen] = useState(false);
@@ -170,14 +169,26 @@ const CompetenceCriteria = ({ history }) => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Destination</StyledTableCell>
-									<StyledTableCell align='center'>Education</StyledTableCell>
-									<StyledTableCell align='center'>Experience</StyledTableCell>
-									<StyledTableCell align='center'>Skills</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Destination
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Education
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Experience
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Skills
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -188,42 +199,80 @@ const CompetenceCriteria = ({ history }) => {
 								) : criteria.length ? (
 									criteria.map((criteria, i) => (
 										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.department ? null : criteria.department.name}
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
+												{!criteria.department
+													? null
+													: criteria.department.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.designation ? null : criteria.designation.name}
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
+												{!criteria.designation
+													? null
+													: criteria.designation.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.education ? null : criteria.education.name}
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
+												{!criteria.education
+													? null
+													: criteria.education.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.experience ? null : criteria.experience.name}
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
+												{!criteria.experience
+													? null
+													: criteria.experience.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!criteria.skill ? null : criteria.skill.skill}
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
+												{!criteria.skill
+													? null
+													: criteria.skill.skill}
 											</StyledTableCell>
-											<StyledTableCell className='text-light' align='center'>
+											<StyledTableCell
+												className="text-light"
+												align="center"
+											>
 												<>
 													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
+														variant="contained"
+														className="bg-dark text-light"
+														size="small"
 														onClick={() => {
 															handleOpen(criteria);
 														}}
-														style={{ marginTop: 2 }}>
+														style={{ marginTop: 2 }}
+													>
 														Edit
 													</Button>
 													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
-														onClick={() => deleteCriteria(criteria._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
+														variant="contained"
+														color="secondary"
+														size="small"
+														onClick={() =>
+															deleteCriteria(criteria._id)
+														}
+														style={{
+															marginLeft: 2,
+															marginTop: 2,
+														}}
+													>
 														Delete
 													</Button>
 												</>
@@ -285,11 +334,14 @@ const CompetenceCriteria = ({ history }) => {
 					<Grid item lg={5} md={5} sm={12} xs={12}></Grid>
 					<Grid item lg={6} md={6} sm={12} xs={12}>
 						<Button
-							variant='outlined'
-							color='primary'
-							type='submit'
+							variant="outlined"
+							color="primary"
+							type="submit"
 							className={classes.addButton}
-							onClick={() => history.push('/hr/competence_criteria_print')}>
+							onClick={() =>
+								history.push('/hr/competence_criteria_print')
+							}
+						>
 							Print
 						</Button>
 					</Grid>

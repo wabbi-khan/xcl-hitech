@@ -11,9 +11,10 @@ export const fetchShiftAction = () => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/shift`);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/shift`
+		);
 
-		console.log(data);
 		dispatch({
 			type: SHIFT_FETCH_SUCCESS,
 			payload: data.shifts,

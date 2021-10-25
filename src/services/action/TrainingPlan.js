@@ -15,7 +15,7 @@ export const getTrainingsPlanes = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/trainings/planes`,
+			`${process.env.REACT_APP_API_URL}/trainings/planes`
 		);
 
 		if (data.success) {
@@ -38,7 +38,7 @@ export const createTrainingPlanes = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/planes`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -61,7 +61,7 @@ export const updateTrainingPlanes = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -84,10 +84,8 @@ export const startTrainingPlane = (id, data) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/start/${id}`,
-			data,
+			data
 		);
-
-		console.log(res);
 
 		dispatch({
 			type: TRAININGPLAN_UPDATE_SUCCESS,
@@ -105,7 +103,7 @@ export const endTrainingPlane = (id, data) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/plane/end/${id}`,
-			data,
+			data
 		);
 
 		dispatch({
@@ -124,7 +122,7 @@ export const deleteTrainingPlanes = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/trainings/plane/${params}`,
+			`${process.env.REACT_APP_API_URL}/trainings/plane/${params}`
 		);
 
 		if (data.success) {

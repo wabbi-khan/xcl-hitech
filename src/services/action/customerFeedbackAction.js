@@ -18,8 +18,6 @@ export const getCustomerFeedback = (query, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/customerFeedback`
 		);
 
-		console.log(data);
-
 		if (data.success) {
 			dispatch({
 				type: CUSTOMER_FEEDBACK_FETCH_SUCCESS,
@@ -42,8 +40,6 @@ export const createCustomerFeedback = (values, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/customerFeedback`,
 			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -104,7 +100,6 @@ export const deleteCustomerFeedback = (params, cb) => async (dispatch) => {
 
 const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
-		console.log(err.response);
 		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: CUSTOMER_FEEDBACK_FAIL,
@@ -112,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: CUSTOMER_FEEDBACK_FAIL,
 			payload: 'Network Error',

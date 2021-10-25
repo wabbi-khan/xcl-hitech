@@ -167,11 +167,12 @@ const ExecEmpAssestPerform = ({ history }) => {
 	React.useEffect(() => {
 		department &&
 			designation &&
-			dispatch(getEmployeeByDesignationAndDepartment(designation, department));
+			dispatch(
+				getEmployeeByDesignationAndDepartment(designation, department)
+			);
 	}, [designation, department]);
 
 	const onSubmit = (values) => {
-		console.log(values);
 		dispatch(
 			createExtEmpPerformanceAction(
 				{
@@ -181,11 +182,14 @@ const ExecEmpAssestPerform = ({ history }) => {
 				},
 				() => {
 					history.push({
-						pathname: '/hr/performance_assessment/print_executive_emp_performance',
-						state: { assessment: { employee, list: ratingList, total, values } },
+						pathname:
+							'/hr/performance_assessment/print_executive_emp_performance',
+						state: {
+							assessment: { employee, list: ratingList, total, values },
+						},
 					});
-				},
-			),
+				}
+			)
 		);
 	};
 
@@ -197,14 +201,14 @@ const ExecEmpAssestPerform = ({ history }) => {
 						selected: e.target.value,
 						calculated: execRat[index2].calculated,
 				  }
-				: el,
+				: el
 		);
 		setRatingList(temp);
 	};
 
 	const onRecommendationChange = (e, index) => {
 		const temp = ratingList?.map((el, i) =>
-			i === index ? { ...el, comments: e.target.value } : el,
+			i === index ? { ...el, comments: e.target.value } : el
 		);
 		setRatingList(temp);
 	};
@@ -230,18 +234,19 @@ const ExecEmpAssestPerform = ({ history }) => {
 						initialValues={initialValuesForForm}
 						validationSchema={validationSchema}
 						enableReinitialize
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<Form>
 								<Grid container spacing={1}>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Department'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Select Department"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
@@ -249,14 +254,22 @@ const ExecEmpAssestPerform = ({ history }) => {
 											onChange={props.handleChange('department')}
 											onBlur={props.handleBlur('department')}
 											value={props.values.department}
-											error={props.touched.department && props.errors.department}
-											helperText={props.touched.department && props.errors.department}>
+											error={
+												props.touched.department &&
+												props.errors.department
+											}
+											helperText={
+												props.touched.department &&
+												props.errors.department
+											}
+										>
 											{departments && departments.length > 0 ? (
 												departments.map((el) => (
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setDepartment(el._id)}>
+														onClick={() => setDepartment(el._id)}
+													>
 														{el?.name}
 													</MenuItem>
 												))
@@ -267,12 +280,12 @@ const ExecEmpAssestPerform = ({ history }) => {
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Position/Title'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Select Position/Title"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
@@ -280,14 +293,22 @@ const ExecEmpAssestPerform = ({ history }) => {
 											onChange={props.handleChange('designation')}
 											onBlur={props.handleBlur('designation')}
 											value={props.values.designation}
-											error={props.touched.designation && props.errors.designation}
-											helperText={props.touched.designation && props.errors.designation}>
+											error={
+												props.touched.designation &&
+												props.errors.designation
+											}
+											helperText={
+												props.touched.designation &&
+												props.errors.designation
+											}
+										>
 											{designations && designations.length > 0 ? (
 												designations.map((el) => (
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setDesignation(el._id)}>
+														onClick={() => setDesignation(el._id)}
+													>
 														{el?.name}
 													</MenuItem>
 												))
@@ -298,12 +319,12 @@ const ExecEmpAssestPerform = ({ history }) => {
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Employee Name'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Employee Name"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
@@ -312,13 +333,17 @@ const ExecEmpAssestPerform = ({ history }) => {
 											onBlur={props.handleBlur('name')}
 											value={props.values.name}
 											error={props.touched.name && props.errors.name}
-											helperText={props.touched.name && props.errors.name}>
+											helperText={
+												props.touched.name && props.errors.name
+											}
+										>
 											{employees && employees.length > 0 ? (
 												employees.map((el) => (
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setEmployee(el)}>
+														onClick={() => setEmployee(el)}
+													>
 														{el?.name}
 													</MenuItem>
 												))
@@ -328,33 +353,39 @@ const ExecEmpAssestPerform = ({ history }) => {
 										</CssTextField>
 									</Grid>
 								</Grid>
-								<Grid container spacing={1} className='mt-3'>
+								<Grid container spacing={1} className="mt-3">
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											variant="outlined"
+											type="text"
+											size="small"
 											disabled
-											autocomplete='off'
+											autocomplete="off"
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('createdAt')}
 											onBlur={props.handleBlur('createdAt')}
 											value={props.values.createdAt}
-											error={props.touched.createdAt && props.errors.createdAt}
-											helperText={props.touched.createdAt && props.errors.createdAt}
+											error={
+												props.touched.createdAt &&
+												props.errors.createdAt
+											}
+											helperText={
+												props.touched.createdAt &&
+												props.errors.createdAt
+											}
 										/>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select End of Probation'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Select End of Probation"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
@@ -362,69 +393,98 @@ const ExecEmpAssestPerform = ({ history }) => {
 											onChange={props.handleChange('probation')}
 											onBlur={props.handleBlur('probation')}
 											value={props.values.probation}
-											error={props.touched.probation && props.errors.probation}
-											helperText={props.touched.probation && props.errors.probation}>
-											<MenuItem value='6'>6-Months</MenuItem>
-											<MenuItem value='1'>1-Year</MenuItem>
+											error={
+												props.touched.probation &&
+												props.errors.probation
+											}
+											helperText={
+												props.touched.probation &&
+												props.errors.probation
+											}
+										>
+											<MenuItem value="6">6-Months</MenuItem>
+											<MenuItem value="1">1-Year</MenuItem>
 										</CssTextField>
 									</Grid>
 								</Grid>
 								<div style={{ marginTop: 30, marginBottom: 30 }}>
 									<hr />
 								</div>
-								<div className='text-center'>
-									<h5 style={{ textDecoration: 'underline' }}>PERFORMANCE ASSESSMENT</h5>
-									<h6 className='mt-3'>
-										A CHECK MARK HAS BEEN PLACED IN THE BOX WHICH MOST CLOSELY INDICATES
-										THE EMPLOYEE'S PERFORMANCE <br /> OF EACH FACTOR. FACTOR RATINGS OF
-										"OUTSTANDING" OR "UNSATISFACTORY" HAVE BEEN SUBSTANCIATED BY COMMENTS.
+								<div className="text-center">
+									<h5 style={{ textDecoration: 'underline' }}>
+										PERFORMANCE ASSESSMENT
+									</h5>
+									<h6 className="mt-3">
+										A CHECK MARK HAS BEEN PLACED IN THE BOX WHICH MOST
+										CLOSELY INDICATES THE EMPLOYEE'S PERFORMANCE{' '}
+										<br /> OF EACH FACTOR. FACTOR RATINGS OF
+										"OUTSTANDING" OR "UNSATISFACTORY" HAVE BEEN
+										SUBSTANCIATED BY COMMENTS.
 									</h6>
 									<h4 style={{ marginTop: '2rem' }}>Rating</h4>
 									{ratingList &&
 										ratingList?.map((topEl, topIndex) => (
-											<div className='text-center mt-4'>
+											<div className="text-center mt-4">
 												<table
-													class='table table-striped table-inverse table-responsive table-bordered table-hover'
-													style={{ marginLeft: 60 }}>
-													<thead class='thead-inverse thead-dark'>
+													class="table table-striped table-inverse table-responsive table-bordered table-hover"
+													style={{ marginLeft: 60 }}
+												>
+													<thead class="thead-inverse thead-dark">
 														{topIndex < 1 && (
 															<tr>
 																<th>PERFORMANCE FACTORS</th>
 																{execRat &&
 																	execRat?.length > 0 &&
-																	execRat?.map((el, i) => <th>{el?.name}</th>)}
+																	execRat?.map((el, i) => (
+																		<th>{el?.name}</th>
+																	))}
 															</tr>
 														)}
 													</thead>
 													<tbody>
 														{topIndex < 1 && (
 															<tr>
-																<td scope='row'></td>
+																<td scope="row"></td>
 																{execRat &&
 																	execRat?.length > 0 &&
-																	execRat?.map((el, i) => <td>({el?.calculated})</td>)}
+																	execRat?.map((el, i) => (
+																		<td>
+																			({el?.calculated})
+																		</td>
+																	))}
 															</tr>
 														)}
 														<tr>
-															<td scope='row'>{topEl?.heading}</td>
+															<td scope="row">
+																{topEl?.heading}
+															</td>
 															{topEl?.points?.map((el, i) => (
 																<td>{el}</td>
 															))}
 														</tr>
 														<tr>
-															<td scope='row'></td>
+															<td scope="row"></td>
 															{topEl?.points?.map((el, i) => (
-																<td className='text-center'>
+																<td className="text-center">
 																	<RadioGroup
 																		row
-																		className='ml-5'
-																		name='rating'
-																		value={topEl?.selected}>
+																		className="ml-5"
+																		name="rating"
+																		value={topEl?.selected}
+																	>
 																		<FormControlLabel
 																			control={
 																				<Radio
-																					style={{ color: '#22A19A' }}
-																					onChange={(e) => onCheck(e, topIndex, i)}
+																					style={{
+																						color: '#22A19A',
+																					}}
+																					onChange={(e) =>
+																						onCheck(
+																							e,
+																							topIndex,
+																							i
+																						)
+																					}
 																					value={el}
 																				/>
 																			}
@@ -435,33 +495,44 @@ const ExecEmpAssestPerform = ({ history }) => {
 														</tr>
 													</tbody>
 												</table>
-												<div className='text-left mt-4'>
+												<div className="text-left mt-4">
 													<CssTextField
-														id='outlined-basic'
-														label='Comments/Recommendations'
-														variant='outlined'
-														type='text'
+														id="outlined-basic"
+														label="Comments/Recommendations"
+														variant="outlined"
+														type="text"
 														value={topEl?.comments}
-														size='small'
-														autocomplete='off'
-														style={{ width: '50%', marginLeft: 60 }}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														onChange={(e) => onRecommendationChange(e, topIndex)}
+														size="small"
+														autocomplete="off"
+														style={{
+															width: '50%',
+															marginLeft: 60,
+														}}
+														inputProps={{
+															style: { fontSize: 14 },
+														}}
+														InputLabelProps={{
+															style: { fontSize: 14 },
+														}}
+														onChange={(e) =>
+															onRecommendationChange(e, topIndex)
+														}
 													/>
 												</div>
 											</div>
 										))}
 								</div>
-								<div className='text-center mt-5'>
+								<div className="text-center mt-5">
 									<table
-										class='table table-striped table-inverse table-responsive table-hover'
-										style={{ marginLeft: 60 }}>
-										<thead class='thead-inverse thead-dark'>
+										class="table table-striped table-inverse table-responsive table-hover"
+										style={{ marginLeft: 60 }}
+									>
+										<thead class="thead-inverse thead-dark">
 											<tr>
-												<th colspan='2'>RATING CALCULATION:</th>
-												<th colspan='4'>
-													(Each number of ratingschecks, multiply and total)
+												<th colspan="2">RATING CALCULATION:</th>
+												<th colspan="4">
+													(Each number of ratingschecks, multiply
+													and total)
 												</th>
 											</tr>
 										</thead>
@@ -470,40 +541,45 @@ const ExecEmpAssestPerform = ({ history }) => {
 												execRat?.length > 0 &&
 												execRat?.map((el) => (
 													<tr>
-														<td scope='row'>{el?.name}</td>
-														<td scope='row'>{el?.calculated}</td>
-														<td scope='row'>x</td>
-														<td scope='row'>
+														<td scope="row">{el?.name}</td>
+														<td scope="row">{el?.calculated}</td>
+														<td scope="row">x</td>
+														<td scope="row">
 															{
 																ratingList.filter(
-																	(tempEl) => tempEl?.calculated === el?.calculated,
+																	(tempEl) =>
+																		tempEl?.calculated ===
+																		el?.calculated
 																).length
 															}
 														</td>
-														<td scope='row'>=</td>
-														<td scope='row'>
+														<td scope="row">=</td>
+														<td scope="row">
 															{ratingList.filter(
-																(tempEl) => tempEl?.calculated === el?.calculated,
+																(tempEl) =>
+																	tempEl?.calculated ===
+																	el?.calculated
 															).length * parseInt(el.calculated)}
 														</td>
 													</tr>
 												))}
 											<tr>
-												<td colspan='2'>TOTAL</td>
-												<td colspan='3'></td>
+												<td colspan="2">TOTAL</td>
+												<td colspan="3"></td>
 												<td>{total}</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
-								<div className='text-center mt-5'>
+								<div className="text-center mt-5">
 									<table
-										class='table table-striped table-inverse table-responsive table-hover'
-										style={{ marginLeft: 60 }}>
-										<thead class='thead-inverse thead-dark'>
+										class="table table-striped table-inverse table-responsive table-hover"
+										style={{ marginLeft: 60 }}
+									>
+										<thead class="thead-inverse thead-dark">
 											<tr>
 												<th>RATING TABLE:</th>
-												<th colspan='2'>MEETINGS OF GOALS</th>
+												<th colspan="2">MEETINGS OF GOALS</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -511,21 +587,38 @@ const ExecEmpAssestPerform = ({ history }) => {
 												execRat?.length > 0 &&
 												execRat?.map((el) => (
 													<tr>
-														<td scope='row'>{el?.name}</td>
-														<td scope='row'>
+														<td scope="row">{el?.name}</td>
+														<td scope="row">
 															{el?.min}-{el?.max}
 														</td>
-														<td className='text-center'>
-															<FormGroup row style={{ marginLeft: 30, marginTop: -7 }}>
+														<td className="text-center">
+															<FormGroup
+																row
+																style={{
+																	marginLeft: 30,
+																	marginTop: -7,
+																}}
+															>
 																<FormControlLabel
 																	control={
 																		<Checkbox
-																			style={{ color: 'black' }}
+																			style={{
+																				color: 'black',
+																			}}
 																			disabled
-																			checked={total > el?.min && total < el?.max ? true : false}
-																			color='default'
-																			icon={<CheckBoxOutlineBlankIcon fontSize='small' />}
-																			checkedIcon={<CheckBoxIcon fontSize='small' />}
+																			checked={
+																				total > el?.min &&
+																				total < el?.max
+																					? true
+																					: false
+																			}
+																			color="default"
+																			icon={
+																				<CheckBoxOutlineBlankIcon fontSize="small" />
+																			}
+																			checkedIcon={
+																				<CheckBoxIcon fontSize="small" />
+																			}
 																		/>
 																	}
 																/>
@@ -540,14 +633,24 @@ const ExecEmpAssestPerform = ({ history }) => {
 									<hr />
 								</div>
 								<Container className={classes.mainContainer}>
-									<h5 className='text-left mt-5'>Overall Ratings</h5>
+									<h5 className="text-left mt-5">Overall Ratings</h5>
 									{execRat &&
 										execRat?.length > 0 &&
 										execRat?.map((el) => (
 											<>
-												<Grid container spacing={1} style={{ marginTop: 15 }}>
+												<Grid
+													container
+													spacing={1}
+													style={{ marginTop: 15 }}
+												>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
-														<h6 style={{ textDecoration: 'underline' }}>{el?.name}</h6>
+														<h6
+															style={{
+																textDecoration: 'underline',
+															}}
+														>
+															{el?.name}
+														</h6>
 													</Grid>
 												</Grid>
 												<Grid container spacing={1}>
@@ -561,50 +664,61 @@ const ExecEmpAssestPerform = ({ history }) => {
 								<div style={{ marginTop: 30, marginBottom: 30 }}>
 									<hr />
 								</div>
-								<div className='text-left mt-4'>
+								<div className="text-left mt-4">
 									<CssTextField
-										id='outlined-basic'
-										label='Suggestions'
-										variant='outlined'
-										type='text'
-										size='small'
-										autocomplete='off'
+										id="outlined-basic"
+										label="Suggestions"
+										variant="outlined"
+										type="text"
+										size="small"
+										autocomplete="off"
 										style={{ width: '50%', marginLeft: 60 }}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 										onChange={props.handleChange('suggestions')}
 										onBlur={props.handleBlur('suggestions')}
 										value={props.values.suggestions}
-										error={props.touched.suggestions && props.errors.suggestions}
-										helperText={props.touched.suggestions && props.errors.suggestions}
+										error={
+											props.touched.suggestions &&
+											props.errors.suggestions
+										}
+										helperText={
+											props.touched.suggestions &&
+											props.errors.suggestions
+										}
 									/>
 								</div>
-								<div className='text-left mt-4'>
+								<div className="text-left mt-4">
 									<CssTextField
-										id='outlined-basic'
-										label='Recommendations'
-										variant='outlined'
-										type='text'
-										size='small'
-										autocomplete='off'
+										id="outlined-basic"
+										label="Recommendations"
+										variant="outlined"
+										type="text"
+										size="small"
+										autocomplete="off"
 										style={{ width: '50%', marginLeft: 60 }}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 										onChange={props.handleChange('recommendations')}
 										onBlur={props.handleBlur('recommendations')}
 										value={props.values.recommendations}
-										error={props.touched.recommendations && props.errors.recommendations}
+										error={
+											props.touched.recommendations &&
+											props.errors.recommendations
+										}
 										helperText={
-											props.touched.recommendations && props.errors.recommendations
+											props.touched.recommendations &&
+											props.errors.recommendations
 										}
 									/>
 								</div>
 								<div>
 									<Button
-										variant='outlined'
-										color='primary'
-										type='submit'
-										className={classes.addButton}>
+										variant="outlined"
+										color="primary"
+										type="submit"
+										className={classes.addButton}
+									>
 										Submit
 									</Button>
 								</div>

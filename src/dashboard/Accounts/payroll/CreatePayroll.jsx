@@ -42,8 +42,6 @@ const CreatePayroll = () => {
 	}
 
 	useEffect(() => {
-		console.log(employees);
-		let totalLeaves = '';
 		let totalDaysInCurrMonth = moment().daysInMonth();
 		let sundaysInMonth = getAmountOfWeekDaysInMonth(moment(), 0);
 		const temp = employees.map((el) => {
@@ -139,7 +137,6 @@ const CreatePayroll = () => {
 		let temp = 0;
 		emp.forEach((el) => {
 			if (el.checked) {
-				console.log(el.totalSalaryAfterDeduction);
 			}
 		});
 	};
@@ -205,7 +202,6 @@ const CreatePayroll = () => {
 						</thead>
 						<tbody>
 							{employeesData.map((emp, i) => {
-								//   console.log(emp);
 								return (
 									<tr>
 										<td>

@@ -14,7 +14,9 @@ export const getSkills = (query, cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/skills`);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/skills`
+		);
 
 		if (data.success) {
 			dispatch({
@@ -36,7 +38,7 @@ export const createSkill = (skill, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/skills`,
-			skill,
+			skill
 		);
 
 		if (data.success) {
@@ -59,7 +61,7 @@ export const updateSkill = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/skills/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -70,8 +72,6 @@ export const updateSkill = (id, values, cb) => async (dispatch) => {
 
 			if (cb) cb();
 		}
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -84,7 +84,7 @@ export const deleteSkill = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/skills/${params}`,
+			`${process.env.REACT_APP_API_URL}/skills/${params}`
 		);
 
 		if (data.success) {

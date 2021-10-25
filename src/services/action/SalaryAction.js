@@ -14,10 +14,8 @@ export const getSalariesAction = (query) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/salary${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/salary${query ? `?${query}` : ''}`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: SALARY_FETCH_SUCCESS,
@@ -34,7 +32,9 @@ export const createSalariesAction = (cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/salary`);
+		const { data } = await axios.post(
+			`${process.env.REACT_APP_API_URL}/salary`
+		);
 
 		if (data.success) {
 			dispatch({
@@ -55,10 +55,8 @@ export const paidSalaryAction = (el, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/salary/paid/${el._id}`,
+			`${process.env.REACT_APP_API_URL}/salary/paid/${el._id}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -80,7 +78,7 @@ export const unpaidSalaryAction = (el, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/salary/unPaid/${el._id}`,
+			`${process.env.REACT_APP_API_URL}/salary/unPaid/${el._id}`
 		);
 
 		if (data.success) {
@@ -91,7 +89,6 @@ export const unpaidSalaryAction = (el, cb) => async (dispatch) => {
 
 			if (cb) cb();
 		}
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

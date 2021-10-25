@@ -238,12 +238,10 @@
 //     const [open2, setOpen2] = React.useState(false);
 
 //     const handleClick1 = () => {
-//         console.log('handleClick1');
 
 //         setOpen(!open);
 //     };
 //     const handleClick2 = () => {
-//         console.log('handleClick2');
 //         setOpen2(!open2);
 //     };
 

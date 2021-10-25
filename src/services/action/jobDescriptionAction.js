@@ -15,7 +15,7 @@ export const getJobDescriptions = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/job-description`,
+			`${process.env.REACT_APP_API_URL}/job-description`
 		);
 
 		if (data.success) {
@@ -38,10 +38,8 @@ export const createJobDescriptions = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/job-description`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -63,7 +61,7 @@ export const updateJobDescriptions = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/job-description/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -85,10 +83,8 @@ export const deleteJobDescriptions = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/job-description/${params}`,
+			`${process.env.REACT_APP_API_URL}/job-description/${params}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -111,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: JOB_DESCRIPTION_FAIL,
 			payload: 'Network Error',

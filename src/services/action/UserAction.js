@@ -17,7 +17,7 @@ export const loginUser = (user, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/auth/login`,
-			user,
+			user
 		);
 
 		if (data.success) {
@@ -86,15 +86,13 @@ export const createTrainingVenue = (data) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/venue`,
-			data,
+			data
 		);
 
 		dispatch({
 			type: USER_CREATE_SUCCESS,
 			payload: res.data.venue,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -108,7 +106,7 @@ export const updateTrainingVenue = (id, data, cb) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/venue/${id}`,
-			data,
+			data
 		);
 
 		dispatch({
@@ -129,15 +127,13 @@ export const deleteTrainingVenue = (params) => async (dispatch) => {
 
 	try {
 		await axios.delete(
-			`${process.env.REACT_APP_API_URL}/trainings/venue/${params}`,
+			`${process.env.REACT_APP_API_URL}/trainings/venue/${params}`
 		);
 
 		dispatch({
 			type: USER_DELETE_SUCCESS,
 			payload: params,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

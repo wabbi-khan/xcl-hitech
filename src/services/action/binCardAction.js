@@ -1,11 +1,8 @@
 import axios from 'axios';
 import {
-	BIN_CARD_CREATE_SUCCESS,
-	BIN_CARD_DELETE_SUCCESS,
 	BIN_CARD_FAIL,
 	BIN_CARD_FETCH_SUCCESS,
 	BIN_CARD_REQUEST,
-	BIN_CARD_UPDATE_SUCCESS,
 } from '../constants/binCardConstant';
 
 export const getbinCards = (query, cb) => async (dispatch) => {
@@ -14,7 +11,9 @@ export const getbinCards = (query, cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/binCard`);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/binCard`
+		);
 
 		if (data.success) {
 			dispatch({
@@ -37,7 +36,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: BIN_CARD_FAIL,
 			payload: 'Network Error',

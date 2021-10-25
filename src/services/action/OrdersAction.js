@@ -15,10 +15,8 @@ export const fetchPurchaseOrderAction = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/order${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/order${query ? `?${query}` : ''}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -40,10 +38,9 @@ export const fetchSinglePurchaseOrderAction = (_id) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/order/id/${_id}`,
+			`${process.env.REACT_APP_API_URL}/order/id/${_id}`
 		);
 
-		console.log(data);
 		dispatch({
 			type: PURCHASE_ORDER_SINGLE_FETCH_SUCCESS,
 			payload: data.order,
@@ -62,10 +59,8 @@ export const createPurchaseOrderAction =
 		try {
 			const res = await axios.post(
 				`${process.env.REACT_APP_API_URL}/order`,
-				purchaseOrder,
+				purchaseOrder
 			);
-
-			console.log(res.data.order);
 
 			if (res.data.success) {
 				dispatch({

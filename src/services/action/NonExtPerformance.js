@@ -16,9 +16,9 @@ export const getNonExtEmpPerformanceAction =
 
 		try {
 			const { data } = await axios.get(
-				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance${
-					query ? `?${query}` : ''
-				}`,
+				`${
+					process.env.REACT_APP_API_URL
+				}/nonExecutive-employees/performance${query ? `?${query}` : ''}`
 			);
 
 			if (data.success) {
@@ -41,10 +41,8 @@ export const createNonExtEmpPerformanceAction =
 		try {
 			const { data } = await axios.post(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance`,
-				values,
+				values
 			);
-
-			console.log(data);
 
 			if (data.success) {
 				dispatch({
@@ -67,7 +65,7 @@ export const updateNonExtEmpPerformanceAction =
 		try {
 			const { data } = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance/${id}`,
-				values,
+				values
 			);
 
 			if (data.success) {
@@ -90,7 +88,7 @@ export const deleteNonExtEmpPerformanceAction =
 
 		try {
 			const { data } = await axios.delete(
-				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance/${id}`,
+				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/performance/${id}`
 			);
 
 			if (data.success) {

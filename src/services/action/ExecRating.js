@@ -17,10 +17,8 @@ export const getExtEmpRatingAction = (query) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/executive-employees/rating${
 				query ? `?${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: EXECRAT_FETCH_SUCCESS,
@@ -38,10 +36,8 @@ export const createExtEmpRatingAction = (rating, cb) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/executive-employees/rating`,
-			rating,
+			rating
 		);
-
-		console.log(res);
 
 		dispatch({
 			type: EXECRAT_CREATE_SUCCESS,
@@ -50,7 +46,6 @@ export const createExtEmpRatingAction = (rating, cb) => async (dispatch) => {
 
 		if (cb) cb();
 	} catch (err) {
-		console.log('object');
 		dispatchError(err, dispatch);
 	}
 };
@@ -64,10 +59,8 @@ export const updateExtEmpRatingAction =
 		try {
 			const res = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/executive-employees/rating/${id}`,
-				rating,
+				rating
 			);
-
-			console.log(res.data);
 
 			dispatch({
 				type: EXECRAT_UPDATE_SUCCESS,
@@ -86,11 +79,9 @@ export const deleteExtEmpRatingAction = (id, cb) => async (dispatch) => {
 	});
 
 	try {
-		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/executive-employees/rating/${id}`,
+		await axios.delete(
+			`${process.env.REACT_APP_API_URL}/executive-employees/rating/${id}`
 		);
-
-		console.log(res.data);
 
 		dispatch({
 			type: EXECRAT_DELETE_SUCCESS,
@@ -104,9 +95,7 @@ export const deleteExtEmpRatingAction = (id, cb) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch) => {
-	console.log(err);
 	if (err.response) {
-		console.log(err.response.data);
 		dispatch({
 			type: EXECRAT_FAIL,
 			payload: err.response.data.error,

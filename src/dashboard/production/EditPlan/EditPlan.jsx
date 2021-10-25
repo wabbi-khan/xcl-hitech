@@ -60,8 +60,6 @@ const EditPlan = (props) => {
 
 	const { history } = props;
 
-	console.log(history.location);
-
 	const dispatch = useDispatch();
 
 	useEffect(async () => {
@@ -84,12 +82,11 @@ const EditPlan = (props) => {
 				} else {
 					return el;
 				}
-			}),
+			})
 		);
 	};
 
 	const onUpdate = async () => {
-		console.log(inputFields);
 		try {
 			await axios({
 				method: 'PATCH',
@@ -102,9 +99,7 @@ const EditPlan = (props) => {
 				},
 			});
 			window.location.pathname = `productionDashboard/weekly-production-plan/${history.location.state.planId}`;
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const days = [
@@ -128,50 +123,59 @@ const EditPlan = (props) => {
 							</Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									variant='outlined'
-									type='date'
-									size='small'
-									autoComplete='off'
-									placeholder='Mgr. Date'
+									id="outlined-basic"
+									variant="outlined"
+									type="date"
+									size="small"
+									autoComplete="off"
+									placeholder="Mgr. Date"
 									style={{ width: '100%' }}
 									value={inputField.mgrDate}
-									onChange={(e) => onChangeHandler(e.target.value, 'mgrDate', i)}
+									onChange={(e) =>
+										onChangeHandler(e.target.value, 'mgrDate', i)
+									}
 									required
 									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								></CssTextField>
 							</Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
+									id="outlined-basic"
 									// label="Product Name"
-									variant='outlined'
-									type='text'
-									size='small'
-									autoComplete='off'
-									placeholder='Order No:'
+									variant="outlined"
+									type="text"
+									size="small"
+									autoComplete="off"
+									placeholder="Order No:"
 									required
 									value={inputField.orderNo}
-									onChange={(e) => onChangeHandler(e.target.value, 'orderNo', i)}
+									onChange={(e) =>
+										onChangeHandler(e.target.value, 'orderNo', i)
+									}
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								></CssTextField>
 							</Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Machine 1'
-									variant='outlined'
-									type='text'
-									autoComplete='off'
-									size='small'
+									id="outlined-basic"
+									label="Select Machine 1"
+									variant="outlined"
+									type="text"
+									autoComplete="off"
+									size="small"
 									select
 									value={inputField.machine1}
-									onChange={(e) => onChangeHandler(e.target.value, 'machine1', i)}
+									onChange={(e) =>
+										onChangeHandler(e.target.value, 'machine1', i)
+									}
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								>
 									{!machines || !machines.length ? (
 										<p>Data Not Found</p>
 									) : (
@@ -185,19 +189,22 @@ const EditPlan = (props) => {
 							</Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Machine 2'
-									variant='outlined'
-									type='text'
-									autoComplete='off'
-									size='small'
+									id="outlined-basic"
+									label="Select Machine 2"
+									variant="outlined"
+									type="text"
+									autoComplete="off"
+									size="small"
 									select
 									value={inputField.machine2}
-									onChange={(e) => onChangeHandler(e.target.value, 'machine2', i)}
+									onChange={(e) =>
+										onChangeHandler(e.target.value, 'machine2', i)
+									}
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								>
 									{!machines || !machines.length ? (
 										<p>Data Not Found</p>
 									) : (
@@ -211,19 +218,22 @@ const EditPlan = (props) => {
 							</Grid>
 							<Grid item lg={2} md={2} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Machine 3'
-									variant='outlined'
-									type='text'
-									autoComplete='off'
-									size='small'
+									id="outlined-basic"
+									label="Select Machine 3"
+									variant="outlined"
+									type="text"
+									autoComplete="off"
+									size="small"
 									select
 									value={inputField.machine3}
-									onChange={(e) => onChangeHandler(e.target.value, 'machine3', i)}
+									onChange={(e) =>
+										onChangeHandler(e.target.value, 'machine3', i)
+									}
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								>
 									{!machines || !machines.length ? (
 										<p>Data Not Found</p>
 									) : (
@@ -244,22 +254,25 @@ const EditPlan = (props) => {
 						display: 'flex',
 						justifyContent: 'center',
 						marginTop: 20,
-					}}>
+					}}
+				>
 					<Button
-						variant='outlined'
-						color='primary'
+						variant="outlined"
+						color="primary"
 						style={{ marginRight: 20 }}
 						onClick={onUpdate}
-						className={classes.addButton}>
+						className={classes.addButton}
+					>
 						Done
 					</Button>
 					<Button
-						variant='outlined'
-						color='primary'
-						type='submit'
+						variant="outlined"
+						color="primary"
+						type="submit"
 						style={{ borderWidth: 0 }}
 						onClick={() => history.goBack()}
-						className={`${classes.addButton} bg-danger text-light`}>
+						className={`${classes.addButton} bg-danger text-light`}
+					>
 						Cancel
 					</Button>
 				</div>

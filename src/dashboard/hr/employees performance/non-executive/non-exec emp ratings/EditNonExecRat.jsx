@@ -121,120 +121,161 @@ const EditNonExecRat = (props) => {
 	};
 
 	const onSubmit = (values) => {
-		console.log({ heading: values.heading, list: [...params] });
-		console.log(rating);
 		dispatch(
 			updateNonExtEmpRatAction(rating._id, values, () => {
 				setSuccess(true);
 				setTimeout(() => {
 					setSuccess(false);
 				}, 4000);
-			}),
+			})
 		);
 	};
 
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit Rating</h5>
+						<h5 className="text-center mt-4">Edit Rating</h5>
 						<Container className={classes.mainContainer}>
 							<Formik
 								initialValues={initialValues}
 								validationSchema={validationSchema}
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<Form>
-										<Grid container spacing={1} style={{ marginTop: 20 }}>
+										<Grid
+											container
+											spacing={1}
+											style={{ marginTop: 20 }}
+										>
 											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
-													id='outlined-basic'
-													label='Name'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Name"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													style={{ width: '125%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
 													onChange={props.handleChange('name')}
 													onBlur={props.handleBlur('name')}
 													value={props.values.name}
-													helperText={props.touched.name && props.errors.name}
-													error={props.touched.name && props.errors.name}
+													helperText={
+														props.touched.name &&
+														props.errors.name
+													}
+													error={
+														props.touched.name &&
+														props.errors.name
+													}
 												/>
 											</Grid>
 											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
-													id='outlined-basic'
-													label='Description'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Description"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													style={{ width: '125%', marginLeft: 50 }}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('description')}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+													onChange={props.handleChange(
+														'description'
+													)}
 													onBlur={props.handleBlur('description')}
 													value={props.values.description}
-													helperText={props.touched.description && props.errors.description}
-													error={props.touched.description && props.errors.description}
+													helperText={
+														props.touched.description &&
+														props.errors.description
+													}
+													error={
+														props.touched.description &&
+														props.errors.description
+													}
 												/>
 											</Grid>
 											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
-													id='outlined-basic'
-													label='Min Value'
-													variant='outlined'
-													type='number'
-													autocomplete='off'
-													size='small'
-													style={{ width: '125%', marginLeft: 100 }}
+													id="outlined-basic"
+													label="Min Value"
+													variant="outlined"
+													type="number"
+													autocomplete="off"
+													size="small"
+													style={{
+														width: '125%',
+														marginLeft: 100,
+													}}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
 													onChange={props.handleChange('min')}
 													onBlur={props.handleBlur('min')}
 													value={props.values.min}
-													helperText={props.touched.min && props.errors.min}
-													error={props.touched.min && props.errors.min}
+													helperText={
+														props.touched.min && props.errors.min
+													}
+													error={
+														props.touched.min && props.errors.min
+													}
 												/>
 											</Grid>
 											<Grid item lg={2} md={2} sm={12} xs={12}>
 												<CssTextField
-													id='outlined-basic'
-													label='Max Value'
-													variant='outlined'
-													type='number'
-													autocomplete='off'
-													size='small'
-													style={{ width: '125%', marginLeft: 150 }}
+													id="outlined-basic"
+													label="Max Value"
+													variant="outlined"
+													type="number"
+													autocomplete="off"
+													size="small"
+													style={{
+														width: '125%',
+														marginLeft: 150,
+													}}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
 													onChange={props.handleChange('max')}
 													onBlur={props.handleBlur('max')}
 													value={props.values.max}
-													helperText={props.touched.max && props.errors.max}
-													error={props.touched.max && props.errors.max}
+													helperText={
+														props.touched.max && props.errors.max
+													}
+													error={
+														props.touched.max && props.errors.max
+													}
 												/>
 											</Grid>
 										</Grid>
 										<div>
 											<Button
-												variant='outlined'
-												color='primary'
-												type='submit'
-												className={classes.addButton}>
+												variant="outlined"
+												color="primary"
+												type="submit"
+												className={classes.addButton}
+											>
 												Add
 											</Button>
 											{success && <p>SuccessFully updated</p>}
@@ -243,11 +284,12 @@ const EditNonExecRat = (props) => {
 								)}
 							</Formik>
 							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
+								variant="outlined"
+								color="primary"
+								type="submit"
 								onClick={handleClose}
-								className={classes.addButton}>
+								className={classes.addButton}
+							>
 								Cancel
 							</Button>
 						</Container>

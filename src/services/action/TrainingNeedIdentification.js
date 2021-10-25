@@ -1,4 +1,3 @@
-import { ChatBubbleOutlineTwoTone } from '@material-ui/icons';
 import axios from 'axios';
 import {
 	TRAININGNEEDIDENTIFICATION_CREATE_SUCCESS,
@@ -16,7 +15,7 @@ export const getTrainingsIdentification = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/trainings/identification`,
+			`${process.env.REACT_APP_API_URL}/trainings/identification`
 		);
 
 		if (data.success) {
@@ -39,7 +38,7 @@ export const createTrainingIdentification =
 		try {
 			const { data } = await axios.post(
 				`${process.env.REACT_APP_API_URL}/trainings/identification`,
-				values,
+				values
 			);
 
 			if (data.success) {
@@ -64,7 +63,7 @@ export const updateTrainingIdentification =
 		try {
 			const { data } = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/trainings/identification/${id}`,
-				values,
+				values
 			);
 			if (data.success) {
 				dispatch({
@@ -86,7 +85,7 @@ export const deleteTrainingIdentification =
 
 		try {
 			const { data } = await axios.delete(
-				`${process.env.REACT_APP_API_URL}/trainings/identification/${params}`,
+				`${process.env.REACT_APP_API_URL}/trainings/identification/${params}`
 			);
 
 			if (data.success) {

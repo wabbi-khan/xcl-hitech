@@ -77,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ViewAppSuppDetails = (props) => {
 	const vendor = props?.location?.state?.vendor;
-	console.log(props.location);
 
 	const classes = useStyles();
 
@@ -88,21 +87,22 @@ const ViewAppSuppDetails = (props) => {
 	const fullDate = `${currDate} / ${months} / ${years}`;
 
 	return (
-		<div className='text-center'>
-			<div className='container'>
-				<img src='./logo.png' alt='' />
+		<div className="text-center">
+			<div className="container">
+				<img src="./logo.png" alt="" />
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
 				<h5
-					className='mt-5'
-					style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>
+					className="mt-5"
+					style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}
+				>
 					Vendor Details
 				</h5>
 			</div>
-			<div className='container mt-5'>
-				<div class='dateContainer'>
-					<div class='dateContainer'>
+			<div className="container mt-5">
+				<div class="dateContainer">
+					<div class="dateContainer">
 						<p style={{ fontWeight: 'bold' }}>Date:</p>
 						<div style={{ marginLeft: '1rem' }}>
 							<p>
@@ -118,20 +118,21 @@ const ViewAppSuppDetails = (props) => {
 							</p>
 						</div>
 					</div>
-					<div id='printBtn' style={{ marginLeft: 'auto' }}>
+					<div id="printBtn" style={{ marginLeft: 'auto' }}>
 						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
+							variant="contained"
+							size="small"
+							className="bg-dark text-light"
+							onClick={() => window.print()}
+						>
 							Print
 						</Button>
 					</div>
 				</div>
 			</div>
-			<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
-				<table class='table table-bordered border-dark table-responsive table-hover'>
-					<thead class='thead-inverse'>
+			<div className="" style={{ marginTop: 30, marginLeft: 'auto' }}>
+				<table class="table table-bordered border-dark table-responsive table-hover">
+					<thead class="thead-inverse">
 						<tr>
 							<th>S.No.</th>
 							<th>Vendor Name</th>
@@ -148,7 +149,7 @@ const ViewAppSuppDetails = (props) => {
 							<span>Data Not Found</span>
 						) : (
 							<tr>
-								<td scope='row'>1</td>
+								<td scope="row">1</td>
 								<td>{vendor.name}</td>
 								<td>{vendor.phone}</td>
 								<td>{vendor.contactPerson}</td>
@@ -168,12 +169,16 @@ const ViewAppSuppDetails = (props) => {
 								</td>
 								<td>
 									{vendor.categories?.map((el) => (
-										<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+										<p style={{ margin: 0, padding: 0 }}>
+											{el?.name}
+										</p>
 									))}
 								</td>
 								<td>
 									{vendor.subCategories?.map((el) => (
-										<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+										<p style={{ margin: 0, padding: 0 }}>
+											{el?.name}
+										</p>
 									))}
 								</td>
 							</tr>
@@ -182,9 +187,9 @@ const ViewAppSuppDetails = (props) => {
 				</table>
 			</div>
 
-			<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
-				<table class='table table-bordered border-dark table-responsive table-hover'>
-					<thead class='thead-inverse'>
+			<div className="" style={{ marginTop: 30, marginLeft: 'auto' }}>
+				<table class="table table-bordered border-dark table-responsive table-hover">
+					<thead class="thead-inverse">
 						<tr>
 							<th>S.No.</th>
 							<th>Material Name</th>
@@ -197,7 +202,7 @@ const ViewAppSuppDetails = (props) => {
 						) : (
 							vendor?.materials.map((mat, i) => (
 								<tr key={i}>
-									<td scope='row'>{i + 1}</td>
+									<td scope="row">{i + 1}</td>
 									<td>{mat.name}</td>
 									<td>{mat?.unit?.name}</td>
 								</tr>
@@ -209,14 +214,18 @@ const ViewAppSuppDetails = (props) => {
 			<Grid container spacing={1} style={{ marginTop: 120 }}>
 				<Grid item lg={3} md={3} sm={3} xs={3}>
 					{/* <hr style={{ backgroundColor: 'black', paddingTop: 2 }} /> */}
-					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<hr
+						style={{ border: '1px solid green', borderColor: 'black' }}
+					/>
 					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
 						Store Incharge
 					</p>
 				</Grid>
 				<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
 				<Grid item lg={3} md={3} sm={3} xs={3}>
-					<hr style={{ border: '1px solid green', borderColor: 'black' }} />
+					<hr
+						style={{ border: '1px solid green', borderColor: 'black' }}
+					/>
 					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
 						Q.A Dept
 					</p>

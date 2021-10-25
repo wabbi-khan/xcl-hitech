@@ -94,7 +94,6 @@ const validationSchema = yup.object({
 });
 
 const Categories = () => {
-	const [success, setSuccess] = React.useState('');
 	const [error, setError] = React.useState('');
 	const [loading, setLoading] = React.useState(false);
 	const [addLoading, setAddLoading] = React.useState(false);
@@ -115,7 +114,7 @@ const Categories = () => {
 					}, 4000);
 				}
 				setLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
@@ -128,14 +127,9 @@ const Categories = () => {
 					setTimeout(() => {
 						setError('');
 					}, 4000);
-				} else {
-					setSuccess('Category added successfully');
-					setTimeout(() => {
-						setSuccess('');
-					}, 4000);
 				}
 				setAddLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -162,16 +156,17 @@ const Categories = () => {
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<Form>
 								<CssTextField
-									id='outlined-basic'
-									label='Category Name*'
-									variant='outlined'
-									type='text'
-									size='small'
-									autocomplete='off'
+									id="outlined-basic"
+									label="Category Name*"
+									variant="outlined"
+									type="text"
+									size="small"
+									autocomplete="off"
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
@@ -183,10 +178,10 @@ const Categories = () => {
 								/>
 								<div>
 									<Button
-										text='Add'
-										variant='outlined'
+										text="Add"
+										variant="outlined"
 										classNames={classes.addButton}
-										color='primary'
+										color="primary"
 										loading={addLoading}
 									/>
 
@@ -198,8 +193,9 @@ const Categories = () => {
 				</Container>
 
 				<div
-					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: '50px' }}>
+					className="container-fluid"
+					style={{ textAlign: 'left', marginTop: '50px' }}
+				>
 					{loading ? (
 						<div
 							style={{
@@ -207,16 +203,22 @@ const Categories = () => {
 								alignItems: 'center',
 								justifyContent: 'center',
 								marginTop: '3rem',
-							}}>
-							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+							}}
+						>
+							<Loader
+								type="TailSpin"
+								color="#000"
+								width="3rem"
+								height="3rem"
+							/>
 						</div>
 					) : storeCategories?.length === 0 ? (
 						<p>There are no categories</p>
 					) : (
 						storeCategories?.map((el, i) => (
-							<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+							<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
 								{i === 0 && (
-									<thead class='bg-dark text-light'>
+									<thead class="bg-dark text-light">
 										<tr>
 											<th>S.No.</th>
 											<th>Categories</th>
@@ -231,19 +233,21 @@ const Categories = () => {
 										<td>
 											<>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													onClick={() => handleOpen(el)}
-													style={{ marginTop: 2 }}>
+													style={{ marginTop: 2 }}
+												>
 													Edit
 												</Button>
 												<Button
-													variant='contained'
-													color='secondary'
-													size='small'
+													variant="contained"
+													color="secondary"
+													size="small"
 													onClick={() => deleteCategory(el._id)}
-													style={{ marginLeft: 2, marginTop: 2 }}>
+													style={{ marginLeft: 2, marginTop: 2 }}
+												>
 													Delete
 												</Button>
 											</>

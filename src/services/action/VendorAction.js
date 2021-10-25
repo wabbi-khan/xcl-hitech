@@ -17,10 +17,8 @@ export const getVendorAction = (query, cb) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/vendor?sort=name${
 				query ? `&${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -42,10 +40,8 @@ export const createVendorAction = (vendor, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/vendor`,
-			vendor,
+			vendor
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -67,7 +63,7 @@ export const updateVendorAction = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/vendor/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -89,7 +85,7 @@ export const deleteVendorAction = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/vendor/${params}`,
+			`${process.env.REACT_APP_API_URL}/vendor/${params}`
 		);
 
 		if (data.success) {
@@ -113,7 +109,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: VENDOR_FAIL,
 			payload: 'Network Error',

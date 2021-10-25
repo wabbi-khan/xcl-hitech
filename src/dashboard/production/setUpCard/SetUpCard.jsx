@@ -137,7 +137,6 @@ const SetUpCard = () => {
 	const { vendors } = useSelector((state) => state.vendors);
 
 	const onSubmitDate = async (props) => {
-		console.log(props);
 		try {
 			await axios({
 				method: 'POST',
@@ -154,9 +153,7 @@ const SetUpCard = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const todaysDate = new Date(Date.now());
@@ -180,14 +177,11 @@ const SetUpCard = () => {
 	};
 
 	const handleOpen = (card) => {
-		console.log(card);
 		setCard(card);
 		setOpen(true);
 	};
 
 	const onUpdateSubmit = async (props) => {
-		console.log(props);
-		console.log('object');
 		try {
 			await axios({
 				method: 'PATCH',
@@ -204,9 +198,7 @@ const SetUpCard = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const onDelete = async (id) => {
@@ -216,32 +208,31 @@ const SetUpCard = () => {
 				url: `${process.env.REACT_APP_API_URL}/card/${id}`,
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
 		<Sidenav title={'Set up cards'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
+					<form action="" onSubmit={handleSubmit(onSubmitDate)}>
 						{/* Material category selector */}
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={6} md={6} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Material'
-									variant='outlined'
-									type='text'
-									autoComplete='off'
-									size='small'
+									id="outlined-basic"
+									label="Select Material"
+									variant="outlined"
+									type="text"
+									autoComplete="off"
+									size="small"
 									select
 									value={inputFields.machine1}
 									inputProps={{ style: { fontSize: 14 } }}
 									{...register('material', { required: true })}
 									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								>
 									{!materials || !materials.length ? (
 										<p>Data Not Found</p>
 									) : (
@@ -253,23 +244,26 @@ const SetUpCard = () => {
 									)}
 								</CssTextField>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={6} md={6} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Vendor'
-									variant='outlined'
-									type='text'
-									autoComplete='off'
-									size='small'
+									id="outlined-basic"
+									label="Select Vendor"
+									variant="outlined"
+									type="text"
+									autoComplete="off"
+									size="small"
 									select
 									value={inputFields.machine1}
 									inputProps={{ style: { fontSize: 14 } }}
 									{...register('supplier', { required: true })}
 									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								>
 									{!vendors || !vendors.length ? (
 										<p>Data Not Found</p>
 									) : (
@@ -281,7 +275,9 @@ const SetUpCard = () => {
 									)}
 								</CssTextField>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 						</Grid>
@@ -291,62 +287,69 @@ const SetUpCard = () => {
 							</Grid>
 							<Grid item lg={3} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Min'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Min"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('min', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 							<Grid item lg={3} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Max'
-									variant='outlined'
-									type='text'
+									id="outlined-basic"
+									label="Max"
+									variant="outlined"
+									type="text"
 									style={{ width: '100%' }}
-									size='small'
+									size="small"
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('max', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 							<Grid item lg={3} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Avg'
-									variant='outlined'
-									type='text'
+									id="outlined-basic"
+									label="Avg"
+									variant="outlined"
+									type="text"
 									style={{ width: '100%' }}
-									size='small'
+									size="small"
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('avg', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 						</Grid>
 
 						<div>
 							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
+								variant="outlined"
+								color="primary"
+								type="submit"
+								className={classes.addButton}
+							>
 								Add
 							</Button>
 						</div>
@@ -366,17 +369,29 @@ const SetUpCard = () => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Material</StyledTableCell>
-									<StyledTableCell align='center'>Vendor</StyledTableCell>
-									<StyledTableCell align='center'>Min</StyledTableCell>
-									<StyledTableCell align='center'>Max</StyledTableCell>
-									<StyledTableCell align='center'>Avg</StyledTableCell>
-									<StyledTableCell align='center'>Actions</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Material
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Vendor
+									</StyledTableCell>
+									<StyledTableCell align="center">Min</StyledTableCell>
+									<StyledTableCell align="center">Max</StyledTableCell>
+									<StyledTableCell align="center">Avg</StyledTableCell>
+									<StyledTableCell align="center">
+										Actions
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -387,44 +402,66 @@ const SetUpCard = () => {
 								) : cards.length ? (
 									cards.map((card, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{card.material.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{card.supplier.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{card.min}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{card.max}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{card.avg}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													onClick={() => {
-														console.log(card);
 														handleOpen(card);
 													}}
-													style={{ marginTop: 2 }}>
+													style={{ marginTop: 2 }}
+												>
 													Edit
 												</Button>
 												<Button
-													variant='contained'
-													color='secondary'
-													size='small'
+													variant="contained"
+													color="secondary"
+													size="small"
 													onClick={() => {
 														onDelete(card._id);
 													}}
-													style={{ marginLeft: 2, marginTop: 2 }}>
+													style={{ marginLeft: 2, marginTop: 2 }}
+												>
 													Delete
 												</Button>
 											</StyledTableCell>

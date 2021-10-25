@@ -235,8 +235,8 @@ const PurchaseOrder = ({ history }) => {
 								if (index === selectedRequest?.materials?.length) {
 									setMaterialsLoading(false);
 								}
-							},
-						),
+							}
+						)
 					);
 				}
 			}
@@ -251,7 +251,7 @@ const PurchaseOrder = ({ history }) => {
 
 	const { departments } = useSelector((state) => state.departments);
 	const { purchaseRequisitions } = useSelector(
-		(state) => state.purchaseRequisitions,
+		(state) => state.purchaseRequisitions
 	);
 	const { materials } = useSelector((state) => state.materials);
 
@@ -266,7 +266,6 @@ const PurchaseOrder = ({ history }) => {
 					setCreateError('');
 				}, 4000);
 			}
-			console.log(el);
 			tempMaterials.push({
 				material: el.material._id,
 				quantity: el?.quantity,
@@ -274,7 +273,6 @@ const PurchaseOrder = ({ history }) => {
 				vendor: el?.vendor,
 			});
 		});
-		console.log(tempMaterials);
 		if (!error) {
 			setCreateLoading(true);
 			dispatch(
@@ -293,18 +291,16 @@ const PurchaseOrder = ({ history }) => {
 							}, 4000);
 						}
 						setCreateLoading(false);
-					},
-				),
+					}
+				)
 			);
 		}
 	};
 
 	const setVendorForMaterial = (index, vendor) => {
 		if (vendor) {
-			console.log(index);
-			console.log(vendor);
 			setMaterials((prev) =>
-				prev.map((el, i) => (i === index ? { ...el, vendor } : el)),
+				prev.map((el, i) => (i === index ? { ...el, vendor } : el))
 			);
 		}
 	};
@@ -315,9 +311,10 @@ const PurchaseOrder = ({ history }) => {
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={onSubmit}>
+					onSubmit={onSubmit}
+				>
 					{(props) => (
-						<Form autoComplete='off'>
+						<Form autoComplete="off">
 							<Container className={classes.mainContainer}>
 								<Grid container spacing={1} style={{ marginTop: 15 }}>
 									<Grid
@@ -326,14 +323,18 @@ const PurchaseOrder = ({ history }) => {
 										md={12}
 										sm={12}
 										xs={12}
-										style={{ textAlign: 'left', marginBottom: '2rem' }}>
+										style={{
+											textAlign: 'left',
+											marginBottom: '2rem',
+										}}
+									>
 										<p>Select Purchase Request #</p>
 										<CssTextField
-											id='outlined-basic'
-											label='P.R.No.'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											label="P.R.No."
+											variant="outlined"
+											type="text"
+											size="small"
 											style={{ width: '40%' }}
 											select
 											inputProps={{ style: { fontSize: 14 } }}
@@ -341,8 +342,13 @@ const PurchaseOrder = ({ history }) => {
 											onChange={props.handleChange('prNum')}
 											onBlur={props.handleBlur('prNum')}
 											value={props.values.prNum}
-											helperText={props.touched.prNum && props.errors.prNum}
-											error={props.touched.prNum && props.errors.prNum}>
+											helperText={
+												props.touched.prNum && props.errors.prNum
+											}
+											error={
+												props.touched.prNum && props.errors.prNum
+											}
+										>
 											{purchaseRequisitions?.length === 0 ? (
 												<MenuItem disabled>No Data Found</MenuItem>
 											) : (
@@ -350,7 +356,10 @@ const PurchaseOrder = ({ history }) => {
 													<MenuItem
 														key={el._id}
 														value={el._id}
-														onClick={() => setSelectedRequests(el)}>
+														onClick={() =>
+															setSelectedRequests(el)
+														}
+													>
 														{el.code}
 													</MenuItem>
 												))
@@ -360,11 +369,11 @@ const PurchaseOrder = ({ history }) => {
 
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Department'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											label="Department"
+											variant="outlined"
+											type="text"
+											size="small"
 											style={{ width: '100%' }}
 											select
 											inputProps={{ style: { fontSize: 14 } }}
@@ -372,8 +381,15 @@ const PurchaseOrder = ({ history }) => {
 											onChange={props.handleChange('department')}
 											onBlur={props.handleBlur('department')}
 											value={props.values.department}
-											helperText={props.touched.department && props.errors.department}
-											error={props.touched.department && props.errors.department}>
+											helperText={
+												props.touched.department &&
+												props.errors.department
+											}
+											error={
+												props.touched.department &&
+												props.errors.department
+											}
+										>
 											{departments &&
 												departments.map((el) => (
 													<MenuItem key={el._id} value={el._id}>
@@ -384,28 +400,34 @@ const PurchaseOrder = ({ history }) => {
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Payment Terms'
-											variant='outlined'
-											type='text'
+											id="outlined-basic"
+											label="Payment Terms"
+											variant="outlined"
+											type="text"
 											style={{ width: '100%' }}
-											size='small'
+											size="small"
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('paymentTerm')}
 											onBlur={props.handleBlur('paymentTerm')}
 											value={props.values.paymentTerm}
-											helperText={props.touched.paymentTerm && props.errors.paymentTerm}
-											error={props.touched.paymentTerm && props.errors.paymentTerm}
+											helperText={
+												props.touched.paymentTerm &&
+												props.errors.paymentTerm
+											}
+											error={
+												props.touched.paymentTerm &&
+												props.errors.paymentTerm
+											}
 										/>
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Payment Subject To'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											label="Payment Subject To"
+											variant="outlined"
+											type="text"
+											size="small"
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
@@ -413,9 +435,13 @@ const PurchaseOrder = ({ history }) => {
 											onBlur={props.handleBlur('paymentSubject')}
 											value={props.values.paymentSubject}
 											helperText={
-												props.touched.paymentSubject && props.errors.paymentSubject
+												props.touched.paymentSubject &&
+												props.errors.paymentSubject
 											}
-											error={props.touched.paymentSubject && props.errors.paymentSubject}
+											error={
+												props.touched.paymentSubject &&
+												props.errors.paymentSubject
+											}
 										/>
 									</Grid>
 								</Grid>
@@ -431,8 +457,14 @@ const PurchaseOrder = ({ history }) => {
 											alignItems: 'center',
 											justifyContent: 'center',
 											marginTop: '3rem',
-										}}>
-										<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+										}}
+									>
+										<Loader
+											type="TailSpin"
+											color="#000"
+											width="3rem"
+											height="3rem"
+										/>
 									</div>
 								) : (
 									materialsState?.map((el, i) => {
@@ -443,26 +475,39 @@ const PurchaseOrder = ({ history }) => {
 														<h4>Items</h4>
 													</div>
 												)}
-												<Grid key={i} container spacing={1} style={{ marginTop: 15 }}>
+												<Grid
+													key={i}
+													container
+													spacing={1}
+													style={{ marginTop: 15 }}
+												>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Select Item'
-															variant='outlined'
-															type='text'
-															size='small'
+															id="outlined-basic"
+															label="Select Item"
+															variant="outlined"
+															type="text"
+															size="small"
 															value={el?.material?._id}
 															disabled
 															select
 															style={{ width: '100%' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}>
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+														>
 															{materials &&
 																materials.map((el) => (
 																	<MenuItem
 																		key={el._id}
 																		value={el._id}
-																		onClick={() => setSelectedRequests(el)}>
+																		onClick={() =>
+																			setSelectedRequests(el)
+																		}
+																	>
 																		{el.name}
 																	</MenuItem>
 																))}
@@ -470,67 +515,92 @@ const PurchaseOrder = ({ history }) => {
 													</Grid>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Quantity'
-															variant='outlined'
-															type='number'
+															id="outlined-basic"
+															label="Quantity"
+															variant="outlined"
+															type="number"
 															style={{ width: '100%' }}
-															size='small'
+															size="small"
 															value={el.quantity}
 															disabled
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
 														/>
 													</Grid>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Unit'
-															variant='outlined'
-															type='text'
+															id="outlined-basic"
+															label="Unit"
+															variant="outlined"
+															type="text"
 															style={{ width: '100%' }}
-															size='small'
+															size="small"
 															value={el?.material?.unit?.name}
 															disabled
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
 														/>
 													</Grid>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Remarks'
-															variant='outlined'
-															type='text'
+															id="outlined-basic"
+															label="Remarks"
+															variant="outlined"
+															type="text"
 															style={{ width: '100%' }}
-															size='small'
+															size="small"
 															value={el.remarks}
 															disabled
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
 														/>
 													</Grid>
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Select Supplier'
-															variant='outlined'
-															type='text'
+															id="outlined-basic"
+															label="Select Supplier"
+															variant="outlined"
+															type="text"
 															style={{ width: '100%' }}
 															value={el?.vendor}
-															size='small'
+															size="small"
 															select
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}>
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+														>
 															{el?.availableVendors &&
-																el?.availableVendors.map((el) => (
-																	<MenuItem
-																		key={el._id}
-																		value={el._id}
-																		onClick={() => setVendorForMaterial(i, el._id)}>
-																		{el.name}
-																	</MenuItem>
-																))}
+																el?.availableVendors.map(
+																	(el) => (
+																		<MenuItem
+																			key={el._id}
+																			value={el._id}
+																			onClick={() =>
+																				setVendorForMaterial(
+																					i,
+																					el._id
+																				)
+																			}
+																		>
+																			{el.name}
+																		</MenuItem>
+																	)
+																)}
 														</CssTextField>
 													</Grid>
 												</Grid>
@@ -543,11 +613,11 @@ const PurchaseOrder = ({ history }) => {
 									<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
 									<Grid item lg={3} md={3} sm={10} xs={11}>
 										<Button
-											variant='outlined'
-											color='primary'
-											text='Submit'
+											variant="outlined"
+											color="primary"
+											text="Submit"
 											loading={createLoading}
-											loaderColor='#333'
+											loaderColor="#333"
 											classNames={classes.addButton}
 										/>
 										{success && <p>Request ordered successfully</p>}

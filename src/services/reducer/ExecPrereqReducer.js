@@ -22,7 +22,6 @@ export const fetchExecPrereqReducer = (state = { execPrereq: [] }, action) => {
 				error: action.payload,
 			};
 		case EXECPREREQ_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -35,7 +34,7 @@ export const fetchExecPrereqReducer = (state = { execPrereq: [] }, action) => {
 				execPrereq: state.execPrereq.map((execPrereq) =>
 					execPrereq._id === action.payload.requisition._id
 						? action.payload.requisition
-						: execPrereq,
+						: execPrereq
 				),
 			};
 		case EXECPREREQ_CREATE_SUCCESS:
@@ -49,7 +48,7 @@ export const fetchExecPrereqReducer = (state = { execPrereq: [] }, action) => {
 				loading: false,
 				error: '',
 				execPrereq: state.execPrereq.filter(
-					(execPrereq) => execPrereq._id !== action.payload,
+					(execPrereq) => execPrereq._id !== action.payload
 				),
 			};
 		default:

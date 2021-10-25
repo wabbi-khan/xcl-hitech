@@ -17,10 +17,8 @@ export const getExtEmpPerformanceAction = (query) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/executive-employees/performance${
 				query ? `?${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: EXECPERFORMANCE_FETCH_SUCCESS,
@@ -39,10 +37,8 @@ export const createExtEmpPerformanceAction =
 		try {
 			const res = await axios.post(
 				`${process.env.REACT_APP_API_URL}/executive-employees/performance`,
-				performance,
+				performance
 			);
-
-			console.log(res);
 
 			if (res.status === 200) {
 				dispatch({
@@ -53,7 +49,6 @@ export const createExtEmpPerformanceAction =
 				if (cb) cb();
 			}
 		} catch (err) {
-			console.log('object');
 			dispatchError(err, dispatch);
 		}
 	};
@@ -67,10 +62,8 @@ export const updateExtEmpPerformanceAction =
 		try {
 			const res = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/executive-employees/performance/${id}`,
-				performance,
+				performance
 			);
-
-			console.log(res.data);
 
 			dispatch({
 				type: EXECPERFORMANCE_UPDATE_SUCCESS,
@@ -89,11 +82,9 @@ export const deleteExtEmpPerformanceAction = (id, cb) => async (dispatch) => {
 	});
 
 	try {
-		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/executive-employees/performance/${id}`,
+		await axios.delete(
+			`${process.env.REACT_APP_API_URL}/executive-employees/performance/${id}`
 		);
-
-		console.log(res.data);
 
 		dispatch({
 			type: EXECPERFORMANCE_DELETE_SUCCESS,
@@ -107,9 +98,7 @@ export const deleteExtEmpPerformanceAction = (id, cb) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch) => {
-	console.log(err);
 	if (err.response) {
-		console.log(err.response.data);
 		dispatch({
 			type: EXECPERFORMANCE_FAIL,
 			payload: err.response.data.error,

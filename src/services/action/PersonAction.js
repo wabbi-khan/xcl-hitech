@@ -14,7 +14,9 @@ export const getPersons = (query, cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/persons`);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/persons`
+		);
 
 		if (data.success) {
 			dispatch({
@@ -36,7 +38,7 @@ export const createPerson = (person, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/persons`,
-			person,
+			person
 		);
 
 		if (data.success) {
@@ -59,10 +61,9 @@ export const updatePerson = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/persons/${id}`,
-			values,
+			values
 		);
 
-		console.log(data);
 		if (data.success) {
 			dispatch({
 				type: PERSON_UPDATE_SUCCESS,
@@ -71,8 +72,6 @@ export const updatePerson = (id, values, cb) => async (dispatch) => {
 
 			if (cb) cb();
 		}
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -85,7 +84,7 @@ export const deletePerson = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/persons/${params}`,
+			`${process.env.REACT_APP_API_URL}/persons/${params}`
 		);
 
 		if (data.success) {

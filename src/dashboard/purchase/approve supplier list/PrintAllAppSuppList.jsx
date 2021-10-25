@@ -68,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 
 const PrintAllAppSuppList = (props) => {
 	const vendors = props?.location?.state?.vendors;
-	console.log(vendors);
 
 	const classes = useStyles();
 
@@ -79,14 +78,14 @@ const PrintAllAppSuppList = (props) => {
 	const fullDate = `${currDate} / ${months} / ${years}`;
 
 	return (
-		<div className='text-center'>
-			<div className='container-fluid mt-4'>
+		<div className="text-center">
+			<div className="container-fluid mt-4">
 				{/* <img src='./logo192.png' alt='' /> */}
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
 				<div
-					class=''
+					class=""
 					style={{
 						display: 'flex',
 						alignItems: 'flex-end',
@@ -95,40 +94,41 @@ const PrintAllAppSuppList = (props) => {
 						width: '100px',
 						marginLeft: 'auto',
 						paddingRight: '10px',
-					}}>
+					}}
+				>
 					<h6>FM-20</h6>
 					<h6>Issue.01</h6>
 				</div>
 				<h5
-					className=''
-					style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}>
+					className=""
+					style={{ textDecorationLine: 'underline', fontWeight: 'bold' }}
+				>
 					Approved Supplier List
 				</h5>
 			</div>
-			<div className='container-fluid mt-5'>
-				<div style={{ display: 'flex', }}>
+			<div className="container-fluid mt-5">
+				<div style={{ display: 'flex' }}>
 					<div style={{ display: 'flex', gap: '.5rem' }}>
 						<p style={{ fontWeight: 'bold' }}>Date:</p>
 						<div style={{ textDecoration: 'underline' }}>
-							<p>
-								{fullDate}
-							</p>
+							<p>{fullDate}</p>
 						</div>
 					</div>
-					<div id='printBtn' style={{ marginLeft: 'auto' }}>
+					<div id="printBtn" style={{ marginLeft: 'auto' }}>
 						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
+							variant="contained"
+							size="small"
+							className="bg-dark text-light"
+							onClick={() => window.print()}
+						>
 							Print
 						</Button>
 					</div>
 				</div>
 			</div>
-			<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
-				<table class='table table-bordered border-dark table-responsive table-hover'>
-					<thead class='thead-inverse'>
+			<div className="" style={{ marginTop: 30, marginLeft: 'auto' }}>
+				<table class="table table-bordered border-dark table-responsive table-hover">
+					<thead class="thead-inverse">
 						<tr>
 							<th>S.No.</th>
 							<th>Vendor Name</th>
@@ -145,13 +145,17 @@ const PrintAllAppSuppList = (props) => {
 						) : (
 							vendors?.map((el, i) => (
 								<tr>
-									<td scope='row'>{i + 1}</td>
+									<td scope="row">{i + 1}</td>
 									<td>{el.name}</td>
 									<td>{el.phone}</td>
-									<td>{!el.contactPerson ? null : el.contactPerson}</td>
+									<td>
+										{!el.contactPerson ? null : el.contactPerson}
+									</td>
 									<td>
 										{el.materials?.map((el) => (
-											<p style={{ margin: 0, padding: 0 }}>{el?.name}</p>
+											<p style={{ margin: 0, padding: 0 }}>
+												{el?.name}
+											</p>
 										))}
 									</td>
 									{/* <td>

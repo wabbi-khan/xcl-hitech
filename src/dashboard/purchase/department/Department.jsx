@@ -139,11 +139,10 @@ const Department = () => {
 		dispatch(
 			fetchDepartmentsAction((err) => {
 				if (err) {
-					console.log(err);
 					setError(err);
 				}
 				setLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
@@ -162,7 +161,7 @@ const Department = () => {
 					actions.resetForm();
 				}
 				setAddLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -186,7 +185,7 @@ const Department = () => {
 					}, 4000);
 				}
 				setDeleteLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -195,7 +194,7 @@ const Department = () => {
 			<EditDepartment show={open} handler={handleClose} department={dept} />
 			{deleteLoading && (
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Loader type='TailSpin' width='2rem' height='2rem' />
+					<Loader type="TailSpin" width="2rem" height="2rem" />
 				</div>
 			)}
 			{deleteError && (
@@ -208,15 +207,16 @@ const Department = () => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
-							<Form autoComplete='off'>
+							<Form autoComplete="off">
 								<CssTextField
-									id='outlined-basic'
-									label='Department Name*'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Department Name*"
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
@@ -228,12 +228,12 @@ const Department = () => {
 								/>
 								<div>
 									<Button
-										variant='outlined'
-										color='primary'
+										variant="outlined"
+										color="primary"
 										classNames={classes.addButton}
-										text='Add'
+										text="Add"
 										loading={addLoading}
-										loaderColor='#333'
+										loaderColor="#333"
 									/>
 								</div>
 								{addError && <p>{addError}</p>}
@@ -249,8 +249,9 @@ const Department = () => {
 							justifyContent: 'center',
 							width: '100%',
 							marginTop: '4rem',
-						}}>
-						<Loader type='TailSpin' />
+						}}
+					>
+						<Loader type="TailSpin" />
 					</div>
 				) : error ? (
 					<div
@@ -260,8 +261,11 @@ const Department = () => {
 							justifyContent: 'center',
 							width: '100%',
 							marginTop: '4rem',
-						}}>
-						<p style={{ fontSize: '3rem', textTransform: 'uppercase' }}>{error}</p>
+						}}
+					>
+						<p style={{ fontSize: '3rem', textTransform: 'uppercase' }}>
+							{error}
+						</p>
 					</div>
 				) : departments?.length === 0 ? (
 					<p>There is no data found</p>
@@ -270,38 +274,62 @@ const Department = () => {
 						<TableContainer className={classes.tableContainer}>
 							<Table
 								stickyHeader
-								className='table table-dark'
-								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								className="table table-dark"
+								style={{
+									backgroundColor: '#d0cfcf',
+									border: '1px solid grey',
+								}}
+							>
 								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Departments</StyledTableCell>
-										<StyledTableCell align='center'>Action</StyledTableCell>
+									<TableRow hover role="checkbox">
+										<StyledTableCell align="center">
+											Sr.No
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Departments
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Action
+										</StyledTableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{departments.map((el, i) => (
 										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
-												<div style={{ display: 'flex', justifyContent: 'center' }}>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
+												<div
+													style={{
+														display: 'flex',
+														justifyContent: 'center',
+													}}
+												>
 													<Button
-														variant='contained'
-														text='Edit'
-														size='small'
-														classNames='bg-dark text-light'
+														variant="contained"
+														text="Edit"
+														size="small"
+														classNames="bg-dark text-light"
 														onClick={() => handleOpen(el)}
 													/>
 													<Button
-														variant='contained'
-														text='Delete'
-														size='small'
-														color='secondary'
+														variant="contained"
+														text="Delete"
+														size="small"
+														color="secondary"
 														onClick={() => deleteDept(el._id)}
 														style={{ marginLeft: '1rem' }}
 													/>

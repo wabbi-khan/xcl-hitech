@@ -103,7 +103,6 @@ const EditMachine = (props) => {
 		setInputFields(machine);
 	}, [machine]);
 	const onChangeHandler = (e, placeholder) => {
-		console.log(placeholder);
 		if (placeholder !== 'date')
 			setInputFields({ ...inputFields, [placeholder]: e.target.value });
 	};
@@ -120,18 +119,19 @@ const EditMachine = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit Machine</h5>
+						<h5 className="text-center mt-4">Edit Machine</h5>
 						<Container className={classes.mainContainer}>
 							{/* ========================================= */}
 							{machine ? (
@@ -139,15 +139,17 @@ const EditMachine = (props) => {
 									<Grid container spacing={1}>
 										<Grid item lg={12} md={12} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Enter Machine Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autocomplete='off'
+												id="outlined-basic"
+												label="Enter Machine Name"
+												variant="outlined"
+												type="text"
+												size="small"
+												autocomplete="off"
 												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												style={{ marginBottom: 10 }}
 												value={inputFields.name}
 												onChange={(e) => onChangeHandler(e, 'name')}
@@ -156,12 +158,16 @@ const EditMachine = (props) => {
 									</Grid>
 									<div>
 										<Button
-											className='bg-warning text-light'
-											type='submit'
-											style={{ marginRight: 10 }}>
+											className="bg-warning text-light"
+											type="submit"
+											style={{ marginRight: 10 }}
+										>
 											Update
 										</Button>
-										<Button className='bg-danger text-light ml-1' onClick={handleClose}>
+										<Button
+											className="bg-danger text-light ml-1"
+											onClick={handleClose}
+										>
 											Close
 										</Button>
 									</div>

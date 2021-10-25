@@ -217,7 +217,6 @@ const PurchaseReport = ({ history }) => {
 	const [VendorAddress, setVendorAddress] = useState('');
 	const [vendorMaterial, setVendorMaterial] = useState([]);
 	const [orderBody, setOrderBody] = useState({});
-	// console.log(vendorMaterial);
 
 	const {
 		register,
@@ -232,7 +231,7 @@ const PurchaseReport = ({ history }) => {
 
 	const { shifts } = useSelector((state) => state.shifts);
 	const { productionReports, loading, error } = useSelector(
-		(state) => state.productionReports,
+		(state) => state.productionReports
 	);
 
 	const addMoreFunc = () => {
@@ -260,15 +259,12 @@ const PurchaseReport = ({ history }) => {
 	};
 
 	// const onAdd = async (data) => {
-	//     console.log(data);
 	// }
 
 	// const onAddMaterial = async data => {
-	//     console.log(data);
 	// }
 
 	const onChangeHandler = (placeholder, value, index) => {
-		// console.log(value);
 		const tempFields = ItemCounter.map((item, i) => {
 			if (i === index) {
 				return { ...item, [placeholder]: value };
@@ -280,15 +276,6 @@ const PurchaseReport = ({ history }) => {
 	};
 
 	const onSubmitDate = async (props) => {
-		console.log(ItemCounter);
-		console.log(props.prNo);
-		console.log(props.hpei);
-		console.log(props.machineNo);
-		console.log(props.date);
-		console.log(props.orderNo);
-		console.log(props.rawMaterial);
-		console.log(props.productionHours);
-		console.log(props.shift);
 		try {
 			await axios.post(`${process.env.REACT_APP_API_URL}/productionReport`, {
 				prNo: props.prNo,
@@ -304,42 +291,42 @@ const PurchaseReport = ({ history }) => {
 			window.location.reload();
 			// setAddMatError(false)
 		} catch (error) {
-			console.log(error);
 			// setAddMatError(true)
 		}
 	};
-	console.log(orderBody);
 
 	return (
 		<Sidenav title={'Purchase Order'}>
 			<div>
 				{/* <form onSubmit={handleSubmit(onAdd)}> */}
-				<form action='' onSubmit={handleSubmit(onSubmitDate)}>
+				<form action="" onSubmit={handleSubmit(onSubmitDate)}>
 					<Container className={classes.mainContainer}>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='P.R. No.'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="P.R. No."
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('prNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='HPEI/786/'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="HPEI/786/"
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
@@ -348,33 +335,37 @@ const PurchaseReport = ({ history }) => {
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									variant='outlined'
-									type='date'
-									size='small'
+									id="outlined-basic"
+									variant="outlined"
+									type="date"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('date', { required: true })}
 								/>
 								{errors.reference?.type === 'required' && (
-									<p className='mt-1 text-danger'>Reference is required</p>
+									<p className="mt-1 text-danger">
+										Reference is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Machine No.'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Machine No."
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('machineNo', { required: true })}
 								/>
 								{errors.reference?.type === 'required' && (
-									<p className='mt-1 text-danger'>Reference is required</p>
+									<p className="mt-1 text-danger">
+										Reference is required
+									</p>
 								)}
 							</Grid>
 						</Grid>
@@ -383,64 +374,71 @@ const PurchaseReport = ({ history }) => {
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Order No.'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Order No."
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('orderNo', { required: true })}
 								/>
 								{errors.paymentTerm?.type === 'required' && (
-									<p className='mt-1 text-danger'>Payment Terms required</p>
+									<p className="mt-1 text-danger">
+										Payment Terms required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Raw Material'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Raw Material"
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('rawMaterial', { required: true })}
 								/>
 								{errors.paymentSubject?.type === 'required' && (
-									<p className='mt-1 text-danger'>Payment Subject is required</p>
+									<p className="mt-1 text-danger">
+										Payment Subject is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Production Hours'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Production Hours"
+									variant="outlined"
+									type="text"
+									size="small"
 									className={classes.inputFieldStyle1}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('productionHours', { required: true })}
 								/>
 								{errors.paymentSubject?.type === 'required' && (
-									<p className='mt-1 text-danger'>Payment Subject is required</p>
+									<p className="mt-1 text-danger">
+										Payment Subject is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={3} md={3} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Shift'
-									variant='outlined'
-									type='email'
-									size='small'
+									id="outlined-basic"
+									label="Select Shift"
+									variant="outlined"
+									type="email"
+									size="small"
 									select
 									className={classes.inputFieldStyle}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('shift', { required: true })}>
+									{...register('shift', { required: true })}
+								>
 									{!shifts || !shifts.length ? (
 										<p>Data Not Found</p>
 									) : (
@@ -450,9 +448,14 @@ const PurchaseReport = ({ history }) => {
 												key={verifiedVendor._id}
 												onClick={() => {
 													setVendorId(verifiedVendor._id);
-													setVendorAddress(verifiedVendor.location);
-													setVendorMaterial(verifiedVendor.material);
-												}}>
+													setVendorAddress(
+														verifiedVendor.location
+													);
+													setVendorMaterial(
+														verifiedVendor.material
+													);
+												}}
+											>
 												{verifiedVendor.name}
 											</MenuItem>
 										))
@@ -465,28 +468,41 @@ const PurchaseReport = ({ history }) => {
 						<hr />
 					</div>
 					<Container className={classes.mainContainer}>
-						<h4 className='text-left'>Items</h4>
+						<h4 className="text-left">Items</h4>
 						{ItemCounter.map((value, i) => {
 							const no = i + 1;
 							return (
 								<>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid
+										container
+										spacing={1}
+										style={{ marginTop: 15 }}
+									>
 										<Grid item lg={1} md={1} sm={12} xs={12}>
 											{no}
 										</Grid>
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Select Item'
-												variant='outlined'
-												type='email'
-												size='small'
+												id="outlined-basic"
+												label="Select Item"
+												variant="outlined"
+												type="email"
+												size="small"
 												select
 												value={ItemCounter[i].item}
-												onChange={(e) => onChangeHandler('item', e.target.value, i)}
+												onChange={(e) =>
+													onChangeHandler(
+														'item',
+														e.target.value,
+														i
+													)
+												}
 												className={classes.inputFieldStyle}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}>
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
+											>
 												{!shifts || !shifts.length ? (
 													<p>Data Not Found</p>
 												) : (
@@ -496,9 +512,14 @@ const PurchaseReport = ({ history }) => {
 															key={verifiedVendor._id}
 															onClick={() => {
 																setVendorId(verifiedVendor._id);
-																setVendorAddress(verifiedVendor.location);
-																setVendorMaterial(verifiedVendor.material);
-															}}>
+																setVendorAddress(
+																	verifiedVendor.location
+																);
+																setVendorMaterial(
+																	verifiedVendor.material
+																);
+															}}
+														>
 															{verifiedVendor.name}
 														</MenuItem>
 													))
@@ -508,177 +529,282 @@ const PurchaseReport = ({ history }) => {
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Name Of Operator'
-												variant='outlined'
-												type='text'
-												size='small'
+												id="outlined-basic"
+												label="Name Of Operator"
+												variant="outlined"
+												type="text"
+												size="small"
 												value={ItemCounter[i].nameOfOperator}
 												onChange={(e) =>
-													onChangeHandler('nameOfOperator', e.target.value, i)
+													onChangeHandler(
+														'nameOfOperator',
+														e.target.value,
+														i
+													)
 												}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Weight/m (kg)'
-												variant='outlined'
-												type='text'
-												size='small'
+												id="outlined-basic"
+												label="Weight/m (kg)"
+												variant="outlined"
+												type="text"
+												size="small"
 												value={ItemCounter[i].weight}
-												onChange={(e) => onChangeHandler('weight', e.target.value, i)}
+												onChange={(e) =>
+													onChangeHandler(
+														'weight',
+														e.target.value,
+														i
+													)
+												}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Desc(Dia/Standard)'
-												variant='outlined'
-												type='text'
-												onChange={(e) => onChangeHandler('desc', e.target.value, i)}
-												size='small'
+												id="outlined-basic"
+												label="Desc(Dia/Standard)"
+												variant="outlined"
+												type="text"
+												onChange={(e) =>
+													onChangeHandler(
+														'desc',
+														e.target.value,
+														i
+													)
+												}
+												size="small"
 												value={ItemCounter[i].desc}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 									</Grid>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid
+										container
+										spacing={1}
+										style={{ marginTop: 15 }}
+									>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Finished Pipe'
-												variant='outlined'
-												type='text'
-												onChange={(e) => onChangeHandler('finishedPipe', e.target.value, i)}
-												size='small'
+												id="outlined-basic"
+												label="Finished Pipe"
+												variant="outlined"
+												type="text"
+												onChange={(e) =>
+													onChangeHandler(
+														'finishedPipe',
+														e.target.value,
+														i
+													)
+												}
+												size="small"
 												value={ItemCounter[i].finishedPipe}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Finished wt (kg)'
-												variant='outlined'
-												type='text'
-												size='small'
-												onChange={(e) => onChangeHandler('finishedWt', e.target.value, i)}
+												id="outlined-basic"
+												label="Finished wt (kg)"
+												variant="outlined"
+												type="text"
+												size="small"
+												onChange={(e) =>
+													onChangeHandler(
+														'finishedWt',
+														e.target.value,
+														i
+													)
+												}
 												value={ItemCounter[i].finishedWt}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='R/Cyc Wt (kg)'
-												variant='outlined'
-												type='text'
-												onChange={(e) => onChangeHandler('rcyc', e.target.value, i)}
-												size='small'
+												id="outlined-basic"
+												label="R/Cyc Wt (kg)"
+												variant="outlined"
+												type="text"
+												onChange={(e) =>
+													onChangeHandler(
+														'rcyc',
+														e.target.value,
+														i
+													)
+												}
+												size="small"
 												value={ItemCounter[i].rcyc}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Wastage Wt (kg)'
-												variant='outlined'
-												type='text'
-												onChange={(e) => onChangeHandler('wastage', e.target.value, i)}
-												size='small'
+												id="outlined-basic"
+												label="Wastage Wt (kg)"
+												variant="outlined"
+												type="text"
+												onChange={(e) =>
+													onChangeHandler(
+														'wastage',
+														e.target.value,
+														i
+													)
+												}
+												size="small"
 												value={ItemCounter[i].wastage}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 									</Grid>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid
+										container
+										spacing={1}
+										style={{ marginTop: 15 }}
+									>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Total Weight(kg)'
-												variant='outlined'
-												onChange={(e) => onChangeHandler('totalWeight', e.target.value, i)}
-												type='text'
-												size='small'
+												id="outlined-basic"
+												label="Total Weight(kg)"
+												variant="outlined"
+												onChange={(e) =>
+													onChangeHandler(
+														'totalWeight',
+														e.target.value,
+														i
+													)
+												}
+												type="text"
+												size="small"
 												value={ItemCounter[i].totalWeight}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
 
 										<Grid item lg={2} md={2} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='DownTime'
-												variant='outlined'
-												type='text'
-												size='small'
-												onChange={(e) => onChangeHandler('downTime', e.target.value, i)}
+												id="outlined-basic"
+												label="DownTime"
+												variant="outlined"
+												type="text"
+												size="small"
+												onChange={(e) =>
+													onChangeHandler(
+														'downTime',
+														e.target.value,
+														i
+													)
+												}
 												value={ItemCounter[i].downTime}
 												className={classes.inputFieldStyle1}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 											/>
-											{errors.paymentSubject?.type === 'required' && (
-												<p className='mt-1 text-danger'>Payment Subject is required</p>
+											{errors.paymentSubject?.type ===
+												'required' && (
+												<p className="mt-1 text-danger">
+													Payment Subject is required
+												</p>
 											)}
 										</Grid>
 										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
@@ -689,8 +815,8 @@ const PurchaseReport = ({ history }) => {
 						<Grid container spacing={1}>
 							<Grid item lg={3} md={3} sm={10} xs={11}>
 								<Button
-									variant='outlined'
-									color='primary'
+									variant="outlined"
+									color="primary"
 									className={classes.addButton}
 									onClick={addMoreFunc}
 									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
@@ -703,12 +829,11 @@ const PurchaseReport = ({ history }) => {
 							<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
 							<Grid item lg={3} md={3} sm={10} xs={11}>
 								<Button
-									variant='outlined'
-									color='primary'
-									type='submit'
+									variant="outlined"
+									color="primary"
+									type="submit"
 									className={classes.addButton}
 									onClick={() => {
-										// console.log(ItemCounter)
 										// history.push('/purchase/purchase_requisition/print_purchase_requisition')
 									}}
 									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
@@ -725,14 +850,20 @@ const PurchaseReport = ({ history }) => {
 				<TableContainer className={classes.tableContainer}>
 					<Table
 						stickyHeader
-						className='table table-dark'
-						style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+						className="table table-dark"
+						style={{
+							backgroundColor: '#d0cfcf',
+							border: '1px solid grey',
+						}}
+					>
 						<TableHead>
-							<TableRow hover role='checkbox'>
-								<StyledTableCell align='center'>Sr.No</StyledTableCell>
-								<StyledTableCell align='center'>Machine Name</StyledTableCell>
-								<StyledTableCell align='center'>Code</StyledTableCell>
-								<StyledTableCell align='center'>Action</StyledTableCell>
+							<TableRow hover role="checkbox">
+								<StyledTableCell align="center">Sr.No</StyledTableCell>
+								<StyledTableCell align="center">
+									Machine Name
+								</StyledTableCell>
+								<StyledTableCell align="center">Code</StyledTableCell>
+								<StyledTableCell align="center">Action</StyledTableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -743,34 +874,48 @@ const PurchaseReport = ({ history }) => {
 							) : productionReports.length ? (
 								productionReports.map((productionReport, i) => (
 									<StyledTableRow>
-										<StyledTableCell className='text-dark bg-light' align='center'>
+										<StyledTableCell
+											className="text-dark bg-light"
+											align="center"
+										>
 											{i + 1}
 										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
+										<StyledTableCell
+											className="text-dark bg-light"
+											align="center"
+										>
 											{productionReport.prNo}
 										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
+										<StyledTableCell
+											className="text-dark bg-light"
+											align="center"
+										>
 											{productionReport.date}
 										</StyledTableCell>
-										<StyledTableCell className='text-light bg-light' align='center'>
+										<StyledTableCell
+											className="text-light bg-light"
+											align="center"
+										>
 											<Button
-												variant='contained'
-												className='bg-dark text-light'
-												size='small'
+												variant="contained"
+												className="bg-dark text-light"
+												size="small"
 												// onClick={() => {
 												// 	handleOpen(machine);
 												// }}
-												style={{ marginTop: 2 }}>
+												style={{ marginTop: 2 }}
+											>
 												Edit
 											</Button>
 											<Button
-												variant='contained'
-												color='secondary'
-												size='small'
+												variant="contained"
+												color="secondary"
+												size="small"
 												// onClick={() => {
 												// 	onDelete(machine._id);
 												// }}
-												style={{ marginLeft: 2, marginTop: 2 }}>
+												style={{ marginLeft: 2, marginTop: 2 }}
+											>
 												Delete
 											</Button>
 										</StyledTableCell>

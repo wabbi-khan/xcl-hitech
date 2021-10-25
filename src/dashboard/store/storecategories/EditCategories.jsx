@@ -105,7 +105,7 @@ const EditCategories = (props) => {
 	const { show, handler, cat } = props;
 	const [success, setSuccess] = React.useState('');
 	const [error, setError] = React.useState('');
-	const [initialValueState, setInitialValueState] = React.useState({
+	const [initialValueState] = React.useState({
 		name: cat?.name,
 	});
 
@@ -119,7 +119,6 @@ const EditCategories = (props) => {
 	}, [show]);
 
 	const onSubmit = async (values) => {
-		console.log(values);
 		dispatch(
 			updateStoreCategory(cat._id, values, (err) => {
 				if (err) {
@@ -133,7 +132,7 @@ const EditCategories = (props) => {
 						setSuccess('');
 					}, 4000);
 				}
-			}),
+			})
 		);
 	};
 
@@ -143,61 +142,73 @@ const EditCategories = (props) => {
 
 	return (
 		<Modal
-			aria-labelledby='transition-modal-title'
-			aria-describedby='transition-modal-description'
+			aria-labelledby="transition-modal-title"
+			aria-describedby="transition-modal-description"
 			className={classes.modal}
 			open={open}
 			closeAfterTransition
 			BackdropComponent={Backdrop}
 			BackdropProps={{
 				timeout: 500,
-			}}>
+			}}
+		>
 			<Fade in={open}>
 				<div className={classes.paper}>
-					<h5 className='text-center mt-4'>Update</h5>
+					<h5 className="text-center mt-4">Update</h5>
 					<Container className={classes.mainContainer}>
 						{cat ? (
 							<Formik
 								initialValues={initialValueState}
 								enableReinitialize
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<Form>
 										<Grid container spacing={1}>
 											<Grid lg={12} md={12} sm={12}>
 												<CssTextField
-													id='outlined-basic'
-													label='Enter Category Name'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
-													autoComplete='off'
+													id="outlined-basic"
+													label="Enter Category Name"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
+													autoComplete="off"
 													defaultValue={cat.name}
 													className={classes.inputFieldStyle1}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
 													onChange={props.handleChange('name')}
 													onBlur={props.handleBlur('name')}
 													value={props.values.name}
-													helperText={props.touched.name && props.errors.name}
-													error={props.touched.name && props.errors.name}
+													helperText={
+														props.touched.name &&
+														props.errors.name
+													}
+													error={
+														props.touched.name &&
+														props.errors.name
+													}
 												/>
 											</Grid>
 										</Grid>
 										<div>
 											<Button
-												variant='outlined'
-												color='primary'
+												variant="outlined"
+												color="primary"
 												className={classes.addButton}
-												type='submit'>
+												type="submit"
+											>
 												Update
 											</Button>
 											<Button
-												variant='outlined'
-												color='primary'
+												variant="outlined"
+												color="primary"
 												className={classes.closeButton}
-												onClick={handleClose}>
+												onClick={handleClose}
+											>
 												close
 											</Button>
 										</div>

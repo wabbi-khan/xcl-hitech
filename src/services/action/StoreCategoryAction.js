@@ -15,10 +15,8 @@ export const getStoreCategory = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/store-category`,
+			`${process.env.REACT_APP_API_URL}/store-category`
 		);
-
-		console.log(data.category);
 
 		dispatch({
 			type: STORE_CATEGORY_FETCH_SUCCESS,
@@ -38,10 +36,8 @@ export const createStoreCategory = (skill, cb) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/store-category`,
-			skill,
+			skill
 		);
-
-		console.log(res);
 
 		if (res.success || res.status === 200) {
 			dispatch({
@@ -63,10 +59,8 @@ export const updateStoreCategory = (id, data, cb) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/store-category/${id}`,
-			data,
+			data
 		);
-
-		console.log(res);
 
 		dispatch({
 			type: STORE_CATEGORY_UPDATE_SUCCESS,
@@ -86,15 +80,13 @@ export const deleteStoreCategory = (params, cb) => async (dispatch) => {
 
 	try {
 		await axios.delete(
-			`${process.env.REACT_APP_API_URL}/store-category/${params}`,
+			`${process.env.REACT_APP_API_URL}/store-category/${params}`
 		);
 
 		dispatch({
 			type: STORE_CATEGORY_DELETE_SUCCESS,
 			payload: params,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}

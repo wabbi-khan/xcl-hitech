@@ -163,7 +163,6 @@ const EditDesignation = (props) => {
 			setEducations([...designation?.educations]);
 			setSkills([...designation?.skills]);
 			setExperiences([...designation?.experiences]);
-			console.log(designation?.educations);
 		}
 	}, [designation]);
 
@@ -261,7 +260,7 @@ const EditDesignation = (props) => {
 						setSuccess(false);
 					}, 4000);
 				}
-			}),
+			})
 		);
 	};
 
@@ -272,8 +271,8 @@ const EditDesignation = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				style={{
@@ -283,7 +282,8 @@ const EditDesignation = (props) => {
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
 						<Container className={classes.mainContainer}>
@@ -293,41 +293,56 @@ const EditDesignation = (props) => {
 									backgroundColor: '#fff',
 									border: '2px solid #333',
 									padding: '10px 30px 10px 30px',
-								}}>
+								}}
+							>
 								{pageError && <p>{pageError}</p>}
 								<h5
 									style={{
 										marginBottom: '50px',
 										textDecoration: 'underline',
 									}}
-									className='text-center mt-4'>
+									className="text-center mt-4"
+								>
 									Update
 								</h5>
 								<Formik
 									initialValues={initialValuesState}
 									validationSchema={validationSchema}
-									onSubmit={onSubmit}>
+									onSubmit={onSubmit}
+								>
 									{(props) => (
 										<>
 											<Form>
 												<Grid container spacing={1}>
 													<Grid lg={12} md={12} sm={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Designation Name'
-															variant='outlined'
-															type='text'
-															size='small'
-															autoComplete='off'
+															id="outlined-basic"
+															label="Designation Name"
+															variant="outlined"
+															type="text"
+															size="small"
+															autoComplete="off"
 															defaultValue={designation.name}
 															style={{ width: '100%' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('name')}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'name'
+															)}
 															onBlur={props.handleBlur('name')}
 															value={props?.values?.name}
-															helperText={props.touched.name && props.errors.name}
-															error={props.touched.name && props.errors.name}
+															helperText={
+																props.touched.name &&
+																props.errors.name
+															}
+															error={
+																props.touched.name &&
+																props.errors.name
+															}
 														/>
 													</Grid>
 												</Grid>
@@ -336,50 +351,76 @@ const EditDesignation = (props) => {
 												style={{
 													margin: '3rem 0rem 2rem 0rem',
 													textDecoration: 'underline',
-												}}>
+												}}
+											>
 												<h4>Competence Criteria</h4>
 											</div>
 											<Formik
 												initialValues={educationInitialValues}
 												validationSchema={educationValidationSchema}
-												onSubmit={addEdu}>
+												onSubmit={addEdu}
+											>
 												{(props) => (
 													<Form>
 														<h5>Educations</h5>
 														<div style={{ display: 'flex' }}>
 															<CssTextField
-																id='outlined-basic'
-																label='Education'
-																variant='outlined'
-																type='text'
-																autocomplete='off'
-																size='small'
+																id="outlined-basic"
+																label="Education"
+																variant="outlined"
+																type="text"
+																autocomplete="off"
+																size="small"
 																select
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
-																onChange={props.handleChange('value')}
-																onBlur={props.handleBlur('value')}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
+																onChange={props.handleChange(
+																	'value'
+																)}
+																onBlur={props.handleBlur(
+																	'value'
+																)}
 																value={props.values.value}
-																helperText={props.touched.value && props.errors.value}
-																error={props.touched.value && props.errors.value}>
+																helperText={
+																	props.touched.value &&
+																	props.errors.value
+																}
+																error={
+																	props.touched.value &&
+																	props.errors.value
+																}
+															>
 																{educations &&
-																	educations.map((education, i) => (
-																		<MenuItem
-																			value={education._id}
-																			key={i}
-																			onClick={() => addEdu(education)}>
-																			{education.name}
-																		</MenuItem>
-																	))}
+																	educations.map(
+																		(education, i) => (
+																			<MenuItem
+																				value={
+																					education._id
+																				}
+																				key={i}
+																				onClick={() =>
+																					addEdu(education)
+																				}
+																			>
+																				{education.name}
+																			</MenuItem>
+																		)
+																	)}
 															</CssTextField>
 														</div>
 														{educationsState.map((el, i) => (
 															<p className={classes.resStyle}>
-																<span style={{ fontSize: 13 }}>{i + 1}. </span>
+																<span style={{ fontSize: 13 }}>
+																	{i + 1}.{' '}
+																</span>
 																{el?.name}
 																<DeleteOutlineIcon
-																	type='button'
+																	type="button"
 																	className={classes.delete}
 																	onClick={() => removeEdu(el)}
 																/>
@@ -393,30 +434,52 @@ const EditDesignation = (props) => {
 											<Formik
 												initialValues={skillInitialValues}
 												validationSchema={skillValidationSchema}
-												onSubmit={addSkill}>
+												onSubmit={addSkill}
+											>
 												{(props) => (
 													<Form>
 														<h5>Skills</h5>
 														<div style={{ display: 'flex' }}>
 															<CssTextField
-																id='outlined-basic'
-																label='Skills'
-																variant='outlined'
-																type='text'
-																autocomplete='off'
-																size='small'
+																id="outlined-basic"
+																label="Skills"
+																variant="outlined"
+																type="text"
+																autocomplete="off"
+																size="small"
 																select
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
-																onChange={props.handleChange('value')}
-																onBlur={props.handleBlur('value')}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
+																onChange={props.handleChange(
+																	'value'
+																)}
+																onBlur={props.handleBlur(
+																	'value'
+																)}
 																value={props.values.value}
-																helperText={props.touched.value && props.errors.value}
-																error={props.touched.value && props.errors.value}>
+																helperText={
+																	props.touched.value &&
+																	props.errors.value
+																}
+																error={
+																	props.touched.value &&
+																	props.errors.value
+																}
+															>
 																{skills &&
 																	skills.map((el, i) => (
-																		<MenuItem value={el._id} key={i} onClick={() => addSkill(el)}>
+																		<MenuItem
+																			value={el._id}
+																			key={i}
+																			onClick={() =>
+																				addSkill(el)
+																			}
+																		>
 																			{el.skill}
 																		</MenuItem>
 																	))}
@@ -424,12 +487,16 @@ const EditDesignation = (props) => {
 														</div>
 														{skillsState.map((el, i) => (
 															<p className={classes.resStyle}>
-																<span style={{ fontSize: 13 }}>{i + 1}. </span>
+																<span style={{ fontSize: 13 }}>
+																	{i + 1}.{' '}
+																</span>
 																{el?.skill}
 																<DeleteOutlineIcon
-																	type='button'
+																	type="button"
 																	className={classes.delete}
-																	onClick={() => removeSkill(el)}
+																	onClick={() =>
+																		removeSkill(el)
+																	}
 																/>
 															</p>
 														))}
@@ -439,31 +506,55 @@ const EditDesignation = (props) => {
 											<div style={{ margin: '2rem 0rem' }}></div>
 											<Formik
 												initialValues={experienceInitialValues}
-												validationSchema={experienceValidationSchema}
-												onSubmit={addExp}>
+												validationSchema={
+													experienceValidationSchema
+												}
+												onSubmit={addExp}
+											>
 												{(props) => (
 													<Form>
 														<h5>Experiences</h5>
 														<div style={{ display: 'flex' }}>
 															<CssTextField
-																id='outlined-basic'
-																label='Experience'
-																variant='outlined'
-																type='text'
-																autocomplete='off'
-																size='small'
+																id="outlined-basic"
+																label="Experience"
+																variant="outlined"
+																type="text"
+																autocomplete="off"
+																size="small"
 																select
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
-																onChange={props.handleChange('value')}
-																onBlur={props.handleBlur('value')}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
+																onChange={props.handleChange(
+																	'value'
+																)}
+																onBlur={props.handleBlur(
+																	'value'
+																)}
 																value={props.values.value}
-																helperText={props.touched.value && props.errors.value}
-																error={props.touched.value && props.errors.value}>
+																helperText={
+																	props.touched.value &&
+																	props.errors.value
+																}
+																error={
+																	props.touched.value &&
+																	props.errors.value
+																}
+															>
 																{experiences &&
 																	experiences.map((el, i) => (
-																		<MenuItem value={el._id} key={i} onClick={() => addExp(el)}>
+																		<MenuItem
+																			value={el._id}
+																			key={i}
+																			onClick={() =>
+																				addExp(el)
+																			}
+																		>
 																			{el.name}
 																		</MenuItem>
 																	))}
@@ -471,10 +562,12 @@ const EditDesignation = (props) => {
 														</div>
 														{experiencesState.map((el, i) => (
 															<p className={classes.resStyle}>
-																<span style={{ fontSize: 13 }}>{i + 1}. </span>
+																<span style={{ fontSize: 13 }}>
+																	{i + 1}.{' '}
+																</span>
 																{el?.name}
 																<DeleteOutlineIcon
-																	type='button'
+																	type="button"
 																	className={classes.delete}
 																	onClick={() => removeExp(el)}
 																/>
@@ -490,25 +583,30 @@ const EditDesignation = (props) => {
 														display: 'flex',
 														alignItems: 'center',
 														justifyContent: 'center',
-													}}>
+													}}
+												>
 													<Button
-														variant='contained'
-														color='primary'
-														text='Update'
+														variant="contained"
+														color="primary"
+														text="Update"
 														style={{ marginRight: '1rem' }}
 														loading={loading}
 													/>
 													<Button
-														variant='outlined'
-														color='dark'
+														variant="outlined"
+														color="dark"
 														onClick={handleClose}
-														text='Close'
-														type='button'
-														classNames='bg-danger text-light'
+														text="Close"
+														type="button"
+														classNames="bg-danger text-light"
 													/>
 												</div>
 												{error && <p>{error}</p>}
-												{success && <p>Responsibility Successfully Updated</p>}
+												{success && (
+													<p>
+														Responsibility Successfully Updated
+													</p>
+												)}
 											</Form>
 										</>
 									)}

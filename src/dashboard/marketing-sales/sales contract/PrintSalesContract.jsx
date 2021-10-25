@@ -12,10 +12,6 @@ const PrintSalesContract = ({ location }) => {
 
 	const salesContract = location.state.salesContract;
 
-	console.log(location);
-
-	console.log(salesContract);
-
 	return (
 		<div className="text-center">
 			<div class="row mt-2">

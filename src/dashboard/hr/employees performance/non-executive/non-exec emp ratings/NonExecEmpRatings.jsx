@@ -153,14 +153,11 @@ const NonExecEmpRatings = ({ history }) => {
 
 	const dispatch = useDispatch();
 
-	console.log(nonExecRat);
-
 	useEffect(async () => {
 		dispatch(getNonExtEmpRatAction());
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
-		console.log(values);
 		dispatch(createNonExtEmpRatAction(values));
 	};
 
@@ -171,7 +168,7 @@ const NonExecEmpRatings = ({ history }) => {
 				setTimeout(() => {
 					setSuccess(false);
 				}, 4000);
-			}),
+			})
 		);
 	};
 
@@ -191,89 +188,103 @@ const NonExecEmpRatings = ({ history }) => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<Form>
 								<Grid container spacing={1} style={{ marginTop: 20 }}>
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Name'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Name"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											style={{ width: '125%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('name')}
 											onBlur={props.handleBlur('name')}
 											value={props.values.name}
-											helperText={props.touched.name && props.errors.name}
+											helperText={
+												props.touched.name && props.errors.name
+											}
 											error={props.touched.name && props.errors.name}
 										/>
 									</Grid>
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Description'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Description"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											style={{ width: '125%', marginLeft: 50 }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('description')}
 											onBlur={props.handleBlur('description')}
 											value={props.values.description}
-											helperText={props.touched.description && props.errors.description}
-											error={props.touched.description && props.errors.description}
+											helperText={
+												props.touched.description &&
+												props.errors.description
+											}
+											error={
+												props.touched.description &&
+												props.errors.description
+											}
 										/>
 									</Grid>
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Min Value'
-											variant='outlined'
-											type='number'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Min Value"
+											variant="outlined"
+											type="number"
+											autocomplete="off"
+											size="small"
 											style={{ width: '125%', marginLeft: 100 }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('min')}
 											onBlur={props.handleBlur('min')}
 											value={props.values.min}
-											helperText={props.touched.min && props.errors.min}
+											helperText={
+												props.touched.min && props.errors.min
+											}
 											error={props.touched.min && props.errors.min}
 										/>
 									</Grid>
 									<Grid item lg={2} md={2} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Max Value'
-											variant='outlined'
-											type='number'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Max Value"
+											variant="outlined"
+											type="number"
+											autocomplete="off"
+											size="small"
 											style={{ width: '125%', marginLeft: 150 }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('max')}
 											onBlur={props.handleBlur('max')}
 											value={props.values.max}
-											helperText={props.touched.max && props.errors.max}
+											helperText={
+												props.touched.max && props.errors.max
+											}
 											error={props.touched.max && props.errors.max}
 										/>
 									</Grid>
 								</Grid>
 								<div>
 									<Button
-										variant='outlined'
-										color='primary'
-										type='submit'
-										className={classes.addButton}>
+										variant="outlined"
+										color="primary"
+										type="submit"
+										className={classes.addButton}
+									>
 										Add
 									</Button>
 								</div>
@@ -286,16 +297,28 @@ const NonExecEmpRatings = ({ history }) => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Description</StyledTableCell>
-									<StyledTableCell align='center'>Min</StyledTableCell>
-									<StyledTableCell align='center'>Max</StyledTableCell>
-									<StyledTableCell align='center'>Actions</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Description
+									</StyledTableCell>
+									<StyledTableCell align="center">Min</StyledTableCell>
+									<StyledTableCell align="center">Max</StyledTableCell>
+									<StyledTableCell align="center">
+										Actions
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -308,37 +331,60 @@ const NonExecEmpRatings = ({ history }) => {
 								) : (
 									nonExecRat.map((el, i) => (
 										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.description}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.min}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.max}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<>
 													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
+														variant="contained"
+														className="bg-dark text-light"
+														size="small"
 														onClick={() => handleOpen(el)}
-														style={{ marginTop: 2 }}>
+														style={{ marginTop: 2 }}
+													>
 														Edit
 													</Button>
 													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
+														variant="contained"
+														color="secondary"
+														size="small"
 														onClick={() => onDelete(el._id)}
-														style={{ marginLeft: 2, marginTop: 2 }}>
+														style={{
+															marginLeft: 2,
+															marginTop: 2,
+														}}
+													>
 														Delete
 													</Button>
 												</>
