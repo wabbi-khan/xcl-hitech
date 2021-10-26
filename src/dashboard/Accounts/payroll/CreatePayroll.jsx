@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getEmployees } from '../../../services/action/EmployeesAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomInput, CustomButton, CustomTable } from '../../../components';
+import { CustomInput, CustomButton } from '../../../components';
 import Loader from 'react-loader-spinner';
 import Sidenav from '../../SideNav/Sidenav';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,31 +9,27 @@ import moment from 'moment';
 
 const CreatePayroll = () => {
 	const [fetchLoading, setFetchLoading] = useState(true);
-	const [fetchError, setFetchError] = useState();
 	const [employeesData, setEmployeesData] = useState([]);
 	const [checkAll, setCheckAll] = useState(false);
 	const [totalSal, setTotalSal] = useState(0);
 	const [totalDeduction, setTotalDeduction] = useState(0);
 	const [finalSal, setFinalSal] = useState(0);
+	const [salaryOfMonth, setSalaryOfMonth] = useState('');
 
 	const { employees } = useSelector((state) => state.employees);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		setFetchLoading(true);
-		dispatch(
-			getEmployees(null, (err) => {
-				if (err) {
-					setFetchError(err);
-					setTimeout(() => {
-						setFetchError('');
-					}, 4000);
-				}
-				setFetchLoading(false);
-			})
-		);
-	}, []);
+		if (salaryOfMonth) {
+			setFetchLoading(true);
+			dispatch(
+				getEmployees(null, (err) => {
+					setFetchLoading(false);
+				})
+			);
+		}
+	}, [salaryOfMonth, dispatch]);
 
 	function getAmountOfWeekDaysInMonth(date, weekday) {
 		date.date(1);
@@ -43,25 +39,35 @@ const CreatePayroll = () => {
 
 	useEffect(() => {
 		let totalDaysInCurrMonth = moment().daysInMonth();
-		let sundaysInMonth = getAmountOfWeekDaysInMonth(moment(), 0);
 		const temp = employees.map((el) => {
-			let totalLeaves = 0;
+			let totalUnPaidLeaves = 0;
+			let totalPaidLeaves = 0;
 			let totalDeduction = 0;
 			let totalSalaryAfterDeduction = el.finalSal;
 			let empSalOfSingleDay = el.finalSal / totalDaysInCurrMonth;
-
+			let currDate = new Date(salaryOfMonth);
+			console.log(el);
 			for (let i = 0; i < el.leaves.length; i++) {
-				totalLeaves += parseInt(el.leaves[i].days);
+				let fromDate = new Date(el.leaves[i].from);
+
+				if (el.leaves[i].isPaid) {
+					for (let j = 0; j < el.leaves[i].days; j++) {}
+				} else {
+					for (let j = 0; j < el.leaves[i].days; j++) {
+						console.log('object');
+					}
+				}
 			}
-			if (totalLeaves > 0) {
-				totalDeduction = Math.ceil(empSalOfSingleDay * totalLeaves);
+			if (totalUnPaidLeaves > 0) {
+				totalDeduction = Math.ceil(empSalOfSingleDay * totalUnPaidLeaves);
 				totalSalaryAfterDeduction -= totalDeduction;
 			}
 
 			return {
 				...el,
 				checked: false,
-				totalLeaves,
+				totalUnPaidLeaves,
+				totalPaidLeaves,
 				totalDeduction,
 				totalSalaryAfterDeduction,
 			};
@@ -166,7 +172,16 @@ const CreatePayroll = () => {
 						classNames="btn btn-sm bg-dark text-light"
 					/>
 				</div>
-				{fetchLoading ? (
+				<div>
+					<CustomInput
+						width="30%"
+						type="date"
+						onChange={(e) => setSalaryOfMonth(e)}
+					/>
+				</div>
+				{!salaryOfMonth ? (
+					<p>Please select the month</p>
+				) : fetchLoading ? (
 					<div
 						style={{
 							display: 'flex',
@@ -195,7 +210,8 @@ const CreatePayroll = () => {
 								<td>Designation</td>
 								<td>Department</td>
 								<td>Salary</td>
-								<td>Leaves</td>
+								<td>Paid Leaves</td>
+								<td>UnPaid Leaves</td>
 								<td>Deduction</td>
 								<td>Final Salary</td>
 							</tr>
@@ -217,7 +233,8 @@ const CreatePayroll = () => {
 										<td>{emp.finalDesignation.name}</td>
 										<td>{emp.finalDepartment.name}</td>
 										<td>{emp.finalSal}</td>
-										<td>{emp.totalLeaves}</td>
+										<td>{emp.totalPaidLeaves}</td>
+										<td>{emp.totalUnPaidLeaves}</td>
 										<td>{emp.totalDeduction}</td>
 										<td>{emp.totalSalaryAfterDeduction}</td>
 									</tr>
@@ -258,37 +275,6 @@ const CreatePayroll = () => {
 					classNames="btn btn-sm bg-dark text-light"
 					style={{ float: 'right' }}
 				/>
-				{/* <CustomTable
-          fetchLoading={fetchLoading}
-          data={employees}
-          columnHeadings={[
-            "Sr.#",
-            "Employee Name",
-            "Designation",
-            "Department",
-            "Salary",
-            "Leaves",
-            "Deduction",
-            "Final Salary",
-            "Approve",
-          ]}
-          keys={[
-            "name",
-            "finalDesignation.name",
-            "finalDepartment.name",
-            "finalSal",
-            "",
-            "",
-            "",
-            "",
-          ]}
-          withSrNo
-        /> */}
-				{/* {employees.map((el) => (
-          <div>
-            <p>{el.name}</p>
-          </div>
-        ))} */}
 			</div>
 		</Sidenav>
 	);
