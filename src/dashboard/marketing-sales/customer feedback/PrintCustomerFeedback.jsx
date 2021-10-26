@@ -36,11 +36,11 @@ const PrintCustomerFeedback = () => {
       </div>
       <div className="container mt-5" style={{ display: "flex", gap: "1rem" }}>
         <p>M/s: </p>
-        <p style={{ textDecoration: "underline" }}>asd</p>
+        <p style={{ textDecoration: "underline" }}>{  }</p>
       </div>
       <div className="container" style={{ display: "flex", gap: "1rem" }}>
         <p>Address: </p>
-        <p style={{ textDecoration: "underline" }}>asd</p>
+        <p style={{ textDecoration: "underline" }}>{  }</p>
       </div>
       <div className="container">
         <p>Dear Sir,</p>
@@ -109,12 +109,9 @@ const PrintCustomerFeedback = () => {
               <td></td>
             </tr>
             <tr>
-              <td>Comments/Any Suggestions:</td>
+              <td style={{ fontWeight: 'bold' }}>Comments/Any Suggestions:</td>
               <td colspan="5">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque
-                sapiente adipisci beatae itaque minima, rem error architecto nam
-                sed reprehenderit illo autem ullam iure labore, perspiciatis
-                mollitia corrupti voluptas explicabo!
+                {  }
               </td>
             </tr>
           </tbody>
