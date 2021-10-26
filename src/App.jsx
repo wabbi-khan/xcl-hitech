@@ -151,6 +151,7 @@ import CreatePayroll from './dashboard/Accounts/Payroll/CreatePayroll';
 import PrintSalesContract from './dashboard/marketing-sales/sales contract/PrintSalesContract';
 import PrintContractReview from './dashboard/marketing-sales/contract review/PrintContractReview';
 import SalaryVoucher from './dashboard/Accounts/Payroll/Vouchers/SalaryVoucher';
+import PrintCustomerFeedback from './dashboard/marketing-sales/customer feedback/PrintCustomerFeedback';
 
 dotenv.config();
 
@@ -683,17 +684,21 @@ function App() {
 			/>
 			<Route
 				exact
-				path="/marketing_dashboard/customer_feedback"
-				component={CustomerFeedback}
-			/>
-			<Route
-				exact
 				path="/marketing_dashboard/customer_complaint"
 				component={CustomerComplaint}
 			/>
 			<Route
 				path="/marketing_dashboard/print_sales_contract"
 				component={PrintSalesContract}
+			/>
+			<Route
+				exact
+				path="/marketing_dashboard/customer_feedback"
+				component={CustomerFeedback}
+			/>
+			<Route
+				path="/marketing_dashboard/print_customer_feedback"
+				component={PrintCustomerFeedback}
 			/>
 			{/* ===================================================================== */}
 			<Route
