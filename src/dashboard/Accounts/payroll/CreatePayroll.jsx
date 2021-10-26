@@ -7,7 +7,7 @@ import Sidenav from '../../SideNav/Sidenav';
 import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 
-const CreatePayroll = () => {
+const CreatePayroll = ({ history }) => {
 	const [fetchLoading, setFetchLoading] = useState(true);
 	const [employeesData, setEmployeesData] = useState([]);
 	const [checkAll, setCheckAll] = useState(false);
@@ -147,6 +147,10 @@ const CreatePayroll = () => {
 		});
 	};
 
+	const pushToPrint = () => {
+		history.push('/payroll/salary_voucher');
+	};
+
 	return (
 		<Sidenav title="Create Payroll">
 			<div>
@@ -274,6 +278,7 @@ const CreatePayroll = () => {
 					text="Create Salary Voucher"
 					classNames="btn btn-sm bg-dark text-light"
 					style={{ float: 'right' }}
+					onClick={pushToPrint}
 				/>
 			</div>
 		</Sidenav>
