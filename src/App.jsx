@@ -150,7 +150,7 @@ import CustomerComplaint from './dashboard/marketing-sales/customer complaint/Cu
 import CreatePayroll from './dashboard/Accounts/payroll/CreatePayroll';
 import PrintSalesContract from './dashboard/marketing-sales/sales contract/PrintSalesContract';
 import PrintContractReview from './dashboard/marketing-sales/contract review/PrintContractReview';
-import SalaryVoucher from './dashboard/Accounts/Payroll/Vouchers/SalaryVoucher';
+import SalaryVoucher from './dashboard/Accounts/payroll/Vouchers/SalaryVoucher';
 import PrintCustomerFeedback from './dashboard/marketing-sales/customer feedback/PrintCustomerFeedback';
 
 dotenv.config();
