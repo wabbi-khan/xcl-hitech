@@ -36,11 +36,11 @@ const PrintCustomerFeedback = () => {
       </div>
       <div className="container mt-5" style={{ display: "flex", gap: "1rem" }}>
         <p>M/s: </p>
-        <p style={{ textDecoration: "underline" }}>{  }</p>
+        <p style={{ textDecoration: "underline" }}>{}</p>
       </div>
       <div className="container" style={{ display: "flex", gap: "1rem" }}>
         <p>Address: </p>
-        <p style={{ textDecoration: "underline" }}>{  }</p>
+        <p style={{ textDecoration: "underline" }}>{}</p>
       </div>
       <div className="container">
         <p>Dear Sir,</p>
@@ -109,17 +109,109 @@ const PrintCustomerFeedback = () => {
               <td></td>
             </tr>
             <tr>
-              <td style={{ fontWeight: 'bold' }}>Comments/Any Suggestions:</td>
-              <td colspan="5">
-                {  }
-              </td>
+              <td style={{ fontWeight: "bold" }}>Comments/Any Suggestions:</td>
+              <td colspan="5">{}</td>
             </tr>
           </tbody>
         </table>
-        <p className="mt-4">
-          Look forward to have your continued patronization & cooperation, we
-          remains
-        </p>
+        <div style={{ fontSize: "14px" }}>
+          <p className="mt-4">
+            Look forward to have your continued patronization & cooperation, we
+            remains
+          </p>
+          <div className="row pt-3">
+            <div className="col-6">
+              <p>Your Faithfull,</p>
+              <p style={{ marginTop: "-1rem" }}>For & on behalf of</p>
+              <p style={{ marginTop: "-1rem" }}>
+                Hi Tech Pipe & Engineering Industries
+              </p>
+              <div style={{ marginTop: '10rem' }}>
+                <hr
+                  style={{
+                    borderTop: "1px solid black",
+                    padding: "1px",
+                    width: "180px",
+                  }}
+                />
+                <p style={{ marginTop: '-.5rem' }}>Sales/Marketing Manager</p>
+              </div>
+            </div>
+            <div className="col-6">
+              <p style={{ fontWeight: "bold" }}>To be filled by the client:</p>
+              <div className="row pt-3">
+                <div className="col-3">
+                  <p>Name:</p>
+                </div>
+                <div className="col-4">
+                  <hr
+                    style={{
+                      borderTop: "1px solid black",
+                      padding: "1px",
+                      width: "300px",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <p>Designation:</p>
+                </div>
+                <div className="col-4">
+                  <hr
+                    style={{
+                      borderTop: "1px solid black",
+                      padding: "1px",
+                      width: "300px",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <p>Company Name:</p>
+                </div>
+                <div className="col-4">
+                  <hr
+                    style={{
+                      borderTop: "1px solid black",
+                      padding: "1px",
+                      width: "300px",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <p>Signature & Stamp:</p>
+                </div>
+                <div className="col-4">
+                  <hr
+                    style={{
+                      borderTop: "1px solid black",
+                      padding: "1px",
+                      width: "300px",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <p>Date:</p>
+                </div>
+                <div className="col-4">
+                  <hr
+                    style={{
+                      borderTop: "1px solid black",
+                      padding: "1px",
+                      width: "300px",
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
