@@ -76,7 +76,7 @@ const CustomTable = ({
     <p>There is no data found.</p>
   ) : (
     <>
-      <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-5">
+      <table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-4">
         <thead
           class={`${tablePrint ? "" : "bg-dark"} ${
             tablePrint ? "text-dark" : "text-light"
