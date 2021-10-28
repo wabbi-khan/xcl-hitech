@@ -20,6 +20,7 @@ import {
 import Loader from 'react-loader-spinner';
 import Button from '../../../components/utils/Button';
 import { capitalize } from '../../../utils/capitalize';
+import moment from 'moment';
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -142,40 +143,23 @@ const AddEmpAttendance = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	const date = new Date();
-	const monthNames = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December',
-	];
-	var month = monthNames[date.getMonth()];
-	const year = date.getFullYear();
-	const today = date.getDate();
-	const completeDate = `${today}-${month}-${year}`;
-
 	const { attendances } = useSelector((state) => state.attendances);
 
 	React.useEffect(() => {
 		setFetchLoading(true);
 		dispatch(
-			getAttendanceAction(`date=${completeDate}`, (err) => {
-				if (err) {
-					setFetchError(err);
-					setTimeout(() => {
-						setFetchError('');
-					}, 4000);
+			getAttendanceAction(
+				`date=${moment().format('DD-MMM-YYYY')}`,
+				(err) => {
+					if (err) {
+						setFetchError(err);
+						setTimeout(() => {
+							setFetchError('');
+						}, 4000);
+					}
+					setFetchLoading(false);
 				}
-				setFetchLoading(false);
-			}),
+			)
 		);
 	}, [dispatch]);
 
@@ -199,7 +183,7 @@ const AddEmpAttendance = () => {
 					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -208,14 +192,14 @@ const AddEmpAttendance = () => {
 			<div>
 				<Container className={classes.mainContainer}>
 					<Button
-						variant='contained'
+						variant="contained"
 						style={{ backgroundColor: 'lightBlue' }}
-						classNames='text-dark'
+						classNames="text-dark"
 						onClick={generateTodaysAttendance}
 						loading={createLoading}
-						loaderColor='#333'
-						text='Generate Todays Attendances'
-						size='small'
+						loaderColor="#333"
+						text="Generate Todays Attendances"
+						size="small"
 					/>
 					{createError && <p>{createError}</p>}
 					{fetchLoading ? (
@@ -225,8 +209,14 @@ const AddEmpAttendance = () => {
 								alignItems: 'center',
 								justifyContent: 'center',
 								marginTop: '3rem',
-							}}>
-							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+							}}
+						>
+							<Loader
+								type="TailSpin"
+								color="#000"
+								width="3rem"
+								height="3rem"
+							/>
 						</div>
 					) : attendances?.length === 0 ? (
 						<p>There are no Attendances</p>
@@ -235,19 +225,30 @@ const AddEmpAttendance = () => {
 							<TableContainer className={classes.tableContainer}>
 								<Table
 									stickyHeader
-									className='table table-dark'
+									className="table table-dark"
 									style={{
 										backgroundColor: '#d0cfcf',
 										border: '1px solid black',
 										width: '100%',
-									}}>
+									}}
+								>
 									<TableHead>
-										<TableRow hover role='checkbox'>
-											<StyledTableCell align='center'>Sr.No</StyledTableCell>
-											<StyledTableCell align='center'>Employee Name</StyledTableCell>
-											<StyledTableCell align='center'>Department</StyledTableCell>
-											<StyledTableCell align='center'>Date</StyledTableCell>
-											<StyledTableCell align='center'>Present/Absent</StyledTableCell>
+										<TableRow hover role="checkbox">
+											<StyledTableCell align="center">
+												Sr.No
+											</StyledTableCell>
+											<StyledTableCell align="center">
+												Employee Name
+											</StyledTableCell>
+											<StyledTableCell align="center">
+												Department
+											</StyledTableCell>
+											<StyledTableCell align="center">
+												Date
+											</StyledTableCell>
+											<StyledTableCell align="center">
+												Present/Absent
+											</StyledTableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
@@ -256,14 +257,18 @@ const AddEmpAttendance = () => {
 										) : attendances.length > 0 ? (
 											attendances.map((el, i) => (
 												<StyledTableRow>
-													<StyledTableCell className='text-dark bg-light' align='center'>
+													<StyledTableCell
+														className="text-dark bg-light"
+														align="center"
+													>
 														<div
 															style={{
 																display: 'flex',
 																alignItems: 'center',
 																justifyContent: 'center',
 																position: 'relative',
-															}}>
+															}}
+														>
 															{i + 1}
 															<div
 																style={{
@@ -273,39 +278,59 @@ const AddEmpAttendance = () => {
 																	top: '-3px',
 																	right: '36px',
 																	borderRadius: '50%',
-																	backgroundColor: el?.isPresent ? 'lightGreen' : 'red',
-																}}></div>
+																	backgroundColor:
+																		el?.isPresent
+																			? 'lightGreen'
+																			: 'red',
+																}}
+															></div>
 														</div>
 													</StyledTableCell>
-													<StyledTableCell className='text-dark bg-light' align='center'>
+													<StyledTableCell
+														className="text-dark bg-light"
+														align="center"
+													>
 														{capitalize(el?.employee?.name)}
 													</StyledTableCell>
-													<StyledTableCell className='text-dark bg-light' align='center'>
-														{capitalize(el?.employee?.finalDepartment?.name)}
+													<StyledTableCell
+														className="text-dark bg-light"
+														align="center"
+													>
+														{capitalize(
+															el?.employee?.finalDepartment?.name
+														)}
 													</StyledTableCell>
-													<StyledTableCell className='text-dark bg-light' align='center'>
+													<StyledTableCell
+														className="text-dark bg-light"
+														align="center"
+													>
 														{el?.date}
 													</StyledTableCell>
 
-													<StyledTableCell className='text-light bg-light' align='center'>
+													<StyledTableCell
+														className="text-light bg-light"
+														align="center"
+													>
 														<div
 															style={{
 																display: 'flex',
 																alignItems: 'center',
 																gap: '1rem',
 																justifyContent: 'center',
-															}}>
+															}}
+														>
 															<Button
-																variant='contained'
-																classNames='text-light'
+																variant="contained"
+																classNames="text-light"
 																style={{
-																	backgroundColor: el?.isPresent
-																		? '#C81D25'
-																		: el?.isLeave
-																		? '#333'
-																		: '#008BF8',
+																	backgroundColor:
+																		el?.isPresent
+																			? '#C81D25'
+																			: el?.isLeave
+																			? '#333'
+																			: '#008BF8',
 																}}
-																size='small'
+																size="small"
 																text={
 																	el?.isPresent
 																		? 'Mark Absent'
@@ -313,7 +338,9 @@ const AddEmpAttendance = () => {
 																		? 'On Leave'
 																		: 'Mark Present'
 																}
-																onClick={() => markPresentOrAbsent(el)}
+																onClick={() =>
+																	markPresentOrAbsent(el)
+																}
 															/>
 														</div>
 													</StyledTableCell>

@@ -15,7 +15,7 @@ import { getMaterialCategoryAction } from '../../../services/action/MatCategoryA
 import { getUnits } from '../../../services/action/unitAction';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import Autocomplete from '../../../components/utils/AutoComplete';
+import { CustomInput, CustomAutoComplete } from '../../../components';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -94,6 +94,7 @@ const initialValues = {
 	category: '',
 	subCategory: '',
 	unit: '',
+	price: '',
 };
 
 const validationSchema = yup.object({
@@ -101,6 +102,7 @@ const validationSchema = yup.object({
 	category: yup.string().required(),
 	subCategory: yup.string(),
 	unit: yup.string().required(),
+	price: yup.string().required(),
 });
 
 const EditMaterial = (props) => {
@@ -158,7 +160,6 @@ const EditMaterial = (props) => {
 
 	const onSubmit = async (values) => {
 		setUpdateLoading(true);
-
 		dispatch(
 			updateMaterialAction(material._id, values, (err) => {
 				if (err) {
@@ -235,7 +236,7 @@ const EditMaterial = (props) => {
 												/>
 											</Grid>
 											<Grid lg={12} md={12} sm={12}>
-												<Autocomplete
+												<CustomAutoComplete
 													options={categories}
 													label="name"
 													onChange={(e) => {
@@ -271,7 +272,7 @@ const EditMaterial = (props) => {
 											</Grid>
 
 											<Grid lg={12} md={12} sm={12}>
-												<Autocomplete
+												<CustomAutoComplete
 													options={subCategories}
 													label="name"
 													onChange={props.handleChange(
@@ -308,7 +309,7 @@ const EditMaterial = (props) => {
 												/>
 											</Grid>
 											<Grid lg={12} md={12} sm={12}>
-												<Autocomplete
+												<CustomAutoComplete
 													options={units}
 													label="name"
 													onChange={props.handleChange('unit')}
@@ -330,6 +331,24 @@ const EditMaterial = (props) => {
 														style: { fontSize: 14 },
 													}}
 													labelText="Select Unnit"
+												/>
+											</Grid>
+											<Grid item lg={12} md={12} sm={12} xs={12}>
+												<CustomInput
+													label="Select Price Per Unit"
+													onChange={props.handleChange('price')}
+													value={props.values.price}
+													onBlur={props.handleBlur('price')}
+													helperText={
+														props.touched.price &&
+														props.errors.price
+													}
+													error={
+														props.touched.price &&
+														props.errors.price
+													}
+													width="100%"
+													style={{ marginTop: '10px' }}
 												/>
 											</Grid>
 										</Grid>

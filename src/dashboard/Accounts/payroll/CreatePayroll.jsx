@@ -1,11 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { getEmployees } from '../../../services/action/EmployeesAction';
+import { getAttendanceAction } from '../../../services/action/attendanceAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomInput, CustomButton } from '../../../components';
+import {
+	CustomInput,
+	CustomButton,
+	generateOptionsFromIndexes,
+} from '../../../components';
 import Loader from 'react-loader-spinner';
 import Sidenav from '../../SideNav/Sidenav';
 import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+
+const monthNames = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+];
+
+const initialValues = {
+	naration: '',
+};
+
+const validationSchema = yup.object({
+	naration: yup.string().required(),
+});
 
 const CreatePayroll = ({ history }) => {
 	const [fetchLoading, setFetchLoading] = useState(true);
@@ -23,11 +53,7 @@ const CreatePayroll = ({ history }) => {
 	useEffect(() => {
 		if (salaryOfMonth) {
 			setFetchLoading(true);
-			dispatch(
-				getEmployees(null, (err) => {
-					setFetchLoading(false);
-				})
-			);
+			dispatch(getEmployees(null, (err) => {}));
 		}
 	}, [salaryOfMonth, dispatch]);
 
@@ -37,43 +63,84 @@ const CreatePayroll = ({ history }) => {
 		return Math.floor((date.daysInMonth() - dif) / 7) + 1;
 	}
 
-	useEffect(() => {
+	useEffect(async () => {
 		let totalDaysInCurrMonth = moment().daysInMonth();
-		const temp = employees.map((el) => {
+		let temp = [];
+
+		for (let el of employees) {
 			let totalUnPaidLeaves = 0;
 			let totalPaidLeaves = 0;
 			let totalDeduction = 0;
+			let totalAbsents = 0;
+			let totalPresents = 0;
 			let totalSalaryAfterDeduction = el.finalSal;
 			let empSalOfSingleDay = el.finalSal / totalDaysInCurrMonth;
 			let currDate = new Date(salaryOfMonth);
-			console.log(el);
+			currDate.setFullYear(2021);
 			for (let i = 0; i < el.leaves.length; i++) {
 				let fromDate = new Date(el.leaves[i].from);
-
+				fromDate.setDate(fromDate.getDate() + 1);
 				if (el.leaves[i].isPaid) {
-					for (let j = 0; j < el.leaves[i].days; j++) {}
+					for (let j = 0; j < el.leaves[i].days; j++) {
+						if (fromDate.getMonth() === currDate.getMonth()) {
+							totalPaidLeaves++;
+						}
+						fromDate.setDate(fromDate.getDate() + 1);
+					}
 				} else {
 					for (let j = 0; j < el.leaves[i].days; j++) {
-						console.log('object');
+						if (fromDate.getMonth() === currDate.getMonth()) {
+							totalUnPaidLeaves++;
+						}
+						fromDate.setDate(fromDate.getDate() + 1);
 					}
 				}
 			}
-			if (totalUnPaidLeaves > 0) {
-				totalDeduction = Math.ceil(empSalOfSingleDay * totalUnPaidLeaves);
+
+			const today = moment(currDate).startOf('month').clone();
+
+			await dispatch(
+				getAttendanceAction(
+					`employee=${el._id}&date[gte]=${today.format(
+						'DD-MMM-YYYY'
+					)}&date[lte]=${moment(today)
+						.endOf('month')
+						.clone()
+						.format('DD-MMM-YYYY')}`,
+					(err, data) => {
+						if (err) return;
+						totalPresents = data.data.length;
+
+						for (let i = 0; i < data?.data?.length; i++) {
+							if (!data.data[i].isLeave && !data.data[i].isPresent) {
+								totalAbsents++;
+								totalPresents--;
+							}
+						}
+					}
+				)
+			);
+
+			if (totalUnPaidLeaves > 0 || totalAbsents > 0) {
+				let temp = totalUnPaidLeaves + totalAbsents;
+				totalDeduction = Math.ceil(empSalOfSingleDay * temp);
 				totalSalaryAfterDeduction -= totalDeduction;
 			}
 
-			return {
+			temp.push({
 				...el,
 				checked: false,
 				totalUnPaidLeaves,
 				totalPaidLeaves,
+				totalAbsents,
+				totalPresents,
 				totalDeduction,
 				totalSalaryAfterDeduction,
-			};
-		});
+			});
+		}
 
 		setEmployeesData([...temp]);
+		setFetchLoading(false);
 	}, [employees]);
 
 	const check = (index) => {
@@ -147,44 +214,62 @@ const CreatePayroll = ({ history }) => {
 		});
 	};
 
-	const pushToPrint = () => {
-		history.push('/payroll/salary_voucher');
+	const pushToPrint = (values) => {
+		history.push({
+			pathname: '/payroll/salary_voucher',
+			state: {
+				employees: employeesData,
+				naration: values.naration,
+				finalSal,
+			},
+		});
 	};
 
 	return (
 		<Sidenav title="Create Payroll">
+			<p>
+				Make sure that you are creating the payroll after the month has
+				ended, Or you may see incorrect results.
+			</p>
 			<div>
-				<div className="d-flex justify-content-between">
-					<div
-						style={{
-							display: 'flex',
-							// justifyContent: "center",
-							// alignItems: "center",
-						}}
-					>
-						<p className="mt-3">
-							{checkAll ? 'Uncheck All' : 'Check All'}
-						</p>
-						<Checkbox
-							color="default"
-							checked={checkAll}
-							onChange={checkAllFunc}
+				{salaryOfMonth && (
+					<div className="d-flex justify-content-between">
+						<div
+							style={{
+								display: 'flex',
+							}}
+						>
+							<p className="mt-3">
+								{checkAll ? 'Uncheck All' : 'Check All'}
+							</p>
+							<Checkbox
+								color="default"
+								checked={checkAll}
+								onChange={checkAllFunc}
+							/>
+						</div>
+						<CustomButton
+							text="Pay"
+							classNames="btn btn-sm bg-dark text-light"
 						/>
 					</div>
-					<CustomButton
-						text="Pay"
-						classNames="btn btn-sm bg-dark text-light"
-					/>
-				</div>
-				<div>
+				)}
+				<div
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						gap: '10px',
+					}}
+				>
+					<span>Create Payroll for the month: </span>
 					<CustomInput
 						width="30%"
-						type="date"
-						onChange={(e) => setSalaryOfMonth(e)}
+						onChange={(e) => setSalaryOfMonth(`${+e + 1}`)}
+						selectValues={generateOptionsFromIndexes(monthNames)}
 					/>
 				</div>
 				{!salaryOfMonth ? (
-					<p>Please select the month</p>
+					<p style={{ textAlign: 'center', marginTop: '20px' }}></p>
 				) : fetchLoading ? (
 					<div
 						style={{
@@ -214,6 +299,8 @@ const CreatePayroll = ({ history }) => {
 								<td>Designation</td>
 								<td>Department</td>
 								<td>Salary</td>
+								<td>Presents</td>
+								<td>Absents</td>
 								<td>Paid Leaves</td>
 								<td>UnPaid Leaves</td>
 								<td>Deduction</td>
@@ -237,6 +324,8 @@ const CreatePayroll = ({ history }) => {
 										<td>{emp.finalDesignation.name}</td>
 										<td>{emp.finalDepartment.name}</td>
 										<td>{emp.finalSal}</td>
+										<td>{emp.totalPresents}</td>
+										<td>{emp.totalAbsents}</td>
 										<td>{emp.totalPaidLeaves}</td>
 										<td>{emp.totalUnPaidLeaves}</td>
 										<td>{emp.totalDeduction}</td>
@@ -274,12 +363,46 @@ const CreatePayroll = ({ history }) => {
 						</tbody>
 					</table>
 				)}
-				<CustomButton
-					text="Create Salary Voucher"
-					classNames="btn btn-sm bg-dark text-light"
-					style={{ float: 'right' }}
-					onClick={pushToPrint}
-				/>
+				{salaryOfMonth && (
+					<Formik
+						initialValues={initialValues}
+						validationSchema={validationSchema}
+						onSubmit={pushToPrint}
+					>
+						{(props) => (
+							<Form>
+								<div
+									style={{
+										textAlign: 'center',
+										marginBottom: '1rem',
+										marginTop: '1rem',
+									}}
+								>
+									<CustomInput
+										label="Naration/Description"
+										width="30%"
+										onChange={props.handleChange('naration')}
+										value={props.values.naration}
+										onBlur={props.handleBlur('naration')}
+										helperText={
+											props.touched.naration && props.errors.naration
+										}
+										error={
+											props.touched.naration && props.errors.naration
+										}
+									/>
+								</div>
+								<CustomButton
+									text="Create Salary Voucher"
+									classNames="btn btn-sm bg-dark text-light"
+									style={{ float: 'right' }}
+									loading={fetchLoading}
+									loaderColor="#fff"
+								/>
+							</Form>
+						)}
+					</Formik>
+				)}
 			</div>
 		</Sidenav>
 	);

@@ -194,20 +194,23 @@ const PurchaseOrder = ({ history }) => {
 	const [ItemCounter, setItemCounter] = useState([
 		{ material: '', quantity: '', unitValue: '', remarks: '' },
 	]);
+	const [totalAmount, setTotalAmount] = useState(0);
 
 	const classes = useStyles();
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		setMaterials([]);
+	useEffect(async () => {
 		if (selectedRequest) {
+			let tempTotalAmount = 0;
 			if (selectedRequest?.materials?.length > 0) {
 				setMaterialsLoading(true);
 				let index = 0;
 				for (const el of selectedRequest?.materials) {
 					let availableVendors = [];
-					dispatch(
+					const itemTotalPrice = el?.quantity * el?.material?.price;
+					tempTotalAmount += itemTotalPrice;
+					await dispatch(
 						getVendorAction(
 							`verified=true&materials=${el?.material?._id}`,
 							(err, data) => {
@@ -230,7 +233,12 @@ const PurchaseOrder = ({ history }) => {
 								index++;
 								setMaterials((prev) => [
 									...prev,
-									{ ...el, vendor: '', availableVendors },
+									{
+										...el,
+										vendor: '',
+										availableVendors,
+										itemTotalPrice,
+									},
 								]);
 								if (index === selectedRequest?.materials?.length) {
 									setMaterialsLoading(false);
@@ -239,6 +247,7 @@ const PurchaseOrder = ({ history }) => {
 						)
 					);
 				}
+				setTotalAmount(tempTotalAmount);
 			}
 		}
 	}, [selectedRequest]);
@@ -552,6 +561,24 @@ const PurchaseOrder = ({ history }) => {
 													<Grid item lg={2} md={2} sm={12} xs={12}>
 														<CssTextField
 															id="outlined-basic"
+															label="Per unit price"
+															variant="outlined"
+															type="text"
+															style={{ width: '100%' }}
+															size="small"
+															value={el?.material?.price}
+															disabled
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+														/>
+													</Grid>
+													<Grid item lg={2} md={2} sm={12} xs={12}>
+														<CssTextField
+															id="outlined-basic"
 															label="Remarks"
 															variant="outlined"
 															type="text"
@@ -603,12 +630,30 @@ const PurchaseOrder = ({ history }) => {
 																)}
 														</CssTextField>
 													</Grid>
+													<Grid item lg={2} md={2} sm={12} xs={12}>
+														<CssTextField
+															id="outlined-basic"
+															label="Item Total Price"
+															variant="outlined"
+															type="text"
+															style={{ width: '100%' }}
+															size="small"
+															value={el.itemTotalPrice}
+															disabled
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+														/>
+													</Grid>
 												</Grid>
 											</>
 										);
 									})
 								)}
-
+								<p>Total Amount: {totalAmount}</p>
 								<Grid container spacing={1}>
 									<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
 									<Grid item lg={3} md={3} sm={10} xs={11}>

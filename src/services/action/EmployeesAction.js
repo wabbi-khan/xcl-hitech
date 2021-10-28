@@ -156,15 +156,11 @@ export const promoteEmployee = (id, data, cb) => async (dispatch) => {
 		type: EMPLOYEE_REQUEST,
 	});
 
-	console.dir(data);
-
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/employees/promote/${id}`,
 			data
 		);
-
-		console.dir(res);
 
 		dispatch({
 			type: EMPLOYEE_UPDATE_SUCCESS,

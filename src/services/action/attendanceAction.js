@@ -25,7 +25,7 @@ export const getAttendanceAction = (query, cb) => async (dispatch) => {
 				type: ATTENDANCE_FETCH_SUCCESS,
 				payload: data.data,
 			});
-			if (cb) cb();
+			if (cb) cb(null, data);
 		}
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
