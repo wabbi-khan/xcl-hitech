@@ -866,7 +866,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Sales Contract" />
 							</ListItem>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -874,7 +874,7 @@ function Sidenav(props) {
 								}}
 							>
 								<ListItemText inset primary="Delivery Order" />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}

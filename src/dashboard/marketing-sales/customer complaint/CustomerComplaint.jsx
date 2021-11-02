@@ -8,10 +8,16 @@ import {
 	generateOptions,
 	CustomTable,
 } from '../../../components';
-import { createCustomerComplaint } from '../../../services/action/customerComplaintAction';
+import {
+	createCustomerComplaint,
+	getCustomerComplaint,
+} from '../../../services/action/customerComplaintAction';
+import { getEmployees } from '../../../services/action/EmployeesAction';
+import { getSalesContract } from '../../../services/action/salesContractAction';
 import { fetchDepartmentsAction } from '../../../services/action/DepartmentAction';
 import { Formik, Form, FieldArray } from 'formik';
 import * as yup from 'yup';
+import moment from 'moment';
 
 const customerOptions = [
 	{
@@ -98,35 +104,6 @@ const initialValues1 = {
 	contactPerson: '',
 	address: '',
 	phoneNo: '',
-	suppliedThrough: '',
-	project: '',
-	complaintReceivingData: '',
-	product: '',
-};
-
-const initialValues2 = {
-	stamping: '',
-	salesOrder: '',
-	deliveryOrder: '',
-	quantitySupplied: '',
-	quantityAffected: '',
-	totalValueOfOrder: '',
-	totalValueOfQuantity: '',
-	initialRecommendations: '',
-	date: '',
-};
-
-const initialValues3 = {
-	sampleRec: '',
-	sampleRecDate: '',
-	inspected: '',
-	inspectedDate: '',
-	tested: '',
-	testedDate: '',
-	initialSiteVisitConductBy: '',
-	initialSiteVisitDate: '',
-	complaintType: '',
-	dispositionOfSales: '',
 };
 
 const validationSchema1 = yup.object({
@@ -138,68 +115,143 @@ const validationSchema1 = yup.object({
 	contactPerson: yup.string().required('Contact Person is required'),
 	address: yup.string().required('Address is required'),
 	phoneNo: yup.string().required('Phone No is required'),
-	suppliedThrough: yup.string().required('Supplied Thorugh is required'),
-	project: yup.string().required('Project is required'),
-	complaintReceivingData: yup
-		.string()
-		.required('Complaint Receiving Date is required'),
-	product: yup.string().required('Product is required'),
 });
+
+const initialValues2 = {
+	suppliedThrough: '',
+	project: '',
+	complaintReceivingData: '',
+	product: '',
+	stamping: '',
+	salesOrder: '',
+	salesOrderDate: '',
+	quantitySupplied: '',
+};
 
 const validationSchema2 = yup.object({
-	stamping: yup.string().required('Stamping is required'),
-	salesOrder: yup.string().required('Sales Order is required'),
-	salesOrderNoDate: yup.string().required('Sales Order No. Date is required'),
-	deliveryOrder: yup.string().required('Delivery Order is required'),
-	deliveryOrderNoDate: yup
-		.string()
-		.required('Delivery Order No. Date is required'),
-	quantitySupplied: yup.string().required('Quantity Supplied is required'),
-	quantityAffected: yup.string().required('Quantity Affected is required'),
-	totalValueOfOrder: yup.string().required('Total Value Of Order is required'),
-	totalValueOfQuantity: yup
-		.string()
-		.required('Total Value Of Quantity is required'),
-	initialRecommendations: yup
-		.string()
-		.required('Initial Recommendations is required'),
-	reportPreparedBy: yup.string().required('Report Prepared By is required'),
-	date: yup.string().required('Date is required'),
+	suppliedThrough: yup.string().required(),
+	project: yup.string().required(),
+	complaintReceivingData: yup.string().required(),
+	product: yup.string().required(),
+	stamping: yup.string().required(),
+	salesOrder: yup.string().required(),
+	salesOrderDate: yup.string().required(),
+	quantitySupplied: yup.string().required(),
 });
+
+const initialValues3 = {
+	quantityAffected: '',
+	totalValueOfOrder: '',
+	totalValueOfQuantity: '',
+	initialRecommendations: '',
+	reportPreparedBy: '',
+	date: '',
+	sampleRec: '',
+	sampleRecDate: '',
+};
 
 const validationSchema3 = yup.object({
-	sampleRec: yup.string().required('Sample Received is required'),
-	sampleRecDate: yup.string().required('Sample Received Date is required'),
-	inspected: yup.string().required('Inspected is required'),
-	inspectedDate: yup.string().required('Inspected Date is required'),
-	tested: yup.string().required('Tested is required'),
-	testedDate: yup.string().required('Tested Date is required'),
-	initialSiteVisitConductBy: yup
-		.string()
-		.required('Initial Visit Conduct By is required'),
-	initialSiteVisitDate: yup
-		.string()
-		.required('Initial Site Visit Conduct Date is required'),
-	complaintType: yup.string().required('Complaint Type is required'),
-	dispositionOfSales: yup
-		.string()
-		.required('Disposition of Sales Department/QAD is required'),
+	quantityAffected: yup.string().required(),
+	totalValueOfOrder: yup.string().required(),
+	totalValueOfQuantity: yup.string().required(),
+	initialRecommendations: yup.string().required(),
+	reportPreparedBy: yup.string(),
+	date: yup.string(),
+	sampleRec: yup.string().required(),
+	sampleRecDate: yup.string().required(),
 });
 
-const CustomerComplaint = () => {
+const initialValues4 = {
+	inspected: '',
+	inspectedDate: '',
+	tested: '',
+	testedDate: '',
+	initialSiteVisitConductBy: '',
+	initialSiteVisitDate: '',
+	complaintType: '',
+	dispositionOfSales: '',
+};
+
+const validationSchema4 = yup.object({
+	inspected: yup.string().required(),
+	inspectedDate: yup.string().required(),
+	tested: yup.string().required(),
+	testedDate: yup.string().required(),
+	initialSiteVisitConductBy: yup.string().required(),
+	initialSiteVisitDate: yup.string().required(),
+	complaintType: yup.string().required(),
+	dispositionOfSales: yup.string().required(),
+});
+
+const inititalValues5 = {
+	letterSentToComplaint: '',
+	letterSentToComplaintDate: '',
+	complaintClosedDate: '',
+	distribution: '',
+};
+
+const validationSchema5 = yup.object({
+	letterSentToComplaint: yup.string().required(),
+	letterSentToComplaintDate: yup.string().required(),
+	complaintClosedDate: yup.string().required(),
+	distribution: yup.string().required(),
+});
+
+const Rows = ({ children, style }) => (
+	<div
+		style={{
+			display: 'flex',
+			flexDirection: 'column',
+			gap: '1rem',
+			...style,
+		}}
+	>
+		{children}
+	</div>
+);
+
+const Row = ({ children }) => (
+	<div
+		style={{
+			display: 'flex',
+			gap: '1rem',
+			justifyContent: 'flex-start',
+		}}
+	>
+		{children}
+	</div>
+);
+
+const CustomerComplaint = ({ history }) => {
 	const [createLoading, setCreateLoading] = useState(false);
-	const [createError, setCreateError] = useState('');
-	const [success, setSuccess] = useState('');
+	const [fetchLoading, setFetchLoading] = useState(false);
 
 	const dispatch = useDispatch();
 
 	let form1 = null;
 	let form2 = null;
+	let form3 = null;
+	let form4 = null;
+	let form5 = null;
 
 	const { departments } = useSelector((state) => state.departments);
+	const { salesContracts } = useSelector((state) => state.salesContracts);
+	const { employees } = useSelector((state) => state.employees);
+	const { customerComplaints } = useSelector(
+		(state) => state.customerComplaints
+	);
 
 	useEffect(() => {
 		dispatch(fetchDepartmentsAction());
+		dispatch(getSalesContract());
+		dispatch(getEmployees());
+
+		setFetchLoading(true);
+		dispatch(
+			getCustomerComplaint(null, (err) => {
+				setFetchLoading(false);
+			})
+		);
 	}, []);
 
 	const onSubmit = async () => {
@@ -215,28 +267,35 @@ const CustomerComplaint = () => {
 			form2.setTouched(form2Errors);
 			error = true;
 		}
+		const form3Errors = await form3.validateForm();
+		if (!isEmpty(form3Errors)) {
+			form3.setTouched(form3Errors);
+			error = true;
+		}
+		const form4Errors = await form4.validateForm();
+		if (!isEmpty(form4Errors)) {
+			form4.setTouched(form4Errors);
+			error = true;
+		}
+		const form5Errors = await form5.validateForm();
+		if (!isEmpty(form5Errors)) {
+			form5.setTouched(form5Errors);
+			error = true;
+		}
 
 		if (error) return;
 
 		values = {
 			...form1.values,
 			...form2.values,
+			...form3.values,
+			...form4.values,
+			...form5.values,
 		};
 
 		setCreateLoading(true);
 		dispatch(
 			createCustomerComplaint(values, (err) => {
-				if (err) {
-					setCreateError(err);
-					setTimeout(() => {
-						setCreateError('');
-					}, 4000);
-				} else {
-					setSuccess('Customer Complaint added successfully');
-					setTimeout(() => {
-						setSuccess('');
-					}, 4000);
-				}
 				setCreateLoading(false);
 			})
 		);
@@ -248,6 +307,10 @@ const CustomerComplaint = () => {
 		}
 		return true;
 	}
+
+	const printComplaintForm = () => {
+		history.push('/marketing_dashboard/print_customer_complaint');
+	};
 
 	return (
 		<Sidenav title="Customer Complaint">
@@ -261,20 +324,8 @@ const CustomerComplaint = () => {
 						form1 = props;
 						return (
 							<Form>
-								<div
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										gap: '1rem',
-									}}
-								>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+								<Rows style={{ marginBottom: '1rem' }}>
+									<Row>
 										<CustomInput
 											label="Select Department"
 											selectValues={generateOptions(
@@ -308,14 +359,8 @@ const CustomerComplaint = () => {
 												props.errors.complaintNo
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											label="Customer Type"
 											selectValues={customerOptions}
@@ -346,14 +391,8 @@ const CustomerComplaint = () => {
 												props.errors.inquirer
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											label="Customer Name"
 											onChange={props.handleChange('customerName')}
@@ -410,14 +449,33 @@ const CustomerComplaint = () => {
 												props.errors.phoneNo
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+								</Rows>
+								<CustomButton
+									text="Submit"
+									style={{
+										display: 'none',
+									}}
+									loading={createLoading}
+									loaderColor="#fff"
+								/>
+							</Form>
+						);
+					}}
+				</Formik>
+
+				<Formik
+					initialValues={initialValues2}
+					validationSchema={validationSchema2}
+					enableReinitialize
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form2 = props;
+						return (
+							<Form>
+								<Rows style={{ marginBottom: '1rem' }}>
+									<Row>
 										<CustomInput
 											label="Supplied Through"
 											onChange={props.handleChange(
@@ -481,43 +539,8 @@ const CustomerComplaint = () => {
 												props.errors.product
 											}
 										/>
-									</div>
-									<CustomButton
-										text="Submit"
-										style={{
-											backgroundColor: '#22A19A',
-											color: '#fff',
-											display: 'none',
-										}}
-									/>
-								</div>
-							</Form>
-						);
-					}}
-				</Formik>
-				<Formik
-					initialValues={initialValues2}
-					validationSchema={validationSchema2}
-					onSubmit={onSubmit}
-				>
-					{(props) => {
-						form2 = props;
-						return (
-							<Form>
-								<div
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										gap: '1rem',
-									}}
-								>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											label="Stamping"
 											selectValues={stampingOptions}
@@ -535,8 +558,24 @@ const CustomerComplaint = () => {
 										/>
 										<CustomInput
 											label="Sales Order No."
-											selectValues={[]} //dispatch sales order no. here
-											onChange={props.handleChange('salesOrder')}
+											selectValues={generateOptions(
+												salesContracts,
+												'code',
+												'_id'
+											)} //dispatch sales order no. here
+											onChange={(id) => {
+												const salesContract = salesContracts.find(
+													(el) => el._id === id
+												);
+												console.log(salesContract);
+												props.setFieldValue('salesOrder', id);
+												props.setFieldValue(
+													'salesOrderDate',
+													moment(salesContract.createdAt).format(
+														'DD-MMM-YYYY'
+													)
+												);
+											}}
 											value={props.values.salesOrder}
 											onBlur={props.handleBlur('salesOrder')}
 											helperText={
@@ -549,64 +588,19 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											//   label="Sales Order No. Date"
-											type="date"
+											label="Sales Order No. Date"
+											type="text"
 											disabled
-											onChange={props.handleChange(
-												'salesOrderNoDate'
-											)}
-											value={props.values.salesOrderNoDate}
-											onBlur={props.handleBlur('salesOrderNoDate')}
+											onChange={props.handleChange('salesOrderDate')}
+											value={props.values.salesOrderDate}
+											onBlur={props.handleBlur('salesOrderDate')}
 											helperText={
-												props.touched.salesOrderNoDate &&
-												props.errors.salesOrderNoDate
+												props.touched.salesOrderDate &&
+												props.errors.salesOrderDate
 											}
 											error={
-												props.touched.salesOrderNoDate &&
-												props.errors.salesOrderNoDate
-											}
-										/>
-										<CustomInput
-											label="Delivery Order No."
-											selectValues={[]} //dispatch delivery order no. here
-											onChange={props.handleChange('deliveryOrder')}
-											value={props.values.deliveryOrder}
-											onBlur={props.handleBlur('deliveryOrder')}
-											helperText={
-												props.touched.deliveryOrder &&
-												props.errors.deliveryOrder
-											}
-											error={
-												props.touched.deliveryOrder &&
-												props.errors.deliveryOrder
-											}
-										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
-										<CustomInput
-											//   label="Sales Order No. Date"
-											type="date"
-											disabled
-											onChange={props.handleChange(
-												'deliveryOrderNoDate'
-											)}
-											value={props.values.deliveryOrderNoDate}
-											onBlur={props.handleBlur(
-												'deliveryOrderNoDate'
-											)}
-											helperText={
-												props.touched.deliveryOrderNoDate &&
-												props.errors.deliveryOrderNoDate
-											}
-											error={
-												props.touched.deliveryOrderNoDate &&
-												props.errors.deliveryOrderNoDate
+												props.touched.salesOrderDate &&
+												props.errors.salesOrderDate
 											}
 										/>
 										<CustomInput
@@ -626,6 +620,32 @@ const CustomerComplaint = () => {
 												props.errors.quantitySupplied
 											}
 										/>
+									</Row>
+								</Rows>
+								<CustomButton
+									text="Submit"
+									style={{
+										display: 'none',
+									}}
+									loading={createLoading}
+									loaderColor="#fff"
+								/>
+							</Form>
+						);
+					}}
+				</Formik>
+
+				<Formik
+					initialValues={initialValues3}
+					validationSchema={validationSchema3}
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form3 = props;
+						return (
+							<Form>
+								<Rows style={{ marginBottom: '1rem' }}>
+									<Row>
 										<CustomInput
 											label="Quantity Affected"
 											type="number"
@@ -660,14 +680,8 @@ const CustomerComplaint = () => {
 												props.errors.totalValueOfOrder
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											type="number"
 											label="Total value of affected quantity (Rs)"
@@ -705,75 +719,13 @@ const CustomerComplaint = () => {
 												props.errors.initialRecommendations
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-end',
-										}}
-									>
-										<CustomInput
-											label="Report Prepared By"
-											selectValues={[]} //dispatch sales order no. here
-											width="25%"
-											onChange={props.handleChange(
-												'reportPreparedBy'
-											)}
-											value={props.values.reportPreparedBy}
-											onBlur={props.handleBlur('reportPreparedBy')}
-											helperText={
-												props.touched.reportPreparedBy &&
-												props.errors.reportPreparedBy
-											}
-											error={
-												props.touched.reportPreparedBy &&
-												props.errors.reportPreparedBy
-											}
-										/>
-										<CustomInput
-											type="date"
-											width="25%"
-											onChange={props.handleChange('date')}
-											value={props.values.date}
-											onBlur={props.handleBlur('date')}
-											helperText={
-												props.touched.date && props.errors.date
-											}
-											error={props.touched.date && props.errors.date}
-										/>
-									</div>
+									</Row>
+
 									<div style={{ marginTop: 5, marginBottom: 10 }}>
 										<hr />
 									</div>
-								</div>
-							</Form>
-						);
-					}}
-				</Formik>
-				<Formik
-					initialValues={initialValues3}
-					validationSchema={validationSchema3}
-					onSubmit={onSubmit}
-				>
-					{(props) => {
-						form2 = props;
-						return (
-							<Form>
-								<div
-									style={{
-										display: 'flex',
-										flexDirection: 'column',
-										gap: '1rem',
-									}}
-								>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-end',
-										}}
-									>
+
+									<Row>
 										<CustomInput
 											label="Sample Received"
 											selectValues={stampingOptions} //dispatch sales order no. here
@@ -804,6 +756,32 @@ const CustomerComplaint = () => {
 												props.errors.sampleRecDate
 											}
 										/>
+									</Row>
+								</Rows>
+								<CustomButton
+									text="Submit"
+									style={{
+										display: 'none',
+									}}
+									loading={createLoading}
+									loaderColor="#fff"
+								/>
+							</Form>
+						);
+					}}
+				</Formik>
+
+				<Formik
+					initialValues={initialValues4}
+					validationSchema={validationSchema4}
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form4 = props;
+						return (
+							<Form>
+								<Rows>
+									<Row>
 										<CustomInput
 											label="Inspected"
 											selectValues={stampingOptions} //dispatch sales order no. here
@@ -834,14 +812,8 @@ const CustomerComplaint = () => {
 												props.errors.inspectedDate
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-end',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											label="Tested"
 											selectValues={stampingOptions} //dispatch sales order no. here
@@ -856,7 +828,6 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											//   label="Sales Order No. Date"
 											type="date"
 											onChange={props.handleChange('testedDate')}
 											value={props.values.testedDate}
@@ -872,7 +843,11 @@ const CustomerComplaint = () => {
 										/>
 										<CustomInput
 											label="Initial Site Visit Conducted By"
-											selectValues={[]} //dispatch sales order no. here
+											selectValues={generateOptions(
+												employees,
+												'name',
+												'_id'
+											)}
 											onChange={props.handleChange(
 												'initialSiteVisitConductBy'
 											)}
@@ -908,14 +883,8 @@ const CustomerComplaint = () => {
 												props.errors.initialSiteVisitDate
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											label="Type of Complaint"
 											selectValues={complaintOptions}
@@ -932,14 +901,8 @@ const CustomerComplaint = () => {
 												props.errors.complaintType
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
+									</Row>
+									<Row>
 										<CustomInput
 											label="Enter Disposition of Sales Department/QAD"
 											width="75%"
@@ -957,32 +920,183 @@ const CustomerComplaint = () => {
 												props.errors.dispositionOfSales
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'center',
-											flexDirection: 'column',
-										}}
-									>
-										<CustomButton
-											text="Submit"
-											style={{
-												backgroundColor: '#22A19A',
-												color: '#fff',
-											}}
-											loading={createLoading}
-											loaderColor="#fff"
+									</Row>
+								</Rows>
+								<CustomButton
+									text="Submit"
+									style={{
+										display: 'none',
+									}}
+									loading={createLoading}
+									loaderColor="#fff"
+								/>
+							</Form>
+						);
+					}}
+				</Formik>
+
+				<div style={{ marginTop: 5, marginBottom: 10 }}>
+					<hr />
+				</div>
+
+				<Formik
+					initialValues={inititalValues5}
+					validationSchema={validationSchema5}
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form5 = props;
+						return (
+							<Form>
+								<Rows>
+									<Row>
+										<CustomInput
+											label="Letter Send to Complainant"
+											selectValues={stampingOptions}
+											style={{ width: '25%' }}
+											onChange={props.handleChange(
+												'letterSentToComplaint'
+											)}
+											value={props.values.letterSentToComplaint}
+											onBlur={props.handleBlur(
+												'letterSentToComplaint'
+											)}
+											helperText={
+												props.touched.letterSentToComplaint &&
+												props.errors.letterSentToComplaint
+											}
+											error={
+												props.touched.letterSentToComplaint &&
+												props.errors.letterSentToComplaint
+											}
 										/>
-										<p>{success}</p>
-									</div>
-								</div>
+										<CustomInput
+											type="date"
+											style={{ width: '25%' }}
+											onChange={props.handleChange(
+												'letterSentToComplaintDate'
+											)}
+											value={props.values.letterSentToComplaintDate}
+											onBlur={props.handleBlur(
+												'letterSentToComplaintDate'
+											)}
+											helperText={
+												props.touched.letterSentToComplaintDate &&
+												props.errors.letterSentToComplaintDate
+											}
+											error={
+												props.touched.letterSentToComplaintDate &&
+												props.errors.letterSentToComplaintDate
+											}
+										/>
+
+										<div
+											style={{
+												display: 'flex',
+												flexDirection: 'column',
+											}}
+										>
+											<CustomInput
+												type="date"
+												onChange={props.handleChange(
+													'complaintClosedDate'
+												)}
+												value={props.values.complaintClosedDate}
+												onBlur={props.handleBlur(
+													'complaintClosedDate'
+												)}
+												helperText={
+													props.touched.complaintClosedDate &&
+													props.errors.complaintClosedDate
+												}
+												error={
+													props.touched.complaintClosedDate &&
+													props.errors.complaintClosedDate
+												}
+											/>
+											<span
+												style={{
+													textAlign: 'left',
+													fontSize: '11px',
+												}}
+											>
+												Complaint Closed Date
+											</span>
+										</div>
+										<div
+											style={{
+												display: 'flex',
+												flexDirection: 'column',
+											}}
+										>
+											<CustomInput label="Days" disabled />
+											<span
+												style={{
+													textAlign: 'left',
+													fontSize: '11px',
+												}}
+											>
+												Time Period For Resolution
+											</span>
+										</div>
+										<CustomInput
+											label="Select Distribution"
+											selectValues={generateOptions(
+												departments,
+												'name',
+												'_id'
+											)}
+											style={{ width: '25%' }}
+											onChange={props.handleChange('distribution')}
+											value={props.values.distribution}
+											onBlur={props.handleBlur('distribution')}
+											helperText={
+												props.touched.distribution &&
+												props.errors.distribution
+											}
+											error={
+												props.touched.distribution &&
+												props.errors.distribution
+											}
+										/>
+									</Row>
+								</Rows>
+								<CustomButton
+									text="Submit"
+									style={{
+										marginTop: '2rem',
+										backgroundColor: '#22A19A',
+										color: '#fff',
+									}}
+									loading={createLoading}
+									loaderColor="#fff"
+								/>
 							</Form>
 						);
 					}}
 				</Formik>
 			</CustomContainer>
+
+			<CustomTable
+				fetchLoading={fetchLoading}
+				data={customerComplaints}
+				columnHeadings={[
+					'Sr.No',
+					'Complaint No.',
+					'Customer Name',
+					'Sales Order No.',
+					'Distribution',
+				]}
+				keys={[
+					'complaintNo',
+					'customerName',
+					'salesOrder.code',
+					'distribution.name',
+				]}
+				firstOptionText="View"
+				onFirstOptionClick={printComplaintForm}
+				withSrNo
+			/>
 		</Sidenav>
 	);
 };

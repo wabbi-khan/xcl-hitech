@@ -40,6 +40,7 @@ export const createCustomerComplaint = (values, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/customerComplaint`,
 			values
 		);
+		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -99,6 +100,7 @@ export const deleteCustomerComplaint = (params, cb) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch, cb) => {
+	console.log(err.response);
 	if (err.response) {
 		if (cb) cb(err.response.data.error);
 		dispatch({

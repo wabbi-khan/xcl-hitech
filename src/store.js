@@ -54,11 +54,13 @@ import {
 	contractReviewReducer,
 	customerFeedbackReducer,
 	voucherReducer,
+	customerComplaintReducer,
 } from './services/reducer';
 
 const initialState = {};
 
 const reducer = combineReducers({
+	customerComplaints: customerComplaintReducer,
 	vouchers: voucherReducer,
 	customerFeedbacks: customerFeedbackReducer,
 	contractReviews: contractReviewReducer,
