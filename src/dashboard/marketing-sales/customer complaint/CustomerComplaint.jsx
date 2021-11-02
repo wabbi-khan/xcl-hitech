@@ -127,6 +127,10 @@ const initialValues3 = {
   initialSiteVisitDate: "",
   complaintType: "",
   dispositionOfSales: "",
+  letterSentToComplaint: "",
+  letterSentToComplaintDate: "",
+  complaintClosedDate: "",
+  distribution: "",
 };
 
 const validationSchema1 = yup.object({
@@ -180,18 +184,27 @@ const validationSchema3 = yup.object({
   initialSiteVisitDate: yup
     .string()
     .required("Initial Site Visit Conduct Date is required"),
-	complaintType: yup
-    .string()
-    .required("Complaint Type is required"),
-	dispositionOfSales: yup
+  complaintType: yup.string().required("Complaint Type is required"),
+  dispositionOfSales: yup
     .string()
     .required("Disposition of Sales Department/QAD is required"),
+  letterSentToComplaint: yup
+    .string()
+    .required("Letter Sent to Complainant is required"),
+  letterSentToComplaintDate: yup
+    .string()
+    .required("Letter Sent to Complainant Date is required"),
+  complaintClosedDate: yup
+    .string()
+    .required("Complaint Closed Date is required"),
+  distribution: yup.string().required("Distribution is required"),
 });
 
-const CustomerComplaint = () => {
+const CustomerComplaint = ({ history }) => {
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState("");
   const [success, setSuccess] = useState("");
+  const [fetchLoading, setFetchLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -250,6 +263,10 @@ const CustomerComplaint = () => {
     }
     return true;
   }
+
+  const printComplaintForm = () => {
+    history.push("/marketing_dashboard/print_customer_complaint");
+  };
 
   return (
     <Sidenav title="Customer Complaint">
@@ -823,12 +840,18 @@ const CustomerComplaint = () => {
                     <CustomInput
                       label="Type of Complaint"
                       selectValues={complaintOptions}
-					  width="25%"
+                      width="25%"
                       onChange={props.handleChange("complaintType")}
                       value={props.values.complaintType}
                       onBlur={props.handleBlur("complaintType")}
-                      helperText={props.touched.complaintType && props.errors.complaintType}
-                      error={props.touched.complaintType && props.errors.complaintType}
+                      helperText={
+                        props.touched.complaintType &&
+                        props.errors.complaintType
+                      }
+                      error={
+                        props.touched.complaintType &&
+                        props.errors.complaintType
+                      }
                     />
                   </div>
                   <div
@@ -840,14 +863,159 @@ const CustomerComplaint = () => {
                   >
                     <CustomInput
                       label="Enter Disposition of Sales Department/QAD"
-					  width="75%"
+                      width="75%"
                       onChange={props.handleChange("dispositionOfSales")}
                       value={props.values.dispositionOfSales}
                       onBlur={props.handleBlur("dispositionOfSales")}
-                      helperText={props.touched.dispositionOfSales && props.errors.dispositionOfSales}
-                      error={props.touched.dispositionOfSales && props.errors.dispositionOfSales}
+                      helperText={
+                        props.touched.dispositionOfSales &&
+                        props.errors.dispositionOfSales
+                      }
+                      error={
+                        props.touched.dispositionOfSales &&
+                        props.errors.dispositionOfSales
+                      }
                     />
                   </div>
+                  <div style={{ marginTop: 5, marginBottom: 10 }}>
+                    <hr />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <CustomInput
+                      label="Sales Order No."
+                      selectValues={[]} //select sales order no. here
+                      style={{ width: "25%" }}
+                      onChange={props.handleChange("salesOrder")}
+                      value={props.values.salesOrder}
+                      onBlur={props.handleBlur("salesOrder")}
+                      helperText={
+                        props.touched.salesOrder && props.errors.salesOrder
+                      }
+                      error={
+                        props.touched.salesOrder && props.errors.salesOrder
+                      }
+                    />
+                    <CustomInput
+                      //   label="Sales Order No. Date"
+                      type="date"
+                      disabled
+                      style={{ width: "25%" }}
+                      onChange={props.handleChange("salesOrderNoDate")}
+                      value={props.values.salesOrderNoDate}
+                      onBlur={props.handleBlur("salesOrderNoDate")}
+                      helperText={
+                        props.touched.salesOrderNoDate &&
+                        props.errors.salesOrderNoDate
+                      }
+                      error={
+                        props.touched.salesOrderNoDate &&
+                        props.errors.salesOrderNoDate
+                      }
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      justifyContent: "flex-start",
+                    }}
+                  >
+                    <CustomInput
+                      label="Letter Send to Complainant"
+                      selectValues={stampingOptions}
+                      style={{ width: "25%" }}
+                      onChange={props.handleChange("letterSentToComplaint")}
+                      value={props.values.letterSentToComplaint}
+                      onBlur={props.handleBlur("letterSentToComplaint")}
+                      helperText={
+                        props.touched.letterSentToComplaint &&
+                        props.errors.letterSentToComplaint
+                      }
+                      error={
+                        props.touched.letterSentToComplaint &&
+                        props.errors.letterSentToComplaint
+                      }
+                    />
+                    <CustomInput
+                      type="date"
+                      style={{ width: "25%" }}
+                      onChange={props.handleChange("letterSentToComplaintDate")}
+                      value={props.values.letterSentToComplaintDate}
+                      onBlur={props.handleBlur("letterSentToComplaintDate")}
+                      helperText={
+                        props.touched.letterSentToComplaintDate &&
+                        props.errors.letterSentToComplaintDate
+                      }
+                      error={
+                        props.touched.letterSentToComplaintDate &&
+                        props.errors.letterSentToComplaintDate
+                      }
+                    />
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <CustomInput
+                        type="date"
+                        onChange={props.handleChange("complaintClosedDate")}
+                        value={props.values.complaintClosedDate}
+                        onBlur={props.handleBlur("complaintClosedDate")}
+                        helperText={
+                          props.touched.complaintClosedDate &&
+                          props.errors.complaintClosedDate
+                        }
+                        error={
+                          props.touched.complaintClosedDate &&
+                          props.errors.complaintClosedDate
+                        }
+                      />
+                      <span style={{ textAlign: "left", fontSize: "11px" }}>
+                        Complaint Closed Date
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <CustomInput
+                        label="Days"
+                        disabled
+                        // onChange={props.handleChange("")}
+                        // value={props.values.}
+                        // onBlur={props.handleBlur("")}
+                        // helperText={
+                        //   props.touched. && props.errors.
+                        // }
+                        // error={
+                        //   props.touched. && props.errors.
+                        // }
+                      />
+                      <span style={{ textAlign: "left", fontSize: "11px" }}>
+                        Time Period For Resolution
+                      </span>
+                    </div>
+                    <CustomInput
+                      label="Select Distribution"
+                      selectValues={[]} //dispatch departments here
+                      style={{ width: "25%" }}
+                      onChange={props.handleChange("distribution")}
+                      value={props.values.distribution}
+                      onBlur={props.handleBlur("distribution")}
+                      helperText={
+                        props.touched.distribution && props.errors.distribution
+                      }
+                      error={
+                        props.touched.distribution && props.errors.distribution
+                      }
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1rem",
+                      justifyContent: "flex-start",
+                    }}
+                  ></div>
                   <div
                     style={{
                       display: "flex",
@@ -873,6 +1041,16 @@ const CustomerComplaint = () => {
           }}
         </Formik>
       </CustomContainer>
+
+      <CustomTable
+        fetchLoading={fetchLoading}
+        data={[{}]}
+        columnHeadings={["Sr.No", "Complaint No.", "Customer Name", "Sales Order No.", "Delivery Order No.", "Distribution"]}
+        keys={["", "", "", "", ""]}
+        firstOptionText="View"
+        onFirstOptionClick={printComplaintForm}
+        withSrNo
+      />
     </Sidenav>
   );
 };

@@ -152,6 +152,7 @@ import PrintSalesContract from './dashboard/marketing-sales/sales contract/Print
 import PrintContractReview from './dashboard/marketing-sales/contract review/PrintContractReview';
 import SalaryVoucher from './dashboard/Accounts/Payroll/Vouchers/SalaryVoucher';
 import PrintCustomerFeedback from './dashboard/marketing-sales/customer feedback/PrintCustomerFeedback';
+import PrintCustomerComplaintForm from './dashboard/marketing-sales/customer complaint/PrintCustomerComplaintForm';
 
 dotenv.config();
 
@@ -683,11 +684,6 @@ function App() {
 				component={PrintContractReview}
 			/>
 			<Route
-				exact
-				path="/marketing_dashboard/customer_complaint"
-				component={CustomerComplaint}
-			/>
-			<Route
 				path="/marketing_dashboard/print_sales_contract"
 				component={PrintSalesContract}
 			/>
@@ -699,6 +695,15 @@ function App() {
 			<Route
 				path="/marketing_dashboard/print_customer_feedback"
 				component={PrintCustomerFeedback}
+			/>
+			<Route
+				exact
+				path="/marketing_dashboard/customer_complaint"
+				component={CustomerComplaint}
+			/>
+			<Route
+				path="/marketing_dashboard/print_customer_complaint"
+				component={PrintCustomerComplaintForm}
 			/>
 			{/* ===================================================================== */}
 			<Route
