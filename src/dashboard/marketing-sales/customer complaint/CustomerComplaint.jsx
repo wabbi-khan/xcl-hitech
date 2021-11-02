@@ -13,6 +13,82 @@ import { fetchDepartmentsAction } from '../../../services/action/DepartmentActio
 import { Formik, Form, FieldArray } from 'formik';
 import * as yup from 'yup';
 
+const customerOptions = [
+	{
+		value: 'publicSector',
+		name: 'Public Sector',
+	},
+	{
+		value: 'privateSector',
+		name: 'Private Sector',
+	},
+	{
+		value: 'industrialSector',
+		name: 'Industrial Sector',
+	},
+	{
+		value: 'armedForces',
+		name: 'Armed Forces',
+	},
+];
+
+const customerInquirer = [
+	{
+		value: 'dealer',
+		name: 'Dealer/Distributor',
+	},
+	{
+		value: 'project',
+		name: 'Project/Residence Owner',
+	},
+	{
+		value: 'architect',
+		name: 'Architect/Consultant',
+	},
+	{
+		value: 'contractor',
+		name: 'Contractor/Builder',
+	},
+	{
+		value: 'endUser',
+		name: 'End User',
+	},
+	{
+		value: 'other',
+		name: 'Other',
+	},
+];
+
+const stampingOptions = [
+	{
+		value: 'yes',
+		name: 'Yes',
+	},
+	{
+		value: 'no',
+		name: 'No',
+	},
+];
+
+const complaintOptions = [
+	{
+		value: 'quality',
+		name: 'Quality',
+	},
+	{
+		value: 'logistics',
+		name: 'Logistics',
+	},
+	{
+		value: 'installation',
+		name: 'Installation',
+	},
+	{
+		value: 'other',
+		name: 'Other',
+	},
+];
+
 const initialValues1 = {
 	department: '',
 	complaintNo: '',
@@ -40,6 +116,19 @@ const initialValues2 = {
 	date: '',
 };
 
+const initialValues3 = {
+	sampleRec: '',
+	sampleRecDate: '',
+	inspected: '',
+	inspectedDate: '',
+	tested: '',
+	testedDate: '',
+	initialSiteVisitConductBy: '',
+	initialSiteVisitDate: '',
+	complaintType: '',
+	dispositionOfSales: '',
+};
+
 const validationSchema1 = yup.object({
 	department: yup.string().required('Department is required'),
 	complaintNo: yup.string().required('Complaint No is required'),
@@ -60,7 +149,11 @@ const validationSchema1 = yup.object({
 const validationSchema2 = yup.object({
 	stamping: yup.string().required('Stamping is required'),
 	salesOrder: yup.string().required('Sales Order is required'),
+	salesOrderNoDate: yup.string().required('Sales Order No. Date is required'),
 	deliveryOrder: yup.string().required('Delivery Order is required'),
+	deliveryOrderNoDate: yup
+		.string()
+		.required('Delivery Order No. Date is required'),
 	quantitySupplied: yup.string().required('Quantity Supplied is required'),
 	quantityAffected: yup.string().required('Quantity Affected is required'),
 	totalValueOfOrder: yup.string().required('Total Value Of Order is required'),
@@ -70,7 +163,27 @@ const validationSchema2 = yup.object({
 	initialRecommendations: yup
 		.string()
 		.required('Initial Recommendations is required'),
+	reportPreparedBy: yup.string().required('Report Prepared By is required'),
 	date: yup.string().required('Date is required'),
+});
+
+const validationSchema3 = yup.object({
+	sampleRec: yup.string().required('Sample Received is required'),
+	sampleRecDate: yup.string().required('Sample Received Date is required'),
+	inspected: yup.string().required('Inspected is required'),
+	inspectedDate: yup.string().required('Inspected Date is required'),
+	tested: yup.string().required('Tested is required'),
+	testedDate: yup.string().required('Tested Date is required'),
+	initialSiteVisitConductBy: yup
+		.string()
+		.required('Initial Visit Conduct By is required'),
+	initialSiteVisitDate: yup
+		.string()
+		.required('Initial Site Visit Conduct Date is required'),
+	complaintType: yup.string().required('Complaint Type is required'),
+	dispositionOfSales: yup
+		.string()
+		.required('Disposition of Sales Department/QAD is required'),
 });
 
 const CustomerComplaint = () => {
@@ -205,6 +318,7 @@ const CustomerComplaint = () => {
 									>
 										<CustomInput
 											label="Customer Type"
+											selectValues={customerOptions}
 											onChange={props.handleChange('customerType')}
 											value={props.values.customerType}
 											onBlur={props.handleBlur('customerType')}
@@ -219,6 +333,7 @@ const CustomerComplaint = () => {
 										/>
 										<CustomInput
 											label="Select Inquirer"
+											selectValues={customerInquirer}
 											onChange={props.handleChange('inquirer')}
 											value={props.values.inquirer}
 											onBlur={props.handleBlur('inquirer')}
@@ -320,7 +435,7 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											label="Project(Mention Name & Add...)"
+											label="Project (Mention Name & Address of Site)"
 											onChange={props.handleChange('project')}
 											value={props.values.project}
 											onBlur={props.handleBlur('project')}
@@ -334,7 +449,8 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											label="Complaint Receiving Date"
+											//   label="Complaint Receiving Date"
+											type="date"
 											onChange={props.handleChange(
 												'complaintReceivingData'
 											)}
@@ -404,6 +520,7 @@ const CustomerComplaint = () => {
 									>
 										<CustomInput
 											label="Stamping"
+											selectValues={stampingOptions}
 											onChange={props.handleChange('stamping')}
 											value={props.values.stamping}
 											onBlur={props.handleBlur('stamping')}
@@ -417,7 +534,8 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											label="Sales Order No. & Date"
+											label="Sales Order No."
+											selectValues={[]} //dispatch sales order no. here
 											onChange={props.handleChange('salesOrder')}
 											value={props.values.salesOrder}
 											onBlur={props.handleBlur('salesOrder')}
@@ -431,7 +549,26 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											label="Delivery Order No. & Date"
+											//   label="Sales Order No. Date"
+											type="date"
+											disabled
+											onChange={props.handleChange(
+												'salesOrderNoDate'
+											)}
+											value={props.values.salesOrderNoDate}
+											onBlur={props.handleBlur('salesOrderNoDate')}
+											helperText={
+												props.touched.salesOrderNoDate &&
+												props.errors.salesOrderNoDate
+											}
+											error={
+												props.touched.salesOrderNoDate &&
+												props.errors.salesOrderNoDate
+											}
+										/>
+										<CustomInput
+											label="Delivery Order No."
+											selectValues={[]} //dispatch delivery order no. here
 											onChange={props.handleChange('deliveryOrder')}
 											value={props.values.deliveryOrder}
 											onBlur={props.handleBlur('deliveryOrder')}
@@ -444,8 +581,37 @@ const CustomerComplaint = () => {
 												props.errors.deliveryOrder
 											}
 										/>
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											gap: '1rem',
+											justifyContent: 'flex-start',
+										}}
+									>
+										<CustomInput
+											//   label="Sales Order No. Date"
+											type="date"
+											disabled
+											onChange={props.handleChange(
+												'deliveryOrderNoDate'
+											)}
+											value={props.values.deliveryOrderNoDate}
+											onBlur={props.handleBlur(
+												'deliveryOrderNoDate'
+											)}
+											helperText={
+												props.touched.deliveryOrderNoDate &&
+												props.errors.deliveryOrderNoDate
+											}
+											error={
+												props.touched.deliveryOrderNoDate &&
+												props.errors.deliveryOrderNoDate
+											}
+										/>
 										<CustomInput
 											label="Quantity Supplied"
+											type="number"
 											onChange={props.handleChange(
 												'quantitySupplied'
 											)}
@@ -460,16 +626,9 @@ const CustomerComplaint = () => {
 												props.errors.quantitySupplied
 											}
 										/>
-									</div>
-									<div
-										style={{
-											display: 'flex',
-											gap: '1rem',
-											justifyContent: 'flex-start',
-										}}
-									>
 										<CustomInput
 											label="Quantity Affected"
+											type="number"
 											onChange={props.handleChange(
 												'quantityAffected'
 											)}
@@ -486,6 +645,7 @@ const CustomerComplaint = () => {
 										/>
 										<CustomInput
 											label="Total Value of order (Rs)"
+											type="number"
 											onChange={props.handleChange(
 												'totalValueOfOrder'
 											)}
@@ -500,7 +660,16 @@ const CustomerComplaint = () => {
 												props.errors.totalValueOfOrder
 											}
 										/>
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											gap: '1rem',
+											justifyContent: 'flex-start',
+										}}
+									>
 										<CustomInput
+											type="number"
 											label="Total value of affected quantity (Rs)"
 											onChange={props.handleChange(
 												'totalValueOfQuantity'
@@ -519,7 +688,7 @@ const CustomerComplaint = () => {
 											}
 										/>
 										<CustomInput
-											label="Initial Recommendations After..."
+											label="Initial Recommendations After 1st Visit"
 											onChange={props.handleChange(
 												'initialRecommendations'
 											)}
@@ -545,8 +714,26 @@ const CustomerComplaint = () => {
 										}}
 									>
 										<CustomInput
+											label="Report Prepared By"
+											selectValues={[]} //dispatch sales order no. here
+											width="25%"
+											onChange={props.handleChange(
+												'reportPreparedBy'
+											)}
+											value={props.values.reportPreparedBy}
+											onBlur={props.handleBlur('reportPreparedBy')}
+											helperText={
+												props.touched.reportPreparedBy &&
+												props.errors.reportPreparedBy
+											}
+											error={
+												props.touched.reportPreparedBy &&
+												props.errors.reportPreparedBy
+											}
+										/>
+										<CustomInput
 											type="date"
-											width="30%"
+											width="25%"
 											onChange={props.handleChange('date')}
 											value={props.values.date}
 											onBlur={props.handleBlur('date')}
@@ -554,6 +741,221 @@ const CustomerComplaint = () => {
 												props.touched.date && props.errors.date
 											}
 											error={props.touched.date && props.errors.date}
+										/>
+									</div>
+									<div style={{ marginTop: 5, marginBottom: 10 }}>
+										<hr />
+									</div>
+								</div>
+							</Form>
+						);
+					}}
+				</Formik>
+				<Formik
+					initialValues={initialValues3}
+					validationSchema={validationSchema3}
+					onSubmit={onSubmit}
+				>
+					{(props) => {
+						form2 = props;
+						return (
+							<Form>
+								<div
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '1rem',
+									}}
+								>
+									<div
+										style={{
+											display: 'flex',
+											gap: '1rem',
+											justifyContent: 'flex-end',
+										}}
+									>
+										<CustomInput
+											label="Sample Received"
+											selectValues={stampingOptions} //dispatch sales order no. here
+											onChange={props.handleChange('sampleRec')}
+											value={props.values.sampleRec}
+											onBlur={props.handleBlur('sampleRec')}
+											helperText={
+												props.touched.sampleRec &&
+												props.errors.sampleRec
+											}
+											error={
+												props.touched.sampleRec &&
+												props.errors.sampleRec
+											}
+										/>
+										<CustomInput
+											//   label="Sales Order No. Date"
+											type="date"
+											onChange={props.handleChange('sampleRecDate')}
+											value={props.values.sampleRecDate}
+											onBlur={props.handleBlur('sampleRecDate')}
+											helperText={
+												props.touched.sampleRecDate &&
+												props.errors.sampleRecDate
+											}
+											error={
+												props.touched.sampleRecDate &&
+												props.errors.sampleRecDate
+											}
+										/>
+										<CustomInput
+											label="Inspected"
+											selectValues={stampingOptions} //dispatch sales order no. here
+											onChange={props.handleChange('inspected')}
+											value={props.values.inspected}
+											onBlur={props.handleBlur('inspected')}
+											helperText={
+												props.touched.inspected &&
+												props.errors.inspected
+											}
+											error={
+												props.touched.inspected &&
+												props.errors.inspected
+											}
+										/>
+										<CustomInput
+											//   label="Sales Order No. Date"
+											type="date"
+											onChange={props.handleChange('inspectedDate')}
+											value={props.values.inspectedDate}
+											onBlur={props.handleBlur('inspectedDate')}
+											helperText={
+												props.touched.inspectedDate &&
+												props.errors.inspectedDate
+											}
+											error={
+												props.touched.inspectedDate &&
+												props.errors.inspectedDate
+											}
+										/>
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											gap: '1rem',
+											justifyContent: 'flex-end',
+										}}
+									>
+										<CustomInput
+											label="Tested"
+											selectValues={stampingOptions} //dispatch sales order no. here
+											onChange={props.handleChange('tested')}
+											value={props.values.tested}
+											onBlur={props.handleBlur('tested')}
+											helperText={
+												props.touched.tested && props.errors.tested
+											}
+											error={
+												props.touched.tested && props.errors.tested
+											}
+										/>
+										<CustomInput
+											//   label="Sales Order No. Date"
+											type="date"
+											onChange={props.handleChange('testedDate')}
+											value={props.values.testedDate}
+											onBlur={props.handleBlur('testedDate')}
+											helperText={
+												props.touched.testedDate &&
+												props.errors.testedDate
+											}
+											error={
+												props.touched.testedDate &&
+												props.errors.testedDate
+											}
+										/>
+										<CustomInput
+											label="Initial Site Visit Conducted By"
+											selectValues={[]} //dispatch sales order no. here
+											onChange={props.handleChange(
+												'initialSiteVisitConductBy'
+											)}
+											value={props.values.initialSiteVisitConductBy}
+											onBlur={props.handleBlur(
+												'initialSiteVisitConductBy'
+											)}
+											helperText={
+												props.touched.initialSiteVisitConductBy &&
+												props.errors.initialSiteVisitConductBy
+											}
+											error={
+												props.touched.initialSiteVisitConductBy &&
+												props.errors.initialSiteVisitConductBy
+											}
+										/>
+										<CustomInput
+											//   label="Sales Order No. Date"
+											type="date"
+											onChange={props.handleChange(
+												'initialSiteVisitDate'
+											)}
+											value={props.values.initialSiteVisitDate}
+											onBlur={props.handleBlur(
+												'initialSiteVisitDate'
+											)}
+											helperText={
+												props.touched.initialSiteVisitDate &&
+												props.errors.initialSiteVisitDate
+											}
+											error={
+												props.touched.initialSiteVisitDate &&
+												props.errors.initialSiteVisitDate
+											}
+										/>
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											gap: '1rem',
+											justifyContent: 'flex-start',
+										}}
+									>
+										<CustomInput
+											label="Type of Complaint"
+											selectValues={complaintOptions}
+											width="25%"
+											onChange={props.handleChange('complaintType')}
+											value={props.values.complaintType}
+											onBlur={props.handleBlur('complaintType')}
+											helperText={
+												props.touched.complaintType &&
+												props.errors.complaintType
+											}
+											error={
+												props.touched.complaintType &&
+												props.errors.complaintType
+											}
+										/>
+									</div>
+									<div
+										style={{
+											display: 'flex',
+											gap: '1rem',
+											justifyContent: 'flex-start',
+										}}
+									>
+										<CustomInput
+											label="Enter Disposition of Sales Department/QAD"
+											width="75%"
+											onChange={props.handleChange(
+												'dispositionOfSales'
+											)}
+											value={props.values.dispositionOfSales}
+											onBlur={props.handleBlur('dispositionOfSales')}
+											helperText={
+												props.touched.dispositionOfSales &&
+												props.errors.dispositionOfSales
+											}
+											error={
+												props.touched.dispositionOfSales &&
+												props.errors.dispositionOfSales
+											}
 										/>
 									</div>
 									<div
