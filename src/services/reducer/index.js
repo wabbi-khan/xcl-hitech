@@ -52,8 +52,12 @@ import { accountReducer } from './accountReducer';
 import { orderBookingReducer } from './orderBookingReducer';
 import { salesContractReducer } from './salesContractReducer';
 import { contractReviewReducer } from './contractReviewReducer';
+import { customerFeedbackReducer } from './customerFeedbackReducer';
+import { voucherReducer } from './voucehrReducer';
 
 export {
+	voucherReducer,
+	customerFeedbackReducer,
 	contractReviewReducer,
 	salesContractReducer,
 	orderBookingReducer,

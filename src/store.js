@@ -52,11 +52,15 @@ import {
 	orderBookingReducer,
 	salesContractReducer,
 	contractReviewReducer,
+	customerFeedbackReducer,
+	voucherReducer,
 } from './services/reducer';
 
 const initialState = {};
 
 const reducer = combineReducers({
+	vouchers: voucherReducer,
+	customerFeedbacks: customerFeedbackReducer,
 	contractReviews: contractReviewReducer,
 	salesContracts: salesContractReducer,
 	orderBookings: orderBookingReducer,

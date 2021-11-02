@@ -137,7 +137,7 @@ const CustomerComplaint = () => {
 	}
 
 	return (
-		<Sidenav title="Contract Review">
+		<Sidenav title="Customer Complaint">
 			<CustomContainer>
 				<Formik
 					initialValues={initialValues1}

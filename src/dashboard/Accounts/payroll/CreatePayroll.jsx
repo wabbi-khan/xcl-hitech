@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { getEmployees } from '../../../services/action/EmployeesAction';
 import { getAttendanceAction } from '../../../services/action/attendanceAction';
+import { createVouchers } from '../../../services/action/voucherActions';
+import { getAccounts } from '../../../services/action/accountAction';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	CustomInput,
 	CustomButton,
 	generateOptionsFromIndexes,
+	generateOptions,
 } from '../../../components';
 import Loader from 'react-loader-spinner';
 import Sidenav from '../../SideNav/Sidenav';
@@ -13,6 +16,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import moment from 'moment';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import { accountTypes } from '../../../constants/accountTypes';
 
 const monthNames = [
 	'January',
@@ -31,10 +35,14 @@ const monthNames = [
 
 const initialValues = {
 	naration: '',
+	to: '',
+	from: '',
 };
 
 const validationSchema = yup.object({
 	naration: yup.string().required(),
+	to: yup.string().required(),
+	from: yup.string().required(),
 });
 
 const CreatePayroll = ({ history }) => {
@@ -45,10 +53,18 @@ const CreatePayroll = ({ history }) => {
 	const [totalDeduction, setTotalDeduction] = useState(0);
 	const [finalSal, setFinalSal] = useState(0);
 	const [salaryOfMonth, setSalaryOfMonth] = useState('');
+	const [createLoading, setCreateLoading] = useState(false);
+	const [createError, setCreateError] = useState('');
+	const [success, setSuccess] = useState('');
 
 	const { employees } = useSelector((state) => state.employees);
+	const { accounts } = useSelector((state) => state.accounts);
 
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getAccounts());
+	}, []);
 
 	useEffect(() => {
 		if (salaryOfMonth) {
@@ -215,14 +231,35 @@ const CreatePayroll = ({ history }) => {
 	};
 
 	const pushToPrint = (values) => {
-		history.push({
-			pathname: '/payroll/salary_voucher',
-			state: {
-				employees: employeesData,
-				naration: values.naration,
-				finalSal,
-			},
-		});
+		values = {
+			employees: employeesData,
+			naration: values.naration,
+			amount: finalSal,
+			to: values.to,
+			from: values.from,
+			head: values.head,
+		};
+		setCreateLoading(true);
+		dispatch(
+			createVouchers(values, (err) => {
+				if (err) {
+					setCreateError(err);
+					setTimeout(() => {
+						setCreateError('');
+					}, 4000);
+				} else {
+					// history.push({
+					// 	pathname: '/payroll/salary_voucher',
+					// 	state: {
+					// 		employees: employeesData,
+					// 		naration: values.naration,
+					// 		finalSal,
+					// 	},
+					// });
+				}
+				setCreateLoading(false);
+			})
+		);
 	};
 
 	return (
@@ -248,10 +285,6 @@ const CreatePayroll = ({ history }) => {
 								onChange={checkAllFunc}
 							/>
 						</div>
-						<CustomButton
-							text="Pay"
-							classNames="btn btn-sm bg-dark text-light"
-						/>
 					</div>
 				)}
 				<div
@@ -376,6 +409,7 @@ const CreatePayroll = ({ history }) => {
 										textAlign: 'center',
 										marginBottom: '1rem',
 										marginTop: '1rem',
+										gap: '1rem',
 									}}
 								>
 									<CustomInput
@@ -391,14 +425,65 @@ const CreatePayroll = ({ history }) => {
 											props.touched.naration && props.errors.naration
 										}
 									/>
+									<CustomInput
+										label="Select From Account"
+										width="30%"
+										onChange={props.handleChange('from')}
+										value={props.values.from}
+										onBlur={props.handleBlur('from')}
+										helperText={
+											props.touched.from && props.errors.from
+										}
+										error={props.touched.from && props.errors.from}
+										selectValues={generateOptions(
+											accounts,
+											'name',
+											'_id'
+										)}
+									/>
+									<CustomInput
+										label="Select To Account"
+										width="30%"
+										onChange={props.handleChange('to')}
+										value={props.values.to}
+										onBlur={props.handleBlur('to')}
+										helperText={props.touched.to && props.errors.to}
+										error={props.touched.to && props.errors.to}
+										selectValues={generateOptions(
+											accounts,
+											'name',
+											'_id'
+										)}
+									/>
+									<CustomInput
+										label="Head"
+										width="30%"
+										onChange={props.handleChange('head')}
+										value={props.values.head}
+										onBlur={props.handleBlur('head')}
+										helperText={
+											props.touched.head && props.errors.head
+										}
+										error={props.touched.head && props.errors.head}
+										selectValues={generateOptionsFromIndexes(
+											accountTypes
+										)}
+									/>
 								</div>
 								<CustomButton
 									text="Create Salary Voucher"
 									classNames="btn btn-sm bg-dark text-light"
 									style={{ float: 'right' }}
-									loading={fetchLoading}
+									loading={
+										fetchLoading ? true : createLoading ? true : false
+									}
 									loaderColor="#fff"
 								/>
+								{createError && (
+									<p style={{ color: 'red', textAlign: 'center' }}>
+										{createError}
+									</p>
+								)}
 							</Form>
 						)}
 					</Formik>
