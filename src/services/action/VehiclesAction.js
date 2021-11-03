@@ -15,7 +15,7 @@ export const getVehicles = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/vehicle${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/vehicle${query ? `?${query}` : ''}`
 		);
 
 		if (data.success) {
@@ -38,7 +38,7 @@ export const createVehicles = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/vehicle`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -61,7 +61,7 @@ export const updateVehicles = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/vehicle/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -83,7 +83,7 @@ export const deleteVehicles = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/vehicle/${params}`,
+			`${process.env.REACT_APP_API_URL}/vehicle/${params}`
 		);
 
 		if (data.success) {
@@ -107,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: VEHICLE_FAIL,
 			payload: 'Network Error',

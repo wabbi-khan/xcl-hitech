@@ -110,12 +110,11 @@ const TrainingAttendance = ({ history, match, location }) => {
 					}, 4000);
 				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
 	React.useEffect(() => {
-		console.log(searchText);
 		if (searchText) {
 			setFetchLoading(true);
 			dispatch(
@@ -127,7 +126,7 @@ const TrainingAttendance = ({ history, match, location }) => {
 						}, 4000);
 					}
 					setFetchLoading(false);
-				}),
+				})
 			);
 		} else {
 			setFetchLoading(true);
@@ -140,23 +139,23 @@ const TrainingAttendance = ({ history, match, location }) => {
 						}, 4000);
 					}
 					setFetchLoading(false);
-				}),
+				})
 			);
 		}
 	}, [searchText]);
 
 	return (
-		<Sidenav title='Leaves'>
+		<Sidenav title="Leaves">
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
 				<span style={{ marginBottom: 5 }}>Search By Employee Id</span>
 				<CssTextField
-					id='outlined-basic'
-					label='Search'
-					variant='outlined'
-					type='text'
-					size='small'
+					id="outlined-basic"
+					label="Search"
+					variant="outlined"
+					type="text"
+					size="small"
 					style={{ width: '40%' }}
-					autocomplete='off'
+					autocomplete="off"
 					onChange={(e) => setSearchText(e.target.value)}
 					value={searchText}
 					inputProps={{ style: { fontSize: 14 } }}
@@ -172,8 +171,14 @@ const TrainingAttendance = ({ history, match, location }) => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
 					</div>
 				) : leaves?.length === 0 ? (
 					<p>There are no Attendances</p>
@@ -182,17 +187,35 @@ const TrainingAttendance = ({ history, match, location }) => {
 						<TableContainer className={classes.tableContainer}>
 							<Table
 								stickyHeader
-								className='table table-dark'
-								style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+								className="table table-dark"
+								style={{
+									backgroundColor: '#d0cfcf',
+									border: '1px solid grey',
+								}}
+							>
 								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Employee Name</StyledTableCell>
-										<StyledTableCell align='center'>Employee Id</StyledTableCell>
-										<StyledTableCell align='center'>Leave Purpose</StyledTableCell>
-										<StyledTableCell align='center'>is Paid</StyledTableCell>
-										<StyledTableCell align='center'>From</StyledTableCell>
-										<StyledTableCell align='center'>To</StyledTableCell>
+									<TableRow hover role="checkbox">
+										<StyledTableCell align="center">
+											Sr.No
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Employee Name
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Employee Id
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Leave Purpose
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											is Paid
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											From
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											To
+										</StyledTableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -200,26 +223,51 @@ const TrainingAttendance = ({ history, match, location }) => {
 										leaves.length > 0 &&
 										leaves.map((el, i) => (
 											<StyledTableRow>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{i + 1}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.employee?.name}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.employee?.code}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.purpose}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
 													{el?.isPaid ? 'Paid' : 'Not Paid'}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{moment(el?.from).format('Do - MMMM - YYYY')}
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
+													{moment(el?.from).format(
+														'Do - MMMM - YYYY'
+													)}
 												</StyledTableCell>
-												<StyledTableCell className='text-dark bg-light' align='center'>
-													{moment(el?.to).format('Do - MMMM - YYYY')}
+												<StyledTableCell
+													className="text-dark bg-light"
+													align="center"
+												>
+													{moment(el?.to).format(
+														'Do - MMMM - YYYY'
+													)}
 												</StyledTableCell>
 											</StyledTableRow>
 										))}

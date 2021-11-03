@@ -14,10 +14,8 @@ export const getLeavesAction = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/leaves${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/leaves${query ? `?${query}` : ''}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -38,7 +36,7 @@ export const createLeavesAction = (leave, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/leaves`,
-			leave,
+			leave
 		);
 
 		if (data.success) {
@@ -61,17 +59,13 @@ export const updateLeavesAction = (el) => async (dispatch) => {
 
 	try {
 		const res = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/leaves/${el._id}`,
+			`${process.env.REACT_APP_API_URL}/leaves/${el._id}`
 		);
-
-		console.log(res.data);
 
 		dispatch({
 			type: LEAVE_UPDATE_SUCCESS,
 			payload: { salary: res.data.leave },
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

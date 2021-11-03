@@ -9,7 +9,7 @@ import {
 
 export const fetchNonExecPrereqReducer = (
 	state = { nonExecPrereq: [] },
-	action,
+	action
 ) => {
 	switch (action.type) {
 		case NONEXECPREREQ_REQUEST:
@@ -25,7 +25,6 @@ export const fetchNonExecPrereqReducer = (
 				error: action.payload,
 			};
 		case NONEXECPREREQ_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -38,7 +37,7 @@ export const fetchNonExecPrereqReducer = (
 				nonExecPrereq: state.nonExecPrereq.map((nonExecPrereq) =>
 					nonExecPrereq._id === action.payload.assessment._id
 						? action.payload.assessment
-						: nonExecPrereq,
+						: nonExecPrereq
 				),
 			};
 		case NONEXECPREREQ_CREATE_SUCCESS:
@@ -52,7 +51,7 @@ export const fetchNonExecPrereqReducer = (
 				loading: false,
 				error: '',
 				nonExecPrereq: state.nonExecPrereq.filter(
-					(nonExecPrereq) => nonExecPrereq._id !== action.payload,
+					(nonExecPrereq) => nonExecPrereq._id !== action.payload
 				),
 			};
 		default:

@@ -15,7 +15,7 @@ export const getTrainingVenues = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/trainings/venue`,
+			`${process.env.REACT_APP_API_URL}/trainings/venue`
 		);
 
 		if (data.success) {
@@ -38,10 +38,8 @@ export const createTrainingVenue = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/venue`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -64,7 +62,7 @@ export const updateTrainingVenue = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/venue/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -87,10 +85,8 @@ export const deleteTrainingVenue = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/trainings/venue/${params}`,
+			`${process.env.REACT_APP_API_URL}/trainings/venue/${params}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({

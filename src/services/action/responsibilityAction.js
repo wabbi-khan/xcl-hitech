@@ -15,7 +15,7 @@ export const getResponsibilities = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/responsibility`,
+			`${process.env.REACT_APP_API_URL}/responsibility`
 		);
 
 		if (data.success) {
@@ -38,10 +38,8 @@ export const createResponsibilities = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/responsibility`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.status === 'OK') {
 			dispatch({
@@ -63,7 +61,7 @@ export const updateResponsibilities = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/responsibility/${id}`,
-			values,
+			values
 		);
 
 		if (data.status === 'OK') {
@@ -85,7 +83,7 @@ export const deleteResponsibilities = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/responsibility/${params}`,
+			`${process.env.REACT_APP_API_URL}/responsibility/${params}`
 		);
 
 		if (data.status === 'OK') {
@@ -109,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: RESPONSIBILITY_FAIL,
 			payload: 'Network Error',

@@ -5,7 +5,6 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
@@ -157,7 +156,7 @@ const EditProducts = (props) => {
 				subCategory: '',
 			});
 		}
-	}, [selectedCategory]);
+	}, [selectedCategory, dispatch, form]);
 
 	const classes = useStyles();
 
@@ -181,7 +180,7 @@ const EditProducts = (props) => {
 						setSuccess(false);
 					}, 4000);
 				}
-			}),
+			})
 		);
 		setLoading(true);
 	};
@@ -193,25 +192,27 @@ const EditProducts = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Update</h5>
+						<h5 className="text-center mt-4">Update</h5>
 						<Container className={classes.mainContainer}>
 							{product ? (
 								<Formik
 									initialValues={initialValuesState}
 									validationSchema={validationSchema}
 									onSubmit={onSubmit}
-									enableReinitialize>
+									enableReinitialize
+								>
 									{(props) => {
 										form = props;
 										return (
@@ -219,125 +220,227 @@ const EditProducts = (props) => {
 												<Grid container spacing={1}>
 													<Grid lg={12} md={12} sm={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Product Name'
-															variant='outlined'
-															type='text'
-															size='small'
-															style={{ width: '100%', marginBottom: '2rem' }}
-															autoComplete='off'
+															id="outlined-basic"
+															label="Product Name"
+															variant="outlined"
+															type="text"
+															size="small"
+															style={{
+																width: '100%',
+																marginBottom: '2rem',
+															}}
+															autoComplete="off"
 															defaultValue={product.name}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('name')}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'name'
+															)}
 															onBlur={props.handleBlur('name')}
 															value={props.values.name}
-															helperText={props.touched.name && props.errors.name}
-															error={props.touched.name && props.errors.name}
+															helperText={
+																props.touched.name &&
+																props.errors.name
+															}
+															error={
+																props.touched.name &&
+																props.errors.name
+															}
 														/>
 													</Grid>
 													<Grid lg={12} md={12} sm={12}></Grid>
 													<Grid lg={12} md={12} sm={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Min Inventory Level'
-															variant='outlined'
-															type='text'
-															size='small'
-															autoComplete='off'
-															defaultValue={product.minInventoryLevel}
-															style={{ width: '100%', marginBottom: '2rem' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('minInventoryLevel')}
-															onBlur={props.handleBlur('minInventoryLevel')}
-															value={props.values.minInventoryLevel}
+															id="outlined-basic"
+															label="Min Inventory Level"
+															variant="outlined"
+															type="text"
+															size="small"
+															autoComplete="off"
+															defaultValue={
+																product.minInventoryLevel
+															}
+															style={{
+																width: '100%',
+																marginBottom: '2rem',
+															}}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'minInventoryLevel'
+															)}
+															onBlur={props.handleBlur(
+																'minInventoryLevel'
+															)}
+															value={
+																props.values.minInventoryLevel
+															}
 															helperText={
-																props.touched.minInventoryLevel &&
+																props.touched
+																	.minInventoryLevel &&
 																props.errors.minInventoryLevel
 															}
 															error={
-																props.touched.minInventoryLevel &&
+																props.touched
+																	.minInventoryLevel &&
 																props.errors.minInventoryLevel
 															}
 														/>
 													</Grid>
 													<Grid lg={12} md={12} sm={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Remarks'
-															variant='outlined'
-															type='text'
-															size='small'
-															autoComplete='off'
-															style={{ width: '100%', marginBottom: '2rem' }}
+															id="outlined-basic"
+															label="Remarks"
+															variant="outlined"
+															type="text"
+															size="small"
+															autoComplete="off"
+															style={{
+																width: '100%',
+																marginBottom: '2rem',
+															}}
 															defaultValue={product.remarks}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('remarks')}
-															onBlur={props.handleBlur('remarks')}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'remarks'
+															)}
+															onBlur={props.handleBlur(
+																'remarks'
+															)}
 															value={props.values.remarks}
-															helperText={props.touched.remarks && props.errors.remarks}
-															error={props.touched.remarks && props.errors.remarks}
+															helperText={
+																props.touched.remarks &&
+																props.errors.remarks
+															}
+															error={
+																props.touched.remarks &&
+																props.errors.remarks
+															}
 														/>
 													</Grid>
-													<Grid item lg={12} md={12} sm={12} xs={12}>
+													<Grid
+														item
+														lg={12}
+														md={12}
+														sm={12}
+														xs={12}
+													>
 														<CssTextField
-															id='outlined-basic'
-															label='Select Category'
-															variant='outlined'
-															type='email'
-															size='small'
-															autoComplete='off'
+															id="outlined-basic"
+															label="Select Category"
+															variant="outlined"
+															type="email"
+															size="small"
+															autoComplete="off"
 															select
 															required
-															style={{ width: '100%', marginBottom: '2rem' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('category')}
-															onBlur={props.handleBlur('category')}
+															style={{
+																width: '100%',
+																marginBottom: '2rem',
+															}}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'category'
+															)}
+															onBlur={props.handleBlur(
+																'category'
+															)}
 															value={props.values.category}
-															helperText={props.touched.category && props.errors.category}
-															error={props.touched.category && props.errors.category}>
-															{!categories || !categories.length ? (
+															helperText={
+																props.touched.category &&
+																props.errors.category
+															}
+															error={
+																props.touched.category &&
+																props.errors.category
+															}
+														>
+															{!categories ||
+															!categories.length ? (
 																<p>Data Not Found</p>
 															) : (
 																categories.map((el) => (
 																	<MenuItem
 																		value={el._id}
 																		key={el._id}
-																		onClick={() => setSelectedCategory(el._id)}>
+																		onClick={() =>
+																			setSelectedCategory(
+																				el._id
+																			)
+																		}
+																	>
 																		{el.name}
 																	</MenuItem>
 																))
 															)}
 														</CssTextField>
 													</Grid>
-													<Grid item lg={12} md={12} sm={12} xs={12}>
+													<Grid
+														item
+														lg={12}
+														md={12}
+														sm={12}
+														xs={12}
+													>
 														<CssTextField
-															id='outlined-basic'
-															label='Select Sub Category'
-															variant='outlined'
-															type='email'
-															size='small'
-															autoComplete='off'
+															id="outlined-basic"
+															label="Select Sub Category"
+															variant="outlined"
+															type="email"
+															size="small"
+															autoComplete="off"
 															select
 															required
 															style={{ width: '100%' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}
-															onChange={props.handleChange('subCategory')}
-															onBlur={props.handleBlur('subCategory')}
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+															onChange={props.handleChange(
+																'subCategory'
+															)}
+															onBlur={props.handleBlur(
+																'subCategory'
+															)}
 															value={props.values.subCategory}
 															helperText={
-																props.touched.subCategory && props.errors.subCategory
+																props.touched.subCategory &&
+																props.errors.subCategory
 															}
-															error={props.touched.subCategory && props.errors.subCategory}>
-															{!subCategories || !subCategories.length ? (
+															error={
+																props.touched.subCategory &&
+																props.errors.subCategory
+															}
+														>
+															{!subCategories ||
+															!subCategories.length ? (
 																<p>Data Not Found</p>
 															) : (
 																subCategories.map((el) => (
-																	<MenuItem value={el._id} key={el._id}>
+																	<MenuItem
+																		value={el._id}
+																		key={el._id}
+																	>
 																		{el.name}
 																	</MenuItem>
 																))
@@ -351,21 +454,22 @@ const EditProducts = (props) => {
 														display: 'flex',
 														alignItems: 'center',
 														justifyContent: 'center',
-													}}>
+													}}
+												>
 													<Button
-														variant='contained'
-														color='primary'
-														text='Update'
+														variant="contained"
+														color="primary"
+														text="Update"
 														style={{ marginRight: '1rem' }}
 														loading={loading}
 													/>
 													<Button
-														variant='outlined'
-														color='dark'
+														variant="outlined"
+														color="dark"
 														onClick={handleClose}
-														text='Close'
-														type='button'
-														classNames='bg-danger text-light'
+														text="Close"
+														type="button"
+														classNames="bg-danger text-light"
 													/>
 												</div>
 												{error && <p>{error}</p>}

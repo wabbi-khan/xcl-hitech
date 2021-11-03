@@ -15,7 +15,7 @@ export const getDeliveryOrders = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/deliveryOrder`,
+			`${process.env.REACT_APP_API_URL}/deliveryOrder`
 		);
 
 		if (data.success) {
@@ -38,9 +38,8 @@ export const createDeliveryOrders = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/deliveryOrder`,
-			values,
+			values
 		);
-
 
 		if (data.success) {
 			dispatch({
@@ -62,7 +61,7 @@ export const updateDeliveryOrders = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/deliveryOrder/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -84,7 +83,7 @@ export const deleteDeliveryOrders = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/deliveryOrder/${params}`,
+			`${process.env.REACT_APP_API_URL}/deliveryOrder/${params}`
 		);
 
 		if (data.success) {
@@ -108,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: DELIVERY_ORDER_FAIL,
 			payload: 'Network Error',

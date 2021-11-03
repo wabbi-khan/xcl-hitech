@@ -21,7 +21,6 @@ export const fetchLeaveReducer = (state = { leaves: [] }, action) => {
 				error: action.payload,
 			};
 		case LEAVE_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -32,7 +31,9 @@ export const fetchLeaveReducer = (state = { leaves: [] }, action) => {
 				loading: false,
 				error: '',
 				leaves: state.leaves.map((leave) =>
-					leave._id === action.payload.leave._id ? action.payload.leave : leave,
+					leave._id === action.payload.leave._id
+						? action.payload.leave
+						: leave
 				),
 			};
 		case LEAVE_CREATE_SUCCESS:

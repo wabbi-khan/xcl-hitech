@@ -17,10 +17,8 @@ export const getNonExtEmpRatAction = (query) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/rating${
 				query ? `?${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: NONEXECRAT_FETCH_SUCCESS,
@@ -38,19 +36,14 @@ export const createNonExtEmpRatAction = (rating) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/rating`,
-			rating,
+			rating
 		);
-
-		console.log(res);
 
 		dispatch({
 			type: NONEXECRAT_CREATE_SUCCESS,
 			payload: res.data.rating,
 		});
-
-		// console.log(data);
 	} catch (err) {
-		console.log('object');
 		dispatchError(err, dispatch);
 	}
 };
@@ -64,10 +57,8 @@ export const updateNonExtEmpRatAction =
 		try {
 			const res = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/rating/${id}`,
-				rating,
+				rating
 			);
-
-			console.log(res.data);
 
 			dispatch({
 				type: NONEXECRAT_UPDATE_SUCCESS,
@@ -87,10 +78,8 @@ export const deleteNonExtEmpRatAction = (id, cb) => async (dispatch) => {
 
 	try {
 		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/rating/${id}`,
+			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/rating/${id}`
 		);
-
-		console.log(res.data);
 
 		dispatch({
 			type: NONEXECRAT_DELETE_SUCCESS,
@@ -104,9 +93,7 @@ export const deleteNonExtEmpRatAction = (id, cb) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch) => {
-	console.log(err);
 	if (err.response) {
-		console.log(err.response.data);
 		dispatch({
 			type: NONEXECRAT_FAIL,
 			payload: err.response.data.error,

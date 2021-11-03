@@ -172,8 +172,6 @@ const EmpLeave = ({ history }) => {
 	const { employees } = useSelector((state) => state.employees);
 	const { leaves } = useSelector((state) => state.leaves);
 
-	console.log(employees);
-
 	React.useEffect(() => {
 		dispatch(getDesignation());
 		dispatch(fetchDepartmentsAction());
@@ -189,8 +187,6 @@ const EmpLeave = ({ history }) => {
 			})
 		);
 	}, []);
-
-	console.log(leaves);
 
 	const onSubmitData = (values) => {
 		setCreateLoading(true);

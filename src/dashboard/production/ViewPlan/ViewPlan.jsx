@@ -59,8 +59,6 @@ const ViewPlan = (props) => {
 
 	const { history, match } = props;
 
-	console.log(props);
-
 	const classes = useStyles();
 
 	const [plans, setPlans] = useState([]);
@@ -72,12 +70,11 @@ const ViewPlan = (props) => {
 			setLoading(true);
 			try {
 				const data = await axios.get(
-					`${process.env.REACT_APP_API_URL}/plan/${match.params.planId}`,
+					`${process.env.REACT_APP_API_URL}/plan/${match.params.planId}`
 				);
 
 				setPlans(data.data.plan.plan);
 				setLoading(false);
-				console.log(data.data.plan.plan);
 			} catch (error) {}
 		};
 
@@ -97,13 +94,12 @@ const ViewPlan = (props) => {
 	const onDelete = async () => {
 		try {
 			await axios.delete(
-				`${process.env.REACT_APP_API_URL}/plan/${match.params.planId}`,
+				`${process.env.REACT_APP_API_URL}/plan/${match.params.planId}`
 			);
 
-			window.location.pathname = 'productionDashboard/weekly-production-plan';
-		} catch (error) {
-			console.log(error);
-		}
+			window.location.pathname =
+				'productionDashboard/weekly-production-plan';
+		} catch (error) {}
 	};
 
 	return (
@@ -113,16 +109,30 @@ const ViewPlan = (props) => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Day</StyledTableCell>
-									<StyledTableCell align='center'>Mgr.Date</StyledTableCell>
-									<StyledTableCell align='center'>Order No</StyledTableCell>
-									<StyledTableCell align='center'>Machine 1</StyledTableCell>
-									<StyledTableCell align='center'>Machine 2</StyledTableCell>
-									<StyledTableCell align='center'>Machine 3</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">Day</StyledTableCell>
+									<StyledTableCell align="center">
+										Mgr.Date
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Order No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Machine 1
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Machine 2
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Machine 3
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -133,22 +143,40 @@ const ViewPlan = (props) => {
 								) : plans.length ? (
 									plans.map((plan, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{days[i]}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{plan.mgrDate ? plan.mgrDate : '---'}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{plan.orderNo ? plan.orderNo : '---'}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{plan.machine1 ? 'Used' : 'Not Used'}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{plan.machine2 ? 'Used' : 'Not Used'}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{plan.machine3 ? 'Used' : 'Not Used'}
 											</StyledTableCell>
 										</StyledTableRow>
@@ -161,25 +189,28 @@ const ViewPlan = (props) => {
 					</TableContainer>
 					<div style={{ display: 'flex', justifyContent: 'center' }}>
 						<Button
-							variant='outlined'
-							color='primary'
-							type='submit'
+							variant="outlined"
+							color="primary"
+							type="submit"
 							style={{ marginRight: 20 }}
 							onClick={() => {
 								history.push({
-									pathname: '/productionDashboard/weekly-production-plan/edit_plan',
+									pathname:
+										'/productionDashboard/weekly-production-plan/edit_plan',
 									state: { plans, planId: match.params.planId },
 								});
 							}}
-							className={`${classes.addButton} bg-warning text-light`}>
+							className={`${classes.addButton} bg-warning text-light`}
+						>
 							Edit
 						</Button>
 						<Button
-							variant='outlined'
-							color='primary'
-							type='submit'
+							variant="outlined"
+							color="primary"
+							type="submit"
 							onClick={onDelete}
-							className={`${classes.addButton} bg-danger text-light`}>
+							className={`${classes.addButton} bg-danger text-light`}
+						>
 							Delete
 						</Button>
 					</div>

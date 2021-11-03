@@ -159,7 +159,8 @@ const EditTrainingPlan = (props) => {
 		if (training) {
 			setInitialValues({
 				topic: training?.topic?._id,
-				needIdentifiedByDesignation: training?.needIdentifiedByDesignation?._id,
+				needIdentifiedByDesignation:
+					training?.needIdentifiedByDesignation?._id,
 				needIdentifiedByEmployee: training?.needIdentifiedByEmployee?._id,
 				participants: training?.participants?._id,
 				trainerDesignation: training?.trainerDesignation?._id,
@@ -167,19 +168,21 @@ const EditTrainingPlan = (props) => {
 				venue: training?.venue?._id,
 			});
 			setSelectedTrainerIdentifierDesignation(
-				training?.needIdentifiedByDesignation?._id,
+				training?.needIdentifiedByDesignation?._id
 			);
 			setSelectedTrainerDesignation(training?.trainerDesignation?._id);
-			console.log(training);
 		}
 	}, [training]);
 
 	React.useEffect(() => {
 		if (selectedTrainerIdentifierDesignation) {
 			dispatch(
-				getEmployeeByDesignation(selectedTrainerIdentifierDesignation, (data) => {
-					setTrainingIdentifiers(data);
-				}),
+				getEmployeeByDesignation(
+					selectedTrainerIdentifierDesignation,
+					(data) => {
+						setTrainingIdentifiers(data);
+					}
+				)
 			);
 		}
 	}, [selectedTrainerIdentifierDesignation]);
@@ -189,7 +192,7 @@ const EditTrainingPlan = (props) => {
 			dispatch(
 				getEmployeeByDesignation(selectedTrainerDesignation, (data) => {
 					setTrainers(data);
-				}),
+				})
 			);
 		}
 	}, [selectedTrainerDesignation]);
@@ -210,7 +213,7 @@ const EditTrainingPlan = (props) => {
 						setSuccess(false);
 					}, 4000);
 				}
-			}),
+			})
 		);
 		setLoading(true);
 	};
@@ -222,43 +225,54 @@ const EditTrainingPlan = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit/Update</h5>
+						<h5 className="text-center mt-4">Edit/Update</h5>
 						<Container className={classes.mainContainer}>
 							<Formik
 								initialValues={initialValuesState}
 								validationSchema={validationSchema}
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<Form>
 										<Grid container spacing={1}>
-											<Grid lg={12} md={12} sm={12} className='mt-2'>
+											<Grid lg={12} md={12} sm={12} className="mt-2">
 												<CssTextField
-													id='outlined-basic'
-													label='Select Topic'
-													variant='outlined'
-													type='text'
-													size='small'
+													id="outlined-basic"
+													label="Select Topic"
+													variant="outlined"
+													type="text"
+													size="small"
 													select
-													autocomplete='off'
+													autocomplete="off"
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
 													onChange={props.handleChange('topic')}
 													onBlur={props.handleBlur('topic')}
 													value={props.values.topic}
-													helperText={props.touched.topic && props.errors.topic}
-													error={props.touched.topic && props.errors.topic}
-													InputLabelProps={{ style: { fontSize: 14 } }}>
+													helperText={
+														props.touched.topic &&
+														props.errors.topic
+													}
+													error={
+														props.touched.topic &&
+														props.errors.topic
+													}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+												>
 													{!trainings || !trainings.length ? (
 														<p>Data Not Found</p>
 													) : (
@@ -270,30 +284,45 @@ const EditTrainingPlan = (props) => {
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid lg={12} md={12} sm={12} className='mt-3'>
+											<Grid lg={12} md={12} sm={12} className="mt-3">
 												<CssTextField
-													id='outlined-basic'
-													label='Training Needs Identified By Employee Designation'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Training Needs Identified By Employee Designation"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													select
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('needIdentifiedByDesignation')}
-													onBlur={props.handleBlur('needIdentifiedByDesignation')}
-													value={props.values.needIdentifiedByDesignation}
+													onChange={props.handleChange(
+														'needIdentifiedByDesignation'
+													)}
+													onBlur={props.handleBlur(
+														'needIdentifiedByDesignation'
+													)}
+													value={
+														props.values
+															.needIdentifiedByDesignation
+													}
 													helperText={
-														props.touched.needIdentifiedByDesignation &&
-														props.errors.needIdentifiedByDesignation
+														props.touched
+															.needIdentifiedByDesignation &&
+														props.errors
+															.needIdentifiedByDesignation
 													}
 													error={
-														props.touched.needIdentifiedByDesignation &&
-														props.errors.needIdentifiedByDesignation
+														props.touched
+															.needIdentifiedByDesignation &&
+														props.errors
+															.needIdentifiedByDesignation
 													}
-													InputLabelProps={{ style: { fontSize: 14 } }}>
-													{!designations || !designations.length ? (
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+												>
+													{!designations ||
+													!designations.length ? (
 														<p>Data Not Found</p>
 													) : (
 														designations.map((el, i) => (
@@ -301,38 +330,53 @@ const EditTrainingPlan = (props) => {
 																value={el._id}
 																key={i}
 																onClick={() => {
-																	setSelectedTrainerIdentifierDesignation(el._id);
-																}}>
+																	setSelectedTrainerIdentifierDesignation(
+																		el._id
+																	);
+																}}
+															>
 																{el.name}
 															</MenuItem>
 														))
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid lg={12} md={12} sm={12} className='mt-3'>
+											<Grid lg={12} md={12} sm={12} className="mt-3">
 												<CssTextField
-													id='outlined-basic'
-													label='Training Needs Identified By Employee Name'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Training Needs Identified By Employee Name"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													select
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('needIdentifiedByEmployee')}
-													onBlur={props.handleBlur('needIdentifiedByEmployee')}
-													value={props.values.needIdentifiedByEmployee}
+													onChange={props.handleChange(
+														'needIdentifiedByEmployee'
+													)}
+													onBlur={props.handleBlur(
+														'needIdentifiedByEmployee'
+													)}
+													value={
+														props.values.needIdentifiedByEmployee
+													}
 													helperText={
-														props.touched.needIdentifiedByEmployee &&
+														props.touched
+															.needIdentifiedByEmployee &&
 														props.errors.needIdentifiedByEmployee
 													}
 													error={
-														props.touched.needIdentifiedByEmployee &&
+														props.touched
+															.needIdentifiedByEmployee &&
 														props.errors.needIdentifiedByEmployee
 													}
-													InputLabelProps={{ style: { fontSize: 14 } }}>
-													{!trainingIdentifiers || !trainingIdentifiers.length ? (
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+												>
+													{!trainingIdentifiers ||
+													!trainingIdentifiers.length ? (
 														<p>Data Not Found</p>
 													) : (
 														trainingIdentifiers.map((el, i) => (
@@ -343,26 +387,36 @@ const EditTrainingPlan = (props) => {
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid lg={12} md={12} sm={12} className='mt-3'>
+											<Grid lg={12} md={12} sm={12} className="mt-3">
 												<CssTextField
-													id='outlined-basic'
-													label='Participants'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Participants"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													select
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('participants')}
+													onChange={props.handleChange(
+														'participants'
+													)}
 													onBlur={props.handleBlur('participants')}
 													value={props.values.participants}
 													helperText={
-														props.touched.participants && props.errors.participants
+														props.touched.participants &&
+														props.errors.participants
 													}
-													error={props.touched.participants && props.errors.participants}
-													InputLabelProps={{ style: { fontSize: 14 } }}>
-													{!designations || !designations.length ? (
+													error={
+														props.touched.participants &&
+														props.errors.participants
+													}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+												>
+													{!designations ||
+													!designations.length ? (
 														<p>Data Not Found</p>
 													) : (
 														designations.map((el, i) => (
@@ -373,20 +427,26 @@ const EditTrainingPlan = (props) => {
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid lg={12} md={12} sm={12} className='mt-3'>
+											<Grid lg={12} md={12} sm={12} className="mt-3">
 												<CssTextField
-													id='outlined-basic'
-													label='Trainer Designation'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Trainer Designation"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													select
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('trainerDesignation')}
-													onBlur={props.handleBlur('trainerDesignation')}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+													onChange={props.handleChange(
+														'trainerDesignation'
+													)}
+													onBlur={props.handleBlur(
+														'trainerDesignation'
+													)}
 													value={props.values.trainerDesignation}
 													helperText={
 														props.touched.trainerDesignation &&
@@ -395,8 +455,10 @@ const EditTrainingPlan = (props) => {
 													error={
 														props.touched.trainerDesignation &&
 														props.errors.trainerDesignation
-													}>
-													{!designations || !designations.length ? (
+													}
+												>
+													{!designations ||
+													!designations.length ? (
 														<p>Data Not Found</p>
 													) : (
 														designations.map((el, i) => (
@@ -404,31 +466,45 @@ const EditTrainingPlan = (props) => {
 																value={el._id}
 																key={i}
 																onClick={() => {
-																	setSelectedTrainerDesignation(el._id);
-																}}>
+																	setSelectedTrainerDesignation(
+																		el._id
+																	);
+																}}
+															>
 																{el.name}
 															</MenuItem>
 														))
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid lg={12} md={12} sm={12} className='mt-3'>
+											<Grid lg={12} md={12} sm={12} className="mt-3">
 												<CssTextField
-													id='outlined-basic'
-													label='Trainer Name'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Trainer Name"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													select
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
-													onChange={props.handleChange('trainerName')}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
+													onChange={props.handleChange(
+														'trainerName'
+													)}
 													onBlur={props.handleBlur('trainerName')}
 													value={props.values.trainerName}
-													helperText={props.touched.trainerName && props.errors.trainerName}
-													error={props.touched.trainerName && props.errors.trainerName}>
+													helperText={
+														props.touched.trainerName &&
+														props.errors.trainerName
+													}
+													error={
+														props.touched.trainerName &&
+														props.errors.trainerName
+													}
+												>
 													{!trainers || !trainers.length ? (
 														<p>Data Not Found</p>
 													) : (
@@ -440,23 +516,32 @@ const EditTrainingPlan = (props) => {
 													)}
 												</CssTextField>
 											</Grid>
-											<Grid lg={12} md={12} sm={12} className='mt-3'>
+											<Grid lg={12} md={12} sm={12} className="mt-3">
 												<CssTextField
-													id='outlined-basic'
-													label='Training Venue'
-													variant='outlined'
-													type='text'
-													autocomplete='off'
-													size='small'
+													id="outlined-basic"
+													label="Training Venue"
+													variant="outlined"
+													type="text"
+													autocomplete="off"
+													size="small"
 													select
 													style={{ width: '100%' }}
 													inputProps={{ style: { fontSize: 14 } }}
-													InputLabelProps={{ style: { fontSize: 14 } }}
+													InputLabelProps={{
+														style: { fontSize: 14 },
+													}}
 													onChange={props.handleChange('venue')}
 													onBlur={props.handleBlur('venue')}
 													value={props.values.venue}
-													helperText={props.touched.venue && props.errors.venue}
-													error={props.touched.venue && props.errors.venue}>
+													helperText={
+														props.touched.venue &&
+														props.errors.venue
+													}
+													error={
+														props.touched.venue &&
+														props.errors.venue
+													}
+												>
 													{!venues || !venues.length ? (
 														<p>Data Not Found</p>
 													) : (
@@ -475,25 +560,28 @@ const EditTrainingPlan = (props) => {
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'center',
-											}}>
+											}}
+										>
 											<Button
-												variant='contained'
-												color='primary'
-												text='Update'
+												variant="contained"
+												color="primary"
+												text="Update"
 												style={{ marginRight: '1rem' }}
 												loading={loading}
 											/>
 											<Button
-												variant='outlined'
-												color='dark'
+												variant="outlined"
+												color="dark"
 												onClick={handleClose}
-												text='Close'
-												type='button'
-												classNames='bg-danger text-light'
+												text="Close"
+												type="button"
+												classNames="bg-danger text-light"
 											/>
 										</div>
 										{error && <p>{error}</p>}
-										{success && <p>Responsibility Successfully Updated</p>}
+										{success && (
+											<p>Responsibility Successfully Updated</p>
+										)}
 									</Form>
 								)}
 							</Formik>

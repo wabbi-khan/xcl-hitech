@@ -15,7 +15,9 @@ export const getAttendanceAction = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/attendance${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/attendance${
+				query ? `?${query}` : ''
+			}`
 		);
 
 		if (data.success) {
@@ -23,7 +25,7 @@ export const getAttendanceAction = (query, cb) => async (dispatch) => {
 				type: ATTENDANCE_FETCH_SUCCESS,
 				payload: data.data,
 			});
-			if (cb) cb();
+			if (cb) cb(null, data);
 		}
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
@@ -37,18 +39,15 @@ export const attendanceToggler = (attendance) => async (dispatch) => {
 
 	try {
 		const res = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/attendance/${attendance._id}`,
+			`${process.env.REACT_APP_API_URL}/attendance/${attendance._id}`
 		);
 
-		console.log(res.data);
 		dispatch({
 			type: ATTENDANCE_UPDATE_SUCCESS,
 			payload: {
 				attendance: res.data.attendance,
 			},
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -61,10 +60,8 @@ export const createAttendanceAction = (attendance, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.post(
-			`${process.env.REACT_APP_API_URL}/attendance`,
+			`${process.env.REACT_APP_API_URL}/attendance`
 		);
-
-		console.log(data.todayAttendance);
 
 		if (data.success) {
 			dispatch({
@@ -74,8 +71,6 @@ export const createAttendanceAction = (attendance, cb) => async (dispatch) => {
 
 			if (cb) cb();
 		}
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -89,10 +84,8 @@ export const updateAttendanceAction = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/attendance/${id}`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -104,8 +97,6 @@ export const updateAttendanceAction = (id, values, cb) => async (dispatch) => {
 			});
 			if (cb) cb();
 		}
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -117,14 +108,14 @@ export const deleteAttendanceAction = (params) => async (dispatch) => {
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/attendance/${params}`);
+		await axios.delete(
+			`${process.env.REACT_APP_API_URL}/attendance/${params}`
+		);
 
 		dispatch({
 			type: ATTENDANCE_DELETE_SUCCESS,
 			payload: params,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -138,7 +129,6 @@ const dispatchError = (err, dispatch, cb) => {
 			payload: err.response.data.error,
 		});
 	} else {
-		console.log(err);
 		if (cb) cb('Network Error');
 		dispatch({
 			type: ATTENDANCE_FAIL,

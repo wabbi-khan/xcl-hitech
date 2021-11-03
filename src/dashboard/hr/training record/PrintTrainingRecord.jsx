@@ -81,7 +81,6 @@ const PrintTrainingRecord = ({ location }) => {
 	const classes = useStyles();
 	// const id = props.match.params.id
 	const { evaluation } = location.state;
-	console.log(evaluation);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -91,17 +90,22 @@ const PrintTrainingRecord = ({ location }) => {
 
 	return (
 		<div>
-			<div className='text-center'>
-				<div className='container-fluid'>
-					<img src='./logo.png' alt='' />
+			<div className="text-center">
+				<div className="container-fluid">
+					<img src="./logo.png" alt="" />
 					{/* <h4>Hi-Tech Pipe & Engineering Industries</h4>
 					<h6>Plot No X-22, Site Area Kotri</h6>
 					<p>Ph-No 022-3870614-5, Fax: 022-3870606</p> */}
-					<div class='row'>
-						<div class='col-lg-3 col-md-3 col-sm-4'>
-							<img src='/images/nameLogo.png' width='90%' height='80%' alt='' />
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-4">
+							<img
+								src="/images/nameLogo.png"
+								width="90%"
+								height="80%"
+								alt=""
+							/>
 						</div>
-						<div class='offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2'>
+						<div class="offset-lg-7 offset-md-7 offset-sm-6 col-lg-2 col-md-2 col-sm-2">
 							<div
 								style={{
 									display: 'flex',
@@ -109,62 +113,64 @@ const PrintTrainingRecord = ({ location }) => {
 									flexDirection: 'column',
 									border: '2px solid #333',
 									width: '100px',
-									marginTop: '1rem'
+									marginTop: '1rem',
 									// marginLeft: 'auto',
 									// paddingRight: '5px',
 									// marginRight: '-3rem'
-								}}>
+								}}
+							>
 								<h6>FM-39</h6>
 								<h6>Issue.01</h6>
 							</div>
 						</div>
 					</div>
 					<h5
-						className='mt-4'
-						style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+						className="mt-4"
+						style={{ textDecoration: 'underline', fontWeight: 'bold' }}
+					>
 						TRAINING RECORD AND EVALUATION
 					</h5>
 				</div>
 				<div
-					className='container-fluid'
-					style={{ textAlign: 'left', marginTop: 70 }}>
+					className="container-fluid"
+					style={{ textAlign: 'left', marginTop: 70 }}
+				>
 					<Grid container spacing={1}>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<div className='col-lg-6 col-md-6 col-sm-6'>
+							<div className="col-lg-6 col-md-6 col-sm-6">
 								<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>
 									Training Date:
 								</p>
 							</div>
 						</Grid>
 						<Grid item lg={2} md={2} sm={2} xs={2}>
-							<p style={{ textDecoration: 'underline' }}>
-								{fullDate}
-							</p>
+							<p style={{ textDecoration: 'underline' }}>{fullDate}</p>
 						</Grid>
 						<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
-						<Grid item lg={2} md={2} sm={2} xs={2} id='printBtn'>
+						<Grid item lg={2} md={2} sm={2} xs={2} id="printBtn">
 							<Button
-								variant='contained'
-								size='small'
-								className='bg-dark text-light'
-								onClick={() => window.print()}>
+								variant="contained"
+								size="small"
+								className="bg-dark text-light"
+								onClick={() => window.print()}
+							>
 								Print
 							</Button>
 						</Grid>
 					</Grid>
 				</div>
-				<table class='table table-striped table-inverse table-bordered table-responsive table-hover'>
+				<table class="table table-striped table-inverse table-bordered table-responsive table-hover">
 					<tr style={{ textAlign: 'left', border: '1px solid black' }}>
-						<div style={{ display: 'flex', }}>
+						<div style={{ display: 'flex' }}>
 							<h6>TRAINING: </h6>
-							<h6>{ }Importance of Criteteria</h6>
+							<h6>{}Importance of Criteteria</h6>
 						</div>
 					</tr>
 				</table>
 				<div>
-					<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
-						<table class='table table-striped table-inverse table-bordered table-responsive table-hover'>
-							<thead class='thead-inverse'>
+					<div className="" style={{ marginTop: 30, marginLeft: 'auto' }}>
+						<table class="table table-striped table-inverse table-bordered table-responsive table-hover">
+							<thead class="thead-inverse">
 								<tr>
 									<th>S.NO.</th>
 									<th>TRAINEE NAME</th>
@@ -181,51 +187,27 @@ const PrintTrainingRecord = ({ location }) => {
 									<td></td>
 									<td></td>
 									<td></td>
-									<td>
-										Interview
-									</td>
-									<td>
-										Written Test
-									</td>
+									<td>Interview</td>
+									<td>Written Test</td>
 									<td></td>
-									<td>
-										SATISFACTORY
-									</td>
-									<td>
-										UNSATISFACTORY
-									</td>
+									<td>SATISFACTORY</td>
+									<td>UNSATISFACTORY</td>
 								</tr>
 								<tr>
-									<td>
-										{ }
-									</td>
-									<td>
-										{ }
-									</td>
-									<td>
-										{ }
-									</td>
-									<td>
-										{/* {evaluation?.training?.topic?.name} */}
-									</td>
+									<td>{}</td>
+									<td>{}</td>
+									<td>{}</td>
+									<td>{/* {evaluation?.training?.topic?.name} */}</td>
 									<td>
 										{/* {evaluation?.evaluatedByEmployee?.name}
 										<p style={{ fontSize: 10 }}>
 											({evaluation?.evaluatedBy?.name})
 										</p> */}
 									</td>
-									<td>
-										{/* {evaluation.method} */}
-									</td>
-									<td>
-										{/* {evaluation.result} */}
-									</td>
-									<td>
-										{/* {evaluation.result} */}
-									</td>
-									<td>
-										{/* {evaluation.result} */}
-									</td>
+									<td>{/* {evaluation.method} */}</td>
+									<td>{/* {evaluation.result} */}</td>
+									<td>{/* {evaluation.result} */}</td>
+									<td>{/* {evaluation.result} */}</td>
 								</tr>
 							</tbody>
 						</table>

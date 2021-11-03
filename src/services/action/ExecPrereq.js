@@ -17,10 +17,8 @@ export const getExtEmpRequisitionAction = (query) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/executive-employees/requisition${
 				query ? `?${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: EXECPREREQ_FETCH_SUCCESS,
@@ -39,10 +37,8 @@ export const createExtEmpRequisitionAction =
 		try {
 			const res = await axios.post(
 				`${process.env.REACT_APP_API_URL}/executive-employees/requisition`,
-				requisition,
+				requisition
 			);
-
-			console.log(res);
 
 			dispatch({
 				type: EXECPREREQ_CREATE_SUCCESS,
@@ -51,7 +47,6 @@ export const createExtEmpRequisitionAction =
 
 			if (cb) cb();
 		} catch (err) {
-			console.log('object');
 			dispatchError(err, dispatch);
 		}
 	};
@@ -65,10 +60,8 @@ export const updateExtEmpRequisitionAction =
 		try {
 			const res = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/executive-employees/requisition/${id}`,
-				requisition,
+				requisition
 			);
-
-			console.log(res.data);
 
 			dispatch({
 				type: EXECPREREQ_UPDATE_SUCCESS,
@@ -87,11 +80,9 @@ export const deleteExtEmpRequisitionAction = (id, cb) => async (dispatch) => {
 	});
 
 	try {
-		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/executive-employees/requisition/${id}`,
+		await axios.delete(
+			`${process.env.REACT_APP_API_URL}/executive-employees/requisition/${id}`
 		);
-
-		console.log(res.data);
 
 		dispatch({
 			type: EXECPREREQ_DELETE_SUCCESS,
@@ -105,9 +96,7 @@ export const deleteExtEmpRequisitionAction = (id, cb) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch) => {
-	console.log(err);
 	if (err.response) {
-		console.log(err.response.data);
 		dispatch({
 			type: EXECPREREQ_FAIL,
 			payload: err.response.data.error,

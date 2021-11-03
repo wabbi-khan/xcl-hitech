@@ -124,7 +124,6 @@ const EditResponsibility = (props) => {
 	}, [show]);
 
 	const onSubmit = async (values) => {
-		console.log(values);
 		setLoading(true);
 		dispatch(
 			updateAuthorities(authority._id, values, (err) => {
@@ -140,7 +139,7 @@ const EditResponsibility = (props) => {
 						setSuccess(false);
 					}, 4000);
 				}
-			}),
+			})
 		);
 		setLoading(true);
 	};
@@ -152,40 +151,44 @@ const EditResponsibility = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit/Update</h5>
+						<h5 className="text-center mt-4">Edit/Update</h5>
 						<Container className={classes.mainContainer}>
 							<Formik
 								initialValues={initialValues}
 								validationSchema={validationSchema}
 								enableReinitialize
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<Form>
 										<CssTextField
-											id='outlined-basic'
-											label='Responsibility Name'
-											variant='outlined'
-											type='text'
-											size='small'
-											autoComplete='off'
+											id="outlined-basic"
+											label="Responsibility Name"
+											variant="outlined"
+											type="text"
+											size="small"
+											autoComplete="off"
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('name')}
 											onBlur={props.handleBlur('name')}
 											value={props?.values?.name}
-											helperText={props.touched.name && props.errors.name}
+											helperText={
+												props.touched.name && props.errors.name
+											}
 											error={props.touched.name && props.errors.name}
 										/>
 									</Form>
@@ -197,21 +200,22 @@ const EditResponsibility = (props) => {
 									display: 'flex',
 									alignItems: 'center',
 									justifyContent: 'center',
-								}}>
+								}}
+							>
 								<Button
-									variant='contained'
-									color='primary'
-									text='Update'
+									variant="contained"
+									color="primary"
+									text="Update"
 									style={{ marginRight: '1rem' }}
 									loading={loading}
 								/>
 								<Button
-									variant='outlined'
-									color='dark'
+									variant="outlined"
+									color="dark"
 									onClick={handleClose}
-									text='Close'
-									type='button'
-									classNames='bg-danger text-light'
+									text="Close"
+									type="button"
+									classNames="bg-danger text-light"
 								/>
 							</div>
 							{error && <p>{error}</p>}

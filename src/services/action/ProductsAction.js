@@ -14,7 +14,9 @@ export const getProducts = (query, cb) => async (dispatch) => {
 	});
 
 	try {
-		const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/product`);
+		const { data } = await axios.get(
+			`${process.env.REACT_APP_API_URL}/product`
+		);
 
 		if (data.success) {
 			dispatch({
@@ -36,10 +38,8 @@ export const createProducts = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/product`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -61,10 +61,8 @@ export const updateProducts = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/product/${id}`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -85,7 +83,7 @@ export const deleteProducts = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/product/${params}`,
+			`${process.env.REACT_APP_API_URL}/product/${params}`
 		);
 
 		if (data.success) {
@@ -109,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: PRODUCT_FAIL,
 			payload: 'Network Error',

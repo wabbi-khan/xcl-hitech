@@ -9,7 +9,7 @@ import {
 
 export const fetchAttendanceReducer = (
 	state = { attendances: [], error: '' },
-	action,
+	action
 ) => {
 	switch (action.type) {
 		case ATTENDANCE_REQUEST:
@@ -19,7 +19,6 @@ export const fetchAttendanceReducer = (
 				loading: true,
 			};
 		case ATTENDANCE_FAIL:
-			console.log(action.payload);
 			return {
 				...state,
 				loading: false,
@@ -32,14 +31,13 @@ export const fetchAttendanceReducer = (
 				attendances: action.payload,
 			};
 		case ATTENDANCE_UPDATE_SUCCESS:
-			console.log(action.payload.attendance);
 			return {
 				loading: false,
 				error: '',
 				attendances: state.attendances.map((attendance) =>
 					attendance._id === action.payload.attendance._id
 						? action.payload.attendance
-						: attendance,
+						: attendance
 				),
 			};
 		case ATTENDANCE_DELETE_SUCCESS:
@@ -47,7 +45,7 @@ export const fetchAttendanceReducer = (
 				loading: false,
 				error: '',
 				attendances: state.attendances.filter(
-					(attendance) => attendance._id !== action.payload,
+					(attendance) => attendance._id !== action.payload
 				),
 			};
 		case ATTENDANCE_CREATE_SUCCESS:

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	backImg: {
 		width: 'auto',
-		height: '100vh'
+		height: '100vh',
 		// [theme.breakpoints.up('md')]: {
 		// 	height: 800,
 		// },
@@ -70,18 +70,18 @@ const useStyles = makeStyles((theme) => ({
 
 const CssTextField = withStyles({
 	root: {
-        '& label.Mui-focused': {
-            color: 'white',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'white',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'white',
-            },
-        },
-    },
+		'& label.Mui-focused': {
+			color: 'white',
+		},
+		'& .MuiOutlinedInput-root': {
+			'& fieldset': {
+				borderColor: 'white',
+			},
+			'&.Mui-focused fieldset': {
+				borderColor: 'white',
+			},
+		},
+	},
 })(TextField);
 
 const initialValues = {
@@ -106,13 +106,12 @@ const Login = (props) => {
 		dispatch(
 			loginUser(values, (err) => {
 				if (err) {
-					console.log(err);
 					setError(err);
 				} else {
 					history.push('/dashboard');
 				}
 				setLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -123,7 +122,8 @@ const Login = (props) => {
 				backgroundAttachment: 'fixed',
 				backgroundSize: 'cover',
 			}}
-			className={classes.backImg}>
+			className={classes.backImg}
+		>
 			<div className={classes.loginBox}>
 				<h3
 					style={{
@@ -131,28 +131,30 @@ const Login = (props) => {
 						textAlign: 'center',
 						paddingTop: 30,
 						fontWeight: 'bold',
-					}}>
+					}}
+				>
 					HI-TECH
 				</h3>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={onSubmit}>
+					onSubmit={onSubmit}
+				>
 					{(props) => (
 						<Form>
-							<div className='text-center mt-5'>
+							<div className="text-center mt-5">
 								<CssTextField
 									className={classes.inputField}
-									id='outlined-basic'
-									label='Enter Username'
-									variant='outlined'
-									autoComplete='off'
-									type='text'
+									id="outlined-basic"
+									label="Enter Username"
+									variant="outlined"
+									autoComplete="off"
+									type="text"
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{
 										style: {
 											color: '#fff',
-											fontSize: 14
+											fontSize: 14,
 										},
 									}}
 									InputProps={{
@@ -163,18 +165,22 @@ const Login = (props) => {
 									onChange={props.handleChange('username')}
 									onBlur={props.handleBlur('username')}
 									value={props.values.username}
-									helperText={props.touched.username && props.errors.username}
-									error={props.touched.username && props.errors.username}
+									helperText={
+										props.touched.username && props.errors.username
+									}
+									error={
+										props.touched.username && props.errors.username
+									}
 								/>
 							</div>
-							<div className='text-center mt-3'>
+							<div className="text-center mt-3">
 								<CssTextField
 									className={classes.inputField}
-									id='outlined-basic'
-									label='Enter Password'
-									variant='outlined'
-									autoComplete='off'
-									type='password'
+									id="outlined-basic"
+									label="Enter Password"
+									variant="outlined"
+									autoComplete="off"
+									type="password"
 									InputLabelProps={{
 										style: { color: '#fff' },
 									}}
@@ -186,16 +192,20 @@ const Login = (props) => {
 									onChange={props.handleChange('password')}
 									onBlur={props.handleBlur('password')}
 									value={props.values.password}
-									helperText={props.touched.password && props.errors.password}
-									error={props.touched.password && props.errors.password}
+									helperText={
+										props.touched.password && props.errors.password
+									}
+									error={
+										props.touched.password && props.errors.password
+									}
 								/>
 							</div>
-							<div className='text-center mt-2'>
+							<div className="text-center mt-2">
 								<Button
-									variant='outlined'
+									variant="outlined"
 									classNames={classes.loginBtn}
-									type='submit'
-									text='Login'
+									type="submit"
+									text="Login"
 									loading={loading}
 								/>
 								{error && <p style={{ color: 'red' }}>{error}</p>}

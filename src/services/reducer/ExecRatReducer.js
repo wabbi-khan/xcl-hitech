@@ -22,7 +22,6 @@ export const fetchExecRatReducer = (state = { execRat: [] }, action) => {
 				error: action.payload,
 			};
 		case EXECRAT_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -35,7 +34,7 @@ export const fetchExecRatReducer = (state = { execRat: [] }, action) => {
 				execRat: state.execRat.map((execRat) =>
 					execRat._id === action.payload.rating._id
 						? action.payload.rating
-						: execRat,
+						: execRat
 				),
 			};
 		case EXECRAT_CREATE_SUCCESS:
@@ -48,7 +47,9 @@ export const fetchExecRatReducer = (state = { execRat: [] }, action) => {
 			return {
 				loading: false,
 				error: '',
-				execRat: state.execRat.filter((execRat) => execRat._id !== action.payload),
+				execRat: state.execRat.filter(
+					(execRat) => execRat._id !== action.payload
+				),
 			};
 		default:
 			return state;

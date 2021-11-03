@@ -130,9 +130,8 @@ const TrainingRecord = ({ history }) => {
 	const { plans } = useSelector((state) => state.trainingPlanes);
 	const { employees } = useSelector((state) => state.employees);
 	const { trainingEvaluations } = useSelector(
-		(state) => state.trainingEvaluations,
+		(state) => state.trainingEvaluations
 	);
-	console.log(trainingEvaluations);
 
 	useEffect(() => {
 		if (selectedDesignation) {
@@ -153,12 +152,11 @@ const TrainingRecord = ({ history }) => {
 					}, 4000);
 				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
 	const onSubmit = async (values) => {
-		console.log(values);
 		setCreateLoading(true);
 		dispatch(
 			createTrainingEvaluation(values, (err) => {
@@ -174,7 +172,7 @@ const TrainingRecord = ({ history }) => {
 					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -185,99 +183,130 @@ const TrainingRecord = ({ history }) => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<Form>
 								<Grid container spacing={1}>
 									<Grid item lg={8} md={8} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Training'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											label="Select Training"
+											variant="outlined"
+											type="text"
+											size="small"
 											select
-											autocomplete='off'
+											autocomplete="off"
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('training')}
 											onBlur={props.handleBlur('training')}
 											value={props.values.training}
-											helperText={props.touched.training && props.errors.training}
-											error={props.touched.training && props.errors.training}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											{
-												!plans || !plans.length ? (
-													<p>Data Not Found</p>
-												) : (
-													plans.map((el, i) => (
-														<MenuItem value={el._id} key={i}>
-															{el.topic?.name}
-														</MenuItem>
-													))
-												)
+											helperText={
+												props.touched.training &&
+												props.errors.training
 											}
+											error={
+												props.touched.training &&
+												props.errors.training
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
+											{!plans || !plans.length ? (
+												<p>Data Not Found</p>
+											) : (
+												plans.map((el, i) => (
+													<MenuItem value={el._id} key={i}>
+														{el.topic?.name}
+													</MenuItem>
+												))
+											)}
 										</CssTextField>
 									</Grid>
 									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Evaluation Method'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Evaluation Method"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('method')}
 											onBlur={props.handleBlur('method')}
 											value={props.values.method}
-											helperText={props.touched.method && props.errors.method}
-											error={props.touched.method && props.errors.method}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem value='interview'>Interview</MenuItem>
-											<MenuItem value='written test'>Written Test</MenuItem>
+											helperText={
+												props.touched.method && props.errors.method
+											}
+											error={
+												props.touched.method && props.errors.method
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
+											<MenuItem value="interview">
+												Interview
+											</MenuItem>
+											<MenuItem value="written test">
+												Written Test
+											</MenuItem>
 										</CssTextField>
 									</Grid>
 									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Training Evaluation Result'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Training Evaluation Result"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('result')}
 											onBlur={props.handleBlur('result')}
 											value={props.values.result}
-											helperText={props.touched.result && props.errors.result}
-											error={props.touched.result && props.errors.result}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
-											<MenuItem value='satisfactory'>Satisfactory</MenuItem>
-											<MenuItem value='unsatisfactory'>Unsatisfactory</MenuItem>
+											helperText={
+												props.touched.result && props.errors.result
+											}
+											error={
+												props.touched.result && props.errors.result
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
+											<MenuItem value="satisfactory">
+												Satisfactory
+											</MenuItem>
+											<MenuItem value="unsatisfactory">
+												Unsatisfactory
+											</MenuItem>
 										</CssTextField>
 									</Grid>
 									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Evaluated By'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Evaluated By"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('evaluatedBy')}
 											onBlur={props.handleBlur('evaluatedBy')}
 											value={props.values.evaluatedBy}
-											helperText={props.touched.evaluatedBy && props.errors.evaluatedBy}
-											error={props.touched.evaluatedBy && props.errors.evaluatedBy}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											helperText={
+												props.touched.evaluatedBy &&
+												props.errors.evaluatedBy
+											}
+											error={
+												props.touched.evaluatedBy &&
+												props.errors.evaluatedBy
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{!designations || !designations.length ? (
 												<p>Data Not Found</p>
 											) : (
@@ -287,7 +316,8 @@ const TrainingRecord = ({ history }) => {
 														key={i}
 														onClick={() => {
 															setSelectedDesignation(el._id);
-														}}>
+														}}
+													>
 														{el.name}
 													</MenuItem>
 												))
@@ -296,17 +326,21 @@ const TrainingRecord = ({ history }) => {
 									</Grid>
 									<Grid item lg={4} md={4} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Employee'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Select Employee"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
-											onChange={props.handleChange('evaluatedByEmployee')}
-											onBlur={props.handleBlur('evaluatedByEmployee')}
+											onChange={props.handleChange(
+												'evaluatedByEmployee'
+											)}
+											onBlur={props.handleBlur(
+												'evaluatedByEmployee'
+											)}
 											value={props.values.evaluatedByEmployee}
 											helperText={
 												props.touched.evaluatedByEmployee &&
@@ -316,7 +350,8 @@ const TrainingRecord = ({ history }) => {
 												props.touched.evaluatedByEmployee &&
 												props.errors.evaluatedByEmployee
 											}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{!employees || !employees.length ? (
 												<p>Data Not Found</p>
 											) : (
@@ -331,12 +366,12 @@ const TrainingRecord = ({ history }) => {
 								</Grid>
 								<div>
 									<Button
-										variant='outlined'
-										color='primary'
-										text='Submit'
+										variant="outlined"
+										color="primary"
+										text="Submit"
 										classNames={classes.addButton}
 										loading={createLoading}
-										loaderColor='#333'
+										loaderColor="#333"
 									/>
 									{createError && <p>{createError}</p>}
 								</div>
@@ -352,17 +387,23 @@ const TrainingRecord = ({ history }) => {
 								alignItems: 'center',
 								justifyContent: 'center',
 								marginTop: '3rem',
-							}}>
-							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+							}}
+						>
+							<Loader
+								type="TailSpin"
+								color="#000"
+								width="3rem"
+								height="3rem"
+							/>
 						</div>
 					) : trainingEvaluations?.length === 0 ? (
 						<p>There are no Records for Evaluation</p>
 					) : (
-						<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+						<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
 							{trainingEvaluations?.map((el, i) => (
 								<>
 									{i === 0 && (
-										<thead class='bg-dark text-light'>
+										<thead class="bg-dark text-light">
 											<tr>
 												<th>S.No.</th>
 												<th>Training</th>
@@ -379,7 +420,9 @@ const TrainingRecord = ({ history }) => {
 											<td>{el?.training?.topic?.name}</td>
 											<td>
 												{el?.evaluatedByEmployee?.name}
-												<p style={{ fontSize: 10 }}>({el?.evaluatedBy?.name})</p>
+												<p style={{ fontSize: 10 }}>
+													({el?.evaluatedBy?.name})
+												</p>
 											</td>
 											<td>{el?.method}</td>
 											<td>{el?.result}</td>
@@ -390,18 +433,20 @@ const TrainingRecord = ({ history }) => {
 														flexDirection: 'row',
 														alignItems: 'center',
 														justifyContent: 'center',
-													}}>
+													}}
+												>
 													<Button
-														variant='contained'
-														classNames='bg-dark text-light'
-														size='small'
+														variant="contained"
+														classNames="bg-dark text-light"
+														size="small"
 														onClick={() =>
 															history.push({
-																pathname: '/hr/print_training_record_and_evaluation',
+																pathname:
+																	'/hr/print_training_record_and_evaluation',
 																state: { evaluation: el },
 															})
 														}
-														text='View'
+														text="View"
 													/>
 												</div>
 											</td>

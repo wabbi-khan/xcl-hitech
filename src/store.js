@@ -29,8 +29,6 @@ import {
 	fetchNonExecRatReducer,
 	authorityReducer,
 	binCardReducer,
-	deliveryOrderReducer,
-	fetchAppSuppListReducer,
 	fetchExecPrereqReducer,
 	fetchExecRatReducer,
 	fetchMaterialReducer,
@@ -42,7 +40,6 @@ import {
 	getTrainingsPrereqReducer,
 	getTrainingsVenues,
 	getUserReducer,
-	inwardApprovalReducer,
 	inwardGatePassReducer,
 	inwardReducer,
 	jobDescriptionReducer,
@@ -55,11 +52,17 @@ import {
 	orderBookingReducer,
 	salesContractReducer,
 	contractReviewReducer,
+	customerFeedbackReducer,
+	voucherReducer,
+	customerComplaintReducer,
 } from './services/reducer';
 
 const initialState = {};
 
 const reducer = combineReducers({
+	customerComplaints: customerComplaintReducer,
+	vouchers: voucherReducer,
+	customerFeedbacks: customerFeedbackReducer,
 	contractReviews: contractReviewReducer,
 	salesContracts: salesContractReducer,
 	orderBookings: orderBookingReducer,

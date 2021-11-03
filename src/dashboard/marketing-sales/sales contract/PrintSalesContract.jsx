@@ -2,19 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { CustomButton, CustomTable } from '../../../components';
 import contractLogo from './salesContractLogo.png';
+import moment from 'moment';
 
 const PrintSalesContract = ({ location }) => {
-	const date = new Date();
-	const currDate = date.getDate();
-	const months = date.getMonth() + 1;
-	const years = date.getFullYear();
-	const fullDate = `${currDate} / ${months} / ${years}`;
-
 	const salesContract = location.state.salesContract;
-
-	console.log(location);
-
-	console.log(salesContract);
 
 	return (
 		<div className="text-center">
@@ -38,8 +29,6 @@ const PrintSalesContract = ({ location }) => {
 							style={{
 								display: 'flex',
 								flexDirection: 'column',
-								//   border: "2px solid #333",
-								//   width: "100px",
 							}}
 						>
 							<h6>FM-36</h6>
@@ -97,7 +86,7 @@ const PrintSalesContract = ({ location }) => {
 					<div className="d-flex" style={{ marginRight: '6rem' }}>
 						<p style={{ padding: '.5rem' }}>Dated: </p>
 						<p style={{ border: '1px solid black', padding: '.5rem' }}>
-							{fullDate}
+							{moment().format('DD-MMM-YYYY')}
 						</p>
 					</div>
 				</div>
@@ -288,7 +277,7 @@ const PrintSalesContract = ({ location }) => {
 						<p
 							style={{ fontWeight: 'bold', textDecoration: 'underline' }}
 						>
-							{salesContract.deliverAddress}
+							{salesContract.deliveryTelephoneNo}
 						</p>
 					</div>
 				</div>
@@ -303,7 +292,7 @@ const PrintSalesContract = ({ location }) => {
 						<p
 							style={{ fontWeight: 'bold', textDecoration: 'underline' }}
 						>
-							{salesContract.deliverAddress}
+							{salesContract.nationalityOfComp}
 						</p>
 					</div>
 				</div>
@@ -318,7 +307,7 @@ const PrintSalesContract = ({ location }) => {
 						<p
 							style={{ fontWeight: 'bold', textDecoration: 'underline' }}
 						>
-							{salesContract.deliverAddress}
+							{salesContract.nameCompany}
 						</p>
 					</div>
 				</div>
@@ -332,8 +321,7 @@ const PrintSalesContract = ({ location }) => {
 				</div>
 				<div className="">
 					<CustomTable
-						//   fetchLoading={fetchLoading}
-						data={[{}]}
+						data={salesContract.orders}
 						columnHeadings={[
 							'S.No',
 							'Size/Diameter',
@@ -345,20 +333,14 @@ const PrintSalesContract = ({ location }) => {
 							'Remarks',
 						]}
 						keys={[
-							'item.name',
-							'quantityExamined',
-							'properties',
-							'ok',
-							'ok',
-							'reasonForRejection',
+							'size',
+							'snPn',
+							'unit	',
+							'qty',
+							'unitPrice',
+							'total',
 							'remarks',
 						]}
-						// firstOptionText="Edit"
-						// onFirstOptionClick={handleOpen}
-						// secondOptionText="Delete"
-						// onSecondOptionClick={deleteOutwardGatePass}
-						// thirdOptionText="View"
-						// onThirdOptionClick={pushToPrint}
 						withSrNo
 						tablePrint
 					/>
@@ -378,19 +360,19 @@ const PrintSalesContract = ({ location }) => {
 					<div className="d-flex">
 						<p style={{ padding: '.5rem' }}>Actual</p>
 						<p style={{ border: '1px solid black', padding: '.5rem' }}>
-							{}
+							{salesContract.actualPrice}
 						</p>
 					</div>
 					<div className="d-flex">
 						<p style={{ padding: '.5rem' }}>Discount(%): </p>
 						<p style={{ border: '1px solid black', padding: '.5rem' }}>
-							{'%'}
+							{`${salesContract.discountPerc}%`}
 						</p>
 					</div>
 					<div className="d-flex">
 						<p style={{ padding: '.5rem' }}>Contract Price: </p>
 						<p style={{ border: '1px solid black', padding: '.5rem' }}>
-							{'Rs.'}
+							{`Rs.${salesContract.contractPrice}`}
 						</p>
 					</div>
 				</div>
@@ -406,11 +388,11 @@ const PrintSalesContract = ({ location }) => {
 				}}
 			>
 				<p>Other Conditions: (If any) Total material price Rs.</p>
-				<p>{}</p>
+				<p>{salesContract.otherConditions}</p>
 				<p>Cartage of Rs. </p>
-				<p>{}</p>
+				<p>{salesContract.total}</p>
 				<p>Grand Total Rs. </p>
-				<p>{}</p>
+				<p>{salesContract.grandTotal}</p>
 			</div>
 			<div
 				className="row mt-3"
@@ -420,9 +402,11 @@ const PrintSalesContract = ({ location }) => {
 					<p>
 						8. HI-TECH PIPE & ENGINEERING INDUSTRIES hereafter referred to
 						as the "seller" on the one party,
-						<span style={{ fontWeight: 'bold' }}>{}</span> , and hereafter
-						referred to as the "Buyer" on the party have concluded the
-						present contract as the following.
+						<span style={{ fontWeight: 'bold' }}>
+							{salesContract.nameOfSeller}
+						</span>{' '}
+						, and hereafter referred to as the "Buyer" on the party have
+						concluded the present contract as the following.
 					</p>
 				</div>
 			</div>
@@ -436,7 +420,9 @@ const PrintSalesContract = ({ location }) => {
 				<div style={{ display: 'flex', gap: '.2rem' }}>
 					<p>
 						The total amount of this contract is RS:
-						<span style={{ fontWeight: 'bold' }}>{}</span>
+						<span style={{ fontWeight: 'bold' }}>
+							{salesContract.totalAmountOfContract}
+						</span>
 						for HDPE pipe Orders Pressure PN (As mentioned in Sr # 6)
 						prices are firm for the duration of contract.
 					</p>
@@ -449,7 +435,7 @@ const PrintSalesContract = ({ location }) => {
 				<p style={{ fontWeight: 'bold' }}>10. Time & Term of Delivery</p>
 				<div style={{ display: 'flex', gap: '.2rem' }}>
 					<p>Delivery made after the receipt of Payment with in </p>
-					<p>{} (Min.)</p>
+					<p>{salesContract.timeOfDelivery} (Min.)</p>
 				</div>
 			</div>
 			<div
@@ -459,7 +445,7 @@ const PrintSalesContract = ({ location }) => {
 				<p style={{ fontWeight: 'bold' }}>11. Term of Payments</p>
 				<div style={{ display: 'flex', gap: '.2rem' }}>
 					<p>Payment must be made by </p>
-					<p>{} (advance)</p>
+					<p>{salesContract.termOfPayments} (advance)</p>
 				</div>
 			</div>
 			<div

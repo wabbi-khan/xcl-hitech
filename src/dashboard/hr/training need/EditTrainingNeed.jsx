@@ -152,7 +152,6 @@ const EditTrainingNeed = (props) => {
 	}, [show]);
 
 	const onSubmit = async (values) => {
-		console.log('object');
 		setLoading(true);
 		dispatch(
 			updateTrainingIdentification(
@@ -172,14 +171,14 @@ const EditTrainingNeed = (props) => {
 						}, 4000);
 					}
 					setLoading(false);
-				},
-			),
+				}
+			)
 		);
 	};
 
 	const onChange = (key, value, index) => {
 		const temp = list.map((el, i) =>
-			i === index ? { ...el, [key]: value } : el,
+			i === index ? { ...el, [key]: value } : el
 		);
 		setList(temp);
 	};
@@ -191,33 +190,35 @@ const EditTrainingNeed = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit/Update</h5>
+						<h5 className="text-center mt-4">Edit/Update</h5>
 						<Container className={classes.mainContainer}>
 							<Formik
 								initialValues={initialValues}
 								enableReinitialize
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<Form>
 										<CssTextField
-											id='outlined-basic'
-											label='Responsibility Name'
-											variant='outlined'
-											type='text'
+											id="outlined-basic"
+											label="Responsibility Name"
+											variant="outlined"
+											type="text"
 											select
-											size='small'
-											autoComplete='off'
+											size="small"
+											autoComplete="off"
 											style={{ width: '100%', marginBottom: '1rem' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
@@ -225,9 +226,14 @@ const EditTrainingNeed = (props) => {
 											onBlur={props.handleBlur('interviewedBy')}
 											value={props.values.interviewedBy}
 											helperText={
-												props.touched.interviewedBy && props.errors.interviewedBy
+												props.touched.interviewedBy &&
+												props.errors.interviewedBy
 											}
-											error={props.touched.interviewedBy && props.errors.interviewedBy}>
+											error={
+												props.touched.interviewedBy &&
+												props.errors.interviewedBy
+											}
+										>
 											{!designations || !designations.length ? (
 												<p>Data Not Found</p>
 											) : (
@@ -235,7 +241,8 @@ const EditTrainingNeed = (props) => {
 													<MenuItem
 														value={el._id}
 														key={i}
-														onClick={() => setDepartment(el._id)}>
+														onClick={() => setDepartment(el._id)}
+													>
 														{el.name}
 													</MenuItem>
 												))
@@ -244,54 +251,98 @@ const EditTrainingNeed = (props) => {
 										{list &&
 											list?.length > 0 &&
 											list?.map((el, i) => (
-												<Grid container spacing={1} style={{ marginTop: 35 }}>
+												<Grid
+													container
+													spacing={1}
+													style={{ marginTop: 35 }}
+												>
 													<Grid item lg={1} md={1}>
-														<h5 className={classes.itemHeading}>{i + 1}</h5>
+														<h5 className={classes.itemHeading}>
+															{i + 1}
+														</h5>
 													</Grid>
 													<Grid item lg={5} md={5} sm={12} xs={12}>
 														<div style={{ textAlign: 'left' }}>
-															<h5 style={{ marginBottom: 15 }}>{el?.name}</h5>
-															{el?.preRequisition?.map((el, i) => (
-																<p>{el}</p>
-															))}
+															<h5 style={{ marginBottom: 15 }}>
+																{el?.name}
+															</h5>
+															{el?.preRequisition?.map(
+																(el, i) => (
+																	<p>{el}</p>
+																)
+															)}
 														</div>
 													</Grid>
 													<Grid item lg={3} md={3} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Select Satisfaction'
-															variant='outlined'
-															type='text'
-															size='small'
-															name='yearOfPassing'
+															id="outlined-basic"
+															label="Select Satisfaction"
+															variant="outlined"
+															type="text"
+															size="small"
+															name="yearOfPassing"
 															select
 															value={el?.satisfaction}
-															onChange={(e) => onChange('satisfaction', e.target.value, i)}
+															onChange={(e) =>
+																onChange(
+																	'satisfaction',
+																	e.target.value,
+																	i
+																)
+															}
 															style={{ width: '75%' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}>
-															<MenuItem value='excellent'>Excellent</MenuItem>
-															<MenuItem value='good'>Good</MenuItem>
-															<MenuItem value='satisfactory'>Satisfactory</MenuItem>
-															<MenuItem value='poor'>Poor</MenuItem>
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+														>
+															<MenuItem value="excellent">
+																Excellent
+															</MenuItem>
+															<MenuItem value="good">
+																Good
+															</MenuItem>
+															<MenuItem value="satisfactory">
+																Satisfactory
+															</MenuItem>
+															<MenuItem value="poor">
+																Poor
+															</MenuItem>
 														</CssTextField>
 													</Grid>
 													<Grid item lg={3} md={3} sm={12} xs={12}>
 														<CssTextField
-															id='outlined-basic'
-															label='Training Need'
-															variant='outlined'
-															type='text'
-															size='small'
-															name='yearOfPassing'
+															id="outlined-basic"
+															label="Training Need"
+															variant="outlined"
+															type="text"
+															size="small"
+															name="yearOfPassing"
 															select
 															value={el?.need}
-															onChange={(e) => onChange('need', e.target.value, i)}
+															onChange={(e) =>
+																onChange(
+																	'need',
+																	e.target.value,
+																	i
+																)
+															}
 															style={{ width: '75%' }}
-															inputProps={{ style: { fontSize: 14 } }}
-															InputLabelProps={{ style: { fontSize: 14 } }}>
-															<MenuItem value='true'>Yes</MenuItem>
-															<MenuItem value='false'>No</MenuItem>
+															inputProps={{
+																style: { fontSize: 14 },
+															}}
+															InputLabelProps={{
+																style: { fontSize: 14 },
+															}}
+														>
+															<MenuItem value="true">
+																Yes
+															</MenuItem>
+															<MenuItem value="false">
+																No
+															</MenuItem>
 														</CssTextField>
 													</Grid>
 												</Grid>
@@ -302,25 +353,28 @@ const EditTrainingNeed = (props) => {
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'center',
-											}}>
+											}}
+										>
 											<Button
-												variant='contained'
-												color='primary'
-												text='Update'
+												variant="contained"
+												color="primary"
+												text="Update"
 												style={{ marginRight: '1rem' }}
 												loading={loading}
 											/>
 											<Button
-												variant='outlined'
-												color='dark'
+												variant="outlined"
+												color="dark"
 												onClick={handleClose}
-												text='Close'
-												type='button'
-												classNames='bg-danger text-light'
+												text="Close"
+												type="button"
+												classNames="bg-danger text-light"
 											/>
 										</div>
 										{error && <p>{error}</p>}
-										{success && <p>Responsibility Successfully Updated</p>}
+										{success && (
+											<p>Responsibility Successfully Updated</p>
+										)}
 									</Form>
 								)}
 							</Formik>

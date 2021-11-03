@@ -117,36 +117,35 @@ const ViewEmpDetails = (props) => {
 		dispatch(
 			getEmployees(null, () => {
 				setHiredLoading(false);
-			}),
+			})
 		);
 		setUnHiredLoading(true);
 		dispatch(
 			getUnHiredEmployees(null, () => {
 				setUnHiredLoading(false);
-			}),
+			})
 		);
 		dispatch(getDesignation());
 		dispatch(fetchDepartmentsAction());
 	}, [dispatch]);
 
 	const { employees, unHiredEmployees } = useSelector(
-		(state) => state.employees,
+		(state) => state.employees
 	);
 
 	const searchUnHired = (value) => {
-		console.log(value.length);
 		setUnHiredLoading(true);
 		if (value.length > 0) {
 			dispatch(
 				getUnHiredEmployees(`${unHiredSearchBy}[regex]=${value}`, () => {
 					setUnHiredLoading(false);
-				}),
+				})
 			);
 		} else {
 			dispatch(
 				getUnHiredEmployees(null, () => {
 					setUnHiredLoading(false);
-				}),
+				})
 			);
 		}
 	};
@@ -157,19 +156,18 @@ const ViewEmpDetails = (props) => {
 			dispatch(
 				getEmployees(`${hiredSearchBy}[regex]=${value}`, () => {
 					setHiredLoading(false);
-				}),
+				})
 			);
 		} else {
 			dispatch(
 				getEmployees(null, () => {
 					setHiredLoading(false);
-				}),
+				})
 			);
 		}
 	};
 
 	const deleteEmp = (id) => {
-		console.log(id);
 		setDeleteLoading(true);
 		dispatch(
 			deleteEmployee(id, (err) => {
@@ -183,21 +181,19 @@ const ViewEmpDetails = (props) => {
 					dispatch(
 						getUnHiredEmployees(null, () => {
 							setUnHiredLoading(false);
-						}),
+						})
 					);
 				}
 				setDeleteLoading(false);
-			}),
+			})
 		);
 	};
-
-	console.log(unHiredEmployees);
 
 	return (
 		<Sidenav title={'Employee Details'}>
 			{deleteLoading && (
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Loader type='TailSpin' width='2rem' height='2rem' />
+					<Loader type="TailSpin" width="2rem" height="2rem" />
 				</div>
 			)}
 			{deleteError && (
@@ -208,32 +204,33 @@ const ViewEmpDetails = (props) => {
 			<div className={classes.dataTable}>
 				<div style={{ display: 'flex' }}>
 					<CssTextField
-						id='outlined-basic'
-						label='Search Un-Hired Employees'
-						variant='outlined'
-						type='search'
-						size='small'
-						autoComplete='off'
+						id="outlined-basic"
+						label="Search Un-Hired Employees"
+						variant="outlined"
+						type="search"
+						size="small"
+						autoComplete="off"
 						onChange={(e) => searchUnHired(e.target.value)}
 						style={{ width: '25%', marginTop: '5px' }}
 						inputProps={{ style: { fontSize: 14 } }}
 						InputLabelProps={{ style: { fontSize: 14 } }}
 					/>
 					<CssTextField
-						id='outlined-basic'
-						label='Search By'
-						variant='outlined'
-						type='text'
-						size='small'
+						id="outlined-basic"
+						label="Search By"
+						variant="outlined"
+						type="text"
+						size="small"
 						select
 						value={unHiredSearchBy}
-						autoComplete='off'
+						autoComplete="off"
 						onChange={(e) => setUnHiredSearchBy(e.target.value)}
 						style={{ width: '15%', marginTop: '5px', marginLeft: '3px' }}
 						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}>
-						<MenuItem value='code'>By Code</MenuItem>
-						<MenuItem value='name'>By Name</MenuItem>
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					>
+						<MenuItem value="code">By Code</MenuItem>
+						<MenuItem value="name">By Name</MenuItem>
 					</CssTextField>
 				</div>
 				{unHiredLoading ? (
@@ -243,8 +240,14 @@ const ViewEmpDetails = (props) => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
 					</div>
 				) : unHiredEmployees?.length === 0 ? (
 					<p>There are no Un Hired Employees</p>
@@ -252,93 +255,130 @@ const ViewEmpDetails = (props) => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Job Applied For</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Job Applied For
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Department
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Action
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
 								{unHiredEmployees.map((el, i) => (
 									<StyledTableRow>
-										<StyledTableCell className='text-dark bg-light' align='center'>
+										<StyledTableCell
+											className="text-dark bg-light"
+											align="center"
+										>
 											{i + 1}
 										</StyledTableCell>
 										<StyledTableCell
-											className='text-dark bg-light'
-											align='center'
-											style={{ textTransform: 'capitalize' }}>
+											className="text-dark bg-light"
+											align="center"
+											style={{ textTransform: 'capitalize' }}
+										>
 											{capitalize(el?.name)}
 										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
+										<StyledTableCell
+											className="text-dark bg-light"
+											align="center"
+										>
 											{capitalize(el?.jobAppliedFor?.name)}
 										</StyledTableCell>
-										<StyledTableCell className='text-dark bg-light' align='center'>
+										<StyledTableCell
+											className="text-dark bg-light"
+											align="center"
+										>
 											{capitalize(el?.officeUse?.department?.name)}
 										</StyledTableCell>
-										<StyledTableCell className='text-light bg-light' align='center'>
+										<StyledTableCell
+											className="text-light bg-light"
+											align="center"
+										>
 											<Button
-												variant='contained'
-												className='bg-dark text-light'
-												size='small'
+												variant="contained"
+												className="bg-dark text-light"
+												size="small"
 												onClick={() => {
 													history.push({
 														pathname: `/hr/employees/print_emp_details/${el._id}`,
 														state: { employee: el },
 													});
-												}}>
+												}}
+											>
 												Print
 											</Button>
 											<Button
-												variant='contained'
-												className='bg-dark text-light'
-												size='small'
+												variant="contained"
+												className="bg-dark text-light"
+												size="small"
 												style={{ marginLeft: 3 }}
 												onClick={() => {
 													history.push({
 														pathname: `/hr/employees`,
 														state: { user: el, toUpdate: true },
 													});
-												}}>
+												}}
+											>
 												Edit
 											</Button>
 											<Button
-												variant='contained'
-												className='bg-dark text-light'
-												size='small'
+												variant="contained"
+												className="bg-dark text-light"
+												size="small"
 												style={{ marginLeft: 3 }}
 												onClick={() => {
 													history.push({
 														pathname: `/hr/employees/print_emp_details/${el._id}`,
 														state: { employee: el },
 													});
-												}}>
+												}}
+											>
 												View Details
 											</Button>
 											<Link
 												to={{
 													pathname: `/hr/employees`,
-													state: { user: el, toUpdate: true, isHiring: true },
-												}}>
+													state: {
+														user: el,
+														toUpdate: true,
+														isHiring: true,
+													},
+												}}
+											>
 												<Button
-													variant='contained'
-													className='bg-success text-light'
-													size='small'
-													style={{ marginLeft: 3 }}>
+													variant="contained"
+													className="bg-success text-light"
+													size="small"
+													style={{ marginLeft: 3 }}
+												>
 													Hire Now
 												</Button>
 											</Link>
 											<Button
-												variant='contained'
-												className='bg-danger text-light'
-												size='small'
+												variant="contained"
+												className="bg-danger text-light"
+												size="small"
 												style={{ marginLeft: 3 }}
-												onClick={() => deleteEmp(el._id)}>
+												onClick={() => deleteEmp(el._id)}
+											>
 												Delete
 											</Button>
 										</StyledTableCell>
@@ -352,32 +392,33 @@ const ViewEmpDetails = (props) => {
 			<div className={classes.dataTable}>
 				<div style={{ display: 'flex' }}>
 					<CssTextField
-						id='outlined-basic'
-						label='Search Hired Employees'
-						variant='outlined'
-						type='search'
-						size='small'
-						autoComplete='off'
+						id="outlined-basic"
+						label="Search Hired Employees"
+						variant="outlined"
+						type="search"
+						size="small"
+						autoComplete="off"
 						onChange={(e) => searchHired(e.target.value)}
 						style={{ width: '25%', marginTop: '30px' }}
 						inputProps={{ style: { fontSize: 14 } }}
 						InputLabelProps={{ style: { fontSize: 14 } }}
 					/>
 					<CssTextField
-						id='outlined-basic'
-						label='Search By'
-						variant='outlined'
-						type='text'
-						size='small'
+						id="outlined-basic"
+						label="Search By"
+						variant="outlined"
+						type="text"
+						size="small"
 						select
-						autoComplete='off'
+						autoComplete="off"
 						value={hiredSearchBy}
 						onChange={(e) => setHiredSearchBy(e.target.value)}
 						style={{ width: '15%', marginTop: '30px', marginLeft: '3px' }}
 						inputProps={{ style: { fontSize: 14 } }}
-						InputLabelProps={{ style: { fontSize: 14 } }}>
-						<MenuItem value='code'>By Code</MenuItem>
-						<MenuItem value='name'>By Name</MenuItem>
+						InputLabelProps={{ style: { fontSize: 14 } }}
+					>
+						<MenuItem value="code">By Code</MenuItem>
+						<MenuItem value="name">By Name</MenuItem>
 					</CssTextField>
 				</div>
 				{hiredLoading ? (
@@ -387,8 +428,14 @@ const ViewEmpDetails = (props) => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
 					</div>
 				) : employees.length === 0 ? (
 					<p>There are no Employees</p>
@@ -396,16 +443,32 @@ const ViewEmpDetails = (props) => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Code
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Designation
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Department
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Action
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -414,53 +477,77 @@ const ViewEmpDetails = (props) => {
 								) : (
 									employees.map((el, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{capitalize(el?.name)}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.code}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{capitalize(el?.finalDesignation?.name)}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{capitalize(el?.finalDepartment?.name)}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													onClick={() => {
 														history.push({
 															pathname: `/hr/employees/print_emp_details/${el._id}`,
 															state: { employee: el },
 														});
-													}}>
+													}}
+												>
 													View Report
 												</Button>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													style={{ marginLeft: 3 }}
 													onClick={() => {
 														history.push({
 															pathname: `/hr/employees`,
-															state: { user: el, toUpdate: true },
+															state: {
+																user: el,
+																toUpdate: true,
+															},
 														});
-													}}>
+													}}
+												>
 													Edit
 												</Button>
 												<Button
-													variant='contained'
-													className='bg-danger text-light'
-													size='small'
+													variant="contained"
+													className="bg-danger text-light"
+													size="small"
 													style={{ marginLeft: 3 }}
-													onClick={() => deleteEmp(el._id)}>
+													onClick={() => deleteEmp(el._id)}
+												>
 													Delete
 												</Button>
 											</StyledTableCell>

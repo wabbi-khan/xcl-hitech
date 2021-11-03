@@ -15,10 +15,8 @@ export const getExperiences = (query) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/experience`,
+			`${process.env.REACT_APP_API_URL}/experience`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: EXPERIENCE_FETCH_SUCCESS,
@@ -37,15 +35,13 @@ export const createExperience = (experience) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/experience`,
-			experience,
+			experience
 		);
 
 		dispatch({
 			type: EXPERIENCE_CREATE_SUCCESS,
 			payload: res.data.experience,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -59,15 +55,13 @@ export const updateExperience = (id, data) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/experience/${id}`,
-			data,
+			data
 		);
 
 		dispatch({
 			type: EXPERIENCE_UPDATE_SUCCESS,
 			payload: res.data.experience,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -79,14 +73,14 @@ export const deleteExperience = (params) => async (dispatch) => {
 	});
 
 	try {
-		await axios.delete(`${process.env.REACT_APP_API_URL}/experience/${params}`);
+		await axios.delete(
+			`${process.env.REACT_APP_API_URL}/experience/${params}`
+		);
 
 		dispatch({
 			type: EXPERIENCE_DELETE_SUCCESS,
 			payload: params,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

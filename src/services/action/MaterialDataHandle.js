@@ -15,10 +15,9 @@ export const getMaterialAction = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/material${query ? `?${query}` : ''}`,
+			`${process.env.REACT_APP_API_URL}/material${query ? `?${query}` : ''}`
 		);
 
-		console.log(data)
 		if (data.success) {
 			dispatch({
 				type: MATERIAL_FETCH_SUCCESS,
@@ -39,7 +38,7 @@ export const createMaterialAction = (material, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/material`,
-			material,
+			material
 		);
 
 		if (data.success) {
@@ -62,7 +61,7 @@ export const updateMaterialAction = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/material/${id}`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -84,7 +83,7 @@ export const deleteMaterialAction = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/material/${params}`,
+			`${process.env.REACT_APP_API_URL}/material/${params}`
 		);
 
 		if (data.success) {

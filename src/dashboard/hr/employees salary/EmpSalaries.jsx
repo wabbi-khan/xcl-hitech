@@ -104,8 +104,6 @@ const EmpSalaries = () => {
 	const dispatch = useDispatch();
 	const { salaries } = useSelector((state) => state.salaries);
 
-	console.log(salaries);
-
 	React.useEffect(() => {
 		dispatch(getSalariesAction());
 	}, []);
@@ -126,7 +124,7 @@ const EmpSalaries = () => {
 					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -135,7 +133,7 @@ const EmpSalaries = () => {
 		dispatch(
 			paidSalaryAction(el, () => {
 				setLoading(false);
-			}),
+			})
 		);
 	};
 	const unPaySal = (el) => {
@@ -143,7 +141,7 @@ const EmpSalaries = () => {
 		dispatch(
 			unpaidSalaryAction(el, () => {
 				setLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -151,33 +149,56 @@ const EmpSalaries = () => {
 		<Sidenav title={'Employees Salaries'}>
 			<div>
 				<div className={classes.dataTable}>
-					<div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+					<div
+						style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+					>
 						<Button
-							variant='contained'
-							style={{ marginBottom: '1rem', backgroundColor: 'lightBlue' }}
-							size='small'
-							text='Create Salaries'
+							variant="contained"
+							style={{
+								marginBottom: '1rem',
+								backgroundColor: 'lightBlue',
+							}}
+							size="small"
+							text="Create Salaries"
 							onClick={createSalaries}
 							loading={createLoading}
 						/>
 
 						{createError && (
-							<p style={{ color: 'red', fontWeight: 'bold' }}>{createError}</p>
+							<p style={{ color: 'red', fontWeight: 'bold' }}>
+								{createError}
+							</p>
 						)}
 					</div>
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Employee Name</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Designation</StyledTableCell>
-									<StyledTableCell align='center'>Salary</StyledTableCell>
-									<StyledTableCell align='center'>Salary Status</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Employee Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Department
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Designation
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Salary
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Salary Status
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -186,35 +207,59 @@ const EmpSalaries = () => {
 								) : (
 									salaries.map((el, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{capitalize(el.employee?.name)}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{capitalize(el.employee?.finalDesignation?.name)}
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
+												{capitalize(
+													el.employee?.finalDesignation?.name
+												)}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
-												{capitalize(el.employee?.finalDepartment?.name)}
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
+												{capitalize(
+													el.employee?.finalDepartment?.name
+												)}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el.employee?.finalSal}
 											</StyledTableCell>
 
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<Button
-													variant='contained'
-													size='small'
+													variant="contained"
+													size="small"
 													classNames={
-														el.isPaid ? `${classes.paidBtn1}` : `${classes.paidBtn}`
+														el.isPaid
+															? `${classes.paidBtn1}`
+															: `${classes.paidBtn}`
 													}
 													onClick={() => {
 														el.isPaid ? unPaySal(el) : paySal(el);
 													}}
 													text={el.isPaid ? 'Is paid' : 'pay'}
 													loading={loading}
-													loaderColor='#fff'
+													loaderColor="#fff"
 												/>
 											</StyledTableCell>
 										</StyledTableRow>

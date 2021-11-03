@@ -238,12 +238,10 @@
 //     const [open2, setOpen2] = React.useState(false);
 
 //     const handleClick1 = () => {
-//         console.log('handleClick1');
 
 //         setOpen(!open);
 //     };
 //     const handleClick2 = () => {
-//         console.log('handleClick2');
 //         setOpen2(!open2);
 //     };
 
@@ -868,7 +866,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Sales Contract" />
 							</ListItem>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -876,7 +874,7 @@ function Sidenav(props) {
 								}}
 							>
 								<ListItemText inset primary="Delivery Order" />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}

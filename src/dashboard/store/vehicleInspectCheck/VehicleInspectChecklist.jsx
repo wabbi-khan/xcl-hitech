@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Sidenav from '../../SideNav/Sidenav';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TableContainer from '@material-ui/core/TableContainer';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
@@ -12,9 +11,7 @@ import {
 	updateVehicles,
 } from '../../../services/action/VehiclesAction';
 import Button from '../../../components/utils/Button';
-import Loader from 'react-loader-spinner';
 import { Formik, Form, Field } from 'formik';
-import * as yup from 'yup';
 import { MenuItem } from '@material-ui/core';
 
 const CssTextField = withStyles({
@@ -32,16 +29,6 @@ const CssTextField = withStyles({
 		},
 	},
 })(TextField);
-
-const GreenCheckbox = withStyles({
-	root: {
-		color: 'black',
-		'&$checked': {
-			color: '#22A19A',
-		},
-	},
-	checked: {},
-})((props) => <Checkbox color='default' {...props} />);
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -174,8 +161,6 @@ const checkList = [
 const VehicleInspectChecklist = ({ history }) => {
 	const [updateLoading, setUpdateLoading] = React.useState(false);
 	const [updateError, setUpdateError] = React.useState('');
-	const [fetchLoading, setFetchLoading] = React.useState(true);
-	const [fetchError, setFetchError] = React.useState('');
 	const [success, setSuccess] = React.useState('');
 	const [initialValuesState, setInitialValues] = React.useState({
 		...initialValues,
@@ -227,14 +212,14 @@ const VehicleInspectChecklist = ({ history }) => {
 						}, 4000);
 					} else {
 						setUpdateError(
-							'Vehicle is not inspected, Make sure all the boxes are checked',
+							'Vehicle is not inspected, Make sure all the boxes are checked'
 						);
 						setTimeout(() => {
 							setUpdateError('');
 						}, 4000);
 					}
 				}
-			}),
+			})
 		);
 	};
 
@@ -255,63 +240,86 @@ const VehicleInspectChecklist = ({ history }) => {
 			<div>
 				<div className={classes.dataTable}>
 					<div>
-						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'space-between',
+							}}
+						>
 							<div>
-								{
-									vehicle && (
-										<div style={{ display: 'flex', flexDirection: 'column' }}>
-											<span style={{ fontSize: '20px' }}>
-												Driver Name: {vehicle?.driverName}
-											</span>
-											<span style={{ fontSize: '20px' }}>
-												Vehicle Number: {vehicle?.number}
-											</span>
-										</div>
-									)
-								}
+								{vehicle && (
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'column',
+										}}
+									>
+										<span style={{ fontSize: '20px' }}>
+											Driver Name: {vehicle?.driverName}
+										</span>
+										<span style={{ fontSize: '20px' }}>
+											Vehicle Number: {vehicle?.number}
+										</span>
+									</div>
+								)}
 							</div>
 							<div>
 								<Button
-									type='button'
-									size='small'
-									text='Print Vehicle List'
-									classNames='bg-dark text-light'
+									type="button"
+									size="small"
+									text="Print Vehicle List"
+									classNames="bg-dark text-light"
 									style={{ textTransform: 'capitalize' }}
 									onClick={() => {
-										history.push('/storedashboard/print_vehicle_inspect_checklist')
+										history.push(
+											'/storedashboard/print_vehicle_inspect_checklist'
+										);
 									}}
 								/>
 							</div>
 						</div>
 						<TableContainer className={classes.tableContainer}>
-							<div className='container-fluid' style={{ textAlign: 'left' }}>
+							<div
+								className="container-fluid"
+								style={{ textAlign: 'left' }}
+							>
 								<CssTextField
-									id='outlined-basic'
-									label='Select Vehicle'
-									variant='outlined'
-									type='text'
-									autocomplete='off'
-									size='small'
+									id="outlined-basic"
+									label="Select Vehicle"
+									variant="outlined"
+									type="text"
+									autocomplete="off"
+									size="small"
 									style={{ width: '40%', margin: '20px 0px' }}
 									select
 									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}>
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								>
 									{!vehicles || !vehicles.length ? (
 										<p>Data Not Found</p>
 									) : (
 										vehicles.map((el) => (
-											<MenuItem value={el._id} key={el._id} onClick={() => setVehicle(el)}>
+											<MenuItem
+												value={el._id}
+												key={el._id}
+												onClick={() => setVehicle(el)}
+											>
 												{el.driverName} - {el.number}
 											</MenuItem>
 										))
 									)}
 								</CssTextField>
 
-								<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+								<div
+									style={{
+										display: 'flex',
+										justifyContent: 'flex-end',
+									}}
+								>
 									<Button
-										type='button'
+										type="button"
 										text={checked ? 'UnCheck All' : 'Check All'}
-										classNames='bg-dark text-light'
+										classNames="bg-dark text-light"
 										onClick={checkAll}
 									/>
 								</div>
@@ -319,27 +327,35 @@ const VehicleInspectChecklist = ({ history }) => {
 								<Formik
 									initialValues={initialValuesState}
 									onSubmit={onSubmit}
-									enableReinitialize>
+									enableReinitialize
+								>
 									{(props) => (
 										<Form>
 											{checkList.map((el) => (
 												<div
 													key={el?.id}
-													style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-													<span style={{ fontSize: '20px' }}>{el?.name}</span>
+													style={{
+														display: 'flex',
+														alignItems: 'center',
+														gap: '20px',
+													}}
+												>
+													<span style={{ fontSize: '20px' }}>
+														{el?.name}
+													</span>
 													<Field
-														name='choices'
-														type='checkbox'
+														name="choices"
+														type="checkbox"
 														value={el?.value}
 														as={Checkbox}
 													/>
 												</div>
 											))}
 											<Button
-												text='add'
+												text="add"
 												loading={updateLoading}
-												loaderColor='#333'
-												classNames='btn bg-primary text-light'
+												loaderColor="#333"
+												classNames="btn bg-primary text-light"
 											/>
 											{updateError && (
 												<p
@@ -348,7 +364,8 @@ const VehicleInspectChecklist = ({ history }) => {
 														fontSize: '20px',
 														marginBottom: '20px',
 														color: 'red',
-													}}>
+													}}
+												>
 													{updateError}
 												</p>
 											)}
@@ -359,7 +376,8 @@ const VehicleInspectChecklist = ({ history }) => {
 														fontSize: '20px',
 														marginBottom: '20px',
 														color: 'green',
-													}}>
+													}}
+												>
 													Successfully Inspected
 												</p>
 											)}

@@ -15,10 +15,8 @@ export const getTrainingEvaluations = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/trainings/evaluation`,
+			`${process.env.REACT_APP_API_URL}/trainings/evaluation`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -40,10 +38,8 @@ export const createTrainingEvaluation = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/evaluation`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -52,8 +48,6 @@ export const createTrainingEvaluation = (values, cb) => async (dispatch) => {
 			});
 			if (cb) cb();
 		}
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -67,15 +61,13 @@ export const updateTrainingEvaluation = (id, data) => async (dispatch) => {
 	try {
 		const res = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/trainings/evaluation/${id}`,
-			data,
+			data
 		);
 
 		dispatch({
 			type: TRAINING_EVALUATION_UPDATE_SUCCESS,
 			payload: res.data.training,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}
@@ -88,15 +80,13 @@ export const deleteTrainingEvaluation = (params) => async (dispatch) => {
 
 	try {
 		await axios.delete(
-			`${process.env.REACT_APP_API_URL}/trainings/evaluation/${params}`,
+			`${process.env.REACT_APP_API_URL}/trainings/evaluation/${params}`
 		);
 
 		dispatch({
 			type: TRAINING_EVALUATION_DELETE_SUCCESS,
 			payload: params,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

@@ -148,9 +148,7 @@ const ProductionOnlineInsRep = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const [open, setOpen] = useState(false);
@@ -166,7 +164,6 @@ const ProductionOnlineInsRep = () => {
 	});
 
 	const onChangeHandler = (e, placeholder) => {
-		console.log(placeholder);
 		if (placeholder !== 'date')
 			setInputFields({ ...inputFields, [placeholder]: e.target.value });
 	};
@@ -176,7 +173,6 @@ const ProductionOnlineInsRep = () => {
 	};
 
 	const handleOpen = (productionOnlineInsRep) => {
-		console.log(productionOnlineInsRep);
 		setProductionOnlineInsRep(productionOnlineInsRep);
 		setOpen(true);
 	};
@@ -200,9 +196,7 @@ const ProductionOnlineInsRep = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const onDelete = async (id) => {
@@ -212,157 +206,172 @@ const ProductionOnlineInsRep = () => {
 				url: `${process.env.REACT_APP_API_URL}/machine/${id}`,
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
 		<Sidenav title={'Machine'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
+					<form action="" onSubmit={handleSubmit(onSubmitDate)}>
 						{/* Material category selector */}
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='P.R. No'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="P.R. No"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('prNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Batch No.'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Batch No."
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('hi', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									variant='outlined'
-									type='date'
-									size='small'
+									id="outlined-basic"
+									variant="outlined"
+									type="date"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('machineNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 						</Grid>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Production Spec'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Production Spec"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('orderNo', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Raw Material'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Raw Material"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('rawMaterial', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Outer Dia (mm)'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Outer Dia (mm)"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('productionHours', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 						</Grid>
 						<Grid container spacing={1} style={{ marginTop: 15 }}>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Wall Thickness (mm)'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Wall Thickness (mm)"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('shift', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 							<Grid item lg={4} md={4} sm={12} xs={12}>
 								<CssTextField
-									id='outlined-basic'
-									label='Wall Thickness (mm)'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Wall Thickness (mm)"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '100%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									InputLabelProps={{ style: { fontSize: 14 } }}
 									{...register('items', { required: true })}
 								/>
 								{errors.poNum?.type === 'required' && (
-									<p className='mt-1 text-danger'>P.O. No. is required</p>
+									<p className="mt-1 text-danger">
+										P.O. No. is required
+									</p>
 								)}
 							</Grid>
 						</Grid>
 
 						<div>
 							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
+								variant="outlined"
+								color="primary"
+								type="submit"
+								className={classes.addButton}
+							>
 								Add
 							</Button>
 						</div>
@@ -373,14 +382,26 @@ const ProductionOnlineInsRep = () => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Machine Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Machine Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Code
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Action
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -391,34 +412,48 @@ const ProductionOnlineInsRep = () => {
 								) : machines.length ? (
 									machines.map((machine, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{machine.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{machine.code}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													onClick={() => {
 														handleOpen(machine);
 													}}
-													style={{ marginTop: 2 }}>
+													style={{ marginTop: 2 }}
+												>
 													Edit
 												</Button>
 												<Button
-													variant='contained'
-													color='secondary'
-													size='small'
+													variant="contained"
+													color="secondary"
+													size="small"
 													onClick={() => {
 														onDelete(machine._id);
 													}}
-													style={{ marginLeft: 2, marginTop: 2 }}>
+													style={{ marginLeft: 2, marginTop: 2 }}
+												>
 													Delete
 												</Button>
 											</StyledTableCell>

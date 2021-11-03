@@ -108,7 +108,6 @@ const Units = () => {
 	const [success, setSuccess] = React.useState('');
 	const [unit, setUnit] = React.useState({});
 	const { units } = useSelector((state) => state.units);
-	console.log(units);
 
 	React.useEffect(() => {
 		setFetchLoading(true);
@@ -121,7 +120,7 @@ const Units = () => {
 					}, 4000);
 				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
@@ -141,7 +140,7 @@ const Units = () => {
 					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -156,7 +155,7 @@ const Units = () => {
 					}, 4000);
 				}
 				setDeleteLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -174,7 +173,7 @@ const Units = () => {
 			<EditUnit show={open} handler={handleClose} unit={unit} />
 			{deleteLoading && (
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Loader type='TailSpin' width='2rem' height='2rem' />
+					<Loader type="TailSpin" width="2rem" height="2rem" />
 				</div>
 			)}
 			{deleteError && (
@@ -191,15 +190,16 @@ const Units = () => {
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
-							<Form autoComplete='off'>
+							<Form autoComplete="off">
 								<CssTextField
-									id='outlined-basic'
-									label='Units'
-									variant='outlined'
-									type='text'
-									size='small'
+									id="outlined-basic"
+									label="Units"
+									variant="outlined"
+									type="text"
+									size="small"
 									style={{ width: '50%' }}
 									inputProps={{ style: { fontSize: 14 } }}
 									value={props.values.name}
@@ -211,11 +211,11 @@ const Units = () => {
 								/>
 								<div>
 									<Button
-										variant='outlined'
+										variant="outlined"
 										classNames={classes.addMoreRes}
-										text='Add'
+										text="Add"
 										loading={createLoading}
-										loaderColor='#333'
+										loaderColor="#333"
 									/>
 									{createError && <p>{createError}</p>}
 								</div>
@@ -247,8 +247,9 @@ const Units = () => {
 				</Container>
 			</div>
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: '50px' }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: '50px' }}
+			>
 				{fetchLoading ? (
 					<div
 						style={{
@@ -256,17 +257,23 @@ const Units = () => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
 					</div>
 				) : units?.length === 0 ? (
 					<p>There is no data found</p>
 				) : (
-					<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+					<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
 						{units?.map((el, i) => (
 							<>
 								{i === 0 && (
-									<thead class='bg-dark text-light'>
+									<thead class="bg-dark text-light">
 										<tr>
 											<th>S.No.</th>
 											<th>Units</th>
@@ -279,19 +286,24 @@ const Units = () => {
 										<td>{i + 1}</td>
 										<td>{el.name}</td>
 										<td>
-											<div style={{ display: 'flex', justifyContent: 'center' }}>
+											<div
+												style={{
+													display: 'flex',
+													justifyContent: 'center',
+												}}
+											>
 												<Button
-													variant='contained'
-													text='Edit'
-													size='small'
-													classNames='bg-dark text-light'
+													variant="contained"
+													text="Edit"
+													size="small"
+													classNames="bg-dark text-light"
 													onClick={() => handleOpen(el)}
 												/>
 												<Button
-													variant='contained'
-													text='Delete'
-													size='small'
-													color='secondary'
+													variant="contained"
+													text="Delete"
+													size="small"
+													color="secondary"
 													onClick={() => deleteUnitFunc(el._id)}
 													style={{ marginLeft: '5px' }}
 												/>

@@ -142,7 +142,6 @@ const Shifts = () => {
 	});
 
 	const onSubmitDate = async () => {
-		console.log(inputFields);
 		try {
 			await axios({
 				method: 'POST',
@@ -157,12 +156,8 @@ const Shifts = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
-
-	// console.log(todaysDate);
 
 	const [open, setOpen] = useState(false);
 	const [shift, setShift] = useState({});
@@ -176,7 +171,6 @@ const Shifts = () => {
 	};
 
 	const handleOpen = (shift) => {
-		console.log(shift);
 		setShift(shift);
 		setOpen(true);
 	};
@@ -197,9 +191,7 @@ const Shifts = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const onDelete = async (id) => {
@@ -209,24 +201,22 @@ const Shifts = () => {
 				url: `${process.env.REACT_APP_API_URL}/shift/${id}`,
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
 		<Sidenav title={'Shifts'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
+					<form action="" onSubmit={handleSubmit(onSubmitDate)}>
 						{/* Material category selector */}
 						<CssTextField
-							id='outlined-basic'
-							label='Shift Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
+							id="outlined-basic"
+							label="Shift Name"
+							variant="outlined"
+							type="text"
+							autocomplete="off"
+							size="small"
 							className={classes.inputFieldStyle}
 							style={{ marginRight: 20 }}
 							inputProps={{ style: { fontSize: 14 } }}
@@ -235,12 +225,12 @@ const Shifts = () => {
 							value={inputFields.name}
 						/>
 						<CssTextField
-							id='outlined-basic'
-							variant='outlined'
-							type='time'
-							label='Enter start time'
-							autocomplete='off'
-							size='small'
+							id="outlined-basic"
+							variant="outlined"
+							type="time"
+							label="Enter start time"
+							autocomplete="off"
+							size="small"
 							className={classes.inputFieldStyle}
 							style={{ marginRight: 20 }}
 							inputProps={{ style: { fontSize: 14 } }}
@@ -249,12 +239,12 @@ const Shifts = () => {
 							onChange={(e) => onChangeHandler(e, 'startTime')}
 						/>
 						<CssTextField
-							id='outlined-basic'
-							variant='outlined'
-							type='time'
-							label='Enter end time'
-							autocomplete='off'
-							size='small'
+							id="outlined-basic"
+							variant="outlined"
+							type="time"
+							label="Enter end time"
+							autocomplete="off"
+							size="small"
 							className={classes.inputFieldStyle}
 							inputProps={{ style: { fontSize: 14 } }}
 							InputLabelProps={{ style: { fontSize: 14 } }}
@@ -263,10 +253,11 @@ const Shifts = () => {
 						/>
 						<div>
 							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
+								variant="outlined"
+								color="primary"
+								type="submit"
+								className={classes.addButton}
+							>
 								Add
 							</Button>
 						</div>
@@ -282,15 +273,29 @@ const Shifts = () => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Shift Name</StyledTableCell>
-									<StyledTableCell align='center'>Start time</StyledTableCell>
-									<StyledTableCell align='center'>End time</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Shift Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Start time
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										End time
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Action
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -301,37 +306,54 @@ const Shifts = () => {
 								) : shifts.length ? (
 									shifts.map((shift, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{shift.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{shift.startTime}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{shift.endTime}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													onClick={() => {
 														handleOpen(shift);
 													}}
-													style={{ marginTop: 2 }}>
+													style={{ marginTop: 2 }}
+												>
 													Edit
 												</Button>
 												<Button
-													variant='contained'
-													color='secondary'
-													size='small'
+													variant="contained"
+													color="secondary"
+													size="small"
 													onClick={() => {
 														onDelete(shift._id);
 													}}
-													style={{ marginLeft: 2, marginTop: 2 }}>
+													style={{ marginLeft: 2, marginTop: 2 }}
+												>
 													Delete
 												</Button>
 											</StyledTableCell>

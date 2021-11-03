@@ -1,10 +1,7 @@
 import {
-	BIN_CARD_CREATE_SUCCESS,
-	BIN_CARD_DELETE_SUCCESS,
 	BIN_CARD_FAIL,
 	BIN_CARD_FETCH_SUCCESS,
 	BIN_CARD_REQUEST,
-	BIN_CARD_UPDATE_SUCCESS,
 } from '../constants/binCardConstant';
 
 export const binCardReducer = (state = { binCards: [] }, action) => {

@@ -1,73 +1,76 @@
-import React from "react";
-import { CustomButton, CustomTable } from "../../../components";
+import React from 'react';
+import { CustomButton, CustomTable } from '../../../components';
 
-const PrintOrderLogSheet = ({location}) => {
+const PrintOrderLogSheet = ({ location }) => {
+	const orderBooking = location.state.orderBooking;
 
-  console.log(location);
-  const orderBooking = location.state.orderBooking;
-
-  return (
-    <div className="text-center">
-      <div class="row mt-2">
-        <div class="col-3 col-lg-3 col-md-3">
-          <img src="/images/nameLogo.png" width="200px" height="65px" alt="" />
-        </div>
-        <div class="col-6">
-          <h5
-            style={{
-              marginTop: "1.3rem",
-              fontWeight: "bold",
-              textDecoration: "underline",
-            }}
-          >
-            ORDER LOG SHEET
-          </h5>
-        </div>
-      </div>
-      <div class="container" id="printBtn">
-        <CustomButton
-          text="Print"
-          classNames="btn bg-dark text-light"
-          onClick={() => window.print()}
-          style={{ marginLeft: "auto" }}
-        />
-      </div>
-      <div className="mt-4">
-        <div className="" style={{ marginTop: 30, marginLeft: "auto" }}>
-          <CustomTable
-            data={[orderBooking]}
-            heading="orderLogSheet"
-            columnHeadings={[
-              "Sr.No",
-              "Req. Date",
-              "Order No",
-              "Customer's Name",
-              "Customer's Address",
-              "Delivery Site Address",
-              "Fittings Required",
-              "Mode Of Payment",
-              "Expected Delivery Date",
-              "Special Requirements",
-              "Remarks",
-            ]}
-            keys={[
-              { dateFrom: "createdAt" },
-              "code",
-              "customerName",
-              "customerAddress",
-              "deliveryAddress",
-              "fittingRequired",
-              "modeOfPayment",
-              "expectedDateOfDelivery",
-              "requirements",
-              "remarks",
-            ]}
-            withSrNo
-            tablePrint
-          />
-        </div>
-      </div>
-      {/* <div className="row" style={{ marginTop: "6rem" }}>
+	return (
+		<div className="text-center">
+			<div class="row mt-2">
+				<div class="col-3 col-lg-3 col-md-3">
+					<img
+						src="/images/nameLogo.png"
+						width="200px"
+						height="65px"
+						alt=""
+					/>
+				</div>
+				<div class="col-6">
+					<h5
+						style={{
+							marginTop: '1.3rem',
+							fontWeight: 'bold',
+							textDecoration: 'underline',
+						}}
+					>
+						ORDER LOG SHEET
+					</h5>
+				</div>
+			</div>
+			<div class="container" id="printBtn">
+				<CustomButton
+					text="Print"
+					classNames="btn bg-dark text-light"
+					onClick={() => window.print()}
+					style={{ marginLeft: 'auto' }}
+				/>
+			</div>
+			<div className="mt-4">
+				<div className="" style={{ marginTop: 30, marginLeft: 'auto' }}>
+					<CustomTable
+						data={[orderBooking]}
+						heading="orderLogSheet"
+						columnHeadings={[
+							'Sr.No',
+							'Req. Date',
+							'Order No',
+							"Customer's Name",
+							"Customer's Address",
+							'Delivery Site Address',
+							'Fittings Required',
+							'Mode Of Payment',
+							'Expected Delivery Date',
+							'Special Requirements',
+							'Remarks',
+						]}
+						keys={[
+							{ dateFrom: 'createdAt' },
+							'code',
+							'customerName',
+							'customerAddress',
+							'deliveryAddress',
+							'fittingRequired',
+							'modeOfPayment',
+							'expectedDateOfDelivery',
+							'requirements',
+							'remarks',
+						]}
+						withSrNo
+						tablePrint
+					/>
+				</div>
+			</div>
+			{/* <div className="row" style={{ marginTop: "6rem" }}>
         <div className="col-3">
           <div
             style={{
@@ -117,7 +120,7 @@ const PrintOrderLogSheet = ({location}) => {
           </div>
         </div>
       </div> */}
-      {/* <div className="container" style={{ marginTop: 30 }}>
+			{/* <div className="container" style={{ marginTop: 30 }}>
                   <div className="row">
                       <div className="offset-lg-9 offset-md-9 offset-sm-9 offset-xs-9 col-lg-3 col-md-3 col-sm-3 mt-5">
                           <hr style={{ backgroundColor: 'black', paddingTop: 2 }} />
@@ -126,8 +129,8 @@ const PrintOrderLogSheet = ({location}) => {
                       </div>
                   </div>
               </div> */}
-    </div>
-  );
+		</div>
+	);
 };
 
 export default PrintOrderLogSheet;

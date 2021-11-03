@@ -142,9 +142,7 @@ const Machines = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const [open, setOpen] = useState(false);
@@ -154,7 +152,6 @@ const Machines = () => {
 	});
 
 	const onChangeHandler = (e, placeholder) => {
-		console.log(placeholder);
 		if (placeholder !== 'date')
 			setInputFields({ ...inputFields, [placeholder]: e.target.value });
 	};
@@ -164,7 +161,6 @@ const Machines = () => {
 	};
 
 	const handleOpen = (machine) => {
-		console.log(machine);
 		setMachine(machine);
 		setOpen(true);
 	};
@@ -182,9 +178,7 @@ const Machines = () => {
 				},
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const onDelete = async (id) => {
@@ -194,24 +188,22 @@ const Machines = () => {
 				url: `${process.env.REACT_APP_API_URL}/machine/${id}`,
 			});
 			window.location.reload();
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
 		<Sidenav title={'Machine'}>
 			<div>
 				<Container className={classes.mainContainer}>
-					<form action='' onSubmit={handleSubmit(onSubmitDate)}>
+					<form action="" onSubmit={handleSubmit(onSubmitDate)}>
 						{/* Material category selector */}
 						<CssTextField
-							id='outlined-basic'
-							label='Machine Name'
-							variant='outlined'
-							type='text'
-							autocomplete='off'
-							size='small'
+							id="outlined-basic"
+							label="Machine Name"
+							variant="outlined"
+							type="text"
+							autocomplete="off"
+							size="small"
 							className={classes.inputFieldStyle}
 							style={{ marginRight: 20 }}
 							inputProps={{ style: { fontSize: 14 } }}
@@ -221,10 +213,11 @@ const Machines = () => {
 						/>
 						<div>
 							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
-								className={classes.addButton}>
+								variant="outlined"
+								color="primary"
+								type="submit"
+								className={classes.addButton}
+							>
 								Add
 							</Button>
 						</div>
@@ -241,14 +234,26 @@ const Machines = () => {
 					<TableContainer className={classes.tableContainer}>
 						<Table
 							stickyHeader
-							className='table table-dark'
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							className="table table-dark"
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Machine Name</StyledTableCell>
-									<StyledTableCell align='center'>Code</StyledTableCell>
-									<StyledTableCell align='center'>Action</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Machine Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Code
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Action
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -259,34 +264,48 @@ const Machines = () => {
 								) : machines.length ? (
 									machines.map((machine, i) => (
 										<StyledTableRow>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{machine.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{machine.code}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<Button
-													variant='contained'
-													className='bg-dark text-light'
-													size='small'
+													variant="contained"
+													className="bg-dark text-light"
+													size="small"
 													onClick={() => {
 														handleOpen(machine);
 													}}
-													style={{ marginTop: 2 }}>
+													style={{ marginTop: 2 }}
+												>
 													Edit
 												</Button>
 												<Button
-													variant='contained'
-													color='secondary'
-													size='small'
+													variant="contained"
+													color="secondary"
+													size="small"
 													onClick={() => {
 														onDelete(machine._id);
 													}}
-													style={{ marginLeft: 2, marginTop: 2 }}>
+													style={{ marginLeft: 2, marginTop: 2 }}
+												>
 													Delete
 												</Button>
 											</StyledTableCell>

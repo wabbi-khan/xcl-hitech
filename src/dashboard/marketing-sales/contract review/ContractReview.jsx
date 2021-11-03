@@ -79,8 +79,11 @@ const ContractReview = ({ history }) => {
 		dispatch(getSalesContract());
 	}, []);
 
-	const printContract = () => {
-		history.push('/marketing_dashboard/print_contract_review');
+	const printContract = (e) => {
+		history.push({
+			pathname: '/marketing_dashboard/print_contract_review',
+			state: { contractReview: e },
+		});
 	};
 
 	const onSubmit = (values) => {

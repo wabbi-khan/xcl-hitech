@@ -17,10 +17,8 @@ export const getNonExtEmpAssesAction = (query) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/assessment${
 				query ? `?${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		dispatch({
 			type: NONEXECPREREQ_FETCH_SUCCESS,
@@ -38,19 +36,14 @@ export const createNonExtEmpAssesAction = (assessment) => async (dispatch) => {
 	try {
 		const res = await axios.post(
 			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/assessment`,
-			assessment,
+			assessment
 		);
-
-		console.log(res);
 
 		dispatch({
 			type: NONEXECPREREQ_CREATE_SUCCESS,
 			payload: res.data.assessment,
 		});
-
-		// console.log(data);
 	} catch (err) {
-		console.log('object');
 		dispatchError(err, dispatch);
 	}
 };
@@ -64,10 +57,8 @@ export const updateNonExtEmpAssesAction =
 		try {
 			const res = await axios.patch(
 				`${process.env.REACT_APP_API_URL}/nonExecutive-employees/assessment/${id}`,
-				assessment,
+				assessment
 			);
-
-			console.log(res.data);
 
 			dispatch({
 				type: NONEXECPREREQ_UPDATE_SUCCESS,
@@ -86,11 +77,9 @@ export const deleteNonExtEmpAssesAction = (id, cb) => async (dispatch) => {
 	});
 
 	try {
-		const res = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/assessment/${id}`,
+		await axios.delete(
+			`${process.env.REACT_APP_API_URL}/nonExecutive-employees/assessment/${id}`
 		);
-
-		console.log(res.data);
 
 		dispatch({
 			type: NONEXECPREREQ_DELETE_SUCCESS,
@@ -104,9 +93,7 @@ export const deleteNonExtEmpAssesAction = (id, cb) => async (dispatch) => {
 };
 
 const dispatchError = (err, dispatch) => {
-	console.log(err);
 	if (err.response) {
-		console.log(err.response.data);
 		dispatch({
 			type: NONEXECPREREQ_FAIL,
 			payload: err.response.data.error,

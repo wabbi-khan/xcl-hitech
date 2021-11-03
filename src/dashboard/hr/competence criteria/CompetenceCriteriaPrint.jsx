@@ -53,8 +53,6 @@ const CompetenceCriteriaPrint = ({ location }) => {
 	const classes = useStyles();
 
 	const designation = location?.state?.designation;
-	console.log(location);
-	console.log(designation);
 
 	const date = new Date();
 	const currDate = date.getDate();
@@ -63,23 +61,26 @@ const CompetenceCriteriaPrint = ({ location }) => {
 	const fullDate = `${currDate} / ${months} / ${years}`;
 
 	return (
-		<div className='text-center'>
-			<div className='container'>
-				<img src='./logo.png' alt='' />
+		<div className="text-center">
+			<div className="container">
+				<img src="./logo.png" alt="" />
 				<h4>Hi-Tech Pipe & Engineering Industries</h4>
 				<h6>Plot No X-22, Site Area Kotri</h6>
 				<p>Ph-No 022-3870614-5, Fax: 022-3870606</p>
-				<h5 className='mt-4' style={{ textDecorationLine: 'underline' }}>
+				<h5 className="mt-4" style={{ textDecorationLine: 'underline' }}>
 					DESIGNATION
 				</h5>
 			</div>
 			<div
-				className='container-fluid'
-				style={{ textAlign: 'left', marginTop: 70 }}>
+				className="container-fluid"
+				style={{ textAlign: 'left', marginTop: 70 }}
+			>
 				<Grid container spacing={1}>
 					<Grid item lg={2} md={2} sm={2} xs={2}>
-						<div className='col-lg-6 col-md-6 col-sm-6'>
-							<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>Date:</p>
+						<div className="col-lg-6 col-md-6 col-sm-6">
+							<p style={{ fontWeight: 'bold', marginLeft: '12px' }}>
+								Date:
+							</p>
 						</div>
 					</Grid>
 					<Grid item lg={2} md={2} sm={2} xs={2}>
@@ -89,26 +90,32 @@ const CompetenceCriteriaPrint = ({ location }) => {
 						</p>
 					</Grid>
 					<Grid item lg={6} md={6} sm={6} xs={6}></Grid>
-					<Grid item lg={2} md={2} sm={2} xs={2} id='printBtn'>
+					<Grid item lg={2} md={2} sm={2} xs={2} id="printBtn">
 						<Button
-							variant='contained'
-							size='small'
-							className='bg-dark text-light'
-							onClick={() => window.print()}>
+							variant="contained"
+							size="small"
+							className="bg-dark text-light"
+							onClick={() => window.print()}
+						>
 							Print
 						</Button>
 					</Grid>
 				</Grid>
 			</div>
-			<div className='mt-4'>
-				<div className='' style={{ marginTop: 30, marginLeft: 'auto' }}>
-					<table class='table table-striped table-inverse table-bordered table-responsive table-hover'>
-						<thead class='thead-inverse'>
+			<div className="mt-4">
+				<div className="" style={{ marginTop: 30, marginLeft: 'auto' }}>
+					<table class="table table-striped table-inverse table-bordered table-responsive table-hover">
+						<thead class="thead-inverse">
 							<tr>
-								<th rowspan='2'>Designation</th>
-								<th colspan='4'>CRITERIAS</th>
+								<th rowspan="2">Designation</th>
+								<th colspan="4">CRITERIAS</th>
 							</tr>
-							<tr style={{ backgroundColor: 'black', color: 'whitesmoke' }}>
+							<tr
+								style={{
+									backgroundColor: 'black',
+									color: 'whitesmoke',
+								}}
+							>
 								<th>Education</th>
 								<th>Experience</th>
 								<th>Skills</th>
@@ -163,7 +170,9 @@ const CompetenceCriteriaPrint = ({ location }) => {
 					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
 						Approved By:
 					</p>
-					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>CEO</p>
+					<p style={{ marginTop: -10, fontSize: 12, fontWeight: 'bold' }}>
+						CEO
+					</p>
 				</Grid>
 			</Grid>
 		</div>

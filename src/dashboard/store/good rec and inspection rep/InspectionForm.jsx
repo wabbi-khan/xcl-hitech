@@ -56,7 +56,6 @@ const InspectionForm = ({ history }) => {
 	}, [dispatch]);
 
 	const { orders, loading, error } = useSelector((state) => state.orders);
-	console.log(orders);
 
 	return (
 		<Sidenav title={'Good Received and Inspection Form'}>
@@ -66,17 +65,35 @@ const InspectionForm = ({ history }) => {
 						<Table
 							stickyHeader
 							className={classes.table}
-							style={{ backgroundColor: '#d0cfcf', border: '1px solid grey' }}>
+							style={{
+								backgroundColor: '#d0cfcf',
+								border: '1px solid grey',
+							}}
+						>
 							<TableHead>
-								<TableRow hover role='checkbox'>
-									<StyledTableCell align='center'>Sr.No</StyledTableCell>
-									<StyledTableCell align='center'>Order#</StyledTableCell>
-									<StyledTableCell align='center'>Department</StyledTableCell>
-									<StyledTableCell align='center'>Vendor Name</StyledTableCell>
-									<StyledTableCell align='center'>Items</StyledTableCell>
-									<StyledTableCell align='center'>Qty</StyledTableCell>
-									<StyledTableCell align='center'>Date</StyledTableCell>
-									<StyledTableCell align='center'>View Details</StyledTableCell>
+								<TableRow hover role="checkbox">
+									<StyledTableCell align="center">
+										Sr.No
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Order#
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Department
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Vendor Name
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										Items
+									</StyledTableCell>
+									<StyledTableCell align="center">Qty</StyledTableCell>
+									<StyledTableCell align="center">
+										Date
+									</StyledTableCell>
+									<StyledTableCell align="center">
+										View Details
+									</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -89,42 +106,71 @@ const InspectionForm = ({ history }) => {
 								) : (
 									orders.map((order, i) => (
 										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{order.poNum}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
-												{!order.department ? null : order.department.name}
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
+												{!order.department
+													? null
+													: order.department.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{!order.vendor ? null : order.vendor.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{!order.materials.length ? (
 													<span>Not Found</span>
 												) : (
 													order.materials.map((material, i) => (
-														<span key={i}>{material?.material?.name}, </span>
+														<span key={i}>
+															{material?.material?.name},{' '}
+														</span>
 													))
 												)}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{order.totalQuantity}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												{order.date}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark' align='center'>
+											<StyledTableCell
+												className="text-dark"
+												align="center"
+											>
 												<Button
-													className='btn bg-dark text-light'
+													className="btn bg-dark text-light"
 													onClick={() => {
 														history.push({
 															pathname: `/storedashboard/good_received_and_inspection_report/${order._id}`,
-															state: { order }
+															state: { order },
 														});
-													}}>
+													}}
+												>
 													Inspection
 												</Button>
 											</StyledTableCell>

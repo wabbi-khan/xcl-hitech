@@ -17,10 +17,8 @@ export const getTrainingsAttendance = (query, cb) => async (dispatch) => {
 		const { data } = await axios.get(
 			`${process.env.REACT_APP_API_URL}/trainings/attendance${
 				query ? `?${query}` : ''
-			}`,
+			}`
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -41,10 +39,8 @@ export const createTrainingAttendance = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/trainings/attendance`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -53,8 +49,6 @@ export const createTrainingAttendance = (values, cb) => async (dispatch) => {
 			});
 			if (cb) cb();
 		}
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -67,7 +61,7 @@ export const markAsAbsent = (id, data, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/trainings/attendance/${id}`,
+			`${process.env.REACT_APP_API_URL}/trainings/attendance/${id}`
 		);
 
 		if (data.success) {
@@ -77,7 +71,6 @@ export const markAsAbsent = (id, data, cb) => async (dispatch) => {
 			});
 			if (cb) cb();
 		}
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch, cb);
 	}
@@ -90,15 +83,13 @@ export const deleteTrainingAttendance = (params) => async (dispatch) => {
 
 	try {
 		await axios.delete(
-			`${process.env.REACT_APP_API_URL}/trainings/attendance/${params}`,
+			`${process.env.REACT_APP_API_URL}/trainings/attendance/${params}`
 		);
 
 		dispatch({
 			type: TRAININGATTENDANCE_DELETE_SUCCESS,
 			payload: params,
 		});
-
-		// console.log(data);
 	} catch (err) {
 		dispatchError(err, dispatch);
 	}

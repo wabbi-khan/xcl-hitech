@@ -168,14 +168,15 @@ const EmpCompetencEval = ({ history }) => {
 			designation?.experiences?.map((el) => {
 				temp.experiences.names.push(el?.name);
 			});
-			console.log(temp);
 			setCriteria(temp);
 		}
 	}, [designation]);
 
 	React.useEffect(() => {
 		if (designation && department) {
-			dispatch(getEmployeeByDesignationAndDepartment(designation._id, department));
+			dispatch(
+				getEmployeeByDesignationAndDepartment(designation._id, department)
+			);
 		}
 	}, [designation, department]);
 
@@ -185,8 +186,6 @@ const EmpCompetencEval = ({ history }) => {
 	}, []);
 
 	const onSubmit = async (props) => {
-		console.log(criteria);
-
 		history.push({
 			pathname: '/hr/print_emp_competency_evaluation',
 			state: { criteria },
@@ -205,8 +204,6 @@ const EmpCompetencEval = ({ history }) => {
 		});
 	};
 
-	console.log(criteria);
-
 	return (
 		<Sidenav title={"Employee's Competency Evaluation"}>
 			<div>
@@ -214,33 +211,42 @@ const EmpCompetencEval = ({ history }) => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<Form>
 								<Grid container spacing={1}>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Department'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Select Department"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('department')}
 											onBlur={props.handleBlur('department')}
 											value={props.values.department}
-											helperText={props.touched.department && props.errors.department}
-											error={props.touched.department && props.errors.department}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											helperText={
+												props.touched.department &&
+												props.errors.department
+											}
+											error={
+												props.touched.department &&
+												props.errors.department
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{departments && departments.length > 0 ? (
 												departments.map((el) => (
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setDepartment(el._id)}>
+														onClick={() => setDepartment(el._id)}
+													>
 														{el?.name}
 													</MenuItem>
 												))
@@ -251,27 +257,35 @@ const EmpCompetencEval = ({ history }) => {
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Designation'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="Designation"
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											select
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('designation')}
 											onBlur={props.handleBlur('designation')}
 											value={props.values.designation}
-											helperText={props.touched.designation && props.errors.designation}
-											error={props.touched.designation && props.errors.designation}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											helperText={
+												props.touched.designation &&
+												props.errors.designation
+											}
+											error={
+												props.touched.designation &&
+												props.errors.designation
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{designations && designations.length > 0 ? (
 												designations.map((el) => (
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setDesignation(el)}>
+														onClick={() => setDesignation(el)}
+													>
 														{el?.name}
 													</MenuItem>
 												))
@@ -282,27 +296,35 @@ const EmpCompetencEval = ({ history }) => {
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='Select Employee Name'
-											variant='outlined'
-											type='text'
-											size='small'
+											id="outlined-basic"
+											label="Select Employee Name"
+											variant="outlined"
+											type="text"
+											size="small"
 											select
-											autocomplete='off'
+											autocomplete="off"
 											style={{ width: '100%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('employees')}
 											onBlur={props.handleBlur('employees')}
 											value={props.values.employees}
-											helperText={props.touched.employees && props.errors.employees}
-											error={props.touched.employees && props.errors.employees}
-											InputLabelProps={{ style: { fontSize: 14 } }}>
+											helperText={
+												props.touched.employees &&
+												props.errors.employees
+											}
+											error={
+												props.touched.employees &&
+												props.errors.employees
+											}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+										>
 											{employees && employees.length > 0 ? (
 												employees.map((el) => (
 													<MenuItem
 														key={el?._id}
 														value={el?._id}
-														onClick={() => setCnic(el?.cnic)}>
+														onClick={() => setCnic(el?.cnic)}
+													>
 														{el?.name}
 													</MenuItem>
 												))
@@ -313,12 +335,12 @@ const EmpCompetencEval = ({ history }) => {
 									</Grid>
 									<Grid item lg={3} md={3} sm={12} xs={12}>
 										<CssTextField
-											id='outlined-basic'
-											label='CNIC No.'
-											variant='outlined'
-											type='text'
-											autocomplete='off'
-											size='small'
+											id="outlined-basic"
+											label="CNIC No."
+											variant="outlined"
+											type="text"
+											autocomplete="off"
+											size="small"
 											disabled
 											style={{ width: '100%' }}
 											value={cnic}
@@ -328,10 +350,13 @@ const EmpCompetencEval = ({ history }) => {
 									</Grid>
 								</Grid>
 								<div
-									className='container-fluid'
-									style={{ textAlign: 'left', marginTop: '50px' }}>
-									<h5 style={{ textDecoration: 'underline' }}>Evaluation:</h5>
-									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+									className="container-fluid"
+									style={{ textAlign: 'left', marginTop: '50px' }}
+								>
+									<h5 style={{ textDecoration: 'underline' }}>
+										Evaluation:
+									</h5>
+									<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
 										<tbody>
 											{criteria && (
 												<>
@@ -340,63 +365,120 @@ const EmpCompetencEval = ({ history }) => {
 														<td>Minimum Required</td>
 													</tr>
 													<tr>
-														<td style={{ fontWeight: 'bold' }}>Education</td>
+														<td style={{ fontWeight: 'bold' }}>
+															Education
+														</td>
 														<td>
-															{criteria?.educations?.names?.map((el) => (
-																<p style={{ margin: 0, padding: 0 }}>{el}</p>
-															))}
+															{criteria?.educations?.names?.map(
+																(el) => (
+																	<p
+																		style={{
+																			margin: 0,
+																			padding: 0,
+																		}}
+																	>
+																		{el}
+																	</p>
+																)
+															)}
 														</td>
 													</tr>
 													<Grid
 														container
 														spacing={1}
-														style={{ marginTop: 15, marginBottom: '10px' }}>
-														<Grid item lg={6} md={6} sm={12} xs={12}>
+														style={{
+															marginTop: 15,
+															marginBottom: '10px',
+														}}
+													>
+														<Grid
+															item
+															lg={6}
+															md={6}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Capability'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Capability"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																style={{ width: '100%' }}
 																onChange={(e) =>
-																	onChange(e.target.value, 'educations', 'capability')
+																	onChange(
+																		e.target.value,
+																		'educations',
+																		'capability'
+																	)
 																}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
-														<Grid item lg={6} md={6} sm={12} xs={12}>
+														<Grid
+															item
+															lg={6}
+															md={6}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Remarks'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Remarks"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																onChange={(e) =>
-																	onChange(e.target.value, 'educations', 'remarks')
+																	onChange(
+																		e.target.value,
+																		'educations',
+																		'remarks'
+																	)
 																}
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
-														<Grid item lg={6} md={8} sm={12} xs={12}>
+														<Grid
+															item
+															lg={6}
+															md={8}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Evaluation Summary'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Evaluation Summary"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
 																onChange={(e) =>
-																	onChange(e.target.value, 'educations', 'summary')
+																	onChange(
+																		e.target.value,
+																		'educations',
+																		'summary'
+																	)
 																}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
 													</Grid>
@@ -410,9 +492,10 @@ const EmpCompetencEval = ({ history }) => {
 								</div>
 
 								<div
-									className='container-fluid'
-									style={{ textAlign: 'left', marginTop: '50px' }}>
-									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+									className="container-fluid"
+									style={{ textAlign: 'left', marginTop: '50px' }}
+								>
+									<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
 										<tbody>
 											{criteria && (
 												<>
@@ -421,59 +504,120 @@ const EmpCompetencEval = ({ history }) => {
 														<td>Minimum Required</td>
 													</tr>
 													<tr>
-														<td style={{ fontWeight: 'bold' }}>Skills</td>
+														<td style={{ fontWeight: 'bold' }}>
+															Skills
+														</td>
 														<td>
-															{criteria?.skills?.names?.map((el) => (
-																<p style={{ margin: 0, padding: 0 }}>{el}</p>
-															))}
+															{criteria?.skills?.names?.map(
+																(el) => (
+																	<p
+																		style={{
+																			margin: 0,
+																			padding: 0,
+																		}}
+																	>
+																		{el}
+																	</p>
+																)
+															)}
 														</td>
 													</tr>
 													<Grid
 														container
 														spacing={1}
-														style={{ marginTop: 15, marginBottom: '10px' }}>
-														<Grid item lg={6} md={6} sm={12} xs={12}>
+														style={{
+															marginTop: 15,
+															marginBottom: '10px',
+														}}
+													>
+														<Grid
+															item
+															lg={6}
+															md={6}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Capability'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Capability"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																style={{ width: '100%' }}
 																onChange={(e) =>
-																	onChange(e.target.value, 'skills', 'capability')
+																	onChange(
+																		e.target.value,
+																		'skills',
+																		'capability'
+																	)
 																}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
-														<Grid item lg={6} md={6} sm={12} xs={12}>
+														<Grid
+															item
+															lg={6}
+															md={6}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Remarks'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
-																onChange={(e) => onChange(e.target.value, 'skills', 'remarks')}
+																id="outlined-basic"
+																label="Remarks"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
+																onChange={(e) =>
+																	onChange(
+																		e.target.value,
+																		'skills',
+																		'remarks'
+																	)
+																}
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
-														<Grid item lg={6} md={8} sm={12} xs={12}>
+														<Grid
+															item
+															lg={6}
+															md={8}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Evaluation Summary'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Evaluation Summary"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																onChange={(e) => onChange(e.target.value, 'skills', 'summary')}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																onChange={(e) =>
+																	onChange(
+																		e.target.value,
+																		'skills',
+																		'summary'
+																	)
+																}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
 													</Grid>
@@ -486,9 +630,10 @@ const EmpCompetencEval = ({ history }) => {
 									</div>
 								</div>
 								<div
-									className='container-fluid'
-									style={{ textAlign: 'left', marginTop: '50px' }}>
-									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
+									className="container-fluid"
+									style={{ textAlign: 'left', marginTop: '50px' }}
+								>
+									<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
 										<tbody>
 											{criteria && (
 												<>
@@ -497,63 +642,120 @@ const EmpCompetencEval = ({ history }) => {
 														<td>Minimum Required</td>
 													</tr>
 													<tr>
-														<td style={{ fontWeight: 'bold' }}>Experience</td>
+														<td style={{ fontWeight: 'bold' }}>
+															Experience
+														</td>
 														<td>
-															{criteria?.experiences?.names?.map((el) => (
-																<p style={{ margin: 0, padding: 0 }}>{el}</p>
-															))}
+															{criteria?.experiences?.names?.map(
+																(el) => (
+																	<p
+																		style={{
+																			margin: 0,
+																			padding: 0,
+																		}}
+																	>
+																		{el}
+																	</p>
+																)
+															)}
 														</td>
 													</tr>
 													<Grid
 														container
 														spacing={1}
-														style={{ marginTop: 15, marginBottom: '10px' }}>
-														<Grid item lg={6} md={6} sm={12} xs={12}>
+														style={{
+															marginTop: 15,
+															marginBottom: '10px',
+														}}
+													>
+														<Grid
+															item
+															lg={6}
+															md={6}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Capability'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Capability"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																style={{ width: '100%' }}
 																onChange={(e) =>
-																	onChange(e.target.value, 'experiences', 'capability')
+																	onChange(
+																		e.target.value,
+																		'experiences',
+																		'capability'
+																	)
 																}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
-														<Grid item lg={6} md={6} sm={12} xs={12}>
+														<Grid
+															item
+															lg={6}
+															md={6}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Remarks'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Remarks"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																onChange={(e) =>
-																	onChange(e.target.value, 'experiences', 'remarks')
+																	onChange(
+																		e.target.value,
+																		'experiences',
+																		'remarks'
+																	)
 																}
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
-														<Grid item lg={6} md={8} sm={12} xs={12}>
+														<Grid
+															item
+															lg={6}
+															md={8}
+															sm={12}
+															xs={12}
+														>
 															<CssTextField
-																id='outlined-basic'
-																label='Evaluation Summary'
-																variant='outlined'
-																type='text'
-																size='small'
-																autocomplete='off'
+																id="outlined-basic"
+																label="Evaluation Summary"
+																variant="outlined"
+																type="text"
+																size="small"
+																autocomplete="off"
 																style={{ width: '100%' }}
-																inputProps={{ style: { fontSize: 14 } }}
+																inputProps={{
+																	style: { fontSize: 14 },
+																}}
 																onChange={(e) =>
-																	onChange(e.target.value, 'experiences', 'summary')
+																	onChange(
+																		e.target.value,
+																		'experiences',
+																		'summary'
+																	)
 																}
-																InputLabelProps={{ style: { fontSize: 14 } }}
+																InputLabelProps={{
+																	style: { fontSize: 14 },
+																}}
 															/>
 														</Grid>
 													</Grid>
@@ -654,10 +856,11 @@ const EmpCompetencEval = ({ history }) => {
 									))} */}
 								<div>
 									<Button
-										variant='outlined'
-										color='primary'
-										type='submit'
-										className={classes.addButton}>
+										variant="outlined"
+										color="primary"
+										type="submit"
+										className={classes.addButton}
+									>
 										Submit
 									</Button>
 								</div>
@@ -665,9 +868,9 @@ const EmpCompetencEval = ({ history }) => {
 						)}
 					</Formik>
 				</Container>
-				<table class='table table-bordered border-dark table-responsive text-center mt-5'>
-					<thead class='thead-inverse'>
-						<tr class='bg-dark text-light'>
+				<table class="table table-bordered border-dark table-responsive text-center mt-5">
+					<thead class="thead-inverse">
+						<tr class="bg-dark text-light">
 							<th>Department</th>
 							<th>Designation</th>
 							<th>Emp Name</th>
@@ -684,18 +887,21 @@ const EmpCompetencEval = ({ history }) => {
 							<td>
 								{/* {capitalize(el?.employee?.finalDesignation?.name)} */}
 							</td>
-							<td>
-								{/* {capitalize(el?.employee?.name)} */}
-							</td>
+							<td>{/* {capitalize(el?.employee?.name)} */}</td>
 							<td>
 								<div
-									style={{ display: 'flex', gap: '.5rem', justifyContent: 'center' }}>
+									style={{
+										display: 'flex',
+										gap: '.5rem',
+										justifyContent: 'center',
+									}}
+								>
 									<Button
-										variant='outlined'
-										color='primary'
-										text='View'
-										size='small'
-										classNames='bg-dark text-light'
+										variant="outlined"
+										color="primary"
+										text="View"
+										size="small"
+										classNames="bg-dark text-light"
 										onClick={() => {
 											history.push({
 												pathname: `/hr/print_emp_competency_evaluation`,
@@ -704,20 +910,20 @@ const EmpCompetencEval = ({ history }) => {
 										}}
 									/>
 									<Button
-										variant='outlined'
-										color='primary'
-										text='Edit'
-										size='small'
+										variant="outlined"
+										color="primary"
+										text="Edit"
+										size="small"
 										// onClick={() => handleOpen(el)}
-										classNames='bg-warning text-dark'
+										classNames="bg-warning text-dark"
 									/>
 									<Button
-										variant='outlined'
-										color='primary'
-										text='Delete'
-										size='small'
+										variant="outlined"
+										color="primary"
+										text="Delete"
+										size="small"
 										// onClick={() => deleteResponsibility(el?._id)}
-										classNames='bg-danger text-light'
+										classNames="bg-danger text-light"
 									/>
 								</div>
 							</td>

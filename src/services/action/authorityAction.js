@@ -15,7 +15,7 @@ export const getAuthorities = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/authority`,
+			`${process.env.REACT_APP_API_URL}/authority`
 		);
 
 		if (data.success) {
@@ -38,10 +38,8 @@ export const createAuthorities = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/authority`,
-			values,
+			values
 		);
-
-		console.log(data);
 
 		if (data.status === 'OK') {
 			dispatch({
@@ -63,7 +61,7 @@ export const updateAuthorities = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/authority/${id}`,
-			values,
+			values
 		);
 
 		if (data.status === 'OK') {
@@ -85,7 +83,7 @@ export const deleteAuthorities = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/authority/${params}`,
+			`${process.env.REACT_APP_API_URL}/authority/${params}`
 		);
 
 		if (data.status === 'OK') {
@@ -109,7 +107,6 @@ const dispatchError = (err, dispatch, cb) => {
 		});
 	} else {
 		if (cb) cb('Network Error');
-		console.log(err);
 		dispatch({
 			type: AUTHORITY_FAIL,
 			payload: 'Network Error',

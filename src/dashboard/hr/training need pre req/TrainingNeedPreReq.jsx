@@ -154,7 +154,7 @@ const TrainingNeedPreReq = () => {
 					}, 4000);
 				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, []);
 
@@ -178,7 +178,7 @@ const TrainingNeedPreReq = () => {
 					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -193,12 +193,11 @@ const TrainingNeedPreReq = () => {
 					}, 4000);
 				}
 				setDeleteLoading(false);
-			}),
+			})
 		);
 	};
 
 	const onParamSubmit = (values) => {
-		console.log(values);
 		setParams([...params, values.param]);
 	};
 
@@ -221,7 +220,7 @@ const TrainingNeedPreReq = () => {
 		<Sidenav title={'Training Needs Pre-Requestions'}>
 			{deleteLoading && (
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Loader type='TailSpin' width='2rem' height='2rem' />
+					<Loader type="TailSpin" width="2rem" height="2rem" />
 				</div>
 			)}
 			{deleteError && (
@@ -234,18 +233,19 @@ const TrainingNeedPreReq = () => {
 					<Formik
 						initialValues={initialValuesForTopForm}
 						validationSchema={validationSchemaForTopForm}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<>
 								<Form>
 									<CssTextField
-										id='outlined-basic'
-										label='Select Department'
-										variant='outlined'
-										type='text'
-										size='small'
+										id="outlined-basic"
+										label="Select Department"
+										variant="outlined"
+										type="text"
+										size="small"
 										select
-										autocomplete='off'
+										autocomplete="off"
 										style={{ width: '25%' }}
 										inputProps={{
 											style: {
@@ -260,8 +260,15 @@ const TrainingNeedPreReq = () => {
 										onChange={props.handleChange('department')}
 										onBlur={props.handleBlur('department')}
 										value={props.values.department}
-										helperText={props.touched.department && props.errors.department}
-										error={props.touched.department && props.errors.department}>
+										helperText={
+											props.touched.department &&
+											props.errors.department
+										}
+										error={
+											props.touched.department &&
+											props.errors.department
+										}
+									>
 										{!departments || !departments.length ? (
 											<p>Data Not Found</p>
 										) : (
@@ -273,13 +280,13 @@ const TrainingNeedPreReq = () => {
 										)}
 									</CssTextField>
 									<CssTextField
-										id='outlined-basic'
-										label='Select Designation'
-										variant='outlined'
-										type='text'
-										size='small'
+										id="outlined-basic"
+										label="Select Designation"
+										variant="outlined"
+										type="text"
+										size="small"
 										select
-										autocomplete='off'
+										autocomplete="off"
 										style={{ width: '25%', marginLeft: '0.5rem' }}
 										inputProps={{
 											style: {
@@ -289,13 +296,20 @@ const TrainingNeedPreReq = () => {
 										onChange={props.handleChange('designation')}
 										onBlur={props.handleBlur('designation')}
 										value={props.values.designation}
-										helperText={props.touched.designation && props.errors.designation}
-										error={props.touched.designation && props.errors.designation}
+										helperText={
+											props.touched.designation &&
+											props.errors.designation
+										}
+										error={
+											props.touched.designation &&
+											props.errors.designation
+										}
 										InputLabelProps={{
 											style: {
 												fontSize: 14,
 											},
-										}}>
+										}}
+									>
 										{!designations || !designations.length ? (
 											<p>Data Not Found</p>
 										) : (
@@ -307,12 +321,12 @@ const TrainingNeedPreReq = () => {
 										)}
 									</CssTextField>
 									<CssTextField
-										id='outlined-basic'
-										label='Pre-Requisition Name'
-										variant='outlined'
-										type='text'
-										size='small'
-										autocomplete='off'
+										id="outlined-basic"
+										label="Pre-Requisition Name"
+										variant="outlined"
+										type="text"
+										size="small"
+										autocomplete="off"
 										style={{ width: '25%', marginLeft: '0.5rem' }}
 										inputProps={{
 											style: {
@@ -322,37 +336,42 @@ const TrainingNeedPreReq = () => {
 										onChange={props.handleChange('name')}
 										onBlur={props.handleBlur('name')}
 										value={props.values.name}
-										helperText={props.touched.name && props.errors.name}
+										helperText={
+											props.touched.name && props.errors.name
+										}
 										error={props.touched.name && props.errors.name}
 										InputLabelProps={{
 											style: {
 												fontSize: 14,
 											},
-										}}></CssTextField>
+										}}
+									></CssTextField>
 								</Form>
 								<Formik
 									initialValues={initialValuesForNestedForm}
 									validationSchema={validationSchemaForNestedForm}
-									onSubmit={onParamSubmit}>
+									onSubmit={onParamSubmit}
+								>
 									{(props) => (
 										<div>
 											<div
 												style={{
 													marginTop: 30,
 													marginBottom: 30,
-												}}>
+												}}
+											>
 												<hr />
 											</div>
 											<Container className={classes.mainContainer}>
-												<h4 className='text-left'>Prerequisites</h4>
+												<h4 className="text-left">Prerequisites</h4>
 												<Form>
 													<CssTextField
-														id='outlined-basic'
-														label='Point'
-														variant='outlined'
-														type='text'
-														size='small'
-														autocomplete='off'
+														id="outlined-basic"
+														label="Point"
+														variant="outlined"
+														type="text"
+														size="small"
+														autocomplete="off"
 														style={{ width: '25%' }}
 														inputProps={{
 															style: {
@@ -362,17 +381,24 @@ const TrainingNeedPreReq = () => {
 														onChange={props.handleChange('param')}
 														onBlur={props.handleBlur('param')}
 														value={props.values.param}
-														helperText={props.touched.param && props.errors.param}
-														error={props.touched.param && props.errors.param}
+														helperText={
+															props.touched.param &&
+															props.errors.param
+														}
+														error={
+															props.touched.param &&
+															props.errors.param
+														}
 														InputLabelProps={{
 															style: {
 																fontSize: 14,
 															},
-														}}></CssTextField>
+														}}
+													></CssTextField>
 													<Button
-														variant='outlined'
-														size='small'
-														text='Add More'
+														variant="outlined"
+														size="small"
+														text="Add More"
 														classNames={classes.addMoreButton}
 													/>
 												</Form>
@@ -387,17 +413,19 @@ const TrainingNeedPreReq = () => {
 											columnGap: '1rem',
 											alignItems: 'center',
 											marginBottom: '1rem',
-										}}>
+										}}
+									>
 										<p
 											style={{
 												padding: 0,
 												margin: 0,
-											}}>
+											}}
+										>
 											{el}
 										</p>
 										<div data-index={i} onClick={onRemoveParam}>
 											<MdCancel
-												size='20'
+												size="20"
 												style={{
 													cursor: 'pointer',
 													pointerEvents: 'none',
@@ -409,10 +437,10 @@ const TrainingNeedPreReq = () => {
 								<Form>
 									<div>
 										<Button
-											variant='outlined'
-											text='Submit'
+											variant="outlined"
+											text="Submit"
 											loading={createLoading}
-											loaderColor='#333'
+											loaderColor="#333"
 											classNames={classes.addButton}
 										/>
 									</div>
@@ -433,8 +461,14 @@ const TrainingNeedPreReq = () => {
 							alignItems: 'center',
 							justifyContent: 'center',
 							marginTop: '3rem',
-						}}>
-						<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+						}}
+					>
+						<Loader
+							type="TailSpin"
+							color="#000"
+							width="3rem"
+							height="3rem"
+						/>
 					</div>
 				) : requisitions?.length === 0 ? (
 					<p>There is no data found.</p>
@@ -443,37 +477,65 @@ const TrainingNeedPreReq = () => {
 						<TableContainer className={classes.tableContainer}>
 							<Table
 								stickyHeader
-								className='table table-dark'
+								className="table table-dark"
 								style={{
 									backgroundColor: '#d0cfcf',
 									border: '1px solid grey',
-								}}>
+								}}
+							>
 								<TableHead>
-									<TableRow hover role='checkbox'>
-										<StyledTableCell align='center'>Sr.No</StyledTableCell>
-										<StyledTableCell align='center'>Headings</StyledTableCell>
-										<StyledTableCell align='center'>Department</StyledTableCell>
-										<StyledTableCell align='center'>Designation</StyledTableCell>
-										<StyledTableCell align='center'>Params</StyledTableCell>
-										<StyledTableCell align='center'>Action</StyledTableCell>
+									<TableRow hover role="checkbox">
+										<StyledTableCell align="center">
+											Sr.No
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Headings
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Department
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Designation
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Params
+										</StyledTableCell>
+										<StyledTableCell align="center">
+											Action
+										</StyledTableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{requisitions.map((el, i) => (
 										<StyledTableRow key={i}>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{i + 1}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.department?.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.designation?.name}
 											</StyledTableCell>
-											<StyledTableCell className='text-dark bg-light' align='center'>
+											<StyledTableCell
+												className="text-dark bg-light"
+												align="center"
+											>
 												{el?.preRequisition?.map((el) => (
 													<div
 														style={{
@@ -482,34 +544,39 @@ const TrainingNeedPreReq = () => {
 															textAlign: 'center',
 															alignItems: 'center',
 															justifyContent: 'center',
-														}}>
+														}}
+													>
 														<span>{el}</span>
 													</div>
 												))}
 											</StyledTableCell>
-											<StyledTableCell className='text-light bg-light' align='center'>
+											<StyledTableCell
+												className="text-light bg-light"
+												align="center"
+											>
 												<div
 													style={{
 														display: 'flex',
 														flexDirection: 'row',
 														alignItems: 'center',
 														justifyContent: 'center',
-													}}>
+													}}
+												>
 													<Button
-														variant='contained'
-														className='bg-dark text-light'
-														size='small'
+														variant="contained"
+														className="bg-dark text-light"
+														size="small"
 														onClick={() => handleOpen(el)}
-														text='Edit'
+														text="Edit"
 													/>
 
 													<Button
-														variant='contained'
-														color='secondary'
-														size='small'
+														variant="contained"
+														color="secondary"
+														size="small"
 														onClick={() => onDelete(el._id)}
 														style={{ marginLeft: 10 }}
-														text='Delete'
+														text="Delete"
 													/>
 												</div>
 											</StyledTableCell>

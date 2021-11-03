@@ -83,10 +83,8 @@ const validationSchema = yup.object({
 
 const Vehicles = () => {
 	const [fetchLoading, setFetchLoading] = React.useState(true);
-	const [fetchError, setFetchError] = React.useState('');
 	const [createLoading, setCreateLoading] = React.useState(false);
 	const [createError, setCreateError] = React.useState('');
-	const [success, setSuccess] = React.useState('');
 	const [deleteLoading, setDeleteLoading] = React.useState('');
 	const [deleteError, setDeleteError] = React.useState('');
 	const [vehicle, setvehicle] = useState('');
@@ -97,20 +95,13 @@ const Vehicles = () => {
 	const dispatch = useDispatch();
 
 	const { vehicles } = useSelector((state) => state.vehicles);
-	console.log('vehicles', vehicles);
 
 	useEffect(() => {
 		setFetchLoading(true);
 		dispatch(
 			getVehicles(null, (err) => {
-				if (err) {
-					setFetchError(err);
-					setTimeout(() => {
-						setFetchError('');
-					}, 4000);
-				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
 
@@ -123,14 +114,9 @@ const Vehicles = () => {
 					setTimeout(() => {
 						setCreateError('');
 					}, 4000);
-				} else {
-					setSuccess('Category added successfully');
-					setTimeout(() => {
-						setSuccess('');
-					}, 4000);
 				}
 				setCreateLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -154,7 +140,7 @@ const Vehicles = () => {
 					}, 4000);
 				}
 				setDeleteLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -163,7 +149,7 @@ const Vehicles = () => {
 			<EditVehicles show={open} handler={handleClose} vehicle={vehicle} />
 			{deleteLoading && (
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<Loader type='TailSpin' width='2rem' height='2rem' />
+					<Loader type="TailSpin" width="2rem" height="2rem" />
 				</div>
 			)}
 			{deleteError && (
@@ -176,119 +162,169 @@ const Vehicles = () => {
 					<Formik
 						initialValues={initialValue}
 						validationSchema={validationSchema}
-						onSubmit={onSubmit}>
+						onSubmit={onSubmit}
+					>
 						{(props) => (
 							<Form>
 								<Container>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid
+										container
+										spacing={1}
+										style={{ marginTop: 15 }}
+									>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Vehicle No.'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
+												id="outlined-basic"
+												label="Vehicle No."
+												variant="outlined"
+												type="text"
+												size="small"
+												autoComplete="off"
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												onChange={props.handleChange('number')}
 												onBlur={props.handleBlur('number')}
 												value={props.values.number}
-												helperText={props.touched.number && props.errors.number}
-												error={props.touched.number && props.errors.number}
+												helperText={
+													props.touched.number &&
+													props.errors.number
+												}
+												error={
+													props.touched.number &&
+													props.errors.number
+												}
 											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Vehicle Type'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
+												id="outlined-basic"
+												label="Vehicle Type"
+												variant="outlined"
+												type="text"
+												size="small"
+												autoComplete="off"
 												select
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												onChange={props.handleChange('type')}
 												onBlur={props.handleBlur('type')}
 												value={props.values.type}
-												helperText={props.touched.type && props.errors.type}
-												error={props.touched.type && props.errors.type}>
-												<MenuItem value=''>
+												helperText={
+													props.touched.type && props.errors.type
+												}
+												error={
+													props.touched.type && props.errors.type
+												}
+											>
+												<MenuItem value="">
 													<em>None</em>
 												</MenuItem>
-												<MenuItem value='truck'>Truck</MenuItem>
-												<MenuItem value='heavy truck'>Heavy Truck</MenuItem>
+												<MenuItem value="truck">Truck</MenuItem>
+												<MenuItem value="heavy truck">
+													Heavy Truck
+												</MenuItem>
 											</CssTextField>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Driver Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
+												id="outlined-basic"
+												label="Driver Name"
+												variant="outlined"
+												type="text"
+												size="small"
+												autoComplete="off"
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												onChange={props.handleChange('driverName')}
 												onBlur={props.handleBlur('driverName')}
 												value={props.values.driverName}
-												helperText={props.touched.driverName && props.errors.driverName}
-												error={props.touched.driverName && props.errors.driverName}
+												helperText={
+													props.touched.driverName &&
+													props.errors.driverName
+												}
+												error={
+													props.touched.driverName &&
+													props.errors.driverName
+												}
 											/>
 										</Grid>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='Phone No.'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
+												id="outlined-basic"
+												label="Phone No."
+												variant="outlined"
+												type="text"
+												size="small"
+												autoComplete="off"
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												onChange={props.handleChange('phoneNum')}
 												onBlur={props.handleBlur('phoneNum')}
 												value={props.values.phoneNum}
-												helperText={props.touched.phoneNum && props.errors.phoneNum}
-												error={props.touched.phoneNum && props.errors.phoneNum}
+												helperText={
+													props.touched.phoneNum &&
+													props.errors.phoneNum
+												}
+												error={
+													props.touched.phoneNum &&
+													props.errors.phoneNum
+												}
 											/>
 										</Grid>
 									</Grid>
 								</Container>
 								<Container className={classes.mainContainer}>
-									<Grid container spacing={1} style={{ marginTop: 15 }}>
+									<Grid
+										container
+										spacing={1}
+										style={{ marginTop: 15 }}
+									>
 										<Grid item lg={3} md={3} sm={12} xs={12}>
 											<CssTextField
-												id='outlined-basic'
-												label='CNIC No.'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
+												id="outlined-basic"
+												label="CNIC No."
+												variant="outlined"
+												type="text"
+												size="small"
+												autoComplete="off"
 												style={{ width: '100%' }}
 												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
+												InputLabelProps={{
+													style: { fontSize: 14 },
+												}}
 												onChange={props.handleChange('cnicNum')}
 												onBlur={props.handleBlur('cnicNum')}
 												value={props.values.cnicNum}
-												helperText={props.touched.cnicNum && props.errors.cnicNum}
-												error={props.touched.cnicNum && props.errors.cnicNum}
+												helperText={
+													props.touched.cnicNum &&
+													props.errors.cnicNum
+												}
+												error={
+													props.touched.cnicNum &&
+													props.errors.cnicNum
+												}
 											/>
 										</Grid>
 									</Grid>
 									<div>
 										<Button
-											variant='outlined'
-											color='primary'
-											text='Add'
+											variant="outlined"
+											color="primary"
+											text="Add"
 											loading={createLoading}
-											loaderColor='#333'
+											loaderColor="#333"
 											classNames={classes.addButton}
 										/>
 										{createError && <p>{createError}</p>}
@@ -304,17 +340,26 @@ const Vehicles = () => {
 								alignItems: 'center',
 								justifyContent: 'center',
 								marginTop: '3rem',
-							}}>
-							<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+							}}
+						>
+							<Loader
+								type="TailSpin"
+								color="#000"
+								width="3rem"
+								height="3rem"
+							/>
 						</div>
 					) : vehicles?.length === 0 ? (
 						<p>There is no data found.</p>
 					) : (
 						<div className={classes.dataTable}>
 							<TableContainer className={classes.tableContainer}>
-								<div className='container-fluid' style={{ textAlign: 'left' }}>
-									<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
-										<thead class='bg-dark text-light'>
+								<div
+									className="container-fluid"
+									style={{ textAlign: 'left' }}
+								>
+									<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+										<thead class="bg-dark text-light">
 											<tr>
 												<th>S.No.</th>
 												<th>Vehicle No.</th>
@@ -337,9 +382,13 @@ const Vehicles = () => {
 													<td>{el.cnicNum}</td>
 													<td>
 														{el?.inspected ? (
-															<span className='text-success'>Inspected</span>
+															<span className="text-success">
+																Inspected
+															</span>
 														) : (
-															<span className='text-danger'>Un - Inspected</span>
+															<span className="text-danger">
+																Un - Inspected
+															</span>
 														)}
 													</td>
 													<td>
@@ -349,22 +398,25 @@ const Vehicles = () => {
 																flexDirection: 'row',
 																alignItems: 'center',
 																justifyContent: 'center',
-															}}>
+															}}
+														>
 															<Button
-																variant='contained'
-																classNames='bg-dark text-light'
-																size='small'
+																variant="contained"
+																classNames="bg-dark text-light"
+																size="small"
 																onClick={() => handleOpen(el)}
-																text='Edit'
+																text="Edit"
 															/>
 
 															<Button
-																variant='contained'
-																color='secondary'
-																size='small'
-																onClick={() => deleteVehicle(el._id)}
+																variant="contained"
+																color="secondary"
+																size="small"
+																onClick={() =>
+																	deleteVehicle(el._id)
+																}
 																style={{ marginLeft: 10 }}
-																text='Delete'
+																text="Delete"
 															/>
 														</div>
 													</td>

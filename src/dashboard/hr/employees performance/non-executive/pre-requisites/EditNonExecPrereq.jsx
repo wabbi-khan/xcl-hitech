@@ -124,8 +124,6 @@ const EditNonExecPrereq = (props) => {
 	};
 
 	const onSubmit = (values) => {
-		console.log({ heading: values.heading, list: [...params] });
-		console.log(assessment);
 		dispatch(
 			updateNonExtEmpAssesAction(
 				assessment._id,
@@ -135,8 +133,8 @@ const EditNonExecPrereq = (props) => {
 					setTimeout(() => {
 						setSuccess(false);
 					}, 4000);
-				},
-			),
+				}
+			)
 		);
 	};
 
@@ -153,44 +151,58 @@ const EditNonExecPrereq = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit Vendor</h5>
+						<h5 className="text-center mt-4">Edit Vendor</h5>
 						<Container className={classes.mainContainer}>
 							<Formik
 								initialValues={initialValues}
 								validationSchema={validationSchema}
 								enableReinitialize
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<>
 										<Form>
 											<Grid container spacing={1}>
 												<Grid item lg={3} md={3} sm={12} xs={12}>
 													<CssTextField
-														id='outlined-basic'
-														label='Add Heading Name'
-														variant='outlined'
-														type='text'
-														autocomplete='off'
-														size='small'
+														id="outlined-basic"
+														label="Add Heading Name"
+														variant="outlined"
+														type="text"
+														autocomplete="off"
+														size="small"
 														className={classes.inputFieldStyle}
-														inputProps={{ style: { fontSize: 14 } }}
-														InputLabelProps={{ style: { fontSize: 14 } }}
-														onChange={props.handleChange('heading')}
+														inputProps={{
+															style: { fontSize: 14 },
+														}}
+														InputLabelProps={{
+															style: { fontSize: 14 },
+														}}
+														onChange={props.handleChange(
+															'heading'
+														)}
 														onBlur={props.handleBlur('heading')}
 														value={props.values.heading}
-														helperText={props.touched.heading && props.errors.heading}
-														error={props.touched.heading && props.errors.heading}
+														helperText={
+															props.touched.heading &&
+															props.errors.heading
+														}
+														error={
+															props.touched.heading &&
+															props.errors.heading
+														}
 													/>
 												</Grid>
 											</Grid>
@@ -204,48 +216,86 @@ const EditNonExecPrereq = (props) => {
 												<Formik
 													initialValues={initialValuesSub}
 													validationSchema={validationSchemaSub}
-													onSubmit={onParamSubmit}>
+													onSubmit={onParamSubmit}
+												>
 													{(props) => (
 														<Form>
-															<Grid item lg={12} md={12} sm={12} xs={12}>
+															<Grid
+																item
+																lg={12}
+																md={12}
+																sm={12}
+																xs={12}
+															>
 																<CssTextField
-																	id='outlined-basic'
-																	label='Add Parameter'
-																	variant='outlined'
-																	type='text'
-																	size='small'
-																	autocomplete='off'
-																	inputProps={{ style: { fontSize: 14 } }}
+																	id="outlined-basic"
+																	label="Add Parameter"
+																	variant="outlined"
+																	type="text"
+																	size="small"
+																	autocomplete="off"
+																	inputProps={{
+																		style: { fontSize: 14 },
+																	}}
 																	style={{ width: '30%' }}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																	onChange={props.handleChange('value')}
-																	onBlur={props.handleBlur('value')}
+																	InputLabelProps={{
+																		style: { fontSize: 14 },
+																	}}
+																	onChange={props.handleChange(
+																		'value'
+																	)}
+																	onBlur={props.handleBlur(
+																		'value'
+																	)}
 																	value={props.values.value}
-																	helperText={props.touched.value && props.errors.value}
-																	error={props.touched.value && props.errors.value}
+																	helperText={
+																		props.touched.value &&
+																		props.errors.value
+																	}
+																	error={
+																		props.touched.value &&
+																		props.errors.value
+																	}
 																/>
 																<CssTextField
-																	id='outlined-basic'
-																	label='Add Total No.'
-																	variant='outlined'
-																	type='number'
-																	size='small'
-																	className='ml-2'
-																	autocomplete='off'
-																	inputProps={{ style: { fontSize: 14 } }}
+																	id="outlined-basic"
+																	label="Add Total No."
+																	variant="outlined"
+																	type="number"
+																	size="small"
+																	className="ml-2"
+																	autocomplete="off"
+																	inputProps={{
+																		style: { fontSize: 14 },
+																	}}
 																	style={{ width: '30%' }}
-																	InputLabelProps={{ style: { fontSize: 14 } }}
-																	onChange={props.handleChange('marks')}
-																	onBlur={props.handleBlur('marks')}
+																	InputLabelProps={{
+																		style: { fontSize: 14 },
+																	}}
+																	onChange={props.handleChange(
+																		'marks'
+																	)}
+																	onBlur={props.handleBlur(
+																		'marks'
+																	)}
 																	value={props.values.marks}
-																	error={props.touched.marks && props.errors.marks}
-																	helperText={props.touched.marks && props.errors.marks}
+																	error={
+																		props.touched.marks &&
+																		props.errors.marks
+																	}
+																	helperText={
+																		props.touched.marks &&
+																		props.errors.marks
+																	}
 																/>
 																<Button
-																	variant='contained'
-																	size='small'
-																	className={classes.addMoreParaBtn}
-																	type='submit'>
+																	variant="contained"
+																	size="small"
+																	className={
+																		classes.addMoreParaBtn
+																	}
+																	type="submit"
+																>
 																	Add
 																</Button>
 															</Grid>
@@ -260,12 +310,21 @@ const EditNonExecPrereq = (props) => {
 														columnGap: '1rem',
 														alignItems: 'center',
 														marginBottom: '1rem',
-													}}>
-													<p style={{ padding: 0, margin: 0 }}>{el.value}</p>
-													<div data-index={i} onClick={onRemoveParam}>
+													}}
+												>
+													<p style={{ padding: 0, margin: 0 }}>
+														{el.value}
+													</p>
+													<div
+														data-index={i}
+														onClick={onRemoveParam}
+													>
 														<MdCancel
-															size='20'
-															style={{ cursor: 'pointer', pointerEvents: 'none' }}
+															size="20"
+															style={{
+																cursor: 'pointer',
+																pointerEvents: 'none',
+															}}
 														/>
 													</div>
 												</div>
@@ -274,10 +333,11 @@ const EditNonExecPrereq = (props) => {
 										<div>
 											<Form>
 												<Button
-													variant='outlined'
-													color='primary'
-													type='submit'
-													className={classes.addButton}>
+													variant="outlined"
+													color="primary"
+													type="submit"
+													className={classes.addButton}
+												>
 													Submit
 												</Button>
 												{success && <p>Successfully updated</p>}
@@ -288,11 +348,12 @@ const EditNonExecPrereq = (props) => {
 								)}
 							</Formik>
 							<Button
-								variant='outlined'
-								color='primary'
-								type='submit'
+								variant="outlined"
+								color="primary"
+								type="submit"
 								onClick={handleClose}
-								className={classes.addButton}>
+								className={classes.addButton}
+							>
 								Cancel
 							</Button>
 						</Container>

@@ -22,7 +22,6 @@ export const fetchNonExecRatReducer = (state = { nonExecRat: [] }, action) => {
 				error: action.payload,
 			};
 		case NONEXECRAT_FETCH_SUCCESS:
-			console.log(action.payload);
 			return {
 				loading: false,
 				error: '',
@@ -35,7 +34,7 @@ export const fetchNonExecRatReducer = (state = { nonExecRat: [] }, action) => {
 				nonExecRat: state.nonExecRat.map((nonExecRat) =>
 					nonExecRat._id === action.payload.rating._id
 						? action.payload.rating
-						: nonExecRat,
+						: nonExecRat
 				),
 			};
 		case NONEXECRAT_CREATE_SUCCESS:
@@ -49,7 +48,7 @@ export const fetchNonExecRatReducer = (state = { nonExecRat: [] }, action) => {
 				loading: false,
 				error: '',
 				nonExecRat: state.nonExecRat.filter(
-					(nonExecRat) => nonExecRat._id !== action.payload,
+					(nonExecRat) => nonExecRat._id !== action.payload
 				),
 			};
 		default:

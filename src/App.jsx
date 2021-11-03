@@ -147,10 +147,10 @@ import SalesContract from './dashboard/marketing-sales/sales contract/SalesContr
 import ContractReview from './dashboard/marketing-sales/contract review/ContractReview';
 import CustomerFeedback from './dashboard/marketing-sales/customer feedback/CustomerFeedback';
 import CustomerComplaint from './dashboard/marketing-sales/customer complaint/CustomerComplaint';
-import CreatePayroll from './dashboard/Accounts/Payroll/CreatePayroll';
+import CreatePayroll from './dashboard/Accounts/payroll/CreatePayroll';
 import PrintSalesContract from './dashboard/marketing-sales/sales contract/PrintSalesContract';
 import PrintContractReview from './dashboard/marketing-sales/contract review/PrintContractReview';
-import SalaryVoucher from './dashboard/Accounts/Payroll/Vouchers/SalaryVoucher';
+import SalaryVoucher from './dashboard/Accounts/payroll/Vouchers/SalaryVoucher';
 import PrintCustomerFeedback from './dashboard/marketing-sales/customer feedback/PrintCustomerFeedback';
 import PrintCustomerComplaintForm from './dashboard/marketing-sales/customer complaint/PrintCustomerComplaintForm';
 
@@ -753,7 +753,6 @@ function App() {
 				component={ProductionOnlineInsRep}
 			/>
 			{/* ===================================================================== */}
-			
 			//Accounts Module Routes
 			<Route
 				exact
@@ -772,7 +771,11 @@ function App() {
 				component={Entries}
 			/>
 			<Route exact path="/payroll/create" component={CreatePayroll} />
-			<Route exact path="/payroll/salary_voucher" component={SalaryVoucher} />
+			<Route
+				exact
+				path="/payroll/salary_voucher"
+				component={SalaryVoucher}
+			/>
 		</Switch>
 	);
 }

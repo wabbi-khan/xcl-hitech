@@ -1259,29 +1259,3 @@ const SalesContract = ({ history }) => {
 };
 
 export default withRouter(SalesContract);
-
-{
-	/*
-
-
-
-
-
-
-{/* <CustomTable
-        fetchLoading={fetchLoading}
-        data={[{}]}
-        columnHeadings={[
-          "Sr.No",
-          "Sales Contract No.",
-          "NTN No.",
-          "STRN No.",
-          "Company/Buyer Name",
-          "Time Of Delivery"
-        ]}
-        keys={["", "", "", "", ""]}
-        firstOptionText="View"
-        onFirstOptionClick={printContract}
-        withSrNo
-      /> */
-}

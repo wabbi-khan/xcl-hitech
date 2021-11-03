@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import TableContainer from '@material-ui/core/TableContainer';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
 	fetchSinglePurchaseOrderAction,
 	fetchPurchaseOrderAction,
@@ -101,9 +101,8 @@ const GoodReceived = (props) => {
 	const classes = useStyles();
 
 	const { history, location } = props;
-	console.log(props)
 
-	const { order } = location.state
+	const { order } = location.state;
 
 	const id = props.match.params.id;
 
@@ -116,7 +115,6 @@ const GoodReceived = (props) => {
 	}, [dispatch, id]);
 
 	// const { order } = useSelector((state) => state.orders);
-	console.log(order);
 
 	// const onSubmitDate = async (props) => {
 	// 	// try {
@@ -125,100 +123,95 @@ const GoodReceived = (props) => {
 	// 	// 		props,
 	// 	// 	);
 	// 	// 	window.location.reload();
-	// 	// 	console.log('submit');
 	// 	// } catch (error) {
-	// 	// 	console.log(error);
 	// 	// }
 	// };
 
 	return (
 		<Sidenav title={'Good Received and Inspection Report (Inspected)'}>
 			<div>
-				{
-					!order ? null : (
-						<Container className={classes.mainContainer}>
-							<Grid container spacing={1} style={{ marginTop: 15 }}>
+				{!order ? null : (
+					<Container className={classes.mainContainer}>
+						<Grid container spacing={1} style={{ marginTop: 15 }}>
+							<Grid item lg={3} md={3} sm={12} xs={12}>
+								<CssTextField
+									id="outlined-basic"
+									label="P.R. No."
+									variant="outlined"
+									type="text"
+									size="small"
+									autoComplete="off"
+									disabled
+									defaultValue={order?.prNum}
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								></CssTextField>
+							</Grid>
+							<Grid item lg={3} md={3} sm={12} xs={12}>
+								<CssTextField
+									id="outlined-basic"
+									label="P.O. No."
+									variant="outlined"
+									type="text"
+									size="small"
+									autoComplete="off"
+									disabled
+									defaultValue={order?.poNum}
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								/>
+							</Grid>
+							{!order.vendor ? null : (
 								<Grid item lg={3} md={3} sm={12} xs={12}>
 									<CssTextField
-										id='outlined-basic'
-										label='P.R. No.'
-										variant='outlined'
-										type='text'
-										size='small'
-										autoComplete='off'
+										id="outlined-basic"
+										label="Received From"
+										variant="outlined"
+										type="text"
+										size="small"
+										autoComplete="off"
 										disabled
-										defaultValue={order?.prNum}
-										style={{ width: '100%' }}
-										inputProps={{ style: { fontSize: 14 } }}
-										InputLabelProps={{ style: { fontSize: 14 } }}></CssTextField>
-								</Grid>
-								<Grid item lg={3} md={3} sm={12} xs={12}>
-									<CssTextField
-										id='outlined-basic'
-										label='P.O. No.'
-										variant='outlined'
-										type='text'
-										size='small'
-										autoComplete='off'
-										disabled
-										defaultValue={order?.poNum}
+										defaultValue={order?.vendor.name}
 										style={{ width: '100%' }}
 										inputProps={{ style: { fontSize: 14 } }}
 										InputLabelProps={{ style: { fontSize: 14 } }}
 									/>
 								</Grid>
-								{
-									!order.vendor ? null : (
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Received From'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												disabled
-												defaultValue={order?.vendor.name}
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-											/>
-										</Grid>
-									)
-								}
-								{/* {
+							)}
+							{/* {
 									!order.department ? null : ( */}
-										<Grid item lg={3} md={3} sm={12} xs={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Department'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												disabled
-												// defaultValue={order?.department.name}
-												style={{ width: '100%' }}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-											/>
-										</Grid>
-									{/* )
-								} */}
+							<Grid item lg={3} md={3} sm={12} xs={12}>
+								<CssTextField
+									id="outlined-basic"
+									label="Department"
+									variant="outlined"
+									type="text"
+									size="small"
+									autoComplete="off"
+									disabled
+									// defaultValue={order?.department.name}
+									style={{ width: '100%' }}
+									inputProps={{ style: { fontSize: 14 } }}
+									InputLabelProps={{ style: { fontSize: 14 } }}
+								/>
 							</Grid>
-						</Container>
-					)
-				}
+							{/* )
+								} */}
+						</Grid>
+					</Container>
+				)}
 				<Container className={classes.mainContainer}>
 					<Grid container spacing={1} style={{ marginTop: 15 }}>
 						<Grid item lg={3} md={3} sm={12} xs={12}>
 							<CssTextField
-								id='outlined-basic'
-								label='Description'
-								variant='outlined'
-								type='text'
-								size='small'
-								autoComplete='off'
+								id="outlined-basic"
+								label="Description"
+								variant="outlined"
+								type="text"
+								size="small"
+								autoComplete="off"
 								style={{ width: '100%' }}
 								inputProps={{ style: { fontSize: 14 } }}
 								InputLabelProps={{ style: { fontSize: 14 } }}
@@ -226,32 +219,33 @@ const GoodReceived = (props) => {
 						</Grid>
 						<Grid item lg={3} md={3} sm={12} xs={12}>
 							<CssTextField
-								id='outlined-basic'
-								label='Status of Inspection'
-								variant='outlined'
-								type='text'
-								size='small'
+								id="outlined-basic"
+								label="Status of Inspection"
+								variant="outlined"
+								type="text"
+								size="small"
 								select
-								autoComplete='off'
+								autoComplete="off"
 								style={{ width: '100%' }}
 								inputProps={{ style: { fontSize: 14 } }}
-								InputLabelProps={{ style: { fontSize: 14 } }}>
-								<MenuItem value=''>
+								InputLabelProps={{ style: { fontSize: 14 } }}
+							>
+								<MenuItem value="">
 									<em>None</em>
 								</MenuItem>
-								<MenuItem value='Accepted'>Accepted</MenuItem>
-								<MenuItem value='Rejected'>Rejected</MenuItem>
-								<MenuItem value='Signature'>Signature</MenuItem>
+								<MenuItem value="Accepted">Accepted</MenuItem>
+								<MenuItem value="Rejected">Rejected</MenuItem>
+								<MenuItem value="Signature">Signature</MenuItem>
 							</CssTextField>
 						</Grid>
 						<Grid item lg={3} md={3} sm={12} xs={12}>
 							<CssTextField
-								id='outlined-basic'
-								label='Remarks'
-								variant='outlined'
-								type='text'
-								size='small'
-								autoComplete='off'
+								id="outlined-basic"
+								label="Remarks"
+								variant="outlined"
+								type="text"
+								size="small"
+								autoComplete="off"
 								style={{ width: '100%' }}
 								inputProps={{ style: { fontSize: 14 } }}
 								InputLabelProps={{ style: { fontSize: 14 } }}
@@ -260,10 +254,11 @@ const GoodReceived = (props) => {
 					</Grid>
 					<div>
 						<Button
-							variant='outlined'
-							color='primary'
+							variant="outlined"
+							color="primary"
 							className={classes.addButton}
-							type='submit'>
+							type="submit"
+						>
 							Add
 						</Button>
 					</div>
@@ -271,9 +266,12 @@ const GoodReceived = (props) => {
 				<div className={classes.dataTable}>
 					<TableContainer className={classes.tableContainer}>
 						<h5>Inspected Orders</h5>
-						<div className='container-fluid' style={{ textAlign: 'left' }}>
-							<table class='table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3'>
-								<thead class='bg-dark text-light'>
+						<div
+							className="container-fluid"
+							style={{ textAlign: 'left' }}
+						>
+							<table class="table table-responsive table-hover table-striped table-bordered border-dark text-center mt-3">
+								<thead class="bg-dark text-light">
 									<tr>
 										<th>Date/Time</th>
 										<th>P.R. No.</th>
@@ -298,16 +296,17 @@ const GoodReceived = (props) => {
 										<td>{order?.remarks}</td>
 										<td>
 											<Button
-												variant='contained'
-												color='secondary'
-												size='small'
-												class='btn btn-sm bg-dark text-light'
+												variant="contained"
+												color="secondary"
+												size="small"
+												class="btn btn-sm bg-dark text-light"
 												onClick={() =>
 													history.push(
-														`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`,
+														`/storedashboard/good_received_and_inspection_report/good_rec_inspection_print/${order?._id}`
 													)
 												}
-												style={{ marginLeft: 2, marginTop: 2 }}>
+												style={{ marginLeft: 2, marginTop: 2 }}
+											>
 												View Report
 											</Button>
 										</td>
