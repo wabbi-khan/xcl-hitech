@@ -241,21 +241,25 @@ const CreatePayroll = ({ history }) => {
 		};
 		setCreateLoading(true);
 		dispatch(
-			createVouchers(values, (err) => {
+			createVouchers(values, (err, data) => {
 				if (err) {
 					setCreateError(err);
 					setTimeout(() => {
 						setCreateError('');
 					}, 4000);
 				} else {
-					// history.push({
-					// 	pathname: '/payroll/salary_voucher',
-					// 	state: {
-					// 		employees: employeesData,
-					// 		naration: values.naration,
-					// 		finalSal,
-					// 	},
-					// });
+					console.log(data);
+					history.push({
+						pathname: '/payroll/salary_voucher',
+						state: {
+							employees: employeesData,
+							naration: values.naration,
+							totalSal,
+							totalDeduction,
+							finalSal,
+							voucherNo: data.voucher.voucherNo,
+						},
+					});
 				}
 				setCreateLoading(false);
 			})

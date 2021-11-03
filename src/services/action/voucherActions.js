@@ -48,7 +48,7 @@ export const createVouchers = (values, cb) => async (dispatch) => {
 				type: VOUCHER_CREATE_SUCCESS,
 				payload: data.voucher,
 			});
-			if (cb) cb();
+			if (cb) cb(null, data);
 		}
 	} catch (err) {
 		dispatchError(err, dispatch, cb);

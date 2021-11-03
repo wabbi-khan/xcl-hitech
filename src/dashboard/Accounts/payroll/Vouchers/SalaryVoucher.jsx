@@ -5,7 +5,7 @@ const SalaryVoucher = ({ location }) => {
 	const state = location.state;
 
 	return (
-		<div className="container mt-5">
+		<div className="container-fluid mt-5">
 			<h4
 				style={{
 					fontWeight: 'bold',
@@ -23,7 +23,7 @@ const SalaryVoucher = ({ location }) => {
 			</div>
 			<div className="d-flex" style={{ gap: '.5rem' }}>
 				<p>Voucher #:</p>
-				<p style={{ textDecoration: 'underline' }}>{}</p>
+				<p style={{ textDecoration: 'underline' }}>{state.voucherNo}</p>
 			</div>
 			<div className="d-flex" style={{ gap: '.5rem' }}>
 				<p>To Account:</p>
@@ -55,7 +55,15 @@ const SalaryVoucher = ({ location }) => {
 						return (
 							<tr>
 								<td>{i + 1}</td>
-								<td>{emp.name}</td>
+								<td
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+									}}
+								>
+									<span>{emp.checked ? ' ✔' : '❌'}</span>
+									<span style={{ margin: '0 auto' }}>{emp.name}</span>
+								</td>
 								<td>{emp.name}</td>
 								<td>{emp.totalSalaryAfterDeduction}</td>
 							</tr>
@@ -67,6 +75,24 @@ const SalaryVoucher = ({ location }) => {
 							style={{ textAlign: 'right', fontWeight: 'bold' }}
 						>
 							Total Amount:
+						</td>
+						<td>{state.totalSal}</td>
+					</tr>
+					<tr>
+						<td
+							colspan="3"
+							style={{ textAlign: 'right', fontWeight: 'bold' }}
+						>
+							Total Deduction:
+						</td>
+						<td>{state.totalDeduction}</td>
+					</tr>
+					<tr>
+						<td
+							colspan="3"
+							style={{ textAlign: 'right', fontWeight: 'bold' }}
+						>
+							Total Sal After Deduction:
 						</td>
 						<td>{state.finalSal}</td>
 					</tr>
