@@ -667,7 +667,7 @@ function Sidenav(props) {
 					</IconButton>
 				</div>
 				<Divider />
-				<List>
+				{/* <List>
 					{['Dashboard'].map((text, index) => (
 						<ListItem button key={text}>
 							<ListItemIcon
@@ -866,7 +866,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Sales Contract" />
 							</ListItem>
-							{/* <ListItem
+							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -874,7 +874,7 @@ function Sidenav(props) {
 								}}
 							>
 								<ListItemText inset primary="Delivery Order" />
-							</ListItem> */}
+							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -906,14 +906,14 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Customer Complaint.." />
 							</ListItem>
-							{/* <ListItem
+							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('');
 								}}>
 								<ListItemText inset primary='Complaint Testing' />
-							</ListItem> */}
+							</ListItem>
 						</List>
 					</Collapse>
 				</List>
@@ -1049,14 +1049,14 @@ function Sidenav(props) {
 					<Collapse in={open2} timeout="auto" unmountOnExit>
 						<Divider />
 						<List component="div" disablePadding>
-							{/* <ListItem
+							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/store_categories');
 								}}>
 								<ListItemText inset primary='Categories' />
-							</ListItem> */}
+							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1086,14 +1086,14 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Goods Received(GRIN)" />
 							</ListItem>
-							{/* <ListItem button
+							<ListItem button
                                 className={classes.menuItem}
                                 onClick={() => {
                                     history.push('')
                                 }}
                             >
                                 <ListItemText inset primary="Grouped Bin Card" />
-                            </ListItem> */}
+                            </ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1132,7 +1132,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Delivery Chalan" />
 							</ListItem>
-							{/* <ListItem
+							<ListItem
                 button
                 className={classes.menuItem}
                 onClick={() => {
@@ -1140,7 +1140,7 @@ function Sidenav(props) {
                 }}
               >
                 <ListItemText inset primary="Outwards" />
-              </ListItem> */}
+              </ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1161,14 +1161,14 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Daily Consumption..." />
 							</ListItem>
-							{/* <ListItem
+							<ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
 									history.push('/storedashboard/department_wise_consumption_report');
 								}}>
 								<ListItemText inset primary='Dept Wise Consump...' />
-							</ListItem> */}
+							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1213,7 +1213,7 @@ function Sidenav(props) {
 							</ListItem>
 						</List>
 					</Collapse>
-				</List>
+				</List> */}
 				<Divider />
 				<List>
 					{['HR'].map((text, index) => (
@@ -1324,7 +1324,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Employees Details" />
 							</ListItem>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -1332,7 +1332,7 @@ function Sidenav(props) {
 								}}
 							>
 								<ListItemText inset primary="Employees Salaries" />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1360,14 +1360,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Employees Perform..." />
 							</ListItem>
-							{/* <ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/hr/competence_criteria');
-								}}>
-								<ListItemText inset primary='Competence Criteria' />
-							</ListItem> */}
+
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -1457,7 +1450,7 @@ function Sidenav(props) {
 					</Collapse>
 				</List>
 				<Divider />
-				<List>
+				{/* <List>
 					{['Accounting'].map((text, index) => (
 						<ListItem
 							button
@@ -1598,7 +1591,7 @@ function Sidenav(props) {
 							</Collapse>
 						</List>
 					</Collapse>
-				</List>
+				</List> */}
 				{/* <List>
 					{['Accounts'].map((text, index) => (
 						<ListItem button key={text}>

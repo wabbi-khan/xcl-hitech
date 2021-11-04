@@ -5,7 +5,7 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '../../../components/utils/Button';
+import { CustomButton } from '../../../components';
 import { useDispatch } from 'react-redux';
 import { updateResponsibilities } from '../../../services/action/responsibilityAction';
 import { Formik, Form } from 'formik';
@@ -102,7 +102,7 @@ const CssTextField = withStyles({
 })(TextField);
 
 const validationSchema = yup.object({
-	name: yup.string().required(),
+	name: yup.string(),
 });
 
 const EditResponsibility = (props) => {
@@ -111,7 +111,7 @@ const EditResponsibility = (props) => {
 	const [success, setSuccess] = React.useState('');
 	const [open, setOpen] = useState(false);
 	const [initialValues, setInitialValues] = React.useState(
-		props?.responsibility,
+		props?.responsibility
 	);
 	const { show, handler, responsibility } = props;
 	const classes = useStyles();
@@ -126,6 +126,7 @@ const EditResponsibility = (props) => {
 	}, [show]);
 
 	const onSubmit = async (values) => {
+		console.log('asd');
 		setLoading(true);
 		dispatch(
 			updateResponsibilities(responsibility._id, values, (err) => {
@@ -142,7 +143,7 @@ const EditResponsibility = (props) => {
 					}, 4000);
 				}
 				setLoading(false);
-			}),
+			})
 		);
 	};
 
@@ -153,70 +154,77 @@ const EditResponsibility = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Edit/Update</h5>
+						<h5 className="text-center mt-4">Edit/Update</h5>
 						<Container className={classes.mainContainer}>
 							<Formik
 								initialValues={initialValues}
 								validationSchema={validationSchema}
 								enableReinitialize
-								onSubmit={onSubmit}>
+								onSubmit={onSubmit}
+							>
 								{(props) => (
 									<Form>
 										<CssTextField
-											id='outlined-basic'
-											label='Responsibility Name'
-											variant='outlined'
-											type='text'
-											size='small'
-											autoComplete='off'
+											id="outlined-basic"
+											label="Responsibility Name"
+											variant="outlined"
+											type="text"
+											size="small"
+											autoComplete="off"
 											style={{ width: '75%' }}
 											inputProps={{ style: { fontSize: 14 } }}
 											InputLabelProps={{ style: { fontSize: 14 } }}
 											onChange={props.handleChange('name')}
 											onBlur={props.handleBlur('name')}
 											value={props?.values?.name}
-											helperText={props.touched.name && props.errors.name}
+											helperText={
+												props.touched.name && props.errors.name
+											}
 											error={props.touched.name && props.errors.name}
 										/>
+										<div
+											style={{
+												marginTop: '2rem',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}
+										>
+											<CustomButton
+												variant="contained"
+												color="primary"
+												text="Update"
+												style={{ marginRight: '1rem' }}
+												loading={loading}
+											/>
+											<CustomButton
+												variant="outlined"
+												color="dark"
+												onClick={handleClose}
+												text="Close"
+												type="button"
+												classNames="bg-danger text-light"
+											/>
+										</div>
+										{error && <p>{error}</p>}
+										{success && (
+											<p>Responsibility Successfully Updated</p>
+										)}
 									</Form>
 								)}
 							</Formik>
-							<div
-								style={{
-									marginTop: '2rem',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}>
-								<Button
-									variant='contained'
-									color='primary'
-									text='Update'
-									style={{ marginRight: '1rem' }}
-									loading={loading}
-								/>
-								<Button
-									variant='outlined'
-									color='dark'
-									onClick={handleClose}
-									text='Close'
-									type='button'
-									classNames='bg-danger text-light'
-								/>
-							</div>
-							{error && <p>{error}</p>}
-							{success && <p>Responsibility Successfully Updated</p>}
 						</Container>
 					</div>
 				</Fade>

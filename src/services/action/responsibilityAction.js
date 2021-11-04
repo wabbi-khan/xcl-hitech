@@ -41,7 +41,7 @@ export const createResponsibilities = (values, cb) => async (dispatch) => {
 			values
 		);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: RESPONSIBILITY_CREATE_SUCCESS,
 				payload: data.responsibility,
@@ -64,7 +64,7 @@ export const updateResponsibilities = (id, values, cb) => async (dispatch) => {
 			values
 		);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: RESPONSIBILITY_UPDATE_SUCCESS,
 				payload: data.responsibility,
@@ -86,7 +86,7 @@ export const deleteResponsibilities = (params, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/responsibility/${params}`
 		);
 
-		if (data.status === 'OK') {
+		if (data.success) {
 			dispatch({
 				type: RESPONSIBILITY_DELETE_SUCCESS,
 				payload: params,

@@ -32,7 +32,7 @@ export const authorityReducer = (state = { authorities: [] }, action) => {
 				loading: false,
 				error: '',
 				authorities: state.authorities.map((authority) =>
-					authority._id === action.payload._id ? action.payload : authority,
+					authority._id === action.payload._id ? action.payload : authority
 				),
 			};
 		case AUTHORITY_DELETE_SUCCESS:
@@ -40,14 +40,14 @@ export const authorityReducer = (state = { authorities: [] }, action) => {
 				loading: false,
 				error: '',
 				authorities: state.authorities.filter(
-					(authority) => authority._id !== action.payload,
+					(authority) => authority._id !== action.payload
 				),
 			};
 		case AUTHORITY_CREATE_SUCCESS:
 			return {
 				error: '',
 				loading: false,
-				authorities: [...state.authorities, action.payload],
+				authorities: [action.payload, ...state.authorities],
 			};
 
 		default:

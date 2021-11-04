@@ -90,6 +90,9 @@ const PrintTrainingPlan = ({ location }) => {
 	const years = date.getFullYear();
 	const fullDate = `${currDate} / ${months} / ${years}`;
 
+	console.log(location);
+	const plane = location.state.plane;
+
 	return (
 		<div>
 			<div className="text-center">
@@ -183,26 +186,28 @@ const PrintTrainingPlan = ({ location }) => {
 							<tbody>
 								<tr>
 									<td scope="row">{}</td>
-									<td>{/* {plane?.topic?.name} */}</td>
+									<td>{plane.topic.name}</td>
 									<td>
-										{/* {plane?.needIdentifiedByEmployee?.name}
+										{plane?.needIdentifiedByEmployee?.name}
 										<p style={{ fontSize: 10 }}>
 											({plane?.needIdentifiedByDesignation?.name})
-										</p> */}
+										</p>
 									</td>
-									<td>{/* {plane?.participants?.name} */}</td>
+									<td>{plane?.participants?.name}</td>
 									<td>
-										{/* {plane?.trainerName?.name}
-										<p style={{ fontSize: 10 }}>({plane?.trainerDesignation?.name})</p> */}
+										{plane?.trainerName?.name}
+										<p style={{ fontSize: 10 }}>
+											({plane?.trainerDesignation?.name})
+										</p>
 									</td>
 									<td>
-										{/* {plane?.startDate ? plane?.startDate : '----'} */}
+										{plane?.startDate ? plane?.startDate : '----'}
 									</td>
-									<td>{/* {plane?.venue?.name} */}</td>
+									<td>{plane?.venue?.name}</td>
 									<td>
-										{/* {plane?.status === 'a' && 'Yet to be start'}
+										{plane?.status === 'a' && 'Yet to be start'}
 										{plane?.status === 'b' && ' In Progress'}
-										{plane?.status === 'c' && 'Completed'} */}
+										{plane?.status === 'c' && 'Completed'}
 									</td>
 								</tr>
 							</tbody>

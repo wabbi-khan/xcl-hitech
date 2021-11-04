@@ -222,28 +222,6 @@ const Units = () => {
 							</Form>
 						)}
 					</Formik>
-					{/* {authorities.map((authority, i) => (
-					<p className={classes.resStyle}>
-						<span style={{ fontSize: 13 }}>{i + 1}. </span>
-						{authority}
-						<DeleteOutlineIcon
-							type='button'
-							className={classes.delete}
-							onClick={() => removeRes(i)}
-						/>
-						<Button
-                                variant="outlined" size="small"
-                                className={classes.deleteResBtn}
-                            >
-                            </Button>
-					</p>
-				))} */}
-					{/* {
-                                !designations || !designations.length ? <p>Data Not Found</p> :
-                                    designations.map(designation => (
-                                        <MenuItem value={designation._id} key={designation._id}>{designation.name}</MenuItem>
-                                    ))
-                            } */}
 				</Container>
 			</div>
 			<div

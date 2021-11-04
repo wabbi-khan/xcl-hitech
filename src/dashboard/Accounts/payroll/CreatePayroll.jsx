@@ -248,7 +248,6 @@ const CreatePayroll = ({ history }) => {
 						setCreateError('');
 					}, 4000);
 				} else {
-					console.log(data);
 					history.push({
 						pathname: '/payroll/salary_voucher',
 						state: {

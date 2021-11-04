@@ -191,35 +191,37 @@ const EditResponsibility = (props) => {
 											}
 											error={props.touched.name && props.errors.name}
 										/>
+										<div
+											style={{
+												marginTop: '2rem',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}
+										>
+											<Button
+												variant="contained"
+												color="primary"
+												text="Update"
+												style={{ marginRight: '1rem' }}
+												loading={loading}
+											/>
+											<Button
+												variant="outlined"
+												color="dark"
+												onClick={handleClose}
+												text="Close"
+												type="button"
+												classNames="bg-danger text-light"
+											/>
+										</div>
+										{error && <p>{error}</p>}
+										{success && (
+											<p>Responsibility Successfully Updated</p>
+										)}
 									</Form>
 								)}
 							</Formik>
-							<div
-								style={{
-									marginTop: '2rem',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}
-							>
-								<Button
-									variant="contained"
-									color="primary"
-									text="Update"
-									style={{ marginRight: '1rem' }}
-									loading={loading}
-								/>
-								<Button
-									variant="outlined"
-									color="dark"
-									onClick={handleClose}
-									text="Close"
-									type="button"
-									classNames="bg-danger text-light"
-								/>
-							</div>
-							{error && <p>{error}</p>}
-							{success && <p>Responsibility Successfully Updated</p>}
 						</Container>
 					</div>
 				</Fade>
