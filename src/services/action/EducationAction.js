@@ -15,7 +15,7 @@ export const getEducations = (query, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.get(
-			`${process.env.REACT_APP_API_URL}/education`,
+			`${process.env.REACT_APP_API_URL}/education`
 		);
 
 		if (data.success) {
@@ -38,7 +38,7 @@ export const createEducation = (values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/education`,
-			values,
+			values
 		);
 
 		if (data.success) {
@@ -62,8 +62,10 @@ export const updateEducation = (id, values, cb) => async (dispatch) => {
 	try {
 		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/education/${id}`,
-			values,
+			values
 		);
+
+		console.log(data);
 
 		if (data.success) {
 			dispatch({
@@ -84,7 +86,7 @@ export const deleteEducation = (params, cb) => async (dispatch) => {
 
 	try {
 		const { data } = await axios.delete(
-			`${process.env.REACT_APP_API_URL}/education/${params}`,
+			`${process.env.REACT_APP_API_URL}/education/${params}`
 		);
 
 		if (data.success) {

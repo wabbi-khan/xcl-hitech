@@ -171,6 +171,8 @@ function App() {
 	const [error, setError] = React.useState('');
 	const dispatch = useDispatch();
 
+	const closed = true;
+
 	React.useEffect(() => {
 		if (localStorage.getItem('token')) {
 			dispatch(
@@ -187,6 +189,8 @@ function App() {
 	}, []);
 
 	// return <NotAvailablePage />
+
+	if (closed) return <h1>It is closed</h1>;
 
 	return appLoading ? (
 		<div

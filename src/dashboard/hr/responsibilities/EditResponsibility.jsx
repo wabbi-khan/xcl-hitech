@@ -106,13 +106,11 @@ const validationSchema = yup.object({
 });
 
 const EditResponsibility = (props) => {
-	const [loading, setLoading] = React.useState(false);
-	const [error, setError] = React.useState('');
-	const [success, setSuccess] = React.useState('');
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+	const [success, setSuccess] = useState('');
 	const [open, setOpen] = useState(false);
-	const [initialValues, setInitialValues] = React.useState(
-		props?.responsibility
-	);
+	const [initialValues, setInitialValues] = useState(props?.responsibility);
 	const { show, handler, responsibility } = props;
 	const classes = useStyles();
 	const dispatch = useDispatch();
