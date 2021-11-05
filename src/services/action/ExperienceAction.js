@@ -8,7 +8,7 @@ import {
 	EXPERIENCE_UPDATE_SUCCESS,
 } from '../constants/ExperienceConst';
 
-export const getExperiences = (query) => async (dispatch) => {
+export const getExperiences = (query, cb) => async (dispatch) => {
 	dispatch({
 		type: EXPERIENCE_REQUEST,
 	});
@@ -18,56 +18,65 @@ export const getExperiences = (query) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/experience`
 		);
 
-		dispatch({
-			type: EXPERIENCE_FETCH_SUCCESS,
-			payload: data.data,
-		});
+		if (data.success) {
+			dispatch({
+				type: EXPERIENCE_FETCH_SUCCESS,
+				payload: data.data,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const createExperience = (experience) => async (dispatch) => {
+export const createExperience = (experience, cb) => async (dispatch) => {
 	dispatch({
 		type: EXPERIENCE_REQUEST,
 	});
 
 	try {
-		const res = await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API_URL}/experience`,
 			experience
 		);
 
-		dispatch({
-			type: EXPERIENCE_CREATE_SUCCESS,
-			payload: res.data.experience,
-		});
+		if (data.success) {
+			dispatch({
+				type: EXPERIENCE_CREATE_SUCCESS,
+				payload: data.experience,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const updateExperience = (id, data) => async (dispatch) => {
+export const updateExperience = (id, values, cb) => async (dispatch) => {
 	dispatch({
 		type: EXPERIENCE_REQUEST,
 	});
 
 	try {
-		const res = await axios.patch(
+		const { data } = await axios.patch(
 			`${process.env.REACT_APP_API_URL}/experience/${id}`,
-			data
+			values
 		);
 
-		dispatch({
-			type: EXPERIENCE_UPDATE_SUCCESS,
-			payload: res.data.experience,
-		});
+		if (data.success) {
+			dispatch({
+				type: EXPERIENCE_UPDATE_SUCCESS,
+				payload: data.experience,
+			});
+			if (cb) cb();
+		}
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-export const deleteExperience = (params) => async (dispatch) => {
+export const deleteExperience = (params, cb) => async (dispatch) => {
 	dispatch({
 		type: EXPERIENCE_REQUEST,
 	});
@@ -82,17 +91,19 @@ export const deleteExperience = (params) => async (dispatch) => {
 			payload: params,
 		});
 	} catch (err) {
-		dispatchError(err, dispatch);
+		dispatchError(err, dispatch, cb);
 	}
 };
 
-const dispatchError = (err, dispatch) => {
+const dispatchError = (err, dispatch, cb) => {
 	if (err.response) {
+		if (cb) cb(err.response.data.error);
 		dispatch({
 			type: EXPERIENCE_FAIL,
 			payload: err.response.data.error,
 		});
 	} else {
+		if (cb) cb('Network Error');
 		dispatch({
 			type: EXPERIENCE_FAIL,
 			payload: 'Network Error',

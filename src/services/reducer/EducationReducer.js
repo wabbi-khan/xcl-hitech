@@ -32,7 +32,7 @@ export const getEducations = (state = { educations: [] }, action) => {
 				loading: false,
 				error: '',
 				educations: state.educations.map((education) =>
-					education._id === action.payload._id ? action.payload : education,
+					education._id === action.payload._id ? action.payload : education
 				),
 			};
 		case EDUCATION_DELETE_SUCCESS:
@@ -40,14 +40,14 @@ export const getEducations = (state = { educations: [] }, action) => {
 				loading: false,
 				error: '',
 				educations: state.educations.filter(
-					(education) => education._id !== action.payload,
+					(education) => education._id !== action.payload
 				),
 			};
 		case EDUCATION_CREATE_SUCCESS:
 			return {
 				error: '',
 				loading: false,
-				educations: [...state.educations, action.payload],
+				educations: [action.payload, ...state.educations],
 			};
 
 		default:

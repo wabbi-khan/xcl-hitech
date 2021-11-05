@@ -88,6 +88,7 @@ const PrintTrainingRecord = ({ location }) => {
 	const years = date.getFullYear();
 	const fullDate = `${currDate} / ${months} / ${years}`;
 
+	console.log(evaluation);
 	return (
 		<div>
 			<div className="text-center">
@@ -172,7 +173,6 @@ const PrintTrainingRecord = ({ location }) => {
 						<table class="table table-striped table-inverse table-bordered table-responsive table-hover">
 							<thead class="thead-inverse">
 								<tr>
-									<th>S.NO.</th>
 									<th>TRAINEE NAME</th>
 									<th>DESIGNATION</th>
 									<th>TRAINER</th>
@@ -183,13 +183,14 @@ const PrintTrainingRecord = ({ location }) => {
 							</thead>
 							<tbody>
 								<tr>
-									<td class="tableBorderNone"></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td>{evaluation?.training?.trainerName?.name}</td>
+									<td>
+										{evaluation?.training?.trainerDesignation?.name}
+									</td>
+									<td>{evaluation?.training?.trainerName?.name}</td>
 									<td>Interview</td>
 									<td>Written Test</td>
-									<td></td>
+									<td>{evaluation?.evaluatedByEmployee?.name}</td>
 									<td>SATISFACTORY</td>
 									<td>UNSATISFACTORY</td>
 								</tr>
@@ -197,17 +198,16 @@ const PrintTrainingRecord = ({ location }) => {
 									<td>{}</td>
 									<td>{}</td>
 									<td>{}</td>
-									<td>{/* {evaluation?.training?.topic?.name} */}</td>
+									<td>{evaluation?.method === 'interview' && '✔'}</td>
+									<td>{evaluation?.method === 'written' && '✔'}</td>
+									<td></td>
 									<td>
-										{/* {evaluation?.evaluatedByEmployee?.name}
-										<p style={{ fontSize: 10 }}>
-											({evaluation?.evaluatedBy?.name})
-										</p> */}
+										{evaluation?.result === 'satisfactory' && '✔'}
 									</td>
-									<td>{/* {evaluation.method} */}</td>
-									<td>{/* {evaluation.result} */}</td>
-									<td>{/* {evaluation.result} */}</td>
-									<td>{/* {evaluation.result} */}</td>
+									<td>
+										{evaluation?.result === 'unsatisfactory' && '✔'}
+									</td>
+									<td></td>
 								</tr>
 							</tbody>
 						</table>

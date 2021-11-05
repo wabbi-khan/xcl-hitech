@@ -32,7 +32,9 @@ export const getExperiences = (state = { experiences: [] }, action) => {
 				loading: false,
 				error: '',
 				experiences: state.experiences.map((experience) =>
-					experience._id === action.payload._id ? action.payload : experience,
+					experience._id === action.payload._id
+						? action.payload
+						: experience
 				),
 			};
 		case EXPERIENCE_DELETE_SUCCESS:
@@ -40,14 +42,14 @@ export const getExperiences = (state = { experiences: [] }, action) => {
 				loading: false,
 				error: '',
 				experiences: state.experiences.filter(
-					(experience) => experience._id !== action.payload,
+					(experience) => experience._id !== action.payload
 				),
 			};
 		case EXPERIENCE_CREATE_SUCCESS:
 			return {
 				error: '',
 				loading: false,
-				experiences: [...state.experiences, action.payload],
+				experiences: [action.payload, ...state.experiences],
 			};
 
 		default:

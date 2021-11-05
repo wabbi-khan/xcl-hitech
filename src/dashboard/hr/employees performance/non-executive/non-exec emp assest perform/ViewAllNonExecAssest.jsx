@@ -9,10 +9,9 @@ import moment from 'moment';
 
 const ViewAllNonExecAssest = ({ history }) => {
 	const [fetchLoading, setFetchLoading] = useState(true);
-	const [fetchError, setFetchError] = useState('');
 
 	const { nonExecPerformance } = useSelector(
-		(state) => state.nonExecPerformance,
+		(state) => state.nonExecPerformance
 	);
 
 	const dispatch = useDispatch();
@@ -21,16 +20,12 @@ const ViewAllNonExecAssest = ({ history }) => {
 		setFetchLoading(true);
 		dispatch(
 			getNonExtEmpPerformanceAction(null, (err) => {
-				if (err) {
-					setFetchError(err);
-					setTimeout(() => {
-						setFetchError('');
-					}, 4000);
-				}
 				setFetchLoading(false);
-			}),
+			})
 		);
 	}, [dispatch]);
+
+	console.log(nonExecPerformance);
 
 	return (
 		<Sidenav title={'Employee Assessments (Non-Executive)'}>
@@ -41,16 +36,22 @@ const ViewAllNonExecAssest = ({ history }) => {
 						alignItems: 'center',
 						justifyContent: 'center',
 						marginTop: '3rem',
-					}}>
-					<Loader type='TailSpin' color='#000' width='3rem' height='3rem' />
+					}}
+				>
+					<Loader
+						type="TailSpin"
+						color="#000"
+						width="3rem"
+						height="3rem"
+					/>
 				</div>
 			) : nonExecPerformance?.length === 0 ? (
 				<p>There is no data found.</p>
 			) : (
 				<div>
-					<table class='table table-bordered border-dark table-responsive text-center'>
-						<thead class='thead-inverse'>
-							<tr class='bg-dark text-light'>
+					<table class="table table-bordered border-dark table-responsive text-center">
+						<thead class="thead-inverse">
+							<tr class="bg-dark text-light">
 								<th>S.No.</th>
 								<th>Employee Name</th>
 								<th>Designation</th>
@@ -64,16 +65,23 @@ const ViewAllNonExecAssest = ({ history }) => {
 								<tr>
 									<td>{i + 1}</td>
 									<td>{capitalize(el?.employee?.name)}</td>
-									<td>{capitalize(el?.employee?.finalDesignation?.name)}</td>
-									<td>{capitalize(el?.employee?.finalDepartment?.name)}</td>
-									<td>{el?.createdAt && moment(el?.createdAt).format('DD MMM YYYY')}</td>
+									<td>
+										{capitalize(el?.employee?.finalDesignation?.name)}
+									</td>
+									<td>
+										{capitalize(el?.employee?.finalDepartment?.name)}
+									</td>
+									<td>
+										{el?.createdAt &&
+											moment(el?.createdAt).format('DD MMM YYYY')}
+									</td>
 									<td>
 										<Button
-											variant='outlined'
-											color='primary'
-											text='View'
-											size='small'
-											classNames='bg-dark text-light'
+											variant="outlined"
+											color="primary"
+											text="View"
+											size="small"
+											classNames="bg-dark text-light"
 											onClick={() => {
 												history.push({
 													pathname: `/hr/performance_assessment/print_non_executive_emp_performance`,

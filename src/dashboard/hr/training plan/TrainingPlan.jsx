@@ -676,7 +676,7 @@ const TrainingPlan = ({ history }) => {
 															history.push({
 																pathname:
 																	'/hr/print_training_plan',
-																status: { plane: el },
+																state: { plane: el },
 															})
 														}
 														text="View"

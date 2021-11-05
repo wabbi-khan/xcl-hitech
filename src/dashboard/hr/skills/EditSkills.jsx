@@ -5,12 +5,11 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import Grid from '@material-ui/core/Grid';
 import { updateSkill } from '../../../services/action/SkillsAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { CustomInput, CustomButton } from '../../../components';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -102,32 +101,47 @@ const CssTextField = withStyles({
 	},
 })(TextField);
 
+const validationSchema = yup.object({
+	skill: yup.string(),
+});
+
 const EditSkills = (props) => {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+	const [success, setSuccess] = useState('');
+	const [open, setOpen] = useState(false);
+	const [initialValues, setInitialValues] = useState(props?.skill);
+	const { show, handler, skill } = props;
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const { show, handler, skill } = props;
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-
-	const [open, setOpen] = useState(false);
-	const [isUpdate, setIsUpdate] = useState(false);
-	const [isError, setIsError] = useState(false);
+	useEffect(() => {
+		if (skill) setInitialValues({ skill: skill.skill });
+	}, [skill]);
 
 	useEffect(() => {
 		setOpen(show);
 	}, [show]);
 
-	const onSubmit = async (data) => {
-		try {
-			dispatch(updateSkill(skill._id, data));
-			setIsUpdate(true);
-		} catch (error) {
-			setIsError(true);
-		}
+	const onSubmit = async (values) => {
+		setLoading(true);
+		dispatch(
+			updateSkill(skill._id, values, (err) => {
+				if (err) {
+					setError(err);
+					setTimeout(() => {
+						setError('');
+					}, 4000);
+				} else {
+					setLoading(false);
+					setSuccess(true);
+					setTimeout(() => {
+						setSuccess(false);
+					}, 4000);
+				}
+				setLoading(false);
+			})
+		);
 	};
 
 	const handleClose = () => {
@@ -137,65 +151,79 @@ const EditSkills = (props) => {
 	return (
 		<div>
 			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
 				className={classes.modal}
 				open={open}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}>
+				}}
+			>
 				<Fade in={open}>
 					<div className={classes.paper}>
-						<h5 className='text-center mt-4'>Update</h5>
+						<h5 className="text-center mt-4">Update</h5>
 						<Container className={classes.mainContainer}>
-							{/* Form */}
-							{skill ? (
-								<form onSubmit={handleSubmit(onSubmit)}>
-									<Grid container spacing={1}>
-										<Grid lg={12} md={12} sm={12}>
-											<CssTextField
-												id='outlined-basic'
-												label='Skill Name'
-												variant='outlined'
-												type='text'
-												size='small'
-												autoComplete='off'
-												defaultValue={skill.skill}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{ style: { fontSize: 14 } }}
-												{...register('skill')}
+							<Formik
+								initialValues={initialValues}
+								validationSchema={validationSchema}
+								enableReinitialize
+								onSubmit={onSubmit}
+							>
+								{(props) => (
+									<Form>
+										<CssTextField
+											id="outlined-basic"
+											label="Responsibility Name"
+											variant="outlined"
+											type="text"
+											size="small"
+											autoComplete="off"
+											style={{ width: '75%' }}
+											inputProps={{ style: { fontSize: 14 } }}
+											InputLabelProps={{ style: { fontSize: 14 } }}
+											onChange={props.handleChange('skill')}
+											onBlur={props.handleBlur('skill')}
+											value={props?.values?.skill}
+											helperText={
+												props.touched.skill && props.errors.skill
+											}
+											error={
+												props.touched.skill && props.errors.skill
+											}
+										/>
+										<div
+											style={{
+												marginTop: '2rem',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+											}}
+										>
+											<CustomButton
+												variant="contained"
+												color="primary"
+												text="Update"
+												style={{ marginRight: '1rem' }}
+												loading={loading}
 											/>
-											{errors.skill?.type === 'required' && (
-												<p className='text-danger'>Skill Name is required</p>
-											)}
-											{isUpdate ? (
-												<p className='text-success mt-2'>Skill Update Successfully</p>
-											) : isError ? (
-												<p className='text-danger mt-2'>Skill Update Failed </p>
-											) : null}
-										</Grid>
-									</Grid>
-									<div>
-										<Button
-											variant='outlined'
-											color='primary'
-											className={classes.addButton}
-											type='submit'>
-											Update
-										</Button>
-										<Button
-											variant='outlined'
-											color='primary'
-											className={classes.closeButton}
-											onClick={handleClose}>
-											close
-										</Button>
-									</div>
-								</form>
-							) : null}
+											<CustomButton
+												variant="outlined"
+												color="dark"
+												onClick={handleClose}
+												text="Close"
+												type="button"
+												classNames="bg-danger text-light"
+											/>
+										</div>
+										{error && <p>{error}</p>}
+										{success && (
+											<p>Responsibility Successfully Updated</p>
+										)}
+									</Form>
+								)}
+							</Formik>
 						</Container>
 					</div>
 				</Fade>

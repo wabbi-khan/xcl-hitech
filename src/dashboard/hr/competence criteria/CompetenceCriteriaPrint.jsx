@@ -125,18 +125,30 @@ const CompetenceCriteriaPrint = ({ location }) => {
 							<tr>
 								<td>{designation?.name}</td>
 								<td>
-									{designation?.educations?.map((el) => (
-										<span>{el?.name}/</span>
+									{designation?.educations?.map((el, i) => (
+										<span>
+											{el?.name}{' '}
+											{designation?.educations?.length - 1 !== i &&
+												' / '}
+										</span>
 									))}
 								</td>
 								<td>
-									{designation?.experiences?.map((el) => (
-										<span>{el?.name}/</span>
+									{designation?.experiences?.map((el, i) => (
+										<span>
+											{el?.name}
+											{designation?.experiences?.length - 1 !== i &&
+												' / '}
+										</span>
 									))}
 								</td>
 								<td>
-									{designation?.skills?.map((el) => (
-										<span>{el?.skill}/</span>
+									{designation?.skills?.map((el, i) => (
+										<span>
+											{el?.skill}
+											{designation?.skills?.length - 1 !== i &&
+												' / '}
+										</span>
 									))}
 								</td>
 							</tr>
