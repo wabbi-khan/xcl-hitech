@@ -188,10 +188,6 @@ function App() {
 		}
 	}, []);
 
-	// return <NotAvailablePage />
-
-	if (closed) return <h1>It is closed</h1>;
-
 	return appLoading ? (
 		<div
 			style={{
