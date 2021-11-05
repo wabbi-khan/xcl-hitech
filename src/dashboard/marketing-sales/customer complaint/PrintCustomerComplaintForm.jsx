@@ -184,7 +184,7 @@ const PrintCustomerComplaintForm = () => {
             </div>
           </div>
         </div>
-        <div style={{ border: "1px solid black" }}>
+        <div style={{ borderBottom: "1px solid black" }}>
           <div
             style={{
               display: "flex",
@@ -306,15 +306,114 @@ const PrintCustomerComplaintForm = () => {
             </div>
             <div style={{ display: "flex", gap: ".3rem" }}>
               <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
-              <p>Yes(give details)</p>
+              <p>Yes (give details)</p>
             </div>
             <hr
               style={{
                 borderTop: "1px solid black",
                 padding: "1px",
-                width: "200px",
+                width: "300px",
               }}
             />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              marginLeft: ".2rem",
+              fontSize: "12px",
+            }}
+          >
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>SALES ORDER NO:</p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>DATE:</p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>DELIVERY ORDER NO:</p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>DATE:</p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              marginLeft: ".2rem",
+              fontSize: "12px",
+            }}
+          >
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>QUANTITY SUPPLIED:</p>
+              <p style={{ textDecoration: "underline" }}>12</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>QUANTITY AFFECTED:</p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              marginLeft: ".2rem",
+              fontSize: "12px",
+            }}
+          >
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>TOTAL VALUE OF ORDER(Rs).</p>
+              <p style={{ textDecoration: "underline" }}>121212</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>
+                TOTAL VALUE OF QUANTITY AFFECTED(Rs).
+              </p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: ".5rem",
+              marginLeft: ".2rem",
+              fontSize: "12px",
+            }}
+          >
+            <p style={{ fontWeight: "bold" }}>
+              INITIAL RECOMMENDATIONS AFTER FIRST VISIT:
+            </p>
+            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              marginLeft: ".2rem",
+              fontSize: "12px",
+            }}
+          >
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>Report Prepared By:</p>
+              <hr
+                style={{
+                  borderTop: "1px solid black",
+                  padding: "1px",
+                  width: "200px",
+                }}
+              />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ fontWeight: "bold" }}>
+                Date:
+              </p>
+              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
           </div>
         </div>
       </div>

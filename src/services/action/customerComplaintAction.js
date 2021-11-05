@@ -40,8 +40,6 @@ export const createCustomerComplaint = (values, cb) => async (dispatch) => {
 			`${process.env.REACT_APP_API_URL}/customerComplaint`,
 			values
 		);
-		console.log(data);
-
 		if (data.success) {
 			dispatch({
 				type: CUSTOMER_COMPLAINT_CREATE_SUCCESS,
