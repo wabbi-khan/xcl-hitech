@@ -261,7 +261,7 @@ const PrintCustomerComplaintForm = () => {
             <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
           </div>
         </div>
-        <div style={{ marginTop: "1rem" }}>
+        <div style={{ marginTop: "1rem", borderBottom: "1px solid black" }}>
           <div style={{ display: "flex", gap: "1rem" }}>
             <div
               style={{
@@ -374,7 +374,7 @@ const PrintCustomerComplaintForm = () => {
               <p style={{ fontWeight: "bold" }}>
                 TOTAL VALUE OF QUANTITY AFFECTED(Rs).
               </p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              .<p style={{ textDecoration: "underline" }}>12A2WQ</p>
             </div>
           </div>
           <div
@@ -409,10 +409,219 @@ const PrintCustomerComplaintForm = () => {
               />
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ fontWeight: "bold" }}>
-                Date:
-              </p>
+              <p style={{ fontWeight: "bold" }}>Date:</p>
               <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+            </div>
+          </div>
+        </div>
+        <div style={{ borderBottom: "1px solid black", padding: ".3rem" }}>
+          <p style={{ fontSize: "12px" }}>
+            CHECK LIST (Tick √ if step taken, × if step not required)
+          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              // marginTop: "1rem",
+            }}
+          >
+            {/* <p style={{ fontWeight: "bold", fontSize: "12px" }}>
+                    Inquirer:
+                  </p> */}
+            <div style={{ display: "flex", gap: ".3rem" }}>
+              <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
+                Sample Received
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Date:</p>
+              <p
+                style={{
+                  textDecoration: "underline",
+                  fontSize: "11px",
+                  marginTop: ".3rem",
+                }}
+              >
+                12-12-12
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Inspected</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Date:</p>
+              <p
+                style={{
+                  textDecoration: "underline",
+                  fontSize: "11px",
+                  marginTop: ".3rem",
+                }}
+              >
+                12-12-12
+              </p>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              // marginTop: "1rem",
+            }}
+          >
+            {/* <p style={{ fontWeight: "bold", fontSize: "12px" }}>
+                    Inquirer:
+                  </p> */}
+            <div style={{ display: "flex", gap: ".3rem" }}>
+              <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Tested</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Date:</p>
+              <p
+                style={{
+                  textDecoration: "underline",
+                  fontSize: "11px",
+                  marginTop: ".3rem",
+                }}
+              >
+                12-12-12
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
+                Initial site visit conducted by
+              </p>
+              <hr
+                style={{
+                  borderTop: "1px solid black",
+                  padding: "1px",
+                  width: "200px",
+                }}
+              />
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Date:</p>
+              <p
+                style={{
+                  textDecoration: "underline",
+                  fontSize: "11px",
+                  marginTop: ".3rem",
+                }}
+              >
+                12-12-12
+              </p>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              // marginTop: "1rem",
+            }}
+          >
+            <p
+              style={{
+                fontWeight: "bold",
+                fontSize: "12px",
+                marginTop: ".3rem",
+              }}
+            >
+              TYPE OF COMPLAINT:
+            </p>
+            <div style={{ display: "flex", gap: ".3rem" }}>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>QUALITY</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>LOGISTICS</p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
+                INSTALLATION
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Other</p>
+              <hr
+                style={{
+                  borderTop: "1px solid black",
+                  padding: "1px",
+                  width: "120px",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div style={{ borderBottom: "1px solid black", padding: ".4rem" }}>
+          <p style={{ fontSize: "12px", textDecoration: "underline" }}>
+            Disposition of Sales Department/QAD
+          </p>
+          <p style={{ fontSize: "12px" }}>{}</p>
+        </div>
+        <div style={{ borderBottom: "1px solid black", padding: ".4rem" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              // marginTop: "1rem",
+            }}
+          >
+            <div style={{ display: "flex", gap: ".3rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
+                Complaint Return (RE No.)
+              </p>
+              <p
+                style={{
+                  marginTop: ".3rem",
+                  fontSize: "11px",
+                  textDecoration: "underline",
+                }}
+              >
+                {}
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Date:</p>
+              <p
+                style={{
+                  textDecoration: "underline",
+                  fontSize: "11px",
+                  marginTop: ".3rem",
+                }}
+              >
+                {}
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
+                Sales Order No.
+              </p>
+              <p
+                style={{
+                  marginTop: ".3rem",
+                  fontSize: "11px",
+                  textDecoration: "underline",
+                }}
+              >
+                {}
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Date:</p>
+              <p
+                style={{
+                  textDecoration: "underline",
+                  fontSize: "11px",
+                  marginTop: ".3rem",
+                }}
+              >
+                {  }
+              </p>
             </div>
           </div>
         </div>
