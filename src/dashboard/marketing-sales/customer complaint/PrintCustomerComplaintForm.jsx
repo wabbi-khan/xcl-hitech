@@ -21,7 +21,9 @@ const PrintCustomerComplaintForm = () => {
         <div className="d-flex justify-content-between">
           <div style={{ display: "flex", gap: "1rem" }}>
             <p style={{ fontWeight: "bold" }}>To: </p>
-            <p style={{ textDecoration: "underline" }}>Sales Department</p>
+            <p style={{ textDecoration: "underline" }}>
+              {  }
+            </p>
           </div>
           <div style={{ display: "flex", gap: "1rem" }}>
             <p style={{ fontWeight: "bold" }}>
@@ -30,12 +32,12 @@ const PrintCustomerComplaintForm = () => {
                 (To be filled by SO)
               </span>
             </p>
-            <p style={{ textDecoration: "underline" }}>2S34Q34</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
         </div>
         <div style={{ display: "flex", gap: "1rem", float: "right" }}>
           <p style={{ fontWeight: "bold" }}>Date: </p>
-          <p style={{ textDecoration: "underline" }}>{}12-12-12</p>
+          <p style={{ textDecoration: "underline" }}>{  }</p>
         </div>
       </div>
       <div style={{ marginTop: "4rem", border: "1px solid black" }}>
@@ -61,7 +63,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Public Sector
                     </p>
@@ -69,7 +73,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Private Sector
                     </p>
@@ -77,7 +83,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Industrial Sector
                     </p>
@@ -85,7 +93,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Armed Forces
                     </p>
@@ -115,7 +125,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Dealer/Distributor
                     </p>
@@ -123,7 +135,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Project/Reidence Owner
                     </p>
@@ -131,7 +145,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Architect/Consultant
                     </p>
@@ -139,7 +155,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Contractor/Builder
                     </p>
@@ -159,7 +177,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       End User
                     </p>
@@ -167,7 +187,9 @@ const PrintCustomerComplaintForm = () => {
                   <div style={{ display: "flex", gap: ".5rem" }}>
                     <p
                       style={{ border: "1px solid black", padding: ".6rem" }}
-                    ></p>
+                    >
+                      {  }
+                    </p>
                     <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                       Other
                     </p>
@@ -195,7 +217,7 @@ const PrintCustomerComplaintForm = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>CUSTOMER NAME:</p>
-            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
           <div
             style={{
@@ -206,7 +228,7 @@ const PrintCustomerComplaintForm = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>CONTACT PERSON:</p>
-            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div
@@ -219,7 +241,7 @@ const PrintCustomerComplaintForm = () => {
             >
               <p style={{ fontWeight: "bold" }}>ADDRESS:</p>
               <p style={{ textDecoration: "underline" }}>
-                Mr Arsalan Ahmed Khan
+                {  }
               </p>
             </div>
             <div
@@ -232,7 +254,7 @@ const PrintCustomerComplaintForm = () => {
             >
               <p style={{ fontWeight: "bold" }}>PHONE NO:</p>
               <p style={{ textDecoration: "underline" }}>
-                234234203423423402304230422342342342354235
+                {  }
               </p>
             </div>
           </div>
@@ -245,7 +267,7 @@ const PrintCustomerComplaintForm = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>SUPPLIED THROUGH:</p>
-            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
           <div
             style={{
@@ -258,7 +280,7 @@ const PrintCustomerComplaintForm = () => {
             <p style={{ fontWeight: "bold" }}>
               PROJECT(Mention Name & Address of Site):
             </p>
-            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
         </div>
         <div style={{ marginTop: "1rem", borderBottom: "1px solid black" }}>
@@ -273,7 +295,7 @@ const PrintCustomerComplaintForm = () => {
             >
               <p style={{ fontWeight: "bold" }}>COMPLAINT RECEIVING DATE:</p>
               <p style={{ textDecoration: "underline" }}>
-                Mr Arsalan Ahmed Khan
+                {  }
               </p>
             </div>
             <p style={{ fontSize: "11px" }}>
@@ -289,7 +311,7 @@ const PrintCustomerComplaintForm = () => {
             }}
           >
             <p style={{ fontWeight: "bold" }}>PRODUCT:</p>
-            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
           <div
             style={{
@@ -326,19 +348,19 @@ const PrintCustomerComplaintForm = () => {
           >
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>SALES ORDER NO:</p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>DATE:</p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>DELIVERY ORDER NO:</p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>DATE:</p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
           </div>
           <div
@@ -351,11 +373,11 @@ const PrintCustomerComplaintForm = () => {
           >
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>QUANTITY SUPPLIED:</p>
-              <p style={{ textDecoration: "underline" }}>12</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>QUANTITY AFFECTED:</p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
           </div>
           <div
@@ -368,13 +390,13 @@ const PrintCustomerComplaintForm = () => {
           >
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>TOTAL VALUE OF ORDER(Rs).</p>
-              <p style={{ textDecoration: "underline" }}>121212</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>
                 TOTAL VALUE OF QUANTITY AFFECTED(Rs).
               </p>
-              .<p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              .<p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
           </div>
           <div
@@ -388,7 +410,7 @@ const PrintCustomerComplaintForm = () => {
             <p style={{ fontWeight: "bold" }}>
               INITIAL RECOMMENDATIONS AFTER FIRST VISIT:
             </p>
-            <p style={{ textDecoration: "underline" }}>Mr Arsalan Ahmed Khan</p>
+            <p style={{ textDecoration: "underline" }}>{  }</p>
           </div>
           <div
             style={{
@@ -410,7 +432,7 @@ const PrintCustomerComplaintForm = () => {
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
               <p style={{ fontWeight: "bold" }}>Date:</p>
-              <p style={{ textDecoration: "underline" }}>12A2WQ</p>
+              <p style={{ textDecoration: "underline" }}>{  }</p>
             </div>
           </div>
         </div>
@@ -429,7 +451,9 @@ const PrintCustomerComplaintForm = () => {
                     Inquirer:
                   </p> */}
             <div style={{ display: "flex", gap: ".3rem" }}>
-              <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".6rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                 Sample Received
               </p>
@@ -443,11 +467,13 @@ const PrintCustomerComplaintForm = () => {
                   marginTop: ".3rem",
                 }}
               >
-                12-12-12
+                {  }
               </p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".6rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Inspected</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -459,7 +485,7 @@ const PrintCustomerComplaintForm = () => {
                   marginTop: ".3rem",
                 }}
               >
-                12-12-12
+                {  }
               </p>
             </div>
           </div>
@@ -474,7 +500,9 @@ const PrintCustomerComplaintForm = () => {
                     Inquirer:
                   </p> */}
             <div style={{ display: "flex", gap: ".3rem" }}>
-              <p style={{ border: "1px solid black", padding: ".6rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".6rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Tested</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -486,7 +514,7 @@ const PrintCustomerComplaintForm = () => {
                   marginTop: ".3rem",
                 }}
               >
-                12-12-12
+                {  }
               </p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -510,7 +538,7 @@ const PrintCustomerComplaintForm = () => {
                   marginTop: ".3rem",
                 }}
               >
-                12-12-12
+                {  }
               </p>
             </div>
           </div>
@@ -531,21 +559,29 @@ const PrintCustomerComplaintForm = () => {
               TYPE OF COMPLAINT:
             </p>
             <div style={{ display: "flex", gap: ".3rem" }}>
-              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>QUALITY</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>LOGISTICS</p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>
                 INSTALLATION
               </p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
-              <p style={{ border: "1px solid black", padding: ".5rem" }}></p>
+              <p style={{ border: "1px solid black", padding: ".5rem" }}>
+                {  }
+              </p>
               <p style={{ marginTop: ".3rem", fontSize: "11px" }}>Other</p>
               <hr
                 style={{
@@ -561,7 +597,9 @@ const PrintCustomerComplaintForm = () => {
           <p style={{ fontSize: "12px", textDecoration: "underline" }}>
             Disposition of Sales Department/QAD
           </p>
-          <p style={{ fontSize: "12px" }}>{}</p>
+          <p style={{ fontSize: "12px" }}>
+            {  }
+          </p>
         </div>
         <div style={{ borderBottom: "1px solid black", padding: ".4rem" }}>
           <div
@@ -582,7 +620,7 @@ const PrintCustomerComplaintForm = () => {
                   textDecoration: "underline",
                 }}
               >
-                {}
+                {  }
               </p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -594,7 +632,7 @@ const PrintCustomerComplaintForm = () => {
                   marginTop: ".3rem",
                 }}
               >
-                {}
+                {  }
               </p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -608,7 +646,7 @@ const PrintCustomerComplaintForm = () => {
                   textDecoration: "underline",
                 }}
               >
-                {}
+                {  }
               </p>
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>

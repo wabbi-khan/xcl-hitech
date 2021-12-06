@@ -837,6 +837,24 @@ function Sidenav(props) {
 					<Collapse in={open4} timeout="auto" unmountOnExit>
 						<Divider />
 						<List component="div" disablePadding>
+						<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/marketing_dashboard/contract_review');
+								}}
+							>
+								<ListItemText inset primary="Contract Review..." />
+							</ListItem>
+							<ListItem
+								button
+								className={classes.menuItem}
+								onClick={() => {
+									history.push('/marketing_dashboard/sales_contract');
+								}}
+							>
+								<ListItemText inset primary="Sales Contract" />
+							</ListItem>
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -857,16 +875,7 @@ function Sidenav(props) {
 							>
 								<ListItemText inset primary="Order Log Sheet" />
 							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/marketing_dashboard/sales_contract');
-								}}
-							>
-								<ListItemText inset primary="Sales Contract" />
-							</ListItem>
-							<ListItem
+							{/* <ListItem
 								button
 								className={classes.menuItem}
 								onClick={() => {
@@ -874,16 +883,7 @@ function Sidenav(props) {
 								}}
 							>
 								<ListItemText inset primary="Delivery Order" />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('/marketing_dashboard/contract_review');
-								}}
-							>
-								<ListItemText inset primary="Contract Review..." />
-							</ListItem>
+							</ListItem> */}
 							<ListItem
 								button
 								className={classes.menuItem}
@@ -905,15 +905,6 @@ function Sidenav(props) {
 								}}
 							>
 								<ListItemText inset primary="Customer Complaint.." />
-							</ListItem>
-							<ListItem
-								button
-								className={classes.menuItem}
-								onClick={() => {
-									history.push('');
-								}}
-							>
-								<ListItemText inset primary="Complaint Testing" />
 							</ListItem>
 						</List>
 					</Collapse>
@@ -1598,16 +1589,7 @@ function Sidenav(props) {
 						</List>
 					</Collapse>
 				</List>
-				{/* <List>
-					{['Accounts'].map((text, index) => (
-						<ListItem button key={text}>
-							<ListItemIcon style={{ background: 'black', color: 'whitesmoke' }}>
-								{index % 2 === 0 ? <AttachMoneyIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItem>
-					))}
-				</List> */}
+				
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

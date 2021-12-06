@@ -1,482 +1,448 @@
-import React, { useEffect, useState } from 'react';
-import Sidenav from '../../SideNav/Sidenav';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { fetchCardAction } from '../../../services/action/CardAction';
-import { getMaterialAction } from '../../../services/action/MaterialDataHandle';
-import { getVendorAction } from '../../../services/action/VendorAction';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
-import Grid from '@material-ui/core/Grid';
-import EditSetUpCard from './EditSetUpCard';
+import React, { useEffect, useState } from "react";
+import Sidenav from "../../SideNav/Sidenav";
+import { useDispatch, useSelector } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import { Formik, Form } from "formik";
+import * as yup from "yup";
+import {
+  CustomButton,
+  CustomInput,
+  CustomContainer,
+  generateOptions,
+  CustomTable,
+} from "../../../components";
 
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
+const initialValues = {
+  selectMat: "",
+  mcNo: "",
+  size: "",
+  minValue: "",
+  maxValue: "",
+  avgValue: "",
+  selectSN: "",
+  snMinVal: "",
+  snMaxVal: "",
+  snAvgVal: "",
+  wallThickness: "",
+  weight: "",
+  selectKg: "",
+  screwFirstVal: "",
+  screwSecondVal: "",
+  haulOfSpeedVal: "",
+  meltTempFirstVal: "",
+  meltTempSecondVal: "",
+  meltPressureFirstVal: "",
+  meltPressureSecondVal: "",
+};
 
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
+const validationSchema = yup.object({
+  selectMat: yup.string().required("Select Materials"),
+  mcNo: yup.string().required("M/C No is required"),
+  size: yup.string().required("Size is required"),
+  minValue: yup.string().required("Min Value is required"),
+  maxValue: yup.string().required("Max Value is required"),
+  avgValue: yup.string().required("Avg Value is required"),
+  selectSN: yup.string().required("SN is required"),
+  snMinVal: yup.string().required("SN Min Val is required"),
+  snMaxVal: yup.string().required("SN Max Val is required"),
+  snAvgVal: yup.string().required("SN Avg Val is required"),
+  wallThickness: yup.string().required("Wall Thickness is required"),
+  weight: yup.string().required("Weight is required"),
+  selectKg: yup.string().required("Kg/M is required"),
+  screwFirstVal: yup.string().required("First Value is required"),
+  screwSecondVal: yup.string().required("Second Value is required"),
+  haulOfSpeedVal: yup.string().required("Haul Off Speed Value is required"),
+  meltTempFirstVal: yup.string().required("Melt Temp First Value is required"),
+  meltTempSecondVal: yup
+    .string()
+    .required("Melt Temp Second Value is required"),
+  meltPressureFirstVal: yup
+    .string()
+    .required("Melt Pressure Value is required"),
+  meltPressureSecondVal: yup
+    .string()
+    .required("Melt Pressure Value is required"),
+});
 
-// function createData(No, name, Action) {
-// 	return { No, name, Action };
-// }
+const SetUpCard = ({ history }) => {
+  const [fetchLoading, setFetchLoading] = useState(false);
 
-// const rows = [createData(1, 'Item1')];
+  const dispatch = useDispatch();
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-		'& > *': {
-			margin: theme.spacing(1),
-			width: '25ch',
-		},
-	},
-	mainContainer: {
-		textAlign: 'center',
-		marginTop: 20,
-	},
-	addButton: {
-		marginTop: 20,
-		color: '#22A19A',
-		borderColor: '#22A19A',
-		fontWeight: 'bold',
-		'&:hover': {
-			border: 'none',
-			backgroundColor: '#22A19A',
-			color: 'whitesmoke',
-		},
-		[theme.breakpoints.up('md')]: {
-			width: '10%',
-		},
-		[theme.breakpoints.down('sm')]: {
-			// width: '12%',
-		},
-	},
-	table: {
-		minWidth: 600,
-	},
-	dataTable: {
-		marginTop: 40,
-	},
-	inputFieldStyle: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 330,
-			marginLeft: 10,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-			marginTop: 10,
-		},
-	},
-}));
+  //   const { accounts } = useSelector((state) => state.accounts);
 
-const CssTextField = withStyles({
-	root: {
-		'& label.Mui-focused': {
-			color: 'black',
-		},
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'black',
-			},
-			'&.Mui-focused fieldset': {
-				borderColor: 'black',
-			},
-		},
-	},
-})(TextField);
+  //   useEffect(() => {
+  //     dispatch();
+  //   }, []);
 
-const SetUpCard = () => {
-	const classes = useStyles();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+  const onSubmit = async () => {
+    console.log();
+  };
 
-	const dispatch = useDispatch();
+  const printSetupCard = () => {
+    history.push("/productionDashboard/print_setup_card");
+  };
 
-	useEffect(() => {
-		dispatch(fetchCardAction());
-		dispatch(getMaterialAction());
-		dispatch(getVendorAction());
-	}, [dispatch]);
+  return (
+    <Sidenav title={"Set Up Cards"}>
+      <div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {(props) => (
+            <Form>
+              <div>
+                <CustomContainer>
+                  <Grid container spacing={1} style={{ marginTop: "2rem" }}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Select Material"
+                        // selectValues={generateOptions(accounts, "name", "_id")}
+                        // selectValues={generateOptionsFromIndexes(selectMat)}
+                        onChange={props.handleChange("selectMat")}
+                        value={props.values.selectMat}
+                        onBlur={props.handleBlur("selectMat")}
+                        helperText={
+                          props.touched.selectMat && props.errors.selectMat
+                        }
+                        error={
+                          props.touched.selectMat && props.errors.selectMat
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter M/C #"
+                        onChange={props.handleChange("mcNo")}
+                        value={props.values.mcNo}
+                        onBlur={props.handleBlur("mcNo")}
+                        helperText={props.touched.mcNo && props.errors.mcNo}
+                        error={props.touched.mcNo && props.errors.mcNo}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Size"
+                        type="number"
+                        onChange={props.handleChange("size")}
+                        value={props.values.size}
+                        onBlur={props.handleBlur("size")}
+                        helperText={props.touched.size && props.errors.size}
+                        error={props.touched.size && props.errors.size}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Min Value"
+                        onChange={props.handleChange("minValue")}
+                        value={props.values.minValue}
+                        onBlur={props.handleBlur("minValue")}
+                        helperText={
+                          props.touched.minValue && props.errors.minValue
+                        }
+                        error={props.touched.minValue && props.errors.minValue}
+                        type="number"
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Max Value"
+                        onChange={props.handleChange("maxValue")}
+                        value={props.values.maxValue}
+                        onBlur={props.handleBlur("maxValue")}
+                        helperText={
+                          props.touched.maxValue && props.errors.maxValue
+                        }
+                        error={props.touched.maxValue && props.errors.maxValue}
+                        type="number"
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Avg Value"
+                        onChange={props.handleChange("avgValue")}
+                        value={props.values.avgValue}
+                        onBlur={props.handleBlur("avgValue")}
+                        helperText={
+                          props.touched.avgValue && props.errors.avgValue
+                        }
+                        error={props.touched.avgValue && props.errors.avgValue}
+                        type="number"
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Select SN-8/10"
+                        // selectValues={generateOptions(accounts, "name", "_id")}
+                        // selectValues={generateOptionsFromIndexes(accountTypes)}
+                        onChange={props.handleChange("selectSN")}
+                        value={props.values.selectSN}
+                        onBlur={props.handleBlur("selectSN")}
+                        helperText={
+                          props.touched.selectSN && props.errors.selectSN
+                        }
+                        error={props.touched.selectSN && props.errors.selectSN}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Min Value"
+                        type="number"
+                        onChange={props.handleChange("snMinVal")}
+                        value={props.values.snMinVal}
+                        onBlur={props.handleBlur("snMinVal")}
+                        helperText={
+                          props.touched.snMinVal && props.errors.snMinVal
+                        }
+                        error={props.touched.snMinVal && props.errors.snMinVal}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Max Value"
+                        type="number"
+                        onChange={props.handleChange("snMaxVal")}
+                        value={props.values.snMaxVal}
+                        onBlur={props.handleBlur("snMaxVal")}
+                        helperText={
+                          props.touched.snMaxVal && props.errors.snMaxVal
+                        }
+                        error={props.touched.snMaxVal && props.errors.snMaxVal}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Avg Value"
+                        type="number"
+                        onChange={props.handleChange("snAvgVal")}
+                        value={props.values.snAvgVal}
+                        onBlur={props.handleBlur("snAvgVal")}
+                        helperText={
+                          props.touched.snAvgVal && props.errors.snAvgVal
+                        }
+                        error={props.touched.snAvgVal && props.errors.snAvgVal}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Wall Thickness(mm)"
+                        onChange={props.handleChange("wallThickness")}
+                        value={props.values.wallThickness}
+                        onBlur={props.handleBlur("wallThickness")}
+                        helperText={
+                          props.touched.wallThickness &&
+                          props.errors.wallThickness
+                        }
+                        error={
+                          props.touched.wallThickness &&
+                          props.errors.wallThickness
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Weight"
+                        onChange={props.handleChange("weight")}
+                        value={props.values.weight}
+                        onBlur={props.handleBlur("weight")}
+                        helperText={props.touched.weight && props.errors.weight}
+                        error={props.touched.weight && props.errors.weight}
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Kg/M"
+                        // selectValues={generateOptions(accounts, "name", "_id")}
+                        // selectValues={generateOptionsFromIndexes(accountTypes)}
+                        onChange={props.handleChange("selectKg")}
+                        value={props.values.selectKg}
+                        onBlur={props.handleBlur("selectKg")}
+                        helperText={
+                          props.touched.selectKg && props.errors.selectKg
+                        }
+                        error={props.touched.selectKg && props.errors.selectKg}
+                      />
+                    </Grid>
+                  </Grid>
+                  <h5 style={{ textAlign: "left", marginTop: "1rem" }}>
+                    Characteristics
+                  </h5>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={1} md={1} sm={12} xs={12}>
+                      <h6 style={{ textAlign: "left" }}>Screw Speed:</h6>
+                    </Grid>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                      <div style={{ display: "flex", gap: ".5rem" }}>
+                        <CustomInput
+                          label="First Value"
+                          onChange={props.handleChange("screwFirstVal")}
+                          value={props.values.screwFirstVal}
+                          onBlur={props.handleBlur("screwFirstVal")}
+                          helperText={
+                            props.touched.screwFirstVal &&
+                            props.errors.screwFirstVal
+                          }
+                          error={
+                            props.touched.screwFirstVal &&
+                            props.errors.screwFirstVal
+                          }
+                        />
+                        <CustomInput
+                          label="Second Value"
+                          onChange={props.handleChange("screwSecondVal")}
+                          value={props.values.screwSecondVal}
+                          onBlur={props.handleBlur("screwSecondVal")}
+                          helperText={
+                            props.touched.screwSecondVal &&
+                            props.errors.screwSecondVal
+                          }
+                          error={
+                            props.touched.screwSecondVal &&
+                            props.errors.screwSecondVal
+                          }
+                        />
+                      </div>
+                    </Grid>
+                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                    <Grid item lg={1} md={1} sm={12} xs={12}>
+                      <h6 style={{ textAlign: "left" }}>Haul Off Speed:</h6>
+                    </Grid>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                      <CustomInput
+                        label="Enter Value"
+                        onChange={props.handleChange("haulOfSpeedVal")}
+                        value={props.values.haulOfSpeedVal}
+                        onBlur={props.handleBlur("haulOfSpeedVal")}
+                        helperText={
+                          props.touched.haulOfSpeedVal &&
+                          props.errors.haulOfSpeedVal
+                        }
+                        error={
+                          props.touched.haulOfSpeedVal &&
+                          props.errors.haulOfSpeedVal
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={1} md={1} sm={12} xs={12}>
+                      <h6 style={{ textAlign: "left" }}>Melt Temp:</h6>
+                    </Grid>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                      <div style={{ display: "flex", gap: ".5rem" }}>
+                        <CustomInput
+                          label="First Value"
+                          onChange={props.handleChange("meltTempFirstVal")}
+                          value={props.values.meltTempFirstVal}
+                          onBlur={props.handleBlur("meltTempFirstVal")}
+                          helperText={
+                            props.touched.meltTempFirstVal &&
+                            props.errors.meltTempFirstVal
+                          }
+                          error={
+                            props.touched.meltTempFirstVal &&
+                            props.errors.meltTempFirstVal
+                          }
+                        />
+                        <CustomInput
+                          label="Second Value"
+                          onChange={props.handleChange("meltTempSecondVal")}
+                          value={props.values.meltTempSecondVal}
+                          onBlur={props.handleBlur("meltTempSecondVal")}
+                          helperText={
+                            props.touched.meltTempSecondVal &&
+                            props.errors.meltTempSecondVal
+                          }
+                          error={
+                            props.touched.meltTempSecondVal &&
+                            props.errors.meltTempSecondVal
+                          }
+                        />
+                      </div>
+                    </Grid>
+                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                    <Grid item lg={1} md={1} sm={12} xs={12}>
+                      <h6 style={{ textAlign: "left" }}>Melt Pressure:</h6>
+                    </Grid>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                      <div style={{ display: "flex", gap: ".5rem" }}>
+                        <CustomInput
+                          label="First Value"
+                          onChange={props.handleChange("meltPressureFirstVal")}
+                          value={props.values.meltPressureFirstVal}
+                          onBlur={props.handleBlur("meltPressureFirstVal")}
+                          helperText={
+                            props.touched.meltPressureFirstVal &&
+                            props.errors.meltPressureFirstVal
+                          }
+                          error={
+                            props.touched.meltPressureFirstVal &&
+                            props.errors.meltPressureFirstVal
+                          }
+                        />
+                        <CustomInput
+                          label="Second Value"
+                          onChange={props.handleChange("meltPressureSecondVal")}
+                          value={props.values.meltPressureSecondVal}
+                          onBlur={props.handleBlur("meltPressureSecondVal")}
+                          helperText={
+                            props.touched.meltPressureSecondVal &&
+                            props.errors.meltPressureSecondVal
+                          }
+                          error={
+                            props.touched.meltPressureSecondVal &&
+                            props.errors.meltPressureSecondVal
+                          }
+                        />
+                      </div>
+                    </Grid>
+                  </Grid>
+                </CustomContainer>
+                <CustomContainer>
+                  <div>
+                    <CustomButton
+                      text="Submit"
+                      variant="outlined"
+                      style={{
+                        marginTop: "2rem",
+                        backgroundColor: "#22A19A",
+                        color: "#FFFFFF",
+                      }}
+                    />
+                  </div>
+                </CustomContainer>
+              </div>
+            </Form>
+          )}
+        </Formik>
 
-	const { cards, loading, error } = useSelector((state) => state.cards);
-	const { materials } = useSelector((state) => state.materials);
-	const { vendors } = useSelector((state) => state.vendors);
-
-	const onSubmitDate = async (props) => {
-		try {
-			await axios({
-				method: 'POST',
-				url: `${process.env.REACT_APP_API_URL}/card`,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				data: {
-					material: props.material,
-					supplier: props.supplier,
-					min: props.min,
-					max: props.max,
-					avg: props.avg,
-				},
-			});
-			window.location.reload();
-		} catch (error) {}
-	};
-
-	const todaysDate = new Date(Date.now());
-	const sortedDate = `${todaysDate.getDate()}/${todaysDate.getMonth()}/${todaysDate.getFullYear()}`;
-
-	const [open, setOpen] = useState(false);
-	const [card, setCard] = useState({});
-	const [inputFields, setInputFields] = useState({
-		name: '',
-		code: '',
-		date: sortedDate,
-	});
-
-	// const onChangeHandler = (e, placeholder) => {
-	// 	if (placeholder !== 'date')
-	// 		setInputFields({ ...inputFields, [placeholder]: e.target.value });
-	// };
-
-	const handleClose = () => {
-		setOpen(!open);
-	};
-
-	const handleOpen = (card) => {
-		setCard(card);
-		setOpen(true);
-	};
-
-	const onUpdateSubmit = async (props) => {
-		try {
-			await axios({
-				method: 'PATCH',
-				url: `${process.env.REACT_APP_API_URL}/card/${card._id}`,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				data: {
-					material: props.material,
-					supplier: props.supplier,
-					min: props.min,
-					max: props.max,
-					avg: props.avg,
-				},
-			});
-			window.location.reload();
-		} catch (error) {}
-	};
-
-	const onDelete = async (id) => {
-		try {
-			await axios({
-				method: 'DELETE',
-				url: `${process.env.REACT_APP_API_URL}/card/${id}`,
-			});
-			window.location.reload();
-		} catch (error) {}
-	};
-
-	return (
-		<Sidenav title={'Set up cards'}>
-			<div>
-				<Container className={classes.mainContainer}>
-					<form action="" onSubmit={handleSubmit(onSubmitDate)}>
-						{/* Material category selector */}
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={6} md={6} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Select Material"
-									variant="outlined"
-									type="text"
-									autoComplete="off"
-									size="small"
-									select
-									value={inputFields.machine1}
-									inputProps={{ style: { fontSize: 14 } }}
-									{...register('material', { required: true })}
-									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-								>
-									{!materials || !materials.length ? (
-										<p>Data Not Found</p>
-									) : (
-										materials.map((material, i) => (
-											<MenuItem value={material._id} key={i}>
-												{material.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-								{errors.poNum?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										P.O. No. is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={6} md={6} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Select Vendor"
-									variant="outlined"
-									type="text"
-									autoComplete="off"
-									size="small"
-									select
-									value={inputFields.machine1}
-									inputProps={{ style: { fontSize: 14 } }}
-									{...register('supplier', { required: true })}
-									style={{ width: '100%' }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-								>
-									{!vendors || !vendors.length ? (
-										<p>Data Not Found</p>
-									) : (
-										vendors.map((vendor, i) => (
-											<MenuItem value={vendor._id} key={i}>
-												{vendor.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-								{errors.poNum?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										P.O. No. is required
-									</p>
-								)}
-							</Grid>
-						</Grid>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={1} md={1} sm={12} xs={12}>
-								<h4>Size: </h4>
-							</Grid>
-							<Grid item lg={3} md={4} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Min"
-									variant="outlined"
-									type="text"
-									size="small"
-									style={{ width: '100%' }}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('min', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										P.O. No. is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-							<Grid item lg={3} md={4} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Max"
-									variant="outlined"
-									type="text"
-									style={{ width: '100%' }}
-									size="small"
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('max', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										P.O. No. is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-							<Grid item lg={3} md={4} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Avg"
-									variant="outlined"
-									type="text"
-									style={{ width: '100%' }}
-									size="small"
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('avg', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										P.O. No. is required
-									</p>
-								)}
-							</Grid>
-						</Grid>
-
-						<div>
-							<Button
-								variant="outlined"
-								color="primary"
-								type="submit"
-								className={classes.addButton}
-							>
-								Add
-							</Button>
-						</div>
-					</form>
-				</Container>
-
-				{open && (
-					<EditSetUpCard
-						show={open}
-						close={handleClose}
-						card={card}
-						onSubmit={onUpdateSubmit}
-					/>
-				)}
-
-				<div className={classes.dataTable}>
-					<TableContainer className={classes.tableContainer}>
-						<Table
-							stickyHeader
-							className="table table-dark"
-							style={{
-								backgroundColor: '#d0cfcf',
-								border: '1px solid grey',
-							}}
-						>
-							<TableHead>
-								<TableRow hover role="checkbox">
-									<StyledTableCell align="center">
-										Sr.No
-									</StyledTableCell>
-									<StyledTableCell align="center">
-										Material
-									</StyledTableCell>
-									<StyledTableCell align="center">
-										Vendor
-									</StyledTableCell>
-									<StyledTableCell align="center">Min</StyledTableCell>
-									<StyledTableCell align="center">Max</StyledTableCell>
-									<StyledTableCell align="center">Avg</StyledTableCell>
-									<StyledTableCell align="center">
-										Actions
-									</StyledTableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{loading ? (
-									<Loading />
-								) : error ? (
-									<MaterialError />
-								) : cards.length ? (
-									cards.map((card, i) => (
-										<StyledTableRow>
-											<StyledTableCell
-												className="text-dark bg-light"
-												align="center"
-											>
-												{i + 1}
-											</StyledTableCell>
-											<StyledTableCell
-												className="text-dark bg-light"
-												align="center"
-											>
-												{card.material.name}
-											</StyledTableCell>
-											<StyledTableCell
-												className="text-dark bg-light"
-												align="center"
-											>
-												{card.supplier.name}
-											</StyledTableCell>
-											<StyledTableCell
-												className="text-dark bg-light"
-												align="center"
-											>
-												{card.min}
-											</StyledTableCell>
-											<StyledTableCell
-												className="text-dark bg-light"
-												align="center"
-											>
-												{card.max}
-											</StyledTableCell>
-											<StyledTableCell
-												className="text-dark bg-light"
-												align="center"
-											>
-												{card.avg}
-											</StyledTableCell>
-											<StyledTableCell
-												className="text-light bg-light"
-												align="center"
-											>
-												<Button
-													variant="contained"
-													className="bg-dark text-light"
-													size="small"
-													onClick={() => {
-														handleOpen(card);
-													}}
-													style={{ marginTop: 2 }}
-												>
-													Edit
-												</Button>
-												<Button
-													variant="contained"
-													color="secondary"
-													size="small"
-													onClick={() => {
-														onDelete(card._id);
-													}}
-													style={{ marginLeft: 2, marginTop: 2 }}
-												>
-													Delete
-												</Button>
-											</StyledTableCell>
-										</StyledTableRow>
-									))
-								) : (
-									<h5>Not Found</h5>
-								)}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</div>
-			</div>
-		</Sidenav>
-	);
+        <CustomTable
+          fetchLoading={fetchLoading}
+          data={[{}]}
+          columnHeadings={[
+            "Sr.No",
+            "M/C No.",
+            "Size",
+            "SN-8/10",
+            "Wall Thickness",
+            "Weight",
+          ]}
+          keys={["", "", "", "", ""]}
+          firstOptionText="View"
+          onFirstOptionClick={printSetupCard}
+          withSrNo
+        />
+      </div>
+    </Sidenav>
+  );
 };
 
 export default SetUpCard;
