@@ -735,6 +735,11 @@ function App() {
       />
       <Route
         exact
+        path="/productionDashboard/productionReport"
+        component={ProductionReport}
+      />
+      <Route
+        exact
         path="/productionDashboard/production-online-inspection-report"
         component={ProductionOnlineInsRep}
       />

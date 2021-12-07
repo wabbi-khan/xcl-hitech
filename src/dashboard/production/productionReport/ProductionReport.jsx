@@ -1,935 +1,372 @@
-import React, { useState, useEffect } from 'react';
-import Sidenav from '../../SideNav/Sidenav';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import MenuItem from '@material-ui/core/MenuItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import axios from 'axios';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Loading from '../../purchase/material/Loading';
-import MaterialError from '../../purchase/material/MaterialError';
-import { fetchShiftAction } from '../../../services/action/ShiftAction';
-import { fetchProductionReport } from '../../../services/action/ProductionReportAction';
-
+import React, { useState, useEffect } from "react";
+import Sidenav from "../../SideNav/Sidenav";
+import { useDispatch, useSelector } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import { Formik, Form } from "formik";
+import * as yup from "yup";
+import {
+  CustomButton,
+  CustomInput,
+  CustomContainer,
+  generateOptions,
+  CustomTable,
+} from "../../../components";
 // import MaterialAddRow from './commponent/materialAddRow'
 
-const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
+const initialValues = {
+  selectPrNo: "",
+  selectOrderNo: "",
+  rawMaterial: "",
+  productionHours: "",
+  selectShift: "",
+  operator: "",
+  weight: "",
+  description: "",
+  finishedPipe: "",
+  finishedWeight: "",
+  rcycWeight: "",
+  wastageWeight: "",
+  totalWeight: "",
+  downtime: "",
+  remarks: "",
+};
 
-const StyledTableRow = withStyles((theme) => ({
-	root: {
-		'&:nth-of-type(odd)': {
-			backgroundColor: theme.palette.action.hover,
-		},
-	},
-}))(TableRow);
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		'& > *': {
-			margin: theme.spacing(1),
-			width: '25ch',
-		},
-	},
-	mainContainer: {
-		textAlign: 'center',
-		[theme.breakpoints.up('md')]: {
-			marginLeft: 0,
-			marginTop: 15,
-		},
-		[theme.breakpoints.down('sm')]: {
-			marginTop: -15,
-		},
-	},
-	addButton: {
-		marginTop: 10,
-		marginLeft: 15,
-		color: '#22A19A',
-		borderColor: '#22A19A',
-		'&:hover': {
-			border: 'none',
-			backgroundColor: '#22A19A',
-			color: 'whitesmoke',
-		},
-	},
-	table: {
-		minWidth: 600,
-	},
-	dataTable: {
-		marginTop: 40,
-	},
-	ckeckBox: {
-		[theme.breakpoints.up('md')]: {
-			marginLeft: 25,
-		},
-		[theme.breakpoints.down('sm')]: {
-			marginLeft: 0,
-		},
-	},
-	inputFieldStyle: {
-		// boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-		// borderRadius: 5,
-		[theme.breakpoints.up('md')]: {
-			width: 270,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle1: {
-		[theme.breakpoints.up('md')]: {
-			width: 270,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle2: {
-		// boxShadow: '0.4px 0.4px 0.4px 0.4px grey',
-		// borderRadius: 5,
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle3: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: -30,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle4: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: 40,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	inputFieldStyle5: {
-		[theme.breakpoints.up('md')]: {
-			width: 250,
-			marginLeft: 110,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	itemHeading: {
-		marginTop: 7,
-	},
-	select: {
-		'&:before': {
-			borderColor: 'red',
-		},
-		'&:before': {
-			borderColor: 'red',
-		},
-		'&:hover:not(.Mui-disabled):before': {
-			borderColor: 'red',
-		},
-		[theme.breakpoints.up('md')]: {
-			width: 400,
-		},
-		[theme.breakpoints.down('sm')]: {
-			width: 200,
-		},
-	},
-	delete: {
-		color: 'red',
-		fontSize: 38,
-		[theme.breakpoints.up('md')]: {
-			marginLeft: 50,
-			marginTop: -7,
-		},
-		[theme.breakpoints.down('sm')]: {
-			marginTop: -10,
-		},
-	},
-	deleteRowBtn: {
-		marginLeft: 120,
-		'&:hover': {
-			border: 'none',
-			background: 'none',
-		},
-	},
-}));
-
-const CssTextField = withStyles({
-	root: {
-		'& label.Mui-focused': {
-			color: 'black',
-		},
-		'& .MuiOutlinedInput-root': {
-			'& fieldset': {
-				borderColor: 'black',
-			},
-			'&.Mui-focused fieldset': {
-				borderColor: 'black',
-			},
-		},
-	},
-})(TextField);
+const validationSchema = yup.object({
+  selectPrNo: yup.string().required("Shift is Required"),
+  selectOrderNo: yup.string().required("Order No. is Required"),
+  rawMaterial: yup.string().required("Raw Material is Required"),
+  productionHours: yup.number().required("Production Hours Required"),
+  selectShift: yup.string().required("Shift is Required"),
+  operator: yup.string().required("Operator is Required"),
+  weight: yup.string().required("Weight is Required"),
+  description: yup.string().required("Description is Required"),
+  finishedPipe: yup.string().required("Finished Pipe is Required"),
+  finishedWeight: yup.string().required("Finished Weight is Required"),
+  rcycWeight: yup.string().required("R/Cyc Weight is Required"),
+  wastageWeight: yup.string().required("Wastage Weight is Required"),
+  totalWeight: yup.string().required("Total Weight is Required"),
+  downtime: yup.string().required("Downtime is Required"),
+  remarks: yup.string().required("Remarks is Required"),
+});
 
 const PurchaseReport = ({ history }) => {
-	const classes = useStyles();
-	const dispatch = useDispatch();
+  const [fetchLoading, setFetchLoading] = useState(false);
 
-	// const [ItemCounter, setItemCounter] = useState([{ id: 'text' }])
-	const [ItemCounter, setItemCounter] = useState([
-		{
-			item: '',
-			nameOfOperator: '',
-			weight: '',
-			desc: '',
-			finishedPipe: '',
-			finishedWt: '',
-			rcyc: '',
-			wastage: '',
-			totalWeight: '',
-			downTime: '',
-		},
-	]);
-	const [VendorId, setVendorId] = useState('');
-	const [VendorAddress, setVendorAddress] = useState('');
-	const [vendorMaterial, setVendorMaterial] = useState([]);
-	const [orderBody, setOrderBody] = useState({});
+  const dispatch = useDispatch();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+  //   const { accounts } = useSelector((state) => state.accounts);
 
-	useEffect(async () => {
-		await dispatch(fetchShiftAction());
-		await dispatch(fetchProductionReport());
-	}, [dispatch]);
+  //   useEffect(() => {
+  //     dispatch();
+  //   }, []);
 
-	const { shifts } = useSelector((state) => state.shifts);
-	const { productionReports, loading, error } = useSelector(
-		(state) => state.productionReports
-	);
+  const onSubmit = async () => {
+    console.log();
+  };
 
-	const addMoreFunc = () => {
-		setItemCounter([
-			...ItemCounter,
-			{
-				item: '',
-				nameOfOperator: '',
-				weight: '',
-				desc: '',
-				finishedPipe: '',
-				finishedWt: '',
-				rcyc: '',
-				wastage: '',
-				totalWeight: '',
-				downTime: '',
-			},
-		]);
-	};
+  const printSetupCard = () => {
+    history.push("/productionDashboard/print_setup_card");
+  };
 
-	const deleteItem = (i) => {
-		const temp = [...ItemCounter];
-		temp.splice(i, 1);
-		setItemCounter(temp);
-	};
+  return (
+    <Sidenav title={"Production Report"}>
+      <div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {(props) => (
+            <Form>
+              <div>
+                <CustomContainer>
+                  <Grid container spacing={1}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Select P.R. No."
+                        // selectValues={generateOptions(accounts, "name", "_id")}
+                        // selectValues={generateOptionsFromIndexes(selectMat)}
+                        onChange={props.handleChange("selectPrNo")}
+                        value={props.values.selectPrNo}
+                        onBlur={props.handleBlur("selectPrNo")}
+                        helperText={
+                          props.touched.selectPrNo && props.errors.selectPrNo
+                        }
+                        error={
+                          props.touched.selectPrNo && props.errors.selectPrNo
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Machine No."
+                        disabled
+                        onChange={props.handleChange("machineNo")}
+                        value={props.values.machineNo}
+                        onBlur={props.handleBlur("machineNo")}
+                        helperText={
+                          props.touched.machineNo && props.errors.machineNo
+                        }
+                        error={
+                          props.touched.machineNo && props.errors.machineNo
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Select Order No."
+                        // selectValues={generateOptions(accounts, "name", "_id")}
+                        // selectValues={generateOptionsFromIndexes(selectMat)}
+                        onChange={props.handleChange("selectOrderNo")}
+                        value={props.values.selectOrderNo}
+                        onBlur={props.handleBlur("selectOrderNo")}
+                        helperText={
+                          props.touched.selectOrderNo &&
+                          props.errors.selectOrderNo
+                        }
+                        error={
+                          props.touched.selectOrderNo &&
+                          props.errors.selectOrderNo
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Raw Material"
+                        onChange={props.handleChange("rawMaterial")}
+                        value={props.values.rawMaterial}
+                        onBlur={props.handleBlur("rawMaterial")}
+                        helperText={
+                          props.touched.rawMaterial && props.errors.rawMaterial
+                        }
+                        error={
+                          props.touched.rawMaterial && props.errors.rawMaterial
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Production Hours"
+                        type="number"
+                        onChange={props.handleChange("productionHours")}
+                        value={props.values.productionHours}
+                        onBlur={props.handleBlur("productionHours")}
+                        helperText={
+                          props.touched.productionHours &&
+                          props.errors.productionHours
+                        }
+                        error={
+                          props.touched.productionHours &&
+                          props.errors.productionHours
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Select Shift"
+                        // selectValues={generateOptions(accounts, "name", "_id")}
+                        // selectValues={generateOptionsFromIndexes(selectMat)}
+                        onChange={props.handleChange("selectShift")}
+                        value={props.values.selectShift}
+                        onBlur={props.handleBlur("selectShift")}
+                        helperText={
+                          props.touched.selectShift && props.errors.selectShift
+                        }
+                        error={
+                          props.touched.selectShift && props.errors.selectShift
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}>
+                      <CustomInput
+                        label="Name of Operator"
+                        onChange={props.handleChange("operator")}
+                        value={props.values.operator}
+                        onBlur={props.handleBlur("operator")}
+                        helperText={
+                          props.touched.operator && props.errors.operator
+                        }
+                        error={props.touched.operator && props.errors.operator}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={1} md={1} sm={1} xs={1}>
+                      <h5 style={{ marginTop: ".4rem" }}>1.</h5>
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Weight/m (Kg)"
+                        onChange={props.handleChange("weight")}
+                        value={props.values.weight}
+                        onBlur={props.handleBlur("weight")}
+                        helperText={props.touched.weight && props.errors.weight}
+                        error={props.touched.weight && props.errors.weight}
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Description(Dia/Standard)"
+                        onChange={props.handleChange("description")}
+                        value={props.values.description}
+                        onBlur={props.handleBlur("description")}
+                        helperText={
+                          props.touched.description && props.errors.description
+                        }
+                        error={
+                          props.touched.description && props.errors.description
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Finished Pipe"
+                        onChange={props.handleChange("finishedPipe")}
+                        value={props.values.finishedPipe}
+                        onBlur={props.handleBlur("finishedPipe")}
+                        helperText={
+                          props.touched.finishedPipe &&
+                          props.errors.finishedPipe
+                        }
+                        error={
+                          props.touched.finishedPipe &&
+                          props.errors.finishedPipe
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Finished Weight(kg)"
+                        onChange={props.handleChange("finishedWeight")}
+                        value={props.values.finishedWeight}
+                        onBlur={props.handleBlur("finishedWeight")}
+                        helperText={
+                          props.touched.finishedWeight &&
+                          props.errors.finishedWeight
+                        }
+                        error={
+                          props.touched.finishedWeight &&
+                          props.errors.finishedWeight
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="R/Cyc Wt (kg)"
+                        onChange={props.handleChange("rcycWeight")}
+                        value={props.values.rcycWeight}
+                        onBlur={props.handleBlur("rcycWeight")}
+                        helperText={
+                          props.touched.rcycWeight && props.errors.rcycWeight
+                        }
+                        error={
+                          props.touched.rcycWeight && props.errors.rcycWeight
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "1rem" }}>
+                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Wastage Weight (Kg)"
+                        onChange={props.handleChange("wastageWeight")}
+                        value={props.values.wastageWeight}
+                        onBlur={props.handleBlur("wastageWeight")}
+                        helperText={
+                          props.touched.wastageWeight &&
+                          props.errors.wastageWeight
+                        }
+                        error={
+                          props.touched.wastageWeight &&
+                          props.errors.wastageWeight
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Total Weight (kg)"
+                        onChange={props.handleChange("totalWeight")}
+                        value={props.values.totalWeight}
+                        onBlur={props.handleBlur("totalWeight")}
+                        helperText={
+                          props.touched.totalWeight && props.errors.totalWeight
+                        }
+                        error={
+                          props.touched.totalWeight && props.errors.totalWeight
+                        }
+                      />
+                    </Grid>
+                    <Grid item lg={2} md={2} sm={12} xs={12}>
+                      <CustomInput
+                        label="Downtime (Hours/Min)"
+                        onChange={props.handleChange("downtime")}
+                        value={props.values.downtime}
+                        onBlur={props.handleBlur("downtime")}
+                        helperText={
+                          props.touched.downtime && props.errors.downtime
+                        }
+                        error={props.touched.downtime && props.errors.downtime}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={1} style={{ marginTop: "4rem" }}>
+                    <Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                      <CustomInput
+                        label="Remarks"
+                        onChange={props.handleChange("remarks")}
+                        value={props.values.remarks}
+                        onBlur={props.handleBlur("remarks")}
+                        helperText={
+                          props.touched.remarks && props.errors.remarks
+                        }
+                        error={props.touched.remarks && props.errors.remarks}
+                      />
+                    </Grid>
+                  </Grid>
+                </CustomContainer>
+                <CustomContainer>
+                  <div>
+                    <CustomButton
+                      text="Submit"
+                      variant="outlined"
+                      style={{
+                        marginTop: "2rem",
+                        backgroundColor: "#22A19A",
+                        color: "#FFFFFF",
+                      }}
+                    />
+                  </div>
+                </CustomContainer>
+              </div>
+            </Form>
+          )}
+        </Formik>
 
-	// const onAdd = async (data) => {
-	// }
-
-	// const onAddMaterial = async data => {
-	// }
-
-	const onChangeHandler = (placeholder, value, index) => {
-		const tempFields = ItemCounter.map((item, i) => {
-			if (i === index) {
-				return { ...item, [placeholder]: value };
-			} else {
-				return { ...item };
-			}
-		});
-		setItemCounter(tempFields);
-	};
-
-	const onSubmitDate = async (props) => {
-		try {
-			await axios.post(`${process.env.REACT_APP_API_URL}/productionReport`, {
-				prNo: props.prNo,
-				hi: props.hi,
-				machineNo: props.machineNo,
-				date: props.date,
-				orderNo: props.orderNo,
-				rawMaterial: props.rawMaterial,
-				productionHours: props.productionHours,
-				shift: props.shift,
-				items: ItemCounter,
-			});
-			window.location.reload();
-			// setAddMatError(false)
-		} catch (error) {
-			// setAddMatError(true)
-		}
-	};
-
-	return (
-		<Sidenav title={'Purchase Order'}>
-			<div>
-				{/* <form onSubmit={handleSubmit(onAdd)}> */}
-				<form action="" onSubmit={handleSubmit(onSubmitDate)}>
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="P.R. No."
-									variant="outlined"
-									type="text"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('prNo', { required: true })}
-								/>
-								{errors.poNum?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										P.O. No. is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="HPEI/786/"
-									variant="outlined"
-									type="text"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('hpei', { required: true })}
-								/>
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									variant="outlined"
-									type="date"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('date', { required: true })}
-								/>
-								{errors.reference?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										Reference is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Machine No."
-									variant="outlined"
-									type="text"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('machineNo', { required: true })}
-								/>
-								{errors.reference?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										Reference is required
-									</p>
-								)}
-							</Grid>
-						</Grid>
-					</Container>
-					<Container className={classes.mainContainer}>
-						<Grid container spacing={1} style={{ marginTop: 15 }}>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Order No."
-									variant="outlined"
-									type="text"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('orderNo', { required: true })}
-								/>
-								{errors.paymentTerm?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										Payment Terms required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Raw Material"
-									variant="outlined"
-									type="text"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('rawMaterial', { required: true })}
-								/>
-								{errors.paymentSubject?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										Payment Subject is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Production Hours"
-									variant="outlined"
-									type="text"
-									size="small"
-									className={classes.inputFieldStyle1}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('productionHours', { required: true })}
-								/>
-								{errors.paymentSubject?.type === 'required' && (
-									<p className="mt-1 text-danger">
-										Payment Subject is required
-									</p>
-								)}
-							</Grid>
-							<Grid item lg={3} md={3} sm={12} xs={12}>
-								<CssTextField
-									id="outlined-basic"
-									label="Select Shift"
-									variant="outlined"
-									type="email"
-									size="small"
-									select
-									className={classes.inputFieldStyle}
-									inputProps={{ style: { fontSize: 14 } }}
-									InputLabelProps={{ style: { fontSize: 14 } }}
-									{...register('shift', { required: true })}
-								>
-									{!shifts || !shifts.length ? (
-										<p>Data Not Found</p>
-									) : (
-										shifts.map((verifiedVendor) => (
-											<MenuItem
-												value={verifiedVendor._id}
-												key={verifiedVendor._id}
-												onClick={() => {
-													setVendorId(verifiedVendor._id);
-													setVendorAddress(
-														verifiedVendor.location
-													);
-													setVendorMaterial(
-														verifiedVendor.material
-													);
-												}}
-											>
-												{verifiedVendor.name}
-											</MenuItem>
-										))
-									)}
-								</CssTextField>
-							</Grid>
-						</Grid>
-					</Container>
-					<div style={{ marginTop: 30, marginBottom: 30 }}>
-						<hr />
-					</div>
-					<Container className={classes.mainContainer}>
-						<h4 className="text-left">Items</h4>
-						{ItemCounter.map((value, i) => {
-							const no = i + 1;
-							return (
-								<>
-									<Grid
-										container
-										spacing={1}
-										style={{ marginTop: 15 }}
-									>
-										<Grid item lg={1} md={1} sm={12} xs={12}>
-											{no}
-										</Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Select Item"
-												variant="outlined"
-												type="email"
-												size="small"
-												select
-												value={ItemCounter[i].item}
-												onChange={(e) =>
-													onChangeHandler(
-														'item',
-														e.target.value,
-														i
-													)
-												}
-												className={classes.inputFieldStyle}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											>
-												{!shifts || !shifts.length ? (
-													<p>Data Not Found</p>
-												) : (
-													shifts.map((verifiedVendor) => (
-														<MenuItem
-															value={verifiedVendor._id}
-															key={verifiedVendor._id}
-															onClick={() => {
-																setVendorId(verifiedVendor._id);
-																setVendorAddress(
-																	verifiedVendor.location
-																);
-																setVendorMaterial(
-																	verifiedVendor.material
-																);
-															}}
-														>
-															{verifiedVendor.name}
-														</MenuItem>
-													))
-												)}
-											</CssTextField>
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Name Of Operator"
-												variant="outlined"
-												type="text"
-												size="small"
-												value={ItemCounter[i].nameOfOperator}
-												onChange={(e) =>
-													onChangeHandler(
-														'nameOfOperator',
-														e.target.value,
-														i
-													)
-												}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Weight/m (kg)"
-												variant="outlined"
-												type="text"
-												size="small"
-												value={ItemCounter[i].weight}
-												onChange={(e) =>
-													onChangeHandler(
-														'weight',
-														e.target.value,
-														i
-													)
-												}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Desc(Dia/Standard)"
-												variant="outlined"
-												type="text"
-												onChange={(e) =>
-													onChangeHandler(
-														'desc',
-														e.target.value,
-														i
-													)
-												}
-												size="small"
-												value={ItemCounter[i].desc}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-									</Grid>
-									<Grid
-										container
-										spacing={1}
-										style={{ marginTop: 15 }}
-									>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Finished Pipe"
-												variant="outlined"
-												type="text"
-												onChange={(e) =>
-													onChangeHandler(
-														'finishedPipe',
-														e.target.value,
-														i
-													)
-												}
-												size="small"
-												value={ItemCounter[i].finishedPipe}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Finished wt (kg)"
-												variant="outlined"
-												type="text"
-												size="small"
-												onChange={(e) =>
-													onChangeHandler(
-														'finishedWt',
-														e.target.value,
-														i
-													)
-												}
-												value={ItemCounter[i].finishedWt}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="R/Cyc Wt (kg)"
-												variant="outlined"
-												type="text"
-												onChange={(e) =>
-													onChangeHandler(
-														'rcyc',
-														e.target.value,
-														i
-													)
-												}
-												size="small"
-												value={ItemCounter[i].rcyc}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Wastage Wt (kg)"
-												variant="outlined"
-												type="text"
-												onChange={(e) =>
-													onChangeHandler(
-														'wastage',
-														e.target.value,
-														i
-													)
-												}
-												size="small"
-												value={ItemCounter[i].wastage}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-									</Grid>
-									<Grid
-										container
-										spacing={1}
-										style={{ marginTop: 15 }}
-									>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="Total Weight(kg)"
-												variant="outlined"
-												onChange={(e) =>
-													onChangeHandler(
-														'totalWeight',
-														e.target.value,
-														i
-													)
-												}
-												type="text"
-												size="small"
-												value={ItemCounter[i].totalWeight}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-
-										<Grid item lg={2} md={2} sm={12} xs={12}>
-											<CssTextField
-												id="outlined-basic"
-												label="DownTime"
-												variant="outlined"
-												type="text"
-												size="small"
-												onChange={(e) =>
-													onChangeHandler(
-														'downTime',
-														e.target.value,
-														i
-													)
-												}
-												value={ItemCounter[i].downTime}
-												className={classes.inputFieldStyle1}
-												inputProps={{ style: { fontSize: 14 } }}
-												InputLabelProps={{
-													style: { fontSize: 14 },
-												}}
-											/>
-											{errors.paymentSubject?.type ===
-												'required' && (
-												<p className="mt-1 text-danger">
-													Payment Subject is required
-												</p>
-											)}
-										</Grid>
-										<Grid item lg={1} md={1} sm={12} xs={12}></Grid>
-									</Grid>
-								</>
-							);
-						})}
-						<Grid container spacing={1}>
-							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<Button
-									variant="outlined"
-									color="primary"
-									className={classes.addButton}
-									onClick={addMoreFunc}
-									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
-								>
-									Add More
-								</Button>
-							</Grid>
-						</Grid>
-						<Grid container spacing={1}>
-							<Grid item lg={5} md={5} sm={10} xs={11}></Grid>
-							<Grid item lg={3} md={3} sm={10} xs={11}>
-								<Button
-									variant="outlined"
-									color="primary"
-									type="submit"
-									className={classes.addButton}
-									onClick={() => {
-										// history.push('/purchase/purchase_requisition/print_purchase_requisition')
-									}}
-									// style={{ marginLeft: 'auto', marginRight: 'auto' }}
-								>
-									Submit
-								</Button>
-							</Grid>
-						</Grid>
-					</Container>
-				</form>
-				{/* </form> */}
-			</div>
-			<div className={classes.dataTable}>
-				<TableContainer className={classes.tableContainer}>
-					<Table
-						stickyHeader
-						className="table table-dark"
-						style={{
-							backgroundColor: '#d0cfcf',
-							border: '1px solid grey',
-						}}
-					>
-						<TableHead>
-							<TableRow hover role="checkbox">
-								<StyledTableCell align="center">Sr.No</StyledTableCell>
-								<StyledTableCell align="center">
-									Machine Name
-								</StyledTableCell>
-								<StyledTableCell align="center">Code</StyledTableCell>
-								<StyledTableCell align="center">Action</StyledTableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{loading ? (
-								<Loading />
-							) : error ? (
-								<MaterialError />
-							) : productionReports.length ? (
-								productionReports.map((productionReport, i) => (
-									<StyledTableRow>
-										<StyledTableCell
-											className="text-dark bg-light"
-											align="center"
-										>
-											{i + 1}
-										</StyledTableCell>
-										<StyledTableCell
-											className="text-dark bg-light"
-											align="center"
-										>
-											{productionReport.prNo}
-										</StyledTableCell>
-										<StyledTableCell
-											className="text-dark bg-light"
-											align="center"
-										>
-											{productionReport.date}
-										</StyledTableCell>
-										<StyledTableCell
-											className="text-light bg-light"
-											align="center"
-										>
-											<Button
-												variant="contained"
-												className="bg-dark text-light"
-												size="small"
-												// onClick={() => {
-												// 	handleOpen(machine);
-												// }}
-												style={{ marginTop: 2 }}
-											>
-												Edit
-											</Button>
-											<Button
-												variant="contained"
-												color="secondary"
-												size="small"
-												// onClick={() => {
-												// 	onDelete(machine._id);
-												// }}
-												style={{ marginLeft: 2, marginTop: 2 }}
-											>
-												Delete
-											</Button>
-										</StyledTableCell>
-									</StyledTableRow>
-								))
-							) : (
-								<h5>Not Found</h5>
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</div>
-		</Sidenav>
-	);
+        <CustomTable
+          fetchLoading={fetchLoading}
+          data={[{}]}
+          columnHeadings={[
+            "Sr.No",
+            "M/C No.",
+            "Size",
+            "SN-8/10",
+            "Wall Thickness",
+            "Weight",
+          ]}
+          keys={["", "", "", "", ""]}
+          firstOptionText="View"
+          onFirstOptionClick={printSetupCard}
+          withSrNo
+        />
+      </div>
+    </Sidenav>
+  );
 };
 
 export default PurchaseReport;
